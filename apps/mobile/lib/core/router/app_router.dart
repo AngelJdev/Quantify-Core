@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../features/auth/presentation/screens/login_screen.dart';
+import '../../features/checkin/presentation/screens/checkin_screen.dart';
+import '../../features/habits/domain/models/habit_model.dart';
+import '../../features/main/presentation/screens/main_navigation_screen.dart';
 
 /// Nombres de rutas de la aplicación
 class AppRoutes {
@@ -8,7 +12,6 @@ class AppRoutes {
   static const String login = '/login';
   static const String main = '/main';
   static const String checkin = '/checkin';
-  static const String habitDetail = '/habit-detail';
 }
 
 /// Enrutador centralizado
@@ -16,13 +19,28 @@ class AppRouter {
   AppRouter._();
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    // Las rutas concretas se conectan con sus respectivas pantallas
     switch (settings.name) {
+      case AppRoutes.initial:
+      case AppRoutes.login:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const LoginScreen(),
+        );
+      case AppRoutes.main:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const MainNavigationScreen(),
+        );
+      case AppRoutes.checkin:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => CheckInScreen(habits: HabitModel.demoHabits),
+        );
       default:
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => const Scaffold(
-            body: Center(child: Text('Ruta en preparación')),
+            body: Center(child: Text('Ruta no encontrada')),
           ),
         );
     }
