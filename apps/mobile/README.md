@@ -1,98 +1,107 @@
-# Aplicación móvil
+# Aplicación Móvil — Quantify Core
 
-**Estado: especificación, sin proyecto Flutter generado.** Stack base: **Flutter + Dart**, Android e iOS. Esta carpeta aún no contiene `pubspec.yaml`, plataformas generadas ni binarios. Las versiones mínimas del sistema operativo se decidirán al validar dispositivos, permisos y dependencias.
+Aplicación móvil de **Quantify Core V2.0** desarrollada en **Flutter + Dart** para Android e iOS. Su objetivo es permitir a las personas registrar su avance diario, monitorear rachas y consultar indicadores preventivos con una experiencia visual moderna, accesible y coherente con la identidad del proyecto.
 
-## Responsabilidad y límites
+> **Estado de la entrega (QUANCORE-29):** Proyecto base ejecutable para Android con arquitectura limpia por capas, rutas centralizadas, componentes visuales en modo oscuro (*Laser Blue* y *Obsidian Slate*) y flujo de navegación interactivo para demostración académica.
 
-Ofrecer rutina personal, registro de avance, métricas, recordatorios, recomendaciones, perfil, consentimiento y estado de dispositivos. Consumir los [contratos REST](../../packages/contracts/README.md) de la API NestJS; no conectarse a PostgreSQL, MongoDB, Redis ni FastAPI desde la app.
+---
 
-El esquema móvil del [prototipo](../../docs/practica-07/README.md) orienta recorridos, pero no contiene widgets Flutter ni demuestra integración nativa. Administración móvil es alcance por confirmar; cualquier implementación debe mantener el límite de datos agregados y nunca otorgar acceso a rutinas privadas por el rol administrador.
+## 📱 Vistas disponibles en la demostración
 
-## Estructura propuesta
+La aplicación cuenta con una navegación fluida organizada en pestañas inferiores y botones de acción rápida:
 
-Separar UI y acceso a datos con repositorios y adaptadores. Es coherente con la [guía oficial de arquitectura Flutter](https://docs.flutter.dev/app-architecture/guide); el equipo concretará el manejo de estado en un ADR antes de instalar paquetes.
+1. **Acceso y Autenticación (`/login`):**
+   * Pantalla de bienvenida con identidad corporativa de Quantify.
+   * Acceso rápido en modo demo e inicio simulado mediante **Keycloak OIDC con PKCE S256** (cliente `quantify-mobile`).
+2. **Pantalla Principal — "Hoy" (`/main` - Tab 1):**
+   * Saludo personalizado y fecha del día en formato de negocio.
+   * Tarjeta de progreso diario con porcentaje de hábitos cumplidos y contador de mejor racha activa.
+   * Tarjetas interactivas de hábitos con botón para marcar o desmarcar cumplimiento en tiempo real.
+3. **Catálogo de Hábitos (Tab 2):**
+   * Listado de hábitos clasificados por categorías (*Salud*, *Aprendizaje*, *Bienestar*, *Descanso*).
+   * Filtros dinámicos por etiquetas y detalle de metas por unidad (minutos, páginas, litros).
+4. **Registro de Avance — Check-in Rápido (`/checkin` y botón central `+`):**
+   * Selección de hábito y fecha de negocio.
+   * Control deslizante para registrar cantidad lograda y campo opcional para evidencias/notas.
+   * Indicador visible de la cabecera idempotente (`X-Idempotency-Key`), garantizando trazabilidad contractual sin registros duplicados.
+5. **Analítica y Métricas (Tab 3):**
+   * Gráfica semanal interactiva de barras mostrando la adherencia por día.
+   * Indicador preventivo asistido por IA (arquetipo *"Constancia Matutina"* y estimación de riesgo de desgaste bajo).
+   * Resumen de estadísticas históricas (total de check-ins, tasa de éxito y mejor racha).
+6. **Perfil y Ajustes (Tab 4):**
+   * Datos del usuario de prueba y confirmación de rol.
+   * Resumen de conectividad técnica (URL de API NestJS `http://10.0.2.2:3000/api/v1` y realm Keycloak).
+   * Interruptores de preferencias: avisos locales, tolerancia offline y vinculación gradual con Wear OS.
+   * Cierre de sesión seguro con retorno a la pantalla de acceso.
+
+---
+
+## 🎨 Identidad visual y tokens de diseño
+
+La aplicación adapta los tokens canónicos de [`packages/design-tokens/`](../../packages/design-tokens/README.md) en un tema moderno de Material 3:
+
+* **Colores de marca:** Laser Blue (`#275BC0`), Sky Laser (`#4A7DE8`) y Deep Cobalt (`#183D87`).
+* **Fondo y superficies:** Obsidian Slate (`#0B0F17`), Midnight Navy (`#161F2E`) y bordes Steel (`#283548`).
+* **Estados y semántica:** Verde Esmeralda (`#10B981`) para rachas y éxito, Ámbar (`#F59E0B`) para pendientes, y Cyan Eléctrico (`#0EA5E9`) para sugerencias de IA.
+
+---
+
+## 🚀 Cómo ejecutar la aplicación
+
+### Prerrequisitos
+* Tener instalado **Flutter SDK** (versión 3.13 o superior con canal `stable`).
+* Un emulador de Android configurado (Android Studio) o un dispositivo físico conectado con depuración USB habilitada.
+
+### Pasos de ejecución
+
+1. **Abrir la terminal en la carpeta de la app móvil:**
+   ```bash
+   cd apps/mobile
+   ```
+
+2. **Descargar las dependencias necesarias:**
+   ```bash
+   flutter pub get
+   ```
+
+3. **Ejecutar en el emulador o dispositivo:**
+   ```bash
+   flutter run
+   ```
+
+4. **Ejecutar pruebas automatizadas:**
+   ```bash
+   flutter test
+   ```
+
+---
+
+## 📂 Organización del código
+
+El proyecto implementa una arquitectura modular y escalable inspirada en Clean Architecture:
 
 ```text
-lib/
-  app/                    # Arranque, navegación, tema y sesión
-  features/
-    <feature>/
-      presentation/       # Pantallas, widgets y estado de presentación
-      application/        # Coordinación de acciones y casos de uso
-      domain/             # Modelos e interfaces que la función necesite
-      data/               # Conversión de DTO y repositorios
-  shared/
-    api/                  # Transporte, autenticación y errores
-    config/               # Configuración pública por ambiente
-    design/               # Adaptación Flutter de tokens compartidos
-    storage/              # Almacenamiento local aprobado
-    sync/                 # Cola, reintentos y conflictos
-    platform/             # Notificaciones, permisos y vínculos nativos
-test/
-integration_test/
+apps/mobile/lib/
+├── core/
+│   ├── constants/       # URL de API, endpoints y configuración de Keycloak OIDC
+│   ├── router/          # Definición centralizada de rutas (/login, /main, /checkin)
+│   ├── services/        # Cliente HTTP con manejo de errores y cabeceras idempotentes
+│   └── theme/           # Paleta de colores canónicos y temas Material 3 (Dark/Light)
+├── features/
+│   ├── auth/            # Pantalla de acceso y autenticación demo
+│   ├── checkin/         # Formulario de registro de avance con idempotencia
+│   ├── habits/          # Modelo de datos de hábito y catálogo clasificado
+│   ├── main/            # Navegación principal con barra inferior y botón central
+│   ├── metrics/         # Panel de gráficas de adherencia y análisis preventivo IA
+│   ├── profile/         # Perfil de usuario, conectividad y preferencias
+│   └── today/           # Tablero de hábitos diarios y resumen de rachas
+└── main.dart            # Punto de entrada de la aplicación
 ```
 
-Es una estructura prevista, no un inventario de implementación. Evitar capas vacías o lógica de negocio dentro de widgets. Las reglas de rachas, validación final y autorización pertenecen al backend; el cliente puede ofrecer validaciones inmediatas consistentes con el contrato.
+---
 
-## Configuración y desarrollo local
+## 🔗 Relación con el resto del proyecto
 
-1. Fijar versión de Flutter/Dart y registrar la matriz Android/iOS y las herramientas nativas necesarias. Compilar iOS requiere el entorno de Apple correspondiente.
-2. Crear el proyecto en una entrega específica con identificadores de aplicación por ambiente; no reutilizar credenciales de producción para demostraciones.
-3. Definir un ejemplo de configuración pública: `API_BASE_URL` con `/api/v1`, `OIDC_ISSUER`, `OIDC_CLIENT_ID` y `OIDC_REDIRECT_URI`. Estos nombres son propuesta, aún no tienen lector implementado.
-4. Registrar retorno OIDC, enlaces de aplicación y orígenes permitidos por plataforma. Los valores empaquetados en una app, incluso mediante `--dart-define`, no son secretos.
-5. Documentar en esa entrega los comandos reales de dependencias, ejecución y builds por flavor. Con proyecto creado, incorporar `flutter analyze`, `flutter test` y pruebas de integración a sus validaciones; actualmente no hay aplicación sobre la cual ejecutarlos.
-
-## Sesión y permisos
-
-Usar Keycloak / OIDC Authorization Code con PKCE S256 y navegador del sistema mediante una integración nativa mantenida, con validación de `state`, `nonce` y retorno. No crear formularios que envíen contraseñas a una API propia ni embeber secretos de cliente.
-
-Elegir almacenamiento seguro vinculado a las capacidades del sistema para material de sesión que necesite persistir; documentar exclusión de backups cuando corresponda, borrado al salir y comportamiento en dispositivos compartidos. El plugin concreto queda pendiente. No guardar tokens junto con los comandos offline en una base de datos de propósito general.
-
-Solicitar permisos en contexto, explicar la finalidad y permitir continuar con captura manual si se rechazan. Separar permiso de notificaciones, permisos del sistema para señales y consentimiento de tratamiento: ninguno sustituye a los otros. No registrar tokens ni datos biométricos en logs de dispositivo o reporte de errores.
-
-## Sincronización y funcionamiento offline
-
-```mermaid
-stateDiagram-v2
-  [*] --> Borrador
-  Borrador --> Pendiente: Guardar localmente
-  Pendiente --> Enviando: Red y sesión disponibles
-  Enviando --> Confirmado: Servidor acepta
-  Enviando --> Pendiente: Respuesta perdida o red interrumpida
-  Enviando --> Conflicto: Versión cambió
-  Enviando --> Rechazado: Comando inválido o sin permiso
-  Conflicto --> Borrador: Revisar estado confirmado
-  Confirmado --> [*]
-```
-
-La escritura offline requiere aprobar motor local, cifrado/protección, migraciones, cuotas, caducidad y política de eliminación. SQLite aparece en material académico, pero **no está adoptado ni instalado**. Mientras no exista esta base, deshabilitar la acción sin conexión con una explicación y conservar solo borradores permitidos.
-
-Cada comando debe vincular cuenta, entidad, clave idempotente, versión conocida, instante de captura, fecha de negocio y zona según su esquema contractual. El check-in transmite avance absoluto acumulado, no un incremento que pueda duplicarse. El cliente no inventa nombres de campos; consume los fijados en contratos.
-
-- Reintentar una operación conserva su clave; una edición posterior es otro comando. El backend resuelve duplicados y concurrencia.
-- Al recuperar conexión o reabrir la app, comprobar sesión y enviar con orden por entidad y reintentos acotados. La sincronización en segundo plano depende del sistema; ofrecer reintento en primer plano.
-- Si un hábito se archivó o cambió de versión en otro dispositivo, mostrar el rechazo o conflicto y conservar información suficiente para que la persona lo resuelva.
-- Los gráficos indican cuándo usan datos confirmados y su última actualización. Un registro pendiente no aumenta la racha confirmada.
-- Cambiar zona horaria no reescribe el histórico. Conservar la fecha de negocio y la versión de programación de cada registro; el servidor valida periodos.
-- Al cerrar sesión, advertir sobre comandos pendientes antes de descartarlos, borrar datos privados locales y revocar la sesión según su política. Nunca sincronizar la cola de una cuenta con la sesión de otra.
-
-## Notificaciones y dispositivos
-
-La elección de notificaciones locales, push o combinación sigue pendiente. Diseñar identificadores estables para evitar duplicados, cancelación al archivar hábitos y coherencia al editar horarios. El centro de avisos no debe afirmar que un mensaje fue entregado al dispositivo sin evidencia del mecanismo implementado.
-
-La vinculación Wear OS se define en su [guía por fases](../wear/README.md); no suponer que todas las señales ni el emparejamiento están disponibles en iOS. Mostrar compatibilidad, estado de permiso, última sincronización y forma de desvincular.
-
-## Diseño y verificación
-
-Adaptar los [tokens](../../packages/design-tokens/README.md) a un tema Flutter y mantener el [catálogo de componentes](../../docs/diseno/sistema-diseno.md). Probar escalado de texto, orientación, áreas seguras, teclado, TalkBack/VoiceOver, semántica de controles y objetivos táctiles. Flutter proporciona soporte de accesibilidad y APIs de prueba; la accesibilidad se valida por pantalla, no por adoptar un widget. [Documentación oficial](https://docs.flutter.dev/ui/accessibility).
-
-| Nivel | Evidencia esperada |
-|---|---|
-| Unitario | Conversión contractual, estados, cola y clasificación de errores con datos ficticios |
-| Widgets | Formularios, vacío/error, foco, semántica y texto grande |
-| Integración | Login/retorno, crear hábito, check-in, pérdida de red, respuesta perdida y conflicto |
-| Dispositivo | Permisos denegados/revocados, reanudación, cambio de usuario, cambio de zona, recordatorios y almacenamiento lleno |
-
-Bloqueos por cerrar: manejo de estado y navegación, paquetes OIDC y almacenamiento seguro, persistencia offline, notificaciones, soporte mínimo de SO y alcance administrativo. Cada selección requiere compatibilidad documentada, mantenimiento y prueba técnica; Riverpod no se vuelve obligatorio por aparecer en la Práctica 05.
-
-[Volver a aplicaciones](../README.md) · [Recorridos](../../docs/diseno/recorridos.md) · [Decisiones pendientes](../../docs/arquitectura/decisiones-pendientes.md)
+* **API y Contratos:** Consume las rutas contractuales definidas en [`packages/contracts/openapi.json`](../../packages/contracts/openapi.json) (`/me`, `/habits`, `/check-ins`, `/metrics`).
+* **Identidad:** Alineado al realm exportado de Keycloak en [`infrastructure/keycloak/`](../../infrastructure/keycloak/README.md) con redirección `com.quantify.app:/oauth2redirect`.
+* **Diseño:** Sigue la especificación de pantallas y wireframes de [`docs/GUI/README.md`](../../docs/GUI/README.md).
