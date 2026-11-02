@@ -1,103 +1,91 @@
-# Aplicación web y PWA
+# Aplicación Web — Quantify Core
 
-**Estado: especificación, sin proyecto React generado.** Stack base: **React + TypeScript + Vite**, consumo REST/JSON y capacidades PWA progresivas. No hay `package.json`, scripts, manifiesto ni service worker de producto en esta carpeta.
+Este módulo contiene la aplicación web de **Quantify Core**, desarrollada con **React, TypeScript y Vite**. Su objetivo es permitir a las personas usuarias gestionar sus hábitos diarios, registrar su progreso mediante check-ins, revisar sus rachas y consultar información de su perfil de manera clara y accesible.
 
-## Alcance y organización
+## Estado del Módulo
 
-La web ofrecerá identidad, perfil y consentimiento, hábitos y check-ins, rachas y análisis, recordatorios, recomendaciones, gestión de dispositivos y solicitudes sobre datos propios (RF-01 a RF-08 y RF-10). Las rutas administrativas cubrirán RF-09 con permisos de API y datos agregados.
+- **Base técnica:** React 18, TypeScript, Vite y React Router.
+- **Diseño visual:** Integración con los tokens de diseño canónicos de [packages/design-tokens](../../packages/design-tokens/README.md), con soporte para modo claro y modo oscuro.
+- **Organización:** Estructura modular dividida por funciones (features).
 
-Estructura orientativa para el primer scaffold; **no son archivos existentes**:
+```mermaid
+flowchart TD
+    USUARIO[Persona usuaria] --> VISTA[Vistas de la aplicación]
+    VISTA --> HOOKS[Acciones y estado local]
+    HOOKS --> API[Cliente de transporte HTTP]
+    API --> BACKEND[API de Quantify Core]
+```
+
+## Estructura del Código
+
+La carpeta `src/` está organizada de forma limpia para facilitar el mantenimiento:
 
 ```text
 src/
-  app/                  # Arranque, composición, navegación y sesión
-  features/             # identity, habits, check-ins, analytics, etc.
-    <feature>/
-      ui/               # Páginas y componentes de esa función
-      application/      # Acciones, estados y coordinación
-      data/             # Adaptador al contrato y modelos de presentación
-  shared/
-    ui/                 # Componentes visuales reutilizables
-    api/                # Transporte, errores y correlación
-    config/             # Lectura y validación de configuración pública
-    offline/            # Cola y almacenamiento, cuando se aprueben
-  assets/               # Recursos de producto autorizados
-tests/                  # Integración y recorridos completos
+  app/                  # Configuración principal, enrutador y diseño base (layout)
+  features/             # Funciones principales de la aplicación
+    identity/           # Perfil de usuario y estado de sesión
+    habits/             # Creación, visualización y control de hábitos
+    checkins/           # Registro diario de progreso con valor absoluto e idempotencia
+    analytics/          # Rachas y métricas de cumplimiento
+    dashboard/          # Panel principal con resumen del día
+  shared/               # Elementos reutilizables
+    api/                # Cliente para comunicación con la API y cabecera de correlación
+    config/             # Lectura de variables de entorno públicas
+    tokens/             # Adaptador de estilos, colores y temas claro/oscuro
+    ui/                 # Componentes visuales básicos (botones, tarjetas, insignias)
+tests/                  # Pruebas automatizadas de componentes y tokens
 ```
 
-La UI puede depender de la capa de aplicación y esta de interfaces de datos. Centralizar la autenticación y el transporte; no conectar componentes directamente a bases de datos o al servicio de IA. No copiar el `app.js` de la demo como arquitectura React.
+## Guía de Uso y Comandos
 
-```mermaid
-flowchart TB
-  VIEW[Página / componente] --> ACTION[Acción y estado de interfaz]
-  ACTION --> REPO[Adaptador del contrato]
-  REPO --> HTTP[Transporte autenticado]
-  HTTP --> API[API NestJS]
-  ACTION --> QUEUE[Cola local aprobada]
-  QUEUE --> HTTP
-  API --> RESULT[Resultado o error normalizado]
-  RESULT --> ACTION
+Para trabajar con este proyecto, asegúrate de estar dentro del directorio `apps/web`:
+
+```bash
+# 1. Instalar dependencias
+npm install
+
+# 2. Iniciar el servidor de desarrollo local (http://localhost:5173)
+npm run dev
+
+# 3. Verificar tipos con TypeScript
+npm run typecheck
+
+# 4. Ejecutar las pruebas automatizadas
+npm test
+
+# 5. Compilar la aplicación para producción
+npm run build
 ```
 
-## Configuración y arranque
+## Variables de Entorno
 
-Antes del primer código fijar versiones compatibles de Node.js, React, TypeScript y Vite, gestor de paquetes y un único lockfile de acuerdo con [configuración compartida](../../packages/config/README.md). No instalar automáticamente la última versión ni introducir SSR o un framework diferente sin ADR.
+La aplicación utiliza variables públicas expuestas por Vite (prefijo `VITE_`). Puedes copiar el archivo de ejemplo para iniciar:
 
-Propuesta de nombres públicos que el scaffold deberá confirmar:
+```bash
+cp .env.example .env
+```
 
-| Variable propuesta | Contenido | Validación |
+| Variable | Descripción | Valor por defecto local |
 |---|---|---|
-| `VITE_API_BASE_URL` | URL de API con prefijo `/api/v1` | HTTPS fuera de desarrollo; evitar duplicar el prefijo |
-| `VITE_OIDC_ISSUER` | Emisor del realm de Keycloak | Coincidir con el emisor registrado |
-| `VITE_OIDC_CLIENT_ID` | Identificador público de cliente web | Distinto por ambiente |
-| `VITE_OIDC_REDIRECT_URI` | Retorno OIDC registrado | Coincidencia exacta; sin comodines amplios |
+| `VITE_API_BASE_URL` | URL base de la API de negocio | `http://localhost:3000/api/v1` |
+| `VITE_OIDC_ISSUER` | Emisor del servidor Keycloak | `http://localhost:8080/realms/quantify` |
+| `VITE_OIDC_CLIENT_ID` | Identificador público del cliente web | `quantify-web` |
+| `VITE_OIDC_REDIRECT_URI` | Dirección de retorno tras iniciar sesión | `http://localhost:5173/auth/callback` |
 
-Estas variables **todavía no son consumidas**. Una configuración BFF puede modificar las necesarias. Publicar un ejemplo sin secretos y fallar con mensaje explícito ante configuración faltante. Vite expone al bundle las variables `VITE_*`; no deben contener secretos. [Documentación de variables de Vite](https://vite.dev/guide/env-and-mode).
+> **Importante:** Estas variables son públicas y viajan en el navegador. No se deben colocar contraseñas, secretos ni claves privadas en estos archivos.
 
-La primera entrega deberá documentar instalación reproducible, desarrollo, compilación, comprobación de tipos, lint y pruebas con los scripts realmente creados. Hasta entonces no existe un comando de arranque de producto. El [prototipo académico](../../docs/practica-07/README.md) sí tiene instrucciones propias.
+## Tokens de Diseño y Temas
 
-## Identidad y permisos
+La interfaz utiliza los estilos oficiales definidos en el sistema de diseño:
+- Se importan las variables CSS desde `packages/design-tokens/themes.css`.
+- Soporta tema **Claro** (`[data-qc-theme="light"]`) y tema **Oscuro** (`[data-qc-theme="dark"]`).
+- La fuente principal es **Inter**.
 
-- Usar Keycloak con Authorization Code y PKCE S256, verificando `state` y `nonce` con una integración mantenida. El servidor valida emisor, audiencia, firma, expiración y autorización.
-- Resolver por ADR la topología **SPA con cliente público** o **BFF con cookies** antes de implementar la sesión. La base Vite no obliga a una u otra.
-- Si se elige SPA, mantener tokens en memoria y no persistirlos en `localStorage`, `sessionStorage` o IndexedDB; renovar mediante el adaptador elegido. Keycloak documenta que sus tokens del adaptador JavaScript se mantienen en memoria. [Adaptador oficial](https://www.keycloak.org/securing-apps/javascript-adapter).
-- Si se elige BFF, definir cookies `HttpOnly`, `Secure`, `SameSite`, protección CSRF y alcance de dominios en el ADR. Los tokens permanecen del lado del servidor.
-- Esperar a resolver la sesión antes de cargar datos privados. Guardar solo retornos internos permitidos para evitar redirecciones abiertas.
-- Centralizar una renovación en curso y limitar el reintento tras 401. Si falla, pedir acceso de nuevo, pausar la cola y proteger el borrador; 403 muestra permiso insuficiente sin bucles de login.
-- Cerrar sesión elimina datos privados y caches de esa cuenta. Si hay comandos pendientes, explicar que se descartarán y permitir cancelar el cierre antes de ejecutarlo.
+## Aviso de Salud Preventiva
 
-## PWA y desconexión
+Las métricas, análisis de constancia e indicadores presentados en la aplicación tienen un propósito informativo y de motivación para el bienestar diario. No constituyen diagnóstico ni recomendación médica.
 
-El manifiesto, iconos, instalación y service worker se incorporan como capacidades verificadas. El navegador puede no permitir instalación o ejecución en segundo plano; la app debe seguir funcionando en línea. Los service workers tienen un ciclo de vida propio y no garantizan ejecución continua. [Guía de service workers](https://web.dev/learn/pwa/service-workers).
+---
 
-| Recurso | Política prevista |
-|---|---|
-| JS, CSS, fuentes y recursos estáticos versionados | Cache por versión con limpieza de versiones antiguas |
-| Navegación | Pantalla de desconexión útil cuando no exista contenido local |
-| Identidad y respuestas OIDC | Fuera de la cache del service worker |
-| Respuestas de API y datos personales | Sin cache genérica; persistencia explícita, minimizada y por cuenta tras aprobar su política |
-| Escrituras | Cola explícita de comandos, nunca cachear un POST como si estuviera confirmado |
-| Actualización de versión | Avisar y activar sin perder formularios ni operaciones pendientes |
-
-La primera iteración puede requerir conexión para escribir. No ofrecer escritura offline hasta que existan almacenamiento, aislamiento por usuario, migración de cola y pruebas. Si se habilita, los check-ins mantienen valor absoluto, fecha de negocio, zona, versión y clave idempotente. Una respuesta perdida se reintenta con la misma clave. Un conflicto requiere resolverlo con el estado del servidor, sin sumar avances ni sobrescribir automáticamente el otro dispositivo.
-
-Mostrar la última sincronización y distinguir datos locales pendientes de métricas confirmadas. La sesión vencida pausa la sincronización; cambiar de usuario nunca transfiere la cola. No depender de Background Sync: incluir reanudación al recuperar conexión y reintento visible.
-
-## Estados, accesibilidad y errores
-
-Aplicar el [catálogo de componentes y estados](../../docs/diseno/sistema-diseno.md). Cada página debe cubrir carga, contenido, vacío, error recuperable, permiso insuficiente, sesión vencida y contenido desactualizado. Un error de formulario se asocia al campo; un error global incluye acción útil y código de correlación cuando exista, sin stack trace.
-
-Usar HTML semántico, navegación por teclado, foco visible, anuncios de estado moderados, títulos de página y alternativa textual para gráficas. Validar zoom, reducción de movimiento, contraste y lectores de pantalla. Los permisos de notificaciones se piden al activar un recordatorio y su rechazo no impide usar hábitos.
-
-## Verificación de la primera entrega
-
-- Compilar y comprobar tipos con las versiones fijadas; el equipo decidirá la herramienta de pruebas antes de añadir dependencias.
-- Probar acceso/retorno/cierre, sesión vencida, 401/403, usuario distinto y rutas administrativas.
-- Probar crear, editar y archivar hábito; doble clic y respuesta perdida del check-in; fecha y zona alrededor de medianoche.
-- Probar teclado y lector de pantalla en formularios, diálogos y errores; gráficas con resumen y tabla.
-- Si incluye PWA: primer acceso sin service worker, actualización, cache antigua, conexión intermitente, almacenamiento lleno o no disponible y limpieza al cerrar sesión.
-- Verificar que el bundle no contiene secretos y que logs/analítica no capturan tokens, formularios ni nombres privados de hábitos.
-
-Pendientes: biblioteca de navegación, estado, componentes y pruebas; topología de sesión; política y motor de almacenamiento; matriz de navegadores; metas de rendimiento y soporte offline. Registrar su cierre en [decisiones](../../docs/arquitectura/decisiones-pendientes.md).
-
-[Volver a aplicaciones](../README.md) · [Contratos](../../packages/contracts/README.md) · [Recorridos](../../docs/diseno/recorridos.md)
+[Volver a aplicaciones](../README.md) · [Contratos compartidos](../../packages/contracts/README.md) · [Sistema de diseño](../../docs/diseno/sistema-diseno.md) · [Configuración compartida](../../packages/config/README.md)
