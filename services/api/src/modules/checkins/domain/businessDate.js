@@ -104,3 +104,78 @@ export function getIsoWeekday(businessDate) {
   const utcDay = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
   return utcDay === 0 ? 7 : utcDay;
 }
+
+/**
+ * Genera todas las fechas de negocio YYYY-MM-DD dentro del rango inclusivo [from, to].
+ * @param {string} from
+ * @param {string} to
+ * @returns {string[]}
+ */
+export function listBusinessDatesInRange(from, to) {
+  if (!isValidBusinessDate(from) || !isValidBusinessDate(to)) {
+    throw new Error('Las fechas del intervalo [from, to] deben tener formato YYYY-MM-DD válido');
+  }
+  if (from > to) {
+    throw new Error(`El inicio del intervalo (${from}) no puede ser posterior al fin (${to})`);
+  }
+
+  const result = [];
+  const [startY, startM, startD] = from.split('-').map(Number);
+  const current = new Date(Date.UTC(startY, startM - 1, startD));
+
+  while (true) {
+    const y = current.getUTCFullYear();
+    const m = String(current.getUTCMonth() + 1).padStart(2, '0');
+    const d = String(current.getUTCDate()).padStart(2, '0');
+    const formatted = `${y}-${m}-${d}`;
+    result.push(formatted);
+
+    if (formatted === to) {
+      break;
+    }
+    current.setUTCDate(current.getUTCDate() + 1);
+  }
+
+  return result;
+}
+
+/**
+ * Evalúa si una fecha de negocio es una oportunidad programada elegible para un hábito (RN-P09).
+ * Excluye días previos a effectiveFrom, días fuera de weekdays, días en pausa y días posteriores al archivo.
+ * @param {string} businessDate
+ * @param {{ weekdays: number[], effectiveFrom: string }} schedule
+ * @param {{ pausedIntervals?: Array<{ from: string, to?: string | null }>, archivedAtDate?: string | null }} [options]
+ * @returns {boolean}
+ */
+export function isScheduledOpportunity(businessDate, schedule, options = {}) {
+  if (!isValidBusinessDate(businessDate)) {
+    throw new Error(`Fecha de negocio inválida: ${businessDate}`);
+  }
+  if (!schedule || !Array.isArray(schedule.weekdays) || !isValidBusinessDate(schedule.effectiveFrom)) {
+    throw new Error('La programación del hábito requiere weekdays y effectiveFrom válidos');
+  }
+
+  // Antes de la fecha de entrada en vigor no hay oportunidad
+  if (businessDate < schedule.effectiveFrom) {
+    return false;
+  }
+
+  // Si el hábito fue archivado antes o en esa fecha, se excluye de oportunidades activas
+  if (options.archivedAtDate && businessDate >= options.archivedAtDate) {
+    return false;
+  }
+
+  // Si la fecha cae dentro de un intervalo de pausa, no cuenta como oportunidad
+  const pausedIntervals = options.pausedIntervals ?? [];
+  for (const interval of pausedIntervals) {
+    const start = interval.from;
+    const end = interval.to ?? '9999-12-31';
+    if (businessDate >= start && businessDate <= end) {
+      return false;
+    }
+  }
+
+  const weekday = getIsoWeekday(businessDate);
+  return schedule.weekdays.includes(weekday);
+}
+
