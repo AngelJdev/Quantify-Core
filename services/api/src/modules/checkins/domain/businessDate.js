@@ -53,3 +53,54 @@ export function isValidBusinessDate(dateStr) {
     date.getUTCDate() === day
   );
 }
+
+/**
+ * Obtiene la fecha de negocio (YYYY-MM-DD) a partir de un instante UTC y una zona IANA (RN-P07).
+ * No asume medianoche UTC, sino que proyecta el instante sobre la zona horaria del hábito.
+ * @param {string | Date} utcInput
+ * @param {string} timeZone
+ * @returns {string} Fecha en formato YYYY-MM-DD
+ */
+export function getBusinessDateFromUtc(utcInput, timeZone) {
+  if (!isValidIanaTimeZone(timeZone)) {
+    throw new Error(`Zona horaria IANA inválida: ${timeZone}`);
+  }
+
+  const date =
+    utcInput instanceof Date
+      ? utcInput
+      : isValidUtcIsoString(utcInput)
+      ? new Date(utcInput)
+      : null;
+
+  if (!date || Number.isNaN(date.getTime())) {
+    throw new Error(`Instante UTC inválido: ${utcInput}`);
+  }
+
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date);
+
+  const year = parts.find((p) => p.type === 'year')?.value;
+  const month = parts.find((p) => p.type === 'month')?.value;
+  const day = parts.find((p) => p.type === 'day')?.value;
+
+  return `${year}-${month}-${day}`;
+}
+
+/**
+ * Devuelve el día de la semana ISO (1 = Lunes, 7 = Domingo) para una fecha YYYY-MM-DD.
+ * @param {string} businessDate
+ * @returns {number}
+ */
+export function getIsoWeekday(businessDate) {
+  if (!isValidBusinessDate(businessDate)) {
+    throw new Error(`Fecha de negocio inválida: ${businessDate}`);
+  }
+  const [year, month, day] = businessDate.split('-').map(Number);
+  const utcDay = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
+  return utcDay === 0 ? 7 : utcDay;
+}
