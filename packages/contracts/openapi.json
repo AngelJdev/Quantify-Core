@@ -3,7 +3,7 @@
   "info": {
     "title": "Quantify Core — primer flujo",
     "version": "0.1.0-draft",
-    "description": "BORRADOR para desarrollo. Ninguna operación acredita una API desplegada. RF-01 a RF-05; decisiones pendientes en docs/arquitectura/decisiones-pendientes.md."
+    "description": "BORRADOR para desarrollo. Ninguna operación acredita una API desplegada. RF-01 a RF-05; decisiones pendientes en docs/arquitectura/decisiones-pendientes.md. Implementación inicial de categorías y hábitos; operaciones de check-ins/métricas permanecen documentadas, no implementadas. Idempotency-Key para hábitos aún pendiente."
   },
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "servers": [
@@ -28,6 +28,10 @@
     {
       "name": "Metrics",
       "description": "RF-05 — métricas de periodos cerrados"
+    },
+    {
+      "name": "Categories",
+      "description": "Categorías personales, archivado no destructivo."
     }
   ],
   "security": [
@@ -683,6 +687,178 @@
           }
         }
       }
+    },
+    "/categories": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "operationId": "listOwnCategories",
+        "responses": {
+          "200": {
+            "description": "Categorías personales",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Category"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No autenticado"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Categories"
+        ],
+        "operationId": "createOwnCategory",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Creada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validación fallida"
+          },
+          "409": {
+            "description": "Categoría duplicada"
+          }
+        }
+      }
+    },
+    "/categories/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "operationId": "getOwnCategory",
+        "responses": {
+          "200": {
+            "description": "Categoría propia",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No encontrada o no pertenece al actor"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Categories"
+        ],
+        "operationId": "patchOwnCategory",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Versión esperada (entero positivo)."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryPatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Actualizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Versión obsoleta"
+          },
+          "428": {
+            "description": "Falta If-Match"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Categories"
+        ],
+        "operationId": "archiveOwnCategory",
+        "parameters": [
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Versión esperada (entero positivo)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Archivada lógicamente"
+          },
+          "404": {
+            "description": "No encontrada"
+          },
+          "412": {
+            "description": "Versión obsoleta"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -844,6 +1020,11 @@
           "timeZone": {
             "type": "string",
             "description": "Identificador de zona IANA; validar contra base IANA"
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Categoría propia opcional"
           }
         },
         "required": [
@@ -887,6 +1068,10 @@
               "paused",
               "archived"
             ]
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "required": [],
@@ -943,6 +1128,13 @@
             "type": "string",
             "format": "date-time",
             "description": "Instante UTC RFC 3339 con Z"
+          },
+          "categoryId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
           }
         },
         "required": [
@@ -1194,6 +1386,77 @@
           "longestStreak",
           "noDataReason"
         ]
+      },
+      "CategoryCreate": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 60
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 240
+          }
+        }
+      },
+      "CategoryPatch": {
+        "type": "object",
+        "additionalProperties": false,
+        "minProperties": 1,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 60
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 240
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "version",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
       }
     },
     "responses": {
