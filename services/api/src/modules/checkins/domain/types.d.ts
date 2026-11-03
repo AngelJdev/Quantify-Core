@@ -113,11 +113,17 @@ export interface IdempotencyEvaluationResult<T = unknown> {
   cachedResponse?: T;
 }
 
+export interface ProblemFieldError {
+  field: string;
+  code: string;
+}
+
 export interface ProblemDetails {
   type: string;
   title: string;
   status: number;
-  detail: string;
-  instance?: string;
+  detail?: string;
   code: string;
+  requestId: string;
+  errors?: ProblemFieldError[];
 }
