@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../habits/domain/models/habit_model.dart';
+import '../../domain/models/checkin_record_model.dart';
 
 class CheckInScreen extends StatefulWidget {
   final List<HabitModel> habits;
-  final Function(String habitId, double value, String note)? onConfirm;
+  final Function(
+    String habitId,
+    double value,
+    String note,
+    String idempotencyKey,
+    String businessDate,
+  )? onConfirm;
 
   const CheckInScreen({
     super.key,
@@ -20,13 +27,20 @@ class _CheckInScreenState extends State<CheckInScreen> {
   late String _selectedHabitId;
   double _currentValue = 1.0;
   final TextEditingController _noteController = TextEditingController();
-  final String _idempotencyKey = 'idemp-${DateTime.now().millisecondsSinceEpoch}';
+  final String _businessDate = '2026-10-27';
+  final String _idempotencyKey =
+      '925ed4ea-6e06-493c-a3c1-${DateTime.now().millisecondsSinceEpoch.toString().substring(1)}';
   bool _isSubmitting = false;
 
   @override
   void initState() {
     super.initState();
-    _selectedHabitId = widget.habits.isNotEmpty ? widget.habits.first.id : '';
+    if (widget.habits.isNotEmpty) {
+      _selectedHabitId = widget.habits.first.id;
+      _currentValue = widget.habits.first.targetValue;
+    } else {
+      _selectedHabitId = '';
+    }
   }
 
   @override
@@ -37,11 +51,17 @@ class _CheckInScreenState extends State<CheckInScreen> {
 
   void _submitCheckIn() async {
     setState(() => _isSubmitting = true);
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 300));
     if (!mounted) return;
     setState(() => _isSubmitting = false);
 
-    widget.onConfirm?.call(_selectedHabitId, _currentValue, _noteController.text);
+    widget.onConfirm?.call(
+      _selectedHabitId,
+      _currentValue,
+      _noteController.text,
+      _idempotencyKey,
+      _businessDate,
+    );
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -63,6 +83,24 @@ class _CheckInScreenState extends State<CheckInScreen> {
       orElse: () => widget.habits.first,
     );
 
+    final status = deriveCheckInProgressStatus(
+      _currentValue,
+      selectedHabit.targetValue,
+    );
+    final statusText = status == CheckInProgressStatus.completed
+        ? 'Meta cumplida (completed)'
+        : status == CheckInProgressStatus.partial
+            ? 'Avance parcial (partial)'
+            : 'En cero (zero)';
+    final statusColor = status == CheckInProgressStatus.completed
+        ? AppColors.emerald
+        : status == CheckInProgressStatus.partial
+            ? AppColors.amber
+            : AppColors.coolGray;
+
+    final maxSlider =
+        selectedHabit.targetValue * 2 > 10 ? selectedHabit.targetValue * 2 : 10.0;
+
     return Scaffold(
       backgroundColor: AppColors.obsidianSlate,
       appBar: AppBar(
@@ -76,7 +114,11 @@ class _CheckInScreenState extends State<CheckInScreen> {
             // Selección de Hábito
             const Text(
               'Seleccionar Hábito',
-              style: TextStyle(color: AppColors.opticalWhite, fontSize: 14, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: AppColors.opticalWhite,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 8),
             Container(
@@ -101,7 +143,10 @@ class _CheckInScreenState extends State<CheckInScreen> {
                           const SizedBox(width: 12),
                           Text(
                             habit.title,
-                            style: const TextStyle(color: AppColors.opticalWhite, fontSize: 14),
+                            style: const TextStyle(
+                              color: AppColors.opticalWhite,
+                              fontSize: 14,
+                            ),
                           ),
                         ],
                       ),
@@ -109,8 +154,11 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   }).toList(),
                   onChanged: (val) {
                     if (val != null) {
+                      final nextHabit =
+                          widget.habits.firstWhere((h) => h.id == val);
                       setState(() {
                         _selectedHabitId = val;
+                        _currentValue = nextHabit.targetValue;
                       });
                     }
                   },
@@ -120,10 +168,14 @@ class _CheckInScreenState extends State<CheckInScreen> {
 
             const SizedBox(height: 24),
 
-            // Fecha de Negocio
+            // Fecha de Negocio y Zona Horaria
             const Text(
-              'Fecha de Negocio',
-              style: TextStyle(color: AppColors.opticalWhite, fontSize: 14, fontWeight: FontWeight.bold),
+              'Fecha de Negocio (RN-P07)',
+              style: TextStyle(
+                color: AppColors.opticalWhite,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 8),
             Container(
@@ -133,17 +185,24 @@ class _CheckInScreenState extends State<CheckInScreen> {
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: AppColors.steelBorder),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.calendar_today_rounded, color: AppColors.coolGray, size: 18),
-                  SizedBox(width: 12),
-                  Text(
-                    '2026-10-27 (Hoy)',
-                    style: TextStyle(color: AppColors.opticalWhite, fontSize: 14),
+                  const Icon(
+                    Icons.calendar_today_rounded,
+                    color: AppColors.coolGray,
+                    size: 18,
                   ),
-                  Spacer(),
+                  const SizedBox(width: 12),
                   Text(
-                    'UTC-06:00',
+                    '$_businessDate (Hoy)',
+                    style: const TextStyle(
+                      color: AppColors.opticalWhite,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const Spacer(),
+                  const Text(
+                    'America/Mexico_City',
                     style: TextStyle(color: AppColors.coolGray, fontSize: 12),
                   ),
                 ],
@@ -152,25 +211,42 @@ class _CheckInScreenState extends State<CheckInScreen> {
 
             const SizedBox(height: 24),
 
-            // Valor alcanzado
+            // Valor absoluto alcanzado (RN-P11)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'Cantidad realizada',
-                  style: TextStyle(color: AppColors.opticalWhite, fontSize: 14, fontWeight: FontWeight.bold),
+                  'Total acumulado del día',
+                  style: TextStyle(
+                    color: AppColors.opticalWhite,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
-                  '${_currentValue.toStringAsFixed(1)} ${selectedHabit.unit}',
-                  style: const TextStyle(color: AppColors.skyLaser, fontSize: 14, fontWeight: FontWeight.bold),
+                  '${_currentValue.toStringAsFixed(1)} / ${selectedHabit.targetValue.toStringAsFixed(1)} ${selectedHabit.unit}',
+                  style: const TextStyle(
+                    color: AppColors.skyLaser,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
+            Text(
+              'Estado calculado: $statusText',
+              style: TextStyle(
+                color: statusColor,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8),
             Slider(
-              value: _currentValue,
-              min: 0.5,
-              max: selectedHabit.targetValue * 2 > 10 ? selectedHabit.targetValue * 2 : 10.0,
+              value: _currentValue.clamp(0.0, maxSlider),
+              min: 0.0,
+              max: maxSlider,
               divisions: 20,
               activeColor: AppColors.laserBlue,
               inactiveColor: AppColors.surfaceDark,
@@ -183,8 +259,12 @@ class _CheckInScreenState extends State<CheckInScreen> {
 
             // Evidencia / Nota opcional
             const Text(
-              'Evidencia o Nota (Opcional)',
-              style: TextStyle(color: AppColors.opticalWhite, fontSize: 14, fontWeight: FontWeight.bold),
+              'Evidencia o Motivo de Corrección (Opcional)',
+              style: TextStyle(
+                color: AppColors.opticalWhite,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 8),
             TextField(
@@ -208,19 +288,31 @@ class _CheckInScreenState extends State<CheckInScreen> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.fingerprint_rounded, color: AppColors.emerald, size: 20),
+                  const Icon(
+                    Icons.fingerprint_rounded,
+                    color: AppColors.emerald,
+                    size: 20,
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Cabecera Idempotente (Trazabilidad RF-04)',
-                          style: TextStyle(color: AppColors.coolGray, fontSize: 10, fontWeight: FontWeight.bold),
+                          'Cabecera Idempotente (Protección anti-duplicados RN-P14)',
+                          style: TextStyle(
+                            color: AppColors.coolGray,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Text(
                           _idempotencyKey,
-                          style: const TextStyle(color: AppColors.emerald, fontSize: 11, fontFamily: 'monospace'),
+                          style: const TextStyle(
+                            color: AppColors.emerald,
+                            fontSize: 11,
+                            fontFamily: 'monospace',
+                          ),
                         ),
                       ],
                     ),
@@ -238,7 +330,10 @@ class _CheckInScreenState extends State<CheckInScreen> {
                   ? const SizedBox(
                       width: 20,
                       height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.opticalWhite),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.opticalWhite,
+                      ),
                     )
                   : const Text('Confirmar Check-in'),
             ),
