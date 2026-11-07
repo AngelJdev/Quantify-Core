@@ -11,21 +11,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController(text: 'usuario.demo@quantify.dev');
-  final _passwordController = TextEditingController(text: '••••••••');
-  bool _obscurePassword = true;
   bool _isLoading = false;
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  void _handleLogin() async {
+  void _handleDemoPreview() async {
     setState(() => _isLoading = true);
-    await Future.delayed(const Duration(milliseconds: 600));
+    await Future.delayed(const Duration(milliseconds: 300));
     if (!mounted) return;
     setState(() => _isLoading = false);
 
@@ -34,8 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _handleKeycloakSSO() async {
     setState(() => _isLoading = true);
-    // Simula flujo PKCE OIDC con Keycloak
-    await Future.delayed(const Duration(milliseconds: 800));
+    await Future.delayed(const Duration(milliseconds: 400));
     if (!mounted) return;
     setState(() => _isLoading = false);
 
@@ -43,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       const SnackBar(
         backgroundColor: AppColors.midnightNavy,
         content: Text(
-          'Simulación OIDC Authorization Code + PKCE completada (Keycloak)',
+          'Vista previa OIDC Authorization Code + PKCE lista para conectar con Keycloak',
           style: TextStyle(color: AppColors.opticalWhite),
         ),
       ),
@@ -108,52 +97,58 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontSize: 13,
                   ),
                 ),
-                const SizedBox(height: 36),
+                const SizedBox(height: 32),
 
-                // Formulario de Acceso
-                const Text(
-                  'Iniciar Sesión',
-                  style: TextStyle(
-                    color: AppColors.opticalWhite,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                // Tarjeta de Acceso Institucional sin contraseña en el cliente
+                Container(
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    color: AppColors.midnightNavy,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: AppColors.steelBorder),
                   ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  style: const TextStyle(color: AppColors.opticalWhite, fontSize: 14),
-                  decoration: const InputDecoration(
-                    labelText: 'Correo electrónico',
-                    prefixIcon: Icon(Icons.email_outlined, color: AppColors.coolGray),
-                  ),
-                ),
-                const SizedBox(height: 14),
-                TextField(
-                  controller: _passwordController,
-                  obscureText: _obscurePassword,
-                  style: const TextStyle(color: AppColors.opticalWhite, fontSize: 14),
-                  decoration: InputDecoration(
-                    labelText: 'Contraseña',
-                    prefixIcon: const Icon(Icons.lock_outline, color: AppColors.coolGray),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                        color: AppColors.coolGray,
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.verified_user_rounded,
+                            color: AppColors.skyLaser,
+                            size: 22,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Iniciar Sesión Segura (Sin Contraseña Local)',
+                              style: TextStyle(
+                                color: AppColors.opticalWhite,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      onPressed: () {
-                        setState(() => _obscurePassword = !_obscurePassword);
-                      },
-                    ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Por tu seguridad, esta aplicación nunca pide ni guarda tu contraseña aquí adentro. El acceso se realiza mediante una cuenta única institucional en Keycloak con protocolo OIDC + PKCE.',
+                        style: TextStyle(
+                          color: AppColors.coolGray,
+                          fontSize: 12,
+                          height: 1.45,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 22),
+                const SizedBox(height: 24),
 
-                // Botón Iniciar Sesión Demo
-                ElevatedButton(
-                  onPressed: _isLoading ? null : _handleLogin,
-                  child: _isLoading
+                // Botón principal OIDC Keycloak
+                ElevatedButton.icon(
+                  onPressed: _isLoading ? null : _handleKeycloakSSO,
+                  icon: const Icon(Icons.security_rounded, size: 18),
+                  label: _isLoading
                       ? const SizedBox(
                           width: 20,
                           height: 20,
@@ -162,19 +157,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: AppColors.opticalWhite,
                           ),
                         )
-                      : const Text('Entrar a la Demostración'),
+                      : const Text('Continuar con Keycloak OIDC'),
                 ),
                 const SizedBox(height: 14),
 
-                // Botón OIDC Keycloak
+                // Botón modo demostración offline rotulado
                 OutlinedButton.icon(
-                  onPressed: _isLoading ? null : _handleKeycloakSSO,
-                  icon: const Icon(Icons.security_rounded, size: 18),
-                  label: const Text('Iniciar con Keycloak OIDC'),
+                  onPressed: _isLoading ? null : _handleDemoPreview,
+                  icon: const Icon(Icons.visibility_outlined, size: 18),
+                  label: const Text('Entrar a la Demostración'),
                 ),
                 const SizedBox(height: 28),
 
-                // Mensaje informativo
+                // Mensaje informativo de configuración OIDC
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
@@ -188,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          'Cliente: ${ApiConstants.oidcClientId} • Modo seguro con PKCE',
+                          'Cliente: ${ApiConstants.oidcClientId} • Authorization Code + PKCE (S256)',
                           style: const TextStyle(color: AppColors.coolGray, fontSize: 11),
                         ),
                       ),
