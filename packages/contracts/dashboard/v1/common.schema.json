@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DashboardCommon",
+  "$defs": {
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "opportunities": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 183000
+        },
+        "recorded": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 183000
+        },
+        "completed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 183000
+        },
+        "partial": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 183000
+        },
+        "explicitZero": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 183000
+        },
+        "missing": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 183000
+        },
+        "completionRate": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 100
+        },
+        "coverageRate": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 100
+        },
+        "noDataReason": {
+          "enum": [
+            null,
+            "NO_ELIGIBLE_OPPORTUNITIES"
+          ]
+        }
+      },
+      "required": [
+        "opportunities",
+        "recorded",
+        "completed",
+        "partial",
+        "explicitZero",
+        "missing",
+        "completionRate",
+        "coverageRate",
+        "noDataReason"
+      ]
+    },
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "to": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "habitId": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ruleVersion": {
+          "const": "dashboard-opportunities-1.0.0"
+        },
+        "calculatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"
+        },
+        "timeBasis": {
+          "const": "habit-business-date"
+        },
+        "timeZones": {
+          "type": "array",
+          "uniqueItems": true,
+          "maxItems": 500,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        "source": {
+          "const": "postgresql-check-ins"
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "habitId",
+        "ruleVersion",
+        "calculatedAt",
+        "timeBasis",
+        "timeZones",
+        "source"
+      ]
+    }
+  }
+}
