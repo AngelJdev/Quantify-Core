@@ -74,6 +74,8 @@ La misma suite de `services/api/telemetry` suma 21 pruebas de dominio/HTTP del d
 
 ## Condiciones de revisión
 
+El [plan operativo](plan-pruebas.md) fija entornos, criterios y procedimientos de ejecución. Los [casos CA-01..20](../docs/requerimientos/aceptacion.md) mantienen sus resultados esperados y pasos; el [informe del 09/11/2026](informe-ejecucion-2026-11-09.md) identifica resultados efectivamente obtenidos, revisión evaluada y limitaciones. Una prueba sintética relacionada no aprueba automáticamente un caso integrado.
+
 Una funcionalidad no se marca verificada sin pruebas de sus caminos principales y fallos relevantes. Elegir las herramientas y umbrales de cobertura cuando existan módulos medibles; no usar un porcentaje arbitrario como sustituto de comportamiento comprobado. Una corrección que afecte contratos debe verificar también a sus consumidores.
 
 Para documentación se comprueban enlaces, diagramas, ejemplos y consistencia semántica. Los cambios de seguridad, migraciones, datos sensibles o recuperación requieren evidencia específica del riesgo que modifican.

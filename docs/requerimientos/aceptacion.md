@@ -37,6 +37,35 @@ flowchart LR
 | CA-19 | Dado envío de aviso con respuesta incierta, cuando se reintenta, la misma ocurrencia/canal no se entrega dos veces según capacidades del proveedor | AC-06.3 | Prueba del adaptador y registro de entrega |
 | CA-20 | Dado modelo sin calidad suficiente o datos faltantes, cuando se solicita una sugerencia, responde abstención con motivo y no fabrica evidencia | AC-07.2/5 | Dataset sintético, evaluación y contrato de salida |
 
+## Preparación y pasos de los casos de producto
+
+El resultado esperado sigue siendo la fila CA original, sin una segunda definición. El [plan de pruebas](../../tests/plan-pruebas.md) fija entorno, datos, registro y criterios de salida. Los procedimientos siguientes son para el producto integrado: no se declaran ejecutados por pruebas del prototipo o del host sintético.
+
+| Caso | Precondición / datos mínimos | Pasos de ejecución previstos |
+|---|---|---|
+| CA-01 | Cuentas sintéticas A/B y administrador; hábito privado de B | Autenticar A y administrador por separado; consultar y modificar el identificador de B; comparar respuestas y datos persistidos |
+| CA-02 | Sesión válida y política de expiración/suspensión D-02 aprobada | Preparar una intención, vencer sesión o suspender perfil, intentar mutación, recuperar acceso conforme a política y comprobar intención/clave e historia |
+| CA-03 | Hábito con zona IANA y reloj controlado cerca de medianoche | Enviar instantes antes/después del límite local, consultar fecha de negocio y repetir en una zona con cambio horario |
+| CA-04 | Comando base válido y una variación inválida por ejecución | Enviar meta no positiva y frecuencia vacía por API/formulario; consultar almacenamiento y estado del formulario después del rechazo |
+| CA-05 | Progreso confirmado 10 y comando absoluto 15 con clave estable | Confirmar el comando y simular pérdida de respuesta; reenviar igual clave/cuerpo; leer consolidado, revisiones y auditoría |
+| CA-06 | Clave ya aplicada y estado persistido conocido | Reutilizar clave con cuerpo distinto; comprobar conflicto y que estado/auditoría no incorporen otra aplicación |
+| CA-07 | Dos clientes conocen la misma revisión | Enviar correcciones concurrentes con intenciones distintas; observar conflicto, recargar y resolver sin sobrescritura silenciosa |
+| CA-08 | Meta histórica 20 y cambio futuro a 30 con fechas efectivas | Registrar ambos días y consultar historia/agregados; corregir uno sin cambiar la meta usada por el otro |
+| CA-09 | Programación lunes/miércoles y pausa con vigencia explícita | Consultar racha en día no programado, pausa y día abierto/cerrado; comparar con la regla RN-P17 dentro de la ventana |
+| CA-10 | Periodo sin oportunidades elegibles | Solicitar métricas y abrir gráfico/tabla; verificar causa de ausencia y presentación sin cero de fracaso |
+| CA-11 | Hábito con historial y aviso programado | Archivar, consultar rutina/historia e intentar nuevo progreso; verificar cancelación del aviso cuando exista el worker |
+| CA-12 | Almacenamiento/cola offline aprobados y respuesta de servidor controlable | Cortar red, registrar intención, recuperar red y perder una respuesta; observar estados de sincronización y consolidado |
+| CA-13 | Contrato de IA y trabajo pendiente con consentimiento vigente | Revocar antes de ejecutar; procesar trabajo y consultar resultados; verificar autorización tanto al ejecutar como al leer |
+| CA-14 | Recomendación válida y aceptación transaccional implementada | Abrir y cancelar personalización; luego guardar y repetir la misma intención; consultar hábito y enlace a sugerencia |
+| CA-15 | Plantilla y hábitos personales creados desde su versión | Pausar plantilla con actor/motivo autorizados; consultar plantilla, hábitos previos y auditoría |
+| CA-16 | Contrato de exportación, artefacto de A y expiración controlada | Solicitar con A, intentar descarga con B y repetir después de vencer; verificar acceso y caducidad |
+| CA-17 | Política aprobada, entorno desechable y respaldo identificado | Solicitar eliminación, observar estado por almacén, restaurar aislado y reaplicar política; comprobar que no reaparezcan datos accesibles |
+| CA-18 | Fuente/dispositivo de A, permiso vigente y lote pendiente | Revocar y reenviar lote pendiente/nuevo; verificar rechazo, conteos e historial. Separar ejecución sintética de hardware real |
+| CA-19 | Canal de avisos y adaptador con respuesta incierta controlables | Enviar una ocurrencia, perder respuesta y reintentar; consultar evidencia de proveedor/entrega sin atribuir garantías que el canal no ofrece |
+| CA-20 | Modelo/regla habilitada y casos sin datos o calidad suficiente | Solicitar sugerencia con entradas elegibles y no elegibles; revisar abstención, motivo, versión y ausencia de evidencia inventada |
+
+Estado de estos CA a 09/11/2026: **pendientes de ejecución integrada**. Hay suites parciales/sintéticas relacionadas; el [informe](../../tests/informe-ejecucion-2026-11-09.md) distingue su alcance. Conservar una corrida por caso/entorno/SHA con resultado y evidencia; no rellenar una columna Aprobado sin ejecutarlo.
+
 ## Plantilla de historia implementable
 
 ```text

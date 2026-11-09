@@ -1,0 +1,7 @@
+
+> @quantify/telemetry-simulation@0.1.0 validate:openapi
+> node scripts/validate-openapi.cjs
+
+openapi.json: OpenAPI 3.1.1, 17 rutas válidas, referencias resueltas.
+telemetry/v1/openapi.json: OpenAPI 3.1.1, 9 rutas válidas, referencias resueltas.
+dashboard/v1/openapi.json: OpenAPI 3.1.1, 3 rutas válidas, referencias resueltas.

@@ -25,9 +25,9 @@ Mapa de referencia para que el equipo y sus agentes implementen el mismo product
 
 Estas carpetas organizan la lectura solicitada. Los requisitos, reglas y contratos mantienen sus fuentes canónicas enlazadas desde cada README; la misma definición no se vuelve a editar en ocho lugares.
 
-## Entregables interactivos en vivo (GitHub Pages)
+## Entregables interactivos y publicación
 
-[Galería visual de Quantify Core](https://angeljesus13.github.io/Quantify-Core/docs/GUI/) · [Documentación completa de diseño](GUI/README.md). Cuatro lienzos de identidad y prototipos en tres fidelidades, con la familia Inter unificada.
+[Galería visual local de Quantify Core](GUI/index.html) · [Documentación completa de diseño](GUI/README.md). Cuatro lienzos de identidad y prototipos en tres fidelidades, con la familia Inter unificada. La galería pública histórica devolvió HTTP 404 el 09/11/2026; servir la copia local y verificar las rutas de publicación antes de presentar enlaces como disponibles. Los accesos siguientes conservan las referencias históricas de las prácticas, no una certificación de publicación vigente.
 
 - [Portal principal](https://angeljesus13.github.io/Quantify-Core/)
 - [Práctica 04 — Business Model Canvas Interactivo](https://angeljesus13.github.io/Quantify-Core/docs/Practica04/business-model-canvas.html)
@@ -102,6 +102,8 @@ Un documento aceptado define una decisión; no demuestra por sí mismo que la im
 </details>
 
 ## Referencias académicas
+
+El [índice de los 14 entregables](entregables-academicos.md) enlaza las fuentes existentes y los documentos de gestión, pruebas y cierre. Distingue propuestas, resultados ejecutados y aprobaciones pendientes; no sustituye los requisitos, diseños ni ADR canónicos.
 
 - [Práctica 04 — Business Model Canvas](Practica04/README.md).
 - [Práctica 05 — Roles y funcionalidades](Practica05/README.md).

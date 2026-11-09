@@ -1,0 +1,29 @@
+✔ Los 24 sketches se renderizan y todas sus transiciones tienen destino del mismo rol (40.9372ms)
+✔ Avance parcial se limita a la meta; no genera dos cumplimientos (5.779ms)
+✔ Completar y deshacer actualizan el mismo registro (4.4807ms)
+✔ No se aceptan nombres duplicados con acentos y mayúsculas diferentes (4.3949ms)
+✔ No se crea un hábito sin frecuencia y cancelar IA no lo acepta (6.2191ms)
+✔ Editar meta y frecuencia conserva la evaluación histórica (10.9227ms)
+✔ Archivar conserva registros, desactiva avisos y bloquea nuevo avance (5.4066ms)
+✔ Racha ignora días no programados (4.4997ms)
+✔ Consentimiento, historial, umbral y máximo filtran IA (4.2393ms)
+✔ Descartar oculta 21 días y una plantilla pausada no afecta hábitos existentes (6.2376ms)
+✔ Aceptar IA crea un solo hábito tras guardar y elimina el duplicado de sugerencias (4.0025ms)
+✔ Recordatorios no admiten días ajenos a la frecuencia del hábito (4.4085ms)
+✔ Administración requiere motivo, protege su cuenta y audita cambios (5.5607ms)
+✔ La edición de plantillas actualiza futuras propuestas y preserva hábitos personales (4.546ms)
+✔ Contraseñas de prueba nunca se escriben en localStorage (3.7927ms)
+✔ Un acceso administrativo inválido permanece en el formulario (4.2549ms)
+✔ Una cuenta nueva solo inicia sesión después de verificar el código (6.6132ms)
+✔ Recuperar una cuenta pendiente no permite saltar la verificación de registro (4.4421ms)
+✔ El código de registro requiere una cuenta y la cuenta demo conserva su recuperación (5.075ms)
+✔ Los avisos reflejan horario, días, desactivación y archivo de hábitos (6.8888ms)
+✔ Los avisos escapan nombres y conservan el estado leído mientras no cambia el horario (5.2675ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 332.5293

@@ -1,0 +1,19 @@
+✔ Resuelve documentos anidados, punteros escapados, arrays y ciclos (13.2704ms)
+✔ Rechaza archivo ausente sin dar una validación positiva (4.7778ms)
+✔ Rechaza puntero ausente sin dar una validación positiva (6.6121ms)
+✔ Rechaza propiedad heredada sin dar una validación positiva (5.4263ms)
+✔ Rechaza escape inválido sin dar una validación positiva (6.57ms)
+✔ Rechaza referencia remota sin dar una validación positiva (6.2528ms)
+✔ Rechaza archivo absoluto sin dar una validación positiva (5.4914ms)
+✔ Rechaza query ambigua sin dar una validación positiva (4.2905ms)
+✔ Rechaza ancla no soportada sin dar una validación positiva (4.8354ms)
+✔ No lee un archivo existente fuera del directorio de contratos (6.7779ms)
+✔ Detecta JSON inválido en un documento referenciado (6.1949ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 188.9393
