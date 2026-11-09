@@ -1,10 +1,10 @@
-# Presupuesto preliminar del proyecto
+# Estimación de recursos y costos · Quantify Core V2
 
 **Estado:** modelo de estimación para revisión, 09/11/2026. **Total aprobado:** no determinado. **Gasto real comprobado:** no disponible en las fuentes revisadas. Ninguna celda pendiente equivale a cero ni autoriza contratación.
 
 ## Alcance y bases
 
-El presupuesto corresponde a la entrega académica de la [EDT](edt.md), separando inversión inicial, trabajo del equipo y operación mensual. La moneda de consolidación propuesta es MXN; cualquier costo en otra moneda necesita tipo de cambio, fecha y fuente antes de sumarse.
+La estimación corresponde a los paquetes de la [EDT](edt.md), separando inversión inicial, trabajo del equipo y operación mensual. La ruta `presupuesto.md` se conserva para mantener referencias; el documento no constituye un presupuesto comercial aprobado. La moneda de consolidación propuesta es MXN; cualquier costo en otra moneda necesita tipo de cambio, fecha y fuente antes de sumarse.
 
 El [Canvas de la Práctica 04](../Practica04/README.md#estructura-de-costos-con-datos-de-mercado) conserva referencias de mercado fechadas el 21/10/2026 y un escenario comercial. No son cotizaciones, gasto ejecutado ni presupuesto aprobado de esta entrega. No se reutilizan sus salarios, precios de suscripción, proveedores o punto de equilibrio como si fueran compromisos del equipo. Esta revisión no actualiza ni certifica esas tarifas.
 
@@ -28,7 +28,7 @@ El [Canvas de la Práctica 04](../Practica04/README.md#estructura-de-costos-con-
 ## Método de cálculo y estimación
 
 1. Estimar únicamente hojas de la EDT, indicando supuestos, rango y dependencia. Para incertidumbre se propone usar tres estimaciones de horas: optimista O, probable M y pesimista P, con `H = (O + 4M + P) / 6`. El método es una propuesta, no una medición de productividad.
-2. Valorar esfuerzo por función: `trabajo = suma(H_i × tarifa_i)`. Conservar esfuerzo académico aunque se aporte en especie; separar su valoración económica del desembolso.
+2. Valorar esfuerzo por función: `trabajo = suma(H_i × tarifa_i)`. Conservar el esfuerzo del equipo aunque se aporte en especie; separar su valoración económica del desembolso.
 3. Para cada servicio: `operación mensual = cantidad × tarifa unitaria + almacenamiento + transferencia + extras aplicables`. Registrar fecha, moneda, impuestos, límite gratuito y costo al excederlo.
 4. Calcular `inversión inicial + meses acordados × operación mensual + contingencia aprobada`. No sumar periodos o monedas incompatibles ni extrapolar automáticamente esta demo a un negocio comercial.
 5. Registrar gasto real con comprobante y diferencia contra estimación; no existe evidencia para completar ese registro hoy.

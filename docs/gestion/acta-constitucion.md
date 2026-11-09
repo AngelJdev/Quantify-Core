@@ -19,7 +19,7 @@ El problema es que un conteo manual de rachas no explica por sí solo la consist
 
 | Objetivo | Comprobación necesaria | Trazabilidad |
 |---|---|---|
-| Entregar documentación académica coherente y verificable | Cada uno de los 14 entregables tiene fuente, estado, responsable de revisión y evidencia; borradores señalados | [Índice de entregables](../entregables-academicos.md), QUANCORE-13 |
+| Mantener documentación del proyecto coherente y verificable | Las 14 fuentes solicitadas se integran por área con estado, revisión y evidencia; borradores señalados | [Documentación por área](../README.md#documentación-por-área), QUANCORE-13 |
 | Verificar un primer recorrido de identidad a métricas | Dos cuentas sintéticas: acceso, hábito, check-in absoluto, reintento, conflicto e historial; API integrada y datos confirmados | RF-01..05, HU-01..05, CA-01..11, QUANCORE-19/23/24/25/27/30/38 |
 | Mantener aislamiento e historia | Rechazar acceso cruzado incluso de administrador; conservar revisiones al pausar/archivar | RN-P01/03/04/14/15, RNF-01/02/03 |
 | Presentar una demostración con límites explícitos | Identificar qué está conectado, qué usa fixtures y qué se difiere; aprobación de cierre registrada | QUANCORE-39/40, [acta de cierre](acta-cierre.md) |

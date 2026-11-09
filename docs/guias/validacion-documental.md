@@ -22,7 +22,7 @@ Las pruebas del prototipo ejecutan sus 21 escenarios con datos ficticios en memo
 
 Actualicé `scripts/check-docs.mjs` para resolver referencias JSON relativas entre archivos de `packages/contracts`, incluidas telemetría y dashboard de OpenAPI `0.4.0-draft`. El verificador anterior rechazaba doce referencias locales como externas; conservé la prohibición de resolver URLs remotas. La comprobación recorre los documentos referenciados, detecta ciclos sin bloquearse y rechaza destinos ausentes, punteros inválidos o archivos fuera de contratos. No sustituye la validación completa OpenAPI del módulo sintético.
 
-Regresión ejecutable: `node --test scripts/tests/check-json-refs.test.mjs`. El [informe académico de ejecución](../../tests/informe-ejecucion-2026-11-09.md) reúne el SHA evaluado, comandos, resultados y límites de esta entrega; las filas siguientes conservan la revisión histórica del 19 de octubre.
+Regresión ejecutable: `node --test scripts/tests/check-json-refs.test.mjs`. El [informe de ejecución](../../tests/informe-ejecucion-2026-11-09.md) reúne el SHA evaluado, comandos, resultados y límites de esta revisión; las filas siguientes conservan la revisión histórica del 19 de octubre.
 
 | Control | Resultado |
 |---|---|

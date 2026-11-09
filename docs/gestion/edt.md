@@ -8,7 +8,7 @@
 |---|---|---|---|
 | 1 | Dirección y documentación | Integrar los paquetes 1.1–1.3 con revisión registrada; no duplicar requisitos o diseños | [QUANCORE-1](https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-1) |
 | 1.1 | Definición del producto | Requisitos RF/RNF, RN-P y alcance trazables; criterios revisables | QUANCORE-11/12; [requerimientos](../requerimientos/README.md) |
-| 1.2 | Gestión académica | Charter, presupuesto, RACI y esta EDT propuestos; campos de aprobación identificados | QUANCORE-13; [entregables](../entregables-academicos.md) |
+| 1.2 | Planificación y gobierno | Charter, estimación de recursos, RACI y esta EDT propuestos; campos de aprobación identificados | QUANCORE-13; [documentación del proyecto](../README.md#planificación-y-gestión) |
 | 1.3 | Entrega documental y cierre | Índices, evidencias y acta de cierre con pendientes; cierre efectivo solo después de la demo | QUANCORE-13/40; [acta de cierre](acta-cierre.md) |
 | 2 | Arquitectura y plataforma | Contratos y decisiones permiten integrar servicios sin cambiar la base por material histórico | [QUANCORE-2](https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-2) |
 | 2.1 | Repositorio y contratos | Git Flow, entornos y OpenAPI canónico compatibles con consumidores | QUANCORE-14/41/43; [contratos](../../packages/contracts/README.md) |
@@ -45,6 +45,6 @@ Diseño, documentación y pruebas aisladas pueden avanzar antes de completar esa
 
 ## Línea base y control
 
-Esta EDT parte de `origin/develop` en `0272ed8`. La consolidación frontend y ADR-0005/0006 están en `feature/QUANCORE-42-consolidacion-frontend`, fuera de esta rama documental. No se incluyen mediante copia o merge. Los estados actuales se consultan en Jira y se contrastan con Git; el índice académico señala dónde la evidencia todavía es parcial.
+Esta EDT parte de `origin/develop` en `0272ed8`. La consolidación frontend y ADR-0005/0006 están en `feature/QUANCORE-42-consolidacion-frontend`, fuera de esta rama documental. No se incluyen mediante copia o merge. Los estados actuales se consultan en Jira y se contrastan con Git; el índice de documentación del proyecto señala dónde la evidencia todavía es parcial.
 
 Cambiar un paquete exige actualizar alcance, criterio de salida, dependencia, RACI y presupuesto cuando afecte costo/plazo. Los vencimientos se mantienen en Jira; no se inventa un segundo cronograma ni porcentajes de avance a partir de commits.

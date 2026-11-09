@@ -1,10 +1,10 @@
-# Acta de cierre · Borrador
+# Registro preliminar de cierre y liberación
 
 **Estado:** BORRADOR SIN APROBACIÓN. **Fecha de preparación:** 09/11/2026. **Fecha de cierre efectivo:** pendiente. Este documento no declara finalizado Quantify Core V2 ni certifica una entrega productiva.
 
 ## Objeto y alcance de la revisión final
 
-La revisión de cierre deberá contrastar el [acta de constitución](acta-constitucion.md), la [EDT](edt.md), los [14 entregables](../entregables-academicos.md), el presupuesto y la evidencia de pruebas. La demostración académica figura en [QUANCORE-40](https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-40), con vencimiento 13/11/2026; esa fecha no acredita que se haya realizado.
+La revisión de cierre deberá contrastar el [acta de constitución](acta-constitucion.md), la [EDT](edt.md), la [documentación del proyecto](../README.md#documentación-por-área), la estimación de recursos y la evidencia de pruebas. Se conserva la ruta `acta-cierre.md` para sus referencias existentes. La demostración académica figura en [QUANCORE-40](https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-40), con vencimiento 13/11/2026; esa fecha no acredita que se haya realizado.
 
 ## Condiciones para firmar
 
@@ -15,7 +15,7 @@ La revisión de cierre deberá contrastar el [acta de constitución](acta-consti
 | Pruebas del alcance integrado | Informe con aprobadas/fallidas/bloqueadas, incidencias y limitaciones | Hay resultados aislados; [informe vigente](../../tests/informe-ejecucion-2026-11-09.md), sin cierre integrado |
 | Incidencias críticas resueltas o aceptadas | Registro de severidad, responsable, verificación y aceptación de riesgo | QUANCORE-39 sigue En curso |
 | Contratos y arquitectura revisados | ADR con aprobación trazable y consumidores compatibles | Decisiones QUANCORE-43 abiertas; no aceptar ADR mediante esta acta |
-| Costos y recursos conciliados | Presupuesto aprobado, gasto comprobado y recursos por conservar/cancelar | [Presupuesto](presupuesto.md) preliminar; sin total ni gasto confirmado |
+| Costos y recursos conciliados | Estimación aprobada, gasto comprobado o declaración de ausencia de desembolsos revisada, recursos por conservar/cancelar | [Estimación](presupuesto.md) preliminar; sin total ni gasto confirmado |
 | Transferencia del proyecto | Repositorio/tag de entrega autorizado, instrucciones, responsables y recuperación | Baseline documental existente; release de producto pendiente |
 | Datos protegidos | Tratamiento de fixtures, retención, respaldos y ausencia de secretos en entrega | Políticas de datos reales pendientes; no borrar volúmenes para simular cierre |
 
