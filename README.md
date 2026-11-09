@@ -100,6 +100,7 @@ Los diagramas y secciones desplegables de los README ayudan a recorrer estas gu�
 
 ## Contenido
 
+- [Accesos por fase del proyecto (Padlet)](#accesos-por-fase-del-proyecto)
 - [Documentación para desarrollar](#documentación-para-desarrollar)
 - [Descripción](#descripción)
 - [Planteamiento del problema](#planteamiento-del-problema)
