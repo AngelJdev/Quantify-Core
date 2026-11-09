@@ -17,6 +17,7 @@ flowchart LR
 
 | Documento | Uso |
 |---|---|
+| [Eventos MongoDB QUANCORE-22](eventos-mongodb.md) | Proyección, auditoría, consulta y evidencia; revisión QUANCORE-43 pendiente. |
 | [Telemetría sintética QUANCORE-35](telemetria-simulada.md) | Contrato, simulador ejecutable, pruebas y dependencias pendientes. |
 | [Modelo de datos](modelo-datos.md) | Entidades, propiedad, fechas, versiones e integridad. |
 | [Calidad y ciclo de vida](calidad-ciclo-vida.md) | Procedencia, validación, consentimiento, retención, exportación y eliminación. |
