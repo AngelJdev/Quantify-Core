@@ -1,6 +1,6 @@
 # Aplicaciones cliente
 
-**Estado: especificación para desarrollo; estas carpetas todavía no contienen aplicaciones ejecutables.** Los clientes presentan datos y capturan acciones; la API valida permisos, reglas y persistencia. La base tecnológica está en el [README general](../README.md).
+**Estado:** la [web](web/README.md) contiene una base React ejecutable con fixtures en memoria; móvil y wearable siguen como especificaciones. La web todavía no integra identidad, API, persistencia ni capacidades PWA. Los clientes presentan datos y capturan acciones; la API validará permisos, reglas y persistencia. La base tecnológica está en el [README general](../README.md).
 
 | Cliente | Stack previsto | Responsabilidad | Guía |
 |---|---|---|---|

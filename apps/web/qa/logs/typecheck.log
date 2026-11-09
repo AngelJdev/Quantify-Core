@@ -1,0 +1,8 @@
+> @quantify-core/web@0.2.0-consolidation typecheck
+> npm run contracts:check && tsc -b --pretty false
+
+
+> @quantify-core/web@0.2.0-consolidation contracts:check
+> node scripts/generate-contracts.mjs --check
+
+Canonical contract types match.

@@ -1,0 +1,981 @@
+{
+  "observations": [
+    {
+      "route": "/",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/auth",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/auth/callback",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/sesion/pendiente",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/sesion/sin-sesion",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/sesion/vencida",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/sesion/error",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/hoy",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/habitos",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/nuevo",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/detalle/22222222-2222-4222-8222-222222222222",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/editar/22222222-2222-4222-8222-222222222222",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/check-ins/22222222-2222-4222-8222-222222222222",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/historial",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/analisis",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/sugerencias",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/avisos",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/ajustes",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/ajustes?seccion=Apariencia",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/ajustes?seccion=Privacidad",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/ajustes?seccion=Dispositivos",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/detalle/no-existe",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/ruta-no-existe",
+      "width": 320,
+      "theme": "light",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/auth",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/auth/callback",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/sesion/pendiente",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/sesion/sin-sesion",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/sesion/vencida",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/sesion/error",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/hoy",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/habitos",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/nuevo",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/detalle/22222222-2222-4222-8222-222222222222",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/editar/22222222-2222-4222-8222-222222222222",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/check-ins/22222222-2222-4222-8222-222222222222",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/historial",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/analisis",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/sugerencias",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/avisos",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/ajustes",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/ajustes?seccion=Apariencia",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/ajustes?seccion=Privacidad",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/ajustes?seccion=Dispositivos",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/detalle/no-existe",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/ruta-no-existe",
+      "width": 320,
+      "theme": "dark",
+      "viewport": 320,
+      "content": 320
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/auth",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/auth/callback",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/sesion/pendiente",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/sesion/sin-sesion",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/sesion/vencida",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/sesion/error",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/hoy",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/habitos",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/nuevo",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/detalle/22222222-2222-4222-8222-222222222222",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/editar/22222222-2222-4222-8222-222222222222",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/check-ins/22222222-2222-4222-8222-222222222222",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/historial",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/analisis",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/sugerencias",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/avisos",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/ajustes",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/ajustes?seccion=Apariencia",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/ajustes?seccion=Privacidad",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/ajustes?seccion=Dispositivos",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/detalle/no-existe",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/ruta-no-existe",
+      "width": 390,
+      "theme": "light",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/auth",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/auth/callback",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/sesion/pendiente",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/sesion/sin-sesion",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/sesion/vencida",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/sesion/error",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/hoy",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/habitos",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/nuevo",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/detalle/22222222-2222-4222-8222-222222222222",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/editar/22222222-2222-4222-8222-222222222222",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/check-ins/22222222-2222-4222-8222-222222222222",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/historial",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/analisis",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/sugerencias",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/avisos",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/ajustes",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/ajustes?seccion=Apariencia",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/ajustes?seccion=Privacidad",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/ajustes?seccion=Dispositivos",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/detalle/no-existe",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/ruta-no-existe",
+      "width": 390,
+      "theme": "dark",
+      "viewport": 390,
+      "content": 390
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/auth",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/auth/callback",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/sesion/pendiente",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/sesion/sin-sesion",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/sesion/vencida",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/sesion/error",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/hoy",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/habitos",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/nuevo",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/detalle/22222222-2222-4222-8222-222222222222",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/editar/22222222-2222-4222-8222-222222222222",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/check-ins/22222222-2222-4222-8222-222222222222",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/historial",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/analisis",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/sugerencias",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/avisos",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/ajustes",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/ajustes?seccion=Apariencia",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/ajustes?seccion=Privacidad",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/ajustes?seccion=Dispositivos",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/detalle/no-existe",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/ruta-no-existe",
+      "width": 1440,
+      "theme": "light",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/auth",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/auth/callback",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/sesion/pendiente",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/sesion/sin-sesion",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/sesion/vencida",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/sesion/error",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/hoy",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/habitos",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/nuevo",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/detalle/22222222-2222-4222-8222-222222222222",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/editar/22222222-2222-4222-8222-222222222222",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/check-ins/22222222-2222-4222-8222-222222222222",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/historial",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/analisis",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/sugerencias",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/avisos",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/ajustes",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/ajustes?seccion=Apariencia",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/ajustes?seccion=Privacidad",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/ajustes?seccion=Dispositivos",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/detalle/no-existe",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    },
+    {
+      "route": "/ruta-no-existe",
+      "width": 1440,
+      "theme": "dark",
+      "viewport": 1440,
+      "content": 1440
+    }
+  ],
+  "fonts": [
+    {
+      "familyName": "Inter Variable",
+      "postScriptName": "InterVariable-Display-Bold",
+      "isCustomFont": true,
+      "glyphCount": 21
+    }
+  ],
+  "errors": [],
+  "apiOrOidcRequests": [],
+  "serviceWorkers": 0
+}

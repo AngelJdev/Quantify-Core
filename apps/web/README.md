@@ -1,103 +1,90 @@
-# Aplicación web y PWA
+# Frontend de Quantify Core V2
 
-**Estado: especificación, sin proyecto React generado.** Stack base: **React + TypeScript + Vite**, consumo REST/JSON y capacidades PWA progresivas. No hay `package.json`, scripts, manifiesto ni service worker de producto en esta carpeta.
+**Estado: base React ejecutable, modular y desconectada, con fixtures explícitos.** No autentica, persiste, sincroniza ni calcula métricas oficiales. Los datos se conservan entre rutas durante la visita y se restablecen al recargar. Las capacidades de PWA quedan como [referencia pendiente de activación](docs/pwa-referencia.md).
 
-## Alcance y organización
+## Ejecutar y verificar
 
-La web ofrecerá identidad, perfil y consentimiento, hábitos y check-ins, rachas y análisis, recordatorios, recomendaciones, gestión de dispositivos y solicitudes sobre datos propios (RF-01 a RF-08 y RF-10). Las rutas administrativas cubrirán RF-09 con permisos de API y datos agregados.
+Node.js 24.x (validado con 24.14.1) y npm 11.x (validado con 11.11.0). Desde `apps/web`:
 
-Estructura orientativa para el primer scaffold; **no son archivos existentes**:
+```powershell
+npm ci
+npm run dev
+npm run typecheck
+npm run lint
+npm test
+npm run build
+npm run test:e2e
+```
+
+`test:e2e` inicia automáticamente un preview en `127.0.0.1:4180`, usa Google Chrome instalado y lo cierra al terminar. Requiere un build previo; `QC_CHROME` permite indicar otra ruta del ejecutable. Para inspección manual: `npm run preview -- --host 127.0.0.1`. No se necesita `.env` ni hay credenciales predeterminadas.
+
+Versiones fijadas: React/DOM 19.3.1, React Router DOM 7.18.5, Vite 8.3.6, TypeScript 5.9.3, Vitest 5.1.0 y ESLint 9.39.5. Un único `package.json`, `package-lock.json`, entrypoint `src/app/main.tsx` y BrowserRouter. [Decisión, alternativas, excepción de seguridad y límites](../../docs/arquitectura/adr/0002-consolidacion-frontend.md).
+
+## Estructura implementada
 
 ```text
 src/
-  app/                  # Arranque, composición, navegación y sesión
-  features/             # identity, habits, check-ins, analytics, etc.
-    <feature>/
-      ui/               # Páginas y componentes de esa función
-      application/      # Acciones, estados y coordinación
-      data/             # Adaptador al contrato y modelos de presentación
+  app/                    # Composición, router, providers y layout responsive
+  features/
+    habits/               # Modelo de presentación, formulario, lista, detalle
+    checkins/             # Edición de valor absoluto de ejemplo
+    dashboard/            # Rutina y resumen ilustrativo
+    history/ analytics/   # Historial local y métricas de muestra
+    identity/ profile/    # Entrada de acceso, estados de sesión y preferencias
+    notices/ suggestions/ # Avisos y vacíos de referencia
   shared/
-    ui/                 # Componentes visuales reutilizables
-    api/                # Transporte, errores y correlación
-    config/             # Lectura y validación de configuración pública
-    offline/            # Cola y almacenamiento, cuando se aprueben
-  assets/               # Recursos de producto autorizados
-tests/                  # Integración y recorridos completos
+    api/                  # Tipos derivados de OpenAPI e interfaces sin adaptador
+    fixtures/             # Datos sintéticos, fecha, métricas y perfil de ejemplo
+    ui/                   # Brand, Icon y estados reutilizados
+tests/                    # Reducer, formularios, navegación y Chrome/axe
+scripts/                  # Generación/check de tipos canónicos
+qa/                       # Resultados y capturas verificadas
 ```
 
-La UI puede depender de la capa de aplicación y esta de interfaces de datos. Centralizar la autenticación y el transporte; no conectar componentes directamente a bases de datos o al servicio de IA. No copiar el `app.js` de la demo como arquitectura React.
+El contexto de demostración en `app/DemoProvider.tsx` centraliza hábitos, avances, preferencias y perfil. Las features no instancian copias independientes del estado. `features/habits/data/model.ts` adapta `Habit` canónico a un `HabitView` con alias de presentación como `target`; no se envía ese alias a una API. Los tipos de `shared/api/schema.ts` son derivados de `packages/contracts/openapi.json`; `npm run contracts:generate` los regenera y `contracts:check` detecta divergencia, sin modificar el contrato original. No es validación de respuestas en tiempo de ejecución.
 
-```mermaid
-flowchart TB
-  VIEW[Página / componente] --> ACTION[Acción y estado de interfaz]
-  ACTION --> REPO[Adaptador del contrato]
-  REPO --> HTTP[Transporte autenticado]
-  HTTP --> API[API NestJS]
-  ACTION --> QUEUE[Cola local aprobada]
-  QUEUE --> HTTP
-  API --> RESULT[Resultado o error normalizado]
-  RESULT --> ACTION
-```
+## Pantallas y navegación
 
-## Configuración y arranque
-
-Antes del primer código fijar versiones compatibles de Node.js, React, TypeScript y Vite, gestor de paquetes y un único lockfile de acuerdo con [configuración compartida](../../packages/config/README.md). No instalar automáticamente la última versión ni introducir SSR o un framework diferente sin ADR.
-
-Propuesta de nombres públicos que el scaffold deberá confirmar:
-
-| Variable propuesta | Contenido | Validación |
-|---|---|---|
-| `VITE_API_BASE_URL` | URL de API con prefijo `/api/v1` | HTTPS fuera de desarrollo; evitar duplicar el prefijo |
-| `VITE_OIDC_ISSUER` | Emisor del realm de Keycloak | Coincidir con el emisor registrado |
-| `VITE_OIDC_CLIENT_ID` | Identificador público de cliente web | Distinto por ambiente |
-| `VITE_OIDC_REDIRECT_URI` | Retorno OIDC registrado | Coincidencia exacta; sin comodines amplios |
-
-Estas variables **todavía no son consumidas**. Una configuración BFF puede modificar las necesarias. Publicar un ejemplo sin secretos y fallar con mensaje explícito ante configuración faltante. Vite expone al bundle las variables `VITE_*`; no deben contener secretos. [Documentación de variables de Vite](https://vite.dev/guide/env-and-mode).
-
-La primera entrega deberá documentar instalación reproducible, desarrollo, compilación, comprobación de tipos, lint y pruebas con los scripts realmente creados. Hasta entonces no existe un comando de arranque de producto. El [prototipo académico](../../docs/practica-07/README.md) sí tiene instrucciones propias.
-
-## Identidad y permisos
-
-- Usar Keycloak con Authorization Code y PKCE S256, verificando `state` y `nonce` con una integración mantenida. El servidor valida emisor, audiencia, firma, expiración y autorización.
-- Resolver por ADR la topología **SPA con cliente público** o **BFF con cookies** antes de implementar la sesión. La base Vite no obliga a una u otra.
-- Si se elige SPA, mantener tokens en memoria y no persistirlos en `localStorage`, `sessionStorage` o IndexedDB; renovar mediante el adaptador elegido. Keycloak documenta que sus tokens del adaptador JavaScript se mantienen en memoria. [Adaptador oficial](https://www.keycloak.org/securing-apps/javascript-adapter).
-- Si se elige BFF, definir cookies `HttpOnly`, `Secure`, `SameSite`, protección CSRF y alcance de dominios en el ADR. Los tokens permanecen del lado del servidor.
-- Esperar a resolver la sesión antes de cargar datos privados. Guardar solo retornos internos permitidos para evitar redirecciones abiertas.
-- Centralizar una renovación en curso y limitar el reintento tras 401. Si falla, pedir acceso de nuevo, pausar la cola y proteger el borrador; 403 muestra permiso insuficiente sin bucles de login.
-- Cerrar sesión elimina datos privados y caches de esa cuenta. Si hay comandos pendientes, explicar que se descartarán y permitir cancelar el cierre antes de ejecutarlo.
-
-## PWA y desconexión
-
-El manifiesto, iconos, instalación y service worker se incorporan como capacidades verificadas. El navegador puede no permitir instalación o ejecución en segundo plano; la app debe seguir funcionando en línea. Los service workers tienen un ciclo de vida propio y no garantizan ejecución continua. [Guía de service workers](https://web.dev/learn/pwa/service-workers).
-
-| Recurso | Política prevista |
+| Ruta | Alcance disponible |
 |---|---|
-| JS, CSS, fuentes y recursos estáticos versionados | Cache por versión con limpieza de versiones antiguas |
-| Navegación | Pantalla de desconexión útil cuando no exista contenido local |
-| Identidad y respuestas OIDC | Fuera de la cache del service worker |
-| Respuestas de API y datos personales | Sin cache genérica; persistencia explícita, minimizada y por cuenta tras aprobar su política |
-| Escrituras | Cola explícita de comandos, nunca cachear un POST como si estuviera confirmado |
-| Actualización de versión | Avisar y activar sin perder formularios ni operaciones pendientes |
+| `/` | Bienvenida y entrada explícita a la demostración |
+| `/hoy` | Dashboard, agenda y métricas de fixtures |
+| `/habitos` | Búsqueda, filtros activo/pausado/archivado y vacío |
+| `/nuevo` | Formulario validado con días, meta, unidad, momento e intención; preview modal |
+| `/detalle/:habitId` | Detalle, pausa/reanudación y confirmación de archivo local |
+| `/editar/:habitId` | Conserva programación e intención al navegar y editar |
+| `/check-ins/:habitId?` | Valor acumulado absoluto en memoria; no reintentos ni idempotencia de servidor |
+| `/historial` | Una vista local por hábito/fecha, filtro y conservación tras archivo |
+| `/analisis` | Semana/Mes y tabla accesible de valores ilustrativos |
+| `/sugerencias`, `/avisos` | Vacío explicado y avisos de ejemplo marcables como leídos |
+| `/ajustes` | Perfil, apariencia, privacidad y vacío de dispositivos |
+| `/auth` | Entrada de identidad con accesos al proveedor aún deshabilitados |
+| `/auth/callback` | Ruta HTTP reservada; no procesa códigos ni tokens |
+| `/sesion/pendiente`, `/sesion/sin-sesion`, `/sesion/vencida`, `/sesion/error` | Estados de interfaz, sin afirmar una sesión real |
+| Otras rutas o hábito inexistente | Mensaje seguro con retorno útil |
 
-La primera iteración puede requerir conexión para escribir. No ofrecer escritura offline hasta que existan almacenamiento, aislamiento por usuario, migración de cola y pruebas. Si se habilita, los check-ins mantienen valor absoluto, fecha de negocio, zona, versión y clave idempotente. Una respuesta perdida se reintenta con la misma clave. Un conflicto requiere resolverlo con el estado del servidor, sin sumar avances ni sobrescribir automáticamente el otro dispositivo.
+El hosting deberá servir `index.html` para rutas de aplicación, incluidos los enlaces profundos y `/auth/callback`; no se ha configurado ni publicado un hosting. No registrar un redirect URI con fragmento. Las seis vistas de autenticación de [GUI](../../docs/GUI/prototipos/movil/autenticacion/README.md) son referencia del proveedor: login, registro, verificar correo, recuperar, nueva contraseña y confirmación. No se añadieron formularios de contraseña en React.
 
-Mostrar la última sincronización y distinguir datos locales pendientes de métricas confirmadas. La sesión vencida pausa la sincronización; cambiar de usuario nunca transfiere la cola. No depender de Background Sync: incluir reanudación al recuperar conexión y reintento visible.
+## Diseño, fixtures y límites
 
-## Estados, accesibilidad y errores
+Se recuperaron selectivamente Brand, Icon, layout, navegación, fuente Inter, estilos, formulario/preview, búsqueda, vacíos y elementos de hábitos/métricas del prototipo. Se usa la organización `app/features/shared` del scaffold; no se copiaron sus hooks de falsa sesión/idempotencia ni los dos `App.tsx`. La paleta y los tokens canónicos permanecen en `packages/design-tokens/`.
 
-Aplicar el [catálogo de componentes y estados](../../docs/diseno/sistema-diseno.md). Cada página debe cubrir carga, contenido, vacío, error recuperable, permiso insuficiente, sesión vencida y contenido desactualizado. Un error de formulario se asocia al campo; un error global incluye acción útil y código de correlación cuando exista, sin stack trace.
+Inter se importa desde la fuente canónica, sin otro `.woff2` mantenido en `public`. El build incluye su licencia SIL OFL en `dist/inter-license.txt`. La fotografía y las marcas reutilizan los recursos existentes. No se añaden descargas de Google Fonts.
 
-Usar HTML semántico, navegación por teclado, foco visible, anuncios de estado moderados, títulos de página y alternativa textual para gráficas. Validar zoom, reducción de movimiento, contraste y lectores de pantalla. Los permisos de notificaciones se piden al activar un recordatorio y su rechazo no impide usar hábitos.
+Las métricas son fixtures independientes de los avances locales. Los check-ins solo reemplazan la presentación en memoria: no prometen idempotencia, auditoría, revisiones históricas o confirmación del servidor. Pausar/archivar conserva el historial de la visita; la aplicación no restaura hábitos archivados. Cambiar la zona del perfil no reclasifica hábitos ni fechas anteriores. La fecha de edición de fixtures es fija y está rotulada como ejemplo.
 
-## Verificación de la primera entrega
+El registro PWA está desactivado: no hay cache de datos privados, cola offline, persistencia del perfil ni tokens en almacenamiento del navegador. Sin conexión solo puede seguir utilizándose el documento que ya esté abierto, sin guardar o sincronizar. Cerrar/recargar puede perder todos los fixtures editados.
 
-- Compilar y comprobar tipos con las versiones fijadas; el equipo decidirá la herramienta de pruebas antes de añadir dependencias.
-- Probar acceso/retorno/cierre, sesión vencida, 401/403, usuario distinto y rutas administrativas.
-- Probar crear, editar y archivar hábito; doble clic y respuesta perdida del check-in; fecha y zona alrededor de medianoche.
-- Probar teclado y lector de pantalla en formularios, diálogos y errores; gráficas con resumen y tabla.
-- Si incluye PWA: primer acceso sin service worker, actualización, cache antigua, conexión intermitente, almacenamiento lleno o no disponible y limpieza al cerrar sesión.
-- Verificar que el bundle no contiene secretos y que logs/analítica no capturan tokens, formularios ni nombres privados de hábitos.
+[Evidencia de validación, incidencias corregidas y pendientes](qa/README.md). La revisión automatizada de accesibilidad no equivale a conformidad WCAG global ni sustituye lectores de pantalla. La integración real con Keycloak (D-02), API, PostgreSQL, políticas offline y métricas sigue pendiente.
 
-Pendientes: biblioteca de navegación, estado, componentes y pruebas; topología de sesión; política y motor de almacenamiento; matriz de navegadores; metas de rendimiento y soporte offline. Registrar su cierre en [decisiones](../../docs/arquitectura/decisiones-pendientes.md).
 
-[Volver a aplicaciones](../README.md) · [Contratos](../../packages/contracts/README.md) · [Recorridos](../../docs/diseno/recorridos.md)
+## Próximas integraciones
+
+- Resolver la topología SPA pública con PKCE o BFF en D-02 antes de implementar una sesión. Keycloak será el único proveedor de credenciales; la API verificará propiedad y permisos. No guardar tokens en localStorage, sessionStorage o IndexedDB.
+- Conectar las interfaces de `shared/api/ports.ts` mediante adaptadores al contrato canónico y normalizar `Problem`, 401/403, expiración y renovación única. No añadir endpoints alternativos de login ni duplicar DTO.
+- Mantener fecha de negocio y zona del hábito, valor absoluto, claves estables por intención, revisión conocida y conflictos. La API confirma persistencia y métricas; el cliente no añade dos veces un reintento.
+- Conservar historia al pausar/archivar y definir versiones efectivas de programación/meta. Validar dos cuentas, medianoche, respuesta perdida y cambios concurrentes antes del piloto.
+- Resolver D-03/D-04 y políticas de consentimiento/retención. El navegador nunca se conecta directamente a PostgreSQL ni al servicio de analítica.
+- Aprobar el diseño de almacenamiento y actualización antes de activar la referencia PWA. No cachear OIDC ni respuestas personales mediante reglas genéricas; separar datos por cuenta y resolver pendientes antes de cerrar sesión.
+
+[Aplicaciones](../README.md) · [Contratos](../../packages/contracts/README.md) · [Recorridos](../../docs/diseno/recorridos.md) · [Decisiones pendientes](../../docs/arquitectura/decisiones-pendientes.md)

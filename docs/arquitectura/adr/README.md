@@ -5,6 +5,7 @@ Un ADR conserva el motivo de una decisión que afecta arquitectura, datos, segur
 | ADR | Asunto | Estado |
 |---|---|---|
 | [0001](0001-limites-y-propiedad-de-datos.md) | Límites de componentes y propiedad de datos | Propuesto |
+| [0002](0002-consolidacion-frontend.md) | Base única, versiones, router y fixtures del frontend | Propuesto; implementado en rama de consolidación |
 
 Copiar la [plantilla](plantilla.md), usar el siguiente número libre y abrir PR hacia `develop` desde la rama correspondiente al cambio. Una propuesta puramente documental usa `docs/<tema>`; una decisión incluida en una funcionalidad puede acompañar su rama y PR.
 

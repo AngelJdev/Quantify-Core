@@ -1,0 +1,11 @@
+> @quantify-core/web@0.2.0-consolidation test
+> vitest run
+
+
+ RUN  v5.1.0 C:/Users/telle/OneDrive/Escritorio/Quantify-Core-consolidacion-frontend/apps/web
+
+
+ Test Files  2 passed (2)
+      Tests  9 passed (9)
+   Start at  22:54:56
+   Duration  4.74s (environment 51%, tests 19%, setup 14%, transform 13%, import 2%)

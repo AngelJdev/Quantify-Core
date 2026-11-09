@@ -4,7 +4,7 @@
 
 Mapa de referencia para que el equipo y sus agentes implementen el mismo producto con contratos, reglas y diseño coherentes. Empezar por [incorporación](guias/incorporacion.md), [contribución](../CONTRIBUTING.md) y el README del componente que se modificará.
 
-**Estado:** base de desarrollo y contratos propuestos. El prototipo académico es ejecutable; los clientes y servicios del producto siguen pendientes de implementación. Cada módulo debe actualizar su estado y aportar evidencia cuando cambie esta situación.
+**Estado:** base de desarrollo y contratos propuestos. La [base frontend web](../apps/web/README.md) es ejecutable con fixtures explícitos; su integración de identidad, servicios, persistencia y PWA sigue pendiente. El prototipo académico conserva su alcance independiente. Cada módulo debe identificar evidencia y límites de lo que implementa.
 
 ## Identidad local (QUANCORE-17)
 
