@@ -1,0 +1,137 @@
+[
+  {
+    "id": "inicio-sesion",
+    "name": "Iniciar sesión",
+    "ref": "U02",
+    "intent": "Pantalla segura del proveedor Keycloak",
+    "kind": "login",
+    "cta": "Iniciar sesión",
+    "secondary": "Crear cuenta",
+    "links": [
+      "acceso",
+      "crear-cuenta",
+      "recuperar-acceso",
+      "hoy"
+    ],
+    "number": 1,
+    "width": 390,
+    "height": 844,
+    "assets": {
+      "sketch:none": "prototipos/movil/sketches/auth-inicio-sesion.svg",
+      "wireframe:none": "prototipos/movil/wireframes/auth-inicio-sesion.svg",
+      "mockup:light": "prototipos/movil/mockups/light/auth-inicio-sesion.svg",
+      "mockup:dark": "prototipos/movil/mockups/dark/auth-inicio-sesion.svg"
+    }
+  },
+  {
+    "id": "crear-cuenta",
+    "name": "Crear cuenta",
+    "ref": "U03",
+    "intent": "Registro de identidad pendiente de habilitación",
+    "kind": "signup",
+    "cta": "Crear cuenta",
+    "secondary": "Ya tengo cuenta",
+    "links": [
+      "inicio-sesion",
+      "verificar-correo"
+    ],
+    "number": 2,
+    "width": 390,
+    "height": 844,
+    "assets": {
+      "sketch:none": "prototipos/movil/sketches/auth-crear-cuenta.svg",
+      "wireframe:none": "prototipos/movil/wireframes/auth-crear-cuenta.svg",
+      "mockup:light": "prototipos/movil/mockups/light/auth-crear-cuenta.svg",
+      "mockup:dark": "prototipos/movil/mockups/dark/auth-crear-cuenta.svg"
+    }
+  },
+  {
+    "id": "verificar-correo",
+    "name": "Verifica tu correo",
+    "ref": "U05",
+    "intent": "OTP de seis dígitos como propuesta que requiere personalización",
+    "kind": "verify",
+    "cta": "Verificar código",
+    "secondary": "Reenviar código",
+    "links": [
+      "crear-cuenta",
+      "recuperar-acceso",
+      "nueva-contrasena",
+      "acceso-confirmado"
+    ],
+    "number": 3,
+    "width": 390,
+    "height": 844,
+    "assets": {
+      "sketch:none": "prototipos/movil/sketches/auth-verificar-correo.svg",
+      "wireframe:none": "prototipos/movil/wireframes/auth-verificar-correo.svg",
+      "mockup:light": "prototipos/movil/mockups/light/auth-verificar-correo.svg",
+      "mockup:dark": "prototipos/movil/mockups/dark/auth-verificar-correo.svg"
+    }
+  },
+  {
+    "id": "recuperar-acceso",
+    "name": "Recuperar acceso",
+    "ref": "U04",
+    "intent": "Recuperación con respuesta neutra sin enumerar cuentas",
+    "kind": "forgot",
+    "cta": "Enviar instrucciones",
+    "secondary": "Volver a iniciar sesión",
+    "links": [
+      "inicio-sesion",
+      "verificar-correo"
+    ],
+    "number": 4,
+    "width": 390,
+    "height": 844,
+    "assets": {
+      "sketch:none": "prototipos/movil/sketches/auth-recuperar-acceso.svg",
+      "wireframe:none": "prototipos/movil/wireframes/auth-recuperar-acceso.svg",
+      "mockup:light": "prototipos/movil/mockups/light/auth-recuperar-acceso.svg",
+      "mockup:dark": "prototipos/movil/mockups/dark/auth-recuperar-acceso.svg"
+    }
+  },
+  {
+    "id": "nueva-contrasena",
+    "name": "Nueva contraseña",
+    "ref": "U15",
+    "intent": "Restablecimiento después de un desafío autorizado",
+    "kind": "reset",
+    "cta": "Guardar contraseña",
+    "secondary": "Cancelar",
+    "links": [
+      "inicio-sesion",
+      "acceso-confirmado"
+    ],
+    "number": 5,
+    "width": 390,
+    "height": 844,
+    "assets": {
+      "sketch:none": "prototipos/movil/sketches/auth-nueva-contrasena.svg",
+      "wireframe:none": "prototipos/movil/wireframes/auth-nueva-contrasena.svg",
+      "mockup:light": "prototipos/movil/mockups/light/auth-nueva-contrasena.svg",
+      "mockup:dark": "prototipos/movil/mockups/dark/auth-nueva-contrasena.svg"
+    }
+  },
+  {
+    "id": "acceso-confirmado",
+    "name": "Solicitud confirmada",
+    "ref": "U05/U15",
+    "intent": "Resultado de verificación sin inicio de sesión automático",
+    "kind": "success",
+    "cta": "Volver a iniciar sesión",
+    "secondary": "",
+    "links": [
+      "inicio-sesion"
+    ],
+    "number": 6,
+    "width": 390,
+    "height": 844,
+    "assets": {
+      "sketch:none": "prototipos/movil/sketches/auth-acceso-confirmado.svg",
+      "wireframe:none": "prototipos/movil/wireframes/auth-acceso-confirmado.svg",
+      "mockup:light": "prototipos/movil/mockups/light/auth-acceso-confirmado.svg",
+      "mockup:dark": "prototipos/movil/mockups/dark/auth-acceso-confirmado.svg"
+    }
+  }
+]
