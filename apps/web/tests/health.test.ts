@@ -1,5 +1,10 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { checkApiHealth } from "@/shared/api/health";
+
+beforeEach(() => {
+  // The legacy scaffold route is selected explicitly, never inferred.
+  vi.stubEnv("VITE_API_HEALTH_PATH", "health");
+});
 
 afterEach(() => {
   vi.unstubAllEnvs();
@@ -8,6 +13,46 @@ afterEach(() => {
 });
 
 describe("Diagnóstico HTTP opcional QUANCORE-42", () => {
+  it("importar el diagnóstico configurado no inicia solicitudes", async () => {
+    vi.stubEnv("VITE_API_BASE_URL", "/api/v1");
+    const request = vi.fn();
+    vi.stubGlobal("fetch", request);
+    vi.resetModules();
+    await import("@/shared/api/health");
+    expect(request).not.toHaveBeenCalled();
+  });
+
+  it.each(["", "   "])("sin ruta confirmada (%s) no supone /health", async (path) => {
+    vi.stubEnv("VITE_API_BASE_URL", "/api/v1");
+    vi.stubEnv("VITE_API_HEALTH_PATH", path);
+    const request = vi.fn();
+    vi.stubGlobal("fetch", request);
+    expect(await checkApiHealth()).toEqual({ state: "unconfigured" });
+    expect(request).not.toHaveBeenCalled();
+  });
+
+  it("usa la ruta de readiness únicamente al configurarla", async () => {
+    vi.stubEnv("VITE_API_BASE_URL", "/api/v1/");
+    vi.stubEnv("VITE_API_HEALTH_PATH", "health/ready");
+    const request = vi.fn().mockResolvedValue(new Response('{"status":"ok"}'));
+    vi.stubGlobal("fetch", request);
+    expect(await checkApiHealth()).toEqual({ state: "available" });
+    expect(request.mock.calls[0][0]).toBe(`${location.origin}/api/v1/health/ready`);
+  });
+
+  it.each([
+    "/health", "../health", "health/../me", "https://example.test/health",
+    "//example.test/health", "health?token=example", "health#fragment",
+    "health%2fready", "health\\ready",
+  ])("rechaza rutas ambiguas o externas: %s", async (path) => {
+    vi.stubEnv("VITE_API_BASE_URL", "/api/v1");
+    vi.stubEnv("VITE_API_HEALTH_PATH", path);
+    const request = vi.fn();
+    vi.stubGlobal("fetch", request);
+    expect(await checkApiHealth()).toEqual({ state: "unavailable", reason: "configuration" });
+    expect(request).not.toHaveBeenCalled();
+  });
+
   it("no solicita una API cuando no está configurada", async () => {
     vi.stubEnv("VITE_API_BASE_URL", "");
     const request = vi.fn();

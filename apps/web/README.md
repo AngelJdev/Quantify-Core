@@ -80,9 +80,9 @@ El registro PWA está desactivado: no hay cache de datos privados, cola offline,
 
 ## Diagnóstico HTTP opcional (QUANCORE-42)
 
-`src/shared/api/health.ts` expone `checkApiHealth()` para comprobar conectividad de forma explícita. La aplicación no lo invoca al navegar; los fixtures y las pantallas siguen desconectados. Sin `VITE_API_BASE_URL` devuelve `unconfigured` sin solicitudes. La variable es pública y se incorpora al build: solo admite una base HTTP(S) o una ruta absoluta del mismo origen, sin credenciales, query ni fragmento. `.env.example` la deja vacía; puede definirse en `.env.local` excluido de Git y reiniciar Vite.
+`src/shared/api/health.ts` expone `checkApiHealth()` para comprobar conectividad de forma explícita. La aplicación no lo invoca al importar ni al navegar; los fixtures y las pantallas siguen desconectados. Requiere tanto `VITE_API_BASE_URL` como `VITE_API_HEALTH_PATH`: si falta cualquiera devuelve `unconfigured` sin solicitudes. Ambas son públicas y se incorporan al build. La base admite HTTP(S) o una ruta absoluta del mismo origen, sin credenciales, query ni fragmento; la ruta de salud admite segmentos alfanuméricos, guion y guion bajo, separados por `/`, sin barra inicial, navegación `..`, escapes ni URL externa. `.env.example` deja ambas vacías; pueden definirse en `.env.local` excluido de Git y reiniciar Vite.
 
-Con una base confirmada, el diagnóstico hace un único `GET <base>/health`, sin cookies ni autorización, sin cache, sin seguir redirecciones y con timeout de cinco segundos. Devuelve `available` únicamente para una respuesta HTTP exitosa con JSON `status: "ok"`; normaliza errores de configuración, HTTP, respuesta, red y timeout sin mostrar el cuerpo ni detalles internos. El consumidor puede mostrar carga mientras espera la promesa. Un HTML de fallback de la SPA no se acepta como API disponible.
+Con base y ruta confirmadas, el diagnóstico hace un único `GET <base>/<ruta>`, sin cookies ni autorización, sin cache, sin seguir redirecciones y con timeout de cinco segundos. Devuelve `available` únicamente para una respuesta HTTP exitosa con JSON `status: "ok"`; normaliza errores de configuración, HTTP, respuesta, red y timeout sin mostrar el cuerpo ni detalles internos. Ese resultado solo acredita la comprobación seleccionada, no una sesión ni todas las dependencias. El consumidor puede mostrar carga mientras espera la promesa. Un HTML de fallback de la SPA no se acepta como API disponible.
 
 Para invocarlo manualmente en la consola de Chrome durante `npm run dev`:
 
@@ -91,7 +91,7 @@ const { checkApiHealth } = await import('/src/shared/api/health.ts');
 await checkApiHealth();
 ```
 
-El endpoint es un diagnóstico operativo del scaffold QUANCORE-41, disponible en su rama separada; no pertenece a los DTO de negocio canónicos ni existe actualmente en el host sintético de `develop`. Las pruebas de `tests/health.test.ts` sustituyen `fetch` con respuestas controladas, incluidos timeout, red, HTTP y HTML inesperado. No demuestran acceso a una API desplegada, CORS, autenticación ni conexión de hábitos. Hasta integrar un endpoint real y confirmar su origen/CORS, mantener la variable vacía. No se añade un proxy ni otro servidor para simular esa integración.
+No hay ruta predeterminada: `health` seleccionaría explícitamente el diagnóstico del scaffold QUANCORE-41, en su rama separada; `health/ready` es una propuesta todavía sin implementar. El host sintético de `develop` no ofrece estas rutas. Las pruebas de `tests/health.test.ts` sustituyen `fetch` con respuestas controladas, incluidos timeout, red, HTTP y HTML inesperado. No demuestran acceso a una API desplegada, CORS, autenticación ni conexión de hábitos. Hasta integrar un endpoint real y confirmar su origen/CORS, mantener las variables vacías. No se añade un proxy ni otro servidor para simular esa integración. La composición NestJS, CORS, identidad y rutas propuestas se revisan en [ADR-0006](../../docs/arquitectura/adr/0006-integracion-api-identidad-http.md).
 
 ## Próximas integraciones
 

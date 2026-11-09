@@ -10,10 +10,14 @@ export type HealthResult =
 
 export async function checkApiHealth(): Promise<HealthResult> {
   const base = import.meta.env.VITE_API_BASE_URL?.trim();
-  if (!base) return { state: "unconfigured" };
+  const path = import.meta.env.VITE_API_HEALTH_PATH?.trim();
+  if (!base || !path) return { state: "unconfigured" };
 
   let url: URL;
   try {
+    // An explicit path avoids assuming a legacy /health route exists.
+    if (!/^[a-zA-Z0-9_-]+(?:\/[a-zA-Z0-9_-]+)*$/.test(path))
+      throw new Error("Invalid health path");
     // Accept an absolute HTTP(S) API base or a same-origin absolute path.
     if (!/^https?:\/\//i.test(base) && !/^\/(?!\/)/.test(base))
       throw new Error("Invalid API base");
@@ -22,7 +26,7 @@ export async function checkApiHealth(): Promise<HealthResult> {
       throw new Error("Invalid API origin");
     if (url.username || url.password || url.search || url.hash)
       throw new Error("Invalid API base");
-    url.pathname = `${url.pathname.replace(/\/+$/, "")}/health`;
+    url.pathname = `${url.pathname.replace(/\/+$/, "")}/${path}`;
   } catch {
     return { state: "unavailable", reason: "configuration" };
   }
