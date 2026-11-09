@@ -1,12 +1,54 @@
 # Aplicación web y PWA
 
-**Estado: especificación, sin proyecto React generado.** Stack base: **React + TypeScript + Vite**, consumo REST/JSON y capacidades PWA progresivas. No hay `package.json`, scripts, manifiesto ni service worker de producto en esta carpeta.
+**Estado: primer prototipo PWA ejecutable.** Stack base: **React + TypeScript + Vite**, con manifiesto instalable, service worker para el shell estático y una vista responsiva de “Hoy”. Los hábitos y métricas incluidos son datos sintéticos en memoria: todavía no existe integración con API, Keycloak ni almacenamiento personal.
+
+## Entrega visual y navegación
+
+La interfaz incluye **Hoy, Mis hábitos, Análisis, Historial, Sugerencias, Avisos y Ajustes**, además de creación, edición, detalle y registro de avance. Las rutas usan fragmentos `#/...`, admiten enlaces directos y el historial del navegador sin configuración de rutas en el servidor.
+
+- Escritorio: barra lateral, cabecera de cuenta, agenda, métricas y gráficas.
+- Móvil: navegación inferior y menú lateral para acceder a todas las secciones.
+- Hábitos: búsqueda, filtros con estados vacíos, formulario, previsualización modal, cancelación y recorrido de ejemplo hacia el detalle.
+- Ajustes: perfil, apariencia, privacidad y dispositivos. Los controles son una demostración; no conceden permisos reales ni envían notificaciones.
+- Tema claro/oscuro: tokens importados directamente de `packages/design-tokens/themes.css`. Las acciones mantienen Laser Blue con blanco; los iconos adoptan los roles de cada tema.
+- Marca: JPEG originales de producto/empresa y derivados oscuros autorizados, referenciados desde `assets/images/`. Se conserva el encuadre de presentación documentado en `docs/GUI/fuente/generar.py`.
+- Iconos: trazos de `generar.py` y `guia_estilos.py`, retícula 24 × 24 y trazo 1.8. El favicon aplica la Q vectorial de la guía; sustituye el símbolo provisional del primer scaffold.
+- Fuente: Inter WOFF2 local con su licencia SIL OFL. Fotografía reutilizada de `docs/GUI/assets/ritual-cotidiano.png`.
+
+Crear, editar y registrar un avance solo modifica ejemplos en memoria durante la visita. Al recargar se restablecen. La persistencia, cálculos, identidad, consentimientos, vinculación y notificaciones requieren integración posterior. Las cifras y fechas están rotuladas como ejemplos.
+
+### Validación de la entrega visual
+
+Se comprobó compilación, tipos, lint y pruebas existentes. La revisión de navegador con Chrome headless y Playwright disponible en el entorno de autoría cubrió rutas a 1440, 390 y 320 CSS px, ambos temas, ausencia de desbordamiento horizontal, búsqueda, registro modal, pestañas de ajustes, menú móvil y navegación offline tras descargar el shell. También se inspeccionaron capturas de escritorio y móvil. No se declara una auditoría completa de accesibilidad ni compatibilidad con todos los navegadores.
+
+Para revisar manualmente: recorrer la barra lateral; crear un hábito y cancelar/aceptar su vista previa; abrir el detalle y editar; consultar historial y análisis; marcar avisos como leídos; cambiar tema y preferencias; repetir en móvil y comprobar Atrás/Adelante del navegador. Los cambios del prototipo deben desaparecer al recargar.
+
+## Ejecutar el prototipo
+
+Requiere Node.js 20.19 o superior y npm. Desde esta carpeta:
+
+```sh
+npm install
+npm run dev
+```
+
+Comprobaciones disponibles:
+
+```sh
+npm run typecheck
+npm run lint
+npm test
+npm run build
+npm run preview
+```
+
+La instalación PWA y el comportamiento del service worker se verifican mejor sobre el build con `npm run preview`. El prototipo cachea únicamente HTML, JavaScript, CSS, fuente e icono versionados; no cachea respuestas de API ni simula escrituras confirmadas.
 
 ## Alcance y organización
 
 La web ofrecerá identidad, perfil y consentimiento, hábitos y check-ins, rachas y análisis, recordatorios, recomendaciones, gestión de dispositivos y solicitudes sobre datos propios (RF-01 a RF-08 y RF-10). Las rutas administrativas cubrirán RF-09 con permisos de API y datos agregados.
 
-Estructura orientativa para el primer scaffold; **no son archivos existentes**:
+Estructura base del primer scaffold:
 
 ```text
 src/
@@ -52,9 +94,9 @@ Propuesta de nombres públicos que el scaffold deberá confirmar:
 | `VITE_OIDC_CLIENT_ID` | Identificador público de cliente web | Distinto por ambiente |
 | `VITE_OIDC_REDIRECT_URI` | Retorno OIDC registrado | Coincidencia exacta; sin comodines amplios |
 
-Estas variables **todavía no son consumidas**. Una configuración BFF puede modificar las necesarias. Publicar un ejemplo sin secretos y fallar con mensaje explícito ante configuración faltante. Vite expone al bundle las variables `VITE_*`; no deben contener secretos. [Documentación de variables de Vite](https://vite.dev/guide/env-and-mode).
+Estas variables **todavía no son consumidas por el prototipo local**. Una configuración BFF puede modificar las necesarias. Al integrar servicios se publicará un ejemplo sin secretos y la aplicación fallará con un mensaje explícito ante configuración faltante. Vite expone al bundle las variables `VITE_*`; no deben contener secretos. [Documentación de variables de Vite](https://vite.dev/guide/env-and-mode).
 
-La primera entrega deberá documentar instalación reproducible, desarrollo, compilación, comprobación de tipos, lint y pruebas con los scripts realmente creados. Hasta entonces no existe un comando de arranque de producto. El [prototipo académico](../../docs/practica-07/README.md) sí tiene instrucciones propias.
+Este prototipo ya documenta instalación reproducible, desarrollo, compilación, comprobación de tipos, lint y pruebas. Sigue siendo una base de interfaz: no debe presentarse como producto conectado. El [prototipo académico](../../docs/practica-07/README.md) conserva instrucciones propias.
 
 ## Identidad y permisos
 
