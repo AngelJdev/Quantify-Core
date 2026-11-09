@@ -4,7 +4,7 @@
 
 Mapa de referencia para que el equipo y sus agentes implementen el mismo producto con contratos, reglas y diseño coherentes. Empezar por [incorporación](guias/incorporacion.md), [contribución](../CONTRIBUTING.md) y el README del componente que se modificará.
 
-**Estado:** base de desarrollo y contratos propuestos. El prototipo académico es ejecutable; los clientes y servicios del producto siguen pendientes de implementación. Cada módulo debe actualizar su estado y aportar evidencia cuando cambie esta situación.
+**Estado:** base de desarrollo y contratos propuestos. El prototipo académico y la [simulación sintética QUANCORE-35](datos-ia/telemetria-simulada.md) son ejecutables; los clientes y servicios generales del producto siguen pendientes de integración. Cada módulo debe actualizar su estado y aportar evidencia cuando cambie esta situación.
 
 ## Identidad local (QUANCORE-17)
 

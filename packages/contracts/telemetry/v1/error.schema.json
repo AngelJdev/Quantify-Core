@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:quantify:telemetry:simulation:1:error",
+  "title": "TelemetryErrorResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "code": {
+      "enum": [
+        "ACCESS_TOKEN_REQUIRED",
+        "INVALID_ACCESS_TOKEN",
+        "PROFILE_NOT_ACTIVE",
+        "SOURCE_NOT_FOUND",
+        "SOURCE_REVOKED",
+        "CONSENT_NOT_CURRENT",
+        "CONSENT_VERSION_CONFLICT",
+        "SAMPLE_PRECEDES_CONSENT",
+        "INVALID_PAYLOAD",
+        "TIMESTAMP_OUT_OF_WINDOW",
+        "DUPLICATE_SAMPLE_IN_BATCH",
+        "BATCH_CONTENT_CONFLICT",
+        "SAMPLE_CONTENT_CONFLICT",
+        "SAMPLE_TIME_CONFLICT",
+        "BATCH_NOT_FOUND",
+        "INVALID_JSON_OR_PARAMETER",
+        "PAYLOAD_TOO_LARGE",
+        "DEPENDENCY_UNAVAILABLE",
+        "HTTP_ERROR"
+      ]
+    },
+    "type": {
+      "const": "about:blank"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60
+    },
+    "status": {
+      "type": "integer",
+      "minimum": 400,
+      "maximum": 599
+    },
+    "requestId": {
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "required": [
+    "code",
+    "type",
+    "title",
+    "status",
+    "requestId"
+  ]
+}

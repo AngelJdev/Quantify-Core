@@ -2,8 +2,8 @@
   "openapi": "3.1.1",
   "info": {
     "title": "Quantify Core — primer flujo",
-    "version": "0.1.0-draft",
-    "description": "BORRADOR para desarrollo. Ninguna operación acredita una API desplegada. RF-01 a RF-05; decisiones pendientes en docs/arquitectura/decisiones-pendientes.md."
+    "version": "0.2.0-draft",
+    "description": "BORRADOR para desarrollo. Ninguna operación acredita una API desplegada. RF-01 a RF-05; decisiones pendientes en docs/arquitectura/decisiones-pendientes.md. Ampliación QUANCORE-35: /telemetry/simulation enlaza contrato ejecutable solo sintético; no habilita biometría de producto."
   },
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "servers": [
@@ -28,6 +28,10 @@
     {
       "name": "Metrics",
       "description": "RF-05 — métricas de periodos cerrados"
+    },
+    {
+      "name": "TelemetrySimulation",
+      "description": "QUANCORE-35 — simulación autorizada RF-08"
     }
   ],
   "security": [
@@ -683,6 +687,24 @@
           }
         }
       }
+    },
+    "/telemetry/simulation/sources": {
+      "$ref": "./telemetry/v1/openapi.json#/paths/~1telemetry~1simulation~1sources"
+    },
+    "/telemetry/simulation/sources/{sourceId}": {
+      "$ref": "./telemetry/v1/openapi.json#/paths/~1telemetry~1simulation~1sources~1{sourceId}"
+    },
+    "/telemetry/simulation/sources/{sourceId}/consent": {
+      "$ref": "./telemetry/v1/openapi.json#/paths/~1telemetry~1simulation~1sources~1{sourceId}~1consent"
+    },
+    "/telemetry/simulation/batches": {
+      "$ref": "./telemetry/v1/openapi.json#/paths/~1telemetry~1simulation~1batches"
+    },
+    "/telemetry/simulation/sources/{sourceId}/batches/{batchId}": {
+      "$ref": "./telemetry/v1/openapi.json#/paths/~1telemetry~1simulation~1sources~1{sourceId}~1batches~1{batchId}"
+    },
+    "/telemetry/simulation/sources/{sourceId}/summary": {
+      "$ref": "./telemetry/v1/openapi.json#/paths/~1telemetry~1simulation~1sources~1{sourceId}~1summary"
     }
   },
   "components": {

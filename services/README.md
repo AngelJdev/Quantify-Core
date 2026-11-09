@@ -1,6 +1,8 @@
 # Servicios de Quantify Core
 
-> **Estado: diseño para desarrollo.** Estas carpetas documentan componentes previstos; aún no ofrecen servidores ejecutables, manifiestos de dependencias ni comandos de arranque. El stack base es NestJS/TypeScript para negocio, Python/FastAPI para analítica y Redis como apoyo al procesamiento asíncrono.
+> **Estado: servicios generales en diseño; simulación QUANCORE-35 ejecutable localmente.** Las carpetas documentan componentes previstos; la excepción de telemetría sintética se identifica abajo. El stack base es NestJS/TypeScript para negocio, Python/FastAPI para analítica y Redis como apoyo al procesamiento asíncrono.
+
+**Implementación acotada disponible:** [simulación de telemetría QUANCORE-35](api/telemetry/README.md), un módulo NestJS con PostgreSQL temporal en pruebas. No equivale a una plataforma operativa ni cambia el estado pendiente de los demás servicios.
 
 ## Responsabilidades y dependencias
 

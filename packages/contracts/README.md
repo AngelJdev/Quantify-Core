@@ -1,12 +1,13 @@
 # Contratos compartidos
 
-> **Estado: borrador documental.** Esta carpeta es la fuente canónica de interfaces de Quantify Core. [openapi.json](openapi.json) describe el primer flujo propuesto y **no acredita una API operativa**. La versión `0.1.0-draft` identifica el documento, no una versión liberada de la aplicación.
+> **Estado: primer flujo en borrador y telemetría sintética ejecutable localmente.** Esta carpeta es la fuente canónica de interfaces de Quantify Core. [openapi.json](openapi.json), versión `0.2.0-draft`, conserva el primer flujo propuesto y referencia la ampliación QUANCORE-35. No acredita una API productiva desplegada ni una versión liberada de la aplicación.
 
 ## Inventario y autoridad
 
 | Archivo | Propósito | Estado |
 |---|---|---|
 | [openapi.json](openapi.json) | OpenAPI 3.1.1: perfil propio, hábitos, check-ins y métricas | Borrador para implementar y revisar |
+| [telemetry/README.md](telemetry/README.md) | OpenAPI y JSON Schema `1.0.0` de ingesta autorizada solo sintética | Módulo local y pruebas reales; integración QUANCORE-22/43 pendiente |
 | [events/README.md](events/README.md) | Reglas de entrega y criterios para crear esquemas de eventos | Diseño; aún no existen esquemas de mensajes implementados |
 | [Guía de integración](../../docs/api/README.md) | Explica semántica HTTP y casos de error, referenciando este contrato | Guía de diseño |
 
@@ -31,7 +32,7 @@ Los tipos generados son artefactos derivados. No editar a mano una copia en cada
 - RF-03: alta, consulta y cambios de hábitos, incluida pausa y archivo con control de versión.
 - RF-04: listar y registrar valores absolutos por fecha de negocio, idempotencia y corrección auditable.
 - RF-05: métricas y rachas sobre periodos cerrados dentro de una ventana explícita.
-- RF-06 a RF-10: pendientes de contratos detallados. La presencia de esos módulos en otras guías no autoriza a inventar endpoints.
+- RF-08: [simulación sintética versionada](telemetry/README.md), sin habilitar hardware ni biometría real. RF-06/07/09/10 y la integración de dispositivos de producto siguen pendientes de contratos detallados. La presencia de esos módulos en otras guías no autoriza a inventar endpoints.
 
 ## Decisiones explícitas del borrador
 
@@ -60,3 +61,5 @@ node -e "const fs=require('node:fs');const s=JSON.parse(fs.readFileSync('package
 Este comando solo comprueba JSON y metadatos; la revisión debe incluir un validador compatible con OpenAPI 3.1 y resolver todos los `$ref`. La herramienta y su versión deberán fijarse al incorporar CI. Importar el archivo en un visor OpenAPI permite explorar modelos y operaciones; no activar **Try it out** contra un ambiente real sin URLs, políticas de CORS y acceso confirmadas.
 
 El documento utiliza un servidor relativo `/api/v1` sin dominio inventado. Referencia de formato: [especificación oficial OpenAPI 3.1.1](https://spec.openapis.org/oas/v3.1.1.html). Para empezar a implementar consultar [guía API](../../docs/api/README.md) y [servicio NestJS](../../services/api/README.md).
+
+QUANCORE-35 incorpora un validador fijado por lockfile: desde `services/api/telemetry`, tras `npm ci`, ejecutar `npm run validate:openapi`. Resuelve y valida tanto el documento general como las referencias de telemetría; las pruebas HTTP contrastan sus respuestas con los JSON Schemas canónicos.

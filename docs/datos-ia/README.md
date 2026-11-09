@@ -1,6 +1,6 @@
 # Datos e inteligencia artificial
 
-Esta sección establece qué datos necesita Quantify Core, quién puede cambiarlos y cómo se documentarán los indicadores y recomendaciones. **Estado:** diseño de desarrollo; todavía no hay esquemas físicos, pipelines ni modelos de producto implementados.
+Esta sección establece qué datos necesita Quantify Core, quién puede cambiarlos y cómo se documentarán los indicadores y recomendaciones. **Estado:** diseño de desarrollo; los pipelines y modelos de producto no están implementados. QUANCORE-35 añade un esquema físico y una API de simulación solo sintética, separados de la integración productiva pendiente.
 
 ```mermaid
 flowchart LR
@@ -17,6 +17,7 @@ flowchart LR
 
 | Documento | Uso |
 |---|---|
+| [Telemetría sintética QUANCORE-35](telemetria-simulada.md) | Contrato, simulador ejecutable, pruebas y dependencias pendientes. |
 | [Modelo de datos](modelo-datos.md) | Entidades, propiedad, fechas, versiones e integridad. |
 | [Calidad y ciclo de vida](calidad-ciclo-vida.md) | Procedencia, validación, consentimiento, retención, exportación y eliminación. |
 | [Analítica e IA](analitica-ia.md) | Línea base, evaluación, explicación, abstención y seguimiento de modelos. |
