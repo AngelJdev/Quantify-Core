@@ -1,6 +1,8 @@
 # API REST e integración
 
-> **Estado: borrador para desarrollo. Ningún endpoint de esta guía se declara operativo.** La fuente de esquemas, campos, tipos y respuestas es [packages/contracts/openapi.json](../../packages/contracts/openapi.json). Esta guía explica cómo implementar y consumir ese contrato.
+> **Estado: primer flujo propuesto; simulación QUANCORE-35 ejecutable localmente y separada.** La fuente de esquemas, campos, tipos y respuestas es [packages/contracts/openapi.json](../../packages/contracts/openapi.json). Esta guía explica cómo implementar y consumir ese contrato.
+
+**Ampliación aislada QUANCORE-35:** el [contrato de telemetría sintética](../../packages/contracts/telemetry/README.md) define rutas ejecutables localmente bajo `/api/v1/telemetry/simulation`, con su [implementación y evidencia](../../services/api/telemetry/README.md). Mantiene identidad Keycloak y pertenencia; la clave de ingesta es `(sourceId, batchId)`, no el header del primer flujo. Sus errores también usan `application/problem+json`. No habilita fuentes físicas ni declara integrada la API general.
 
 ## Primer flujo propuesto
 
@@ -36,7 +38,7 @@ Un recurso ajeno responde `404`. Un administrador solo accede a sus recursos per
 
 ## Idempotencia y conflictos
 
-Toda mutación del borrador exige `Idempotency-Key` con un UUID nuevo por **intención del usuario**. Reintentar la misma intención conserva clave, body y cabeceras de precondición. El servidor vincula clave a actor, método y ruta normalizada, y guarda una huella del contenido relevante y resultado durable.
+Toda mutación del primer flujo propuesto exige `Idempotency-Key` con un UUID nuevo por **intención del usuario**. Reintentar la misma intención conserva clave, body y cabeceras de precondición. El servidor vincula clave a actor, método y ruta normalizada, y guarda una huella del contenido relevante y resultado durable.
 
 ```mermaid
 sequenceDiagram

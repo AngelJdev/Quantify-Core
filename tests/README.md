@@ -1,6 +1,6 @@
 # Estrategia de pruebas
 
-Esta carpeta reúne la estrategia para verificar Quantify Core. **Estado:** las pruebas ejecutables disponibles pertenecen al prototipo de la Práctica 07; las aplicaciones, servicios e infraestructura de producto aún no tienen implementación que validar. Los casos siguientes son obligaciones de desarrollo, no resultados ya aprobados.
+Esta carpeta reúne la estrategia para verificar Quantify Core. **Estado:** hay pruebas del prototipo de la Práctica 07 y del módulo aislado de telemetría sintética QUANCORE-35. La plataforma general y sus integraciones siguen pendientes. Los casos siguientes son obligaciones de desarrollo, no resultados ya aprobados.
 
 ```mermaid
 flowchart TB
@@ -52,6 +52,19 @@ node --test docs/practica-07/tests/prototipo.test.cjs
 ```
 
 Este conjunto utiliza la lógica del prototipo en memoria. Sus mocks de navegador y almacenamiento no validan accesibilidad real, un servidor, autenticación productiva ni sincronización entre dispositivos. Ver [evidencia de la práctica](../docs/practica-07/VALIDACION.md) y [validación de esta documentación](../docs/guias/validacion-documental.md).
+
+### Telemetría sintética · QUANCORE-35
+
+Desde `services/api/telemetry`, con Node.js 22+ y las dependencias del lockfile:
+
+```sh
+npm ci
+npm test
+npm run validate:openapi
+npm run evidence
+```
+
+Pruebas de contrato e integración HTTP con PostgreSQL temporal real, JWT/JWKS sintéticos, permisos por dueño, revocación, reintentos concurrentes, rollback y reinicio. Fallan si la BD no inicia; no se omite integración silenciosamente. No prueban Keycloak/PKCE real, hardware Wear OS ni producto desplegado. Ver [instrucciones del módulo](../services/api/telemetry/README.md) y [evidencia](../docs/datos-ia/telemetria-simulada.md), incluida la ejecución con el SQL de la dependencia de backend.
 
 ## Condiciones de revisión
 

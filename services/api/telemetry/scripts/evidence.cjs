@@ -44,13 +44,14 @@ const { makeBatch } = require('./fixtures.cjs');
       artifacts[name] = createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex');
     }
     const dependencyHash = process.env.TELEMETRY_CORE_SCHEMA_FILE ? createHash('sha256').update(fs.readFileSync(process.env.TELEMETRY_CORE_SCHEMA_FILE)).digest('hex') : null;
-    const implementationPaths = ['services/api/telemetry','packages/contracts/telemetry'];
-    const dirty = execFileSync('git',['status','--porcelain','--',...implementationPaths],{encoding:'utf8'}).trim();
+    const implementationPaths = ['services/api/telemetry/src','services/api/telemetry/db',
+      'services/api/telemetry/package.json','services/api/telemetry/package-lock.json','packages/contracts/telemetry/v1'];
+    const dirty = execFileSync('git',['status','--porcelain','--',...implementationPaths],{encoding:'utf8',cwd:root}).trim();
     console.info(JSON.stringify({ task:'QUANCORE-35',executedAt:new Date().toISOString(),
-      baseCommit:execFileSync('git',['merge-base','HEAD','develop'],{encoding:'utf8'}).trim(),
-      headCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
-      implementationCommit:execFileSync('git',['log','-1','--format=%H','--',...implementationPaths],{encoding:'utf8'}).trim() || null,
-      branch:execFileSync('git',['branch','--show-current'],{encoding:'utf8'}).trim(),
+      baseCommit:execFileSync('git',['merge-base','HEAD','develop'],{encoding:'utf8',cwd:root}).trim(),
+      headCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8',cwd:root}).trim(),
+      implementationCommit:execFileSync('git',['log','-1','--format=%H','--',...implementationPaths],{encoding:'utf8',cwd:root}).trim() || null,
+      branch:execFileSync('git',['branch','--show-current'],{encoding:'utf8',cwd:root}).trim(),
       workingTree:dirty ? 'Cambios locales de implementación; hashes identifican los artefactos probados.' : 'Artefactos de implementación versionados en implementationCommit.',
       environment:{os:process.platform,arch:process.arch,node:process.version,postgres:e.databaseVersion,
         identity:'JWT RS256 y JWKS sintéticos en loopback; no Keycloak real',coreSchema:e.coreSchema,dependencySchemaSha256:dependencyHash},
