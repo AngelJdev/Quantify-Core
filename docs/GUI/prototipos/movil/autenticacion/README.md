@@ -2,7 +2,7 @@
 
 **Estado:** propuesta de diseño, sin integración de identidad ni envío de correos. Se preservan las 20 pantallas y 80 PNG del catálogo móvil original; este conjunto incorpora **6 vistas complementarias en 24 SVG editables**, sin renombrar archivos existentes.
 
-**Trazabilidad:** RF-01 · QUANCORE-17 (realm) · QUANCORE-19 (cliente) · QUANCORE-26 (diseño) · QUANCORE-43 (ADR). Referencias: [Práctica 07](../../../practica-07/README.md), [recorridos](../../../diseno/recorridos.md), [Keycloak](../../../../infrastructure/keycloak/README.md), [tokens](../../../../packages/design-tokens/README.md).
+**Trazabilidad:** RF-01 · QUANCORE-17 (realm) · QUANCORE-19 (cliente) · QUANCORE-26 (diseño) · QUANCORE-43 (ADR). Referencias: [Práctica 07](../../../../practica-07/README.md), [recorridos](../../../../diseno/recorridos.md), [Keycloak](../../../../../infrastructure/keycloak/README.md), [tokens](../../../../../packages/design-tokens/README.md).
 
 ## Matriz de pantallas
 
