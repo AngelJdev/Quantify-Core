@@ -9,6 +9,7 @@ Un ADR conserva el motivo de una decisión que afecta arquitectura, datos, segur
 | [0003](0003-proyeccion-mongodb-telemetria-sintetica.md) | Proyección MongoDB y separación de autoridad QUANCORE-22 | Propuesto; revisión QUANCORE-43 pendiente |
 | [0004](0004-dashboard-lectura-versionada.md) | Dashboard agregado con lectura SQL versionada | Propuesto; integración de backend pendiente |
 | [0005](0005-consolidacion-frontend.md) | Base única, versiones, router y fixtures del frontend | Propuesto; implementado en rama de consolidación |
+| [0006](0006-integracion-api-identidad-http.md) | Integración NestJS, identidad, HTTP, salud y autoridad de datos | Propuesto; revisión QUANCORE-43 pendiente |
 
 Copiar la [plantilla](plantilla.md), usar el siguiente número libre y abrir PR hacia `develop` desde la rama correspondiente al cambio. Una propuesta puramente documental usa `docs/<tema>`; una decisión incluida en una funcionalidad puede acompañar su rama y PR.
 
