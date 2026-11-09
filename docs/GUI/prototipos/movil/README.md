@@ -37,7 +37,7 @@ La misma numeración e ID conserva la correspondencia. Cada enlace abre la panta
 | 19 | Perfil, privacidad y dispositivos | **Vincular una fuente** — Revisar compatibilidad y permisos antes de confirmar una asociación. | RF-08 / RF-02 | [Ver](sketches/README.md#sketch-19-vincular-una-fuente) | [Ver](wireframes/README.md#wireframe-19-vincular-una-fuente) | [Ver](mockups/README.md#mockup-19-vincular-una-fuente) |
 | 20 | Perfil, privacidad y dispositivos | **Datos personales** — Solicitar una copia o iniciar una solicitud de eliminación de datos propios. | RF-02 / RF-10 | [Ver](sketches/README.md#sketch-20-datos-personales) | [Ver](wireframes/README.md#wireframe-20-datos-personales) | [Ver](mockups/README.md#mockup-20-datos-personales) |
 
-## Acceso, registro de cuenta y recuperación
+## Acceso, registro de cuenta y recuperación\n\n**Actualización:** las ausencias del inventario histórico de 20 PNG ya tienen [seis vistas complementarias SVG](autenticacion/README.md), con [galería visual](autenticacion/index.html), sin alterar las pantallas originales. Los párrafos siguientes corresponden a la auditoría histórica del 29/10/2026.\n\n### Auditoría histórica del catálogo original
 
 Auditoría del catálogo y de los PNG existentes (29/10/2026):
 
