@@ -64,4 +64,10 @@ node docs/GUI/fuente/auth-flow.mjs
 node docs/GUI/fuente/tests/auth-flow.test.mjs
 ```
 
+Los mockups incluyen mediante `data:` la fuente canónica `docs/GUI/assets/inter.woff2` y su licencia SIL OFL completa. Un SVG usado como imagen externa no hereda la fuente de la página y no puede depender de descargarla desde otra URL. El generador mantiene un solo archivo fuente; la inclusión en los doce SVG es un artefacto derivado necesario para descargarlos y visualizarlos de forma independiente. No se añade una segunda copia `.woff2`. La galería carga ese mismo recurso mediante una ruta relativa.
+
+La confirmación usa un trazo vectorial para el icono de éxito: el carácter tipográfico anterior recurría a una fuente de símbolos del sistema. Los sketches siguen sin texto y los wireframes usan Arial. Se conservan colores, distribución y catálogo original.
+
+[Resultados, comandos reproducibles y capturas de QA](VALIDACION.md). La prueba de navegador verifica fuentes efectivas con Chrome DevTools, recursos SVG como imágenes externas, límites de geometría y navegación; no basta con comprobar `font-family` ni `document.fonts.check`.
+
 Estas instrucciones son reproducibles; no constituyen evidencia de que haya SMTP, OAuth o OTP real. Antes de etiquetar `develop`, integrar con revisión y comprobar referencias, variantes y pruebas; un tag es un punto de referencia de Git, no una certificación de servicio.

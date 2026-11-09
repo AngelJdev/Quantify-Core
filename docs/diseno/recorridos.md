@@ -2,7 +2,11 @@
 
 **Estado: guía para implementación y pruebas; los IDs U/A identifican sketches académicos.** Consultar las [reglas vigentes](../requerimientos/reglas-negocio.md), los [criterios de aceptación](../requerimientos/aceptacion.md) y los [contratos](../../packages/contracts/README.md) antes de escribir código. Las pantallas no deciden permisos ni resultados de negocio por su cuenta.
 
-## Flujo visual de identidad\n\nLas vistas U02/U03/U04/U05/U15 están en la [matriz de autenticación complementaria](../GUI/prototipos/movil/autenticacion/README.md); el OTP de seis dígitos es propuesta y requiere una extensión de Keycloak, no prueba de correo operativo.\n\n## Mapa del usuario
+## Flujo visual de identidad
+
+Las vistas U02/U03/U04/U05/U15 están en la [matriz de autenticación complementaria](../GUI/prototipos/movil/autenticacion/README.md); el OTP de seis dígitos es propuesta y requiere una extensión de Keycloak, no prueba de correo operativo.
+
+## Mapa del usuario
 
 ```mermaid
 flowchart TD

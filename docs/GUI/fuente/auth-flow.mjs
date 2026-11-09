@@ -5,6 +5,11 @@ const ROOT=dirname(fileURLToPath(import.meta.url));
 const GUI=resolve(ROOT,'..');
 const screens=JSON.parse(readFileSync(resolve(GUI,'prototipos/movil/autenticacion/catalogo.json'),'utf8'));
 const palette=JSON.parse(readFileSync(resolve(GUI,'../../packages/design-tokens/preview.json'),'utf8')).colors;
+// External SVG images cannot inherit the host page's @font-face. Embed the
+// existing licensed font only in mockups; no second font file is maintained.
+const interData=readFileSync(resolve(GUI,'assets/inter.woff2')).toString('base64');
+const interLicense=readFileSync(resolve(GUI,'assets/inter-license.txt'),'utf8').replace(/\r\n/g,'\n').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const interFace=`<metadata>Inter - SIL OFL 1.1. Source: docs/GUI/assets/inter-license.txt\n${interLicense}</metadata><defs><style>@font-face{font-family:Inter;src:url(data:font/woff2;base64,${interData}) format('woff2');font-weight:100 900;font-style:normal;font-display:block}</style></defs>`;
 function renderAuth(s,stage,theme,C){
 const sk=stage==="sketch",wf=stage==="wireframe",dark=theme==="dark",font=wf?"Arial, sans-serif":"Inter";
 const bg=sk||wf?"#FFFFFF":dark?C.obsidian:C.mist,card=sk||wf?"#F2F2F2":dark?C.midnight:C.white;
@@ -29,10 +34,10 @@ if(s.kind==="login"){
 }else if(s.kind==="reset"){
  field(309,"Nueva contraseña","••••••••••");field(408,"Confirmar contraseña","••••••••••");if(sk){line(40,522,270);line(40,546,245);}else{t(32,526,"Usa una contraseña nueva y segura.",13,400,muted);t(32,550,"Confirma que ambos campos coinciden.",12,400,muted);}btn(587,s.cta);btn(651,s.secondary,true);
 }else{
- r(136,278,118,118,sk?"#D4D4D4":wf?"#999999":C.emerald,59);t(195,354,"✓",58,700,"#FFFFFF","middle");if(sk){line(80,445,228);line(70,481,250);}else{t(195,451,"Listo para continuar",21,700,ink,"middle");t(195,480,"Regresa al inicio de sesión seguro.",12,400,muted,"middle");}btn(570,s.cta);
+ r(136,278,118,118,sk?"#D4D4D4":wf?"#999999":C.emerald,59);if(!sk)b.push('<polyline points="175,333 189,347 218,314" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>');if(sk){line(80,445,228);line(70,481,250);}else{t(195,451,"Listo para continuar",21,700,ink,"middle");t(195,480,"Regresa al inicio de sesión seguro.",12,400,muted,"middle");}btn(570,s.cta);
 }
 if(sk){line(73,762,244);line(120,785,150);}else{t(195,759,"Prototipo UI · Sin integración de identidad",11,400,muted,"middle");t(195,784,"AUTH · "+s.ref,11,400,muted,"middle");}
-return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844" role="img" aria-labelledby="title desc"><title id="title">${e(s.name)}</title><desc id="desc">${e(s.intent+" · "+stage+" "+theme+" · propuesta sin implementación")}</desc>${b.join("")}</svg>\n`;
+return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844" role="img" aria-labelledby="title desc"><title id="title">${e(s.name)}</title><desc id="desc">${e(s.intent+" · "+stage+" "+theme+" · propuesta sin implementación")}</desc>${sk||wf?"":interFace}${b.join("")}</svg>\n`;
 }
 export {renderAuth};
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
