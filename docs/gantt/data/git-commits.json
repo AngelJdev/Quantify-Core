@@ -1,0 +1,4472 @@
+{
+  "project": "Quantify Core V2.0",
+  "repoUrl": "https://github.com/AngelJdev/Quantify-Core",
+  "generatedAt": "2026-11-09",
+  "totalCommits": 224,
+  "normalCommits": 193,
+  "mergeCommits": 31,
+  "branches": [
+    {
+      "id": "main",
+      "name": "main (Producción / Entregas)",
+      "ref": "origin/main",
+      "category": "core",
+      "status": "Publicada",
+      "jiraKey": "QUANCORE-14",
+      "desc": "Rama principal que publica el portal académico y los entregables oficiales verificados en GitHub Pages.",
+      "commitCount": 89,
+      "startDate": "2026-10-06",
+      "endDate": "2026-10-29"
+    },
+    {
+      "id": "develop",
+      "name": "develop (Integración General)",
+      "ref": "origin/develop",
+      "category": "core",
+      "status": "Integrada",
+      "jiraKey": "QUANCORE-14",
+      "desc": "Rama central donde el equipo fusiona diseño, identidad, telemetría, MongoDB y estadísticas verificadas.",
+      "commitCount": 12,
+      "startDate": "2026-11-08",
+      "endDate": "2026-11-08"
+    },
+    {
+      "id": "feature/QUANCORE-17-keycloak-iam",
+      "name": "feature/QUANCORE-17-keycloak-iam",
+      "ref": "origin/feature/QUANCORE-17-keycloak-iam",
+      "category": "sec",
+      "status": "Integrada en develop",
+      "jiraKey": "QUANCORE-17",
+      "desc": "Configuración de Keycloak, realm exportado, clientes OIDC con PKCE y evidencias de identidad.",
+      "commitCount": 7,
+      "startDate": "2026-10-21",
+      "endDate": "2026-10-25"
+    },
+    {
+      "id": "feature/QUANCORE-26-documentacion-prototipos",
+      "name": "feature/QUANCORE-26-documentacion-prototipos",
+      "ref": "origin/feature/QUANCORE-26-documentacion-prototipos",
+      "category": "web",
+      "status": "Integrada en develop",
+      "jiraKey": "QUANCORE-26",
+      "desc": "Sistema de diseño Laser Blue & Obsidian, galería de 80 pantallas, lienzos y guía de estilos.",
+      "commitCount": 30,
+      "startDate": "2026-10-25",
+      "endDate": "2026-11-08"
+    },
+    {
+      "id": "docs/auth-flow-ux-baseline",
+      "name": "docs/auth-flow-ux-baseline",
+      "ref": "origin/docs/auth-flow-ux-baseline",
+      "category": "sec",
+      "status": "Integrada en develop",
+      "jiraKey": "QUANCORE-26",
+      "desc": "Pantallas reproducibles del flujo de autenticación segura y validación de contraste visual.",
+      "commitCount": 4,
+      "startDate": "2026-11-08",
+      "endDate": "2026-11-08"
+    },
+    {
+      "id": "feature/QUANCORE-35-telemetria-ingestion",
+      "name": "feature/QUANCORE-35-telemetria-ingestion",
+      "ref": "origin/feature/QUANCORE-35-telemetria-ingestion",
+      "category": "wear",
+      "status": "Integrada en develop",
+      "jiraKey": "QUANCORE-35",
+      "desc": "Contrato versionado e ingesta simulada de telemetría con consentimiento granular y deduplicación.",
+      "commitCount": 3,
+      "startDate": "2026-11-08",
+      "endDate": "2026-11-08"
+    },
+    {
+      "id": "feature/p0-modelo-relacional-core",
+      "name": "feature/p0-modelo-relacional-core",
+      "ref": "origin/feature/p0-modelo-relacional-core",
+      "category": "data",
+      "status": "Activa en remoto",
+      "jiraKey": "QUANCORE-20",
+      "desc": "Esquema SQL relacional de usuarios, hábitos y registros con semillas y contenedor PostgreSQL.",
+      "commitCount": 3,
+      "startDate": "2026-10-22",
+      "endDate": "2026-10-22"
+    },
+    {
+      "id": "feature/QC-41-inicializar-api",
+      "name": "feature/QC-41-inicializar-api",
+      "ref": "origin/feature/QC-41-inicializar-api",
+      "category": "api",
+      "status": "Activa en remoto",
+      "jiraKey": "QUANCORE-41",
+      "desc": "Servidor base inicial con endpoint /health, manejo de errores, pruebas y contrato OpenAPI.",
+      "commitCount": 5,
+      "startDate": "2026-10-22",
+      "endDate": "2026-10-22"
+    },
+    {
+      "id": "feature/QUANCORE-42-scaffold-web",
+      "name": "feature/QUANCORE-42-scaffold-web",
+      "ref": "origin/feature/QUANCORE-42-scaffold-web",
+      "category": "web",
+      "status": "Activa en remoto",
+      "jiraKey": "QUANCORE-42",
+      "desc": "Estructura inicial en React, TypeScript y Vite con tokens de diseño, rutas y cliente HTTP.",
+      "commitCount": 4,
+      "startDate": "2026-11-02",
+      "endDate": "2026-11-02"
+    },
+    {
+      "id": "feature/QUANCORE-42-consolidacion-frontend",
+      "name": "feature/QUANCORE-42-consolidacion-frontend",
+      "ref": "origin/feature/QUANCORE-42-consolidacion-frontend",
+      "category": "web",
+      "status": "Activa en remoto",
+      "jiraKey": "QUANCORE-42",
+      "desc": "Consolidación modular del frontend React/Vite con pruebas E2E, diagnóstico HTTP y ADR-0005/0006.",
+      "commitCount": 6,
+      "startDate": "2026-11-08",
+      "endDate": "2026-11-09"
+    },
+    {
+      "id": "feature/QUANCORE-21-23-backend-persistencia",
+      "name": "feature/QUANCORE-21-23-backend-persistencia",
+      "ref": "origin/feature/QUANCORE-21-23-backend-persistencia",
+      "category": "api",
+      "status": "Activa en remoto",
+      "jiraKey": "QUANCORE-23",
+      "desc": "Migraciones PostgreSQL, semillas reproducibles y módulo NestJS de hábitos y categorías.",
+      "commitCount": 4,
+      "startDate": "2026-11-02",
+      "endDate": "2026-11-02"
+    },
+    {
+      "id": "feature/QUANCORE-24-rachas-idempotencia",
+      "name": "feature/QUANCORE-24-rachas-idempotencia",
+      "ref": "origin/feature/QUANCORE-24-rachas-idempotencia",
+      "category": "api",
+      "status": "Activa en remoto",
+      "jiraKey": "QUANCORE-24",
+      "desc": "Motor de fechas de negocio IANA, idempotencia SHA-256, cálculo de rachas, errores RFC 9457 y casos de uso.",
+      "commitCount": 19,
+      "startDate": "2026-11-02",
+      "endDate": "2026-11-04"
+    },
+    {
+      "id": "feature/QUANCORE-32-gamificacion-logros",
+      "name": "feature/QUANCORE-32-gamificacion-logros",
+      "ref": "origin/feature/QUANCORE-32-gamificacion-logros",
+      "category": "ai",
+      "status": "Activa en remoto",
+      "jiraKey": "QUANCORE-32",
+      "desc": "Catálogo versionado v1 de logros, evaluador determinista de rachas y libro idempotente anti-duplicados.",
+      "commitCount": 8,
+      "startDate": "2026-11-05",
+      "endDate": "2026-11-05"
+    },
+    {
+      "id": "feature/QUANCORE-46-metricas-observabilidad",
+      "name": "feature/QUANCORE-46-metricas-observabilidad",
+      "ref": "origin/feature/QUANCORE-46-metricas-observabilidad",
+      "category": "infra",
+      "status": "Activa en remoto",
+      "jiraKey": "QUANCORE-46",
+      "desc": "Sanitizador de logs sin datos privados, correlación W3C traceparent, métricas p95 y exportador resiliente.",
+      "commitCount": 9,
+      "startDate": "2026-11-06",
+      "endDate": "2026-11-06"
+    },
+    {
+      "id": "feature/QUANCORE-29-crear-app-flutter",
+      "name": "feature/QUANCORE-29-crear-app-flutter",
+      "ref": "origin/feature/QUANCORE-29-crear-app-flutter",
+      "category": "mobile",
+      "status": "Activa en remoto",
+      "jiraKey": "QUANCORE-29",
+      "desc": "Aplicación móvil en Flutter con tema oscuro Laser Blue, rutas, cliente API y acceso OIDC PKCE sin contraseñas.",
+      "commitCount": 9,
+      "startDate": "2026-10-27",
+      "endDate": "2026-11-08"
+    },
+    {
+      "id": "feature/QUANCORE-31-checkin-estadisticas-movil",
+      "name": "feature/QUANCORE-31-checkin-estadisticas-movil",
+      "ref": "origin/feature/QUANCORE-31-checkin-estadisticas-movil",
+      "category": "mobile",
+      "status": "Activa en remoto",
+      "jiraKey": "QUANCORE-31",
+      "desc": "Check-in móvil con progreso en tiempo real, clave idempotente, historial versionado y vitrina de medallas.",
+      "commitCount": 8,
+      "startDate": "2026-11-07",
+      "endDate": "2026-11-08"
+    },
+    {
+      "id": "docs/QUANCORE-13-documentacion-proyecto",
+      "name": "docs/QUANCORE-13-documentacion-proyecto",
+      "ref": "origin/docs/QUANCORE-13-documentacion-proyecto",
+      "category": "docs",
+      "status": "Activa en remoto",
+      "jiraKey": "QUANCORE-13",
+      "desc": "Gobierno del proyecto (Acta, EDT, RACI, Presupuesto), plan de pruebas e informe de verificación.",
+      "commitCount": 6,
+      "startDate": "2026-11-09",
+      "endDate": "2026-11-09"
+    }
+  ],
+  "commits": [
+    {
+      "hash": "e01b42c",
+      "fullHash": "e01b42c8352ef84a49cc17c6833098a057c28fc6",
+      "date": "2026-11-09",
+      "timestamp": "2026-11-09T14:19:47-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "docs/QUANCORE-13-documentacion-proyecto",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-13",
+      "subject": "docs(project): incluir índice Padlet en tabla de contenidos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/e01b42c8352ef84a49cc17c6833098a057c28fc6"
+    },
+    {
+      "hash": "e47c54e",
+      "fullHash": "e47c54ebe8a12d9269baaf660e9b1f659bb50b6d",
+      "date": "2026-11-09",
+      "timestamp": "2026-11-09T14:19:17-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "docs/QUANCORE-13-documentacion-proyecto",
+      "type": "fix",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-13",
+      "subject": "fix(docs): corregir enlace verificado de requisitos PDF en Drive",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/e47c54ebe8a12d9269baaf660e9b1f659bb50b6d"
+    },
+    {
+      "hash": "405a249",
+      "fullHash": "405a2499817d76734b58712c757f55d266c7bbf2",
+      "date": "2026-11-09",
+      "timestamp": "2026-11-09T14:18:50-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "docs/QUANCORE-13-documentacion-proyecto",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-13",
+      "subject": "docs(project): enlazar referencias de Padlet y PDFs verificados en Drive",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/405a2499817d76734b58712c757f55d266c7bbf2"
+    },
+    {
+      "hash": "8eb6bfd",
+      "fullHash": "8eb6bfdc58676ccd0877ca2829e36c300bb26e1c",
+      "date": "2026-11-09",
+      "timestamp": "2026-11-09T10:13:33-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "docs/QUANCORE-13-documentacion-proyecto",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-13",
+      "subject": "docs(project): organicé el índice por áreas y precisé la planificación",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/8eb6bfdc58676ccd0877ca2829e36c300bb26e1c"
+    },
+    {
+      "hash": "ba6d8aa",
+      "fullHash": "ba6d8aaea73575d4e43a4dbf445f932b39bc4738",
+      "date": "2026-11-09",
+      "timestamp": "2026-11-09T09:56:09-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "docs/QUANCORE-13-documentacion-proyecto",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-13",
+      "subject": "docs(QUANCORE-13): consolidar entregables academicos y evidencia verificable",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/ba6d8aaea73575d4e43a4dbf445f932b39bc4738"
+    },
+    {
+      "hash": "e678379",
+      "fullHash": "e678379b8daf2c03e692beb8eb8ee46285ce9359",
+      "date": "2026-11-09",
+      "timestamp": "2026-11-09T09:44:56-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "docs/QUANCORE-13-documentacion-proyecto",
+      "type": "fix",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-13",
+      "subject": "fix(docs): validar referencias locales entre contratos OpenAPI",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/e678379b8daf2c03e692beb8eb8ee46285ce9359"
+    },
+    {
+      "hash": "4a8d9a8",
+      "fullHash": "4a8d9a8f3f79d70b86d27925abdbce5be2608f8a",
+      "date": "2026-11-09",
+      "timestamp": "2026-11-09T09:22:30-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-42-consolidacion-frontend",
+      "type": "fix",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-42",
+      "subject": "fix(QUANCORE-42): exigir ruta explicita para diagnostico HTTP",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/4a8d9a8f3f79d70b86d27925abdbce5be2608f8a"
+    },
+    {
+      "hash": "5a02680",
+      "fullHash": "5a0268021ae552a8f62d0aab2fd933c0bf667a95",
+      "date": "2026-11-09",
+      "timestamp": "2026-11-09T09:22:03-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-42-consolidacion-frontend",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-43",
+      "subject": "docs(QUANCORE-43): proponer integracion NestJS identidad y HTTP",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/5a0268021ae552a8f62d0aab2fd933c0bf667a95"
+    },
+    {
+      "hash": "93ba834",
+      "fullHash": "93ba8340e20ad828ecc772d4cc8f43d05f88f3be",
+      "date": "2026-11-09",
+      "timestamp": "2026-11-09T08:57:26-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-42-consolidacion-frontend",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-42",
+      "subject": "feat(QUANCORE-42): agregar diagnostico HTTP configurable y acotado",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/93ba8340e20ad828ecc772d4cc8f43d05f88f3be"
+    },
+    {
+      "hash": "7c86ed8",
+      "fullHash": "7c86ed807481a07906ca197804621db0078774e1",
+      "date": "2026-11-09",
+      "timestamp": "2026-11-09T08:44:51-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-42-consolidacion-frontend",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": "QUANCORE-42",
+      "subject": "chore(web): integrar develop revisado y conciliar ADR frontend",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/7c86ed807481a07906ca197804621db0078774e1"
+    },
+    {
+      "hash": "0272ed8",
+      "fullHash": "0272ed8ea8fe729b42a54ad8031b16f616636a4e",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T23:35:34-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "develop",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": "QUANCORE-25",
+      "subject": "merge(QUANCORE-25): integrar estadisticas y dashboard en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/0272ed8ea8fe729b42a54ad8031b16f616636a4e"
+    },
+    {
+      "hash": "44fe177",
+      "fullHash": "44fe177212e91a835c861dae68156f9ea9dea9fa",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T23:33:35-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "develop",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-25",
+      "subject": "docs(QUANCORE-25): registrar evidencia SQL y demo de estadisticas propias",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/44fe177212e91a835c861dae68156f9ea9dea9fa"
+    },
+    {
+      "hash": "373b5f4",
+      "fullHash": "373b5f411326e351f22c75550c83be26c498c779",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T23:30:41-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "develop",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-25",
+      "subject": "test(QUANCORE-25): verificar agregados historicos y lectura consistente en PostgreSQL",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/373b5f411326e351f22c75550c83be26c498c779"
+    },
+    {
+      "hash": "e632699",
+      "fullHash": "e632699f4d443303e1284e389d6001215eb43c30",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T23:26:38-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "develop",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-25",
+      "subject": "feat(QUANCORE-25): agregar endpoints propios de estadisticas desde PostgreSQL",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/e632699f4d443303e1284e389d6001215eb43c30"
+    },
+    {
+      "hash": "8258bb4",
+      "fullHash": "8258bb44224c824198c50b95aa461414ab74f6ad",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T23:22:11-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "develop",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-25",
+      "subject": "feat(QUANCORE-25): definir contrato de progreso calendario y tendencias",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/8258bb44224c824198c50b95aa461414ab74f6ad"
+    },
+    {
+      "hash": "166b1b6",
+      "fullHash": "166b1b61a747c309751d428e611aeffa7a3efcc3",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T23:14:05-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "develop",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": "QUANCORE-22",
+      "subject": "merge(QUANCORE-22): integrar eventos MongoDB y auditoria en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/166b1b61a747c309751d428e611aeffa7a3efcc3"
+    },
+    {
+      "hash": "cb1acfe",
+      "fullHash": "cb1acfe70a77e053cec2d713bfe1d61850e2eb4e",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T23:07:20-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "develop",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-22",
+      "subject": "docs(QUANCORE-22): registrar evidencia MongoDB y recuperacion para demo",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/cb1acfe70a77e053cec2d713bfe1d61850e2eb4e"
+    },
+    {
+      "hash": "78e6117",
+      "fullHash": "78e6117b7361a75b4565a8a033bd696289257277",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T23:04:24-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "develop",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-22",
+      "subject": "test(QUANCORE-22): verificar permisos revocacion y recuperacion con MongoDB real",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/78e6117b7361a75b4565a8a033bd696289257277"
+    },
+    {
+      "hash": "00fbedc",
+      "fullHash": "00fbedc649473505b2220a1f0e75802b7c945949",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T23:01:27-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "develop",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-22",
+      "subject": "feat(QUANCORE-22): proyectar eventos MongoDB desde outbox con auditoria",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/00fbedc649473505b2220a1f0e75802b7c945949"
+    },
+    {
+      "hash": "4c5c4f8",
+      "fullHash": "4c5c4f8188e2a692bf1ea0b80ba6933ed9351d43",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T22:58:31-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "develop",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-22",
+      "subject": "feat(QUANCORE-22): definir contratos de eventos y auditoria MongoDB",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/4c5c4f8188e2a692bf1ea0b80ba6933ed9351d43"
+    },
+    {
+      "hash": "7f5a5ae",
+      "fullHash": "7f5a5ae4f49b8b8b9578e535a71d2ee40c9980b4",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T22:57:28-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-42-consolidacion-frontend",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-42",
+      "subject": "docs(QUANCORE-42): registrar decisiones y evidencia de consolidacion",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/7f5a5ae4f49b8b8b9578e535a71d2ee40c9980b4"
+    },
+    {
+      "hash": "e083f21",
+      "fullHash": "e083f2123a8aa4b90f52c709830666cd0907c65e",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T22:57:27-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-42-consolidacion-frontend",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-42",
+      "subject": "feat(QUANCORE-42): consolidar frontend modular con fixtures y rutas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/e083f2123a8aa4b90f52c709830666cd0907c65e"
+    },
+    {
+      "hash": "5e6fa07",
+      "fullHash": "5e6fa07fbb312beec1643d372b125d6b8f79d2cf",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T22:48:37-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "develop",
+      "type": "chore",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-22",
+      "subject": "chore(QUANCORE-22): inicializar rama de eventos y telemetria MongoDB",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/5e6fa07fbb312beec1643d372b125d6b8f79d2cf"
+    },
+    {
+      "hash": "9331de3",
+      "fullHash": "9331de3c05d43f821bb10b794b1ca1b13d693620",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T22:46:59-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "develop",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": "QUANCORE-35",
+      "subject": "merge(QUANCORE-35): integrar telemetria sintetica en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/9331de3c05d43f821bb10b794b1ca1b13d693620"
+    },
+    {
+      "hash": "7411879",
+      "fullHash": "7411879498a03699cc58864db7f9e75db3ed46f6",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T22:42:57-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "feature/QUANCORE-35-telemetria-ingestion",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-35",
+      "subject": "docs(telemetry): registrar arquitectura y evidencia QUANCORE-35",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/7411879498a03699cc58864db7f9e75db3ed46f6"
+    },
+    {
+      "hash": "199f98f",
+      "fullHash": "199f98f1b70adc8147c5d8b34ea981f206caa4b2",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T22:42:04-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "feature/QUANCORE-35-telemetria-ingestion",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-35",
+      "subject": "feat(telemetry): implementar ingesta sintetica y pruebas QUANCORE-35",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/199f98f1b70adc8147c5d8b34ea981f206caa4b2"
+    },
+    {
+      "hash": "2746acc",
+      "fullHash": "2746acc8e096e8d0fa46375b80371b9e0010a9a1",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T22:41:52-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "feature/QUANCORE-35-telemetria-ingestion",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-35",
+      "subject": "feat(telemetry): definir contrato versionado QUANCORE-35",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/2746acc8e096e8d0fa46375b80371b9e0010a9a1"
+    },
+    {
+      "hash": "5591a6e",
+      "fullHash": "5591a6ed0994a630ac8641cdac43f0ad7ea85a0b",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T21:00:50-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": "QUANCORE-26",
+      "subject": "merge(QUANCORE-26): integrar baseline UX de autenticación (#1)",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/5591a6ed0994a630ac8641cdac43f0ad7ea85a0b"
+    },
+    {
+      "hash": "96c52eb",
+      "fullHash": "96c52eb752eb2bcbfeba2844b93da09c64f5ccf1",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T20:46:16-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "docs/auth-flow-ux-baseline",
+      "type": "fix",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "fix(gui): corregir documentacion y tipografia de autenticacion",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/96c52eb752eb2bcbfeba2844b93da09c64f5ccf1"
+    },
+    {
+      "hash": "d51996d",
+      "fullHash": "d51996d2e8a97f114f3033175bdb364bb31df15a",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T20:15:40-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "docs/auth-flow-ux-baseline",
+      "type": "fix",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "fix(gui): corregir rutas relativas de referencias de autenticación",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/d51996d2e8a97f114f3033175bdb364bb31df15a"
+    },
+    {
+      "hash": "5bff45c",
+      "fullHash": "5bff45ccd503dea8b96db15a76f1ef473596335a",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T20:13:45-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "docs/auth-flow-ux-baseline",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(gui): documentar flujo de identidad y enlazar galería, índices y test",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/5bff45ccd503dea8b96db15a76f1ef473596335a"
+    },
+    {
+      "hash": "819e43d",
+      "fullHash": "819e43d53facf78ac6c844d7c1ca4b325b3ac8e1",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T20:03:43-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "docs/auth-flow-ux-baseline",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "feat(gui): añadir 6 pantallas de autenticación en 24 SVG reproducibles",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/819e43d53facf78ac6c844d7c1ca4b325b3ac8e1"
+    },
+    {
+      "hash": "9fd92d9",
+      "fullHash": "9fd92d9e7cdc1bdc00a9226de532b9634a42fa40",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T15:28:40-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-31-checkin-estadisticas-movil",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-31",
+      "subject": "docs(QUANCORE-31): redactar guia sencilla de la aplicacion movil sin tecnicismos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/9fd92d9e7cdc1bdc00a9226de532b9634a42fa40"
+    },
+    {
+      "hash": "0d2eac7",
+      "fullHash": "0d2eac7be99ecdaf4fd57656172595f20dc70b5b",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T12:46:12-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-31-checkin-estadisticas-movil",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-31",
+      "subject": "test(QUANCORE-31): anadir pruebas unitarias y de widget para check-ins idempotentes, historial y logros",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/0d2eac7be99ecdaf4fd57656172595f20dc70b5b"
+    },
+    {
+      "hash": "361030b",
+      "fullHash": "361030bf7d538ec8e48cb7a57b77cb9b6e84ad9f",
+      "date": "2026-11-08",
+      "timestamp": "2026-11-08T10:07:24-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-29-crear-app-flutter",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-29",
+      "subject": "test(QUANCORE-29): actualizar prueba de widget de acceso sin campos de contrasena local",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/361030bf7d538ec8e48cb7a57b77cb9b6e84ad9f"
+    },
+    {
+      "hash": "fa977f1",
+      "fullHash": "fa977f1cbbd01db21a290693cb1ed1eb4d747ecc",
+      "date": "2026-11-07",
+      "timestamp": "2026-11-07T18:41:56-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-31-checkin-estadisticas-movil",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-31",
+      "subject": "feat(QUANCORE-31): incorporar vitrina de logros e historial de registros en pantalla de metricas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/fa977f1cbbd01db21a290693cb1ed1eb4d747ecc"
+    },
+    {
+      "hash": "21d8465",
+      "fullHash": "21d84650a251f164e5a12fc8e4a5e3d57dcc3e1d",
+      "date": "2026-11-07",
+      "timestamp": "2026-11-07T16:14:33-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-31-checkin-estadisticas-movil",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-31",
+      "subject": "feat(QUANCORE-31): actualizar pantalla de check-in con estado de progreso absoluto y prevencion de duplicados",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/21d84650a251f164e5a12fc8e4a5e3d57dcc3e1d"
+    },
+    {
+      "hash": "e807d29",
+      "fullHash": "e807d29a862a73c53939b2aeaf5656502034ab2b",
+      "date": "2026-11-07",
+      "timestamp": "2026-11-07T13:52:09-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-31-checkin-estadisticas-movil",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-31",
+      "subject": "feat(QUANCORE-31): implementar motor movil de calculo de rachas y logros verificables",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/e807d29a862a73c53939b2aeaf5656502034ab2b"
+    },
+    {
+      "hash": "4e86447",
+      "fullHash": "4e8644703b6ce9da84103e7963f84037ac277891",
+      "date": "2026-11-07",
+      "timestamp": "2026-11-07T11:19:45-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-31-checkin-estadisticas-movil",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-31",
+      "subject": "feat(QUANCORE-31): agregar modelo de registro de check-in con version, estado e idempotencia",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/4e8644703b6ce9da84103e7963f84037ac277891"
+    },
+    {
+      "hash": "949767e",
+      "fullHash": "949767e51f83ad4f936ff1c20c3210c122d6029e",
+      "date": "2026-11-07",
+      "timestamp": "2026-11-07T09:31:18-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-29-crear-app-flutter",
+      "type": "refactor",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-29",
+      "subject": "refactor(QUANCORE-29): retirar campos de contrasena local y alinear pantalla de acceso con oidc pkce",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/949767e51f83ad4f936ff1c20c3210c122d6029e"
+    },
+    {
+      "hash": "fa43bed",
+      "fullHash": "fa43beddc70570960315615426f2eaa9d0e24723",
+      "date": "2026-11-06",
+      "timestamp": "2026-11-06T21:47:53-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-46-metricas-observabilidad",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-46",
+      "subject": "docs(QUANCORE-46): redactar guia sencilla de monitoreo, metricas y cuidado de datos privados",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/fa43beddc70570960315615426f2eaa9d0e24723"
+    },
+    {
+      "hash": "35b2415",
+      "fullHash": "35b241529982af75f9bb47a36f2c37c067b3a61b",
+      "date": "2026-11-06",
+      "timestamp": "2026-11-06T20:21:16-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-46-metricas-observabilidad",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-46",
+      "subject": "test(QUANCORE-46): verificar calculo de p95, rechazo de etiquetas prohibidas y tolerancia a fallos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/35b241529982af75f9bb47a36f2c37c067b3a61b"
+    },
+    {
+      "hash": "c269ccd",
+      "fullHash": "c269ccdfbb2d0910206961a0a2831809b2926aeb",
+      "date": "2026-11-06",
+      "timestamp": "2026-11-06T19:03:45-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-46-metricas-observabilidad",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-46",
+      "subject": "feat(QUANCORE-46): implementar exportador con degradacion controlada ante caida del colector",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/c269ccdfbb2d0910206961a0a2831809b2926aeb"
+    },
+    {
+      "hash": "f395150",
+      "fullHash": "f3951502a1a9c37a635dc28ec5454368ffbcbfae",
+      "date": "2026-11-06",
+      "timestamp": "2026-11-06T17:38:27-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-46-metricas-observabilidad",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-46",
+      "subject": "feat(QUANCORE-46): implementar registro de metricas con rutas normalizadas y cardinalidad acotada",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/f3951502a1a9c37a635dc28ec5454368ffbcbfae"
+    },
+    {
+      "hash": "764a9cc",
+      "fullHash": "764a9ccee28e1a6a29d9a92ee61e7d8f840e157d",
+      "date": "2026-11-06",
+      "timestamp": "2026-11-06T15:54:02-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-46-metricas-observabilidad",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-46",
+      "subject": "test(QUANCORE-46): verificar correlacion de peticiones sinteticas y cabeceras w3c",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/764a9ccee28e1a6a29d9a92ee61e7d8f840e157d"
+    },
+    {
+      "hash": "b7975a5",
+      "fullHash": "b7975a5f1c34dc93f185ae555173f9794ba54e7e",
+      "date": "2026-11-06",
+      "timestamp": "2026-11-06T14:29:11-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-46-metricas-observabilidad",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-46",
+      "subject": "feat(QUANCORE-46): implementar propagador de correlacion y traceparent entre api y analitica",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/b7975a5f1c34dc93f185ae555173f9794ba54e7e"
+    },
+    {
+      "hash": "f469c17",
+      "fullHash": "f469c17a521e5dbc521b00f09f6aa5c8aafc9b8d",
+      "date": "2026-11-06",
+      "timestamp": "2026-11-06T12:05:48-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-46-metricas-observabilidad",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-46",
+      "subject": "test(QUANCORE-46): comprobar ausencia de tokens, contrasenas, habitos y biometria en logs",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/f469c17a521e5dbc521b00f09f6aa5c8aafc9b8d"
+    },
+    {
+      "hash": "974d0d9",
+      "fullHash": "974d0d9c72243daedfa46ec65845d9e3d85d4a6e",
+      "date": "2026-11-06",
+      "timestamp": "2026-11-06T10:42:19-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-46-metricas-observabilidad",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-46",
+      "subject": "feat(QUANCORE-46): implementar sanitizador de logs estructurados sin datos personales ni secretos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/974d0d9c72243daedfa46ec65845d9e3d85d4a6e"
+    },
+    {
+      "hash": "adc2ae3",
+      "fullHash": "adc2ae3a77bd5228196560f87656871666725eca",
+      "date": "2026-11-06",
+      "timestamp": "2026-11-06T09:16:33-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-46-metricas-observabilidad",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-46",
+      "subject": "feat(QUANCORE-46): definir contratos typescript para metricas, logs estructurados y correlacion",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/adc2ae3a77bd5228196560f87656871666725eca"
+    },
+    {
+      "hash": "5958a48",
+      "fullHash": "5958a48ca349f00dc8a40ac6b4c860bc08d1605e",
+      "date": "2026-11-05",
+      "timestamp": "2026-11-05T20:49:37-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-32-gamificacion-logros",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-32",
+      "subject": "docs(QUANCORE-32): agregar guia sencilla de logros y medallas sin tecnicismos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/5958a48ca349f00dc8a40ac6b4c860bc08d1605e"
+    },
+    {
+      "hash": "d236424",
+      "fullHash": "d2364242b7cf7736859e265a34787a1e0612214e",
+      "date": "2026-11-05",
+      "timestamp": "2026-11-05T19:11:03-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-32-gamificacion-logros",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-32",
+      "subject": "feat(QUANCORE-32): implementar caso de uso de gamificacion integrado con calculo de rachas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/d2364242b7cf7736859e265a34787a1e0612214e"
+    },
+    {
+      "hash": "3737b62",
+      "fullHash": "3737b6272c976d49e19ef89d1286d95a611f4996",
+      "date": "2026-11-05",
+      "timestamp": "2026-11-05T17:43:29-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-32-gamificacion-logros",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-32",
+      "subject": "test(QUANCORE-32): verificar que reintentos y correcciones no otorguen logros falsos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/3737b6272c976d49e19ef89d1286d95a611f4996"
+    },
+    {
+      "hash": "70532c4",
+      "fullHash": "70532c4a16e1a3aae63075e5b36d54e35a7087ef",
+      "date": "2026-11-05",
+      "timestamp": "2026-11-05T16:05:44-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-32-gamificacion-logros",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-32",
+      "subject": "feat(QUANCORE-32): implementar registro idempotente contra recompensas duplicadas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/70532c4a16e1a3aae63075e5b36d54e35a7087ef"
+    },
+    {
+      "hash": "fa95613",
+      "fullHash": "fa95613ae2502598135f58d210a062199d1035c5",
+      "date": "2026-11-05",
+      "timestamp": "2026-11-05T14:17:08-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-32-gamificacion-logros",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-32",
+      "subject": "feat(QUANCORE-32): implementar motor determinista de evaluacion de logros sobre rachas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/fa95613ae2502598135f58d210a062199d1035c5"
+    },
+    {
+      "hash": "96374cb",
+      "fullHash": "96374cbde2a1b19ad56416d9585e22864ab1c23b",
+      "date": "2026-11-05",
+      "timestamp": "2026-11-05T11:52:14-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-32-gamificacion-logros",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-32",
+      "subject": "test(QUANCORE-32): anadir pruebas unitarias del catalogo y reglas de hitos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/96374cbde2a1b19ad56416d9585e22864ab1c23b"
+    },
+    {
+      "hash": "75c0275",
+      "fullHash": "75c0275593627c9f83cbd3f17efc5ed4b291fcc8",
+      "date": "2026-11-05",
+      "timestamp": "2026-11-05T10:38:51-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-32-gamificacion-logros",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-32",
+      "subject": "feat(QUANCORE-32): definir catalogo versionado de logros e hitos de constancia",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/75c0275593627c9f83cbd3f17efc5ed4b291fcc8"
+    },
+    {
+      "hash": "381752a",
+      "fullHash": "381752ac655c2e16ea3de45d9422ee692e1c9ff2",
+      "date": "2026-11-05",
+      "timestamp": "2026-11-05T09:14:22-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-32-gamificacion-logros",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-32",
+      "subject": "feat(QUANCORE-32): definir tipos typescript y estructura de logros verificables",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/381752ac655c2e16ea3de45d9422ee692e1c9ff2"
+    },
+    {
+      "hash": "f47f771",
+      "fullHash": "f47f7718f5d4c56b464caa8f4b8703c658d9fc8d",
+      "date": "2026-11-04",
+      "timestamp": "2026-11-04T15:36:49-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "docs(QUANCORE-24): redactar guia explicativa sencilla sobre registros diarios y rachas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/f47f7718f5d4c56b464caa8f4b8703c658d9fc8d"
+    },
+    {
+      "hash": "180185a",
+      "fullHash": "180185a2144436cc2bc3f1eaf80eaf4e24d96ccd",
+      "date": "2026-11-04",
+      "timestamp": "2026-11-04T12:08:37-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "test(QUANCORE-24): agregar pruebas de bordes de zona horaria, archivo y ventana de metricas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/180185a2144436cc2bc3f1eaf80eaf4e24d96ccd"
+    },
+    {
+      "hash": "b6eeac3",
+      "fullHash": "b6eeac38f9a893e9c834330ab77a5132175e79fa",
+      "date": "2026-11-04",
+      "timestamp": "2026-11-04T09:41:15-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "feat(QUANCORE-24): implementar caso de uso de consulta de metricas y rachas por ventana",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/b6eeac38f9a893e9c834330ab77a5132175e79fa"
+    },
+    {
+      "hash": "5d9306c",
+      "fullHash": "5d9306cf669309c4104ceda79353b4841ea44638",
+      "date": "2026-11-03",
+      "timestamp": "2026-11-03T18:19:26-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "test(QUANCORE-24): verificar flujo completo de check-in con reintentos y concurrencia",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/5d9306cf669309c4104ceda79353b4841ea44638"
+    },
+    {
+      "hash": "dd8817c",
+      "fullHash": "dd8817c6b64e645731286bf99a3431afe331ce59",
+      "date": "2026-11-03",
+      "timestamp": "2026-11-03T16:33:52-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "feat(QUANCORE-24): implementar caso de uso desacoplado de registro y correccion de check-ins",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/dd8817c6b64e645731286bf99a3431afe331ce59"
+    },
+    {
+      "hash": "eb25e5d",
+      "fullHash": "eb25e5d718637c9d8fdfbc57d2caba9397122b7f",
+      "date": "2026-11-03",
+      "timestamp": "2026-11-03T13:47:09-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "test(QUANCORE-24): anadir pruebas unitarias del mapeador de errores problem+json",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/eb25e5d718637c9d8fdfbc57d2caba9397122b7f"
+    },
+    {
+      "hash": "bf57c01",
+      "fullHash": "bf57c018ac2272c17cd72bcf8408a0aace5cc2fd",
+      "date": "2026-11-03",
+      "timestamp": "2026-11-03T11:12:43-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "feat(QUANCORE-24): implementar mapeador de errores de dominio a problem+json rfc 9457",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/bf57c018ac2272c17cd72bcf8408a0aace5cc2fd"
+    },
+    {
+      "hash": "9b1a2d3",
+      "fullHash": "9b1a2d3ced62ca7ca575d66457591321135e28a7",
+      "date": "2026-11-03",
+      "timestamp": "2026-11-03T09:24:18-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "feat(QUANCORE-24): definir contratos typescript para fechas, check-ins y metricas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/9b1a2d3ced62ca7ca575d66457591321135e28a7"
+    },
+    {
+      "hash": "6c44a67",
+      "fullHash": "6c44a675ab4a7b4ba6e46e21c4e2d2874fa5726a",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T18:55:15-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "docs(api): documentar reglas de dominio de rachas, fechas e idempotencia",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/6c44a675ab4a7b4ba6e46e21c4e2d2874fa5726a"
+    },
+    {
+      "hash": "d66d1e9",
+      "fullHash": "d66d1e969b05a082615851dfdfe487576d664eb9",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T18:20:10-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-21-23-backend-persistencia",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-21",
+      "subject": "docs(QUANCORE-21,QUANCORE-23): instrucciones y matriz de pruebas pendientes",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/d66d1e969b05a082615851dfdfe487576d664eb9"
+    },
+    {
+      "hash": "4aa4839",
+      "fullHash": "4aa483941d4df269e568db5a832f391e6b863459",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T18:19:25-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-21-23-backend-persistencia",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-23",
+      "subject": "docs(QUANCORE-23): ampliar OpenAPI con categorías y referencias de hábitos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/4aa483941d4df269e568db5a832f391e6b863459"
+    },
+    {
+      "hash": "6f4e4c4",
+      "fullHash": "6f4e4c4e2919ee2e1fc41178396b01022e07cfbd",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T18:18:59-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-21-23-backend-persistencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-23",
+      "subject": "feat(QUANCORE-23): implementar API NestJS de hábitos y categorías con JWT y versiones",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/6f4e4c4e2919ee2e1fc41178396b01022e07cfbd"
+    },
+    {
+      "hash": "761e365",
+      "fullHash": "761e365ec1bf7d5a9c0b37bee2a93d430ea86aa9",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T18:17:47-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-21-23-backend-persistencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-21",
+      "subject": "feat(QUANCORE-21): crear esquema PostgreSQL, migraciones y seeds reproducibles",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/761e365ec1bf7d5a9c0b37bee2a93d430ea86aa9"
+    },
+    {
+      "hash": "667b91a",
+      "fullHash": "667b91a3acdb4901f59c350421ae8f2faa329af6",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T18:10:50-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "test(api): anadir suite de pruebas para rachas, dias abiertos y pausas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/667b91a3acdb4901f59c350421ae8f2faa329af6"
+    },
+    {
+      "hash": "f5e5de1",
+      "fullHash": "f5e5de1e8c78b4ea8318bf6dcc957ed3d2982d0a",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T17:20:25-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "feat(api): implementar motor de calculo de rachas sobre periodos cerrados",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/f5e5de1e8c78b4ea8318bf6dcc957ed3d2982d0a"
+    },
+    {
+      "hash": "ee4ee4d",
+      "fullHash": "ee4ee4d9f1fb1c236ddf2c72e8cf9f9a957434cf",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T16:25:40-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "test(api): anadir pruebas unitarias de idempotencia y estados de check-in",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/ee4ee4d9f1fb1c236ddf2c72e8cf9f9a957434cf"
+    },
+    {
+      "hash": "d6cf0d3",
+      "fullHash": "d6cf0d36589950edf1a74b800e90ebf3d1c850fd",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T15:35:15-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "feat(api): implementar reglas de progreso absoluto y control de versiones concurrentes",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/d6cf0d36589950edf1a74b800e90ebf3d1c850fd"
+    },
+    {
+      "hash": "cc08cc7",
+      "fullHash": "cc08cc714f4ed93a3b4d90d2d3a1af036ce8fc60",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T14:48:30-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-42-scaffold-web",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-42",
+      "subject": "test(web): anadir pruebas unitarias y documentacion base de apps/web",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/cc08cc714f4ed93a3b4d90d2d3a1af036ce8fc60"
+    },
+    {
+      "hash": "37e2eb7",
+      "fullHash": "37e2eb7d5235c9eed5f926d75ec0dc5149e3693b",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T14:45:30-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "feat(api): implementar huella determinista sha-256 y resolucion de reintentos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/37e2eb7d5235c9eed5f926d75ec0dc5149e3693b"
+    },
+    {
+      "hash": "8482d39",
+      "fullHash": "8482d39aa3f9cb216c84de0a8a501fec5f143e7c",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T13:55:10-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "feat(api): agregar extraccion y validacion de cabecera idempotency-key uuid",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/8482d39aa3f9cb216c84de0a8a501fec5f143e7c"
+    },
+    {
+      "hash": "b9cbd96",
+      "fullHash": "b9cbd9687eb7fe89f2e07c4c9edd9f96befaea43",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T13:12:45-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-42-scaffold-web",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-42",
+      "subject": "feat(web): implementar enrutador, layout principal y paginas por feature",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/b9cbd9687eb7fe89f2e07c4c9edd9f96befaea43"
+    },
+    {
+      "hash": "fb622ad",
+      "fullHash": "fb622ad3c5db2d857591d5a50c0e1633de6eb15e",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T12:40:50-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "test(api): anadir pruebas unitarias para proyeccion de fechas y zonas iana",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/fb622ad3c5db2d857591d5a50c0e1633de6eb15e"
+    },
+    {
+      "hash": "b4a7e7f",
+      "fullHash": "b4a7e7f07bf2dc97545ec5bbe50fbdfae52d3f0c",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T11:50:15-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "feat(api): implementar logica de oportunidades programadas y exclusion de pausas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/b4a7e7f07bf2dc97545ec5bbe50fbdfae52d3f0c"
+    },
+    {
+      "hash": "2ba9e32",
+      "fullHash": "2ba9e32f64686b899733890a0d1e2ed9dc2ac95f",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T11:45:22-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-42-scaffold-web",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-42",
+      "subject": "feat(web): integrar tokens de diseno, cliente api base y componentes ui reutilizables",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/2ba9e32f64686b899733890a0d1e2ed9dc2ac95f"
+    },
+    {
+      "hash": "5bd4a9f",
+      "fullHash": "5bd4a9f189b6b3c588d0f921bc7a62e24046ac0b",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T11:05:40-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "feat(api): implementar conversion de instantes utc a zona horaria iana efectiva",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/5bd4a9f189b6b3c588d0f921bc7a62e24046ac0b"
+    },
+    {
+      "hash": "b7655b1",
+      "fullHash": "b7655b17b5058dfc46e565c3dc2dc14f0cdc30b6",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T10:20:15-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-42-scaffold-web",
+      "type": "chore",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-42",
+      "subject": "chore(web): inicializar configuracion base con react, vite y typescript",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/b7655b17b5058dfc46e565c3dc2dc14f0cdc30b6"
+    },
+    {
+      "hash": "1b1e49e",
+      "fullHash": "1b1e49ec98e7b4996604f35d76f57d4c87cab4f6",
+      "date": "2026-11-02",
+      "timestamp": "2026-11-02T10:15:20-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-24-rachas-idempotencia",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-24",
+      "subject": "feat(api): definir utilidades de validacion para fechas de negocio y marcas utc",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/1b1e49ec98e7b4996604f35d76f57d4c87cab4f6"
+    },
+    {
+      "hash": "8ae2159",
+      "fullHash": "8ae2159b36d2e4f3cb6dc1e998b6b4b96f0adcb2",
+      "date": "2026-10-30",
+      "timestamp": "2026-10-30T11:40:56-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": "QUANCORE-26",
+      "subject": "merge(QUANCORE-26): integrar guia de estilos y documentacion visual en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/8ae2159b36d2e4f3cb6dc1e998b6b4b96f0adcb2"
+    },
+    {
+      "hash": "3dd15ea",
+      "fullHash": "3dd15eae95cf52e7a62fbb232bd150918deec184",
+      "date": "2026-10-30",
+      "timestamp": "2026-10-30T11:37:10-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(QUANCORE-26): actualizar tabla de estado y ampliar documentacion de la guia de estilos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/3dd15eae95cf52e7a62fbb232bd150918deec184"
+    },
+    {
+      "hash": "1d3c554",
+      "fullHash": "1d3c554407203b8b595a1708e67c808786802e31",
+      "date": "2026-10-30",
+      "timestamp": "2026-10-30T10:55:32-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(QUANCORE-26): separar la guía de estilos en lienzos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/1d3c554407203b8b595a1708e67c808786802e31"
+    },
+    {
+      "hash": "9708d9a",
+      "fullHash": "9708d9a00c70d3918d33c54a85534228e9c3000f",
+      "date": "2026-10-30",
+      "timestamp": "2026-10-30T10:36:26-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(QUANCORE-26): completar guia de estilos y archivo Figma propio",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/9708d9a00c70d3918d33c54a85534228e9c3000f"
+    },
+    {
+      "hash": "0af3308",
+      "fullHash": "0af33089a7d3d62a0ca176e481513b07c56d8440",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T21:59:20-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": "QUANCORE-26",
+      "subject": "merge(QUANCORE-26): integrar hotfix de GUI en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/0af33089a7d3d62a0ca176e481513b07c56d8440"
+    },
+    {
+      "hash": "28fd47b",
+      "fullHash": "28fd47b1647313adce2e14b8426ec02d616c0bcd",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T21:57:03-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(pages): publicar el arbol GUI simplificado",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/28fd47b1647313adce2e14b8426ec02d616c0bcd"
+    },
+    {
+      "hash": "db31b87",
+      "fullHash": "db31b871ae59da518ab655f26fb13f2d94aef690",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T21:56:50-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "refactor",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "refactor(QUANCORE-26): agrupar laminas y pruebas en sus carpetas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/db31b871ae59da518ab655f26fb13f2d94aef690"
+    },
+    {
+      "hash": "fa033f3",
+      "fullHash": "fa033f3ba193ef46d41ace7650b88b3e8c988444",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T21:51:00-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(pages): compactar la revision movil con miniaturas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/fa033f3ba193ef46d41ace7650b88b3e8c988444"
+    },
+    {
+      "hash": "82d6043",
+      "fullHash": "82d6043e9ed69500fd01b586f60635c2d1d2da27",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T21:50:40-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(QUANCORE-26): mostrar miniaturas moviles de tres en tres",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/82d6043e9ed69500fd01b586f60635c2d1d2da27"
+    },
+    {
+      "hash": "f695ea8",
+      "fullHash": "f695ea8aa7684b19cd343dbb93243d266f77d5fa",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T21:48:14-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(pages): publicar los tres README de etapas moviles",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/f695ea8aa7684b19cd343dbb93243d266f77d5fa"
+    },
+    {
+      "hash": "2ca2a0e",
+      "fullHash": "2ca2a0e2b5bebd5c6a0569ace2f3e2b7b0716141",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T21:48:05-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(QUANCORE-26): separar sketches wireframes y mockups moviles",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/2ca2a0e2b5bebd5c6a0569ace2f3e2b7b0716141"
+    },
+    {
+      "hash": "50735cc",
+      "fullHash": "50735cce5e0c9fa914aec68dbe288a2949da72af",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T21:42:39-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(pages): enlazar una sola documentacion de identidad",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/50735cce5e0c9fa914aec68dbe288a2949da72af"
+    },
+    {
+      "hash": "36ff7f3",
+      "fullHash": "36ff7f362988d79beba67f6419c5ca23931e2206",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T21:42:11-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(QUANCORE-26): unificar el acceso a la identidad visual",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/36ff7f362988d79beba67f6419c5ca23931e2206"
+    },
+    {
+      "hash": "70fe90a",
+      "fullHash": "70fe90aece89727a1ce9b738cf5a85752599b87c",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T11:17:54-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(pages): mostrar el recorrido movil de 80 imagenes",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/70fe90aece89727a1ce9b738cf5a85752599b87c"
+    },
+    {
+      "hash": "90ff6d5",
+      "fullHash": "90ff6d5c1f6c2056fe288efff6b1063e3410b975",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T11:17:37-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(QUANCORE-26): mostrar las 80 imagenes en el README movil",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/90ff6d5c1f6c2056fe288efff6b1063e3410b975"
+    },
+    {
+      "hash": "8cddd72",
+      "fullHash": "8cddd727e7a5db887d2789570cdbacf525b3ab73",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T11:06:19-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(pages): publicar GUI y marcas desde aa83602",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/8cddd727e7a5db887d2789570cdbacf525b3ab73"
+    },
+    {
+      "hash": "aa83602",
+      "fullHash": "aa836029f11b4d7d66a0e34821efc05e5de8a2bc",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T11:05:49-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(QUANCORE-26): separar identidad y matriz del indice GUI",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/aa836029f11b4d7d66a0e34821efc05e5de8a2bc"
+    },
+    {
+      "hash": "6923ddb",
+      "fullHash": "6923ddb7fdfc693d8cd83b4afba55ed0a198337e",
+      "date": "2026-10-29",
+      "timestamp": "2026-10-29T10:55:05-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "fix",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "fix(QUANCORE-26): adaptar marcas existentes al modo oscuro",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/6923ddb7fdfc693d8cd83b4afba55ed0a198337e"
+    },
+    {
+      "hash": "4447a9d",
+      "fullHash": "4447a9d8ace819d41058e939a947e16a6601af38",
+      "date": "2026-10-28",
+      "timestamp": "2026-10-28T22:55:40-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(gui): integrar revision movil y matriz de correspondencia",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/4447a9d8ace819d41058e939a947e16a6601af38"
+    },
+    {
+      "hash": "ab9d04c",
+      "fullHash": "ab9d04c150dad80155690b2a763f118b5c49a7bc",
+      "date": "2026-10-28",
+      "timestamp": "2026-10-28T22:53:39-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "feat(design): completar veinte pantallas moviles en tres fidelidades",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/ab9d04c150dad80155690b2a763f118b5c49a7bc"
+    },
+    {
+      "hash": "e38d1ea",
+      "fullHash": "e38d1eae6fc6e3790b32f8a845696c50de003ee1",
+      "date": "2026-10-28",
+      "timestamp": "2026-10-28T13:09:50-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "fix",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "fix(design): ampliar fundamentos y documentar identidad claro oscuro",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/e38d1eae6fc6e3790b32f8a845696c50de003ee1"
+    },
+    {
+      "hash": "c5d0872",
+      "fullHash": "c5d0872780c536e3bb95b92d1fc04d06145c5663",
+      "date": "2026-10-28",
+      "timestamp": "2026-10-28T11:45:43-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "fix",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "fix(design): completar cuatro lienzos de identidad QUANCORE-26",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/c5d0872780c536e3bb95b92d1fc04d06145c5663"
+    },
+    {
+      "hash": "dc127ea",
+      "fullHash": "dc127eac3dfa833a7f15cfb4ae12421d3903af9c",
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27T15:05:15-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": "QUANCORE-26",
+      "subject": "merge: integrar QUANCORE-26 documentacion y sistema visual en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/dc127eac3dfa833a7f15cfb4ae12421d3903af9c"
+    },
+    {
+      "hash": "33f6020",
+      "fullHash": "33f6020a1e0176140384b690fc20336975651405",
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27T14:55:06-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(gui): centralizar enlace de Figma en la tabla de estado",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/33f6020a1e0176140384b690fc20336975651405"
+    },
+    {
+      "hash": "84bcdd4",
+      "fullHash": "84bcdd4658c4a64500306fee84aeb6406f124b50",
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27T14:55:00-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(gui): resumir estado de la entrega visual",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/84bcdd4658c4a64500306fee84aeb6406f124b50"
+    },
+    {
+      "hash": "a5372df",
+      "fullHash": "a5372df9a0a4e494e2a7df831770ebbb141d3ca6",
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27T14:54:48-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(gui): agregar indice de contenido al README",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/a5372df9a0a4e494e2a7df831770ebbb141d3ca6"
+    },
+    {
+      "hash": "133e777",
+      "fullHash": "133e777ac8334cc337212682740131d5c6fa6d54",
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27T14:49:23-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(gui): enlazar archivo de Figma del sistema visual",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/133e777ac8334cc337212682740131d5c6fa6d54"
+    },
+    {
+      "hash": "2960d32",
+      "fullHash": "2960d32ee72f180c075acfa22451fd1183f71464",
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27T11:49:30-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-29-crear-app-flutter",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-29",
+      "subject": "docs(mobile): actualizar readme con guia de instalacion y uso de la demo",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/2960d32ee72f180c075acfa22451fd1183f71464"
+    },
+    {
+      "hash": "cf04e55",
+      "fullHash": "cf04e55f477283918e5a74af7d8eaf606f88d78c",
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27T11:38:10-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-29-crear-app-flutter",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-29",
+      "subject": "feat(mobile): agregar pantallas de catalogo de habitos, metricas y perfil",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/cf04e55f477283918e5a74af7d8eaf606f88d78c"
+    },
+    {
+      "hash": "efd4825",
+      "fullHash": "efd4825e00509d7247f67b8ba0b2345886c1521c",
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27T11:24:50-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-29-crear-app-flutter",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-29",
+      "subject": "feat(mobile): implementar vista principal de habitos y check-in rapido",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/efd4825e00509d7247f67b8ba0b2345886c1521c"
+    },
+    {
+      "hash": "e91551c",
+      "fullHash": "e91551cc13d1e07d40852245d73bbf021b0fe8a7",
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27T11:11:20-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-29-crear-app-flutter",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-29",
+      "subject": "feat(mobile): implementar pantalla de acceso y autenticacion demo",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/e91551cc13d1e07d40852245d73bbf021b0fe8a7"
+    },
+    {
+      "hash": "846bb61",
+      "fullHash": "846bb61b50c7332487915659558dbde5e4bfe706",
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27T10:57:45-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-29-crear-app-flutter",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-29",
+      "subject": "feat(mobile): configurar constantes de api, enrutamiento y cliente base",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/846bb61b50c7332487915659558dbde5e4bfe706"
+    },
+    {
+      "hash": "2c4a85d",
+      "fullHash": "2c4a85d3d8715166254bd47eeee37285d84479d5",
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27T10:45:30-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-29-crear-app-flutter",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-29",
+      "subject": "feat(mobile): definir tokens de diseno, paleta de colores y tema visual",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/2c4a85d3d8715166254bd47eeee37285d84479d5"
+    },
+    {
+      "hash": "178d585",
+      "fullHash": "178d585dbac7f363186d83565acb3c331b640c13",
+      "date": "2026-10-27",
+      "timestamp": "2026-10-27T10:33:15-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QUANCORE-29-crear-app-flutter",
+      "type": "chore",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-29",
+      "subject": "chore(mobile): inicializar estructura del proyecto flutter para android",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/178d585dbac7f363186d83565acb3c331b640c13"
+    },
+    {
+      "hash": "261b420",
+      "fullHash": "261b42013386c4a3577435d3b77b73f78a3f6403",
+      "date": "2026-10-26",
+      "timestamp": "2026-10-26T11:16:54-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(pages): marcar galeria activa y verificada",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/261b42013386c4a3577435d3b77b73f78a3f6403"
+    },
+    {
+      "hash": "cbd3789",
+      "fullHash": "cbd3789e620b09803db5e9b59d456e18b16e6306",
+      "date": "2026-10-26",
+      "timestamp": "2026-10-26T11:16:50-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(pages): confirmar publicacion y verificacion de galeria",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/cbd3789e620b09803db5e9b59d456e18b16e6306"
+    },
+    {
+      "hash": "5cd7276",
+      "fullHash": "5cd727698c969b42be097ba72766e906680ee1d1",
+      "date": "2026-10-26",
+      "timestamp": "2026-10-26T11:01:58-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(pages): sincronizar guia final y distincion de marcas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/5cd727698c969b42be097ba72766e906680ee1d1"
+    },
+    {
+      "hash": "6cec3ae",
+      "fullHash": "6cec3ae4000eb84c23848ca8e967ff10b2212710",
+      "date": "2026-10-26",
+      "timestamp": "2026-10-26T11:01:49-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(pages): registrar validacion y activacion pendiente de galeria",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/6cec3ae4000eb84c23848ca8e967ff10b2212710"
+    },
+    {
+      "hash": "7a669c5",
+      "fullHash": "7a669c564f0101cc5daf60a1fd26b7bcffe4ac80",
+      "date": "2026-10-26",
+      "timestamp": "2026-10-26T10:58:19-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "deploy(pages): publicar galeria preservando el portal existente",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/7a669c564f0101cc5daf60a1fd26b7bcffe4ac80"
+    },
+    {
+      "hash": "7bb06bc",
+      "fullHash": "7bb06bc51cfbdef661c906ab5f5f53af1f36a521",
+      "date": "2026-10-26",
+      "timestamp": "2026-10-26T10:58:16-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "refactor",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "refactor(gui): consolidar documentacion y galeria de imagenes",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/7bb06bc51cfbdef661c906ab5f5f53af1f36a521"
+    },
+    {
+      "hash": "781770e",
+      "fullHash": "781770e9acd06a0359cdeabdb8ece17dc2fbffec",
+      "date": "2026-10-26",
+      "timestamp": "2026-10-26T10:58:15-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "feat(design): crear laminas PNG y unificar tipografia Inter",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/781770e9acd06a0359cdeabdb8ece17dc2fbffec"
+    },
+    {
+      "hash": "ccd2cd8",
+      "fullHash": "ccd2cd8c17030ab69656b0d6723795c7dc046958",
+      "date": "2026-10-26",
+      "timestamp": "2026-10-26T10:33:04-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "docs(design): integrar guias y evidencia de validacion visual",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/ccd2cd8c17030ab69656b0d6723795c7dc046958"
+    },
+    {
+      "hash": "d1f45dd",
+      "fullHash": "d1f45dd6f87152e0e34361d6b6989bb98175a921",
+      "date": "2026-10-26",
+      "timestamp": "2026-10-26T10:33:02-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "feat(gui): agregar galeria de sketches wireframes y mockups",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/d1f45dd6f87152e0e34361d6b6989bb98175a921"
+    },
+    {
+      "hash": "2a5b399",
+      "fullHash": "2a5b3998fd3cd642216e8f72fa322d5b71132da5",
+      "date": "2026-10-26",
+      "timestamp": "2026-10-26T10:32:42-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-26",
+      "subject": "feat(design): definir tokens de revision y recursos de identidad",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/2a5b3998fd3cd642216e8f72fa322d5b71132da5"
+    },
+    {
+      "hash": "5560408",
+      "fullHash": "55604085492983ecebcea81d0ad4d0fef04d99a9",
+      "date": "2026-10-25",
+      "timestamp": "2026-10-25T17:01:32-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-26-documentacion-prototipos",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": "QUANCORE-17",
+      "subject": "merge(iam): integrar QUANCORE-17 Keycloak en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/55604085492983ecebcea81d0ad4d0fef04d99a9"
+    },
+    {
+      "hash": "7dd7548",
+      "fullHash": "7dd7548a230b59be235fd3b22b0497da55e1e867",
+      "date": "2026-10-25",
+      "timestamp": "2026-10-25T16:50:22-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-17-keycloak-iam",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-17",
+      "subject": "docs(iam): unificar guía y evidencias en README de Keycloak",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/7dd7548a230b59be235fd3b22b0497da55e1e867"
+    },
+    {
+      "hash": "a3ee830",
+      "fullHash": "a3ee83073e0f6e04d80a8f9c0b3171c325131f11",
+      "date": "2026-10-25",
+      "timestamp": "2026-10-25T16:37:10-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-17-keycloak-iam",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-17",
+      "subject": "docs(iam): agregar glosario final de evidencias con pies de imagen",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/a3ee83073e0f6e04d80a8f9c0b3171c325131f11"
+    },
+    {
+      "hash": "e65aa4e",
+      "fullHash": "e65aa4edbbf571c5fb999d71f6464deb02bba131",
+      "date": "2026-10-25",
+      "timestamp": "2026-10-25T16:29:16-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-17-keycloak-iam",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-17",
+      "subject": "docs(iam): integrar capturas, índices y checklist de Jira",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/e65aa4edbbf571c5fb999d71f6464deb02bba131"
+    },
+    {
+      "hash": "773a48e",
+      "fullHash": "773a48e2389f3fd6c4d30d63287fb408ef6cef66",
+      "date": "2026-10-25",
+      "timestamp": "2026-10-25T16:25:36-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-17-keycloak-iam",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-17",
+      "subject": "docs(iam): registrar pruebas y evidencias de Keycloak",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/773a48e2389f3fd6c4d30d63287fb408ef6cef66"
+    },
+    {
+      "hash": "569ac83",
+      "fullHash": "569ac83f362ea7f68b0d505812d3e0a4a2ae7b86",
+      "date": "2026-10-25",
+      "timestamp": "2026-10-25T16:23:55-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-17-keycloak-iam",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-17",
+      "subject": "docs(iam): documentar instalación y configuración de Keycloak",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/569ac83f362ea7f68b0d505812d3e0a4a2ae7b86"
+    },
+    {
+      "hash": "37d439c",
+      "fullHash": "37d439c89f638551887e233862fc3cc3525c0576",
+      "date": "2026-10-25",
+      "timestamp": "2026-10-25T16:22:22-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "feature/QUANCORE-17-keycloak-iam",
+      "type": "chore",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-17",
+      "subject": "chore(iam): importar realm auditado y estructura local",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/37d439c89f638551887e233862fc3cc3525c0576"
+    },
+    {
+      "hash": "60a4a04",
+      "fullHash": "60a4a0457a62848cb49c1667e323b35756113420",
+      "date": "2026-10-22",
+      "timestamp": "2026-10-22T21:51:30-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QC-41-inicializar-api",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-41",
+      "subject": "docs(api): agregar guia sencilla para arrancar y probar la api en local",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/60a4a0457a62848cb49c1667e323b35756113420"
+    },
+    {
+      "hash": "f007644",
+      "fullHash": "f007644e27042123afa22d1207ae4b453e90db8b",
+      "date": "2026-10-22",
+      "timestamp": "2026-10-22T21:46:15-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QC-41-inicializar-api",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-41",
+      "subject": "test(api): agregar pruebas unitarias automatizadas para health y documentacion",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/f007644e27042123afa22d1207ae4b453e90db8b"
+    },
+    {
+      "hash": "9db27b4",
+      "fullHash": "9db27b42aaaeb54113f8add5ca0906512b53fa3f",
+      "date": "2026-10-22",
+      "timestamp": "2026-10-22T21:41:55-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QC-41-inicializar-api",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-41",
+      "subject": "feat(api): agregar ruta GET /health, manejador de errores y documentacion openapi con swagger",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/9db27b42aaaeb54113f8add5ca0906512b53fa3f"
+    },
+    {
+      "hash": "77dd990",
+      "fullHash": "77dd9901a9e6e6765a077bb330960e82b98b376d",
+      "date": "2026-10-22",
+      "timestamp": "2026-10-22T21:36:25-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QC-41-inicializar-api",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-41",
+      "subject": "feat(api): configurar proyecto node, dependencias express y variables de entorno",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/77dd9901a9e6e6765a077bb330960e82b98b376d"
+    },
+    {
+      "hash": "aaf7647",
+      "fullHash": "aaf764745550cc00150c9391a442dbe4cbc63758",
+      "date": "2026-10-22",
+      "timestamp": "2026-10-22T21:31:15-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "feature/QC-41-inicializar-api",
+      "type": "chore",
+      "isMerge": false,
+      "jiraKey": "QUANCORE-41",
+      "subject": "chore: agregar .gitignore para excluir dependencias y variables de entorno",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/aaf764745550cc00150c9391a442dbe4cbc63758"
+    },
+    {
+      "hash": "6b7675e",
+      "fullHash": "6b7675ee25cfc183c1600975c30a04fe4e2d353b",
+      "date": "2026-10-22",
+      "timestamp": "2026-10-22T00:34:18-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "feature/p0-modelo-relacional-core",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Agregar diagramas visuales, imagenes y documento de evidencia",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/6b7675ee25cfc183c1600975c30a04fe4e2d353b"
+    },
+    {
+      "hash": "63fc75a",
+      "fullHash": "63fc75a119a23db4f5cf328bfd3c32c98f5d8267",
+      "date": "2026-10-22",
+      "timestamp": "2026-10-22T00:34:01-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "feature/p0-modelo-relacional-core",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Configurar Docker y pruebas de funcionamiento",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/63fc75a119a23db4f5cf328bfd3c32c98f5d8267"
+    },
+    {
+      "hash": "bcbbb99",
+      "fullHash": "bcbbb998e1229839ef2d5ecab3c5b572ab8f8fa1",
+      "date": "2026-10-22",
+      "timestamp": "2026-10-22T00:33:54-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "feature/p0-modelo-relacional-core",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Crear tablas y datos de prueba de la base de datos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/bcbbb998e1229839ef2d5ecab3c5b572ab8f8fa1"
+    },
+    {
+      "hash": "076d0ad",
+      "fullHash": "076d0adb912c548d1d59d7eb9e0f8ab706c46ae5",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T18:29:44-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "feature/QUANCORE-17-keycloak-iam",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": "QUANCORE-17",
+      "subject": "merge: llevar la correccion del canvas de negocio a develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/076d0adb912c548d1d59d7eb9e0f8ab706c46ae5"
+    },
+    {
+      "hash": "7a4266f",
+      "fullHash": "7a4266f0e656e16c22fa8256dd735686708e14ca",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T18:29:25-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "merge: integrar la correccion del canvas de negocio en main",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/7a4266f0e656e16c22fa8256dd735686708e14ca"
+    },
+    {
+      "hash": "92ee226",
+      "fullHash": "92ee226629855f847b7bd1af58eb2de41ba99fad",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T18:28:31-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "fix",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "fix(docs): clarificar ilustraciones del canvas y agregar costos con datos de mercado",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/92ee226629855f847b7bd1af58eb2de41ba99fad"
+    },
+    {
+      "hash": "c6dac42",
+      "fullHash": "c6dac42027e18d732d27cda173fcc3c2e6a964af",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T12:15:57-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "Fusión v1.1.0 de la documentación del proyecto Quantify",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/c6dac42027e18d732d27cda173fcc3c2e6a964af"
+    },
+    {
+      "hash": "2fd3f50",
+      "fullHash": "2fd3f50a193fc39ab922e99f655d7953ff9ba1b1",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T12:15:53-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: agregar manual movil integral",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/2fd3f50a193fc39ab922e99f655d7953ff9ba1b1"
+    },
+    {
+      "hash": "e0c1d83",
+      "fullHash": "e0c1d830fbb9d8159b70f395d428efe95cab760e",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T09:51:07-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(readme): dejar solo enlace al plano en Pages",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/e0c1d830fbb9d8159b70f395d428efe95cab760e"
+    },
+    {
+      "hash": "ff35e63",
+      "fullHash": "ff35e63a36c9590cc1a8c0ad01ac0c25c7a185bd",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T09:48:10-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "merge: sincronizar publicacion del examen en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/ff35e63a36c9590cc1a8c0ad01ac0c25c7a185bd"
+    },
+    {
+      "hash": "bf1239b",
+      "fullHash": "bf1239b89b164694cf19685b64961b93c67e2fea",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T09:47:51-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(examen): publicar plano corregido en Pages",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/bf1239b89b164694cf19685b64961b93c67e2fea"
+    },
+    {
+      "hash": "fec07a5",
+      "fullHash": "fec07a5e3a0c9effbfa1f075ba816c13a4ea87bf",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T09:45:11-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(readme): simplificar enlace del plano interactivo",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/fec07a5e3a0c9effbfa1f075ba816c13a4ea87bf"
+    },
+    {
+      "hash": "14c35d6",
+      "fullHash": "14c35d6afcc31f5a8174afd3bf0e48b5195084ee",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T09:42:55-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(readme): enlazar plano interactivo publicado",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/14c35d6afcc31f5a8174afd3bf0e48b5195084ee"
+    },
+    {
+      "hash": "8453345",
+      "fullHash": "8453345a9423eab669354247fb978facab63b817",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T09:37:40-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(readme): mostrar plano de arquitectura corregido",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/8453345a9423eab669354247fb978facab63b817"
+    },
+    {
+      "hash": "57e3a3c",
+      "fullHash": "57e3a3c307ae4624c89cf6b4201d28374b83a5df",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T09:26:30-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "merge: registrar correccion local de enlaces en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/57e3a3c307ae4624c89cf6b4201d28374b83a5df"
+    },
+    {
+      "hash": "0491e3b",
+      "fullHash": "0491e3b75d3427829a1842f13b6d6b4797f3f71b",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T09:25:59-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(examen): incorporar plano corregido y actualizar render",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/0491e3b75d3427829a1842f13b6d6b4797f3f71b"
+    },
+    {
+      "hash": "81cd52e",
+      "fullHash": "81cd52e3aff4f629b0e9f5fff3636f9605f1f882",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T09:22:32-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "merge: integrar infografia de roles en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/81cd52e3aff4f629b0e9f5fff3636f9605f1f882"
+    },
+    {
+      "hash": "03d37f9",
+      "fullHash": "03d37f902c98157ccb3a810fa4088a983aafdc40",
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T09:21:41-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "merge: incorporar entregable de arquitectura de main a develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/03d37f902c98157ccb3a810fa4088a983aafdc40"
+    },
+    {
+      "hash": "fcd78b4",
+      "fullHash": "fcd78b4d8bac537c9c82ac48eb73c03ee949cbd5",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T23:43:43-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: agregar infografia de roles y actualizar README principal",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/fcd78b4d8bac537c9c82ac48eb73c03ee949cbd5"
+    },
+    {
+      "hash": "b9a9b75",
+      "fullHash": "b9a9b75bc6bef3708d167d5b318870ce555ab310",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T22:46:49-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "Merge branch 'main' of https://github.com/JesuuusArt/Quantify-Core",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/b9a9b75bc6bef3708d167d5b318870ce555ab310"
+    },
+    {
+      "hash": "7bf4f97",
+      "fullHash": "7bf4f97792fa1f18ab92942a730cf15e548490ac",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T18:31:07-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "merge: documentacion v0.1.1 de main a develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/7bf4f97792fa1f18ab92942a730cf15e548490ac"
+    },
+    {
+      "hash": "b68cb74",
+      "fullHash": "b68cb74999f4abd5218953d6c08648b7b39717be",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T18:23:29-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "merge: publicar portada de Practica 05",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/b68cb74999f4abd5218953d6c08648b7b39717be"
+    },
+    {
+      "hash": "1e14701",
+      "fullHash": "1e14701bf5a66065c7320efed836669ef3b4d949",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T18:23:26-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(p05): mostrar diagrama al inicio de la practica",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/1e14701bf5a66065c7320efed836669ef3b4d949"
+    },
+    {
+      "hash": "5c9aaf1",
+      "fullHash": "5c9aaf1a936bb965adb4b3f9ca386cf9082c87d6",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T18:14:04-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "merge: publicar identidad visual del readme",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/5c9aaf1a936bb965adb4b3f9ca386cf9082c87d6"
+    },
+    {
+      "hash": "80976e0",
+      "fullHash": "80976e085542baa022339c821bf1f74bfdd4d39a",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T18:12:56-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: actualizar diagramas y organigrama del readme",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/80976e085542baa022339c821bf1f74bfdd4d39a"
+    },
+    {
+      "hash": "8face24",
+      "fullHash": "8face2499b32d5b30e4fca6edb31af87e235e10e",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T18:06:59-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: aplicar identidad visual al readme y organigrama",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/8face2499b32d5b30e4fca6edb31af87e235e10e"
+    },
+    {
+      "hash": "952a61d",
+      "fullHash": "952a61d5ac192924c049ce368102c50150a643ec",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T17:53:35-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "Merge branch 'examen-practico-u1' into main: Entrega de Arquitectura de Software Quantify Core",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/952a61d5ac192924c049ce368102c50150a643ec"
+    },
+    {
+      "hash": "3702dfc",
+      "fullHash": "3702dfc5d006d03b2fb846705532161361dece28",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T17:44:30-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "merge: sincronizar hotfix de enlaces en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/3702dfc5d006d03b2fb846705532161361dece28"
+    },
+    {
+      "hash": "e146973",
+      "fullHash": "e1469738904b6f93932fbe662c11383538e3740a",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T17:44:02-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "feat(examen): alinear plano y render de arquitectura con la plantilla de evaluacion (GameHub)",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/e1469738904b6f93932fbe662c11383538e3740a"
+    },
+    {
+      "hash": "b1782ff",
+      "fullHash": "b1782ff1a5a2d305f2c2765df80251d36ad65914",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T17:43:47-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "merge: corregir enlaces del sitio publicado",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/b1782ff1a5a2d305f2c2765df80251d36ad65914"
+    },
+    {
+      "hash": "116c5cc",
+      "fullHash": "116c5ccd97e6b693a6e084618e88481e4acf76ba",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T17:43:39-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "fix",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "fix: actualizar enlaces publicados al nuevo propietario",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/116c5ccd97e6b693a6e084618e88481e4acf76ba"
+    },
+    {
+      "hash": "b5bc705",
+      "fullHash": "b5bc7050dea9c11a8c2ff73227c72ff9fa39ef2b",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T17:43:08-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "fix",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "fix(docs): actualizar enlaces tras traslado del repositorio",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/b5bc7050dea9c11a8c2ff73227c72ff9fa39ef2b"
+    },
+    {
+      "hash": "0631ae5",
+      "fullHash": "0631ae52e57463f64b23b1b1b8868e229b7eeb37",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T17:34:55-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "merge: sincronizar main en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/0631ae52e57463f64b23b1b1b8868e229b7eeb37"
+    },
+    {
+      "hash": "dd8da81",
+      "fullHash": "dd8da811a5b6d8b8aa7182c15d111c61c7e95aeb",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T17:34:07-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "merge: integrar documentacion de arquitectura en develop",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/dd8da811a5b6d8b8aa7182c15d111c61c7e95aeb"
+    },
+    {
+      "hash": "369275c",
+      "fullHash": "369275c90f31b7298a243f2059a3f8683a4dc0ca",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T17:01:18-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(examen): incorporar guia comprensible para todo publico y analogia del sistema nervioso",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/369275c90f31b7298a243f2059a3f8683a4dc0ca"
+    },
+    {
+      "hash": "336d6aa",
+      "fullHash": "336d6aa16ba83f3441bc40e96d7a0ee4c6ad2918",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T16:55:10-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "Merge branch 'fix/verificar-enlaces' into main",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/336d6aa16ba83f3441bc40e96d7a0ee4c6ad2918"
+    },
+    {
+      "hash": "29381b6",
+      "fullHash": "29381b63aee0b7368714e09b42a4707b201439d1",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T16:54:09-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: corregir y actualizar enlaces hacia GitHub Pages y recursos interactivos",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/29381b63aee0b7368714e09b42a4707b201439d1"
+    },
+    {
+      "hash": "9ded40f",
+      "fullHash": "9ded40f681a02d1c490e6d63946b7eb4fbeeb248",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T14:23:59-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: agregar guias de interfaz instalacion y uso",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/9ded40f681a02d1c490e6d63946b7eb4fbeeb248"
+    },
+    {
+      "hash": "30e38c7",
+      "fullHash": "30e38c71b4ff7b05703e96f80e757edf044eefa8",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T14:23:53-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: organizar reglas requisitos e historias de usuario",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/30e38c71b4ff7b05703e96f80e757edf044eefa8"
+    },
+    {
+      "hash": "edea01e",
+      "fullHash": "edea01e3c3854677bebeeb3fea376445e6207bc1",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T14:17:12-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: incorporar cronograma Gantt de Jira al README",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/edea01e3c3854677bebeeb3fea376445e6207bc1"
+    },
+    {
+      "hash": "7fb679d",
+      "fullHash": "7fb679d8ca392273de35379de9c86fade48fbee8",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T14:06:28-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: conectar guias y validar referencias",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/7fb679d8ca392273de35379de9c86fade48fbee8"
+    },
+    {
+      "hash": "fa0f3e8",
+      "fullHash": "fa0f3e8777004bb4a659b69b3d3ee13e66878bed",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T14:06:20-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "test",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "test: aceptar finales de linea Windows en prototipo",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/fa0f3e8777004bb4a659b69b3d3ee13e66878bed"
+    },
+    {
+      "hash": "f488c44",
+      "fullHash": "f488c44c88799fa8e72dc40a03814f9314f6415c",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T14:06:11-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: definir datos y contrato del primer flujo",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/f488c44c88799fa8e72dc40a03814f9314f6415c"
+    },
+    {
+      "hash": "40a737c",
+      "fullHash": "40a737c8943d621e8ee3911e99e589ed701fcae4",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T13:04:58-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs/arquitectura",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/40a737c8943d621e8ee3911e99e589ed701fcae4"
+    },
+    {
+      "hash": "1bee526",
+      "fullHash": "1bee526fd5d9f13b9bae5f255694d6bbbec062a5",
+      "date": "2026-10-19",
+      "timestamp": "2026-10-19T12:12:34-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "feat(examen): agregar diagrama interactivo de arquitectura, render png y memoria tecnica",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/1bee526fd5d9f13b9bae5f255694d6bbbec062a5"
+    },
+    {
+      "hash": "252d75e",
+      "fullHash": "252d75e4ef74921790a1aad84704ad06e1608e0d",
+      "date": "2026-10-18",
+      "timestamp": "2026-10-18T13:57:11-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs/arquitectura",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/252d75e4ef74921790a1aad84704ad06e1608e0d"
+    },
+    {
+      "hash": "01e85d9",
+      "fullHash": "01e85d9c02d70546210d499ca675a4a87338abfd",
+      "date": "2026-10-18",
+      "timestamp": "2026-10-18T13:41:34-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs/arquitectura: actualizacion de readme's",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/01e85d9c02d70546210d499ca675a4a87338abfd"
+    },
+    {
+      "hash": "1d0cdda",
+      "fullHash": "1d0cdda44a0db50a20ffa06362255f952083b66b",
+      "date": "2026-10-18",
+      "timestamp": "2026-10-18T13:30:05-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "fix",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "fix(docs): corregir enlaces de practicas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/1d0cdda44a0db50a20ffa06362255f952083b66b"
+    },
+    {
+      "hash": "f3e958e",
+      "fullHash": "f3e958e167481ceba26b0a5d2f8c3fc979093ff3",
+      "date": "2026-10-18",
+      "timestamp": "2026-10-18T13:29:46-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: agregar plantilla para decisiones de arquitectura",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/f3e958e167481ceba26b0a5d2f8c3fc979093ff3"
+    },
+    {
+      "hash": "1b4c27d",
+      "fullHash": "1b4c27daa88e4f8df7cef045ff896e18be798d00",
+      "date": "2026-10-18",
+      "timestamp": "2026-10-18T13:29:39-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: definir flujo de ramas para el equipo",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/1b4c27daa88e4f8df7cef045ff896e18be798d00"
+    },
+    {
+      "hash": "c37e5b6",
+      "fullHash": "c37e5b6eb392eeeeaed4275bd4fd2e24e8571bf7",
+      "date": "2026-10-17",
+      "timestamp": "2026-10-17T19:59:56-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "Merge branch 'fix/enlaces-practica-07' into main",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/c37e5b6eb392eeeeaed4275bd4fd2e24e8571bf7"
+    },
+    {
+      "hash": "7d9049d",
+      "fullHash": "7d9049dbfd75d4586ea37b14347dc398ce3bf756",
+      "date": "2026-10-17",
+      "timestamp": "2026-10-17T19:58:25-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "FixesPractica07: Actualización de links y botones de readme.md de la practica correspondiente",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/7d9049dbfd75d4586ea37b14347dc398ce3bf756"
+    },
+    {
+      "hash": "50d5b3b",
+      "fullHash": "50d5b3b007292cf8db36cc7c8ae4591e48a52b42",
+      "date": "2026-10-17",
+      "timestamp": "2026-10-17T19:45:14-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "Merge branch 'practica-07-integradora' into main",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/50d5b3b007292cf8db36cc7c8ae4591e48a52b42"
+    },
+    {
+      "hash": "9c1a166",
+      "fullHash": "9c1a16624fa8c8f4498addbd0d0f919d3bb3c015",
+      "date": "2026-10-17",
+      "timestamp": "2026-10-17T19:41:55-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Practica07: Actualización del readme.md y corrección de código",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/9c1a16624fa8c8f4498addbd0d0f919d3bb3c015"
+    },
+    {
+      "hash": "159021e",
+      "fullHash": "159021e066e4e8270784d6d76d244aea333cc5dc",
+      "date": "2026-10-17",
+      "timestamp": "2026-10-17T19:04:55-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: evitar que GitHub use README de configuracion como portada",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/159021e066e4e8270784d6d76d244aea333cc5dc"
+    },
+    {
+      "hash": "b2e5718",
+      "fullHash": "b2e57181f5a3dc3437ee4cbbec02bf114cd169b8",
+      "date": "2026-10-17",
+      "timestamp": "2026-10-17T19:02:31-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "Merge branch 'refactor/project-structure'",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/b2e57181f5a3dc3437ee4cbbec02bf114cd169b8"
+    },
+    {
+      "hash": "d30e428",
+      "fullHash": "d30e42857164e6be65cffff2da049102bb214328",
+      "date": "2026-10-17",
+      "timestamp": "2026-10-17T19:01:52-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "refactor",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "refactor:estructura del proyecto",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/d30e42857164e6be65cffff2da049102bb214328"
+    },
+    {
+      "hash": "1afe233",
+      "fullHash": "1afe23375f3adbc48d34c53224685bd57e889845",
+      "date": "2026-10-17",
+      "timestamp": "2026-10-17T18:53:10-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: igualar tamaño de logos en README",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/1afe23375f3adbc48d34c53224685bd57e889845"
+    },
+    {
+      "hash": "8da3a89",
+      "fullHash": "8da3a8926abc8fa7b33dde1adf7e20cce25f6098",
+      "date": "2026-10-17",
+      "timestamp": "2026-10-17T18:00:41-06:00",
+      "author": {
+        "id": "angel",
+        "name": "Ángel de Jesús Baños Telles",
+        "handle": "AngelJdev",
+        "role": "Líder de Proyecto",
+        "initials": "AB"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: actualizar documentacion general de Quantify Core V2.0",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/8da3a8926abc8fa7b33dde1adf7e20cce25f6098"
+    },
+    {
+      "hash": "752cd05",
+      "fullHash": "752cd05220153ec44c5e8f5843e476c7572af1b2",
+      "date": "2026-10-16",
+      "timestamp": "2026-10-16T14:02:54-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(p05): alinear roles, telemetria wear os, modelos ml y hu con repositorio quantify",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/752cd05220153ec44c5e8f5843e476c7572af1b2"
+    },
+    {
+      "hash": "96d4f39",
+      "fullHash": "96d4f395c8f0cc845b5dce52a6a552a57dabe9c9",
+      "date": "2026-10-15",
+      "timestamp": "2026-10-15T01:30:02-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "feat(ui): unificar sistema de diseno, paleta de colores y fondos reactivos en p04 y p05",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/96d4f395c8f0cc845b5dce52a6a552a57dabe9c9"
+    },
+    {
+      "hash": "d4e4611",
+      "fullHash": "d4e4611b3ca5905d5985b1362440758d13df337a",
+      "date": "2026-10-15",
+      "timestamp": "2026-10-15T00:18:15-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "feat(ui): rediseñar portal index.html con selector de 3 temas, gradiente animado y visor de practicas",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/d4e4611b3ca5905d5985b1362440758d13df337a"
+    },
+    {
+      "hash": "293fed7",
+      "fullHash": "293fed790d3bdf991057b484b669279363c6a62a",
+      "date": "2026-10-14",
+      "timestamp": "2026-10-14T23:38:36-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "refactor",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "refactor(docs): reorganizar estructura del proyecto, stack tecnologico e identidad visual",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/293fed790d3bdf991057b484b669279363c6a62a"
+    },
+    {
+      "hash": "352d2cb",
+      "fullHash": "352d2cb2e2e0cb77e5c4827f5bd9fcc1ffc0cd0b",
+      "date": "2026-10-14",
+      "timestamp": "2026-10-14T22:54:05-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Practica07: Actualización del readme.md principalm de la práctica",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/352d2cb2e2e0cb77e5c4827f5bd9fcc1ffc0cd0b"
+    },
+    {
+      "hash": "a8fe5ca",
+      "fullHash": "a8fe5ca9b9b4778d23d172d1e967fb8e0997a1b7",
+      "date": "2026-10-14",
+      "timestamp": "2026-10-14T22:48:21-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Practica07: Actualización del readme.md principalm de la práctica",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/a8fe5ca9b9b4778d23d172d1e967fb8e0997a1b7"
+    },
+    {
+      "hash": "2b7f23d",
+      "fullHash": "2b7f23d546ec2e1c6aa35209155541bef5343baf",
+      "date": "2026-10-14",
+      "timestamp": "2026-10-14T22:41:09-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Practica07: Actualización del mapa prototipo interactivo",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/2b7f23d546ec2e1c6aa35209155541bef5343baf"
+    },
+    {
+      "hash": "aa07cd1",
+      "fullHash": "aa07cd1ed33fd6d1ddb3b15ff09953fb40a2b7c9",
+      "date": "2026-10-14",
+      "timestamp": "2026-10-14T22:29:28-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Practica07: Creación del prototipo interactivo con sketches, formatos, reglas de negocio, paleta de colores, logo",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/aa07cd1ed33fd6d1ddb3b15ff09953fb40a2b7c9"
+    },
+    {
+      "hash": "5e31c3e",
+      "fullHash": "5e31c3ef8d7e2b093dda54c5d709d4c21f1f1d6f",
+      "date": "2026-10-14",
+      "timestamp": "2026-10-14T21:51:45-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Practica07: Commit inicial de la practica07 junto con la creación de la carpeta y readme.md principal correspondiente",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/5e31c3ef8d7e2b093dda54c5d709d4c21f1f1d6f"
+    },
+    {
+      "hash": "164aace",
+      "fullHash": "164aacef2a925732d167323f67bc079a6a6159a8",
+      "date": "2026-10-14",
+      "timestamp": "2026-10-14T13:15:40-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "Merge branch 'practica-05-integradora' into main",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/164aacef2a925732d167323f67bc079a6a6159a8"
+    },
+    {
+      "hash": "d1daf6f",
+      "fullHash": "d1daf6f48929085207d215a3b5bf1ae2498b75ec",
+      "date": "2026-10-14",
+      "timestamp": "2026-10-14T13:12:09-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs(p05): completar diagrama de roles, 5 features, soporte gitpages y documentacion",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/d1daf6f48929085207d215a3b5bf1ae2498b75ec"
+    },
+    {
+      "hash": "563e49a",
+      "fullHash": "563e49aaf13d3f89f1923fa96c3a2699f0800869",
+      "date": "2026-10-09",
+      "timestamp": "2026-10-09T12:25:42-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "merge",
+      "isMerge": true,
+      "jiraKey": null,
+      "subject": "Merge branch 'practica-04-integradora' into main",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/563e49aaf13d3f89f1923fa96c3a2699f0800869"
+    },
+    {
+      "hash": "aa149f8",
+      "fullHash": "aa149f8797fd5e9eb4775df3ce0b067a21b36c6f",
+      "date": "2026-10-07",
+      "timestamp": "2026-10-07T18:57:44-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "style",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "style: change diagram UI design and replace icons",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/aa149f8797fd5e9eb4775df3ce0b067a21b36c6f"
+    },
+    {
+      "hash": "3215056",
+      "fullHash": "3215056f5c5d12f9294c7469dd41b82b7447127e",
+      "date": "2026-10-07",
+      "timestamp": "2026-10-07T18:18:14-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: add interactive user roles diagram in HTML",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/3215056f5c5d12f9294c7469dd41b82b7447127e"
+    },
+    {
+      "hash": "69a1298",
+      "fullHash": "69a12980d779c708b4842c859dc84b6943e88cce",
+      "date": "2026-10-07",
+      "timestamp": "2026-10-07T18:17:16-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: add User Story for AI Recommendations feature",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/69a12980d779c708b4842c859dc84b6943e88cce"
+    },
+    {
+      "hash": "f938356",
+      "fullHash": "f9383564886d38bd26810b9579ff853fa128d885",
+      "date": "2026-10-07",
+      "timestamp": "2026-10-07T18:17:15-06:00",
+      "author": {
+        "id": "francisco",
+        "name": "Francisco García García",
+        "handle": "Francisco Garcia Garcia",
+        "role": "Desarrollador Backend",
+        "initials": "FG"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: add README for practica 05 with roles and features",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/f9383564886d38bd26810b9579ff853fa128d885"
+    },
+    {
+      "hash": "fcd70cf",
+      "fullHash": "fcd70cfc31f5f4cbc3bb4d2667d561d78d2a1587",
+      "date": "2026-10-07",
+      "timestamp": "2026-10-07T00:53:51-06:00",
+      "author": {
+        "id": "al",
+        "name": "Al Farias Leyva",
+        "handle": "Al Farias",
+        "role": "Desarrollador Frontend",
+        "initials": "AF"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Práctica 04: actualización y mejoras generales",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/fcd70cfc31f5f4cbc3bb4d2667d561d78d2a1587"
+    },
+    {
+      "hash": "41ed0f6",
+      "fullHash": "41ed0f6ac81b8194fca5434a3592a3e87bdae33e",
+      "date": "2026-10-07",
+      "timestamp": "2026-10-07T00:39:03-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Practica04 - Integradora",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/41ed0f6ac81b8194fca5434a3592a3e87bdae33e"
+    },
+    {
+      "hash": "33f7eb5",
+      "fullHash": "33f7eb583542900cb821bbc7cc428d12ab9da3bb",
+      "date": "2026-10-07",
+      "timestamp": "2026-10-07T00:38:50-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Practica04 - Integradora",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/33f7eb583542900cb821bbc7cc428d12ab9da3bb"
+    },
+    {
+      "hash": "b2ddd0a",
+      "fullHash": "b2ddd0a51b1aac60fddc91ce565b5798c4fa47c0",
+      "date": "2026-10-07",
+      "timestamp": "2026-10-07T00:34:13-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Practica04 - Integradora",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/b2ddd0a51b1aac60fddc91ce565b5798c4fa47c0"
+    },
+    {
+      "hash": "b15ba80",
+      "fullHash": "b15ba802623c934709a675c82926f2abddd310c5",
+      "date": "2026-10-07",
+      "timestamp": "2026-10-07T00:34:13-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Practica04 - Integradora",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/b15ba802623c934709a675c82926f2abddd310c5"
+    },
+    {
+      "hash": "cf90400",
+      "fullHash": "cf90400f8062d9f20eca5bc3f6b8bc39e861cab4",
+      "date": "2026-10-07",
+      "timestamp": "2026-10-07T00:34:07-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Practica04 - Integradora",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/cf90400f8062d9f20eca5bc3f6b8bc39e861cab4"
+    },
+    {
+      "hash": "db1589f",
+      "fullHash": "db1589f4bc3e512b8003e4617cc1b7c754cd2f9b",
+      "date": "2026-10-07",
+      "timestamp": "2026-10-07T00:34:01-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Practica04 - Integradora",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/db1589f4bc3e512b8003e4617cc1b7c754cd2f9b"
+    },
+    {
+      "hash": "3c3ce3d",
+      "fullHash": "3c3ce3d19fe5e72d915ceaefd26d0f34b05275a6",
+      "date": "2026-10-06",
+      "timestamp": "2026-10-06T23:38:12-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "docs",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "docs: configuración inicial del README principal del proyecto",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/3c3ce3d19fe5e72d915ceaefd26d0f34b05275a6"
+    },
+    {
+      "hash": "7b578f0",
+      "fullHash": "7b578f0d08b50353a47df4ef93e53f7b6a95b8d0",
+      "date": "2026-10-06",
+      "timestamp": "2026-10-06T23:25:46-06:00",
+      "author": {
+        "id": "jesus",
+        "name": "Jesús Alejandro Artiaga Morales",
+        "handle": "Jesús Artiaga",
+        "role": "Administrador de BD",
+        "initials": "JA"
+      },
+      "branch": "main",
+      "type": "feat",
+      "isMerge": false,
+      "jiraKey": null,
+      "subject": "Initial commit",
+      "url": "https://github.com/AngelJdev/Quantify-Core/commit/7b578f0d08b50353a47df4ef93e53f7b6a95b8d0"
+    }
+  ]
+}
