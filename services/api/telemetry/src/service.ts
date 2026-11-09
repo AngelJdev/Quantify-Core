@@ -27,6 +27,7 @@ export class TelemetryService {
   // El mismo orden de locks se utiliza para ingesta, revocación y lectura.
   // El lock del perfil impide confirmar ingestión después de una suspensión confirmada.
   private async source(c: PoolClient, owner: string, id: string): Promise<Source> {
+    await c.query("SELECT pg_advisory_xact_lock(hashtextextended('quancore-telemetry-source:' || lower($1),0))", [id]);
     const profile = await c.query('SELECT status FROM public.profiles WHERE id=$1 FOR SHARE', [owner]);
     if (profile.rows[0]?.status !== 'active') throw new TelemetryError(403, 'PROFILE_NOT_ACTIVE');
     const result = await c.query<Source>(

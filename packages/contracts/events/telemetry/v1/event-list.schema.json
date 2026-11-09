@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SyntheticEventList",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "sourceId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "items": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "./batch-event.schema.json"
+      }
+    }
+  },
+  "required": [
+    "sourceId",
+    "items"
+  ]
+}

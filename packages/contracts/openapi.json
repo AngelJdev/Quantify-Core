@@ -2,7 +2,7 @@
   "openapi": "3.1.1",
   "info": {
     "title": "Quantify Core — primer flujo",
-    "version": "0.2.0-draft",
+    "version": "0.3.0-draft",
     "description": "BORRADOR para desarrollo. Ninguna operación acredita una API desplegada. RF-01 a RF-05; decisiones pendientes en docs/arquitectura/decisiones-pendientes.md. Ampliación QUANCORE-35: /telemetry/simulation enlaza contrato ejecutable solo sintético; no habilita biometría de producto."
   },
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
@@ -705,6 +705,15 @@
     },
     "/telemetry/simulation/sources/{sourceId}/summary": {
       "$ref": "./telemetry/v1/openapi.json#/paths/~1telemetry~1simulation~1sources~1{sourceId}~1summary"
+    },
+    "/telemetry/simulation/sources/{sourceId}/mongodb/project": {
+      "$ref": "./telemetry/v1/openapi.json#/paths/~1telemetry~1simulation~1sources~1{sourceId}~1mongodb~1project"
+    },
+    "/telemetry/simulation/sources/{sourceId}/events": {
+      "$ref": "./telemetry/v1/openapi.json#/paths/~1telemetry~1simulation~1sources~1{sourceId}~1events"
+    },
+    "/telemetry/simulation/sources/{sourceId}/audit": {
+      "$ref": "./telemetry/v1/openapi.json#/paths/~1telemetry~1simulation~1sources~1{sourceId}~1audit"
     }
   },
   "components": {

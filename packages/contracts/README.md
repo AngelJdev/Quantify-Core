@@ -1,6 +1,6 @@
 # Contratos compartidos
 
-> **Estado: primer flujo en borrador y telemetría sintética ejecutable localmente.** Esta carpeta es la fuente canónica de interfaces de Quantify Core. [openapi.json](openapi.json), versión `0.2.0-draft`, conserva el primer flujo propuesto y referencia la ampliación QUANCORE-35. No acredita una API productiva desplegada ni una versión liberada de la aplicación.
+> **Estado: primer flujo en borrador y telemetría sintética ejecutable localmente.** Esta carpeta es la fuente canónica de interfaces de Quantify Core. [openapi.json](openapi.json), versión `0.3.0-draft`, conserva el primer flujo propuesto y referencia la ampliación QUANCORE-35. No acredita una API productiva desplegada ni una versión liberada de la aplicación.
 
 ## Inventario y autoridad
 
@@ -8,7 +8,7 @@
 |---|---|---|
 | [openapi.json](openapi.json) | OpenAPI 3.1.1: perfil propio, hábitos, check-ins y métricas | Borrador para implementar y revisar |
 | [telemetry/README.md](telemetry/README.md) | OpenAPI y JSON Schema `1.0.0` de ingesta autorizada solo sintética | Módulo local y pruebas reales; integración QUANCORE-22/43 pendiente |
-| [events/README.md](events/README.md) | Reglas de entrega y criterios para crear esquemas de eventos | Diseño; aún no existen esquemas de mensajes implementados |
+| [events/README.md](events/README.md) | Reglas de entrega y [esquemas de proyección MongoDB](events/telemetry/README.md) | QUANCORE-22 sintético ejecutable; sin broker ni aprobación productiva |
 | [Guía de integración](../../docs/api/README.md) | Explica semántica HTTP y casos de error, referenciando este contrato | Guía de diseño |
 
 ```mermaid

@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SyntheticBatchEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "origin": {
+      "const": "synthetic-generator"
+    },
+    "ownerId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "sourceId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "consentVersion": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"
+    },
+    "receivedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"
+    },
+    "type": {
+      "const": "telemetry.batch.accepted"
+    },
+    "batchId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "purpose": {
+      "const": "personal-analytics"
+    },
+    "acceptedCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "duplicateCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "outOfOrderCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "samples": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "../../../telemetry/v1/batch.schema.json#/properties/samples/items"
+      }
+    }
+  },
+  "required": [
+    "eventId",
+    "schemaVersion",
+    "origin",
+    "ownerId",
+    "sourceId",
+    "consentVersion",
+    "occurredAt",
+    "receivedAt",
+    "expiresAt",
+    "type",
+    "batchId",
+    "purpose",
+    "acceptedCount",
+    "duplicateCount",
+    "outOfOrderCount",
+    "samples"
+  ]
+}

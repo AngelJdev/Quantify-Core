@@ -1,0 +1,273 @@
+{
+  "task": "QUANCORE-22",
+  "executedAt": "2026-11-09T05:04:29.344Z",
+  "headCommit": "78e6117b7361a75b4565a8a033bd696289257277",
+  "implementationCommit": "78e6117b7361a75b4565a8a033bd696289257277",
+  "environment": {
+    "os": "darwin",
+    "arch": "arm64",
+    "node": "v24.13.0",
+    "mongo": "8.2.6",
+    "postgres": "18.6",
+    "identity": "JWT/JWKS sintéticos; no Keycloak real",
+    "mongoRuntimeRole": "Solo find/insert sobre dos colecciones; autenticación habilitada"
+  },
+  "cases": [
+    {
+      "case": "ingest-valid",
+      "httpStatus": 201,
+      "response": {
+        "schemaVersion": "1.0.0",
+        "sourceId": "577d2897-bd4d-42a8-a9fb-3d6fdf6d7141",
+        "batchId": "996cfaf7-3bf1-4fd8-98eb-e27619f83037",
+        "consentVersion": 1,
+        "receivedAt": "2026-11-09T05:04:29.281Z",
+        "acceptedCount": 3,
+        "duplicateCount": 0,
+        "outOfOrderCount": 0
+      },
+      "postgres": {
+        "samples": 3,
+        "batches": 1,
+        "audit": 3,
+        "pending": 4
+      },
+      "mongo": {
+        "telemetry": 0,
+        "audit": 0
+      }
+    },
+    {
+      "case": "project-valid",
+      "httpStatus": 200,
+      "response": {
+        "sourceId": "577d2897-bd4d-42a8-a9fb-3d6fdf6d7141",
+        "delivered": 4,
+        "duplicates": 0,
+        "discarded": 0,
+        "pending": 0,
+        "hasMore": false
+      },
+      "postgres": {
+        "samples": 3,
+        "batches": 1,
+        "audit": 3,
+        "pending": 0
+      },
+      "mongo": {
+        "telemetry": 1,
+        "audit": 3
+      }
+    },
+    {
+      "case": "ingest-repeated",
+      "httpStatus": 200,
+      "response": {
+        "batchId": "996cfaf7-3bf1-4fd8-98eb-e27619f83037",
+        "sourceId": "577d2897-bd4d-42a8-a9fb-3d6fdf6d7141",
+        "receivedAt": "2026-11-09T05:04:29.281Z",
+        "acceptedCount": 3,
+        "schemaVersion": "1.0.0",
+        "consentVersion": 1,
+        "duplicateCount": 0,
+        "outOfOrderCount": 0
+      },
+      "postgres": {
+        "samples": 3,
+        "batches": 1,
+        "audit": 3,
+        "pending": 0
+      },
+      "mongo": {
+        "telemetry": 1,
+        "audit": 3
+      }
+    },
+    {
+      "case": "project-repeated",
+      "httpStatus": 200,
+      "response": {
+        "sourceId": "577d2897-bd4d-42a8-a9fb-3d6fdf6d7141",
+        "delivered": 0,
+        "duplicates": 0,
+        "discarded": 0,
+        "pending": 0,
+        "hasMore": false
+      },
+      "postgres": {
+        "samples": 3,
+        "batches": 1,
+        "audit": 3,
+        "pending": 0
+      },
+      "mongo": {
+        "telemetry": 1,
+        "audit": 3
+      }
+    },
+    {
+      "case": "lost-ack-recovery",
+      "httpStatus": 200,
+      "response": {
+        "sourceId": "577d2897-bd4d-42a8-a9fb-3d6fdf6d7141",
+        "delivered": 0,
+        "duplicates": 4,
+        "discarded": 0,
+        "pending": 0,
+        "hasMore": false
+      },
+      "postgres": {
+        "samples": 3,
+        "batches": 1,
+        "audit": 3,
+        "pending": 0
+      },
+      "mongo": {
+        "telemetry": 1,
+        "audit": 3
+      }
+    },
+    {
+      "case": "lost-projection-recovery",
+      "httpStatus": 200,
+      "response": {
+        "sourceId": "577d2897-bd4d-42a8-a9fb-3d6fdf6d7141",
+        "delivered": 1,
+        "duplicates": 0,
+        "discarded": 0,
+        "pending": 0,
+        "hasMore": false
+      },
+      "postgres": {
+        "samples": 3,
+        "batches": 1,
+        "audit": 3,
+        "pending": 0
+      },
+      "mongo": {
+        "telemetry": 1,
+        "audit": 3
+      }
+    },
+    {
+      "case": "invalid-unit",
+      "httpStatus": 422,
+      "response": {
+        "type": "about:blank",
+        "title": "Unprocessable Entity",
+        "status": 422,
+        "code": "INVALID_PAYLOAD",
+        "requestId": "1bea8a43-970a-4125-b01a-11851610f1ef"
+      },
+      "postgres": {
+        "samples": 3,
+        "batches": 1,
+        "audit": 3,
+        "pending": 0
+      },
+      "mongo": {
+        "telemetry": 1,
+        "audit": 3
+      }
+    },
+    {
+      "case": "missing-value",
+      "httpStatus": 422,
+      "response": {
+        "type": "about:blank",
+        "title": "Unprocessable Entity",
+        "status": 422,
+        "code": "INVALID_PAYLOAD",
+        "requestId": "ab294cba-b6cb-44c2-827f-a4dfbe8ea7fe"
+      },
+      "postgres": {
+        "samples": 3,
+        "batches": 1,
+        "audit": 3,
+        "pending": 0
+      },
+      "mongo": {
+        "telemetry": 1,
+        "audit": 3
+      }
+    },
+    {
+      "case": "other-owner-admin",
+      "httpStatus": 404,
+      "response": {
+        "type": "about:blank",
+        "title": "Not Found",
+        "status": 404,
+        "code": "SOURCE_NOT_FOUND",
+        "requestId": "9d19aa18-52df-408b-b47c-8b601e9a0f39"
+      },
+      "postgres": {
+        "samples": 3,
+        "batches": 1,
+        "audit": 3,
+        "pending": 0
+      },
+      "mongo": {
+        "telemetry": 1,
+        "audit": 3
+      }
+    },
+    {
+      "case": "revoked-pending",
+      "httpStatus": 200,
+      "response": {
+        "sourceId": "577d2897-bd4d-42a8-a9fb-3d6fdf6d7141",
+        "delivered": 2,
+        "duplicates": 0,
+        "discarded": 1,
+        "pending": 0,
+        "hasMore": false
+      },
+      "postgres": {
+        "samples": 4,
+        "batches": 2,
+        "audit": 5,
+        "pending": 0
+      },
+      "mongo": {
+        "telemetry": 1,
+        "audit": 5
+      }
+    },
+    {
+      "case": "revoked-query",
+      "httpStatus": 403,
+      "response": {
+        "type": "about:blank",
+        "title": "Forbidden",
+        "status": 403,
+        "code": "CONSENT_NOT_CURRENT",
+        "requestId": "c3572c37-a17a-4a71-94f0-d5c4372e8429"
+      },
+      "postgres": {
+        "samples": 4,
+        "batches": 2,
+        "audit": 5,
+        "pending": 0
+      },
+      "mongo": {
+        "telemetry": 1,
+        "audit": 5
+      }
+    }
+  ],
+  "artifacts": {
+    "packages/contracts/events/telemetry/v1/batch-event.schema.json": "57c23f278edf3200d23aefb713544d9bfed752b3b6f9e4f3f8b8d9e921189919",
+    "services/api/telemetry/src/mongo.ts": "78f825dc541faeb02c2b087b246c4cc39d8c22ef3a891534f23e5ca4f6c0bee2",
+    "services/api/telemetry/src/service.ts": "2ba851cd6baa2c48f295aacc6f2bd6ee841964c1c9ec86d9531232b5fb17bae6",
+    "services/api/telemetry/db/002_mongo_outbox.sql": "e91238a165de77e413ddd4880f76570a1aaef2ef9f6266bcd27cc08c7d2d82ca",
+    "services/api/telemetry/db/mongodb.generated.json": "f5844643e6576990dfa622840560352768982a662a46b1a912c6487a985fa930",
+    "services/api/telemetry/package-lock.json": "d3c5c42a2a9a3b896ac93607da917e381e1a4d415cfa9b79dba6ba603fc850f0"
+  },
+  "limitations": [
+    "QUANCORE-43 pendiente: ADR propuesto",
+    "Solo datos sintéticos",
+    "Sin cloud, Wear OS ni logs de biometría",
+    "Recuperación local no acredita backup/RPO/RTO QUANCORE-44"
+  ]
+}

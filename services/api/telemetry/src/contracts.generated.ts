@@ -184,7 +184,10 @@ export interface TelemetryErrorResponse {
     | "INVALID_JSON_OR_PARAMETER"
     | "PAYLOAD_TOO_LARGE"
     | "DEPENDENCY_UNAVAILABLE"
-    | "HTTP_ERROR";
+    | "HTTP_ERROR"
+    | "MONGODB_NOT_ENABLED"
+    | "PROJECTION_INVALID"
+    | "PROJECTION_CONTENT_CONFLICT";
   type: "about:blank";
   title: string;
   status: number;

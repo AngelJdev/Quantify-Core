@@ -19,7 +19,7 @@ async function freePort() {
   await new Promise(resolve => server.close(resolve));
   return port;
 }
-async function environment() {
+async function environment(options = {}) {
   if (process.getuid?.() === 0) throw new Error('Ejecutar pruebas como usuario sin privilegios; no se crean usuarios del sistema.');
   const { default: EmbeddedPostgres } = await import('embedded-postgres');
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'quantify-telemetry-'));
@@ -63,7 +63,7 @@ async function environment() {
     await pool.query(`INSERT INTO public.profiles(id,oidc_issuer,oidc_subject,status)
       VALUES ($1,$3,'synthetic-a','active'),($2,$3,'synthetic-b','active')`,[...owners,issuer]);
     const tokens = [await token('synthetic-a'),await token('synthetic-b',{ realm_access:{ roles:['admin'] } })];
-    const config = { databaseUrl,issuer,audience };
+    const config = { databaseUrl,issuer,audience,...(options.mongo ? {mongo:options.mongo} : {}) };
     app = await createSimulation(config); await app.listen(0,'127.0.0.1');
     let base = `http://127.0.0.1:${app.getHttpServer().address().port}/api/v1/telemetry/simulation`;
     const ajv = new Ajv({ strict:true });addFormats(ajv);
@@ -72,11 +72,16 @@ async function environment() {
       const schema = JSON.parse(await fs.readFile(path.resolve(__dirname,`../../../../packages/contracts/telemetry/v1/${name}.schema.json`),'utf8'));
       schemas[name] = ajv.compile(schema);
     }
+    const parser=require('@apidevtools/json-schema-ref-parser');
+    for(const name of ['projection-result','event-list','audit-list']) {
+      schemas[name]=ajv.compile(await parser.dereference(path.resolve(__dirname,`../../../../packages/contracts/events/telemetry/v1/${name}.schema.json`)));
+    }
     async function request(route, { method='GET',body,actor=0,authorization } = {}) {
       const response = await fetch(base + route, { method,headers:{ 'Content-Type':'application/json',
         ...(authorization === null ? {} : { Authorization:authorization ?? `Bearer ${tokens[actor]}` }) },body:body === undefined ? undefined : typeof body === 'string' ? body : JSON.stringify(body) });
       const result={ status:response.status,body:await response.json() };
-      const name=result.status>=400 ? 'error' : route.endsWith('/summary') ? 'summary' :
+      const name=result.status>=400 ? 'error' : route.includes('/mongodb/project') ? 'projection-result' :
+        route.includes('/events') ? 'event-list' : route.includes('/audit') ? 'audit-list' : route.endsWith('/summary') ? 'summary' :
         route==='/batches' || route.includes('/batches/') ? 'receipt' : 'source-state';
       assert.equal(schemas[name](result.body),true,`Respuesta ${name} fuera de contrato: ${JSON.stringify(schemas[name].errors)}`);
       assert.equal(response.headers.get('cache-control'),'no-store');

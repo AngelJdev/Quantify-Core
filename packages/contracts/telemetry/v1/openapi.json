@@ -2,8 +2,8 @@
   "openapi": "3.1.1",
   "info": {
     "title": "Quantify Core — simulación de telemetría QUANCORE-35",
-    "version": "1.0.0",
-    "description": "Solo datos sintéticos. API NestJS ejecutable localmente. No certifica integración QUANCORE-22/43, Keycloak real ni Wear OS. Contrato de simulación sujeto a revisión de backend, BD y seguridad."
+    "version": "1.1.0",
+    "description": "Solo datos sintéticos. API NestJS ejecutable localmente. No certifica integración QUANCORE-22/43, Keycloak real ni Wear OS. Contrato de simulación sujeto a revisión de backend, BD y seguridad. QUANCORE-22 incorpora proyección MongoDB opcional; sus decisiones productivas siguen pendientes."
   },
   "servers": [
     {
@@ -826,6 +826,362 @@
             "schema": {
               "type": "string",
               "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ]
+      }
+    },
+    "/telemetry/simulation/sources/{sourceId}/mongodb/project": {
+      "post": {
+        "operationId": "projectSyntheticMongoEvents",
+        "summary": "Proyectar hasta 50 pendientes propios; no ingesta arbitraria",
+        "tags": [
+          "TelemetrySimulation"
+        ],
+        "responses": {
+          "200": {
+            "description": "Resumen solo del consentimiento actual",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../events/telemetry/v1/projection-result.schema.json"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON o parámetro inválido",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token ausente o inválido",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil/fuente/consentimiento no vigente",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso propio no encontrado",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflicto de versión, lote o muestra",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Cuerpo mayor a 64 KiB",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Esquema, unidad, valor o instante inválido",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependencia no disponible; no confirmar recepción",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ]
+      }
+    },
+    "/telemetry/simulation/sources/{sourceId}/events": {
+      "get": {
+        "operationId": "listSyntheticMongoEvents",
+        "summary": "Consultar últimos eventos propios con consentimiento actual",
+        "tags": [
+          "TelemetrySimulation"
+        ],
+        "responses": {
+          "200": {
+            "description": "Resumen solo del consentimiento actual",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../events/telemetry/v1/event-list.schema.json"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON o parámetro inválido",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token ausente o inválido",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil/fuente/consentimiento no vigente",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso propio no encontrado",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflicto de versión, lote o muestra",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Cuerpo mayor a 64 KiB",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Esquema, unidad, valor o instante inválido",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependencia no disponible; no confirmar recepción",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ]
+      }
+    },
+    "/telemetry/simulation/sources/{sourceId}/audit": {
+      "get": {
+        "operationId": "listSyntheticMongoAudit",
+        "summary": "Consultar auditoría mínima propia, incluida fuente revocada",
+        "tags": [
+          "TelemetrySimulation"
+        ],
+        "responses": {
+          "200": {
+            "description": "Resumen solo del consentimiento actual",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "../../events/telemetry/v1/audit-list.schema.json"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "JSON o parámetro inválido",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token ausente o inválido",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil/fuente/consentimiento no vigente",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Recurso propio no encontrado",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflicto de versión, lote o muestra",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Cuerpo mayor a 64 KiB",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Esquema, unidad, valor o instante inválido",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Dependencia no disponible; no confirmar recepción",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "./error.schema.json"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sourceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
             }
           }
         ]

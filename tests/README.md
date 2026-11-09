@@ -64,6 +64,8 @@ npm run validate:openapi
 npm run evidence
 ```
 
+QUANCORE-22 añade MongoDB real temporal con autenticación y permisos mínimos: 43 pruebas totales, incluidos validadores BSON, TTL, outbox, auditoría y recuperación. [Evidencia MongoDB](../docs/datos-ia/eventos-mongodb.md).
+
 Pruebas de contrato e integración HTTP con PostgreSQL temporal real, JWT/JWKS sintéticos, permisos por dueño, revocación, reintentos concurrentes, rollback y reinicio. Fallan si la BD no inicia; no se omite integración silenciosamente. No prueban Keycloak/PKCE real, hardware Wear OS ni producto desplegado. Ver [instrucciones del módulo](../services/api/telemetry/README.md) y [evidencia](../docs/datos-ia/telemetria-simulada.md), incluida la ejecución con el SQL de la dependencia de backend.
 
 ## Condiciones de revisión
