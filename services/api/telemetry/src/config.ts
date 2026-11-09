@@ -4,6 +4,7 @@ export interface TelemetryConfig {
   issuer: string;
   audience: string;
   mongo?: {url:string;database:string};
+  dashboardEnabled?: boolean;
 }
 export function configuration(env = process.env): TelemetryConfig {
   if (env.TELEMETRY_SIMULATION_ENABLED !== '1') throw new Error('Simulación deshabilitada. Requiere TELEMETRY_SIMULATION_ENABLED=1.');
@@ -19,5 +20,5 @@ export function configuration(env = process.env): TelemetryConfig {
     if(!env.MONGODB_URL.startsWith('mongodb://') && !env.MONGODB_URL.startsWith('mongodb+srv://'))throw new Error('URI MongoDB inválida.');
     mongo={url:env.MONGODB_URL,database:env.MONGODB_DATABASE};
   }
-  return { databaseUrl: env.DATABASE_URL, issuer: env.KEYCLOAK_ISSUER, audience: env.KEYCLOAK_AUDIENCE, ...(mongo?{mongo}:{}) };
+  return { databaseUrl: env.DATABASE_URL, issuer: env.KEYCLOAK_ISSUER, audience: env.KEYCLOAK_AUDIENCE, dashboardEnabled:env.DASHBOARD_ENABLED==='1', ...(mongo?{mongo}:{}) };
 }
