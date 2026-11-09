@@ -35,6 +35,9 @@ Estas carpetas organizan la lectura solicitada. Los requisitos, reglas y contrat
 - [Examen de arquitectura — Plano interactivo](https://angeljesus13.github.io/Quantify-Core/docs/examen/index.html)
 - [Práctica 07 — Prototipo Interactivo de Sketches](https://angeljesus13.github.io/Quantify-Core/docs/practica-07/)
 - [Práctica 07 — Mapa de Navegación de Sketches](https://angeljesus13.github.io/Quantify-Core/docs/practica-07/navegacion.html)
+- [Cronogramas Gantt Interactivos — Portal Unificado (Jira + Git)](gantt/index.html)
+- [Diagrama de Gantt Interactivo de Actividades en Jira](gantt/gantt-jira.html)
+- [Diagrama de Gantt Interactivo de Commits y Ramas Git](gantt/gantt-commits.html)
 
 ## Cómo se conectan las decisiones
 
@@ -107,6 +110,7 @@ Un documento aceptado define una decisión; no demuestra por sí mismo que la im
 - [Práctica 05 — Roles y funcionalidades](Practica05/README.md).
 - [Examen de arquitectura — plano y memoria técnica](examen/README.md).
 - [Práctica 07 — Prototipo y navegación](practica-07/README.md).
+- [Cronogramas Gantt Interactivos — Guía sencilla de Jira y Commits](gantt/README.md).
 - [Portal académico](index.html).
 
 Las prácticas conservan su contexto. Paletas, cuentas demo, modelos de almacenamiento local y umbrales ilustrativos se interpretan según su alcance; la implementación sigue los contratos y decisiones de esta base. Consultar la [validación de la documentación](guias/validacion-documental.md) para conocer las comprobaciones realizadas y sus límites.
