@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:quantify:telemetry:simulation:1:summary",
+  "title": "TelemetrySummary",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "sourceId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "consentVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "scope": {
+      "const": "synthetic-current-consent"
+    },
+    "items": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "signal": {
+            "enum": [
+              "heartRate",
+              "stepCount"
+            ]
+          },
+          "sampleCount": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "outOfOrderCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "latestObservedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"
+          }
+        },
+        "required": [
+          "signal",
+          "sampleCount",
+          "outOfOrderCount",
+          "latestObservedAt"
+        ]
+      }
+    }
+  },
+  "required": [
+    "sourceId",
+    "consentVersion",
+    "scope",
+    "items"
+  ]
+}
