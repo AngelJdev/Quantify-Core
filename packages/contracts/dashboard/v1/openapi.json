@@ -1,0 +1,347 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Quantify Core — dashboard QUANCORE-25",
+    "version": "1.0.0",
+    "description": "Endpoints de solo lectura RF-05. Requieren puerto SQL versionado de hábitos/check-ins. Las pruebas usan datos sintéticos persistidos, no cifras de la demo. Integración del backend escritor pendiente."
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/me/dashboard/progress": {
+      "get": {
+        "operationId": "getOwnDashboardProgress",
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Progreso propio desde registros confirmados",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          },
+          {
+            "name": "habitId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agregado calculado desde snapshot PostgreSQL; periodos abiertos separados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./progress.schema.json"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Consulta inválida",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token inválido",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil no activo",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Hábito propio no encontrado",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Módulo deshabilitado, puerto de lectura ausente o datos de origen incoherentes",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/dashboard/calendar": {
+      "get": {
+        "operationId": "getOwnDashboardCalendar",
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Calendario por fechas de negocio históricas",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          },
+          {
+            "name": "habitId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agregado calculado desde snapshot PostgreSQL; periodos abiertos separados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./calendar.schema.json"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Consulta inválida",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token inválido",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil no activo",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Hábito propio no encontrado",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Módulo deshabilitado, puerto de lectura ausente o datos de origen incoherentes",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/dashboard/trends": {
+      "get": {
+        "operationId": "getOwnDashboardTrends",
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Tendencias de cumplimiento cerrado",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          },
+          {
+            "name": "habitId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          {
+            "name": "bucket",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "day",
+                "week"
+              ],
+              "default": "week"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agregado calculado desde snapshot PostgreSQL; periodos abiertos separados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./trends.schema.json"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Consulta inválida",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token inválido",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Perfil no activo",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Hábito propio no encontrado",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Módulo deshabilitado, puerto de lectura ausente o datos de origen incoherentes",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "../../telemetry/v1/error.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

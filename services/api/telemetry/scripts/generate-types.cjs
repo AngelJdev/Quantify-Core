@@ -7,4 +7,6 @@ const { compileFromFile } = require('json-schema-to-typescript');
     compileFromFile(path.join(contracts, `${name}.schema.json`), { bannerComment: '/* Generado del contrato canónico. No editar. */', additionalProperties: false })
   ));
   await fs.writeFile(path.resolve(__dirname, '../src/contracts.generated.ts'), types.join('\n'));
+  await fs.writeFile(path.resolve(__dirname, '../src/modules/dashboard/input.generated.ts'),
+    await compileFromFile(path.resolve(contracts,'../../dashboard/v1/read-input.schema.json'), {bannerComment:'/* Generado del contrato canónico. No editar. */'}));
 })().catch(() => { console.error('No se pudieron generar los tipos del contrato.'); process.exitCode = 1; });

@@ -6,6 +6,8 @@ import { TelemetryIdentity, TelemetryRequest } from './auth';
 import { TelemetryService } from './service';
 import { validate } from './validation';
 import { MongoProjection } from './mongo';
+import { DashboardController } from './modules/dashboard/controller';
+import { DashboardService } from './modules/dashboard/service';
 
 @Controller('telemetry/simulation')
 @UseGuards(TelemetryIdentity)
@@ -43,7 +45,7 @@ class TelemetryController {
 @Module({})
 export class TelemetrySimulationModule {
   static register(config: TelemetryConfig): DynamicModule {
-    return { module: TelemetrySimulationModule, controllers: [TelemetryController],
-      providers: [{ provide: CONFIG, useValue: config }, TelemetryDatabase, TelemetryIdentity, TelemetryService,MongoProjection] };
+    return { module: TelemetrySimulationModule, controllers: [TelemetryController,DashboardController],
+      providers: [{ provide: CONFIG, useValue: config }, TelemetryDatabase, TelemetryIdentity, TelemetryService,MongoProjection,DashboardService] };
   }
 }

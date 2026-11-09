@@ -187,7 +187,12 @@ export interface TelemetryErrorResponse {
     | "HTTP_ERROR"
     | "MONGODB_NOT_ENABLED"
     | "PROJECTION_INVALID"
-    | "PROJECTION_CONTENT_CONFLICT";
+    | "PROJECTION_CONTENT_CONFLICT"
+    | "DASHBOARD_NOT_ENABLED"
+    | "DASHBOARD_SOURCE_NOT_READY"
+    | "DASHBOARD_INVALID_SOURCE"
+    | "DASHBOARD_SOURCE_LIMIT"
+    | "HABIT_NOT_FOUND";
   type: "about:blank";
   title: string;
   status: number;
