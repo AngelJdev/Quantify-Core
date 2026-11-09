@@ -54,6 +54,8 @@ npm run evidence
 
 `npm test` y `npm run evidence` levantan una instancia **PostgreSQL real temporal**, una API NestJS en loopback y un servidor JWKS sintético de pruebas con claves efímeras. No contactan Keycloak real, no sustituyen sus flujos PKCE y no utilizan perfiles de personas. Requieren puertos locales y binarios PostgreSQL del paquete de desarrollo `embedded-postgres`; no Docker ni servicio de BD instalado globalmente. No ejecutar como root: no se crean usuarios del sistema. El directorio temporal aleatorio se elimina al terminar. Los scripts no borran bases externas.
 
+Los fixtures de PostgreSQL 18 fijan `io_method=sync`: evita workers de E/S huérfanos durante el cierre de la instancia temporal en Windows. Es una configuración de pruebas, sin cambiar las bases externas ni los contratos del módulo.
+
 La suite falla si no puede arrancar la BD; no omite integración ni declara un mock como persistencia. `npm ci` necesita acceso a npm y scripts de instalación para los binarios de la plataforma. Windows/Linux requieren su propia validación; no afirmar que se probaron por ser plataformas soportadas por la dependencia.
 
 Por defecto, las pruebas crean solo un fixture mínimo de `profiles` compatible con QUANCORE-22. Para probar con el SQL real de la rama de backend, **desde la raíz** exportar el archivo a una ruta temporal y usarlo, sin fusionar ramas:

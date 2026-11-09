@@ -25,7 +25,7 @@ async function environment(options = {}) {
   const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'quantify-telemetry-'));
   const port = await freePort(), password = randomBytes(24).toString('hex');
   const pg = new EmbeddedPostgres({ databaseDir: path.join(directory,'pgdata'), user: 'postgres', password, port,
-    persistent: true, createPostgresUser: false, postgresFlags: ['-h','127.0.0.1','-k',directory], onLog() {}, onError() {} });
+    persistent: true, createPostgresUser: false, postgresFlags: ['-h','127.0.0.1','-k',directory,'-c','io_method=sync'], onLog() {}, onError() {} });
   let pool, issuerServer, app;
   async function close() {
     if (app) await app.close();
