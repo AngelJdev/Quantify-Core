@@ -1,5 +1,25 @@
 # QUANCORE-35 · Ingesta sintética autorizada
 
+## Ampliación QUANCORE-22 · MongoDB y auditoría
+
+Disponible en `feature/QUANCORE-22-eventos-telemetria-mongodb`: [contrato de eventos](../../../packages/contracts/events/telemetry/README.md), [ADR propuesto](../../../docs/arquitectura/adr/0003-proyeccion-mongodb-telemetria-sintetica.md) y migración SQL `002_mongo_outbox.sql`. La simulación PostgreSQL mantiene su contrato y sigue funcionando con MongoDB desactivado. No es aprobación productiva de QUANCORE-43.
+
+`npm run mongo:generate` deriva validadores BSON/índices de los esquemas canónicos. `npm run mongo:migrate` provisiona colecciones e índices con un usuario de configuración y las variables de [.env.example](.env.example). No ejecutar la API con ese usuario: el runtime solo requiere `find` e `insert` sobre `telemetry_events` y `audit_events`. Configurar autenticación/TLS en el destino de demo; no imprimir URIs ni contraseñas.
+
+Con `TELEMETRY_MONGODB_ENABLED=1`, URI y base configuradas, el mismo host NestJS añade rutas bajo `/api/v1/telemetry/simulation`:
+
+- `POST /sources/{sourceId}/mongodb/project`: entrega hasta 50 eventos del outbox propio; 200 informa pendientes. No acepta eventos arbitrarios ni consulta otra fuente. Repetir hasta `hasMore: false`.
+- `GET /sources/{sourceId}/events?limit=20`: últimos eventos propios no expirados de consentimiento actual; 1–100 resultados, sin paginación histórica implícita.
+- `GET /sources/{sourceId}/audit?limit=20`: auditoría mínima propia, también tras revocar la fuente; no contiene muestras.
+
+La ingesta original confirma solo PostgreSQL. La proyección MongoDB se confirma por separado; un fallo deja pendientes durables y devuelve 503 sin duplicar progreso. El proyector no abre una transacción distribuida: conserva un advisory lock de sesión por fuente mientras llama a MongoDB; consentimiento/revocación usan el mismo lock transaccional. Un timeout no confirma revocación ni publicación.
+
+Se conservan IDs y fechas originales al reintentar. TTL sintético: señales 24 h, auditoría Mongo 7 días; lecturas excluyen expirados inmediatamente. No significa borrado de los datos SQL ni aprobación de retención real. No hay backfill automático de hechos anteriores a la migración 002.
+
+`npm test` ejecuta ahora también `mongod` real temporal con autenticación y usuario mínimo. La primera ejecución descarga el binario oficial de MongoDB 8.2.6; requiere red y puertos de loopback. No inicia un servicio global ni utiliza datos de personas. QUANCORE-43 y la revisión de recuperación QUANCORE-44 siguen pendientes.
+
+La sección siguiente conserva el alcance original QUANCORE-35: sus referencias a MongoDB pendiente describen esa entrega histórica. La presente ampliación no la convierte en biometría productiva.
+
 **Estado:** módulo NestJS/TypeScript ejecutable de simulación, con PostgreSQL real en pruebas. Se mantiene aislado porque `develop` no integra todavía la API QUANCORE-22 ni la decisión de arquitectura QUANCORE-43. No reemplaza esos trabajos ni presenta Wear OS como integrado.
 
 **Rama:** `feature/QUANCORE-35-telemetria-ingestion`, creada desde `develop`. No se hicieron merges de dependencias. [Contrato canónico](../../../packages/contracts/telemetry/README.md) · [Evidencia y pendientes](../../../docs/datos-ia/telemetria-simulada.md).

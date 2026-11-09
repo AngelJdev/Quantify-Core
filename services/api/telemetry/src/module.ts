@@ -1,15 +1,22 @@
-import { Body, Controller, Delete, DynamicModule, Get, Module, Param, ParseUUIDPipe, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, DynamicModule, Get, HttpCode, Module, Param, ParseUUIDPipe, Post, Put, Query, Req, Res, UseGuards } from '@nestjs/common';
 import type { Response } from 'express';
 import { CONFIG, TelemetryConfig } from './config';
 import { TelemetryDatabase } from './database';
 import { TelemetryIdentity, TelemetryRequest } from './auth';
 import { TelemetryService } from './service';
 import { validate } from './validation';
+import { MongoProjection } from './mongo';
 
 @Controller('telemetry/simulation')
 @UseGuards(TelemetryIdentity)
 class TelemetryController {
-  constructor(private readonly service: TelemetryService) {}
+  constructor(private readonly service: TelemetryService,private readonly mongo:MongoProjection) {}
+  @Post('sources/:sourceId/mongodb/project') @HttpCode(200)
+  project(@Req()req:TelemetryRequest,@Param('sourceId',ParseUUIDPipe)id:string) {return this.mongo.project(req.telemetryOwner,id);}
+  @Get('sources/:sourceId/events')
+  events(@Req()req:TelemetryRequest,@Param('sourceId',ParseUUIDPipe)id:string,@Query('limit')limit:unknown) {return this.mongo.list(req.telemetryOwner,id,false,limit);}
+  @Get('sources/:sourceId/audit')
+  audit(@Req()req:TelemetryRequest,@Param('sourceId',ParseUUIDPipe)id:string,@Query('limit')limit:unknown) {return this.mongo.list(req.telemetryOwner,id,true,limit);}
   @Post('sources')
   register(@Req() req: TelemetryRequest, @Body() input: unknown) { return this.service.register(req.telemetryOwner, validate('source', input)); }
   @Get('sources/:sourceId')
@@ -37,6 +44,6 @@ class TelemetryController {
 export class TelemetrySimulationModule {
   static register(config: TelemetryConfig): DynamicModule {
     return { module: TelemetrySimulationModule, controllers: [TelemetryController],
-      providers: [{ provide: CONFIG, useValue: config }, TelemetryDatabase, TelemetryIdentity, TelemetryService] };
+      providers: [{ provide: CONFIG, useValue: config }, TelemetryDatabase, TelemetryIdentity, TelemetryService,MongoProjection] };
   }
 }
