@@ -46,7 +46,7 @@ Este índice reúne los documentos y referencias solicitados para seguimiento de
 |---|---|---|
 | Business Model Canvas | [Fuente interactiva en repositorio](docs/Practica04/business-model-canvas.html) | URL antigua de Pages pendiente de comprobación/publicación |
 | Acta de constitución (Project Charter) | [PDF](https://drive.google.com/file/d/1R2_XFCz1fd5_uXvgSZAnowkFqlQB6Uos/view) · [Fuente](docs/gestion/acta-constitucion.md) | Propuesta sin firmas |
-| Requerimientos de software | [PDF](https://drive.google.com/file/d/1AVpKhDE51chx8VT-IVq6LAjnK7IicnyYg/view) · [Fuente](docs/requerimientos/catalogo.md) | RF/RNF propuestos |
+| Requerimientos de software | [PDF](https://drive.google.com/file/d/1AVpKhDE51chx8VT-IVq6LAjnK7IicnyG/view) · [Fuente](docs/requerimientos/catalogo.md) | RF/RNF propuestos |
 | EDT / WBS | [PDF](https://drive.google.com/file/d/1udPMzpHsLC6YQ408KF9gskvMhZXJ0Tbx/view) · [Fuente](docs/gestion/edt.md) | Desglose para revisión |
 | ADR | [PDF](https://drive.google.com/file/d/1NHdNJoO9-b0ru4PUixeuC2OoTMQXw0x9/view) · [Registro](docs/arquitectura/adr/README.md) | ADR-0001..0004 en develop; 0005/0006 en feature |
 | Historias y criterios de aceptación | [PDF](https://drive.google.com/file/d/1Bl3qprILTlPb9JzXRkNzX-A3riqn6__r/view) · [Historias](docs/UHs/README.md) · [CA](docs/requerimientos/aceptacion.md) | Casos de producto pendientes de E2E |
