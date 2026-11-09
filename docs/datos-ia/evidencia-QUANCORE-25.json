@@ -1,0 +1,473 @@
+{
+  "task": "QUANCORE-25",
+  "executedAt": "2026-11-09T05:32:11.825Z",
+  "headCommit": "373b5f411326e351f22c75550c83be26c498c779",
+  "implementationCommit": "e632699f4d443303e1284e389d6001215eb43c30",
+  "environment": {
+    "node": "v24.13.0",
+    "os": "darwin",
+    "arch": "arm64",
+    "postgres": "18.6",
+    "identity": "RS256/JWKS sintéticos; no Keycloak/PKCE real",
+    "data": "Registros sintéticos persistidos en tablas de fixture y consultados por vistas SQL"
+  },
+  "cases": [
+    {
+      "case": "progress-persisted",
+      "httpStatus": 200,
+      "response": {
+        "window": {
+          "from": "2026-11-06",
+          "to": "2026-11-08",
+          "habitId": null,
+          "ruleVersion": "dashboard-opportunities-1.0.0",
+          "calculatedAt": "2026-11-09T05:32:11.765Z",
+          "timeBasis": "habit-business-date",
+          "timeZones": [
+            "UTC"
+          ],
+          "source": "postgresql-check-ins"
+        },
+        "closed": {
+          "opportunities": 6,
+          "recorded": 4,
+          "completed": 2,
+          "partial": 1,
+          "explicitZero": 1,
+          "missing": 2,
+          "completionRate": 33.33,
+          "coverageRate": 66.67,
+          "noDataReason": null
+        },
+        "open": {
+          "opportunities": 0,
+          "recorded": 0,
+          "completed": 0,
+          "partial": 0,
+          "explicitZero": 0,
+          "missing": 0,
+          "completionRate": null,
+          "coverageRate": null,
+          "noDataReason": "NO_ELIGIBLE_OPPORTUNITIES"
+        },
+        "futureOpportunities": 0
+      },
+      "postgres": {
+        "records": 4,
+        "explicit_zero": 1
+      }
+    },
+    {
+      "case": "calendar-persisted",
+      "httpStatus": 200,
+      "response": {
+        "window": {
+          "from": "2026-11-06",
+          "to": "2026-11-08",
+          "habitId": null,
+          "ruleVersion": "dashboard-opportunities-1.0.0",
+          "calculatedAt": "2026-11-09T05:32:11.781Z",
+          "timeBasis": "habit-business-date",
+          "timeZones": [
+            "UTC"
+          ],
+          "source": "postgresql-check-ins"
+        },
+        "days": [
+          {
+            "date": "2026-11-06",
+            "closed": {
+              "opportunities": 2,
+              "recorded": 2,
+              "completed": 2,
+              "partial": 0,
+              "explicitZero": 0,
+              "missing": 0,
+              "completionRate": 100,
+              "coverageRate": 100,
+              "noDataReason": null
+            },
+            "open": {
+              "opportunities": 0,
+              "recorded": 0,
+              "completed": 0,
+              "partial": 0,
+              "explicitZero": 0,
+              "missing": 0,
+              "completionRate": null,
+              "coverageRate": null,
+              "noDataReason": "NO_ELIGIBLE_OPPORTUNITIES"
+            },
+            "futureOpportunities": 0
+          },
+          {
+            "date": "2026-11-07",
+            "closed": {
+              "opportunities": 2,
+              "recorded": 1,
+              "completed": 0,
+              "partial": 0,
+              "explicitZero": 1,
+              "missing": 1,
+              "completionRate": 0,
+              "coverageRate": 50,
+              "noDataReason": null
+            },
+            "open": {
+              "opportunities": 0,
+              "recorded": 0,
+              "completed": 0,
+              "partial": 0,
+              "explicitZero": 0,
+              "missing": 0,
+              "completionRate": null,
+              "coverageRate": null,
+              "noDataReason": "NO_ELIGIBLE_OPPORTUNITIES"
+            },
+            "futureOpportunities": 0
+          },
+          {
+            "date": "2026-11-08",
+            "closed": {
+              "opportunities": 2,
+              "recorded": 1,
+              "completed": 0,
+              "partial": 1,
+              "explicitZero": 0,
+              "missing": 1,
+              "completionRate": 0,
+              "coverageRate": 50,
+              "noDataReason": null
+            },
+            "open": {
+              "opportunities": 0,
+              "recorded": 0,
+              "completed": 0,
+              "partial": 0,
+              "explicitZero": 0,
+              "missing": 0,
+              "completionRate": null,
+              "coverageRate": null,
+              "noDataReason": "NO_ELIGIBLE_OPPORTUNITIES"
+            },
+            "futureOpportunities": 0
+          }
+        ]
+      },
+      "postgres": {
+        "records": 4,
+        "explicit_zero": 1
+      }
+    },
+    {
+      "case": "trends-persisted",
+      "httpStatus": 200,
+      "response": {
+        "window": {
+          "from": "2026-11-06",
+          "to": "2026-11-08",
+          "habitId": null,
+          "ruleVersion": "dashboard-opportunities-1.0.0",
+          "calculatedAt": "2026-11-09T05:32:11.784Z",
+          "timeBasis": "habit-business-date",
+          "timeZones": [
+            "UTC"
+          ],
+          "source": "postgresql-check-ins"
+        },
+        "bucket": "day",
+        "points": [
+          {
+            "from": "2026-11-06",
+            "to": "2026-11-06",
+            "closed": {
+              "opportunities": 2,
+              "recorded": 2,
+              "completed": 2,
+              "partial": 0,
+              "explicitZero": 0,
+              "missing": 0,
+              "completionRate": 100,
+              "coverageRate": 100,
+              "noDataReason": null
+            }
+          },
+          {
+            "from": "2026-11-07",
+            "to": "2026-11-07",
+            "closed": {
+              "opportunities": 2,
+              "recorded": 1,
+              "completed": 0,
+              "partial": 0,
+              "explicitZero": 1,
+              "missing": 1,
+              "completionRate": 0,
+              "coverageRate": 50,
+              "noDataReason": null
+            }
+          },
+          {
+            "from": "2026-11-08",
+            "to": "2026-11-08",
+            "closed": {
+              "opportunities": 2,
+              "recorded": 1,
+              "completed": 0,
+              "partial": 1,
+              "explicitZero": 0,
+              "missing": 1,
+              "completionRate": 0,
+              "coverageRate": 50,
+              "noDataReason": null
+            }
+          }
+        ],
+        "changePercentagePoints": -100
+      },
+      "postgres": {
+        "records": 4,
+        "explicit_zero": 1
+      }
+    },
+    {
+      "case": "other-owner-empty",
+      "httpStatus": 200,
+      "response": {
+        "window": {
+          "from": "2026-11-06",
+          "to": "2026-11-08",
+          "habitId": null,
+          "ruleVersion": "dashboard-opportunities-1.0.0",
+          "calculatedAt": "2026-11-09T05:32:11.787Z",
+          "timeBasis": "habit-business-date",
+          "timeZones": [],
+          "source": "postgresql-check-ins"
+        },
+        "closed": {
+          "opportunities": 0,
+          "recorded": 0,
+          "completed": 0,
+          "partial": 0,
+          "explicitZero": 0,
+          "missing": 0,
+          "completionRate": null,
+          "coverageRate": null,
+          "noDataReason": "NO_ELIGIBLE_OPPORTUNITIES"
+        },
+        "open": {
+          "opportunities": 0,
+          "recorded": 0,
+          "completed": 0,
+          "partial": 0,
+          "explicitZero": 0,
+          "missing": 0,
+          "completionRate": null,
+          "coverageRate": null,
+          "noDataReason": "NO_ELIGIBLE_OPPORTUNITIES"
+        },
+        "futureOpportunities": 0
+      },
+      "postgres": {
+        "records": 4,
+        "explicit_zero": 1
+      }
+    },
+    {
+      "case": "other-owner-filtered",
+      "httpStatus": 404,
+      "response": {
+        "type": "about:blank",
+        "title": "Not Found",
+        "status": 404,
+        "code": "HABIT_NOT_FOUND",
+        "requestId": "ca45061d-da46-4301-9348-725d5f7f5a3c"
+      },
+      "postgres": {
+        "records": 4,
+        "explicit_zero": 1
+      }
+    },
+    {
+      "case": "confirmed-correction",
+      "httpStatus": 200,
+      "response": {
+        "window": {
+          "from": "2026-11-06",
+          "to": "2026-11-08",
+          "habitId": null,
+          "ruleVersion": "dashboard-opportunities-1.0.0",
+          "calculatedAt": "2026-11-09T05:32:11.792Z",
+          "timeBasis": "habit-business-date",
+          "timeZones": [
+            "UTC"
+          ],
+          "source": "postgresql-check-ins"
+        },
+        "closed": {
+          "opportunities": 6,
+          "recorded": 4,
+          "completed": 3,
+          "partial": 0,
+          "explicitZero": 1,
+          "missing": 2,
+          "completionRate": 50,
+          "coverageRate": 66.67,
+          "noDataReason": null
+        },
+        "open": {
+          "opportunities": 0,
+          "recorded": 0,
+          "completed": 0,
+          "partial": 0,
+          "explicitZero": 0,
+          "missing": 0,
+          "completionRate": null,
+          "coverageRate": null,
+          "noDataReason": "NO_ELIGIBLE_OPPORTUNITIES"
+        },
+        "futureOpportunities": 0
+      },
+      "postgres": {
+        "records": 4,
+        "explicit_zero": 1
+      }
+    },
+    {
+      "case": "repeated-read",
+      "httpStatus": 200,
+      "response": {
+        "window": {
+          "from": "2026-11-06",
+          "to": "2026-11-08",
+          "habitId": null,
+          "ruleVersion": "dashboard-opportunities-1.0.0",
+          "calculatedAt": "2026-11-09T05:32:11.795Z",
+          "timeBasis": "habit-business-date",
+          "timeZones": [
+            "UTC"
+          ],
+          "source": "postgresql-check-ins"
+        },
+        "closed": {
+          "opportunities": 6,
+          "recorded": 4,
+          "completed": 3,
+          "partial": 0,
+          "explicitZero": 1,
+          "missing": 2,
+          "completionRate": 50,
+          "coverageRate": 66.67,
+          "noDataReason": null
+        },
+        "open": {
+          "opportunities": 0,
+          "recorded": 0,
+          "completed": 0,
+          "partial": 0,
+          "explicitZero": 0,
+          "missing": 0,
+          "completionRate": null,
+          "coverageRate": null,
+          "noDataReason": "NO_ELIGIBLE_OPPORTUNITIES"
+        },
+        "futureOpportunities": 0
+      },
+      "postgres": {
+        "records": 4,
+        "explicit_zero": 1
+      }
+    },
+    {
+      "case": "after-api-restart",
+      "httpStatus": 200,
+      "response": {
+        "window": {
+          "from": "2026-11-06",
+          "to": "2026-11-08",
+          "habitId": null,
+          "ruleVersion": "dashboard-opportunities-1.0.0",
+          "calculatedAt": "2026-11-09T05:32:11.819Z",
+          "timeBasis": "habit-business-date",
+          "timeZones": [
+            "UTC"
+          ],
+          "source": "postgresql-check-ins"
+        },
+        "closed": {
+          "opportunities": 6,
+          "recorded": 4,
+          "completed": 3,
+          "partial": 0,
+          "explicitZero": 1,
+          "missing": 2,
+          "completionRate": 50,
+          "coverageRate": 66.67,
+          "noDataReason": null
+        },
+        "open": {
+          "opportunities": 0,
+          "recorded": 0,
+          "completed": 0,
+          "partial": 0,
+          "explicitZero": 0,
+          "missing": 0,
+          "completionRate": null,
+          "coverageRate": null,
+          "noDataReason": "NO_ELIGIBLE_OPPORTUNITIES"
+        },
+        "futureOpportunities": 0
+      },
+      "postgres": {
+        "records": 4,
+        "explicit_zero": 1
+      }
+    },
+    {
+      "case": "source-unavailable",
+      "httpStatus": 503,
+      "response": {
+        "type": "about:blank",
+        "title": "Service Unavailable",
+        "status": 503,
+        "code": "DASHBOARD_SOURCE_NOT_READY",
+        "requestId": "b5acb10c-0279-4f5a-a1bc-ed6ec7df3bb9"
+      },
+      "postgres": {
+        "records": 4,
+        "explicit_zero": 1
+      }
+    },
+    {
+      "case": "client-clock-rejected",
+      "httpStatus": 400,
+      "response": {
+        "type": "about:blank",
+        "title": "Bad Request",
+        "status": 400,
+        "code": "INVALID_JSON_OR_PARAMETER",
+        "requestId": "a54db860-de6a-40ac-b053-f354f4b583d5"
+      },
+      "postgres": {
+        "records": 4,
+        "explicit_zero": 1
+      }
+    }
+  ],
+  "artifacts": {
+    "packages/contracts/dashboard/v1/read-input.schema.json": "d123c1b39c8131297f114a15f9c0a9191e637b01edf26813946c01f52a08fb4c",
+    "packages/contracts/dashboard/v1/openapi.json": "bbdc37acec7b8ac89681e11b46ef505dd4679769fe39d342cbf520a762217d8f",
+    "services/api/telemetry/src/modules/dashboard/model.ts": "f43e5b6d262a19733a25a440ddd9926b0ec4a8d26483bac844229a41e4bdfe53",
+    "services/api/telemetry/src/modules/dashboard/service.ts": "2f2a6d97001f5c6da24ed46039e1b187fd6857c2592670bb215ac046d78cf4c2",
+    "services/api/telemetry/tests/dashboard.test.cjs": "6b803339a97f9dc60dfbf0b8237760d6b6863c149adfe3228f63c0f162596e42",
+    "services/api/telemetry/tests/dashboard-fixture.cjs": "32fe925a514f146fcfafb4561f66d8ba01ca3efbeb803b6690a99dcb13541e74",
+    "services/api/telemetry/package-lock.json": "d3c5c42a2a9a3b896ac93607da917e381e1a4d415cfa9b79dba6ba603fc850f0"
+  },
+  "limitations": [
+    "Backend escritor de hábitos/check-ins no integrado",
+    "Puerto SQL v1 pendiente de adaptación/revisión backend y BD",
+    "Sin datos personales reales, frontend nuevo ni despliegue productivo",
+    "D-03/04 y entorno QUANCORE-43 pendientes",
+    "Sin merge ni publicación de esta tarea"
+  ]
+}

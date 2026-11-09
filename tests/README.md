@@ -68,6 +68,10 @@ QUANCORE-22 añade MongoDB real temporal con autenticación y permisos mínimos:
 
 Pruebas de contrato e integración HTTP con PostgreSQL temporal real, JWT/JWKS sintéticos, permisos por dueño, revocación, reintentos concurrentes, rollback y reinicio. Fallan si la BD no inicia; no se omite integración silenciosamente. No prueban Keycloak/PKCE real, hardware Wear OS ni producto desplegado. Ver [instrucciones del módulo](../services/api/telemetry/README.md) y [evidencia](../docs/datos-ia/telemetria-simulada.md), incluida la ejecución con el SQL de la dependencia de backend.
 
+### Estadísticas propias · QUANCORE-25
+
+La misma suite de `services/api/telemetry` suma 21 pruebas de dominio/HTTP del dashboard: 64 en total con las regresiones previas. Usa tablas y vistas solo en PostgreSQL temporal, comprueba correcciones y snapshot concurrente, pertenencia, ausencia/cero, historial, IANA/DST y tasas ponderadas. `node scripts/evidence-dashboard.cjs` reproduce la demo de consultas SQL, sin afirmar que el escritor esté integrado. [Alcance, comandos y evidencia](../docs/datos-ia/estadisticas-dashboard.md).
+
 ## Condiciones de revisión
 
 Una funcionalidad no se marca verificada sin pruebas de sus caminos principales y fallos relevantes. Elegir las herramientas y umbrales de cobertura cuando existan módulos medibles; no usar un porcentaje arbitrario como sustituto de comportamiento comprobado. Una corrección que afecte contratos debe verificar también a sus consumidores.

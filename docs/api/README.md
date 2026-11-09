@@ -4,6 +4,8 @@
 
 **Ampliación aislada QUANCORE-35:** el [contrato de telemetría sintética](../../packages/contracts/telemetry/README.md) define rutas ejecutables localmente bajo `/api/v1/telemetry/simulation`, con su [implementación y evidencia](../../services/api/telemetry/README.md). Mantiene identidad Keycloak y pertenencia; la clave de ingesta es `(sourceId, batchId)`, no el header del primer flujo. Sus errores también usan `application/problem+json`. No habilita fuentes físicas ni declara integrada la API general.
 
+**QUANCORE-25:** [contrato del dashboard](../../packages/contracts/dashboard/README.md), con `GET /api/v1/me/dashboard/progress`, `/calendar` y `/trends`. Implementación de solo lectura, opt-in, probada contra vistas SQL sobre registros sintéticos persistidos; integración del escritor pendiente. [Evidencia](../datos-ia/estadisticas-dashboard.md).
+
 ## Primer flujo propuesto
 
 Servidor relativo: `/api/v1`. No se fija dominio, puerto ni ambiente inexistente. Todos los endpoints requieren access token de Keycloak, propiedad del recurso y cuenta habilitada.
