@@ -39,6 +39,10 @@ La misma numeración e ID conserva la correspondencia. Cada enlace abre la panta
 
 ## Acceso, registro de cuenta y recuperación
 
+**Actualización:** las ausencias del inventario histórico de 20 PNG ya tienen [seis vistas complementarias SVG](autenticacion/README.md), con [galería visual](autenticacion/index.html), sin alterar las pantallas originales. Los párrafos siguientes corresponden a la auditoría histórica del 29/10/2026.
+
+### Auditoría histórica del catálogo original
+
 Auditoría del catálogo y de los PNG existentes (29/10/2026):
 
 | Flujo | Qué existe en estas veinte pantallas |

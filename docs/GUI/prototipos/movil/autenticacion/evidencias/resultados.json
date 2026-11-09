@@ -1,0 +1,300 @@
+{
+  "executedAt": "2026-11-09T02:45:34.899Z",
+  "node": "v24.14.1",
+  "platform": "win32",
+  "browser": "156.0.8078.81",
+  "variants": [
+    {
+      "id": "inicio-sesion",
+      "variant": "sketch:none",
+      "fonts": [],
+      "overflow": [],
+      "sha256": "9c13c0e306e2080930742c9db079319f86bb868ae22478357ada232a117d4800"
+    },
+    {
+      "id": "inicio-sesion",
+      "variant": "wireframe:none",
+      "fonts": [
+        "Arial"
+      ],
+      "overflow": [],
+      "sha256": "3ebc630bfd786f5a89ef4f22369d441d8e687e3f3b688506a7664afd933e62b0"
+    },
+    {
+      "id": "inicio-sesion",
+      "variant": "mockup:light",
+      "fonts": [
+        "Inter Variable"
+      ],
+      "overflow": [],
+      "sha256": "c549e55c45348da76d6de0f3351fd4174fd425afa616e6df38c5a2bcd23156c5"
+    },
+    {
+      "id": "inicio-sesion",
+      "variant": "mockup:dark",
+      "fonts": [
+        "Inter Variable"
+      ],
+      "overflow": [],
+      "sha256": "3cd9227442a2f3c09d1a09eba375c57f9e21c26827682b2dc636dfcdb214e122"
+    },
+    {
+      "id": "crear-cuenta",
+      "variant": "sketch:none",
+      "fonts": [],
+      "overflow": [],
+      "sha256": "624055e0e162370c9f4143ce5169d9f5d1271e223be57b4a922b4c6756816c0c"
+    },
+    {
+      "id": "crear-cuenta",
+      "variant": "wireframe:none",
+      "fonts": [
+        "Arial"
+      ],
+      "overflow": [],
+      "sha256": "3a78ba4e447303fc4c9b5ae5ec45de7843c50ea7b1f7046f954016456bf7832b"
+    },
+    {
+      "id": "crear-cuenta",
+      "variant": "mockup:light",
+      "fonts": [
+        "Inter Variable"
+      ],
+      "overflow": [],
+      "sha256": "343426e7cf996d03c8ebe3b74bd4d87280e7a06a9a75f3c93501d7cf10c47170"
+    },
+    {
+      "id": "crear-cuenta",
+      "variant": "mockup:dark",
+      "fonts": [
+        "Inter Variable"
+      ],
+      "overflow": [],
+      "sha256": "7174f947762e46d1064c2775ecc01893eb25a401b0282b9d22c74ae9c138cc31"
+    },
+    {
+      "id": "verificar-correo",
+      "variant": "sketch:none",
+      "fonts": [],
+      "overflow": [],
+      "sha256": "381302f7f328d4820d983e2ddf32f839ea483917d727b30d6ce79a3f3d491455"
+    },
+    {
+      "id": "verificar-correo",
+      "variant": "wireframe:none",
+      "fonts": [
+        "Arial"
+      ],
+      "overflow": [],
+      "sha256": "1cc37e5b93c46c20b6567f34ee108ac2c63ff0249272147f8e0243abe7897139"
+    },
+    {
+      "id": "verificar-correo",
+      "variant": "mockup:light",
+      "fonts": [
+        "Inter Variable"
+      ],
+      "overflow": [],
+      "sha256": "4faa83059d5e96d636f7d82afbbbf0bd2a94d01a2ee6539c3e1895fe3b5c902f"
+    },
+    {
+      "id": "verificar-correo",
+      "variant": "mockup:dark",
+      "fonts": [
+        "Inter Variable"
+      ],
+      "overflow": [],
+      "sha256": "4dbfbdf8061000db2c0a802ee200a3c8d42a90a8361085a91d794ab868f7ccff"
+    },
+    {
+      "id": "recuperar-acceso",
+      "variant": "sketch:none",
+      "fonts": [],
+      "overflow": [],
+      "sha256": "1cee081d3eecc69b71214b34cecb304252f9ccf1f1ff21fd2de811488c4f1bb3"
+    },
+    {
+      "id": "recuperar-acceso",
+      "variant": "wireframe:none",
+      "fonts": [
+        "Arial"
+      ],
+      "overflow": [],
+      "sha256": "18065515872c777029268a8de52aadebe5998d34ce78c4ee3364af8af2c79eb3"
+    },
+    {
+      "id": "recuperar-acceso",
+      "variant": "mockup:light",
+      "fonts": [
+        "Inter Variable"
+      ],
+      "overflow": [],
+      "sha256": "ef8242161798edda3999e8cb154cf890d3709bf581a7449ceaccb560310d3c03"
+    },
+    {
+      "id": "recuperar-acceso",
+      "variant": "mockup:dark",
+      "fonts": [
+        "Inter Variable"
+      ],
+      "overflow": [],
+      "sha256": "643919a66199fc35a9b6736d7fd147610dc1fdd61b950317c37fce8e1cba3f86"
+    },
+    {
+      "id": "nueva-contrasena",
+      "variant": "sketch:none",
+      "fonts": [],
+      "overflow": [],
+      "sha256": "b6e09e83d19a3dc93a9ed4201676a1aba3cbb9f60849579c7f238a52366e8f97"
+    },
+    {
+      "id": "nueva-contrasena",
+      "variant": "wireframe:none",
+      "fonts": [
+        "Arial"
+      ],
+      "overflow": [],
+      "sha256": "e6e34928066e02eded9f14993218478f044dc30a10c98624c5d649d629a75f07"
+    },
+    {
+      "id": "nueva-contrasena",
+      "variant": "mockup:light",
+      "fonts": [
+        "Inter Variable"
+      ],
+      "overflow": [],
+      "sha256": "ea9f2f18ed7249db71ae2ce38f92a4dc3871520688d37338b967f3e9b95e7563"
+    },
+    {
+      "id": "nueva-contrasena",
+      "variant": "mockup:dark",
+      "fonts": [
+        "Inter Variable"
+      ],
+      "overflow": [],
+      "sha256": "cf465bb1d2c57a0648513e1e3ec6b540370849c04ad1f8cbd24edbeb95c17ff7"
+    },
+    {
+      "id": "acceso-confirmado",
+      "variant": "sketch:none",
+      "fonts": [],
+      "overflow": [],
+      "sha256": "54619f1c474ea0a15da80b8dc2b705f50c812826962dcdf8291ecd2c96ca5b36"
+    },
+    {
+      "id": "acceso-confirmado",
+      "variant": "wireframe:none",
+      "fonts": [
+        "Arial"
+      ],
+      "overflow": [],
+      "sha256": "05176af0bf71ce055f3096b403bd73977d401a38e8e7c4505b16366ca770c14e"
+    },
+    {
+      "id": "acceso-confirmado",
+      "variant": "mockup:light",
+      "fonts": [
+        "Inter Variable"
+      ],
+      "overflow": [],
+      "sha256": "3306686d11da5ad9eb97d5e3e4b34e1c167130c9dc3c7084dd62220f40d763bc"
+    },
+    {
+      "id": "acceso-confirmado",
+      "variant": "mockup:dark",
+      "fonts": [
+        "Inter Variable"
+      ],
+      "overflow": [],
+      "sha256": "8ad28b1a180e3ffd2f5481e3356f59cf9a8d14d48035f76c04a937f3a0e4cbed"
+    }
+  ],
+  "galleries": [
+    {
+      "width": 1440,
+      "stage": "sketch",
+      "theme": "light",
+      "images": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1440,
+      "stage": "wireframe",
+      "theme": "light",
+      "images": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1440,
+      "stage": "mockup",
+      "theme": "light",
+      "images": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1440,
+      "stage": "mockup",
+      "theme": "dark",
+      "images": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 390,
+      "stage": "sketch",
+      "theme": "light",
+      "images": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 390,
+      "stage": "wireframe",
+      "theme": "light",
+      "images": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 390,
+      "stage": "mockup",
+      "theme": "light",
+      "images": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 390,
+      "stage": "mockup",
+      "theme": "dark",
+      "images": 6,
+      "horizontalOverflow": false
+    }
+  ],
+  "documents": [
+    {
+      "path": "docs/GUI/README.md",
+      "headings": 7,
+      "tables": 1
+    },
+    {
+      "path": "docs/GUI/prototipos/movil/README.md",
+      "headings": 7,
+      "tables": 3
+    },
+    {
+      "path": "docs/diseno/recorridos.md",
+      "headings": 8,
+      "tables": 1
+    }
+  ],
+  "negativeChecks": [
+    {
+      "test": "missing embedded font rejected",
+      "fonts": [
+        "Times New Roman"
+      ]
+    },
+    {
+      "test": "embedded font affects external image pixels",
+      "changedPixels": 17984
+    }
+  ],
+  "errors": []
+}
