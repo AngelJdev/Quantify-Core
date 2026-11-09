@@ -33,7 +33,7 @@ export class MongoProjection implements OnModuleDestroy {
   constructor(private readonly sql:TelemetryDatabase,@Inject(CONFIG)private readonly config:TelemetryConfig) {}
   private db() {
     if(!this.config.mongo)throw new TelemetryError(503,'MONGODB_NOT_ENABLED');
-    this.client ??= new MongoClient(this.config.mongo.url,{serverSelectionTimeoutMS:2000,socketTimeoutMS:3000,maxPoolSize:5,
+    this.client ??= new MongoClient(this.config.mongo.url,{serverSelectionTimeoutMS:2000,socketTimeoutMS:3000,heartbeatFrequencyMS:500,maxPoolSize:5,
       writeConcern:{w:'majority',j:true,wtimeoutMS:2000}});
     return this.client.db(this.config.mongo.database);
   }

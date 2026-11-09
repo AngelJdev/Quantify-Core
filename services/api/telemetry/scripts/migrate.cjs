@@ -17,7 +17,7 @@ async function migrate(pool) {
     await client.query("SELECT pg_advisory_xact_lock(hashtextextended('quantify-telemetry-simulation-migrations',0))");
     const columns = await client.query("SELECT column_name FROM information_schema.columns WHERE table_schema='public' AND table_name='profiles'");
     if (!['id','oidc_issuer','oidc_subject','status'].every(name => columns.rows.some(row => row.column_name === name))) {
-      throw new Error('Requiere public.profiles de QUANCORE-22 con identidad OIDC; no se crean perfiles automáticamente.');
+      throw new Error('Requiere public.profiles del backend transaccional con identidad OIDC; no se crean perfiles automáticamente.');
     }
     await client.query(`CREATE SCHEMA IF NOT EXISTS telemetry_simulation;
       CREATE TABLE IF NOT EXISTS telemetry_simulation.schema_migrations (
