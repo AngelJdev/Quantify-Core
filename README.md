@@ -36,6 +36,50 @@
 - [Práctica 07 — Prototipo Interactivo de Sketches](https://angeljesus13.github.io/Quantify-Core/docs/practica-07/)
 - [Práctica 07 — Mapa de Navegación de Sketches](https://angeljesus13.github.io/Quantify-Core/docs/practica-07/navegacion.html)
 
+## Accesos por fase del proyecto
+
+Este índice reúne los documentos y referencias solicitados para seguimiento de Quantify Core V2. Las ediciones PDF están disponibles en [Google Drive](https://drive.google.com/drive/folders/1006CiGRLjJ0gkDD2vyPeeFfA_5WyY3Tq), con portada UTXJ y TIC; las **fuentes editables y versionadas** permanecen en [docs/](docs/README.md). **Publicación PDF en GitHub pendiente:** por ahora se enlazan las copias verificadas de Drive, no rutas inexistentes del repositorio. Al versionar los binarios en la rama documental, sustituir por enlaces relativos a `docs/pdf/` y verificar su apertura antes del PR.
+
+### Arranque del proyecto
+
+| Recurso | Acceso | Situación |
+|---|---|---|
+| Business Model Canvas | [Fuente interactiva en repositorio](docs/Practica04/business-model-canvas.html) | URL antigua de Pages pendiente de comprobación/publicación |
+| Acta de constitución (Project Charter) | [PDF](https://drive.google.com/file/d/1R2_XFCz1fd5_uXvgSZAnowkFqlQB6Uos/view) · [Fuente](docs/gestion/acta-constitucion.md) | Propuesta sin firmas |
+| Requerimientos de software | [PDF](https://drive.google.com/file/d/1AVpKhDE51chx8VT-IVq6LAjnK7IicnyYg/view) · [Fuente](docs/requerimientos/catalogo.md) | RF/RNF propuestos |
+| EDT / WBS | [PDF](https://drive.google.com/file/d/1udPMzpHsLC6YQ408KF9gskvMhZXJ0Tbx/view) · [Fuente](docs/gestion/edt.md) | Desglose para revisión |
+| ADR | [PDF](https://drive.google.com/file/d/1NHdNJoO9-b0ru4PUixeuC2OoTMQXw0x9/view) · [Registro](docs/arquitectura/adr/README.md) | ADR-0001..0004 en develop; 0005/0006 en feature |
+| Historias y criterios de aceptación | [PDF](https://drive.google.com/file/d/1Bl3qprILTlPb9JzXRkNzX-A3riqn6__r/view) · [Historias](docs/UHs/README.md) · [CA](docs/requerimientos/aceptacion.md) | Casos de producto pendientes de E2E |
+| Estimación de recursos y costos | [PDF](https://drive.google.com/file/d/18q1dlGG3hNhzfe6p38C0SzhcP7BRxdxG/view) · [Fuente](docs/gestion/presupuesto.md) | Estimación, no gasto aprobado |
+| Matriz RACI | [PDF](https://drive.google.com/file/d/1jw7vBpWtLhd4CWSDlY4hKUEOXjST-FW8/view) · [Fuente](docs/gestion/raci.md) | Responsabilidades propuestas |
+
+### Diseño y desarrollo
+
+| Recurso | Acceso | Situación |
+|---|---|---|
+| Diagrama de arquitectura | [Plano interactivo](docs/examen/index.html) · [Arquitectura](docs/arquitectura/README.md) | Documento de diseño, no despliegue verificado |
+| Guía de estilos gráficos | [Figma](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3) · [PDF](https://drive.google.com/file/d/1Xx3s9f1nMVxbO7sdP5RHNg_f0T0fyTEJ/view) · [Galería](docs/GUI/identidad/guia/index.html) | Fuente visual disponible |
+| Sketches | [Figma](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3) · [Catálogo](docs/GUI/prototipos/movil/README.md) | 20 vistas, sin duplicados |
+| Wireframes | [Figma](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3) · [Catálogo](docs/GUI/prototipos/movil/README.md) | Referencia de diseño |
+| Mockups | [Figma](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3) · [PDF](https://drive.google.com/file/d/1RSYF-F3dhGOnt8MKhgf2lngqyYLgXAr2/view) · [Catálogo](docs/GUI/prototipos/movil/mockups/README.md) | Claro y oscuro |
+| Prototipo interactivo | [Figma oficial](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3) · [PDF de revisión](https://drive.google.com/file/d/1pKgthGS0eMa8_x3pmJn574T2jPSO4qpu/view) | Conexiones verificadas estructuralmente; Present pendiente |
+| Plan de pruebas | [PDF](https://drive.google.com/file/d/1e29rRjuhK3bJlX6SgeiExtCRRl_iOkJQ/view) · [Fuente](tests/plan-pruebas.md) | Plan propuesto |
+| Casos de prueba | [PDF](https://drive.google.com/file/d/1lb5JB_AZRt1QgTzU__N4vMCp_9VKq9Fs/view) · [CA-01..20](docs/requerimientos/aceptacion.md) | No ejecutados de extremo a extremo |
+| Informe de ejecución | [PDF](https://drive.google.com/file/d/1SoasL4vS_pM2uYbyY8iyCZrAxOKc8cci/view) · [Fuente](tests/informe-ejecucion-2026-11-09.md) | Pruebas locales; alcance declarado |
+
+### Monitoreo
+
+| Recurso | Acceso | Situación |
+|---|---|---|
+| Interfaces y mockups de seguimiento | [Mockups y catálogo](docs/GUI/prototipos/movil/mockups/README.md) · [Figma](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3) | No se duplica una misma fuente por las dos entradas de Padlet |
+| Monitoreo técnico | [Observabilidad](infrastructure/observability/README.md) · [Seguimiento de calidad](tests/README.md) | Infraestructura operativa aún por integrar |
+
+### Cierre del proyecto
+
+| Recurso | Acceso | Situación |
+|---|---|---|
+| Acta de cierre | [PDF](https://drive.google.com/file/d/1apghwegZV_ZjUWjqMJT91o1kPXDZApgs/view) · [Borrador versionado](docs/gestion/acta-cierre.md) | **Borrador sin firmas ni aceptación** |
+
 ## Documentación para desarrollar
 
 La base de trabajo del equipo está en el **[mapa de documentación](docs/README.md)**. Incluye requisitos, arquitectura, contratos de API, datos, seguridad, diseño, guías por componente y criterios de pruebas y operación.
