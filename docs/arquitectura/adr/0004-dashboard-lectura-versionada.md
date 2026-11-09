@@ -4,6 +4,8 @@
 - Fecha: 2026-11-08.
 - Tarea: QUANCORE-25, P0; RF-05, RN-P01/06..18.
 
+**Avance QUANCORE-43, 09/11/2026:** el [núcleo persistente](../../../services/api/README.md) monta el lector existente sobre vistas de maestros e historial reales, creadas por `002_core_integration.sql`. La política provisional de escrituras exige opt-in; este avance y sus pruebas no aceptan el ADR ni cierran D-03/04.
+
 ## Contexto
 
 En `develop` `166b1b6` existen simulaciones de telemetría, no maestros operativos de hábitos/check-ins. La rama QUANCORE-24 ofrece funciones puras de fechas y rachas, sin persistencia ni endpoints. La rama de backend QUANCORE-21/23 tiene snapshots de hábitos, pero no check-ins integrados ni vigencia histórica resuelta para cada cambio de estado. No se deben fusionar esas ramas ni usar la meta actual para evaluar historia sin revisión.

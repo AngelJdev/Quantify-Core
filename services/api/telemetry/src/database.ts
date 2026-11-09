@@ -5,7 +5,8 @@ import { CONFIG, TelemetryConfig } from './config';
 export class TelemetryDatabase implements OnModuleDestroy {
   readonly pool: Pool;
   constructor(@Inject(CONFIG) config: TelemetryConfig) {
-    this.pool = new Pool({ connectionString: config.databaseUrl, max: 5, connectionTimeoutMillis: 3000, idleTimeoutMillis: 10000 });
+    this.pool = new Pool({ connectionString: config.databaseUrl, max: 5, connectionTimeoutMillis: 3000, idleTimeoutMillis: 10000,
+      query_timeout: 5000, statement_timeout: 5000 });
     this.pool.on('error', () => { /* No registrar información de conexión. El siguiente request recibe 503. */ });
   }
   query<T extends QueryResultRow>(sql: string, params: unknown[] = []) { return this.pool.query<T>(sql, params); }

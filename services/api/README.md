@@ -1,10 +1,91 @@
 # API principal · NestJS + TypeScript
 
-> **Estado: API general por implementar; módulo aislado QUANCORE-35 disponible para simulación.** La API será la autoridad del dominio y de las escrituras transaccionales en PostgreSQL. [OpenAPI](../../packages/contracts/openapi.json) es un borrador de interfaces, no un servicio desplegado.
+> **Estado: núcleo NestJS ejecutable localmente en QUANCORE-43, pendiente de revisión e integración.** Perfiles, hábitos, check-ins, métricas y dashboard usan PostgreSQL real. Las escrituras requieren opt-in de la política provisional D-03/04. [OpenAPI](../../packages/contracts/openapi.json) sigue como borrador; no hay despliegue productivo ni sesión React/Flutter acreditados.
 
-**Excepción acotada QUANCORE-35:** [telemetry/README.md](telemetry/README.md) contiene un módulo NestJS ejecutable **solo de simulación sintética**, con contrato y pruebas HTTP/PostgreSQL reales. Su host local no implementa los módulos generales de esta guía; la API general y la arquitectura QUANCORE-43 siguen pendientes. QUANCORE-22 añade una [proyección MongoDB y auditoría](../../docs/datos-ia/eventos-mongodb.md), solo para la simulación y con activación explícita.
+**Host separado QUANCORE-35:** [telemetry/README.md](telemetry/README.md) conserva el módulo NestJS **solo de simulación sintética**, con contrato y pruebas HTTP/PostgreSQL reales. Ese host no implementa los módulos generales del núcleo descrito aquí. QUANCORE-22 añade una [proyección MongoDB y auditoría](../../docs/datos-ia/eventos-mongodb.md), solo para la simulación y con activación explícita; no se hace obligatoria para el núcleo.
 
-**QUANCORE-25:** [estadísticas propias](../../docs/datos-ia/estadisticas-dashboard.md) añade endpoints de progreso, calendario y tendencias, con snapshot PostgreSQL y puerto de lectura versionado. La prueba usa registros sintéticos persistidos; el backend escritor de hábitos/check-ins y su adaptación final siguen pendientes.
+**QUANCORE-25:** se monta el lector existente de [estadísticas propias](../../docs/datos-ia/estadisticas-dashboard.md), sin duplicar sus cálculos. La migración `002_core_integration.sql` expone las vistas sobre maestros e historial reales del escritor. El host sintético conserva su activación independiente; sus rutas de ingesta no se montan en el núcleo.
+
+## Ejecución local
+
+Desde `services/api`, con Node 24.x, npm 11.x y PostgreSQL 15+ accesible:
+
+```sh
+npm ci
+npm run build
+```
+
+Copiar `.env.example` a `.env.local`, excluido de Git. Completar `DATABASE_URL` con una base local dedicada y credenciales privadas. No apuntar las pruebas o una migración inicial a una base compartida sin revisión. Ejecutar:
+
+```sh
+node --env-file=.env.local db/migrate.cjs
+node --env-file=.env.local build/src/main.js
+```
+
+`npm start` y `npm run migrate` usan variables ya exportadas por el entorno. El arranque no crea tablas, no instala fixtures ni migra automáticamente. El lockfile fija las dependencias de la prueba técnica; no cierra D-01.
+
+| Variable | Uso |
+|---|---|
+| `DATABASE_URL` | Solo servidor; conexión PostgreSQL. No mostrarla en logs ni poner secretos en Git. |
+| `KEYCLOAK_ISSUER` | Emisor exacto. Desarrollo: `http://localhost:8080/realms/quantify`; HTTP solo loopback. |
+| `KEYCLOAK_AUDIENCE` | Audiencia exigida; propuesta `quantify-api`. El export actual no garantiza emitirla: configurar y revisar el mapper antes del login integrado. No aceptar otra audiencia para eludir esa dependencia. |
+| `HOST`, `PORT` | Por defecto `127.0.0.1:3000`. Prefijo único `/api/v1`. |
+| `CORS_ALLOWED_ORIGINS` | Orígenes exactos separados por coma; ejemplo `http://localhost:5173`. Sin comodines ni credenciales CORS. |
+| `CORE_REVIEW_WRITES_ENABLED` | `0` por defecto. `1` activa explícitamente las escrituras de revisión con datos de prueba; no equivale a aprobar D-03/04/09 para datos personales reales. |
+
+Keycloak conserva cuentas y contraseñas. Para relacionar un subject **ya existente** con un perfil de negocio, configurar privadamente `PROFILE_SUBJECT` y `PROFILE_TIME_ZONE` y ejecutar `node --env-file=.env.local db/provision-profile.cjs` después del build y migraciones. Este comando no crea cuentas IdP, no modifica un perfil existente ni reactiva suspendidos. No hay endpoint de registro de usuarios ni contraseña en la API.
+
+## Funcionalidades y rutas implementadas
+
+| Ruta bajo `/api/v1` | Comportamiento real |
+|---|---|
+| `GET /health/live` | Proceso disponible, sin consultar dependencias. Público, respuesta mínima `status: ok`. |
+| `GET /health/ready` | PostgreSQL, migraciones y puertos de lectura disponibles; 503 si faltan o durante cierre. MongoDB, Redis, FastAPI e IdP no se sondean aquí. |
+| `GET /me` | Perfil propio activo y roles reconocidos del access token. |
+| `GET /habits`, `GET /habits/:id` | Listado paginado por UUID, filtro de estado, detalle y ETag fuerte. |
+| `POST /habits`, `PATCH /habits/:id` | Escrituras transaccionales con `Idempotency-Key`; PATCH exige `If-Match` fuerte. |
+| `POST /habits/:id/check-ins` | Valor absoluto, dedupe durable por clave y `clientEventId`; creación 201, corrección/replay 200. |
+| `GET /habits/:id/check-ins` | Consolidaciones confirmadas por fecha, paginadas y con su versión vigente. Revisiones previas se preservan en SQL, sin inventar otro endpoint. |
+| `GET /habits/:id/metrics` | Oportunidades cerradas y rachas en la ventana, usando metas, zonas y estados históricos. |
+| `GET /me/dashboard/progress`, `/calendar`, `/trends` | Lector QUANCORE-25 sobre las vistas normales del backend, sin telemetría ni resultados ficticios. |
+
+No se añade alias `/health`, API de categorías ni DELETE sin contrato canónico. Todos los endpoints de negocio exigen JWT RS256 válido, issuer, audiencia, `sub/iat/exp`, tipo Bearer y perfil activo. Un administrador tampoco puede operar recursos ajenos: 404 en rutas personales; token inválido 401; perfil no habilitado/suspendido 403. No se implementa una segunda autenticación. SPA/BFF, renovación y revocación de sesión siguen sujetos a D-02; la validación de access tokens es una frontera común a ambas opciones.
+
+Los cuerpos se validan contra los esquemas canónicos de OpenAPI en runtime. Errores minimizados `application/problem+json`, sin SQL, tokens ni stack. CORS permite GET/POST/PATCH/OPTIONS, cabeceras Authorization/Content-Type/Idempotency-Key/If-Match y expone ETag; CORS no concede autorización. Configuración, parser JSON, pool y errores se comparten; los timeouts SQL y de conexión limitan fallos de dependencias.
+
+## Historia y política de escritura en revisión
+
+- Se conserva la migración `001_core.sql` de QUANCORE-21/23 sin cambiar sus tablas ni triggers. `002` añade zona del perfil, check-ins, revisiones, recibos y las dos vistas `dashboard_read.v1_*`. No hay dos modelos maestros ni ORM nuevo.
+- Las migraciones usan el ledger `schema_migrations` original, checksums y lock transaccional. Se reconocen representaciones LF/CRLF del mismo SQL. Una huella distinta o fechas históricas duplicadas detienen la migración; no se reescriben datos para forzarla. Bases antiguas sin ledger y reversión/restauración requieren revisión BD; no hay down destructivo automático.
+- Se propone la precisión técnica ya usada por el puerto SQL: `numeric(12,3)`, hasta nueve enteros y tres decimales. Cantidades no representables fallan con 422 antes de escribir; nunca se redondean silenciosamente. Catálogo de unidades y límites productivos siguen abiertos.
+- La creación conserva la fecha inicial solicitada, incluida una fecha pasada explícita. Cada PATCH crea una nueva revisión, con fecha posterior a hoy en ambas zonas y a la última revisión existente. Si se omite agenda, propone mañana en la zona anterior; puede rechazarse si no satisface esas condiciones. No modifica periodos anteriores ni permite corregir una revisión futura ya programada con la misma fecha. GET/listado devuelve la configuración más reciente planificada; las oportunidades se resuelven por vigencia histórica.
+- Pausa/archivo son revisiones futuras bajo la misma regla. Un hábito archivado no se reactiva. Check-ins y correcciones solo se aceptan en oportunidades históricas activas/programadas; zona, fecha e instante deben concordar, sin instantes futuros. Corregir exige revisión conocida y motivo. La ventana máxima de corrección está pendiente: la prueba técnica admite correcciones sobre oportunidades históricas, sin convertirlo en política aprobada.
+- El lock del perfil serializa las escrituras del actor entre instancias. Resultado, recibo, historial y outbox se confirman juntos; un replay vuelve a autorizar. Dedupe sin purga automática hasta acordar retención. No se entrega todavía el outbox a un broker.
+- Consultas acotadas a 366 días. Las métricas usan la zona efectiva de cada oportunidad; `timeZone` identifica la última zona aplicable en la ventana y no reasigna días anteriores. No se suman cantidades de unidades diferentes. Los cursores están ligados a actor, operación y filtros; una página no es un snapshot entre solicitudes.
+
+## Integración y procedencia
+
+Revisé `origin/develop` en `0272ed8`, QUANCORE-21/23 en `d66d1e9`, QUANCORE-24 en `6c44a67` y Keycloak en `7dd7548`, sin fusionar esas ramas. Reutilicé mi esquema QUANCORE-21/23 y las funciones/pruebas de Francisco García de QUANCORE-24; amplié coherencia temporal, huella con `occurredAt` y cálculo por revisiones. Reutilicé el guard/pool y dashboard de Al Farias ya integrados en develop, conservando sus contratos y atribución. Las propuestas ADR-0005/0006 se consultaron desde la rama frontend y siguen propuestos allí; no se copian ni aceptan desde este README.
+
+Sustituí en la integración el controlador monolítico con backticks escapados de QUANCORE-21/23 por módulos NestJS y validación canónica; corregí el ejecutor de migraciones y completé idempotencia, ETag, paginación, historia y puertos SQL ausentes. Categorías y `categoryId` de aquella rama no se trasladan al contrato principal sin revisión.
+
+```mermaid
+flowchart LR
+    WEB[React pendiente de conectar] -->|Authorization Code y PKCE por revisar| KC[Keycloak existente]
+    WEB -->|Access token| API[API NestJS core]
+    KC -->|JWKS y claims verificados| API
+    API --> P[Perfiles y propiedad]
+    API --> H[Habitos y revisiones]
+    API --> C[Check-ins e idempotencia]
+    P --> PG[(PostgreSQL)]
+    H --> PG
+    C --> PG
+    PG --> V[Vistas dashboard_read]
+    V --> D[Dashboard y metricas]
+    SYN[Host sintetico separado y opt-in] -.-> MG[(MongoDB opcional)]
+```
+
+Los nombres históricos `TelemetryDatabase/Identity/Config` permanecen en `telemetry/src` como adaptadores compartidos, con **un pool y un guard en el proceso principal**. No se importa `TelemetrySimulationModule`, no se habilita ingesta sintética y no se crea conexión MongoDB. El compilador principal reutiliza esos fuentes en `build/telemetry/src`; el host aislado mantiene su propio `dist`. Al distribuir, incluir los contratos canónicos con la estructura del repositorio.
 
 ## Módulos y fronteras
 
@@ -21,7 +102,7 @@
 | Administration | Operación autorizada, catálogos y agregados | RF-09 |
 | Audit / DataRights | Trazabilidad, exportación y solicitudes de eliminación | RF-10 |
 
-Estos nombres expresan límites de negocio, no obligan a generar diez servicios independientes. Empezar con un monolito modular NestJS y extraer componentes solo mediante un ADR justificado.
+Platform, Profiles, Habits, CheckIns y Metrics están implementados como módulos del monolito. Los demás nombres expresan límites futuros, sin generar servicios vacíos ni implicar integración completa. Extraer componentes solo mediante un ADR justificado.
 
 ```mermaid
 flowchart TD
@@ -37,7 +118,7 @@ flowchart TD
     AUDIT -. entrega posterior .-> WORK[Worker]
 ```
 
-## Organización prevista
+## Organización y evolución
 
 ```text
 src/
@@ -49,7 +130,7 @@ src/
   platform/          # Configuración, identidad y observabilidad
 ```
 
-Una capa importa hacia las reglas de negocio. Los controladores no consultan tablas directamente y los repositorios no deciden permisos. Evitar un directorio común que mezcle todas las entidades. El ORM, gestor de paquetes y versiones de Node.js/NestJS están pendientes de fijarse en el scaffold; no introducirlos como decisiones ya aprobadas.
+La implementación actual usa `src/platform`, módulos con controladores/servicios y funciones de dominio reutilizadas. El esquema de capas anterior guía su evolución, sin afirmar que existan todas esas carpetas. Los controladores no consultan tablas directamente. Se usa `pg` parametrizado y NestJS 11 con versiones fijadas por lockfile; no se selecciona ORM ni se declara cerrada D-01/04.
 
 ## Recorrido de una escritura
 
@@ -82,4 +163,8 @@ NestJS permite implementar políticas mediante guards y validación mediante pip
 | Sistema | Crear hábito, registrar valor, repetir petición, corregir con versión, archivar y consultar historia |
 | Fallos | Redis o MongoDB caídos, evento repetido, JWKS rotadas y servicio analítico indisponible |
 
-No hay comando de arranque verificable todavía. El scaffold deberá añadir pruebas, migraciones y configuración local enlazadas a [Docker](../../infrastructure/docker/README.md), sin documentar éxitos que no se hayan ejecutado.
+Desde `services/api`: `npm test`, `npm run typecheck` y `npm run validate:openapi`. La suite principal arranca PostgreSQL 18.6 temporal real; requiere usuario sin privilegios de sistema en Unix y no omite la integración si la BD falla. Sus claves JWT/JWKS son sintéticas: no certifican login/PKCE real en Keycloak. En Windows los fixtures fijan `io_method=sync` para evitar workers de E/S huérfanos al detener PostgreSQL 18. El host sintético conserva su propia suite en `telemetry`.
+
+Validación local del 09/11/2026 en Windows, Node 24.14.1/npm 11.11.0: instalación desde lockfile, typecheck y build aprobados; 35 pruebas del núcleo y 64 regresiones del host sintético aprobadas, estas últimas también con MongoDB 8.2.6 real. OpenAPI general, telemetría y dashboard: 19/9/3 rutas válidas con referencias resueltas. Los casos reproducibles están en `tests/` y `telemetry/tests/`; los resultados no acreditan operación en Linux ni un ambiente productivo.
+
+Pendientes: revisión D-01..04/09, mapper de audiencia y login real, roles mínimos de migración/runtime/lector, recuperación, destino de despliegue, outbox worker, PWA/offline y conexión React/Flutter. Para React, proponer base `http://localhost:3000/api/v1` y ruta `health/ready` solo después de revisar origen, sesión y despliegue. No cambiar sus fixtures por este diagnóstico.

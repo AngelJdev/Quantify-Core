@@ -14,6 +14,9 @@ export class SafeErrors implements ExceptionFilter {
         type: 'about:blank', title: STATUS_CODES[status] ?? 'Error', status, code, requestId: randomUUID()
       });
     };
+    if (error !== null && typeof error === 'object' && 'type' in error && error.type === 'entity.parse.failed') {
+      send(400, 'INVALID_JSON_OR_PARAMETER'); return;
+    }
     if (error !== null && typeof error === 'object' && 'type' in error && error.type === 'entity.too.large') {
       send(413, 'PAYLOAD_TOO_LARGE'); return;
     }

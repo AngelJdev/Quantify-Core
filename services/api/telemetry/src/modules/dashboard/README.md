@@ -2,6 +2,8 @@
 
 Módulo NestJS de solo lectura, alojado en el runtime local existente. No usa tablas de telemetría ni crea un escritor de hábitos. [Contrato canónico](../../../../../../packages/contracts/dashboard/README.md) · [ADR-0004](../../../../../../docs/arquitectura/adr/0004-dashboard-lectura-versionada.md).
 
+**QUANCORE-43:** el [núcleo principal](../../../../README.md) monta este mismo controlador/servicio con su pool y guard compartidos. La migración `002_core_integration.sql` expone las vistas sobre tablas e historial reales del escritor. La configuración del host sintético siguiente se conserva para su ejecución aislada; la integración local no acepta ADR-0004 ni las políticas D-03/04.
+
 ## Activar y consumir
 
 En `services/api/telemetry`, ejecutar `npm ci`, `npm run build` y configurar las variables OIDC/PostgreSQL del host. Mantener `TELEMETRY_SIMULATION_ENABLED=1` para arrancar ese host local y agregar `DASHBOARD_ENABLED=1` para montar sus lecturas. MongoDB no se requiere. La integración del host productivo general sigue pendiente; no se aprueba otra autenticación.
