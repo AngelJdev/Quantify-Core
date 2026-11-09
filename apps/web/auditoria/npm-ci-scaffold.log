@@ -1,0 +1,20 @@
+npm.cmd : npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster
+implementation
+En línea: 2 Carácter: 1
++ npm.cmd ci 2>&1 | Tee-Object -FilePath C:/Users/telle/OneDrive/Escrit ...
++ ~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm warn deprec... implementation:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+added 190 packages, and audited 191 packages in 8s
+
+32 packages are looking for funding
+  run `npm fund` for details
+
+8 vulnerabilities (5 moderate, 1 high, 2 critical)
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.

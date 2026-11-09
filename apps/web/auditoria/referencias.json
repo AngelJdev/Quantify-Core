@@ -1,0 +1,12 @@
+{
+  "stash": "4b9ec89ffa13bef298b232e400246e95aff8976e",
+  "scaffold": "cc08cc714f4ed93a3b4d90d2d3a1af036ce8fc60",
+  "base": "5591a6ed0994a630ac8641cdac43f0ad7ea85a0b",
+  "archivos_stash": 25,
+  "archivos_scaffold": 38,
+  "clasificacion": {
+    "diferente": 8,
+    "solo-scaffold": 30,
+    "solo-stash": 17
+  }
+}

@@ -1,0 +1,11 @@
+> @quantify-core/web@0.1.0-prototype test
+> vitest run
+
+
+ RUN  v5.1.0 C:/Users/telle/OneDrive/Escritorio/Quantify-Core-auditoria-prototipo-web/apps/web
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  21:21:09
+   Duration  279ms (transform 56%, import 26%, worker 13%, tests 5%)

@@ -1,0 +1,1001 @@
+{
+  "date": "2026-11-09T03:24:10.251Z",
+  "browser": "156.0.8078.81",
+  "routes": [
+    {
+      "app": "prototipo",
+      "route": "#/hoy",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Tu rutina, a tu ritmo",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/hoy",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Tu rutina, a tu ritmo",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/habitos",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Hábitos con intención",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/habitos",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Hábitos con intención",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/nuevo",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Diseña tu próximo hábito",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/nuevo",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Diseña tu próximo hábito",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/detalle/read",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Un paso más cerca",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/detalle/read",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Un paso más cerca",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/editar/read",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Dale un nuevo ritmo",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/editar/read",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Dale un nuevo ritmo",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/analisis",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Observa tu constancia",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/analisis",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Observa tu constancia",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/historial",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Cada avance tiene historia",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/historial",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Cada avance tiene historia",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/sugerencias",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Ideas con contexto",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/sugerencias",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Ideas con contexto",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/avisos",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Todo en su momento",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/avisos",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Todo en su momento",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/ajustes",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Tu espacio, tus decisiones",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/ajustes",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Tu espacio, tus decisiones",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/hoy",
+      "width": 390,
+      "theme": "light",
+      "heading": "Tu rutina, a tu ritmo",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/hoy",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Tu rutina, a tu ritmo",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/habitos",
+      "width": 390,
+      "theme": "light",
+      "heading": "Hábitos con intención",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/habitos",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Hábitos con intención",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/nuevo",
+      "width": 390,
+      "theme": "light",
+      "heading": "Diseña tu próximo hábito",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/nuevo",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Diseña tu próximo hábito",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/detalle/read",
+      "width": 390,
+      "theme": "light",
+      "heading": "Un paso más cerca",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/detalle/read",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Un paso más cerca",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/editar/read",
+      "width": 390,
+      "theme": "light",
+      "heading": "Dale un nuevo ritmo",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/editar/read",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Dale un nuevo ritmo",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/analisis",
+      "width": 390,
+      "theme": "light",
+      "heading": "Observa tu constancia",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/analisis",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Observa tu constancia",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/historial",
+      "width": 390,
+      "theme": "light",
+      "heading": "Cada avance tiene historia",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/historial",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Cada avance tiene historia",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/sugerencias",
+      "width": 390,
+      "theme": "light",
+      "heading": "Ideas con contexto",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/sugerencias",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Ideas con contexto",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/avisos",
+      "width": 390,
+      "theme": "light",
+      "heading": "Todo en su momento",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/avisos",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Todo en su momento",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/ajustes",
+      "width": 390,
+      "theme": "light",
+      "heading": "Tu espacio, tus decisiones",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/ajustes",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Tu espacio, tus decisiones",
+      "scrollWidth": 390,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/hoy",
+      "width": 320,
+      "theme": "light",
+      "heading": "Tu rutina, a tu ritmo",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/hoy",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Tu rutina, a tu ritmo",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/habitos",
+      "width": 320,
+      "theme": "light",
+      "heading": "Hábitos con intención",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/habitos",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Hábitos con intención",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/nuevo",
+      "width": 320,
+      "theme": "light",
+      "heading": "Diseña tu próximo hábito",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/nuevo",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Diseña tu próximo hábito",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/detalle/read",
+      "width": 320,
+      "theme": "light",
+      "heading": "Un paso más cerca",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/detalle/read",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Un paso más cerca",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/editar/read",
+      "width": 320,
+      "theme": "light",
+      "heading": "Dale un nuevo ritmo",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/editar/read",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Dale un nuevo ritmo",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/analisis",
+      "width": 320,
+      "theme": "light",
+      "heading": "Observa tu constancia",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/analisis",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Observa tu constancia",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/historial",
+      "width": 320,
+      "theme": "light",
+      "heading": "Cada avance tiene historia",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/historial",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Cada avance tiene historia",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/sugerencias",
+      "width": 320,
+      "theme": "light",
+      "heading": "Ideas con contexto",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/sugerencias",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Ideas con contexto",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/avisos",
+      "width": 320,
+      "theme": "light",
+      "heading": "Todo en su momento",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/avisos",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Todo en su momento",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/ajustes",
+      "width": 320,
+      "theme": "light",
+      "heading": "Tu espacio, tus decisiones",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "prototipo",
+      "route": "#/ajustes",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Tu espacio, tus decisiones",
+      "scrollWidth": 320,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Bienvenido a Quantify Core",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Bienvenido a Quantify Core",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "habits",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Gestión de Hábitos",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "habits",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Gestión de Hábitos",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "checkins",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Registro de Check-Ins",
+      "scrollWidth": 1440,
+      "unlabelledFields": [
+        {
+          "tag": "SELECT",
+          "name": "",
+          "type": "select-one"
+        },
+        {
+          "tag": "INPUT",
+          "name": "",
+          "type": "text"
+        },
+        {
+          "tag": "INPUT",
+          "name": "",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "app": "scaffold",
+      "route": "checkins",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Registro de Check-Ins",
+      "scrollWidth": 1440,
+      "unlabelledFields": [
+        {
+          "tag": "SELECT",
+          "name": "",
+          "type": "select-one"
+        },
+        {
+          "tag": "INPUT",
+          "name": "",
+          "type": "text"
+        },
+        {
+          "tag": "INPUT",
+          "name": "",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "app": "scaffold",
+      "route": "analytics",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Métricas y Rachas",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "analytics",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Métricas y Rachas",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "profile",
+      "width": 1440,
+      "theme": "light",
+      "heading": "Perfil y Seguridad",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "profile",
+      "width": 1440,
+      "theme": "dark",
+      "heading": "Perfil y Seguridad",
+      "scrollWidth": 1440,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "",
+      "width": 390,
+      "theme": "light",
+      "heading": "Bienvenido a Quantify Core",
+      "scrollWidth": 599,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Bienvenido a Quantify Core",
+      "scrollWidth": 588,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "habits",
+      "width": 390,
+      "theme": "light",
+      "heading": "Gestión de Hábitos",
+      "scrollWidth": 599,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "habits",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Gestión de Hábitos",
+      "scrollWidth": 588,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "checkins",
+      "width": 390,
+      "theme": "light",
+      "heading": "Registro de Check-Ins",
+      "scrollWidth": 599,
+      "unlabelledFields": [
+        {
+          "tag": "SELECT",
+          "name": "",
+          "type": "select-one"
+        },
+        {
+          "tag": "INPUT",
+          "name": "",
+          "type": "text"
+        },
+        {
+          "tag": "INPUT",
+          "name": "",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "app": "scaffold",
+      "route": "checkins",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Registro de Check-Ins",
+      "scrollWidth": 588,
+      "unlabelledFields": [
+        {
+          "tag": "SELECT",
+          "name": "",
+          "type": "select-one"
+        },
+        {
+          "tag": "INPUT",
+          "name": "",
+          "type": "text"
+        },
+        {
+          "tag": "INPUT",
+          "name": "",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "app": "scaffold",
+      "route": "analytics",
+      "width": 390,
+      "theme": "light",
+      "heading": "Métricas y Rachas",
+      "scrollWidth": 599,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "analytics",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Métricas y Rachas",
+      "scrollWidth": 589,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "profile",
+      "width": 390,
+      "theme": "light",
+      "heading": "Perfil y Seguridad",
+      "scrollWidth": 599,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "profile",
+      "width": 390,
+      "theme": "dark",
+      "heading": "Perfil y Seguridad",
+      "scrollWidth": 588,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "",
+      "width": 320,
+      "theme": "light",
+      "heading": "Bienvenido a Quantify Core",
+      "scrollWidth": 599,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Bienvenido a Quantify Core",
+      "scrollWidth": 588,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "habits",
+      "width": 320,
+      "theme": "light",
+      "heading": "Gestión de Hábitos",
+      "scrollWidth": 599,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "habits",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Gestión de Hábitos",
+      "scrollWidth": 588,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "checkins",
+      "width": 320,
+      "theme": "light",
+      "heading": "Registro de Check-Ins",
+      "scrollWidth": 599,
+      "unlabelledFields": [
+        {
+          "tag": "SELECT",
+          "name": "",
+          "type": "select-one"
+        },
+        {
+          "tag": "INPUT",
+          "name": "",
+          "type": "text"
+        },
+        {
+          "tag": "INPUT",
+          "name": "",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "app": "scaffold",
+      "route": "checkins",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Registro de Check-Ins",
+      "scrollWidth": 588,
+      "unlabelledFields": [
+        {
+          "tag": "SELECT",
+          "name": "",
+          "type": "select-one"
+        },
+        {
+          "tag": "INPUT",
+          "name": "",
+          "type": "text"
+        },
+        {
+          "tag": "INPUT",
+          "name": "",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "app": "scaffold",
+      "route": "analytics",
+      "width": 320,
+      "theme": "light",
+      "heading": "Métricas y Rachas",
+      "scrollWidth": 599,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "analytics",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Métricas y Rachas",
+      "scrollWidth": 589,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "profile",
+      "width": 320,
+      "theme": "light",
+      "heading": "Perfil y Seguridad",
+      "scrollWidth": 599,
+      "unlabelledFields": []
+    },
+    {
+      "app": "scaffold",
+      "route": "profile",
+      "width": 320,
+      "theme": "dark",
+      "heading": "Perfil y Seguridad",
+      "scrollWidth": 588,
+      "unlabelledFields": []
+    }
+  ],
+  "interactions": {
+    "prototipo": {
+      "headingFonts": [
+        {
+          "familyName": "Inter Variable",
+          "postScriptName": "InterVariable-Display-Bold",
+          "isCustomFont": true,
+          "glyphCount": 25
+        }
+      ],
+      "scheduleAfterMondayOnly": "Todos los días\n\nUna oportunidad para volver a empezar.",
+      "editCheckedDays": 7,
+      "editIntention": "",
+      "valueAfterCheckin": "11 / 22 min",
+      "afterReload": "TU BIENESTAR, PASO A PASO\nUn paso más cerca\n\nEl progreso también está en volver a intentarlo.\n\nMis hábitos\nVista previa · Datos de ejemplo para explorar la experiencia.\nEste hábito no está disponible\nVolver a mis hábitos\nQuantify Core · A tu ritmo.\nTu privacidad",
+      "emptyState": "No encontramos ese hábito",
+      "loginHeading": "Esta página no está aquí"
+    },
+    "scaffold": {
+      "headingFonts": [
+        {
+          "familyName": "Inter",
+          "postScriptName": "Inter-Bold",
+          "isCustomFont": true,
+          "glyphCount": 18
+        }
+      ],
+      "createButtons": [
+        "🌙Oscuro",
+        "Cancelar",
+        "Descartar",
+        "Guardar Hábito",
+        "Pausar",
+        "Archivar",
+        "Pausar",
+        "Archivar",
+        "Reanudar",
+        "Archivar"
+      ],
+      "habitCreated": true,
+      "habitSurvivesRoute": false,
+      "repeatedCheckins": {
+        "before": 2,
+        "after": 4
+      },
+      "afterLogout": "Perfil y Seguridad",
+      "loginURL": "http://127.0.0.1:4174/login",
+      "loginHeading": "Bienvenido a Quantify Core"
+    }
+  },
+  "offline": {
+    "manifest": {
+      "name": "Quantify Core",
+      "short_name": "Quantify",
+      "description": "Prototipo instalable para el seguimiento consciente de hábitos.",
+      "start_url": "./",
+      "display": "standalone",
+      "background_color": "#F4F7FD",
+      "theme_color": "#275BC0",
+      "lang": "es-MX",
+      "scope": "./",
+      "icons": [
+        {
+          "src": "icon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml",
+          "purpose": "any maskable"
+        }
+      ]
+    },
+    "cachedURLs": [
+      "/inter.woff2",
+      "/index.html",
+      "/icon.svg",
+      "/assets/workbox-window.prod.es5-Bd17z0YL.js",
+      "/assets/ritual-cotidiano-DZrK97Yg.png",
+      "/assets/productLogo-DkcLRqTa.jpeg",
+      "/assets/product-dark-CmrFHwGN.png",
+      "/assets/index-D_wwD2LQ.js",
+      "/assets/index-DReooCtr.css",
+      "/assets/enterpriseLogo-tLnlNRfJ.jpeg",
+      "/assets/enterprise-dark-W8u1dGyp.png",
+      "/manifest.webmanifest"
+    ],
+    "heading": "Tu rutina, a tu ritmo",
+    "habitsHeading": "Hábitos con intención"
+  },
+  "errors": [],
+  "apiRequests": []
+}

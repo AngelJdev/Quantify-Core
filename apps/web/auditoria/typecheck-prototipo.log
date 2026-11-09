@@ -1,0 +1,2 @@
+> @quantify-core/web@0.1.0-prototype typecheck
+> tsc -b --pretty false

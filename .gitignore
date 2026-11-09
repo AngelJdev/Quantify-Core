@@ -8,3 +8,7 @@
 # Intermedios de exportación de la galería (no publicar)
 docs/GUI/.build/
 docs/GUI/fuente/__pycache__/
+
+# Entorno y bytecode recuperado de la auditoria QUANCORE-42
+/.audit/
+/docs/GUI/fuente/tests/__pycache__/

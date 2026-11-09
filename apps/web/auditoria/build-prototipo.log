@@ -1,0 +1,27 @@
+> @quantify-core/web@0.1.0-prototype build
+> tsc -b && vite build
+
+vite v8.3.6 building client environment for production...
+transforming...
+✓ 28 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/manifest.webmanifest                            0.34 kB
+dist/index.html                                      0.66 kB │ gzip:  0.38 kB
+dist/assets/product-dark-CmrFHwGN.png              102.48 kB
+dist/assets/enterprise-dark-W8u1dGyp.png           156.84 kB
+dist/assets/enterpriseLogo-tLnlNRfJ.jpeg           161.04 kB
+dist/assets/productLogo-DkcLRqTa.jpeg              214.66 kB
+dist/assets/ritual-cotidiano-DZrK97Yg.png        1,967.20 kB
+dist/assets/index-DReooCtr.css                      23.68 kB │ gzip:  5.38 kB
+dist/assets/workbox-window.prod.es5-Bd17z0YL.js      5.65 kB │ gzip:  2.20 kB
+dist/assets/index-D_wwD2LQ.js                      256.15 kB │ gzip: 78.82 kB
+
+✓ built in 305ms
+
+PWA v2.0.0
+mode      generateSW
+precache  13 entries (3165.14 KiB)
+files generated
+  dist/sw.js
+  dist/workbox-2fbc6a65.js
