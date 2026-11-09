@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DashboardProgress",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "window": {
+      "$ref": "./common.schema.json#/$defs/window"
+    },
+    "closed": {
+      "$ref": "./common.schema.json#/$defs/summary"
+    },
+    "open": {
+      "$ref": "./common.schema.json#/$defs/summary"
+    },
+    "futureOpportunities": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 183000
+    }
+  },
+  "required": [
+    "window",
+    "closed",
+    "open",
+    "futureOpportunities"
+  ]
+}

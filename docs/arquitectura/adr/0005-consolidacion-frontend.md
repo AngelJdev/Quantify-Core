@@ -1,4 +1,4 @@
-# ADR-0002: Base única para la consolidación del frontend
+# ADR-0005: Base única para la consolidación del frontend
 
 - Estado: **propuesto para revisión**, implementado en `feature/QUANCORE-42-consolidacion-frontend`; no aceptado todavía por el equipo.
 - Fecha: 2026-11-08.
@@ -8,7 +8,9 @@
 
 ## Contexto y opciones
 
-`develop` y `v2.0.0-design-baseline` están en `5591a6e`. QUANCORE-42 (`cc08cc7`) aporta estructura por funcionalidades, router y UI base. La auditoría (`a7594b9`, recuperación `6920fc8`) aporta el prototipo visual y confirma pérdida de estado por ruta, DTO divergentes, check-ins duplicados y desbordamiento móvil en el scaffold. Los dos árboles tienen entrypoints, modelos y lockfiles incompatibles.
+La consolidación partió de `5591a6e`, conservado por `v2.0.0-design-baseline`. QUANCORE-42 (`cc08cc7`) aporta estructura por funcionalidades, router y UI base. La auditoría (`a7594b9`, recuperación `6920fc8`) aporta el prototipo visual y confirma pérdida de estado por ruta, DTO divergentes, check-ins duplicados y desbordamiento móvil en el scaffold. Los dos árboles tienen entrypoints, modelos y lockfiles incompatibles.
+
+Al revisar el remoto se incorporó `develop` en `0272ed8`, descendiente de `166b1b6`, con QUANCORE-35/22/25. Se renumera esta propuesta de 0002 a 0005 porque 0002, 0003 y 0004 ya pertenecen a esas entregas. No cambia su estado de aprobación. La [revisión de integración](../../../apps/web/qa/revision-integracion.md) registra contratos, conflictos y validaciones.
 
 Se evaluaron:
 
@@ -42,6 +44,8 @@ La entrada de identidad explica las seis vistas GUI que pertenecen al proveedor.
 ## Contratos y estado temporal
 
 `shared/api/schema.ts` se genera desde `packages/contracts/openapi.json` con un script local que falla si encuentra un tipo de esquema no soportado. `contracts:check` detecta desalineación con la fuente. No se modifican los contratos y no se mantienen DTO manuales paralelos. El adaptador de presentación distingue `target` de `targetValue`; los tipos de interfaces futuras usan los nombres canónicos, como `timeZone`, `schedule` y `expectedVersion`.
+
+Las revisiones `0.3.0-draft` (`166b1b6`) y `0.4.0-draft` (`0272ed8`) conservan los mismos `components.schemas` del primer flujo. El generador solo cubre esos DTO: no genera clientes ni tipos de rutas externas de telemetría, eventos o dashboard. Consumirlos requiere ampliar explícitamente la generación y validación de respuestas desde sus contratos canónicos; las métricas actuales continúan siendo fixtures.
 
 `DemoProvider` centraliza la edición de fixtures entre rutas. Guarda programación, intención y estado local del hábito. No implementa persistencia, deduplicación de solicitudes, versiones históricas del servidor ni fórmulas oficiales de métricas. Reemplazar un valor local absoluto no es garantía de idempotencia: no hay solicitudes ni reintentos.
 

@@ -1,0 +1,353 @@
+{
+  "version": 1,
+  "collections": {
+    "telemetry_events": {
+      "validator": {
+        "$jsonSchema": {
+          "bsonType": "object",
+          "additionalProperties": false,
+          "properties": {
+            "eventId": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "schemaVersion": {
+              "enum": [
+                "1.0.0"
+              ]
+            },
+            "origin": {
+              "enum": [
+                "synthetic-generator"
+              ]
+            },
+            "ownerId": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "sourceId": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "consentVersion": {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "occurredAt": {
+              "bsonType": "date"
+            },
+            "receivedAt": {
+              "bsonType": "date"
+            },
+            "expiresAt": {
+              "bsonType": "date"
+            },
+            "type": {
+              "enum": [
+                "telemetry.batch.accepted"
+              ]
+            },
+            "batchId": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "purpose": {
+              "enum": [
+                "personal-analytics"
+              ]
+            },
+            "acceptedCount": {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0,
+              "maximum": 100
+            },
+            "duplicateCount": {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0,
+              "maximum": 100
+            },
+            "outOfOrderCount": {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0,
+              "maximum": 100
+            },
+            "samples": {
+              "bsonType": "array",
+              "maxItems": 100,
+              "items": {
+                "oneOf": [
+                  {
+                    "bsonType": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sampleId": {
+                        "bsonType": "string",
+                        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                      },
+                      "signal": {
+                        "enum": [
+                          "heartRate"
+                        ]
+                      },
+                      "observedAt": {
+                        "bsonType": "date"
+                      },
+                      "unit": {
+                        "enum": [
+                          "bpm"
+                        ]
+                      },
+                      "value": {
+                        "bsonType": [
+                          "int",
+                          "long"
+                        ],
+                        "minimum": 1,
+                        "maximum": 300
+                      }
+                    },
+                    "required": [
+                      "sampleId",
+                      "signal",
+                      "observedAt",
+                      "unit",
+                      "value"
+                    ]
+                  },
+                  {
+                    "bsonType": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sampleId": {
+                        "bsonType": "string",
+                        "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                      },
+                      "signal": {
+                        "enum": [
+                          "stepCount"
+                        ]
+                      },
+                      "observedAt": {
+                        "bsonType": "date"
+                      },
+                      "unit": {
+                        "enum": [
+                          "count"
+                        ]
+                      },
+                      "value": {
+                        "bsonType": [
+                          "int",
+                          "long"
+                        ],
+                        "minimum": 0,
+                        "maximum": 1000000
+                      }
+                    },
+                    "required": [
+                      "sampleId",
+                      "signal",
+                      "observedAt",
+                      "unit",
+                      "value"
+                    ]
+                  }
+                ]
+              }
+            },
+            "_id": {
+              "bsonType": "string"
+            }
+          },
+          "required": [
+            "eventId",
+            "schemaVersion",
+            "origin",
+            "ownerId",
+            "sourceId",
+            "consentVersion",
+            "occurredAt",
+            "receivedAt",
+            "expiresAt",
+            "type",
+            "batchId",
+            "purpose",
+            "acceptedCount",
+            "duplicateCount",
+            "outOfOrderCount",
+            "samples",
+            "_id"
+          ]
+        }
+      },
+      "validationLevel": "strict",
+      "validationAction": "error",
+      "indexes": [
+        {
+          "key": {
+            "ownerId": 1,
+            "sourceId": 1,
+            "consentVersion": 1,
+            "receivedAt": -1,
+            "eventId": 1
+          },
+          "name": "owner_source_time"
+        },
+        {
+          "key": {
+            "eventId": 1
+          },
+          "name": "event_unique",
+          "unique": true
+        },
+        {
+          "key": {
+            "expiresAt": 1
+          },
+          "name": "expiry",
+          "expireAfterSeconds": 0
+        }
+      ]
+    },
+    "audit_events": {
+      "validator": {
+        "$jsonSchema": {
+          "bsonType": "object",
+          "additionalProperties": false,
+          "properties": {
+            "eventId": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "schemaVersion": {
+              "enum": [
+                "1.0.0"
+              ]
+            },
+            "origin": {
+              "enum": [
+                "synthetic-generator"
+              ]
+            },
+            "ownerId": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "sourceId": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "consentVersion": {
+              "bsonType": [
+                "int",
+                "long"
+              ],
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "occurredAt": {
+              "bsonType": "date"
+            },
+            "receivedAt": {
+              "bsonType": "date"
+            },
+            "expiresAt": {
+              "bsonType": "date"
+            },
+            "type": {
+              "enum": [
+                "telemetry.audit.recorded"
+              ]
+            },
+            "action": {
+              "enum": [
+                "source.registered",
+                "consent.updated",
+                "source.revoked",
+                "batch.accepted"
+              ]
+            },
+            "entityId": {
+              "bsonType": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "_id": {
+              "bsonType": "string"
+            }
+          },
+          "required": [
+            "eventId",
+            "schemaVersion",
+            "origin",
+            "ownerId",
+            "sourceId",
+            "consentVersion",
+            "occurredAt",
+            "receivedAt",
+            "expiresAt",
+            "type",
+            "action",
+            "entityId",
+            "_id"
+          ]
+        }
+      },
+      "validationLevel": "strict",
+      "validationAction": "error",
+      "indexes": [
+        {
+          "key": {
+            "ownerId": 1,
+            "sourceId": 1,
+            "receivedAt": -1,
+            "eventId": 1
+          },
+          "name": "owner_source_time"
+        },
+        {
+          "key": {
+            "eventId": 1
+          },
+          "name": "event_unique",
+          "unique": true
+        },
+        {
+          "key": {
+            "expiresAt": 1
+          },
+          "name": "expiry",
+          "expireAfterSeconds": 0
+        }
+      ]
+    }
+  },
+  "runtimePrivileges": [
+    {
+      "collection": "telemetry_events",
+      "actions": [
+        "find",
+        "insert"
+      ]
+    },
+    {
+      "collection": "audit_events",
+      "actions": [
+        "find",
+        "insert"
+      ]
+    }
+  ]
+}

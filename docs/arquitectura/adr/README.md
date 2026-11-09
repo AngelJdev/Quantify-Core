@@ -5,7 +5,10 @@ Un ADR conserva el motivo de una decisión que afecta arquitectura, datos, segur
 | ADR | Asunto | Estado |
 |---|---|---|
 | [0001](0001-limites-y-propiedad-de-datos.md) | Límites de componentes y propiedad de datos | Propuesto |
-| [0002](0002-consolidacion-frontend.md) | Base única, versiones, router y fixtures del frontend | Propuesto; implementado en rama de consolidación |
+| [0002](0002-simulacion-telemetria-aislada.md) | Aislamiento de ingesta sintética QUANCORE-35 hasta integrar QUANCORE-22/43 | Propuesto; prueba técnica local |
+| [0003](0003-proyeccion-mongodb-telemetria-sintetica.md) | Proyección MongoDB y separación de autoridad QUANCORE-22 | Propuesto; revisión QUANCORE-43 pendiente |
+| [0004](0004-dashboard-lectura-versionada.md) | Dashboard agregado con lectura SQL versionada | Propuesto; integración de backend pendiente |
+| [0005](0005-consolidacion-frontend.md) | Base única, versiones, router y fixtures del frontend | Propuesto; implementado en rama de consolidación |
 
 Copiar la [plantilla](plantilla.md), usar el siguiente número libre y abrir PR hacia `develop` desde la rama correspondiente al cambio. Una propuesta puramente documental usa `docs/<tema>`; una decisión incluida en una funcionalidad puede acompañar su rama y PR.
 

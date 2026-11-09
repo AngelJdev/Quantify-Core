@@ -8,3 +8,7 @@
 # Intermedios de exportación de la galería (no publicar)
 docs/GUI/.build/
 docs/GUI/fuente/__pycache__/
+
+# Dependencias y compilación del módulo aislado QUANCORE-35
+services/api/telemetry/node_modules/
+services/api/telemetry/dist/

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:quantify:telemetry:simulation:1:consent",
+  "title": "ConsentUpdate",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "expectedVersion": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483646
+    },
+    "noticeVersion": {
+      "const": "synthetic-notice-v1"
+    },
+    "grants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "signal": {
+            "enum": [
+              "heartRate",
+              "stepCount"
+            ]
+          },
+          "purpose": {
+            "const": "personal-analytics"
+          }
+        },
+        "required": [
+          "signal",
+          "purpose"
+        ]
+      },
+      "maxItems": 2,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "expectedVersion",
+    "noticeVersion",
+    "grants"
+  ]
+}

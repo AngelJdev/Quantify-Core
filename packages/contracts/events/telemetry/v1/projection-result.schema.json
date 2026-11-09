@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProjectionResult",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "sourceId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "delivered": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 50
+    },
+    "duplicates": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 50
+    },
+    "discarded": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 50
+    },
+    "pending": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "hasMore": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "sourceId",
+    "delivered",
+    "duplicates",
+    "discarded",
+    "pending",
+    "hasMore"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "browser": "Chrome installed, Playwright channel chrome",
+  "version": "156.0.8078.81",
+  "capturedAt": "2026-11-09T05:49:00.220Z",
+  "baseURL": "http://127.0.0.1:4181",
+  "validation": {
+    "route": "/nuevo",
+    "width": 320,
+    "theme": "light",
+    "alerts": [
+      "Revisa los campos indicados.Escribe un nombre para el hábito.La meta debe ser un número positivo."
+    ],
+    "ariaInvalid": true,
+    "axeViolations": 0
+  },
+  "mobileMenu": {
+    "route": "/hoy",
+    "width": 320,
+    "theme": "dark",
+    "escapeRestoresFocus": true
+  }
+}

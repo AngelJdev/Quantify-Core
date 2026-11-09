@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DashboardTrends",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "window": {
+      "$ref": "./common.schema.json#/$defs/window"
+    },
+    "bucket": {
+      "enum": [
+        "day",
+        "week"
+      ]
+    },
+    "points": {
+      "type": "array",
+      "maxItems": 366,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "to": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "closed": {
+            "$ref": "./common.schema.json#/$defs/summary"
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "closed"
+        ]
+      }
+    },
+    "changePercentagePoints": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": -100,
+      "maximum": 100
+    }
+  },
+  "required": [
+    "window",
+    "bucket",
+    "points",
+    "changePercentagePoints"
+  ]
+}

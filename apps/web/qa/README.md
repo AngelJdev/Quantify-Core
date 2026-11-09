@@ -1,5 +1,7 @@
 # Validación de la consolidación frontend
 
+Revisión posterior del remoto, conflictos resueltos, ADR-0005 y pruebas repetidas: [informe de integración](revision-integracion.md). Los resultados siguientes conservan la evidencia inicial sobre el baseline documental.
+
 Fecha local: 8 de noviembre de 2026, America/Mexico_City. Base: `5591a6ed0994a630ac8641cdac43f0ad7ea85a0b`. Rama: `feature/QUANCORE-42-consolidacion-frontend`, worktree independiente `Quantify-Core-consolidacion-frontend`.
 
 ## Resultados reales
@@ -14,7 +16,7 @@ Entorno: Windows, Node.js 24.14.1, npm 11.11.0, Chrome 156.0.8078.81. Las depend
 | `npm test` | 2 archivos, **9 pruebas aprobadas** |
 | `npm run build` | Aprobado, incluye licencia Inter en `dist/inter-license.txt` |
 | `npm run test:e2e` | **3 pruebas Chrome aprobadas**; preview efímero en 127.0.0.1:4180 |
-| `npm audit --json` | **0 hallazgos** en el árbol instalado, con excepción transitoria documentada en ADR-0002 |
+| `npm audit --json` | **0 hallazgos** en el árbol instalado, con excepción transitoria documentada en ADR-0005 |
 | `git diff --check` | Sin errores de espacios en el cambio revisado |
 
 Los logs de los comandos están en [logs](logs/). No se declara una ejecución de CI ni una auditoría de producción. `npm audit` representa la información del registro al revisar, no una garantía permanente de seguridad.
@@ -48,7 +50,7 @@ Se inspeccionaron visualmente dashboard de escritorio, lista móvil oscura, form
 ## Fallos encontrados y correcciones
 
 1. **Contraste en navegación móvil oscura.** La primera ejecución axe detectó texto activo de Hoy con contraste insuficiente. Se sustituyó el color por `--qc-text` para el estado activo oscuro, sin modificar la paleta. [Captura anterior](incidencias/contraste-movil-oscuro-antes.png) y [log de fallo](incidencias/e2e-contraste-antes.log). La matriz final de 30 análisis pasó después de corregirlo.
-2. **Siete avisos moderados de herramientas.** La instalación inicial reportó propagación del aviso de minimatch desde typescript-estree. Se acotó una resolución a la versión 11.0.1 parcheada, manteniendo las otras dependencias; instalación limpia, lint, tipos, tests y build pasaron. [Auditoría final](logs/npm-audit.json). La excepción y su criterio de retirada figuran en [ADR-0002](../../../docs/arquitectura/adr/0002-consolidacion-frontend.md).
+2. **Siete avisos moderados de herramientas.** La instalación inicial reportó propagación del aviso de minimatch desde typescript-estree. Se acotó una resolución a la versión 11.0.1 parcheada, manteniendo las otras dependencias; instalación limpia, lint, tipos, tests y build pasaron. [Auditoría final](logs/npm-audit.json). La excepción y su criterio de retirada figuran en [ADR-0005](../../../docs/arquitectura/adr/0005-consolidacion-frontend.md).
 
 No hubo fallos finales de compilación, tipos, lint, pruebas o reflujo. Los warnings de `NO_COLOR`/`FORCE_COLOR` impresos por Playwright corresponden al color de salida del entorno, sin fallo de la prueba.
 

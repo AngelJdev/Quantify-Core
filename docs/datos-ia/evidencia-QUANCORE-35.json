@@ -1,0 +1,188 @@
+{
+  "task": "QUANCORE-35",
+  "executedAt": "2026-11-09T04:42:40.634Z",
+  "baseCommit": "5591a6ed0994a630ac8641cdac43f0ad7ea85a0b",
+  "headCommit": "199f98f1b70adc8147c5d8b34ea981f206caa4b2",
+  "implementationCommit": "199f98f1b70adc8147c5d8b34ea981f206caa4b2",
+  "branch": "feature/QUANCORE-35-telemetria-ingestion",
+  "workingTree": "Artefactos de implementación versionados en implementationCommit.",
+  "environment": {
+    "os": "darwin",
+    "arch": "arm64",
+    "node": "v24.13.0",
+    "postgres": "18.6",
+    "identity": "JWT RS256 y JWKS sintéticos en loopback; no Keycloak real",
+    "coreSchema": "QUANCORE-21/23 externo",
+    "dependencySchemaSha256": "c2d9b6e74ed023c5701873352ca8382f13a38c37c7edd420472e01a00e919f15"
+  },
+  "query": "SELECT count(*) FROM telemetry_simulation.batches/samples WHERE source_id = $1",
+  "cases": [
+    {
+      "case": "valid",
+      "httpStatus": 201,
+      "result": {
+        "schemaVersion": "1.0.0",
+        "sourceId": "93b88f08-354b-4f3b-87dc-f94849f231fe",
+        "batchId": "a14ce450-2ee0-4cb0-bbef-4b9726c28b4f",
+        "consentVersion": 1,
+        "receivedAt": "2026-11-09T04:42:40.586Z",
+        "acceptedCount": 3,
+        "duplicateCount": 0,
+        "outOfOrderCount": 0
+      },
+      "persistence": {
+        "batches": 1,
+        "samples": 3
+      }
+    },
+    {
+      "case": "repeated",
+      "httpStatus": 200,
+      "result": {
+        "batchId": "a14ce450-2ee0-4cb0-bbef-4b9726c28b4f",
+        "sourceId": "93b88f08-354b-4f3b-87dc-f94849f231fe",
+        "receivedAt": "2026-11-09T04:42:40.586Z",
+        "acceptedCount": 3,
+        "schemaVersion": "1.0.0",
+        "consentVersion": 1,
+        "duplicateCount": 0,
+        "outOfOrderCount": 0
+      },
+      "persistence": {
+        "batches": 1,
+        "samples": 3
+      }
+    },
+    {
+      "case": "out-of-order",
+      "httpStatus": 201,
+      "result": {
+        "schemaVersion": "1.0.0",
+        "sourceId": "93b88f08-354b-4f3b-87dc-f94849f231fe",
+        "batchId": "b9ae08e3-8cb4-4b8b-9ac5-db915d1cba00",
+        "consentVersion": 1,
+        "receivedAt": "2026-11-09T04:42:40.593Z",
+        "acceptedCount": 1,
+        "duplicateCount": 0,
+        "outOfOrderCount": 1
+      },
+      "persistence": {
+        "batches": 2,
+        "samples": 4
+      }
+    },
+    {
+      "case": "invalid-unit",
+      "httpStatus": 422,
+      "result": {
+        "type": "about:blank",
+        "title": "Unprocessable Entity",
+        "status": 422,
+        "code": "INVALID_PAYLOAD",
+        "requestId": "e23346f5-98d7-4db9-a85f-f5637d717701"
+      },
+      "persistence": {
+        "batches": 2,
+        "samples": 4
+      }
+    },
+    {
+      "case": "missing-value",
+      "httpStatus": 422,
+      "result": {
+        "type": "about:blank",
+        "title": "Unprocessable Entity",
+        "status": 422,
+        "code": "INVALID_PAYLOAD",
+        "requestId": "646abf1f-efdc-4711-818c-e4605f4a1a44"
+      },
+      "persistence": {
+        "batches": 2,
+        "samples": 4
+      }
+    },
+    {
+      "case": "repeated-after-api-restart",
+      "httpStatus": 200,
+      "result": {
+        "batchId": "a14ce450-2ee0-4cb0-bbef-4b9726c28b4f",
+        "sourceId": "93b88f08-354b-4f3b-87dc-f94849f231fe",
+        "receivedAt": "2026-11-09T04:42:40.586Z",
+        "acceptedCount": 3,
+        "schemaVersion": "1.0.0",
+        "consentVersion": 1,
+        "duplicateCount": 0,
+        "outOfOrderCount": 0
+      },
+      "persistence": {
+        "batches": 2,
+        "samples": 4
+      }
+    },
+    {
+      "case": "revoked-repeated",
+      "httpStatus": 403,
+      "result": {
+        "type": "about:blank",
+        "title": "Forbidden",
+        "status": 403,
+        "code": "CONSENT_NOT_CURRENT",
+        "requestId": "fd5c4671-751b-4eb1-97c5-6ec0c8980c32"
+      },
+      "persistence": {
+        "batches": 2,
+        "samples": 4
+      }
+    },
+    {
+      "case": "revoked-new",
+      "httpStatus": 403,
+      "result": {
+        "type": "about:blank",
+        "title": "Forbidden",
+        "status": 403,
+        "code": "CONSENT_NOT_CURRENT",
+        "requestId": "b371e996-97b8-45af-896e-358c148195d4"
+      },
+      "persistence": {
+        "batches": 2,
+        "samples": 4
+      }
+    }
+  ],
+  "summaryBeforeRevocation": {
+    "sourceId": "93b88f08-354b-4f3b-87dc-f94849f231fe",
+    "consentVersion": 1,
+    "scope": "synthetic-current-consent",
+    "items": [
+      {
+        "signal": "heartRate",
+        "sampleCount": 4,
+        "outOfOrderCount": 1,
+        "latestObservedAt": "2026-11-09T04:42:43.583Z"
+      }
+    ]
+  },
+  "summaryAfterRevocation": {
+    "status": 403,
+    "body": {
+      "type": "about:blank",
+      "title": "Forbidden",
+      "status": 403,
+      "code": "CONSENT_NOT_CURRENT",
+      "requestId": "33c9e8ff-ff0e-4004-9839-8189067f43b6"
+    }
+  },
+  "artifacts": {
+    "packages/contracts/telemetry/v1/batch.schema.json": "a77738eb9d6bdfbb4fd90611667d07538fa498b8307e03ccd8d5b741f86e0d91",
+    "services/api/telemetry/src/service.ts": "c008aecf1fe4b121ea69cc6ec0054df117293a7ae4188042745ce256dd1799b7",
+    "services/api/telemetry/db/001_telemetry_simulation.sql": "ff2a69273fb8ec6b86b02bf4d61a4d940293527059a1ba76cc769f9df61328db",
+    "services/api/telemetry/package-lock.json": "5502c0183bee724860910925606a29053d656372080b0107d198af3178791896"
+  },
+  "limitations": [
+    "Solo datos sintéticos",
+    "QUANCORE-22 no fusionado: solo compatibilidad SQL",
+    "QUANCORE-43/ADR pendientes de revisión",
+    "Sin MongoDB/Redis/Wear OS ni despliegue productivo"
+  ]
+}

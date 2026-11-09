@@ -1,6 +1,10 @@
 # API principal · NestJS + TypeScript
 
-> **Estado: especificación, sin implementación.** La API será la autoridad del dominio y de las escrituras transaccionales en PostgreSQL. [OpenAPI](../../packages/contracts/openapi.json) es un borrador de interfaces, no un servicio desplegado.
+> **Estado: API general por implementar; módulo aislado QUANCORE-35 disponible para simulación.** La API será la autoridad del dominio y de las escrituras transaccionales en PostgreSQL. [OpenAPI](../../packages/contracts/openapi.json) es un borrador de interfaces, no un servicio desplegado.
+
+**Excepción acotada QUANCORE-35:** [telemetry/README.md](telemetry/README.md) contiene un módulo NestJS ejecutable **solo de simulación sintética**, con contrato y pruebas HTTP/PostgreSQL reales. Su host local no implementa los módulos generales de esta guía; la API general y la arquitectura QUANCORE-43 siguen pendientes. QUANCORE-22 añade una [proyección MongoDB y auditoría](../../docs/datos-ia/eventos-mongodb.md), solo para la simulación y con activación explícita.
+
+**QUANCORE-25:** [estadísticas propias](../../docs/datos-ia/estadisticas-dashboard.md) añade endpoints de progreso, calendario y tendencias, con snapshot PostgreSQL y puerto de lectura versionado. La prueba usa registros sintéticos persistidos; el backend escritor de hábitos/check-ins y su adaptación final siguen pendientes.
 
 ## Módulos y fronteras
 

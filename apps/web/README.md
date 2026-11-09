@@ -18,7 +18,7 @@ npm run test:e2e
 
 `test:e2e` inicia automáticamente un preview en `127.0.0.1:4180`, usa Google Chrome instalado y lo cierra al terminar. Requiere un build previo; `QC_CHROME` permite indicar otra ruta del ejecutable. Para inspección manual: `npm run preview -- --host 127.0.0.1`. No se necesita `.env` ni hay credenciales predeterminadas.
 
-Versiones fijadas: React/DOM 19.3.1, React Router DOM 7.18.5, Vite 8.3.6, TypeScript 5.9.3, Vitest 5.1.0 y ESLint 9.39.5. Un único `package.json`, `package-lock.json`, entrypoint `src/app/main.tsx` y BrowserRouter. [Decisión, alternativas, excepción de seguridad y límites](../../docs/arquitectura/adr/0002-consolidacion-frontend.md).
+Versiones fijadas: React/DOM 19.3.1, React Router DOM 7.18.5, Vite 8.3.6, TypeScript 5.9.3, Vitest 5.1.0 y ESLint 9.39.5. Un único `package.json`, `package-lock.json`, entrypoint `src/app/main.tsx` y BrowserRouter. [Decisión, alternativas, excepción de seguridad y límites](../../docs/arquitectura/adr/0005-consolidacion-frontend.md).
 
 ## Estructura implementada
 
