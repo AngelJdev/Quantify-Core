@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="tech-dark" data-palette="tech" data-mode="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagrama de Gantt Interactivo · Actividades de Jira | Quantify Core</title>
+  <meta name="description" content="Cronograma interactivo de Gantt conectado con las 10 épicas, 4 sprints y 39 actividades de Jira del proyecto Quantify Core V2.0.">
+  <meta name="theme-color" content="#0B0F17">
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var palette = 'tech';
+      var mode = 'dark';
+      try {
+        var saved = JSON.parse(localStorage.getItem('qc-theme'));
+        if (saved && ['tech', 'cognitive', 'behavioral'].indexOf(saved.palette) !== -1) {
+          palette = saved.palette;
+          mode = saved.mode === 'light' ? 'light' : 'dark';
+        } else if (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches) {
+          mode = 'light';
+        }
+      } catch (e) {}
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var reqTheme = params.get('theme');
+        if (reqTheme === 'light' || reqTheme === 'dark') mode = reqTheme;
+        if (params.get('embed') === '1') root.setAttribute('data-embed', 'true');
+      } catch (e) {}
+      root.dataset.palette = palette;
+      root.dataset.mode = mode;
+      root.dataset.theme = palette === 'tech' ? 'tech-' + mode : palette;
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="tech-dark"] {
+      --bg: #0B0F17;
+      --bg-gradient: linear-gradient(160deg, #0B0F17 0%, #0D1524 48%, #111C35 100%);
+      --surface: #161F2E;
+      --surface-2: #1B2639;
+      --surface-3: #223049;
+      --surface-glass: rgba(22, 31, 46, 0.84);
+      --border: #283548;
+      --border-strong: #3A4C6E;
+      --text: #FFFFFF;
+      --text-2: #B4C0D0;
+      --text-3: #8A99AD;
+      --primary: #275BC0;
+      --primary-hover: #4A7DE8;
+      --primary-strong: #183D87;
+      --primary-text: #7EA3F0;
+      --primary-soft: rgba(39, 91, 192, 0.18);
+      --accent: #0EA5E9;
+      --success: #10B981;
+      --success-soft: rgba(16, 185, 129, 0.16);
+      --warning: #F59E0B;
+      --warning-soft: rgba(245, 158, 11, 0.16);
+      --danger: #EF4444;
+      --danger-soft: rgba(239, 68, 68, 0.16);
+      --violet: #A78BFA;
+      --grid-line: rgba(255, 255, 255, 0.055);
+      --row-hover: rgba(74, 125, 232, 0.12);
+      --shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.78);
+      --font: 'Plus Jakarta Sans', 'Outfit', system-ui, -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    [data-theme="tech-light"] {
+      --bg: #F4F7FD;
+      --bg-gradient: linear-gradient(160deg, #FFFFFF 0%, #F4F7FD 50%, #E6EEFC 100%);
+      --surface: #FFFFFF;
+      --surface-2: #F1F5FC;
+      --surface-3: #E4ECF9;
+      --surface-glass: rgba(255, 255, 255, 0.90);
+      --border: #DCE4F2;
+      --border-strong: #BFCDE5;
+      --text: #0B0F17;
+      --text-2: #3D4A5E;
+      --text-3: #6B7A90;
+      --primary: #275BC0;
+      --primary-hover: #183D87;
+      --primary-strong: #183D87;
+      --primary-text: #275BC0;
+      --primary-soft: rgba(39, 91, 192, 0.10);
+      --accent: #0284C7;
+      --success: #059669;
+      --success-soft: rgba(5, 150, 105, 0.13);
+      --warning: #D97706;
+      --warning-soft: rgba(217, 119, 6, 0.13);
+      --danger: #DC2626;
+      --danger-soft: rgba(220, 38, 38, 0.12);
+      --violet: #7C3AED;
+      --grid-line: rgba(11, 15, 23, 0.06);
+      --row-hover: rgba(39, 91, 192, 0.08);
+      --shadow: 0 20px 40px -20px rgba(24, 61, 135, 0.22);
+    }
+
+    [data-theme="cognitive"] {
+      --bg: #090C10;
+      --bg-gradient: linear-gradient(150deg, #090C10 0%, #0E1122 50%, #16123A 100%);
+      --surface: #131924;
+      --surface-2: #192131;
+      --surface-3: #232D44;
+      --surface-glass: rgba(19, 25, 36, 0.84);
+      --border: #232E40;
+      --border-strong: #3B3F72;
+      --text: #F8FAFC;
+      --text-2: #B6C2D4;
+      --text-3: #94A3B8;
+      --primary: #275BC0;
+      --primary-hover: #6366F1;
+      --primary-strong: #4338CA;
+      --primary-text: #A5ABFB;
+      --primary-soft: rgba(99, 102, 241, 0.18);
+      --accent: #06B6D4;
+      --success: #10B981;
+      --success-soft: rgba(16, 185, 129, 0.16);
+      --warning: #F59E0B;
+      --warning-soft: rgba(245, 158, 11, 0.16);
+      --danger: #EF4444;
+      --danger-soft: rgba(239, 68, 68, 0.16);
+      --violet: #C084FC;
+      --grid-line: rgba(148, 163, 184, 0.06);
+      --row-hover: rgba(99, 102, 241, 0.14);
+    }
+
+    [data-theme="behavioral"] {
+      --bg: #0E131F;
+      --bg-gradient: linear-gradient(155deg, #0E131F 0%, #0F1A26 50%, #0E2324 100%);
+      --surface: #1A2234;
+      --surface-2: #202A40;
+      --surface-3: #283652;
+      --surface-glass: rgba(26, 34, 52, 0.84);
+      --border: #2A3550;
+      --border-strong: #2F6A63;
+      --text: #F9FAFB;
+      --text-2: #C2CAD6;
+      --text-3: #9CA3AF;
+      --primary: #275BC0;
+      --primary-hover: #10B981;
+      --primary-strong: #183D87;
+      --primary-text: #34D399;
+      --primary-soft: rgba(16, 185, 129, 0.16);
+      --accent: #10B981;
+      --success: #10B981;
+      --success-soft: rgba(16, 185, 129, 0.16);
+      --warning: #F59E0B;
+      --warning-soft: rgba(245, 158, 11, 0.16);
+      --danger: #EF4444;
+      --danger-soft: rgba(239, 68, 68, 0.16);
+      --violet: #38BDF8;
+      --grid-line: rgba(255, 255, 255, 0.055);
+      --row-hover: rgba(16, 185, 129, 0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, select, input { font: inherit; color: inherit; }
+
+    /* Topbar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--surface-glass);
+      backdrop-filter: blur(16px) saturate(140%);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    [data-embed="true"] .topbar { display: none; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+    .brand__logos {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .brand__logos img {
+      height: 32px;
+      width: auto;
+      border-radius: 6px;
+      background: #fff;
+      padding: 2px;
+      border: 1px solid var(--border);
+    }
+    .brand__tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-text);
+      border: 1px solid var(--border-strong);
+    }
+
+    .view-switch {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface-2);
+      padding: 4px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+    .view-switch a {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-2);
+      transition: all 0.2s ease;
+    }
+    .view-switch a.is-active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(39, 91, 192, 0.4);
+    }
+    .view-switch a:hover:not(.is-active) { color: var(--text); }
+
+    .theme-bar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .theme-group {
+      display: flex;
+      gap: 3px;
+      padding: 3px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+    }
+    .tbtn {
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 0;
+      background: transparent;
+      color: var(--text-2);
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tbtn[aria-pressed="true"] {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 0 0 1px var(--border-strong);
+    }
+
+    .wrap {
+      max-width: 1560px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* Hero Header */
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px 28px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--primary-text);
+      background: var(--primary-soft);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+    .hero-card h1 {
+      font-size: clamp(1.45rem, 2.4vw, 2.05rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .hero-card p {
+      color: var(--text-2);
+      font-size: 0.94rem;
+      max-width: 68ch;
+    }
+
+    .sprint-strip {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .sprint-pill {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .sprint-pill:hover, .sprint-pill.is-active {
+      border-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+    .sprint-pill__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .sprint-pill__dates {
+      font-family: var(--mono);
+      font-size: 0.71rem;
+      color: var(--text-3);
+      margin-bottom: 6px;
+    }
+    .sprint-bar {
+      height: 6px;
+      background: var(--surface-3);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .sprint-bar > span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--success) 100%);
+      border-radius: 999px;
+    }
+
+    /* KPIs */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .kpi {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .kpi__label {
+      font-size: 0.76rem;
+      color: var(--text-3);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .kpi__val {
+      font-family: var(--mono);
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .kpi__sub {
+      font-size: 0.78rem;
+      color: var(--text-2);
+    }
+
+    /* Filter Toolbar */
+    .toolbar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .toolbar__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .filter-label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-right: 4px;
+    }
+    .chip {
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text-2);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .chip:hover { border-color: var(--border-strong); color: var(--text); }
+    .chip.is-active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary-hover);
+    }
+    .search-input, .select-input {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 7px 12px;
+      font-size: 0.82rem;
+      color: var(--text);
+      outline: none;
+    }
+    .search-input { min-width: 260px; }
+    .search-input:focus, .select-input:focus { border-color: var(--primary-hover); }
+
+    /* Gantt Container */
+    .gantt-shell {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .gantt-legend {
+      padding: 12px 20px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.79rem;
+      color: var(--text-2);
+    }
+    .legend-items { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .legend-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+    .legend-dot i {
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .gantt-scroll {
+      overflow-x: auto;
+      max-height: 760px;
+      overflow-y: auto;
+    }
+    .gantt-table {
+      min-width: 1320px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .gantt-head {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--surface-2);
+      border-bottom: 2px solid var(--border-strong);
+    }
+    .gantt-row {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      border-bottom: 1px solid var(--border);
+      align-items: stretch;
+      transition: background-color 0.15s ease;
+    }
+    .gantt-row:hover { background: var(--row-hover); }
+    .gantt-row.is-epic {
+      background: var(--surface-2);
+      font-weight: 700;
+    }
+    .gantt-row.is-highlighted {
+      background: rgba(245, 158, 11, 0.12);
+    }
+
+    .gantt-left {
+      padding: 9px 14px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      position: sticky;
+      left: 0;
+      z-index: 10;
+      background: inherit;
+    }
+    .gantt-row:not(.is-epic):not(:hover) .gantt-left {
+      background: var(--surface);
+    }
+    .gantt-row.is-epic .gantt-left {
+      background: var(--surface-2);
+    }
+
+    .task-ident {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .task-key {
+      font-family: var(--mono);
+      font-size: 0.73rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: var(--primary-soft);
+      color: var(--primary-text);
+      white-space: nowrap;
+    }
+    .task-title {
+      font-size: 0.83rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .task-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .avatar-mini {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--primary);
+    }
+    .avatar-mini[data-user="angel"] { background: #275BC0; }
+    .avatar-mini[data-user="francisco"] { background: #10B981; }
+    .avatar-mini[data-user="al"] { background: #0EA5E9; }
+    .avatar-mini[data-user="jesus"] { background: #8B5CF6; }
+    .avatar-mini[data-user="unassigned"] { background: #64748B; }
+
+    .prio-tag {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border-strong);
+    }
+    .prio-tag[data-prio="P0"] { color: #F87171; border-color: rgba(248, 113, 113, 0.45); background: rgba(239, 68, 68, 0.12); }
+    .prio-tag[data-prio="P1"] { color: #FBBF24; border-color: rgba(251, 191, 36, 0.45); background: rgba(245, 158, 11, 0.12); }
+    .prio-tag[data-prio="P2"] { color: #38BDF8; border-color: rgba(56, 189, 248, 0.45); background: rgba(14, 165, 233, 0.12); }
+
+    /* Right Timeline Grid (28 Days: 17 Oct to 13 Nov) */
+    .gantt-right {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(28, minmax(30px, 1fr));
+      align-items: center;
+      min-height: 40px;
+    }
+    .sprints-header {
+      display: grid;
+      grid-template-columns: 7fr 9fr 6fr 6fr;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-align: center;
+    }
+    .sprints-header > div {
+      padding: 5px 4px;
+      border-right: 1px solid var(--border);
+      background: var(--primary-soft);
+      color: var(--primary-text);
+    }
+    .days-header {
+      display: grid;
+      grid-template-columns: repeat(28, minmax(30px, 1fr));
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      color: var(--text-3);
+      text-align: center;
+    }
+    .day-cell {
+      padding: 6px 2px;
+      border-right: 1px solid var(--grid-line);
+    }
+    .day-cell.is-weekend { background: rgba(255, 255, 255, 0.02); }
+    .day-cell strong { display: block; color: var(--text-2); font-size: 0.72rem; }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(28, minmax(30px, 1fr));
+      pointer-events: none;
+    }
+    .grid-bg > i {
+      border-right: 1px solid var(--grid-line);
+    }
+    .grid-bg > i.is-sprint-end {
+      border-right: 1px dashed var(--border-strong);
+    }
+
+    .bar-wrap {
+      position: relative;
+      z-index: 2;
+      height: 26px;
+      margin: 0 3px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 9px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+      transition: transform 0.15s ease, filter 0.15s ease;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .bar-wrap:hover {
+      transform: scaleY(1.08);
+      filter: brightness(1.1);
+    }
+    .bar-wrap[data-status="Listo"] {
+      background: linear-gradient(90deg, #059669 0%, #10B981 100%);
+      border: 1px solid #34D399;
+    }
+    .bar-wrap[data-status="En curso"] {
+      background: linear-gradient(90deg, #275BC0 0%, #0EA5E9 100%);
+      border: 1px solid #38BDF8;
+    }
+    .bar-wrap[data-status="Por hacer"] {
+      background: linear-gradient(90deg, #475569 0%, #64748B 100%);
+      border: 1px dashed #94A3B8;
+    }
+    .bar-wrap.is-epic-bar {
+      height: 18px;
+      background: linear-gradient(90deg, #183D87 0%, #4A7DE8 100%);
+      border: 1px solid #7EA3F0;
+      opacity: 0.9;
+      font-size: 0.68rem;
+    }
+
+    /* Modal Ficha Interactiva */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(6, 10, 18, 0.76);
+      backdrop-filter: blur(8px);
+      display: none;
+      place-items: center;
+      padding: 20px;
+    }
+    .modal-backdrop.is-open { display: grid; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 20px;
+      width: min(760px, 100%);
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 32px 64px -16px rgba(0, 0, 0, 0.85);
+      padding: 26px 28px;
+    }
+    .modal__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 18px;
+    }
+    .modal__nav { display: flex; align-items: center; gap: 8px; }
+    .btn-sm {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-sm:hover { border-color: var(--primary-hover); }
+    .btn-primary {
+      background: var(--primary);
+      border-color: var(--primary-hover);
+      color: #fff;
+    }
+    .modal__title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin: 8px 0 12px;
+    }
+    .modal__plain {
+      background: var(--primary-soft);
+      border-left: 4px solid var(--primary-hover);
+      padding: 14px 16px;
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 18px;
+      font-size: 0.94rem;
+      color: var(--text);
+    }
+    .modal__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .mcard {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .mcard span {
+      display: block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: var(--text-3);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .mcard strong { font-size: 0.9rem; }
+    .dep-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .dep-chip {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: var(--surface-3);
+      border: 1px solid var(--border-strong);
+      cursor: pointer;
+    }
+    .dep-chip:hover { border-color: var(--primary-hover); color: var(--primary-text); }
+
+    @media (max-width: 1024px) {
+      .hero-card { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand__logos">
+        <img src="../../assets/images/productLogo.jpeg" alt="Quantify Core">
+        <img src="../../assets/images/enterpriseLogo.jpeg" alt="Empresa Quantify">
+      </div>
+      <span>Quantify Core · Cronograma Jira</span>
+      <span class="brand__tag">Gantt Interactivo V2.0</span>
+    </div>
+
+    <nav class="view-switch" aria-label="Cambiar vista de cronograma">
+      <a href="index.html">Portal Unificado</a>
+      <a href="gantt-jira.html" class="is-active">1. Gantt Actividades Jira</a>
+      <a href="gantt-commits.html">2. Gantt Commits Git</a>
+      <a href="../../index.html#gantt-interactivo">← Volver al Inicio</a>
+    </nav>
+
+    <div class="theme-bar">
+      <div class="theme-group" role="group" aria-label="Paleta">
+        <button type="button" class="tbtn" data-palette-btn="tech" aria-pressed="true">Tech</button>
+        <button type="button" class="tbtn" data-palette-btn="cognitive" aria-pressed="false">Cognitive AI</button>
+        <button type="button" class="tbtn" data-palette-btn="behavioral" aria-pressed="false">Behavioral</button>
+      </div>
+      <div class="theme-group" id="modeGroup" role="group" aria-label="Modo">
+        <button type="button" class="tbtn" data-mode-btn="dark" aria-pressed="true">Oscuro</button>
+        <button type="button" class="tbtn" data-mode-btn="light" aria-pressed="false">Claro</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero-card">
+      <div>
+        <span class="eyebrow">Planificación Oficial · Jira Software (QUANCORE)</span>
+        <h1>Diagrama de Gantt Interactivo de Actividades en Jira</h1>
+        <p>Explora en tiempo real las <strong>10 épicas</strong>, los <strong>4 sprints</strong> y las <strong>39 tareas</strong> del proyecto Quantify Core V2.0 (del 17 de octubre al 13 de noviembre de 2026). Haz clic en cualquier barra o actividad para abrir su explicación sencilla, responsable, estado, criterios de aceptación y cadena de dependencias.</p>
+      </div>
+      <div class="sprint-strip" id="sprintStrip"></div>
+    </section>
+
+    <section class="kpi-grid" id="kpiGrid"></section>
+
+    <section class="toolbar" aria-label="Filtros interactivos del diagrama de Gantt">
+      <div class="toolbar__row">
+        <div class="filter-group" id="sprintFilters">
+          <span class="filter-label">Sprint:</span>
+          <button type="button" class="chip is-active" data-sprint="all">Todos (39)</button>
+          <button type="button" class="chip" data-sprint="S1">Sprint 1 · Bases</button>
+          <button type="button" class="chip" data-sprint="S2">Sprint 2 · Backend</button>
+          <button type="button" class="chip" data-sprint="S3">Sprint 3 · Integración</button>
+          <button type="button" class="chip" data-sprint="S4">Sprint 4 · Entrega</button>
+        </div>
+
+        <div class="filter-group" id="statusFilters">
+          <span class="filter-label">Estado Jira:</span>
+          <button type="button" class="chip is-active" data-status="all">Todos</button>
+          <button type="button" class="chip" data-status="Listo">Listo (20)</button>
+          <button type="button" class="chip" data-status="En curso">En curso (14)</button>
+          <button type="button" class="chip" data-status="Por hacer">Por hacer (5)</button>
+        </div>
+      </div>
+
+      <div class="toolbar__row">
+        <div class="filter-group" id="assigneeFilters">
+          <span class="filter-label">Responsable:</span>
+          <button type="button" class="chip is-active" data-assignee="all">Todo el equipo</button>
+          <button type="button" class="chip" data-assignee="angel">Ángel Baños</button>
+          <button type="button" class="chip" data-assignee="francisco">Francisco García</button>
+          <button type="button" class="chip" data-assignee="al">Al Farias</button>
+          <button type="button" class="chip" data-assignee="jesus">Jesús Artiaga</button>
+          <button type="button" class="chip" data-assignee="unassigned">Sin asignar</button>
+        </div>
+
+        <div class="filter-group">
+          <select id="epicSelect" class="select-input" aria-label="Filtrar por Épica">
+            <option value="all">Todas las Épicas (10)</option>
+          </select>
+          <select id="prioSelect" class="select-input" aria-label="Filtrar por Prioridad">
+            <option value="all">Todas las prioridades</option>
+            <option value="P0">Prioridad P0 (Crítica)</option>
+            <option value="P1">Prioridad P1 (Importante)</option>
+            <option value="P2">Prioridad P2 (Opcional)</option>
+          </select>
+          <button type="button" class="chip" id="depToggle">⛓️ Resaltar con dependencias</button>
+          <input type="search" id="searchInput" class="search-input" placeholder="Buscar QUANCORE-24, hábito, móvil, OIDC...">
+        </div>
+      </div>
+    </section>
+
+    <section class="gantt-shell" aria-label="Línea de tiempo Gantt">
+      <div class="gantt-legend">
+        <div class="legend-items">
+          <span class="legend-dot"><i style="background:#10B981"></i> Listo en Jira</span>
+          <span class="legend-dot"><i style="background:#0EA5E9"></i> En curso</span>
+          <span class="legend-dot"><i style="background:#64748B"></i> Por hacer</span>
+          <span class="legend-dot"><i style="background:#275BC0"></i> Rango de Épica</span>
+          <span>⛓️ = Tiene bloqueos/dependencias enlazadas en Jira</span>
+        </div>
+        <div id="visibleCounter" style="font-family:var(--mono);font-weight:700;">Mostrando 39 tareas en 10 épicas</div>
+      </div>
+
+      <div class="gantt-scroll">
+        <div class="gantt-table">
+          <div class="gantt-head">
+            <div class="gantt-row" style="border-bottom:0;">
+              <div class="gantt-left" style="font-weight:800;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-2);">
+                <span>Clave · Actividad en Jira</span>
+                <span>Resp. / Prio</span>
+              </div>
+              <div>
+                <div class="sprints-header">
+                  <div>Sprint 1 · Bases (17–23 Oct)</div>
+                  <div>Sprint 2 · Backend (24 Oct–01 Nov)</div>
+                  <div>Sprint 3 · Integración (02–07 Nov)</div>
+                  <div>Sprint 4 · Entrega (08–13 Nov)</div>
+                </div>
+                <div class="days-header" id="daysHeader"></div>
+              </div>
+            </div>
+          </div>
+          <div id="ganttBody"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal Detalle -->
+  <div class="modal-backdrop" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal__top">
+        <div class="task-ident">
+          <span class="task-key" id="modalKey">QUANCORE-24</span>
+          <span class="prio-tag" id="modalPrio" data-prio="P0">P0</span>
+          <span class="brand__tag" id="modalStatus">Listo</span>
+        </div>
+        <div class="modal__nav">
+          <button type="button" class="btn-sm" id="prevTaskBtn">← Anterior</button>
+          <button type="button" class="btn-sm" id="nextTaskBtn">Siguiente →</button>
+          <a id="modalJiraLink" href="#" target="_blank" rel="noopener" class="btn-sm btn-primary">Ver en Jira ↗</a>
+          <button type="button" class="btn-sm" id="closeModalBtn">✕ Cerrar</button>
+        </div>
+      </div>
+
+      <div style="font-family:var(--mono);font-size:0.76rem;color:var(--primary-text);" id="modalEpic"></div>
+      <h2 class="modal__title" id="modalTitle"></h2>
+
+      <div class="modal__plain">
+        <strong style="display:block;margin-bottom:4px;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--primary-text);">Explicación sencilla (sin tecnicismos):</strong>
+        <p id="modalPlain"></p>
+      </div>
+
+      <div class="modal__grid">
+        <div class="mcard">
+          <span>Responsable asignado</span>
+          <strong id="modalAssignee"></strong>
+          <div id="modalRole" style="font-size:0.76rem;color:var(--text-3);margin-top:2px;"></div>
+        </div>
+        <div class="mcard">
+          <span>Sprint y Ventana</span>
+          <strong id="modalSprint"></strong>
+          <div id="modalDates" style="font-family:var(--mono);font-size:0.78rem;color:var(--text-2);margin-top:2px;"></div>
+        </div>
+        <div class="mcard">
+          <span>Relaciones en Jira</span>
+          <strong id="modalDepsCount"></strong>
+          <div style="font-size:0.75rem;color:var(--text-3);margin-top:2px;">Clic en una clave abajo para saltar</div>
+        </div>
+      </div>
+
+      <div id="modalDepsSection" style="margin-bottom:16px;"></div>
+
+      <div class="mcard" style="margin-bottom:8px;">
+        <span>Criterios de aceptación y descripción registrada en Jira</span>
+        <p id="modalDesc" style="font-size:0.84rem;color:var(--text-2);line-height:1.55;margin-top:6px;"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const JIRA_DATA = {"project":"Quantify Core V2.0","jiraSite":"https://utxicotepec-team-q5ufett6.atlassian.net","generatedAt":"2026-11-09","timelineStart":"2026-10-17","timelineEnd":"2026-11-13","sprints":[{"id":"S1","name":"Sprint 1 — Bases","startDate":"2026-10-17","endDate":"2026-10-23","state":"Cerrado"},{"id":"S2","name":"Sprint 2 — Backend","startDate":"2026-10-24","endDate":"2026-11-02","state":"Cerrado"},{"id":"S3","name":"Sprint 3 — Integración","startDate":"2026-11-01","endDate":"2026-11-06","state":"Activo"},{"id":"S4","name":"Sprint 4 — Entrega","startDate":"2026-11-07","endDate":"2026-11-13","state":"Activo"}],"epics":[{"key":"QUANCORE-1","code":"DOC-01","title":"Documentación y Gobierno","category":"docs","startDate":"2026-10-17","endDate":"2026-11-12","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-1"},{"key":"QUANCORE-2","code":"ARC-01","title":"Arquitectura, DevOps e Infraestructura","category":"infra","startDate":"2026-10-17","endDate":"2026-11-11","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-2"},{"key":"QUANCORE-3","code":"IAM-01","title":"Identidad y Seguridad (Keycloak OIDC)","category":"sec","startDate":"2026-10-19","endDate":"2026-11-03","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-3"},{"key":"QUANCORE-4","code":"DAT-01","title":"Persistencia Híbrida y Trazabilidad","category":"data","startDate":"2026-10-18","endDate":"2026-11-09","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-4"},{"key":"QUANCORE-5","code":"API-01","title":"Backend y Lógica de Hábitos","category":"api","startDate":"2026-10-19","endDate":"2026-11-06","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-5"},{"key":"QUANCORE-6","code":"WEB-01","title":"PWA y Dashboards Web","category":"web","startDate":"2026-10-20","endDate":"2026-11-09","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-6"},{"key":"QUANCORE-7","code":"MOB-01","title":"Aplicación Móvil Flutter","category":"mobile","startDate":"2026-10-24","endDate":"2026-11-08","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-7"},{"key":"QUANCORE-8","code":"AI-01","title":"Analítica Preventiva y Gamificación","category":"ai","startDate":"2026-11-01","endDate":"2026-11-12","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-8"},{"key":"QUANCORE-9","code":"WEA-01","title":"Telemetría y Wear OS","category":"wear","startDate":"2026-11-01","endDate":"2026-11-11","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-9"},{"key":"QUANCORE-10","code":"QA-01","title":"Pruebas, Integración y Entrega","category":"qa","startDate":"2026-11-05","endDate":"2026-11-13","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-10"}],"tasks":[{"key":"QUANCORE-11","number":11,"summary":"Definir requisitos P0/P1/P2 y criterios de demo","epicKey":"QUANCORE-1","epicCode":"DOC-01","epicTitle":"Documentación y Gobierno","category":"docs","sprintId":"S1","startDate":"2026-10-17","endDate":"2026-10-20","priority":"P0","status":"Listo","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":[],"blockedBy":[],"plainExplanation":"Definir con claridad qué funciones sí entran en la primera entrega del proyecto y cuáles quedan para después, para que todo el equipo construya lo mismo.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-10-20 Criterio de aceptación: Lista aprobada de funcionalidades y exclusiones, prueba de aceptación por módulo. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-11"},{"key":"QUANCORE-12","number":12,"summary":"Actualizar README V2, arquitectura y decisiones técnicas","epicKey":"QUANCORE-1","epicCode":"DOC-01","epicTitle":"Documentación y Gobierno","category":"docs","sprintId":"S1","startDate":"2026-10-18","endDate":"2026-10-23","priority":"P0","status":"Listo","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":[],"blockedBy":[],"plainExplanation":"Actualizar la portada principal y la guía general del proyecto con los colores, diagramas y tecnologías elegidas para la versión 2.0.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-10-23 Criterio de aceptación: README alineado con stack elegido, diagramas y enlaces académicos. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-12"},{"key":"QUANCORE-13","number":13,"summary":"Documentar API, pruebas, evidencias y presentación final","epicKey":"QUANCORE-1","epicCode":"DOC-01","epicTitle":"Documentación y Gobierno","category":"docs","sprintId":"S4","startDate":"2026-11-07","endDate":"2026-11-12","priority":"P0","status":"Por hacer","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":["QUANCORE-40"],"blockedBy":["QUANCORE-44","QUANCORE-49","QUANCORE-48"],"plainExplanation":"Reunir todas las pruebas, capturas, guías y documentos administrativos para la entrega y demostración final ante los profesores.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-11-12 Criterio de aceptación: Contratos OpenAPI, capturas y guion de demostración. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica. Complemento de evaluación académica (27/10/2026) — estudio de caso Quantify Core, sin videojuego. Conservar el contenido/evidencia anterior. Entregar documento único versionado (ruta propuesta docs/despliegue/estudio-caso-liberacion.md, con anexos enlazados) que incluya explícitamente los cinco apartados del Resultado de aprendizaje: Justificación del pipeline de liberación/despliegue continuo, etapas, disparadores, puertas, promoción/reversión y elección de herramientas: QUANCORE-43/45/16. Entorno requerido, recursos, runtime, red/TLS/OIDC, almacenamiento, dependencias, permisos y secretos sin valores: QUANCORE-43/44/16. Niveles de servicio: SLIs/SLOs, ventanas y RPO/RTO; diferenciar propuesta, acuerdo pendiente y acuerdo fechado con participantes. No inventar SLA: QUANCORE-47/49/44. Métricas para monitoreo: fórmula/unidad/origen/etiquetas, paneles/consultas/alertas y evaluación real: QUANCORE-46/48/49. Parámetros de configuración de cada herramienta realmente utilizada: versiones, variables públicas, nombres de secretos sin valores, triggers, recursos, retención, scrape/alertas, pruebas y despliegue: QUANCORE-44/45/46/48/16. Matriz de trazabilidad obligatoria: requisito de ambas imágenes y RF/RNF aplicables → tarea Jira → archivo/commit → ejecución/artefacto → resultado → limitación. Cubrir RA-B con herramienta vinculada y run real (45+16), RA-C1 scripts pipeline (45), RA-C2 scripts entorno (44), RA-C3 scripts pruebas en liberación (45+37+49), RA-C4 scripts despliegue (16). Incluir secuencia 1 proceso/herramientas (43/45), 2 monitoreo (46/48), 3 métricas/rendimiento (47/49) y 4 mejora basada en resultados (49). Terminado: documento revisado por equipo, anexos originales saneados, lista de cotejo requisito por requisito con estado demostrado/pendiente/no aplica justificado, sin confundir planificación o YAML con herramienta configurada. Enlazar evidencia de CI/CD real, restauración, alertas y medición antes/después. Fecha documental existente 12/11 y hito académico 13/11 se conservan; dependencias o falta de acuerdo/acceso se registran como pendientes. No basta una presentación.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-13"},{"key":"QUANCORE-14","number":14,"summary":"Organizar estructura de repositorios, ramas y entornos","epicKey":"QUANCORE-2","epicCode":"ARC-01","epicTitle":"Arquitectura, DevOps e Infraestructura","category":"infra","sprintId":"S1","startDate":"2026-10-17","endDate":"2026-10-20","priority":"P0","status":"Listo","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":[],"blockedBy":[],"plainExplanation":"Ordenar las carpetas del proyecto y las reglas para trabajar con ramas en equipo sin pisar el trabajo de los demás.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-10-20 Criterio de aceptación: Estructura clara, convenciones, .env.example y flujo Git. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-14"},{"key":"QUANCORE-15","number":15,"summary":"Crear Docker Compose de API, Keycloak y bases de datos","epicKey":"QUANCORE-2","epicCode":"ARC-01","epicTitle":"Arquitectura, DevOps e Infraestructura","category":"infra","sprintId":"S2","startDate":"2026-10-21","endDate":"2026-10-24","priority":"P0","status":"Listo","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":[],"blockedBy":[],"plainExplanation":"Preparar los contenedores para encender con un solo comando la base de datos, el servidor y el sistema de inicio de sesión.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-10-24 Criterio de aceptación: Servicios arrancan reproduciblemente con healthchecks y secretos fuera de Git. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-15"},{"key":"QUANCORE-16","number":16,"summary":"Publicar entornos web y API de demostración","epicKey":"QUANCORE-2","epicCode":"ARC-01","epicTitle":"Arquitectura, DevOps e Infraestructura","category":"infra","sprintId":"S4","startDate":"2026-11-06","endDate":"2026-11-09","priority":"P0","status":"Por hacer","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":["QUANCORE-48","QUANCORE-37"],"blockedBy":["QUANCORE-45"],"plainExplanation":"Publicar en internet o en el entorno de demostración la página web y el servidor para que puedan probarse en vivo.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-11-08 Criterio de aceptación: URLs accesibles y variables configuradas, CORS/TLS correcto. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica. Complemento RA-B/RA-C4 — herramienta vinculada y scripts de despliegue reales. Reutilizar la preparación de QUANCORE-44 y pipeline QUANCORE-45 sobre destino decidido en QUANCORE-43; no duplicar esas tareas. Versionar scripts de generación/aplicación del despliegue y configuración de ambiente en infrastructure/deployment/ o ubicación acordada. Configurar la herramienta de liberación continua y vincularla al destino real con permisos mínimos, secretos seguros y aprobación/promoción según Git Flow. Docker Compose es válido; no exigir Kubernetes ni contratar cloud sin decisión. Validar TLS/CORS, emisor OIDC y callbacks accesibles desde web y Flutter; no alojar API en GitHub Pages. Ejecutar pipeline completo que despliegue artefacto identificado por commit/digest, espere salud/readiness y ejecute pruebas sintéticas contra la URL desplegada. Registrar run-id/URL, versión efectiva, parámetros públicos y reportes. Ensayar fallo controlado y recuperación a versión compatible coordinada con restauración de QUANCORE-44; no revertir migraciones destructivas sin plan. Terminado adicional: scripts ejecutados y herramienta configurada/vinculada, no solo manual o YAML. Sin accesos/credenciales/dominio suficientes registrar bloqueo real; no afirmar producción. Proveer señales a QUANCORE-48, medición QUANCORE-49 y evidencia a QUANCORE-13/40. Se conserva responsable, sprint y fechas actuales.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-16"},{"key":"QUANCORE-17","number":17,"summary":"Configurar Keycloak, realm, cliente web/móvil y roles","epicKey":"QUANCORE-3","epicCode":"IAM-01","epicTitle":"Identidad y Seguridad (Keycloak OIDC)","category":"sec","sprintId":"S1","startDate":"2026-10-19","endDate":"2026-10-23","priority":"P0","status":"Listo","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":[],"blockedBy":[],"plainExplanation":"Configurar la cerradura central de seguridad (Keycloak) con cuentas de prueba y permisos de usuario y administrador.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-10-23 Criterio de aceptación: Realm y clientes configurados, roles de usuario/admin y cuentas de prueba. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-17"},{"key":"QUANCORE-18","number":18,"summary":"Proteger endpoints y validar JWT/JWKS en backend","epicKey":"QUANCORE-3","epicCode":"IAM-01","epicTitle":"Identidad y Seguridad (Keycloak OIDC)","category":"sec","sprintId":"S2","startDate":"2026-10-24","endDate":"2026-10-26","priority":"P0","status":"Listo","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":[],"blockedBy":[],"plainExplanation":"Hacer que el servidor revise el gafete digital de cada persona para que nadie pueda ver ni tocar hábitos ajenos.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-10-26 Criterio de aceptación: Rutas privadas devuelven 401/403 correctamente; aislamiento entre usuarios. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-18"},{"key":"QUANCORE-19","number":19,"summary":"Integrar inicio/cierre de sesión en React y Flutter","epicKey":"QUANCORE-3","epicCode":"IAM-01","epicTitle":"Identidad y Seguridad (Keycloak OIDC)","category":"sec","sprintId":"S3","startDate":"2026-10-30","endDate":"2026-11-03","priority":"P0","status":"Listo","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":[],"blockedBy":[],"plainExplanation":"Conectar el botón de entrada y salida segura tanto en la página web como en la aplicación móvil sin guardar contraseñas en el aparato.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-11-03 Criterio de aceptación: Login OIDC para ambos clientes, sesión y logout comprobados. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica. Complemento de arquitectura — identidad y experiencia coherentes. Verificar cuenta Keycloak única entre PWA/Flutter con OIDC Authorization Code+PKCE; SSO según política del IdP sin compartir tokens entre apps ni crear contraseñas paralelas. Probar login, expiración/renovación, logout y sesión inválida en ambos clientes, con decisiones de revocación explícitas. Usar la misma API HTTPS REST/JSON y contrato packages/contracts; coordinar con QUANCORE-30 y backend sin mantener DTO incompatibles. Mostrar perfil propio mínimo desde fuente autorizada y zona/preferencias del alcance aprobado; no incorporar perfil público del videojuego ni exponer rutinas. Evidencia adicional: flujo reproducible con dos usuarios sintéticos y dos clientes, redirecciones/CORS, estado de sesión y denegación 401/403; capturas sin tokens. Dependencias QUANCORE-17/18/43; E2E en QUANCORE-38.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-19"},{"key":"QUANCORE-20","number":20,"summary":"Diseñar modelo relacional de usuarios, hábitos y registros","epicKey":"QUANCORE-4","epicCode":"DAT-01","epicTitle":"Persistencia Híbrida y Trazabilidad","category":"data","sprintId":"S1","startDate":"2026-10-18","endDate":"2026-10-21","priority":"P0","status":"Listo","assignee":{"id":"jesus","name":"Jesús Alejandro Artiaga Morales","shortName":"Jesús Artiaga","role":"Administrador de BD","initials":"JA"},"blocks":[],"blockedBy":[],"plainExplanation":"Diseñar las tablas de la base de datos donde se guardan de forma ordenada los usuarios, sus hábitos y sus registros diarios.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-10-21 Criterio de aceptación: Esquema SQL definido, claves, relaciones e integridad de registros. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-20"},{"key":"QUANCORE-21","number":21,"summary":"Implementar migraciones, persistencia y semillas de prueba","epicKey":"QUANCORE-4","epicCode":"DAT-01","epicTitle":"Persistencia Híbrida y Trazabilidad","category":"data","sprintId":"S2","startDate":"2026-10-23","endDate":"2026-10-26","priority":"P0","status":"Listo","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":[],"blockedBy":[],"plainExplanation":"Crear los pasos automáticos que construyen las tablas en PostgreSQL y cargan datos de ejemplo para probar.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-10-26 Criterio de aceptación: Migraciones reproducibles, operaciones CRUD y datos semilla. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-21"},{"key":"QUANCORE-22","number":22,"summary":"Crear esquema de eventos/telemetría MongoDB y auditoría","epicKey":"QUANCORE-4","epicCode":"DAT-01","epicTitle":"Persistencia Híbrida y Trazabilidad","category":"data","sprintId":"S2","startDate":"2026-10-28","endDate":"2026-11-02","priority":"P1","status":"Listo","assignee":{"id":"al","name":"Al Farias Leyva","shortName":"Al Farias","role":"Desarrollador Frontend","initials":"AF"},"blocks":[],"blockedBy":[],"plainExplanation":"Guardar en MongoDB una bitácora auditable de eventos y señales para que ningún cambio importante se pierda.","description":"Prioridad de alcance: P1 Ventana de implementación: 17/10/2026–2026-11-02 Criterio de aceptación: Ingesta de eventos con origen, timestamp, usuario, validación y consulta. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica. Complemento de datos — integridad y separación de señales. Confirmar en QUANCORE-43 uso justificado de MongoDB y propiedad del dato frente a PostgreSQL. Esquemas/eventos canónicos en packages/contracts, índices/unidades, origen, instante de ocurrencia/recepción, versión, retención y acceso mínimo. Validar consentimiento y revocación con QUANCORE-35, duplicados/reintentos y señales ausentes o inválidas; no tratarlas como cero ni copiar biometría a logs técnicos. Evidencia adicional: esquema/configuración versionados, consultas y casos sintéticos válidos/inválidos/repetidos/sin permiso; referencia a recuperación QUANCORE-44. Si la decisión excluye MongoDB, registrar revisión de alcance en ADR, sin fingir implementación ni marcar terminada automáticamente.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-22"},{"key":"QUANCORE-23","number":23,"summary":"Implementar endpoints de hábitos y categorías con validación","epicKey":"QUANCORE-5","epicCode":"API-01","epicTitle":"Backend y Lógica de Hábitos","category":"api","sprintId":"S2","startDate":"2026-10-25","endDate":"2026-10-28","priority":"P0","status":"Listo","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":[],"blockedBy":[],"plainExplanation":"Construir en el servidor las rutas para crear, editar, pausar y archivar hábitos cuidando que los datos sean válidos.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-10-28 Criterio de aceptación: CRUD completo, OpenAPI, validación de campos y controles de permisos. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-23"},{"key":"QUANCORE-24","number":24,"summary":"Implementar cumplimiento diario, metas y cálculo de rachas","epicKey":"QUANCORE-5","epicCode":"API-01","epicTitle":"Backend y Lógica de Hábitos","category":"api","sprintId":"S3","startDate":"2026-10-28","endDate":"2026-11-04","priority":"P0","status":"Listo","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":[],"blockedBy":[],"plainExplanation":"Calcular los avances diarios y los días seguidos cumplidos (rachas) según la zona horaria del usuario y evitando registros duplicados.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-10-31 Criterio de aceptación: Registro idempotente, historial y rachas correctas con casos límite. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-24"},{"key":"QUANCORE-25","number":25,"summary":"Exponer estadísticas y dashboard desde datos reales","epicKey":"QUANCORE-5","epicCode":"API-01","epicTitle":"Backend y Lógica de Hábitos","category":"api","sprintId":"S3","startDate":"2026-11-01","endDate":"2026-11-04","priority":"P0","status":"Listo","assignee":{"id":"al","name":"Al Farias Leyva","shortName":"Al Farias","role":"Desarrollador Frontend","initials":"AF"},"blocks":[],"blockedBy":[],"plainExplanation":"Entregar desde la base de datos los resúmenes de progreso, calendario y tendencias reales de cada persona.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-11-04 Criterio de aceptación: Endpoints agregados para progreso, calendario y tendencias por usuario. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-25"},{"key":"QUANCORE-26","number":26,"summary":"Diseñar interfaz Quantify, navegación y componentes reutilizables","epicKey":"QUANCORE-6","epicCode":"WEB-01","epicTitle":"PWA y Dashboards Web","category":"web","sprintId":"S2","startDate":"2026-10-22","endDate":"2026-10-26","priority":"P0","status":"Listo","assignee":{"id":"al","name":"Al Farias Leyva","shortName":"Al Farias","role":"Desarrollador Frontend","initials":"AF"},"blocks":[],"blockedBy":[],"plainExplanation":"Diseñar todas las pantallas, colores Laser Blue y Obsidian, botones y bocetos interactivos en Figma y en el repositorio.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-10-26 Criterio de aceptación: Layout responsivo, identidad Laser Blue, rutas y formularios base. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica. Entrega visual revisada · 26/10/2026 Documentación completa y cinco láminas PNG Rama de trabajo Rama de publicación preparada Criterios de esta entrega: Cinco imágenes completas: paleta, tipografía, iconografía, uso de imágenes e identidad/isologo, presentadas en galería con ampliación y descarga. Inter Variable local como única familia de interfaz, misma fuente en PNG y galería; licencia OFL incluida. Catálogo conjunto de 24 iconos y 34 PNG de pantallas; sketches sin texto visible, wireframes en grises y mockups con color/iconos/imagen. Logos oficiales: Nexus Core empresarial a la izquierda y Quantify Core producto a la derecha. El símbolo Q parecido a lupa es una marca de agua editorial independiente; no sustituye ninguno de los originales. Una documentación completa en docs/GUI/README.md; se retiraron manuales, tablas SVG, manifiestos y exportaciones redundantes de la primera versión. Práctica 07 y los tres JPEG originales intactos. Sin PR ni merge; main y develop conservan sus SHA. Validación local: 39 imágenes; 16 configuraciones de galería a 320/390/768/1440 px; 208 cargas de miniaturas; visor/flechas/zoom/descarga/Escape/foco comprobados; Inter cargada por HTTP local; 21/21 pruebas históricas aprobadas; revisión documental general de 514 enlaces aprobada. Commits de revisión: 781770e (láminas/Inter), 7bb06bc (galería/consolidación), 6cec3ae (validación/publicación). Rama gh-pages: 5cd7276, instantánea del portal anterior más la galería, preservando sus prácticas. Publicación activa y verificada: GitHub Pages configurado por el administrador en gh-pages / raíz. Despliegue built confirmado; las 16 configuraciones públicas y 208 cargas de miniaturas pasaron sin errores. Los 42 recursos públicos comprobados coinciden por SHA-256 con los locales; portal principal y recursos principales de Práctica 07 coinciden con sus blobs Git. Sigue intacto su árbol original. Commit de documentación activa: cbd3789 en la rama de trabajo; 261b420 en gh-pages. Sin cambios en main/develop, sin PR ni merge. Esta entrega documenta diseño estático y no cierra la implementación de producto. Se conservan responsable, sprint y estado.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-26"},{"key":"QUANCORE-27","number":27,"summary":"Conectar CRUD y seguimiento diario a la API","epicKey":"QUANCORE-6","epicCode":"WEB-01","epicTitle":"PWA y Dashboards Web","category":"web","sprintId":"S3","startDate":"2026-10-30","endDate":"2026-11-02","priority":"P0","status":"Listo","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":[],"blockedBy":[],"plainExplanation":"Permitir que desde la página web una persona cree sus hábitos, anote lo que logró hoy y consulte su historial.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-11-02 Criterio de aceptación: Usuario crea hábitos, completa día y ve historial desde web. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-27"},{"key":"QUANCORE-28","number":28,"summary":"Construir dashboard, gráficas y experiencia PWA","epicKey":"QUANCORE-6","epicCode":"WEB-01","epicTitle":"PWA y Dashboards Web","category":"web","sprintId":"S4","startDate":"2026-11-04","endDate":"2026-11-07","priority":"P1","status":"En curso","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":[],"blockedBy":[],"plainExplanation":"Mostrar gráficas claras en la web y permitir que la página pueda instalarse como aplicación (PWA) en computadora o celular.","description":"Prioridad de alcance: P1 Ventana de implementación: 17/10/2026–2026-11-07 Criterio de aceptación: Gráficas con datos reales, estados vacíos/errores y manifest instalable. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica. Complemento PWA de referencia adaptada a Quantify. Comprobar manifest, iconos, service worker/política de actualización y arranque por HTTPS; instalación y apertura en navegador de escritorio y dispositivo móvil compatibles identificados. Historial/calendario/tendencias son equivalentes a estadísticas de la referencia; temporadas, rankings global/amigos, perfil público y noticias del juego no se incorporan automáticamente. Establecer comportamiento offline y de reconexión explícito: mostrar estados claros sin prometer check-ins offline si no hay contrato/cola/idempotencia; no cachear tokens ni datos privados para otras cuentas. Reutilizar tokens visuales y verificar teclado/lectura, estados vacíos/errores y cambio de usuario. Dependencias QUANCORE-19/25/27/43. Evidencia adicional: build versionado, prueba real de instalación/actualización y caché/cierre de sesión, capturas y limitaciones de plataforma. No basta un manifest sin instalación probada.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-28"},{"key":"QUANCORE-29","number":29,"summary":"Crear app Flutter con rutas, diseño y configuración de API","epicKey":"QUANCORE-7","epicCode":"MOB-01","epicTitle":"Aplicación Móvil Flutter","category":"mobile","sprintId":"S2","startDate":"2026-10-24","endDate":"2026-10-28","priority":"P0","status":"Listo","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":[],"blockedBy":[],"plainExplanation":"Construir la aplicación para celular en Flutter con sus pantallas principales, colores oficiales y navegación fluida.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-10-28 Criterio de aceptación: App Android ejecutable y componentes visuales consistentes. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-29"},{"key":"QUANCORE-30","number":30,"summary":"Implementar autenticación y gestión de hábitos desde Flutter","epicKey":"QUANCORE-7","epicCode":"MOB-01","epicTitle":"Aplicación Móvil Flutter","category":"mobile","sprintId":"S3","startDate":"2026-11-01","endDate":"2026-11-04","priority":"P0","status":"Listo","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":[],"blockedBy":[],"plainExplanation":"Hacer que la aplicación del celular use la misma cuenta que la web para ver y crear los mismos hábitos.","description":"Prioridad de alcance: P0 Ventana de implementación: 17/10/2026–2026-11-04 Criterio de aceptación: Usuario usa misma cuenta que web, consulta/crea hábitos. Definición de terminado: implementación y pruebas verificadas, integración en rama principal y evidencia/documentación suficiente para demo académica. Complemento móvil — misma cuenta, API y contratos. Integrar con QUANCORE-19 y endpoints/contracts canónicos, perfil propio y zona del alcance acordado; validaciones y errores consistentes con web, sin contraseñas locales ni autenticación paralela. Probar gestión de hábitos autorizados de una cuenta compartida entre clientes y rechazo de acceso a otra cuenta. Evidencia adicional: build y ejecución Android identificando emulador/dispositivo/versión, flujo contra API real, manejo de token expirado/logout y recursos ajenos. iOS requiere entorno y firma disponibles; si no existen, documentar pendiente sin afirmar compatibilidad probada. Dependencias QUANCORE-19/23/43; resultados alimentan QUANCORE-31/38.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-30"},{"key":"QUANCORE-31","number":31,"summary":"Implementar check-in diario, historial y estadísticas móviles","epicKey":"QUANCORE-7","epicCode":"MOB-01","epicTitle":"Aplicación Móvil Flutter","category":"mobile","sprintId":"S4","startDate":"2026-11-05","endDate":"2026-11-08","priority":"P1","status":"En curso","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":[],"blockedBy":[],"plainExplanation":"Permitir anotar el avance diario desde el celular sin duplicar envíos, viendo el historial de versiones y las estadísticas.","description":"Prioridad P1. Criterio de aceptación: Registros sincronizados web/móvil y pantalla de progreso. Cierre: implementación, pruebas y evidencia de demostración. Complemento móvil — sincronización demostrada. Probar check-in e historial contra la API compartida y reflejo posterior en PWA con misma cuenta, fecha de negocio/zona e idempotencia (reintento y doble dispositivo no duplican cumplimiento). Pantalla de progreso/logros solo con reglas QUANCORE-24/32 y datos autorizados. Definir estados de desconexión/reintento sin prometer sincronización offline no implementada. Evidencia adicional: prueba Android real/emulada y, solo con medios disponibles, iOS; commit/build, casos y capturas saneadas. Push FCM/APNs, social/amigos y hardware Wear OS son opcionales sujetos a QUANCORE-43; no bloquean check-in manual. Dependencias QUANCORE-24/25/30/32 y E2E QUANCORE-38.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-31"},{"key":"QUANCORE-32","number":32,"summary":"Implementar gamificación basada en rachas y reglas verificables","epicKey":"QUANCORE-8","epicCode":"AI-01","epicTitle":"Analítica Preventiva y Gamificación","category":"ai","sprintId":"S3","startDate":"2026-11-02","endDate":"2026-11-05","priority":"P1","status":"Listo","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":[],"blockedBy":[],"plainExplanation":"Otorgar medallas y logros automáticos cuando el usuario alcanza 1, 3, 7, 14 o 30 días cumplidos sin duplicar premios.","description":"Prioridad P1. Criterio de aceptación: Logros simples y criterios claros sin recompensas falsas por duplicación. Cierre: implementación, pruebas y evidencia de demostración.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-32"},{"key":"QUANCORE-33","number":33,"summary":"Crear servicio FastAPI de analítica con indicador orientativo","epicKey":"QUANCORE-8","epicCode":"AI-01","epicTitle":"Analítica Preventiva y Gamificación","category":"ai","sprintId":"S4","startDate":"2026-11-05","endDate":"2026-11-08","priority":"P1","status":"Por hacer","assignee":{"id":"jesus","name":"Jesús Alejandro Artiaga Morales","shortName":"Jesús Artiaga","role":"Administrador de BD","initials":"JA"},"blocks":[],"blockedBy":[],"plainExplanation":"Crear el servicio en Python (FastAPI) que calcula indicadores preventivos de sobrecarga y explica sus sugerencias en palabras simples.","description":"Prioridad P1. Criterio de aceptación: Endpoint de analítica interpretable con datos de muestra, sin diagnóstico médico. Cierre: implementación, pruebas y evidencia de demostración. Complemento FastAPI — alcance e integración verificables. Integrar servicio de analítica con API y contratos compartidos sin duplicar credenciales, esquemas ni almacenar datos ajenos. Reglas/heurísticas explicables versionadas; consentimiento y suficiencia de datos antes de generar/servir indicador, abstención cuando falten y límites no diagnósticos. Conectar instrumentación QUANCORE-46 cuando el servicio exista. Evidencia adicional: pruebas con datos sintéticos suficientes/insuficientes/no autorizados, contrato, versión/regla y llamada desde flujo real. Modelo ML/LLM QUANCORE-34 permanece opcional sin sprint; no exigir entrenamiento ni servicio externo para cerrar esta tarea. Dependencias QUANCORE-22/24/25/43.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-33"},{"key":"QUANCORE-34","number":34,"summary":"Evaluar modelo ML/LLM opcional y documentar límites","epicKey":"QUANCORE-8","epicCode":"AI-01","epicTitle":"Analítica Preventiva y Gamificación","category":"ai","sprintId":"S4","startDate":"2026-11-09","endDate":"2026-11-12","priority":"P2","status":"Por hacer","assignee":{"id":"unassigned","name":"Sin asignar","shortName":"Sin asignar","role":"Pendiente de asignación","initials":"SA"},"blocks":[],"blockedBy":[],"plainExplanation":"Evaluar cómo se comporta un modelo inteligente opcional y explicar claramente sus límites para no confundirlo con consejo médico.","description":"Prioridad P2. Criterio de aceptación: Prototipo solo si hay tiempo/datos; limitaciones explícitas. Cierre: implementación, pruebas y evidencia de demostración.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-34"},{"key":"QUANCORE-35","number":35,"summary":"Definir formato seguro de telemetría y simular ingestión","epicKey":"QUANCORE-9","epicCode":"WEA-01","epicTitle":"Telemetría y Wear OS","category":"wear","sprintId":"S3","startDate":"2026-11-02","endDate":"2026-11-06","priority":"P1","status":"Listo","assignee":{"id":"al","name":"Al Farias Leyva","shortName":"Al Farias","role":"Desarrollador Frontend","initials":"AF"},"blocks":[],"blockedBy":[],"plainExplanation":"Definir el formato seguro con permiso del usuario para recibir señales simuladas de reloj inteligente sin duplicarlas.","description":"Prioridad P1. Criterio de aceptación: JSON documentado, consentimiento, eventos de prueba y trazabilidad. Cierre: implementación, pruebas y evidencia de demostración. Complemento telemetría aplicable, sin videojuego. Definir contrato versionado en packages/contracts para ingesta simulada autorizada: pertenencia/origen, consentimiento granular y revocación, timestamps/unidad/esquema, idempotencia por fuente/lote y límites de validación. Casos de lote repetido, fuera de orden, unidad inválida, dato ausente y consentimiento revocado deben rechazar o informar según contrato sin alterar doblemente métricas. Coordinar persistencia QUANCORE-22; telemetría de producto separada de métricas/logs técnicos QUANCORE-46. Evidencia adicional: generador/fixtures sintéticos, pruebas y consultas contra API/persistencia real, descripción de simulación. Wear OS físico QUANCORE-36 conserva carácter opcional y no se presenta como integrado. Dependencias QUANCORE-22/43.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-35"},{"key":"QUANCORE-36","number":36,"summary":"Integrar lectura Wear OS real si existen reloj y permisos","epicKey":"QUANCORE-9","epicCode":"WEA-01","epicTitle":"Telemetría y Wear OS","category":"wear","sprintId":"S4","startDate":"2026-11-08","endDate":"2026-11-11","priority":"P2","status":"Por hacer","assignee":{"id":"unassigned","name":"Sin asignar","shortName":"Sin asignar","role":"Pendiente de asignación","initials":"SA"},"blocks":[],"blockedBy":[],"plainExplanation":"Realizar una prueba opcional con un reloj Wear OS físico en caso de contar con el dispositivo y los permisos.","description":"Prioridad P2. Criterio de aceptación: Prueba física si el hardware lo permite; no bloquea MVP. Cierre: implementación, pruebas y evidencia de demostración.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-36"},{"key":"QUANCORE-37","number":37,"summary":"Ejecutar pruebas unitarias y de API sobre rutas críticas","epicKey":"QUANCORE-10","epicCode":"QA-01","epicTitle":"Pruebas, Integración y Entrega","category":"qa","sprintId":"S4","startDate":"2026-11-05","endDate":"2026-11-08","priority":"P0","status":"En curso","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":["QUANCORE-38"],"blockedBy":["QUANCORE-16"],"plainExplanation":"Ejecutar pruebas automáticas sobre las funciones más importantes del servidor para comprobar que todo responda bien y bloquee intrusos.","description":"Prioridad P0. Criterio de aceptación: Pruebas de auth, CRUD, duplicados y manejo de fallos. Cierre: implementación, pruebas y evidencia de demostración. Complemento RA-C3 — scripts de pruebas en entorno de liberación. Versionar/reutilizar scripts consumidos por QUANCORE-45 que ejecuten rutas críticas contra entorno QUANCORE-44/16 con datos sintéticos y salida no cero ante fallo. Incluir contratos OpenAPI compartidos, JWT válido/inválido, usuario A/B/admin sin acceso privado general, CRUD, pausa/archivo preservando historia, idempotencia/concurrencia, fecha de negocio/zona y errores. Cubrir consentimiento/revocación de los módulos realmente entregados. Evidencia adicional: invocación local documentada y run de CI con commit/entorno/versiones, reportes y una falla de control que bloquee liberación. Ausencia de servicios/casos debe quedar como bloqueo/cobertura pendiente, no prueba aprobada. Dependencias QUANCORE-18/23/24/35/44/45; rendimiento va en QUANCORE-49, E2E en QUANCORE-38.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-37"},{"key":"QUANCORE-38","number":38,"summary":"Ejecutar pruebas end-to-end web, móvil y backend","epicKey":"QUANCORE-10","epicCode":"QA-01","epicTitle":"Pruebas, Integración y Entrega","category":"qa","sprintId":"S4","startDate":"2026-11-08","endDate":"2026-11-10","priority":"P0","status":"En curso","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":["QUANCORE-40"],"blockedBy":["QUANCORE-37"],"plainExplanation":"Comprobar de principio a fin el recorrido completo: entrar, crear un hábito, registrar avance y ver estadísticas en web y móvil.","description":"Prioridad P0. Criterio de aceptación: Flujo login→crear→registrar→consultar en ambos clientes. Cierre: implementación, pruebas y evidencia de demostración. Complemento de integración multiplataforma. Ejecutar flujo contra destino real QUANCORE-16: una cuenta Keycloak, login en PWA y Flutter, crear hábito, registrar/reintentar, consultar historial/estadísticas y logout. Verificar misma versión de contrato, datos consistentes y aislamiento entre dos cuentas; no usar mocks como prueba de API operativa. Incluir PWA instalada (QUANCORE-28), Android validado y disponibilidad/limitación iOS documentada (QUANCORE-30/31). Revisión de perfil propio y accesibilidad del primer recorrido, errores/red interrumpida y estados sin datos. No exigir juego, rankings o social. Evidencia adicional: script automatizado y/o protocolo manual reproducible donde automatización no exista, grabación/capturas saneadas, commit/build/ambiente y resultados por plataforma con pendientes visibles. Dependencias QUANCORE-19/24/25/27/28/30/31/37/16.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-38"},{"key":"QUANCORE-39","number":39,"summary":"Corregir errores bloqueantes y validar despliegue final","epicKey":"QUANCORE-10","epicCode":"QA-01","epicTitle":"Pruebas, Integración y Entrega","category":"qa","sprintId":"S4","startDate":"2026-11-10","endDate":"2026-11-12","priority":"P0","status":"En curso","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":[],"blockedBy":[],"plainExplanation":"Corregir cualquier error urgente que impida mostrar el sistema funcionando antes de la presentación final.","description":"Prioridad P0. Criterio de aceptación: Sin bloqueos P0; servicios y datos de demo preparados. Cierre: implementación, pruebas y evidencia de demostración.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-39"},{"key":"QUANCORE-40","number":40,"summary":"Realizar demo y cierre académico V2","epicKey":"QUANCORE-10","epicCode":"QA-01","epicTitle":"Pruebas, Integración y Entrega","category":"qa","sprintId":"S4","startDate":"2026-11-11","endDate":"2026-11-13","priority":"P0","status":"En curso","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":[],"blockedBy":["QUANCORE-13","QUANCORE-38"],"plainExplanation":"Presentar la demostración completa de Quantify Core V2.0 con todas sus evidencias y cierre del proyecto.","description":"Prioridad P0. Criterio de aceptación: Demostración funcional reproducible, documentación y evidencias. Cierre: implementación, pruebas y evidencia de demostración. Complemento de cierre — estudio de caso y lista de cotejo. Usar matriz de QUANCORE-13 para comprobar todos los apartados del Resultado de aprendizaje y la secuencia 1–4, además de arquitectura adaptada sin Unity. Mostrar herramienta configurada/vinculada y run real QUANCORE-45/16, scripts pipeline/entorno/pruebas/despliegue en repo, métricas/consultas/alertas QUANCORE-46/48, restauración QUANCORE-44 y evaluación+plan de mejora QUANCORE-49. Aclarar niveles de servicio acordados frente a propuesta pendiente QUANCORE-47. Terminado adicional: lista de cotejo con requisito→tarea→archivo/commit→ejecución/evidencia→resultado, versión efectiva y limitaciones; revisión del equipo y guion reproducible con datos sintéticos. No marcar entregado por tareas creadas, documentación o diagrama. Registrar pendientes de acceso/capacidad y discrepancias del stack resueltas en QUANCORE-43. Mantener hito 13/11/2026 sin alterar fechas de sprints; QUANCORE-34/36 y decisiones opcionales no bloquean núcleo por defecto.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-40"},{"key":"QUANCORE-41","number":41,"summary":"Inicializar API Node.js/Express con healthcheck y OpenAPI","epicKey":"QUANCORE-5","epicCode":"API-01","epicTitle":"Backend y Lógica de Hábitos","category":"api","sprintId":"S1","startDate":"2026-10-19","endDate":"2026-10-23","priority":"P0","status":"Listo","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":[],"blockedBy":[],"plainExplanation":"Levantar el primer servidor base con una ruta de salud (/health) que avise que el sistema está encendido y documentado.","description":"Objetivo Sprint 1 (17–23 oct): entregar una base de backend ejecutable independiente del CRUD. Actividades: configurar TypeScript o JavaScript según decisión del equipo; variables .env.example; estructura modular; ruta GET /health; manejador de errores; documentación inicial OpenAPI; scripts de desarrollo/test. Criterios de aceptación: servidor arranca en local; GET /health devuelve HTTP 200; documentación OpenAPI accesible; código versionado y .env fuera de Git.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-41"},{"key":"QUANCORE-42","number":42,"summary":"Inicializar proyecto React/Vite y conexión HTTP configurable","epicKey":"QUANCORE-6","epicCode":"WEB-01","epicTitle":"PWA y Dashboards Web","category":"web","sprintId":"S1","startDate":"2026-10-20","endDate":"2026-10-23","priority":"P0","status":"En curso","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":[],"blockedBy":[],"plainExplanation":"Levantar la primera estructura de la página web en React y Vite con los colores oficiales y conexión de prueba al servidor.","description":"Objetivo Sprint 1 (17–23 oct): entregar un frontend web mínimo ejecutable para desbloquear UI y autenticación posteriores. Actividades: inicializar React + Vite; rutas básicas y pantalla placeholder; cliente HTTP configurable por variable de entorno; gestionar estados de carga/error; estructura de componentes; base de tema Laser Blue. Criterios de aceptación: npm run dev funciona; navegación de prueba; llamada controlada a /health de API (cuando esté accesible) o mock documentado; sin secretos en frontend.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-42"},{"key":"QUANCORE-43","number":43,"summary":"Conciliar arquitectura de Quantify sin Unity y decidir entorno de entrega","epicKey":"QUANCORE-2","epicCode":"ARC-01","epicTitle":"Arquitectura, DevOps e Infraestructura","category":"infra","sprintId":"S3","startDate":"2026-11-03","endDate":"2026-11-09","priority":"P0","status":"En curso","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":["QUANCORE-44","QUANCORE-45","QUANCORE-47"],"blockedBy":[],"plainExplanation":"Poner de acuerdo toda la arquitectura del proyecto (dejando fuera el videojuego antiguo) y definir cómo se unirá la API.","description":"Brecha: la referencia GameHub y varias tareas históricas no equivalen al stack ni a una plataforma operativa de Quantify. Entregables: matriz de arquitectura referencia→equivalente Quantify→tarea→artefacto/evidencia; diagrama actualizado y ADR de las discrepancias reales; inventario del destino de demostración. Aceptación: Excluir videojuego Unity, partidas e inventario de juego. Traducir seguimiento/historial a hábitos y check-ins, estadísticas/temporadas a ventanas de métricas y logros a reglas de QUANCORE-32. Tablas globales/amigos, perfil público, social y eventos/noticias del juego quedan fuera del núcleo; no publicar hábitos ni biometría. Identificar PWA React+Vite instalable, Flutter (Android verificable e iOS condicionado al entorno), cuenta Keycloak y API REST/JSON compartidas por HTTPS, OIDC+PKCE, JWT/JWKS, autorización por propiedad y roles y OpenAPI canónico. Resolver explícitamente discrepancia NestJS/TypeScript base del repo vs Express en Jira/ramas; no sustituir stack por la imagen. PostgreSQL base; alternativas SQL solo mediante ADR. FastAPI para analítica. Registrar estado por componente: propuesto/configurado/ejecutado/verificado y rama/commit; un estado Listo de Jira no prueba que esté integrado. Seleccionar destino cloud o VPS permitido y presupuestado, o registrar acceso/bloqueo pendiente. Documentar runtime, recursos, red, TLS, dominio, emisor/redirects OIDC, almacenamiento y responsables. Docker Compose es válido; Kubernetes no es obligatorio. Matriz de decisiones para MongoDB/Redis (necesidad, propiedad, costo y uso o exclusión motivada), federación, WebSockets, correo, S3/Cloud Storage, FCM/APNs, GA/Firebase y terceros: opcionales, sin contratación automática. No desplazar QUANCORE-34/36 del backlog ni hacerlas bloqueantes. Definir qué RF-01..RF-10 se entregan, cuáles son propuestos o se difieren y qué puertas de privacidad/seguridad impiden usar datos reales; mantener trazabilidad sin prometer todo el catálogo. Evidencia de terminado: matriz y ADR revisados, enlaces a tareas y commits verificables, arquitectura con límites e inventario de entorno sin valores secretos. Decisiones no aprobadas figuran pendientes, no como implementadas. Dependencias: insumos de QUANCORE-12/14/15/17/20 y decisiones D-01/02/04/08/09/10; revisión técnica de frontend, backend y BD. Origen y alcance: referencias académicas de arquitectura y evaluación aportadas por el usuario (27/10/2026); . Complemento planificado para entrega académica del 13/11/2026, sin promesa de capacidad ni de producción. Esta tarea no acredita implementación. Desarrollo mediante ramas desde develop y PR según Git Flow; no iniciar/cerrar sprints. Evidencias con commit, entorno, herramientas/versiones, comandos ejecutados, resultado y limitaciones; solo datos sintéticos, sin secretos.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-43"},{"key":"QUANCORE-44","number":44,"summary":"Versionar scripts del entorno de liberación y ensayar restauración de datos","epicKey":"QUANCORE-4","epicCode":"DAT-01","epicTitle":"Persistencia Híbrida y Trazabilidad","category":"data","sprintId":"S3","startDate":"2026-11-04","endDate":"2026-11-09","priority":"P0","status":"En curso","assignee":{"id":"al","name":"Al Farias Leyva","shortName":"Al Farias","role":"Desarrollador Frontend","initials":"AF"},"blocks":["QUANCORE-45","QUANCORE-13"],"blockedBy":["QUANCORE-43"],"plainExplanation":"Guardar los programas automáticos que levantan el entorno de entrega y ensayar cómo recuperar los datos de una copia de respaldo.","description":"Brecha RA-C2/RNF-07/10: Docker y migraciones existentes no incluyen evidencia del entorno de liberación reproducible ni ensayo de restauración. Aceptación: Entregar scripts ejecutables/versionados (ubicación propuesta scripts/release/ e infrastructure/deployment/) que validen prerrequisitos y variables, generen/preparen el entorno aprobado, esperen readiness y apliquen migraciones y semillas sintéticas sin ejecución concurrente insegura. Reutilizar QUANCORE-15/21 y los mecanismos del servicio propietario, sin duplicar migraciones ni borrar volúmenes por defecto. Separar datos desechables de pruebas de datos persistentes y documentar comandos seguros de parada/limpieza. Configuración de ejemplo sin secretos; versiones, recursos, redes, volúmenes, permisos mínimos, SQL y MongoDB solo cuando se apruebe su necesidad. Documentar servicios realmente disponibles, no crear un comando que finja instalarlos. Generar y verificar respaldo sintético; restaurar en entorno aislado, comprobar integridad/referencias y compatibilidad de migraciones; medir RPO/RTO observados y contrastar con objetivos pendientes o aprobados. Segunda persona reproduce preparación y restauración desde clon limpio; registrar fallos y recuperación. No restaurar sobre un entorno compartido ni usar datos reales. Evidencia: scripts y revisión, configuración anonimizada, bitácora de dos ejecuciones reproducibles, integridad antes/después y medición de recuperación. Alojamiento y secretos suministrados por liderazgo; responsable de BD conserva responsabilidad de datos. Dependencias: QUANCORE-15/20/21 y decisión de entorno en QUANCORE-43; resultados alimentan Definir niveles de servicio, métricas y protocolo de evaluación del rendimiento, despliegue QUANCORE-16 y documento QUANCORE-13. Origen y alcance: referencias académicas de arquitectura y evaluación aportadas por el usuario (27/10/2026); . Complemento planificado para entrega académica del 13/11/2026, sin promesa de capacidad ni de producción. Esta tarea no acredita implementación. Desarrollo mediante ramas desde develop y PR según Git Flow; no iniciar/cerrar sprints. Evidencias con commit, entorno, herramientas/versiones, comandos ejecutados, resultado y limitaciones; solo datos sintéticos, sin secretos.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-44"},{"key":"QUANCORE-45","number":45,"summary":"Configurar pipeline de liberación con build y scripts de pruebas reproducibles","epicKey":"QUANCORE-2","epicCode":"ARC-01","epicTitle":"Arquitectura, DevOps e Infraestructura","category":"infra","sprintId":"S3","startDate":"2026-11-04","endDate":"2026-11-09","priority":"P0","status":"En curso","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":["QUANCORE-16"],"blockedBy":["QUANCORE-43","QUANCORE-44"],"plainExplanation":"Automatizar la revisión y construcción del proyecto para que cada cambio pase por pruebas antes de publicarse.","description":"Brecha RA-B/RA-C1/RA-C3: no hay workflows de producto acreditados en .github/workflows; manuales o YAML sin ejecutar no cumplen la rúbrica. Aceptación: Seleccionar y configurar herramienta de liberación continua (GitHub Actions si se valida para este repo); versionar scripts de pipeline y pruebas del entorno de liberación y el workflow que los invoca. Justificar etapas y disparadores compatibles con PR hacia develop y release hacia main: validar contratos y configuración, instalar dependencias con lockfiles, ejecutar pruebas disponibles, construir y publicar artefactos identificados por commit/digest. No asumir que cada push autoriza publicar en todos los entornos. Scripts de pruebas deben verificar al menos health/readiness, acceso autorizado y rechazo 401/403, y flujo sintético hábitos→check-in→métricas contra el entorno generado. Fallar explícitamente si faltan servicios o pruebas; no convertir ausencia de implementación en éxito. Reutilizar/ampliar QUANCORE-37/38, sin suite duplicada. Permisos mínimos, secretos mediante almacén seguro del Configurar pipeline de liberación con build y scripts de pruebas reproducibles, ambientes y registro de artefactos separados; ningún secreto en logs ni frontend. Parámetros, versiones y comandos reales documentados. Demostrar ejecución real exitosa y ejecución fallida de control que impida promover una entrega defectuosa. Conservar URL/run-id, commit, resultados y artefactos; no declarar configurado por guardar YAML. Dejar interfaz e insumos de despliegue listos para que QUANCORE-16 vincule la herramienta al destino real y pruebe el pipeline completo. Evidencia: workflow y scripts versionados, runs reales de éxito/fallo, reportes y digest de artefacto. Validación académica con datos sintéticos. Dependencias: código de QUANCORE-41/23/24; scripts QUANCORE-44 y decisión QUANCORE-43. QUANCORE-37 amplía la suite crítica en sprint 4; si servicios no están disponibles registrar bloqueo sin prueba ficticia. Origen y alcance: referencias académicas de arquitectura y evaluación aportadas por el usuario (27/10/2026); . Complemento planificado para entrega académica del 13/11/2026, sin promesa de capacidad ni de producción. Esta tarea no acredita implementación. Desarrollo mediante ramas desde develop y PR según Git Flow; no iniciar/cerrar sprints. Evidencias con commit, entorno, herramientas/versiones, comandos ejecutados, resultado y limitaciones; solo datos sintéticos, sin secretos.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-45"},{"key":"QUANCORE-46","number":46,"summary":"Instrumentar API y analítica con métricas, logs seguros y correlación","epicKey":"QUANCORE-5","epicCode":"API-01","epicTitle":"Backend y Lógica de Hábitos","category":"api","sprintId":"S3","startDate":"2026-11-03","endDate":"2026-11-06","priority":"P0","status":"En curso","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":["QUANCORE-47","QUANCORE-48"],"blockedBy":[],"plainExplanation":"Medir tiempos de respuesta y errores del sistema asegurando que en las bitácoras técnicas jamás se filtren datos privados ni contraseñas.","description":"Brecha RNF-09/RA-A4: infrastructure/observability solo describe señales; falta instrumentación ejecutable. Aceptación: Instrumentar los componentes realmente ejecutables de API y FastAPI cuando exista; fijar versiones y configuración de OpenTelemetry o mecanismo compatible acordado. Correlacionar una petición sintética entre componentes instrumentados, señalando tramos no cubiertos. Métricas de solicitudes, errores y latencia por ruta normalizada (unidades y percentiles), salud/readiness y uso de recursos/dependencias cuando sea medible. Inventario tipo/unidad/origen/etiquetas; nunca IDs de usuarios, URLs completas ni cardinalidad ilimitada. Logs estructurados con servicio, versión, entorno, timestamp UTC, severidad, código y correlación. Excluir tokens, cookies, contraseñas, cuerpos sensibles, hábitos, biometría y correos con prueba sintética de ausencia. Exposición de métricas y exportadores con acceso limitado; configuración de muestreo/buffers/timeouts y degradación controlada si el colector está caído. Probar solicitud correcta/fallida, correlación y caída del destino de telemetría sin bloquear el producto; incluir métricas de worker solo si existe, sin inventar cobertura. Evidencia: instrumentación/configuración versionadas, pruebas, muestras saneadas y consultas reproducibles. El stack de visualización y alertas se entrega en Configurar Prometheus, Grafana, Loki y probar alertas de disponibilidad; no duplicar telemetría de negocio de QUANCORE-22/35. Dependencias: QUANCORE-43, API de QUANCORE-18/23 y QUANCORE-33 para tramo de analítica cuando esté disponible. Contrato de métricas alimenta Definir niveles de servicio, métricas y protocolo de evaluación del rendimiento y Configurar Prometheus, Grafana, Loki y probar alertas de disponibilidad. Origen y alcance: referencias académicas de arquitectura y evaluación aportadas por el usuario (27/10/2026); . Complemento planificado para entrega académica del 13/11/2026, sin promesa de capacidad ni de producción. Esta tarea no acredita implementación. Desarrollo mediante ramas desde develop y PR según Git Flow; no iniciar/cerrar sprints. Evidencias con commit, entorno, herramientas/versiones, comandos ejecutados, resultado y limitaciones; solo datos sintéticos, sin secretos.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-46"},{"key":"QUANCORE-47","number":47,"summary":"Definir niveles de servicio, métricas y protocolo de evaluación del rendimiento","epicKey":"QUANCORE-10","epicCode":"QA-01","epicTitle":"Pruebas, Integración y Entrega","category":"qa","sprintId":"S4","startDate":"2026-11-06","endDate":"2026-11-10","priority":"P0","status":"En curso","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":["QUANCORE-48","QUANCORE-49"],"blockedBy":["QUANCORE-43","QUANCORE-46"],"plainExplanation":"Definir las metas de velocidad, disponibilidad y recuperación que debe cumplir el sistema durante las pruebas de carga.","description":"Brecha RA-A3/A4 y secuencia 3: no existe un SLA acordado ni perfil de carga aprobado; D-08 está pendiente. Aceptación: Definir SLIs para disponibilidad, errores, latencia p95, capacidad y recuperación; fórmula, unidad, fuente/consulta, ventana, exclusiones y limitaciones del entorno académico. Proponer SLOs y RPO/RTO con perfil de carga (concurrencia, volumen de historial, duración, recursos y flujos críticos) y evidencia inicial disponible. Distinguir objetivos propuestos, revisión pendiente y acuerdo real fechado con participantes. Registrar acuerdo de niveles de servicio o mantener expresamente pendiente si no se obtiene; no inventar cifras, disponibilidad contractual ni SLA por configurar una alerta. Fijar protocolo y criterios de éxito/fallo medibles para evaluación Medir rendimiento del entorno de entrega y ejecutar plan de mejora basado en resultados, ventana de observación y umbrales de alerta sujetos a resultados; responsables de atención y recuperación. Documentar justificación del proceso/herramientas de liberación y monitoreo y relación entre métricas y decisiones de mejora como insumo del estudio de caso QUANCORE-13. Evidencia: ficha versionada de servicio, consultas y perfil de prueba, registro de revisión/acuerdo o bloqueo explícito y trazabilidad a D-08. No marcar cumplido 'acordado' si solo existe propuesta. Dependencias: QUANCORE-43 para capacidad y destino; contrato de métricas QUANCORE-46 y medición de recuperación QUANCORE-44. Medir rendimiento del entorno de entrega y ejecutar plan de mejora basado en resultados validará resultados y cambios de objetivos en sprint 4. Origen y alcance: referencias académicas de arquitectura y evaluación aportadas por el usuario (27/10/2026); . Complemento planificado para entrega académica del 13/11/2026, sin promesa de capacidad ni de producción. Esta tarea no acredita implementación. Desarrollo mediante ramas desde develop y PR según Git Flow; no iniciar/cerrar sprints. Evidencias con commit, entorno, herramientas/versiones, comandos ejecutados, resultado y limitaciones; solo datos sintéticos, sin secretos.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-47"},{"key":"QUANCORE-48","number":48,"summary":"Configurar Prometheus, Grafana, Loki y probar alertas de disponibilidad","epicKey":"QUANCORE-2","epicCode":"ARC-01","epicTitle":"Arquitectura, DevOps e Infraestructura","category":"infra","sprintId":"S4","startDate":"2026-11-07","endDate":"2026-11-11","priority":"P0","status":"En curso","assignee":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"blocks":["QUANCORE-49","QUANCORE-13"],"blockedBy":["QUANCORE-46","QUANCORE-47","QUANCORE-16"],"plainExplanation":"Configurar los tableros visuales de monitoreo (Prometheus, Grafana y Loki) y probar las alertas cuando un servicio falla.","description":"Brecha arquitectura/RA-A4/A5/B y secuencia 2: faltan colectores, dashboards, logs consultables y alertas con ejecución demostrada. Aceptación: Versionar configuración de Prometheus, dashboards/datasources de Grafana y recolección/almacenamiento Loki sobre Docker Compose o plataforma aprobada. Loki requiere decisión registrada del backend de logs pendiente en D-08; la imagen no sustituye ADR. Conectar fuentes realmente instrumentadas, incluir estado de disponibilidad/readiness, volumen/errores/latencia, recursos y dependencias observables. Paneles con entorno, ventana, unidad y distinción 'sin datos' vs cero; consultas PromQL/LogQL guardadas y reproducibles. Parámetros de versiones, scrape/evaluación, límites/retención, almacenamiento, cifrado/red, acceso autenticado, muestreo y eliminación documentados; servicios técnicos no expuestos públicamente sin control. Definir y probar alerta de indisponibilidad/degradación con umbral justificado por QUANCORE-47, ventana, severidad, responsable, canal de prueba autorizado, deduplicación/silencios, runbook y recuperación. No enviar mensajes a terceros desde esta planificación. Simular caída controlada en entorno aislado, comprobar detección, consulta de logs correlacionados, recepción técnica y cierre/recuperación; verificar ausencia de datos sensibles y comportamiento cuando falla observabilidad. Evidencia: configuración/dashboards/reglas en repo, consultas y capturas saneadas con fecha/commit, eventos de disparo/recuperación y prueba de acceso/retención. No basta captura de tablero vacío. Dependencias: QUANCORE-46, QUANCORE-47 y entorno de QUANCORE-16; coordinación con backend para fuentes, sin afirmar operación productiva. Origen y alcance: referencias académicas de arquitectura y evaluación aportadas por el usuario (27/10/2026); . Complemento planificado para entrega académica del 13/11/2026, sin promesa de capacidad ni de producción. Esta tarea no acredita implementación. Desarrollo mediante ramas desde develop y PR según Git Flow; no iniciar/cerrar sprints. Evidencias con commit, entorno, herramientas/versiones, comandos ejecutados, resultado y limitaciones; solo datos sintéticos, sin secretos.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-48"},{"key":"QUANCORE-49","number":49,"summary":"Medir rendimiento del entorno de entrega y ejecutar plan de mejora basado en resultados","epicKey":"QUANCORE-10","epicCode":"QA-01","epicTitle":"Pruebas, Integración y Entrega","category":"qa","sprintId":"S4","startDate":"2026-11-09","endDate":"2026-11-13","priority":"P0","status":"En curso","assignee":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"blocks":["QUANCORE-13"],"blockedBy":["QUANCORE-47","QUANCORE-48"],"plainExplanation":"Medir qué tan rápido responde el sistema bajo uso intensivo y aplicar una mejora comprobable con números del antes y después.","description":"Brecha RNF-06 y secuencia 3/4: faltan resultados de evaluación, análisis y mejora basada en medición. Aceptación: Versionar script de carga/pruebas en entorno de liberación (herramienta y versión fijadas), datos sintéticos, perfiles y comandos conforme a QUANCORE-47. Probar solo destino autorizado/aislado con límites acordados. Medir p95, throughput, errores, concurrencia, CPU/memoria y recursos/consultas relevantes de login, hábitos, check-ins y métricas; registrar ventanas, volumen de historial, muestras y limitaciones del emulador/dispositivo/red. No extrapolar un ensayo a garantía de producción. Comparar observaciones con QUANCORE-47 propuesto o acordado y RPO/RTO disponible, identificar cuello de botella y causa sustentada con métricas/logs/consultas. Elaborar plan priorizado con hallazgo→evidencia→acción→responsable→criterio verificable; ejecutar al menos una mejora viable o documentar bloqueo real, y repetir el mismo perfil mostrando antes/después y efectos adversos. Alimentar documento y lista de cotejo QUANCORE-13/40 y defectos bloqueantes QUANCORE-39; resultados fallidos quedan visibles y generan seguimiento, no se maquillan como aprobados. Evidencia: scripts, reportes originales saneados con commit/entorno/configuración, comparación y plan de mejora revisado; ejecución y repetición o impedimento identificado. Dependencias: QUANCORE-45, QUANCORE-47, QUANCORE-48, QUANCORE-16 y QUANCORE-24/25; apoyo de BD para diagnóstico de consultas. Fecha final planificada 13/11/2026 sujeta a capacidad/accesos pendientes. Origen y alcance: referencias académicas de arquitectura y evaluación aportadas por el usuario (27/10/2026); . Complemento planificado para entrega académica del 13/11/2026, sin promesa de capacidad ni de producción. Esta tarea no acredita implementación. Desarrollo mediante ramas desde develop y PR según Git Flow; no iniciar/cerrar sprints. Evidencias con commit, entorno, herramientas/versiones, comandos ejecutados, resultado y limitaciones; solo datos sintéticos, sin secretos.","url":"https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-49"}]};
+
+    (function () {
+      'use strict';
+
+      const root = document.documentElement;
+      const state = {
+        palette: root.dataset.palette || 'tech',
+        mode: root.dataset.mode || 'dark',
+        sprint: 'all',
+        status: 'all',
+        assignee: 'all',
+        epic: 'all',
+        prio: 'all',
+        highlightDeps: false,
+        search: '',
+        activeModalIndex: 0,
+        filteredTasks: []
+      };
+
+      // Theme controls
+      const paletteBtns = document.querySelectorAll('[data-palette-btn]');
+      const modeBtns = document.querySelectorAll('[data-mode-btn]');
+      const modeGroup = document.getElementById('modeGroup');
+
+      function applyTheme() {
+        const theme = state.palette === 'tech' ? 'tech-' + state.mode : state.palette;
+        root.dataset.theme = theme;
+        root.dataset.palette = state.palette;
+        root.dataset.mode = state.mode;
+        paletteBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.paletteBtn === state.palette)));
+        modeBtns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.modeBtn === state.mode)));
+        if (modeGroup) modeGroup.style.opacity = state.palette === 'tech' ? '1' : '0.4';
+        try { localStorage.setItem('qc-theme', JSON.stringify({ palette: state.palette, mode: state.mode })); } catch (e) {}
+      }
+      paletteBtns.forEach(b => b.addEventListener('click', () => { state.palette = b.dataset.paletteBtn; applyTheme(); }));
+      modeBtns.forEach(b => b.addEventListener('click', () => { state.mode = b.dataset.modeBtn; applyTheme(); }));
+      window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'qc-theme-change' && e.data.theme) {
+          state.palette = e.data.theme.palette || 'tech';
+          state.mode = e.data.theme.mode || 'dark';
+          applyTheme();
+        }
+      });
+      applyTheme();
+
+      // Build 28-day calendar (2026-10-17 to 2026-11-13)
+      const START_MS = Date.parse('2026-10-17T00:00:00Z');
+      const DAY_MS = 86400000;
+      const TOTAL_DAYS = 28;
+      const days = [];
+      const dayNames = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
+      for (let i = 0; i < TOTAL_DAYS; i++) {
+        const d = new Date(START_MS + i * DAY_MS);
+        const iso = d.toISOString().slice(0, 10);
+        const dayNum = iso.slice(8, 10);
+        const dow = d.getUTCDay();
+        days.push({ index: i, iso, dayNum, dowName: dayNames[dow], isWeekend: dow === 0 || dow === 6 });
+      }
+
+      const daysHeader = document.getElementById('daysHeader');
+      daysHeader.innerHTML = days.map(d =>
+        '<div class="day-cell ' + (d.isWeekend ? 'is-weekend' : '') + '">' +
+        '<span>' + d.dowName + '</span><strong>' + d.dayNum + '</strong></div>'
+      ).join('');
+
+      function dateToCol(iso) {
+        const idx = Math.round((Date.parse(iso + 'T00:00:00Z') - START_MS) / DAY_MS);
+        return Math.max(0, Math.min(TOTAL_DAYS - 1, idx));
+      }
+
+      // Populate Epic select
+      const epicSelect = document.getElementById('epicSelect');
+      JIRA_DATA.epics.forEach(ep => {
+        const opt = document.createElement('option');
+        opt.value = ep.key;
+        opt.textContent = ep.code + ' · ' + ep.title + ' (' + ep.key + ')';
+        epicSelect.appendChild(opt);
+      });
+
+      // Render Sprints & KPIs
+      const sprintStrip = document.getElementById('sprintStrip');
+      sprintStrip.innerHTML = JIRA_DATA.sprints.map(sp => {
+        const spTasks = JIRA_DATA.tasks.filter(t => t.sprintId === sp.id);
+        const done = spTasks.filter(t => t.status === 'Listo').length;
+        const pct = spTasks.length ? Math.round((done / spTasks.length) * 100) : 0;
+        return '<div class="sprint-pill" data-sprint-card="' + sp.id + '">' +
+          '<div class="sprint-pill__top"><span>' + sp.name + '</span><span style="color:var(--primary-text)">' + done + '/' + spTasks.length + ' (' + pct + '%)</span></div>' +
+          '<div class="sprint-pill__dates">' + sp.startDate + ' → ' + sp.endDate + ' · ' + sp.state + '</div>' +
+          '<div class="sprint-bar"><span style="width:' + pct + '%"></span></div>' +
+        '</div>';
+      }).join('');
+
+      document.querySelectorAll('[data-sprint-card]').forEach(card => {
+        card.addEventListener('click', () => {
+          const sp = card.dataset.sprintCard;
+          state.sprint = state.sprint === sp ? 'all' : sp;
+          syncFilterChips();
+          renderGantt();
+        });
+      });
+
+      const kpiGrid = document.getElementById('kpiGrid');
+      const totalDone = JIRA_DATA.tasks.filter(t => t.status === 'Listo').length;
+      const totalProg = JIRA_DATA.tasks.filter(t => t.status === 'En curso').length;
+      const totalTodo = JIRA_DATA.tasks.filter(t => t.status === 'Por hacer').length;
+      const totalDeps = JIRA_DATA.tasks.filter(t => t.blocks.length || t.blockedBy.length).length;
+      kpiGrid.innerHTML = [
+        { label: 'Total Planificado', val: '49', sub: '10 Épicas + 39 Tareas en Jira' },
+        { label: 'Marcadas en Listo', val: String(totalDone), sub: '51% del backlog de tareas' },
+        { label: 'Tareas En Curso', val: String(totalProg), sub: 'Sprints 3 y 4 en ejecución' },
+        { label: 'Por Hacer', val: String(totalTodo), sub: 'Cierre documental y opcionales' },
+        { label: 'Cadena Crítica', val: String(totalDeps), sub: 'Tareas con bloqueos directos' }
+      ].map(k => '<div class="kpi"><span class="kpi__label">' + k.label + '</span><span class="kpi__val">' + k.val + '</span><span class="kpi__sub">' + k.sub + '</span></div>').join('');
+
+      function syncFilterChips() {
+        document.querySelectorAll('#sprintFilters .chip').forEach(b => b.classList.toggle('is-active', b.dataset.sprint === state.sprint));
+        document.querySelectorAll('#statusFilters .chip').forEach(b => b.classList.toggle('is-active', b.dataset.status === state.status));
+        document.querySelectorAll('#assigneeFilters .chip').forEach(b => b.classList.toggle('is-active', b.dataset.assignee === state.assignee));
+        document.querySelectorAll('[data-sprint-card]').forEach(c => c.classList.toggle('is-active', c.dataset.sprintCard === state.sprint));
+        document.getElementById('depToggle').classList.toggle('is-active', state.highlightDeps);
+      }
+
+      document.querySelectorAll('#sprintFilters .chip').forEach(b => b.addEventListener('click', () => { state.sprint = b.dataset.sprint; syncFilterChips(); renderGantt(); }));
+      document.querySelectorAll('#statusFilters .chip').forEach(b => b.addEventListener('click', () => { state.status = b.dataset.status; syncFilterChips(); renderGantt(); }));
+      document.querySelectorAll('#assigneeFilters .chip').forEach(b => b.addEventListener('click', () => { state.assignee = b.dataset.assignee; syncFilterChips(); renderGantt(); }));
+      epicSelect.addEventListener('change', () => { state.epic = epicSelect.value; renderGantt(); });
+      document.getElementById('prioSelect').addEventListener('change', (e) => { state.prio = e.target.value; renderGantt(); });
+      document.getElementById('depToggle').addEventListener('click', () => { state.highlightDeps = !state.highlightDeps; syncFilterChips(); renderGantt(); });
+      document.getElementById('searchInput').addEventListener('input', (e) => { state.search = e.target.value.trim().toLowerCase(); renderGantt(); });
+
+      const ganttBody = document.getElementById('ganttBody');
+      const gridBgHtml = '<div class="grid-bg">' + days.map((d, i) => '<i class="' + ((i === 6 || i === 15 || i === 21) ? 'is-sprint-end' : '') + '"></i>').join('') + '</div>';
+
+      function renderGantt() {
+        const q = state.search;
+        const filtered = JIRA_DATA.tasks.filter(t => {
+          if (state.sprint !== 'all' && t.sprintId !== state.sprint) return false;
+          if (state.status !== 'all' && t.status !== state.status) return false;
+          if (state.assignee !== 'all' && t.assignee.id !== state.assignee) return false;
+          if (state.epic !== 'all' && t.epicKey !== state.epic) return false;
+          if (state.prio !== 'all' && t.priority !== state.prio) return false;
+          if (state.highlightDeps && t.blocks.length === 0 && t.blockedBy.length === 0) return false;
+          if (q) {
+            const hay = (t.key + ' ' + t.summary + ' ' + t.epicCode + ' ' + t.assignee.name + ' ' + t.plainExplanation).toLowerCase();
+            if (!hay.includes(q)) return false;
+          }
+          return true;
+        });
+
+        state.filteredTasks = filtered;
+        const epicsShown = new Set(filtered.map(t => t.epicKey));
+        document.getElementById('visibleCounter').textContent = 'Mostrando ' + filtered.length + ' de 39 tareas en ' + epicsShown.size + ' épicas';
+
+        let htmlRows = '';
+        JIRA_DATA.epics.forEach(ep => {
+          const epTasks = filtered.filter(t => t.epicKey === ep.key);
+          if (!epTasks.length) return;
+          const eStart = dateToCol(ep.startDate) + 1;
+          const eEnd = dateToCol(ep.endDate) + 2;
+          htmlRows += '<div class="gantt-row is-epic">' +
+            '<div class="gantt-left">' +
+              '<div class="task-ident"><span class="task-key">' + ep.code + '</span><span class="task-title">' + ep.title + ' (' + ep.key + ')</span></div>' +
+              '<span style="font-family:var(--mono);font-size:0.72rem;color:var(--text-3);">' + epTasks.length + ' tareas</span>' +
+            '</div>' +
+            '<div class="gantt-right">' + gridBgHtml +
+              '<div class="bar-wrap is-epic-bar" style="grid-column:' + eStart + ' / ' + eEnd + ';">' +
+                '<span>' + ep.code + ' · ' + ep.startDate.slice(5) + ' a ' + ep.endDate.slice(5) + '</span>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+
+          epTasks.forEach(t => {
+            const cStart = dateToCol(t.startDate) + 1;
+            const cEnd = Math.max(cStart + 1, dateToCol(t.endDate) + 2);
+            const hasDep = t.blocks.length > 0 || t.blockedBy.length > 0;
+            htmlRows += '<div class="gantt-row ' + (state.highlightDeps && hasDep ? 'is-highlighted' : '') + '" data-task-key="' + t.key + '" style="cursor:pointer;">' +
+              '<div class="gantt-left">' +
+                '<div class="task-ident">' +
+                  '<span class="task-key">' + t.key + '</span>' +
+                  '<span class="task-title" title="' + t.summary + '">' + (hasDep ? '⛓️ ' : '') + t.summary + '</span>' +
+                '</div>' +
+                '<div class="task-meta">' +
+                  '<span class="prio-tag" data-prio="' + t.priority + '">' + t.priority + '</span>' +
+                  '<span class="avatar-mini" data-user="' + t.assignee.id + '" title="' + t.assignee.name + '">' + t.assignee.initials + '</span>' +
+                '</div>' +
+              '</div>' +
+              '<div class="gantt-right">' + gridBgHtml +
+                '<div class="bar-wrap" data-status="' + t.status + '" style="grid-column:' + cStart + ' / ' + cEnd + ';" title="' + t.key + ': ' + t.summary + ' (' + t.startDate + ' → ' + t.endDate + ')">' +
+                  '<span>' + t.sprintId + ' · ' + t.status + '</span>' +
+                  '<span style="font-family:var(--mono);font-size:0.66rem;opacity:0.9;">' + t.assignee.initials + '</span>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+          });
+        });
+
+        ganttBody.innerHTML = htmlRows || '<div style="padding:40px;text-align:center;color:var(--text-3);">No hay actividades que coincidan con los filtros seleccionados.</div>';
+
+        ganttBody.querySelectorAll('[data-task-key]').forEach(row => {
+          row.addEventListener('click', () => openTaskModalByKey(row.dataset.taskKey));
+        });
+      }
+
+      // Modal logic
+      const modal = document.getElementById('taskModal');
+      function openTaskModalByKey(key) {
+        const list = state.filteredTasks.length ? state.filteredTasks : JIRA_DATA.tasks;
+        const idx = list.findIndex(t => t.key === key);
+        state.activeModalIndex = idx !== -1 ? idx : 0;
+        const task = idx !== -1 ? list[idx] : JIRA_DATA.tasks.find(t => t.key === key);
+        if (!task) return;
+
+        document.getElementById('modalKey').textContent = task.key;
+        const prioEl = document.getElementById('modalPrio');
+        prioEl.textContent = task.priority;
+        prioEl.dataset.prio = task.priority;
+        document.getElementById('modalStatus').textContent = task.status;
+        document.getElementById('modalEpic').textContent = task.epicCode + ' · ' + task.epicTitle + ' (' + task.epicKey + ')';
+        document.getElementById('modalTitle').textContent = task.summary;
+        document.getElementById('modalPlain').textContent = task.plainExplanation;
+        document.getElementById('modalAssignee').textContent = task.assignee.name;
+        document.getElementById('modalRole').textContent = task.assignee.role;
+        document.getElementById('modalSprint').textContent = task.sprintId + ' (Planificación Jira)';
+        document.getElementById('modalDates').textContent = task.startDate + ' → ' + task.endDate;
+        document.getElementById('modalJiraLink').href = task.url;
+        document.getElementById('modalDesc').textContent = task.description || 'Sin descripción adicional.';
+        document.getElementById('modalDepsCount').textContent =
+          (task.blocks.length + task.blockedBy.length) ? (task.blocks.length + ' bloqueadas / ' + task.blockedBy.length + ' previas') : 'Sin bloqueos directos';
+
+        const depsSec = document.getElementById('modalDepsSection');
+        let depsHtml = '';
+        if (task.blockedBy.length) {
+          depsHtml += '<div style="margin-bottom:8px;"><span style="font-size:0.75rem;color:var(--text-3);font-weight:700;">Depende de (deben terminarse antes):</span><div class="dep-list">' +
+            task.blockedBy.map(k => '<button type="button" class="dep-chip" data-jump-key="' + k + '">⬅️ ' + k + '</button>').join('') + '</div></div>';
+        }
+        if (task.blocks.length) {
+          depsHtml += '<div><span style="font-size:0.75rem;color:var(--text-3);font-weight:700;">Bloquea a (esperan esta tarea):</span><div class="dep-list">' +
+            task.blocks.map(k => '<button type="button" class="dep-chip" data-jump-key="' + k + '">➡️ ' + k + '</button>').join('') + '</div></div>';
+        }
+        depsSec.innerHTML = depsHtml;
+        depsSec.querySelectorAll('[data-jump-key]').forEach(btn => {
+          btn.addEventListener('click', () => openTaskModalByKey(btn.dataset.jumpKey));
+        });
+
+        modal.classList.add('is-open');
+      }
+
+      document.getElementById('closeModalBtn').addEventListener('click', () => modal.classList.remove('is-open'));
+      modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('is-open'); });
+      document.getElementById('prevTaskBtn').addEventListener('click', () => {
+        const list = state.filteredTasks.length ? state.filteredTasks : JIRA_DATA.tasks;
+        state.activeModalIndex = (state.activeModalIndex - 1 + list.length) % list.length;
+        openTaskModalByKey(list[state.activeModalIndex].key);
+      });
+      document.getElementById('nextTaskBtn').addEventListener('click', () => {
+        const list = state.filteredTasks.length ? state.filteredTasks : JIRA_DATA.tasks;
+        state.activeModalIndex = (state.activeModalIndex + 1) % list.length;
+        openTaskModalByKey(list[state.activeModalIndex].key);
+      });
+      window.addEventListener('keydown', (e) => {
+        if (!modal.classList.contains('is-open')) return;
+        if (e.key === 'Escape') modal.classList.remove('is-open');
+        if (e.key === 'ArrowLeft') document.getElementById('prevTaskBtn').click();
+        if (e.key === 'ArrowRight') document.getElementById('nextTaskBtn').click();
+      });
+
+      renderGantt();
+    })();
+  </script>
+</body>
+</html>
