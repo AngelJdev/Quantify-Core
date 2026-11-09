@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="tech-dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centro Interactivo de Diagramas de Gantt (Jira + Git) | Quantify Core</title>
+  <meta name="description" content="Portal interactivo unificado con el Diagrama de Gantt de Actividades de Jira y el Diagrama de Gantt de Commits del repositorio Quantify Core.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="tech-dark"] {
+      --bg-primary: #0B0F17;
+      --bg-secondary: #151C28;
+      --bg-tertiary: #1E293B;
+      --surface-card: rgba(21, 28, 40, 0.90);
+      --surface-elevated: rgba(30, 41, 59, 0.95);
+      --surface-glass: rgba(15, 23, 42, 0.86);
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --accent-primary: #275BC0;
+      --accent-primary-hover: #3B82F6;
+      --accent-secondary: #6366F1;
+      --accent-highlight: #00F2FE;
+      --status-success: #10B981;
+      --status-warning: #F59E0B;
+      --status-danger: #EF4444;
+      --border-subtle: rgba(148, 163, 184, 0.14);
+      --border-strong: rgba(59, 130, 246, 0.40);
+      --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.55);
+    }
+
+    [data-theme="tech-light"] {
+      --bg-primary: #F8FAFC;
+      --bg-secondary: #FFFFFF;
+      --bg-tertiary: #F1F5F9;
+      --surface-card: rgba(255, 255, 255, 0.95);
+      --surface-elevated: #FFFFFF;
+      --surface-glass: rgba(255, 255, 255, 0.90);
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #64748B;
+      --accent-primary: #275BC0;
+      --accent-primary-hover: #1D4ED8;
+      --accent-secondary: #4F46E5;
+      --accent-highlight: #0284C7;
+      --status-success: #059669;
+      --status-warning: #D97706;
+      --status-danger: #DC2626;
+      --border-subtle: rgba(15, 23, 42, 0.10);
+      --border-strong: rgba(39, 91, 192, 0.35);
+      --shadow-lg: 0 16px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    [data-theme="cognitive"] {
+      --bg-primary: #0F172A;
+      --bg-secondary: #1E293B;
+      --bg-tertiary: #263449;
+      --surface-card: rgba(30, 41, 59, 0.92);
+      --surface-elevated: #283548;
+      --surface-glass: rgba(15, 23, 42, 0.88);
+      --text-primary: #F1F5F9;
+      --text-secondary: #CBD5E1;
+      --text-muted: #94A3B8;
+      --accent-primary: #38BDF8;
+      --accent-primary-hover: #7DD3FC;
+      --accent-secondary: #818CF8;
+      --accent-highlight: #2DD4BF;
+      --status-success: #34D399;
+      --status-warning: #FBBF24;
+      --status-danger: #F87171;
+      --border-subtle: rgba(203, 213, 225, 0.14);
+      --border-strong: rgba(56, 189, 248, 0.4);
+      --shadow-lg: 0 20px 45px rgba(0, 0, 0, 0.45);
+    }
+
+    [data-theme="behavioral"] {
+      --bg-primary: #070510;
+      --bg-secondary: #120E24;
+      --bg-tertiary: #1D1638;
+      --surface-card: rgba(18, 14, 36, 0.92);
+      --surface-elevated: #231B42;
+      --surface-glass: rgba(7, 5, 16, 0.88);
+      --text-primary: #FAF5FF;
+      --text-secondary: #C4B5FD;
+      --text-muted: #8B5CF6;
+      --accent-primary: #F59E0B;
+      --accent-primary-hover: #FBBF24;
+      --accent-secondary: #EC4899;
+      --accent-highlight: #00F2FE;
+      --status-success: #10B981;
+      --status-warning: #F59E0B;
+      --status-danger: #F43F5E;
+      --border-subtle: rgba(196, 181, 253, 0.15);
+      --border-strong: rgba(245, 158, 11, 0.45);
+      --shadow-lg: 0 20px 55px rgba(0, 0, 0, 0.65);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    body.is-embedded .top-navbar { display: none; }
+    body.is-embedded .main-container { padding-top: 1rem; }
+
+    .top-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--surface-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand-group { display: flex; align-items: center; gap: 0.9rem; }
+    .brand-logos { display: flex; align-items: center; gap: 0.5rem; }
+    .brand-logos img {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      object-fit: cover;
+      border: 1px solid var(--border-strong);
+    }
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .nav-actions { display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; }
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-secondary);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .nav-link:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-primary);
+    }
+
+    .theme-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: var(--bg-secondary);
+      padding: 0.25rem;
+      border-radius: 9px;
+      border: 1px solid var(--border-subtle);
+    }
+    .theme-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.73rem;
+      font-weight: 600;
+      padding: 0.35rem 0.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .theme-btn.active {
+      background: var(--accent-primary);
+      color: #FFFFFF;
+    }
+
+    .main-container {
+      max-width: 1620px;
+      margin: 0 auto;
+      padding: 1.75rem 1.75rem 3.5rem;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, rgba(39, 91, 192, 0.20) 0%, rgba(16, 185, 129, 0.12) 55%, rgba(99, 102, 241, 0.14) 100%);
+      border: 1px solid var(--border-strong);
+      border-radius: 18px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .hero-top {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    @media (max-width: 1024px) {
+      .hero-top { grid-template-columns: 1fr; }
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-highlight);
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+      font-weight: 800;
+      margin-bottom: 0.6rem;
+    }
+    .hero-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .dual-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+    }
+    @media (max-width: 680px) {
+      .dual-cards { grid-template-columns: 1fr; }
+    }
+    .explain-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1rem 1.15rem;
+    }
+    .explain-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.94rem;
+      margin-bottom: 0.35rem;
+      color: var(--text-primary);
+    }
+    .explain-card p {
+      font-size: 0.81rem;
+      color: var(--text-secondary);
+    }
+
+    .hub-tabs-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      padding: 0.75rem 1rem;
+      border-radius: 14px;
+    }
+    .hub-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .hub-tab-btn {
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 0.65rem 1.15rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hub-tab-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-primary);
+    }
+    .hub-tab-btn.active {
+      background: var(--accent-primary);
+      color: #FFFFFF;
+      border-color: var(--accent-primary);
+      box-shadow: 0 6px 20px rgba(39, 91, 192, 0.35);
+    }
+
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    .iframe-shell {
+      width: 100%;
+      height: 920px;
+      border: 1px solid var(--border-strong);
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--bg-secondary);
+      box-shadow: var(--shadow-lg);
+    }
+    .iframe-shell iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .trace-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.35rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .trace-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+      margin-bottom: 1.1rem;
+    }
+    .trace-search {
+      padding: 0.5rem 0.9rem;
+      border-radius: 9px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      min-width: 280px;
+      font-family: inherit;
+    }
+    .trace-table-wrap {
+      overflow-x: auto;
+    }
+    .trace-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .trace-table th {
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      padding: 0.75rem 0.9rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .trace-table td {
+      padding: 0.75rem 0.9rem;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: top;
+    }
+    .jira-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--accent-highlight);
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.28);
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .branch-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-subtle);
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      display: inline-block;
+      margin: 0.1rem 0.2rem 0.1rem 0;
+    }
+    .status-pill {
+      font-size: 0.71rem;
+      font-weight: 700;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .status-listo { background: rgba(16, 185, 129, 0.18); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.35); }
+    .status-curso { background: rgba(59, 130, 246, 0.18); color: #93C5FD; border: 1px solid rgba(59, 130, 246, 0.35); }
+    .status-hacer { background: rgba(148, 163, 184, 0.18); color: #CBD5E1; border: 1px solid rgba(148, 163, 184, 0.35); }
+  </style>
+</head>
+<body>
+  <header class="top-navbar">
+    <div class="brand-group">
+      <div class="brand-logos">
+        <img src="../../assets/images/productLogo.jpeg" alt="Quantify Logo">
+        <img src="../../assets/images/enterpriseLogo.jpeg" alt="Codevost Logo">
+      </div>
+      <div>
+        <div class="brand-title">Quantify Core · Centro Interactivo de Cronogramas Gantt</div>
+        <div class="brand-subtitle">Planificación en Jira (49 Actividades) + Ejecución en Git (17 Ramas y 231 Commits)</div>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <a href="../../index.html" class="nav-link">🏠 Volver al Index Principal</a>
+      <a href="gantt-jira.html" class="nav-link">📋 Gantt Jira (Pantalla Completa)</a>
+      <a href="gantt-commits.html" class="nav-link">🌿 Gantt Commits (Pantalla Completa)</a>
+      <a href="README.md" class="nav-link">📘 Documentación Sencilla</a>
+      <div class="theme-selector">
+        <button class="theme-btn active" data-theme-val="tech-dark">Oscuro</button>
+        <button class="theme-btn" data-theme-val="tech-light">Claro</button>
+        <button class="theme-btn" data-theme-val="cognitive">Cognitivo</button>
+        <button class="theme-btn" data-theme-val="behavioral">Conductual</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <section class="hero-section">
+      <div class="hero-top">
+        <div>
+          <span class="hero-badge">🚀 CRONOGRAMAS INTERACTIVOS OFICIALES · QUANTIFY CORE</span>
+          <h1 class="hero-title">Del Plan de Trabajo en Jira al Código Real en Git</h1>
+          <p class="hero-desc">
+            Bienvenido al centro visual de seguimiento de <strong>Quantify Core</strong>. Aquí sustituimos las imágenes estáticas tradicionales por dos cronogramas vivos y totalmente interactivos que cualquier persona puede explorar sin conocimientos técnicos.
+          </p>
+        </div>
+        <div class="dual-cards">
+          <div class="explain-card">
+            <h3>📋 1. Gantt de Actividades de Jira</h3>
+            <p>Muestra <strong>qué tareas se planearon</strong> en los 4 Sprints, quién es responsable de cada una, qué tareas están listas y cuáles dependen de otras.</p>
+          </div>
+          <div class="explain-card">
+            <h3>🌿 2. Gantt de Commits del Repositorio</h3>
+            <p>Muestra <strong>cuándo y dónde se escribió el código real</strong> dentro de las 17 ramas del repositorio, con los 231 guardados hechos por el equipo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="hub-tabs-bar">
+      <div class="hub-tabs" role="tablist">
+        <button class="hub-tab-btn active" data-tab="tab-jira">📋 1. Diagrama de Gantt de Jira (Actividades)</button>
+        <button class="hub-tab-btn" data-tab="tab-commits">🌿 2. Diagrama de Gantt de Git (Commits y Ramas)</button>
+        <button class="hub-tab-btn" data-tab="tab-trace">🔗 3. Puente Jira ↔ Git (Trazabilidad en Lenguaje Sencillo)</button>
+      </div>
+      <div>
+        <a id="openDirectBtn" href="gantt-jira.html" target="_blank" class="nav-link">↗ Abrir vista actual en pestaña completa</a>
+      </div>
+    </div>
+
+    <section class="tab-pane active" id="tab-jira">
+      <div class="iframe-shell">
+        <iframe id="iframeJira" src="gantt-jira.html?embed=1" title="Diagrama de Gantt Interactivo de Jira"></iframe>
+      </div>
+    </section>
+
+    <section class="tab-pane" id="tab-commits">
+      <div class="iframe-shell">
+        <iframe id="iframeCommits" src="gantt-commits.html?embed=1" title="Diagrama de Gantt Interactivo de Commits Git"></iframe>
+      </div>
+    </section>
+
+    <section class="tab-pane" id="tab-trace">
+      <div class="trace-card">
+        <div class="trace-controls">
+          <div>
+            <h2 style="font-family:'Outfit',sans-serif;font-size:1.2rem;">🔗 Tabla Interactiva: Cómo cada Tarea de Jira se convierte en Commits de Código</h2>
+            <p style="font-size:0.82rem;color:var(--text-secondary);">Filtra por integrante o escribe cualquier palabra para ver qué rama y cuántos commits respaldan cada actividad.</p>
+          </div>
+          <input type="search" id="traceSearch" class="trace-search" placeholder="Filtrar por QUANCORE, responsable, rama o explicación...">
+        </div>
+        <div class="trace-table-wrap">
+          <table class="trace-table">
+            <thead>
+              <tr>
+                <th>Código Jira</th>
+                <th>Sprint</th>
+                <th>Responsable</th>
+                <th>Estado</th>
+                <th>Actividad y Explicación Sencilla</th>
+                <th>Rama(s) en Git</th>
+                <th>Commits Vinculados</th>
+              </tr>
+            </thead>
+            <tbody id="traceTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const TRACE_ROWS = [{"key":"QUANCORE-11","summary":"Definir requisitos P0/P1/P2 y criterios de demo","epicKey":"QUANCORE-1","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"Listo","branchNames":["develop / main"],"commitCount":0},{"key":"QUANCORE-12","summary":"Actualizar README V2, arquitectura y decisiones técnicas","epicKey":"QUANCORE-1","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"Listo","branchNames":["develop / main"],"commitCount":0},{"key":"QUANCORE-13","summary":"Documentar API, pruebas, evidencias y presentación final","epicKey":"QUANCORE-1","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"Por hacer","branchNames":["docs/QUANCORE-13-documentacion-proyecto"],"commitCount":6},{"key":"QUANCORE-14","summary":"Organizar estructura de repositorios, ramas y entornos","epicKey":"QUANCORE-2","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"Listo","branchNames":["main","develop"],"commitCount":0},{"key":"QUANCORE-15","summary":"Crear Docker Compose de API, Keycloak y bases de datos","epicKey":"QUANCORE-2","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"Listo","branchNames":["develop / main"],"commitCount":0},{"key":"QUANCORE-16","summary":"Publicar entornos web y API de demostración","epicKey":"QUANCORE-2","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"Por hacer","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-17","summary":"Configurar Keycloak, realm, cliente web/móvil y roles","epicKey":"QUANCORE-3","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"Listo","branchNames":["feature/QUANCORE-17-keycloak-iam"],"commitCount":8},{"key":"QUANCORE-18","summary":"Proteger endpoints y validar JWT/JWKS en backend","epicKey":"QUANCORE-3","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"Listo","branchNames":["develop / main"],"commitCount":0},{"key":"QUANCORE-19","summary":"Integrar inicio/cierre de sesión en React y Flutter","epicKey":"QUANCORE-3","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"Listo","branchNames":["develop / main"],"commitCount":0},{"key":"QUANCORE-20","summary":"Diseñar modelo relacional de usuarios, hábitos y registros","epicKey":"QUANCORE-4","assigneeId":{"id":"jesus","name":"Jesús Alejandro Artiaga Morales","shortName":"Jesús Artiaga","role":"Administrador de BD","initials":"JA"},"status":"Listo","branchNames":["feature/p0-modelo-relacional-core"],"commitCount":0},{"key":"QUANCORE-21","summary":"Implementar migraciones, persistencia y semillas de prueba","epicKey":"QUANCORE-4","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"Listo","branchNames":["feature/QUANCORE-21-23-backend-persistencia"],"commitCount":4},{"key":"QUANCORE-22","summary":"Crear esquema de eventos/telemetría MongoDB y auditoría","epicKey":"QUANCORE-4","assigneeId":{"id":"al","name":"Al Farias Leyva","shortName":"Al Farias","role":"Desarrollador Frontend","initials":"AF"},"status":"Listo","branchNames":["develop / main"],"commitCount":6},{"key":"QUANCORE-23","summary":"Implementar endpoints de hábitos y categorías con validación","epicKey":"QUANCORE-5","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"Listo","branchNames":["feature/QUANCORE-21-23-backend-persistencia"],"commitCount":2},{"key":"QUANCORE-24","summary":"Implementar cumplimiento diario, metas y cálculo de rachas","epicKey":"QUANCORE-5","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"Listo","branchNames":["feature/QUANCORE-24-rachas-idempotencia"],"commitCount":19},{"key":"QUANCORE-25","summary":"Exponer estadísticas y dashboard desde datos reales","epicKey":"QUANCORE-5","assigneeId":{"id":"al","name":"Al Farias Leyva","shortName":"Al Farias","role":"Desarrollador Frontend","initials":"AF"},"status":"Listo","branchNames":["develop / main"],"commitCount":5},{"key":"QUANCORE-26","summary":"Diseñar interfaz Quantify, navegación y componentes reutilizables","epicKey":"QUANCORE-6","assigneeId":{"id":"al","name":"Al Farias Leyva","shortName":"Al Farias","role":"Desarrollador Frontend","initials":"AF"},"status":"Listo","branchNames":["feature/QUANCORE-26-documentacion-prototipos","docs/auth-flow-ux-baseline"],"commitCount":30},{"key":"QUANCORE-27","summary":"Conectar CRUD y seguimiento diario a la API","epicKey":"QUANCORE-6","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"Listo","branchNames":["develop / main"],"commitCount":0},{"key":"QUANCORE-28","summary":"Construir dashboard, gráficas y experiencia PWA","epicKey":"QUANCORE-6","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"En curso","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-29","summary":"Crear app Flutter con rutas, diseño y configuración de API","epicKey":"QUANCORE-7","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"Listo","branchNames":["feature/QUANCORE-29-crear-app-flutter"],"commitCount":9},{"key":"QUANCORE-30","summary":"Implementar autenticación y gestión de hábitos desde Flutter","epicKey":"QUANCORE-7","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"Listo","branchNames":["develop / main"],"commitCount":0},{"key":"QUANCORE-31","summary":"Implementar check-in diario, historial y estadísticas móviles","epicKey":"QUANCORE-7","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"En curso","branchNames":["feature/QUANCORE-31-checkin-estadisticas-movil"],"commitCount":6},{"key":"QUANCORE-32","summary":"Implementar gamificación basada en rachas y reglas verificables","epicKey":"QUANCORE-8","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"Listo","branchNames":["feature/QUANCORE-32-gamificacion-logros"],"commitCount":8},{"key":"QUANCORE-33","summary":"Crear servicio FastAPI de analítica con indicador orientativo","epicKey":"QUANCORE-8","assigneeId":{"id":"jesus","name":"Jesús Alejandro Artiaga Morales","shortName":"Jesús Artiaga","role":"Administrador de BD","initials":"JA"},"status":"Por hacer","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-34","summary":"Evaluar modelo ML/LLM opcional y documentar límites","epicKey":"QUANCORE-8","assigneeId":{"id":"unassigned","name":"Sin asignar","shortName":"Sin asignar","role":"Pendiente de asignación","initials":"SA"},"status":"Por hacer","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-35","summary":"Definir formato seguro de telemetría y simular ingestión","epicKey":"QUANCORE-9","assigneeId":{"id":"al","name":"Al Farias Leyva","shortName":"Al Farias","role":"Desarrollador Frontend","initials":"AF"},"status":"Listo","branchNames":["feature/QUANCORE-35-telemetria-ingestion"],"commitCount":4},{"key":"QUANCORE-36","summary":"Integrar lectura Wear OS real si existen reloj y permisos","epicKey":"QUANCORE-9","assigneeId":{"id":"unassigned","name":"Sin asignar","shortName":"Sin asignar","role":"Pendiente de asignación","initials":"SA"},"status":"Por hacer","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-37","summary":"Ejecutar pruebas unitarias y de API sobre rutas críticas","epicKey":"QUANCORE-10","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"En curso","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-38","summary":"Ejecutar pruebas end-to-end web, móvil y backend","epicKey":"QUANCORE-10","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"En curso","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-39","summary":"Corregir errores bloqueantes y validar despliegue final","epicKey":"QUANCORE-10","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"En curso","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-40","summary":"Realizar demo y cierre académico V2","epicKey":"QUANCORE-10","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"En curso","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-41","summary":"Inicializar API Node.js/Express con healthcheck y OpenAPI","epicKey":"QUANCORE-5","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"Listo","branchNames":["feature/QC-41-inicializar-api"],"commitCount":5},{"key":"QUANCORE-42","summary":"Inicializar proyecto React/Vite y conexión HTTP configurable","epicKey":"QUANCORE-6","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"En curso","branchNames":["feature/QUANCORE-42-scaffold-web","feature/QUANCORE-42-consolidacion-frontend"],"commitCount":10},{"key":"QUANCORE-43","summary":"Conciliar arquitectura de Quantify sin Unity y decidir entorno de entrega","epicKey":"QUANCORE-2","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"En curso","branchNames":["En preparación"],"commitCount":1},{"key":"QUANCORE-44","summary":"Versionar scripts del entorno de liberación y ensayar restauración de datos","epicKey":"QUANCORE-4","assigneeId":{"id":"al","name":"Al Farias Leyva","shortName":"Al Farias","role":"Desarrollador Frontend","initials":"AF"},"status":"En curso","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-45","summary":"Configurar pipeline de liberación con build y scripts de pruebas reproducibles","epicKey":"QUANCORE-2","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"En curso","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-46","summary":"Instrumentar API y analítica con métricas, logs seguros y correlación","epicKey":"QUANCORE-5","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"En curso","branchNames":["feature/QUANCORE-46-metricas-observabilidad"],"commitCount":9},{"key":"QUANCORE-47","summary":"Definir niveles de servicio, métricas y protocolo de evaluación del rendimiento","epicKey":"QUANCORE-10","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"En curso","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-48","summary":"Configurar Prometheus, Grafana, Loki y probar alertas de disponibilidad","epicKey":"QUANCORE-2","assigneeId":{"id":"angel","name":"Ángel de Jesús Baños Telles","shortName":"Ángel Baños","role":"Líder de Proyecto","initials":"AB"},"status":"En curso","branchNames":["En preparación"],"commitCount":0},{"key":"QUANCORE-49","summary":"Medir rendimiento del entorno de entrega y ejecutar plan de mejora basado en resultados","epicKey":"QUANCORE-10","assigneeId":{"id":"francisco","name":"Francisco García García","shortName":"Francisco García","role":"Desarrollador Backend","initials":"FG"},"status":"En curso","branchNames":["En preparación"],"commitCount":0}];
+
+    function renderTraceTable(query = '') {
+      const q = query.toLowerCase().trim();
+      const rows = TRACE_ROWS.filter(r => {
+        if (!q) return true;
+        return [r.key, r.summary, r.plainDesc, r.assigneeName, r.sprint, ...r.branchNames].join(' ').toLowerCase().includes(q);
+      });
+
+      const tbody = document.getElementById('traceTableBody');
+      tbody.innerHTML = rows.map(r => {
+        const stClass = r.status === 'Listo' ? 'status-listo' : (r.status === 'En curso' ? 'status-curso' : 'status-hacer');
+        return `
+          <tr>
+            <td><span class="jira-badge">${r.key}</span></td>
+            <td style="font-family:'JetBrains Mono',monospace;font-weight:700;">${r.sprint}</td>
+            <td style="font-weight:600;">${r.assigneeName}</td>
+            <td><span class="status-pill ${stClass}">${r.status}</span></td>
+            <td>
+              <div style="font-weight:700;margin-bottom:0.2rem;">${r.summary}</div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);">${r.plainDesc}</div>
+            </td>
+            <td>${r.branchNames.map(b => `<span class="branch-pill">🌿 ${b}</span>`).join('')}</td>
+            <td>
+              <strong style="font-family:'JetBrains Mono',monospace;color:var(--accent-highlight);">${r.commitCount} commit(s) directos</strong>
+              <div style="font-size:0.74rem;color:var(--text-muted);margin-top:0.2rem;">${r.start} → ${r.end}</div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    document.getElementById('traceSearch').addEventListener('input', (e) => {
+      renderTraceTable(e.target.value);
+    });
+
+    const openDirectBtn = document.getElementById('openDirectBtn');
+    document.querySelectorAll('.hub-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.hub-tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = btn.getAttribute('data-tab');
+        document.getElementById(target).classList.add('active');
+
+        if (target === 'tab-jira') {
+          openDirectBtn.href = 'gantt-jira.html';
+          openDirectBtn.textContent = '↗ Abrir Gantt de Jira en pestaña completa';
+        } else if (target === 'tab-commits') {
+          openDirectBtn.href = 'gantt-commits.html';
+          openDirectBtn.textContent = '↗ Abrir Gantt de Commits en pestaña completa';
+        } else {
+          openDirectBtn.href = 'README.md';
+          openDirectBtn.textContent = '📘 Abrir Guía Explicativa Completa';
+        }
+      });
+    });
+
+    function applyTheme(theme) {
+      if (!theme) return;
+      document.documentElement.setAttribute('data-theme', theme);
+      try { localStorage.setItem('qc-theme', theme); } catch (_) {}
+      document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-theme-val') === theme);
+      });
+      ['iframeJira', 'iframeCommits'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.contentWindow) {
+          el.contentWindow.postMessage({ type: 'qc-theme-change', theme }, '*');
+        }
+      });
+    }
+
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyTheme(btn.getAttribute('data-theme-val')));
+    });
+
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'qc-theme-change' && e.data.theme) {
+        applyTheme(e.data.theme);
+      }
+    });
+
+    if (new URLSearchParams(window.location.search).get('embed') === '1') {
+      document.body.classList.add('is-embedded');
+    }
+
+    try {
+      const saved = localStorage.getItem('qc-theme');
+      if (saved) applyTheme(saved);
+    } catch (_) {}
+
+    renderTraceTable();
+  </script>
+</body>
+</html>
