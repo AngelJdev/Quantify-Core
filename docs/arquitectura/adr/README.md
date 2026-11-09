@@ -6,6 +6,7 @@ Un ADR conserva el motivo de una decisión que afecta arquitectura, datos, segur
 |---|---|---|
 | [0001](0001-limites-y-propiedad-de-datos.md) | Límites de componentes y propiedad de datos | Propuesto |
 | [0002](0002-simulacion-telemetria-aislada.md) | Aislamiento de ingesta sintética QUANCORE-35 hasta integrar QUANCORE-22/43 | Propuesto; prueba técnica local |
+| [0003](0003-proyeccion-mongodb-telemetria-sintetica.md) | Proyección MongoDB y separación de autoridad QUANCORE-22 | Propuesto; revisión QUANCORE-43 pendiente |
 
 Copiar la [plantilla](plantilla.md), usar el siguiente número libre y abrir PR hacia `develop` desde la rama correspondiente al cambio. Una propuesta puramente documental usa `docs/<tema>`; una decisión incluida en una funcionalidad puede acompañar su rama y PR.
 

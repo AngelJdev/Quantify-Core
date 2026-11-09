@@ -1,6 +1,6 @@
 # Contratos de eventos y trabajos
 
-> **Estado: diseño.** No hay un broker elegido, esquemas desplegados ni consumidores implementados. Esta carpeta será la fuente canónica de JSON Schemas de eventos; las explicaciones de este documento no sustituyen esos archivos.
+> **Estado: diseño.** No hay un broker elegido. QUANCORE-22 añade [esquemas canónicos de proyección sintética](telemetry/README.md) y entrega a MongoDB desde outbox PostgreSQL; no es un broker desplegado. Esta carpeta será la fuente canónica de JSON Schemas de eventos; las explicaciones de este documento no sustituyen esos archivos.
 
 ## Qué se publica
 
