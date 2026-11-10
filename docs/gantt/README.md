@@ -130,3 +130,20 @@ Para mantener todo ordenado y fácil de mantener, este sitio interactivo se orga
 | [`gantt-jira-preview.png`](gantt-jira-preview.png) | Imagen de alta resolución del Diagrama de Gantt de Jira utilizada como vista previa en el README principal. |
 | [`gantt-commits-preview.png`](gantt-commits-preview.png) | Imagen de alta resolución del Diagrama de Gantt de Commits utilizada como vista previa en el README principal. |
 | [`README.md`](README.md) | Esta guía explicativa redactada sin tecnicismos para cualquier lector. |
+
+---
+
+## 7. Preguntas frecuentes para usuarios que recién conocen el proyecto
+
+### ¿Necesito instalar algún programa especial para ver los diagramas interactivos?
+No. No necesitas instalar absolutamente nada. Todas las páginas están hechas para abrirse directamente en cualquier navegador de internet (como Google Chrome, Microsoft Edge, Firefox o Safari), tanto desde una computadora como desde una tableta o teléfono celular.
+
+### ¿Qué pasa si hago clic en los botones o filtros? ¿Puedo descomponer algo por error?
+No te preocupes: **nada de lo que toques en estas páginas puede borrar ni desconfigurar el proyecto**. Los botones de búsqueda, los filtros por persona y las ventanas de detalle son únicamente para que explores la información cómodamente. Si en algún momento quieres regresar a la vista inicial con todas las barras visibles, basta con hacer clic en el botón **Todos** o recargar la página.
+
+### ¿Por qué una misma actividad aparece tanto en el Gantt de Jira como en el Gantt de Commits?
+Porque muestran las dos caras de una misma moneda:
+- En el **Gantt de Jira** ves la **promesa o tarea asignada** (por ejemplo: *"QUANCORE-24: Calcular rachas diarias de hábitos"*).
+- En el **Gantt de Commits** ves la **evidencia real del trabajo hecho** (por ejemplo: la rama `feature/QUANCORE-24-rachas-idempotencia` con sus 7 guardados reales de código hechos por Francisco García entre el 25 y el 26 de octubre).
+De esa manera, cualquier persona puede comprobar que lo que se planeó en el calendario realmente fue construido en el repositorio.
+
