@@ -1321,6 +1321,39 @@
             { nombre: 'Documentación técnica del examen', ruta: 'docs/examen/README.md', url: REPO + 'docs/examen/README.md', tag: 'MD' }
           ],
           conclusion: 'Se formalizó la arquitectura de software completa de Quantify Core, garantizando escalabilidad, resiliencia ante desconexiones y explicabilidad de IA para la formación sustentable de hábitos.'
+        },
+        {
+          id: 'gantt-interactivo',
+          numero: 'CR',
+          titulo: 'Cronogramas Gantt (Jira y Commits Git)',
+          tipo: 'Planificación y Trazabilidad',
+          estatus: 'Terminado',
+          firmas: '231 Commits',
+          carpeta: 'docs/gantt',
+          descripcion: 'Sitio interactivo oficial que reemplaza las imágenes estáticas de Gantt por dos cronogramas vivos: uno conectado a las 49 actividades oficiales de Jira (10 Épicas, 4 Sprints y 39 Tareas) y otro conectado en tiempo real a las 17 ramas y 231 commits del repositorio Git, con explicación en lenguaje sencillo para cualquier usuario.',
+          accion: { label: 'Abrir cronogramas interactivos', url: 'docs/gantt/index.html' },
+          documentacion: REPO + 'docs/gantt/README.md',
+          objetivos: [
+            'Visualizar de forma interactiva las 10 Épicas, 4 Sprints y 39 Tareas de Jira con filtros por etapa, estado, responsable y dependencias.',
+            'Explorar cronológicamente las 17 ramas del repositorio Git y los 231 commits realizados por los 4 integrantes del equipo.',
+            'Conectar cada actividad planeada en Jira con la rama y los guardados reales de código en Git mediante una matriz interactiva.',
+            'Explicar cada tarea, rama y commit en lenguaje cotidiano y sin tecnicismos para que cualquier persona comprenda el avance del proyecto.'
+          ],
+          entregables: [
+            'Portal unificado de cronogramas interactivos (docs/gantt/index.html) con 4 temas visuales adaptativos.',
+            'Diagrama de Gantt interactivo conectado a las actividades de Jira (docs/gantt/gantt-jira.html).',
+            'Diagrama de Gantt interactivo conectado a los commits y ramas del repositorio (docs/gantt/gantt-commits.html).',
+            'Datasets estructurados JSON y guía explicativa redactada sin palabras técnicas (docs/gantt/README.md).'
+          ],
+          archivos: [
+            { nombre: 'Centro Unificado de Cronogramas Gantt', ruta: 'docs/gantt/index.html', url: 'docs/gantt/index.html', tag: 'HTML' },
+            { nombre: 'Gantt Interactivo de Actividades Jira', ruta: 'docs/gantt/gantt-jira.html', url: 'docs/gantt/gantt-jira.html', tag: 'HTML' },
+            { nombre: 'Gantt Interactivo de Commits y Ramas Git', ruta: 'docs/gantt/gantt-commits.html', url: 'docs/gantt/gantt-commits.html', tag: 'HTML' },
+            { nombre: 'Guía sencilla sin tecnicismos', ruta: 'docs/gantt/README.md', url: REPO + 'docs/gantt/README.md', tag: 'MD' },
+            { nombre: 'Dataset de Actividades de Jira', ruta: 'docs/gantt/data/jira-activities.json', url: 'docs/gantt/data/jira-activities.json', tag: 'JSON' },
+            { nombre: 'Dataset de Commits y Ramas Git', ruta: 'docs/gantt/data/git-commits.json', url: 'docs/gantt/data/git-commits.json', tag: 'JSON' }
+          ],
+          conclusion: 'Se integró la trazabilidad completa entre la planeación de Jira y el historial real de commits en Git dentro de un sitio interactivo con la identidad visual de Quantify Core y documentación accesible para todo público.'
         }
       ];
 
