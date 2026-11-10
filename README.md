@@ -35,6 +35,10 @@
 - [Examen de arquitectura — Plano interactivo](https://angeljesus13.github.io/Quantify-Core/docs/examen/index.html)
 - [Práctica 07 — Prototipo Interactivo de Sketches](https://angeljesus13.github.io/Quantify-Core/docs/practica-07/)
 - [Práctica 07 — Mapa de Navegación de Sketches](https://angeljesus13.github.io/Quantify-Core/docs/practica-07/navegacion.html)
+- [Cronogramas Gantt Interactivos — Portal Unificado (Jira + Git)](docs/gantt/index.html)
+- [Diagrama de Gantt Interactivo de Actividades en Jira](docs/gantt/gantt-jira.html)
+- [Diagrama de Gantt Interactivo de Commits y Ramas del Repositorio](docs/gantt/gantt-commits.html)
+- [Guía Sencilla sin Tecnicismos de los Diagramas de Gantt](docs/gantt/README.md)
 
 ## Documentación para desarrollar
 
@@ -340,13 +344,28 @@ El equipo deberá validar la normativa y las políticas institucionales aplicabl
 
 Las fechas y responsables se gestionarán en Jira. Este roadmap expresa orden y criterios de avance, no compromisos de entrega.
 
-### Diagrama de Gantt en Jira
+### Diagramas de Gantt Interactivos (Actividades de Jira y Commits del Repositorio)
 
-El cronograma del proyecto se organiza en Jira por sprints y actividades. Estas dos capturas muestran la planificación en formato de Gantt: la primera presenta el arranque de los trabajos y la segunda continúa hasta las etapas de integración y entrega. Para consultar fechas, asignaciones y avances vigentes, revisar Jira; las capturas muestran el plan al momento de tomarlas.
+Para que cualquier persona pueda conocer el avance real de **Quantify Core** de forma visual, sencilla y sin necesidad de saber programación, sustituimos las capturas fijas tradicionales por un **[Centro Interactivo de Cronogramas Gantt](docs/gantt/index.html)** con identidad visual corporativa, cuatro temas de color adaptables y explicaciones en lenguaje cotidiano. Puedes consultar también la **[Guía Sencilla Paso a Paso (`docs/gantt/README.md`)](docs/gantt/README.md)**.
 
-![Diagrama de Gantt de Quantify Core en Jira: inicio de los sprints y actividades de documentación, arquitectura, identidad, datos, API, web, móvil, IA, Wear OS y pruebas.](gannt.png)
+El sitio interactivo se divide en dos grandes calendarios visuales (haz clic sobre cualquiera de las imágenes para abrir la versión interactiva correspondiente):
 
-![Continuación del diagrama de Gantt de Quantify Core en Jira: sprints de backend, integración y entrega, con las actividades del proyecto.](gannt2.png)
+#### 1. Diagrama de Gantt Conectado a las Actividades de Jira (Lo que planeamos hacer)
+
+Este primer calendario muestra las **49 actividades oficiales** registradas en nuestro tablero de organización **Jira**, agrupadas en **10 grandes temas (Épicas)** y distribuidas a lo largo de **4 etapas semanales de trabajo (Sprints 1 al 4)**.
+- En la versión interactiva ([`docs/gantt/gantt-jira.html`](docs/gantt/gantt-jira.html)) puedes filtrar por etapa semanal, por estado de avance (**Listo** en verde, **En curso** en azul o **Por hacer** en gris) y por integrante del equipo (**Ángel Baños**, **Francisco García**, **Al Farias** o **Jesús Artiaga**).
+- Al hacer clic sobre cualquier barra o tarea, se abre una tarjeta que explica con palabras sencillas qué hace esa actividad, quién está a cargo y qué otras tareas dependen de ella.
+
+[![Diagrama de Gantt Interactivo de Quantify Core conectado a las actividades, épicas y sprints de Jira](docs/gantt/gantt-jira-preview.png)](docs/gantt/gantt-jira.html)
+
+#### 2. Diagrama de Gantt Conectado a los Commits y Ramas del Repositorio (Lo que realmente ya construimos y guardamos)
+
+Este segundo calendario muestra el trabajo real de código guardado día por día dentro del almacén del proyecto (**Repositorio Git**), abarcando las **17 mesas de trabajo independientes (ramas)** y los **231 guardados de código (commits)** realizados por todo el equipo.
+- Cada fila representa una rama de trabajo separada donde un integrante construye una función sin desordenar el sistema principal.
+- Cada círculo numerado indica exactamente cuántos guardados reales de código se hicieron en esa fecha.
+- En la versión interactiva ([`docs/gantt/gantt-commits.html`](docs/gantt/gantt-commits.html)) puedes hacer clic en cualquier integrante, rama o círculo numerado para leer una explicación sencilla y sin palabras técnicas de qué se mejoró en cada guardado y abrir su registro directo en GitHub.
+
+[![Diagrama de Gantt Interactivo de Quantify Core conectado a las ramas y commits reales del repositorio Git](docs/gantt/gantt-commits-preview.png)](docs/gantt/gantt-commits.html)
 
 ### Fase 0 — Definición
 
@@ -421,7 +440,8 @@ Quantify-Core/
 │   ├── despliegue/
 │   ├── Practica04/
 │   ├── Practica05/
-│   └── practica-07/
+│   ├── practica-07/
+│   └── gantt/                  # Cronogramas Gantt interactivos (Jira + Commits Git)
 ├── assets/
 │   └── images/                 # Logos y recursos visuales
 ├── tests/                      # Pruebas de integración y sistema
@@ -460,6 +480,7 @@ La documentación general se organiza en [docs/](docs/), separando el producto y
 | Práctica 05 | [Diagrama de roles de usuario](https://angeljesus13.github.io/Quantify-Core/docs/Practica05/diagrama-roles-quantify.html) · [Doc](docs/Practica05/README.md) | Diagrama interactivo de roles de usuario del proyecto | 15 | Terminado |
 | Práctica 07 | [Prototipo interactivo](https://angeljesus13.github.io/Quantify-Core/docs/practica-07/) · [Mapa de navegación](https://angeljesus13.github.io/Quantify-Core/docs/practica-07/navegacion.html) · [Doc](docs/practica-07/README.md) | Prototipo interactivo de navegación de sketches para Usuario y Administrador en móvil y PWA | 20 | Terminado |
 | Examen de arquitectura | [Plano interactivo](https://angeljesus13.github.io/Quantify-Core/docs/examen/index.html) · [Doc](docs/examen/README.md) | Entregable académico de arquitectura; sus alternativas no sustituyen la base tecnológica de este README | — | Terminado |
+| Cronogramas Gantt Interactivos | [Portal Unificado](docs/gantt/index.html) · [Gantt Jira](docs/gantt/gantt-jira.html) · [Gantt Commits](docs/gantt/gantt-commits.html) · [Doc sencilla](docs/gantt/README.md) | Sitio interactivo conectado a las 49 actividades de Jira y a las 17 ramas / 231 commits del repositorio con explicación sin tecnicismos | 231 | Terminado |
 
 Los modelos, diagramas y prototipos interactivos enlazan a su versión en **GitHub Pages**. Los enlaces de documentación técnica dirigen a los archivos correspondientes en el repositorio.
 
