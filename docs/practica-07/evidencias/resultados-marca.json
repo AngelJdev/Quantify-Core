@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-12",
+  "browser": "157.0.4341.46",
+  "pages": 4,
+  "widths": [
+    1440,
+    390
+  ],
+  "logo": "loaded",
+  "font": "Inter local",
+  "themes": [
+    "dark",
+    "light"
+  ],
+  "archify": "original loaded",
+  "pageErrors": []
+}
