@@ -276,6 +276,14 @@ El mapa complementario, la especificación preparada y el prompt propuesto no su
 
 ## Proceso, decisiones y prompts
 
+### Identidad visual del sitio · 12 de noviembre de 2026
+
+Se personalizaron la portada, las lecturas, la galería y el explorador con el logo existente de Quantify, Inter local y los colores de `packages/design-tokens/themes.css`. La interfaz comparte encabezado, temas oscuro/claro, tarjetas y jerarquía visual. Los PNG/SVG de sketches y el estilo del prototipo se conservaron.
+
+El acceso a [Archify interactivo](archify.html) aparece en el encabezado común, en la portada y en la sección del portal. Su página carga directamente el HTML original en una vista amplia, con acceso a pantalla completa y al mapa ampliado. Esto mejora su visibilidad; no se presenta como una nueva generación del artefacto.
+
+Validación: cinco comprobaciones del portal y ocho del explorador aprobadas. Se revisaron además portada, guía, mapa y Archify a 390/1440 píxeles, carga de logo/fuente, cambio de tema y carga del original, sin desbordamientos ni errores locales. [Informe visual](evidencias/resultados-marca.json) · [Portada](evidencias/marca-entrega-1440.png) · [Guía](evidencias/marca-revision-1440.png) · [Archify móvil](evidencias/marca-archify-390.png).
+
 ### Integración en el portal · 12 de noviembre de 2026
 
 La sección `#practica-07` del portal abre la guía de quince puntos, el mapa, la galería, el prototipo, las fichas y los resultados como vistas del mismo sitio. Se retiraron de esos accesos las URLs de archivos en GitHub y las etiquetas HTML/MD. El mapa parte de las 33 pantallas y dibuja las 131 transiciones; las salidas seleccionadas se resaltan sobre las demás.
