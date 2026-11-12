@@ -1,0 +1,15 @@
+{
+  "screens": 33,
+  "requiredGeneral": 9,
+  "additional": 24,
+  "pngExports": 66,
+  "editableSVG": 66,
+  "dimensions": {
+    "movil": "390x780",
+    "pwa": "1040x780"
+  },
+  "transitions": 131,
+  "localDocumentsChecked": 5,
+  "missingLocalLinks": [],
+  "scope": "Integridad local; no valida esquema Archify ni publicación remota."
+}

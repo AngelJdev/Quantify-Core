@@ -27,14 +27,16 @@ Estas carpetas organizan la lectura solicitada. Los requisitos, reglas y contrat
 
 ## Entregables interactivos en vivo (GitHub Pages)
 
-[Galería visual de Quantify Core](https://angeljesus13.github.io/Quantify-Core/docs/GUI/) · [Documentación completa de diseño](GUI/README.md). Cuatro lienzos de identidad y prototipos en tres fidelidades, con la familia Inter unificada.
+**Práctica 07 · revisión de la rama actual:** [Guía de entrega](practica-07/README.md) · [33 fichas y bocetos](practica-07/README.md#fichas) · [Matriz de cumplimiento](practica-07/README.md#cumplimiento). La nueva entrada `practica-07/entrega.html` reúne la galería, el prototipo, los mapas y las evidencias; consultar el README para abrirla localmente antes de su publicación.
 
-- [Portal principal](https://angeljesus13.github.io/Quantify-Core/)
-- [Práctica 04 — Business Model Canvas Interactivo](https://angeljesus13.github.io/Quantify-Core/docs/Practica04/business-model-canvas.html)
-- [Práctica 05 — Diagrama de Roles de Usuario Interactivo](https://angeljesus13.github.io/Quantify-Core/docs/Practica05/diagrama-roles-quantify.html)
-- [Examen de arquitectura — Plano interactivo](https://angeljesus13.github.io/Quantify-Core/docs/examen/index.html)
-- [Práctica 07 — Prototipo Interactivo de Sketches](https://angeljesus13.github.io/Quantify-Core/docs/practica-07/)
-- [Práctica 07 — Mapa de Navegación de Sketches](https://angeljesus13.github.io/Quantify-Core/docs/practica-07/navegacion.html)
+[Galería visual de Quantify Core](https://angeljdev.github.io/Quantify-Core/docs/GUI/) · [Documentación completa de diseño](GUI/README.md). Cuatro lienzos de identidad y prototipos en tres fidelidades, con la familia Inter unificada.
+
+- [Portal principal](https://angeljdev.github.io/Quantify-Core/)
+- [Práctica 04 — Business Model Canvas Interactivo](https://angeljdev.github.io/Quantify-Core/docs/Practica04/business-model-canvas.html)
+- [Práctica 05 — Diagrama de Roles de Usuario Interactivo](https://angeljdev.github.io/Quantify-Core/docs/Practica05/diagrama-roles-quantify.html)
+- [Examen de arquitectura — Plano interactivo](https://angeljdev.github.io/Quantify-Core/docs/examen/index.html)
+- [Práctica 07 — Prototipo Interactivo de Sketches](https://angeljdev.github.io/Quantify-Core/docs/practica-07/)
+- [Práctica 07 — Mapa de Navegación de Sketches](https://angeljdev.github.io/Quantify-Core/docs/practica-07/navegacion.html)
 
 ## Cómo se conectan las decisiones
 

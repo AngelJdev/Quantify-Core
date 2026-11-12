@@ -1,0 +1,969 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Quantify Core · Navegación completa · 33 sketches",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "usuario",
+      "label": "Usuario · rutina personal"
+    },
+    {
+      "id": "admin",
+      "label": "Administrador · operación global"
+    }
+  ],
+  "mainPath": [
+    "U16",
+    "U17",
+    "U01",
+    "U02",
+    "U06",
+    "U07",
+    "U08",
+    "U10"
+  ],
+  "nodes": [
+    {
+      "id": "U01",
+      "lane": "usuario",
+      "col": 0,
+      "type": "security",
+      "label": "U01 · Bienvenida",
+      "width": 230
+    },
+    {
+      "id": "U02",
+      "lane": "usuario",
+      "col": 1,
+      "type": "security",
+      "label": "U02 · Login / Iniciar sesión",
+      "width": 230
+    },
+    {
+      "id": "U03",
+      "lane": "usuario",
+      "col": 2,
+      "type": "security",
+      "label": "U03 · Register / Crear cuenta",
+      "width": 230
+    },
+    {
+      "id": "U04",
+      "lane": "usuario",
+      "col": 3,
+      "type": "security",
+      "label": "U04 · Recuperar acceso",
+      "width": 230
+    },
+    {
+      "id": "U05",
+      "lane": "usuario",
+      "col": 4,
+      "type": "security",
+      "label": "U05 · Verificar código",
+      "width": 230
+    },
+    {
+      "id": "U06",
+      "lane": "usuario",
+      "col": 5,
+      "type": "frontend",
+      "label": "U06 · Hoy / Mis hábitos",
+      "width": 230
+    },
+    {
+      "id": "U07",
+      "lane": "usuario",
+      "col": 6,
+      "type": "frontend",
+      "label": "U07 · Crear / editar hábito",
+      "width": 230
+    },
+    {
+      "id": "U08",
+      "lane": "usuario",
+      "col": 7,
+      "type": "frontend",
+      "label": "U08 · Detalle del hábito",
+      "width": 230
+    },
+    {
+      "id": "U09",
+      "lane": "usuario",
+      "col": 8,
+      "type": "frontend",
+      "label": "U09 · Recordatorio",
+      "width": 230
+    },
+    {
+      "id": "U10",
+      "lane": "usuario",
+      "col": 9,
+      "type": "frontend",
+      "label": "U10 · Análisis y rachas",
+      "width": 230
+    },
+    {
+      "id": "U11",
+      "lane": "usuario",
+      "col": 10,
+      "type": "frontend",
+      "label": "U11 · IA Coach",
+      "width": 230
+    },
+    {
+      "id": "U12",
+      "lane": "usuario",
+      "col": 11,
+      "type": "frontend",
+      "label": "U12 · Perfil y ajustes",
+      "width": 230
+    },
+    {
+      "id": "U13",
+      "lane": "usuario",
+      "col": 12,
+      "type": "frontend",
+      "label": "U13 · Archivar hábito",
+      "width": 230
+    },
+    {
+      "id": "U14",
+      "lane": "usuario",
+      "col": 13,
+      "type": "frontend",
+      "label": "U14 · Centro de avisos",
+      "width": 230
+    },
+    {
+      "id": "U15",
+      "lane": "usuario",
+      "col": 14,
+      "type": "security",
+      "label": "U15 · Nueva contraseña",
+      "width": 230
+    },
+    {
+      "id": "U16",
+      "lane": "usuario",
+      "col": 15,
+      "type": "security",
+      "label": "U16 · Splash Screen",
+      "width": 230
+    },
+    {
+      "id": "U17",
+      "lane": "usuario",
+      "col": 16,
+      "type": "security",
+      "label": "U17 · Loading Screen",
+      "width": 230
+    },
+    {
+      "id": "U18",
+      "lane": "usuario",
+      "col": 17,
+      "type": "security",
+      "label": "U18 · Lock Account",
+      "width": 230
+    },
+    {
+      "id": "U19",
+      "lane": "usuario",
+      "col": 18,
+      "type": "security",
+      "label": "U19 · Unlock Account Code",
+      "width": 230
+    },
+    {
+      "id": "U20",
+      "lane": "usuario",
+      "col": 19,
+      "type": "frontend",
+      "label": "U20 · About Software",
+      "width": 230
+    },
+    {
+      "id": "U21",
+      "lane": "usuario",
+      "col": 20,
+      "type": "frontend",
+      "label": "U21 · About Team / Enterprise",
+      "width": 230
+    },
+    {
+      "id": "U22",
+      "lane": "usuario",
+      "col": 21,
+      "type": "frontend",
+      "label": "U22 · Acceso denegado",
+      "width": 230
+    },
+    {
+      "id": "A01",
+      "lane": "admin",
+      "col": 0,
+      "type": "security",
+      "label": "A01 · Acceso administrador",
+      "width": 230
+    },
+    {
+      "id": "A02",
+      "lane": "admin",
+      "col": 1,
+      "type": "frontend",
+      "label": "A02 · Resumen operativo",
+      "width": 230
+    },
+    {
+      "id": "A03",
+      "lane": "admin",
+      "col": 2,
+      "type": "frontend",
+      "label": "A03 · Catálogo de hábitos",
+      "width": 230
+    },
+    {
+      "id": "A04",
+      "lane": "admin",
+      "col": 3,
+      "type": "frontend",
+      "label": "A04 · Editar plantilla",
+      "width": 230
+    },
+    {
+      "id": "A05",
+      "lane": "admin",
+      "col": 4,
+      "type": "frontend",
+      "label": "A05 · Supervisión de IA",
+      "width": 230
+    },
+    {
+      "id": "A06",
+      "lane": "admin",
+      "col": 5,
+      "type": "frontend",
+      "label": "A06 · Auditoría",
+      "width": 230
+    },
+    {
+      "id": "A07",
+      "lane": "admin",
+      "col": 6,
+      "type": "frontend",
+      "label": "A07 · Control de accesos",
+      "width": 230
+    },
+    {
+      "id": "A08",
+      "lane": "admin",
+      "col": 7,
+      "type": "frontend",
+      "label": "A08 · Configuración global",
+      "width": 230
+    },
+    {
+      "id": "A09",
+      "lane": "admin",
+      "col": 8,
+      "type": "frontend",
+      "label": "A09 · Confirmar cambio de acceso",
+      "width": 230
+    },
+    {
+      "id": "A10",
+      "lane": "admin",
+      "col": 9,
+      "type": "security",
+      "label": "A10 · Lock Account · Administrador",
+      "width": 230
+    },
+    {
+      "id": "A11",
+      "lane": "admin",
+      "col": 10,
+      "type": "security",
+      "label": "A11 · Unlock Account Code · Administrador",
+      "width": 230
+    }
+  ],
+  "edges": [
+    {
+      "from": "U01",
+      "to": "U02",
+      "label": "Iniciar sesión"
+    },
+    {
+      "from": "U01",
+      "to": "U03",
+      "label": "Crear cuenta"
+    },
+    {
+      "from": "U01",
+      "to": "U20",
+      "label": "Acerca del software"
+    },
+    {
+      "from": "U02",
+      "to": "U06",
+      "label": "Credenciales válidas"
+    },
+    {
+      "from": "U02",
+      "to": "U02",
+      "label": "Credenciales inválidas"
+    },
+    {
+      "from": "U02",
+      "to": "U03",
+      "label": "Crear cuenta"
+    },
+    {
+      "from": "U02",
+      "to": "U04",
+      "label": "Olvidé mi contraseña"
+    },
+    {
+      "from": "U02",
+      "to": "U05",
+      "label": "Continuar verificación pendiente"
+    },
+    {
+      "from": "U02",
+      "to": "U01",
+      "label": "Volver"
+    },
+    {
+      "from": "U02",
+      "to": "U18",
+      "label": "Tercer intento fallido o acceso bloqueado"
+    },
+    {
+      "from": "U03",
+      "to": "U05",
+      "label": "Datos válidos"
+    },
+    {
+      "from": "U03",
+      "to": "U03",
+      "label": "Corregir datos"
+    },
+    {
+      "from": "U03",
+      "to": "U02",
+      "label": "Ya tengo cuenta"
+    },
+    {
+      "from": "U04",
+      "to": "U05",
+      "label": "Solicitar código demo"
+    },
+    {
+      "from": "U04",
+      "to": "U02",
+      "label": "Cancelar"
+    },
+    {
+      "from": "U05",
+      "to": "U06",
+      "label": "Código válido · registro"
+    },
+    {
+      "from": "U05",
+      "to": "U15",
+      "label": "Código válido · recuperación"
+    },
+    {
+      "from": "U05",
+      "to": "U05",
+      "label": "Código inválido o reenviar"
+    },
+    {
+      "from": "U05",
+      "to": "U02",
+      "label": "Cancelar"
+    },
+    {
+      "from": "U06",
+      "to": "U07",
+      "label": "Nuevo hábito"
+    },
+    {
+      "from": "U06",
+      "to": "U08",
+      "label": "Abrir hábito"
+    },
+    {
+      "from": "U06",
+      "to": "U06",
+      "label": "Completar o deshacer"
+    },
+    {
+      "from": "U06",
+      "to": "U14",
+      "label": "Ver avisos"
+    },
+    {
+      "from": "U06",
+      "to": "U10",
+      "label": "Análisis"
+    },
+    {
+      "from": "U06",
+      "to": "U11",
+      "label": "IA Coach"
+    },
+    {
+      "from": "U06",
+      "to": "U12",
+      "label": "Ajustes"
+    },
+    {
+      "from": "U07",
+      "to": "U08",
+      "label": "Guardar válido"
+    },
+    {
+      "from": "U07",
+      "to": "U07",
+      "label": "Datos inválidos"
+    },
+    {
+      "from": "U07",
+      "to": "U06",
+      "label": "Cancelar creación"
+    },
+    {
+      "from": "U07",
+      "to": "U08",
+      "label": "Cancelar edición"
+    },
+    {
+      "from": "U08",
+      "to": "U07",
+      "label": "Editar"
+    },
+    {
+      "from": "U08",
+      "to": "U09",
+      "label": "Recordatorio"
+    },
+    {
+      "from": "U08",
+      "to": "U13",
+      "label": "Archivar"
+    },
+    {
+      "from": "U08",
+      "to": "U08",
+      "label": "Guardar avance o deshacer"
+    },
+    {
+      "from": "U08",
+      "to": "U10",
+      "label": "Ver análisis"
+    },
+    {
+      "from": "U08",
+      "to": "U06",
+      "label": "Volver a Hoy"
+    },
+    {
+      "from": "U09",
+      "to": "U08",
+      "label": "Guardar o cancelar"
+    },
+    {
+      "from": "U09",
+      "to": "U09",
+      "label": "Corregir horario o días"
+    },
+    {
+      "from": "U10",
+      "to": "U10",
+      "label": "Cambiar periodo"
+    },
+    {
+      "from": "U10",
+      "to": "U08",
+      "label": "Ver hábito"
+    },
+    {
+      "from": "U10",
+      "to": "U06",
+      "label": "Hoy"
+    },
+    {
+      "from": "U10",
+      "to": "U11",
+      "label": "IA Coach"
+    },
+    {
+      "from": "U10",
+      "to": "U12",
+      "label": "Ajustes"
+    },
+    {
+      "from": "U11",
+      "to": "U07",
+      "label": "Personalizar sugerencia"
+    },
+    {
+      "from": "U11",
+      "to": "U11",
+      "label": "Descartar por 21 días"
+    },
+    {
+      "from": "U11",
+      "to": "U12",
+      "label": "Cambiar consentimiento"
+    },
+    {
+      "from": "U11",
+      "to": "U06",
+      "label": "Hoy"
+    },
+    {
+      "from": "U11",
+      "to": "U10",
+      "label": "Análisis"
+    },
+    {
+      "from": "U11",
+      "to": "U12",
+      "label": "Ajustes"
+    },
+    {
+      "from": "U12",
+      "to": "U12",
+      "label": "Guardar preferencias"
+    },
+    {
+      "from": "U12",
+      "to": "U14",
+      "label": "Ver avisos"
+    },
+    {
+      "from": "U12",
+      "to": "U02",
+      "label": "Cerrar sesión"
+    },
+    {
+      "from": "U12",
+      "to": "U06",
+      "label": "Hoy"
+    },
+    {
+      "from": "U12",
+      "to": "U10",
+      "label": "Análisis"
+    },
+    {
+      "from": "U12",
+      "to": "U11",
+      "label": "IA Coach"
+    },
+    {
+      "from": "U12",
+      "to": "U20",
+      "label": "Acerca del software"
+    },
+    {
+      "from": "U12",
+      "to": "U22",
+      "label": "Intentar módulo administrativo"
+    },
+    {
+      "from": "U13",
+      "to": "U06",
+      "label": "Confirmar archivo"
+    },
+    {
+      "from": "U13",
+      "to": "U08",
+      "label": "Cancelar"
+    },
+    {
+      "from": "U14",
+      "to": "U08",
+      "label": "Abrir hábito asociado"
+    },
+    {
+      "from": "U14",
+      "to": "U14",
+      "label": "Marcar como leído"
+    },
+    {
+      "from": "U14",
+      "to": "U12",
+      "label": "Preferencias"
+    },
+    {
+      "from": "U14",
+      "to": "U06",
+      "label": "Volver"
+    },
+    {
+      "from": "U15",
+      "to": "U02",
+      "label": "Guardar clave válida"
+    },
+    {
+      "from": "U15",
+      "to": "U15",
+      "label": "Corregir clave"
+    },
+    {
+      "from": "U16",
+      "to": "U17",
+      "label": "Continuar inicialización"
+    },
+    {
+      "from": "U17",
+      "to": "U01",
+      "label": "Carga completada"
+    },
+    {
+      "from": "U17",
+      "to": "U17",
+      "label": "Error o reintentar"
+    },
+    {
+      "from": "U17",
+      "to": "U16",
+      "label": "Cancelar"
+    },
+    {
+      "from": "U18",
+      "to": "U19",
+      "label": "Solicitar desbloqueo"
+    },
+    {
+      "from": "U18",
+      "to": "U02",
+      "label": "Volver al acceso; conserva bloqueo"
+    },
+    {
+      "from": "U19",
+      "to": "U02",
+      "label": "Código válido; volver a iniciar sesión"
+    },
+    {
+      "from": "U19",
+      "to": "U19",
+      "label": "Código inválido o reenviar"
+    },
+    {
+      "from": "U19",
+      "to": "U18",
+      "label": "Cancelar; conserva bloqueo"
+    },
+    {
+      "from": "U20",
+      "to": "U21",
+      "label": "Conocer al equipo"
+    },
+    {
+      "from": "U20",
+      "to": "U01",
+      "label": "Volver a bienvenida"
+    },
+    {
+      "from": "U20",
+      "to": "U12",
+      "label": "Volver a ajustes"
+    },
+    {
+      "from": "U21",
+      "to": "U20",
+      "label": "Volver al software"
+    },
+    {
+      "from": "U21",
+      "to": "U01",
+      "label": "Volver a bienvenida"
+    },
+    {
+      "from": "U22",
+      "to": "U06",
+      "label": "Volver a Home"
+    },
+    {
+      "from": "U22",
+      "to": "U02",
+      "label": "Cerrar sesión"
+    },
+    {
+      "from": "A01",
+      "to": "A02",
+      "label": "Credenciales demo válidas"
+    },
+    {
+      "from": "A01",
+      "to": "A01",
+      "label": "Acceso denegado"
+    },
+    {
+      "from": "A01",
+      "to": "A10",
+      "label": "Tercer intento fallido o acceso bloqueado"
+    },
+    {
+      "from": "A02",
+      "to": "A03",
+      "label": "Ver catálogo"
+    },
+    {
+      "from": "A02",
+      "to": "A05",
+      "label": "Supervisar IA"
+    },
+    {
+      "from": "A02",
+      "to": "A06",
+      "label": "Auditoría"
+    },
+    {
+      "from": "A02",
+      "to": "A07",
+      "label": "Cuentas"
+    },
+    {
+      "from": "A02",
+      "to": "A08",
+      "label": "Configuración"
+    },
+    {
+      "from": "A03",
+      "to": "A04",
+      "label": "Crear o editar plantilla"
+    },
+    {
+      "from": "A03",
+      "to": "A03",
+      "label": "Confirmar pausa o reactivación"
+    },
+    {
+      "from": "A03",
+      "to": "A02",
+      "label": "Resumen"
+    },
+    {
+      "from": "A03",
+      "to": "A05",
+      "label": "IA"
+    },
+    {
+      "from": "A03",
+      "to": "A06",
+      "label": "Auditoría"
+    },
+    {
+      "from": "A03",
+      "to": "A07",
+      "label": "Cuentas"
+    },
+    {
+      "from": "A03",
+      "to": "A08",
+      "label": "Configuración"
+    },
+    {
+      "from": "A04",
+      "to": "A03",
+      "label": "Guardar o cancelar"
+    },
+    {
+      "from": "A04",
+      "to": "A04",
+      "label": "Corregir datos"
+    },
+    {
+      "from": "A04",
+      "to": "A05",
+      "label": "Abrir IA"
+    },
+    {
+      "from": "A05",
+      "to": "A05",
+      "label": "Confirmar pausa o reactivación"
+    },
+    {
+      "from": "A05",
+      "to": "A02",
+      "label": "Resumen"
+    },
+    {
+      "from": "A05",
+      "to": "A03",
+      "label": "Catálogo"
+    },
+    {
+      "from": "A05",
+      "to": "A06",
+      "label": "Ver auditoría"
+    },
+    {
+      "from": "A05",
+      "to": "A07",
+      "label": "Cuentas"
+    },
+    {
+      "from": "A05",
+      "to": "A08",
+      "label": "Configuración"
+    },
+    {
+      "from": "A06",
+      "to": "A06",
+      "label": "Filtrar eventos"
+    },
+    {
+      "from": "A06",
+      "to": "A02",
+      "label": "Resumen"
+    },
+    {
+      "from": "A06",
+      "to": "A03",
+      "label": "Catálogo"
+    },
+    {
+      "from": "A06",
+      "to": "A05",
+      "label": "IA"
+    },
+    {
+      "from": "A06",
+      "to": "A07",
+      "label": "Cuentas"
+    },
+    {
+      "from": "A06",
+      "to": "A08",
+      "label": "Configuración"
+    },
+    {
+      "from": "A07",
+      "to": "A09",
+      "label": "Cambiar estado de cuenta"
+    },
+    {
+      "from": "A07",
+      "to": "A02",
+      "label": "Resumen"
+    },
+    {
+      "from": "A07",
+      "to": "A03",
+      "label": "Catálogo"
+    },
+    {
+      "from": "A07",
+      "to": "A05",
+      "label": "IA"
+    },
+    {
+      "from": "A07",
+      "to": "A06",
+      "label": "Auditoría"
+    },
+    {
+      "from": "A07",
+      "to": "A08",
+      "label": "Configuración"
+    },
+    {
+      "from": "A08",
+      "to": "A08",
+      "label": "Validar y guardar"
+    },
+    {
+      "from": "A08",
+      "to": "A02",
+      "label": "Resumen"
+    },
+    {
+      "from": "A08",
+      "to": "A03",
+      "label": "Catálogo"
+    },
+    {
+      "from": "A08",
+      "to": "A05",
+      "label": "IA"
+    },
+    {
+      "from": "A08",
+      "to": "A06",
+      "label": "Auditoría"
+    },
+    {
+      "from": "A08",
+      "to": "A07",
+      "label": "Cuentas"
+    },
+    {
+      "from": "A08",
+      "to": "A01",
+      "label": "Cerrar sesión"
+    },
+    {
+      "from": "A09",
+      "to": "A07",
+      "label": "Confirmar o cancelar"
+    },
+    {
+      "from": "A09",
+      "to": "A09",
+      "label": "Motivo incompleto"
+    },
+    {
+      "from": "A10",
+      "to": "A11",
+      "label": "Solicitar desbloqueo"
+    },
+    {
+      "from": "A10",
+      "to": "A01",
+      "label": "Volver; conserva bloqueo"
+    },
+    {
+      "from": "A11",
+      "to": "A01",
+      "label": "Código válido; volver a iniciar sesión"
+    },
+    {
+      "from": "A11",
+      "to": "A11",
+      "label": "Código inválido o reenviar"
+    },
+    {
+      "from": "A11",
+      "to": "A10",
+      "label": "Cancelar; conserva bloqueo"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Consulta de bocetos",
+      "items": [
+        "Abrir galeria.html para consultar las 33 fichas y los 66 PNG.",
+        "El mapa completo enlaza cada nodo con el prototipo y su boceto."
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Roles y plataformas",
+      "items": [
+        "Usuario / visitante y administrador con alcances separados.",
+        "Diseño compartido para React/Vite y Flutter; simulación HTML local."
+      ]
+    }
+  ]
+}

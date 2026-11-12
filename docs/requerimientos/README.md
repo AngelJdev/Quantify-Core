@@ -49,7 +49,7 @@ No se adopta un modelo de suscripciones o pagos por aparecer en antecedentes aca
 ## Qué es antecedente y qué se implementará
 
 - La [Práctica 05](../Practica05/README.md) aporta actores y funciones. Su [historia de recomendaciones](../Practica05/HU-Recomendaciones-IA.md) es un antecedente de RF-07; la etiqueta histórica «aprobada» no aprueba automáticamente esta arquitectura ni sus umbrales.
-- La [Práctica 07](../practica-07/README.md) permite revisar 24 sketches y recorridos con datos locales. Sus códigos de acceso, fecha fija, métricas administrativas y reglas numéricas son de demostración.
+- La [Práctica 07](../practica-07/README.md) permite revisar 33 sketches y recorridos con datos locales. Sus códigos de acceso, fecha fija, métricas administrativas y reglas numéricas son de demostración.
 - Los umbrales de confianza de 0.75 y 80%, la ventana de 7 días y el descarte por 21 días deben evaluarse y versionarse antes de aplicarlos al producto. No deben convertirse en constantes globales copiadas por agentes.
 - El estado actual de cada componente debe comprobarse en su código y pruebas. Los documentos de esta sección son una especificación inicial, no un reporte de cobertura.
 
