@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reglas de negocio</title><link rel="stylesheet" href="../entrega.css"><link rel="stylesheet" href="../lectura.css"><script src="../lectura.js" defer></script></head>
+<body><header><p class="eyebrow">PRÁCTICA 07</p><nav aria-label="Sección Práctica 07"><a href="../../../index.html#practica-07">Volver al portal</a><a href="../revision.html">Los 15 puntos</a><a href="../navegacion.html">Diagrama conectado</a><a href="../../GUI/practica-07.html">Galería de sketches</a><a href="../index.html">Prototipo</a></nav></header>
+<main class="reading"><h1 id="reglas-de-negocio">Reglas de negocio</h1>
+<p><strong>Estado:</strong> propuesta coherente para la primera implementación. Los parámetros pendientes deben cerrarse en <a href="../../arquitectura/decisiones-pendientes.md">decisiones</a> y reflejarse en contratos antes de habilitar funciones dependientes. Los nombres RN-P distinguen estas reglas de las RN históricas del prototipo.</p>
+<h2 id="identidad-privacidad-y-estados">Identidad, privacidad y estados</h2>
+<table>
+<thead>
+<tr>
+<th>Regla</th>
+<th>Comportamiento esperado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RN-P01 · Pertenencia</td>
+<td>El usuario solo opera recursos propios. El identificador del dueño se deriva de la sesión; un campo enviado por el cliente no concede acceso</td>
+</tr>
+<tr>
+<td>RN-P02 · Consentimiento</td>
+<td>Registrar finalidad, alcance/fuente, versión del texto, instante y revocación. Autorizar captura no implica autorizar entrenamiento ni proveedor externo</td>
+</tr>
+<tr>
+<td>RN-P03 · Estados del hábito</td>
+<td><code>active</code>, <code>paused</code>, <code>archived</code>. Pausar suspende oportunidades futuras durante el intervalo; archivar retira de la rutina y avisos. Ninguna acción borra registros</td>
+</tr>
+<tr>
+<td>RN-P04 · Versionado</td>
+<td>Cambiar meta, unidad, frecuencia o zona genera versión efectiva; los días anteriores conservan su configuración. Cambios retroactivos necesitan un caso de uso y recálculo explícitos</td>
+</tr>
+<tr>
+<td>RN-P05 · Catálogo</td>
+<td>Una plantilla sirve de origen para un hábito personal. Se guarda la versión utilizada; editar la plantilla no modifica hábitos ya incorporados</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-mermaid">stateDiagram-v2
+    [*] --&gt; active: Crear hábito
+    active --&gt; paused: Pausar
+    paused --&gt; active: Reanudar
+    active --&gt; archived: Confirmar archivo
+    paused --&gt; archived: Confirmar archivo
+    archived --&gt; [*]: Fuera de rutina activa
+</code></pre>
+<p>El historial persiste en los tres estados. Restaurar un hábito archivado queda pendiente de definición de producto; una interfaz no debe añadir esa transición sin actualizar requisito, reglas y contrato.</p>
+<h2 id="agenda-y-tiempo">Agenda y tiempo</h2>
+<ul>
+<li><strong>RN-P06:</strong> cada hábito conserva una zona de agenda y versiones de programación. Un check-in guarda el instante ocurrido en UTC, instante recibido en UTC, fecha de negocio y zona usada para asignarla. La API valida su coherencia y la ventana permitida de corrección.</li>
+<li><strong>RN-P07:</strong> la fecha de negocio se obtiene de la zona de agenda efectiva para esa ocurrencia; no del reloj del servidor. Una fecha no se convierte en instante simplemente agregando medianoche UTC.</li>
+<li><strong>RN-P08:</strong> cambiar la zona del perfil no mueve registros previos. Aplicar una zona nueva a hábitos existentes requiere una fecha efectiva visible y evita crear dos oportunidades para el mismo periodo.</li>
+<li><strong>RN-P09:</strong> un día programado crea una oportunidad. Días fuera de frecuencia, pausados o posteriores al archivo quedan excluidos del denominador. El primer alcance usa frecuencia semanal por días; frecuencias como «tres veces en cualquier día de la semana» requieren otra regla.</li>
+<li><strong>RN-P10:</strong> horas inexistentes o repetidas por cambio horario requieren política explícita para recordatorios y una sola ocurrencia identificable. Hasta cerrarla, no prometer entrega exacta en todas las zonas.</li>
+</ul>
+<h2 id="progreso-correcciones-y-concurrencia">Progreso, correcciones y concurrencia</h2>
+<ul>
+<li><strong>RN-P11:</strong> para el primer flujo, el comando de progreso declara un <strong>valor acumulado absoluto</strong> del día; no un incremento. Por ejemplo, pasar de 10 a 15 minutos envía 15. La API mantiene un resultado por <code>(habitId, businessDate)</code> y un historial de revisiones.</li>
+<li><strong>RN-P12:</strong> meta positiva y unidad explícita. Valor no negativo y compatible con la unidad. Precisión decimal, máximos y tratamiento del sobrecumplimiento se cierran en D-03; no copiar el límite de la demo como decisión de producto.</li>
+<li><strong>RN-P13:</strong> <code>completed</code> se deriva de cumplir la meta histórica; <code>partial</code>, de tener avance positivo menor a la meta. La ausencia de registro no equivale a un registro explícito de cero. «Deshacer» crea corrección auditable y recalcula derivados.</li>
+<li><strong>RN-P14:</strong> cada comando de escritura reintentable tiene clave idempotente acotada a actor y operación. Misma clave y mismo contenido retorna el resultado existente; misma clave y contenido distinto produce conflicto. La ventana de retención se define según el máximo periodo offline admitido.</li>
+<li><strong>RN-P15:</strong> cada actualización indica la revisión conocida. Dos dispositivos con una revisión obsoleta reciben conflicto y deben recargar o pedir resolución; no se elige el último reloj del cliente como ganador.</li>
+<li><strong>RN-P16:</strong> los clientes distinguen <code>pending</code>, <code>synced</code>, <code>conflict</code> y <code>failed</code> para la cola local. El progreso pendiente puede mostrarse como provisional, pero solo la API confirma persistencia y métricas oficiales. El cierre de sesión debe proteger o eliminar datos locales según la política elegida.</li>
+</ul>
+<h2 id="métricas-reproducibles">Métricas reproducibles</h2>
+<table>
+<thead>
+<tr>
+<th>Indicador</th>
+<th>Definición propuesta</th>
+<th>Caso límite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cumplimiento de un periodo</td>
+<td>Oportunidades cerradas completadas / oportunidades cerradas elegibles × 100</td>
+<td>Denominador cero: resultado ausente con causa, no 0%</td>
+</tr>
+<tr>
+<td>Progreso diario</td>
+<td>Valor confirmado / meta vigente para esa oportunidad</td>
+<td>Presentación del sobrecumplimiento pendiente; el valor original no se pierde</td>
+</tr>
+<tr>
+<td>Racha actual del periodo</td>
+<td>Número de oportunidades cerradas consecutivas completadas desde la última incumplida, limitado al intervalo consultado</td>
+<td>Días no programados/pausados se omiten; hoy abierto no rompe ni extiende la racha</td>
+</tr>
+<tr>
+<td>Mejor racha</td>
+<td>Máximo de la misma regla en el intervalo histórico consultado</td>
+<td>Indicar intervalo y versión; no comparar con una ventana distinta sin aclararlo</td>
+</tr>
+<tr>
+<td>Cobertura de datos</td>
+<td>Oportunidades con dato confirmado / oportunidades esperadas de la ventana</td>
+<td>Debe separarse del cumplimiento y de la calidad de biometría</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RN-P17:</strong> las métricas del primer contrato usan solo oportunidades cerradas dentro de <code>[from, to]</code>; el progreso de hoy se muestra aparte. Ejemplo: lunes y miércoles programados, ambos completos; el jueves no afecta una racha de 2. El viernes programado mantiene 2 mientras siga abierto; al cerrar pasa a 3 si está completo o a 0 si incumplió. Las rachas se etiquetan «en este periodo»: un límite <code>from</code> que corta la historia también limita el cálculo. No presentarlas como racha global.</p>
+<p><strong>RN-P18:</strong> cada agregado conserva ventana, zona, versión de reglas y fecha de cálculo. Una corrección invalida agregados afectados; mostrar recálculo pendiente si no puede resolverse en la misma solicitud. El cliente no inventa otra fórmula.</p>
+<h2 id="recomendaciones-dispositivos-y-administración">Recomendaciones, dispositivos y administración</h2>
+<ul>
+<li><strong>RN-P19:</strong> una sugerencia requiere permiso de la finalidad, datos suficientes y regla/modelo habilitado. Un score se etiqueta según su significado validado; no se convierte automáticamente en probabilidad o certeza clínica.</li>
+<li><strong>RN-P20:</strong> aceptar implica guardar un hábito válido y enlazarlo a la recomendación de forma atómica. Cancelar no consume ni acepta la propuesta; reintentar aceptación no duplica hábito.</li>
+<li><strong>RN-P21:</strong> ventanas de elegibilidad, máximo de sugerencias, confianza y caducidad/descarte son parámetros versionados pendientes de evaluación. Los 7 días, 80% y 21 días de la demo son hipótesis.</li>
+<li><strong>RN-P22:</strong> una señal biométrica tiene fuente, unidad, instante, calidad y autorización. Falta de sensor o permiso no significa señal cero; la biometría no certifica automáticamente el cumplimiento manual.</li>
+<li><strong>RN-P23:</strong> suspender una cuenta o modificar catálogo/modelos requiere permiso y motivo auditado. Evitar dejar el servicio sin un administrador habilitado; la política de cuentas privilegiadas debe probarse.</li>
+<li><strong>RN-P24:</strong> un administrador consulta métricas agregadas autorizadas. Abrir una pantalla administrativa no concede acceso a registros personales ni habilita entrenamiento con ellos.</li>
+</ul></main><footer><a href="../revision.html">Práctica 07 · Guía completa</a><button id="back-top" type="button">Volver al inicio ↑</button></footer></body></html>

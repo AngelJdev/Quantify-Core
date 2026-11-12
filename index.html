@@ -1270,9 +1270,9 @@
           estatus: 'En revisión',
           firmas: '35',
           carpeta: 'docs/practica-07',
-          descripcion: '33 sketches sencillos a lápiz, con Login y Register completos, nueve pantallas generales, funciones por rol, bocetos móviles/PWA y un único README de entrega.',
-          accion: { label: 'Abrir entrega de Práctica 07', url: 'docs/practica-07/entrega.html' },
-          documentacion: REPO + 'docs/practica-07/README.md',
+          descripcion: 'Los 15 puntos de la práctica, 33 pantallas con bocetos a lápiz y un mapa de 131 conexiones. Revisa cada recorrido, condición y regla desde el sitio.',
+          accion: { label: 'Explorar Práctica 07', url: 'docs/practica-07/entrega.html' },
+          documentacion: 'docs/practica-07/revision.html',
           objetivos: [
             'Representar y probar la navegación entre los sketches de Quantify Core mediante un prototipo interactivo.',
             'Modelar 33 pantallas (22 de usuario/visitante y 11 de administración) en formatos móvil y PWA.',
@@ -1286,11 +1286,12 @@
             'Evidencia de validación y pruebas de recorrido.'
           ],
           archivos: [
-            { nombre: 'Prototipo interactivo (GitHub Pages)', ruta: 'docs/practica-07/index.html', url: PAGES + 'docs/practica-07/', tag: 'HTML' },
-            { nombre: 'Galería de sketches a lápiz', ruta: 'docs/practica-07/galeria.html', url: PAGES + 'docs/practica-07/galeria.html', tag: 'HTML' },
-            { nombre: 'Mapa completo de navegación', ruta: 'docs/practica-07/mapa-completo.html', url: PAGES + 'docs/practica-07/mapa-completo.html', tag: 'HTML' },
-            { nombre: 'Documentación de la práctica', ruta: 'docs/practica-07/README.md', url: REPO + 'docs/practica-07/README.md', tag: 'MD' },
-            { nombre: 'Validación en el README único', ruta: 'docs/practica-07/README.md#validacion', url: REPO + 'docs/practica-07/README.md#validacion', tag: 'MD' }
+            { nombre: 'Guía de los 15 puntos', ruta: 'Qué se solicita y dónde revisarlo', url: 'docs/practica-07/revision.html', tag: 'GUÍA' },
+            { nombre: 'Mapa de las 33 pantallas conectadas', ruta: '131 transiciones, bocetos, condiciones y reglas', url: 'docs/practica-07/navegacion.html', tag: 'MAPA' },
+            { nombre: 'Galería de sketches en GUI', ruta: 'Todos los dibujos, por rol y plataforma', url: 'docs/GUI/practica-07.html', tag: 'GALERÍA' },
+            { nombre: 'Prototipo navegable', ruta: 'Probar acceso, hábitos y administración', url: 'docs/practica-07/index.html', tag: 'PROTOTIPO' },
+            { nombre: 'Fichas de las 33 pantallas', ruta: 'Descripción, acciones, componentes y requisitos', url: 'docs/practica-07/fichas.html', tag: 'FICHAS' },
+            { nombre: 'Proceso y resultados de revisión', ruta: 'Decisiones, validación y pendientes', url: 'docs/practica-07/referencia.html#validacion', tag: 'REVISIÓN' }
           ],
           conclusion: 'Se amplían los bocetos y recorridos a 33 pantallas. La documentación única identifica validaciones, evidencia y los pasos pendientes de Archify e integración.'
         },
@@ -1379,7 +1380,7 @@
       }
 
       function renderPanel(p) {
-        var liveUrl = p.accion ? (p.accion.url.startsWith('http') ? p.accion.url : PAGES + p.accion.url) : '';
+        var liveUrl = p.accion ? (p.id === 'practica-07' ? new URL(p.accion.url, location.href).href : p.accion.url.startsWith('http') ? p.accion.url : PAGES + p.accion.url) : '';
         var actions = p.accion
           ? '<a class="btn btn--primary" id="practica-open" href="' + liveUrl + '" target="_blank" rel="noopener">' + ICONS.external + p.accion.label + '</a>' +
             '<a class="btn btn--ghost" id="practica-docs" href="' + p.documentacion + '" target="_blank" rel="noopener">' + ICONS.book + 'Ver documentación</a>'

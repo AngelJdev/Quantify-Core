@@ -95,8 +95,8 @@ const root=path.resolve(__dirname,'..'),base=process.env.P07_URL||'http://127.0.
   });
   await check('Mapa: 22 nodos de usuario y 11 de administración, selección y boceto',async()=>{
     await page.goto(base+'mapa-completo.html');await page.waitForSelector('[data-node=U16]');assert.equal(await page.locator('svg .map-node').count(),22);
-    await page.locator('svg [data-node=U18]').click();assert.ok((await page.locator('#routes').textContent()).includes('Solicitar desbloqueo'));
-    await page.locator('#routes [data-node=U19]').click();assert.ok((await page.locator('#routes h2').textContent()).includes('U19'));
+    await page.locator('svg [data-node=U18]').click();await page.locator('#tab-connections').click();assert.ok((await page.locator('#routes').textContent()).includes('Solicitar desbloqueo'));
+    await page.locator('#panel-connections [data-node=U19]').first().click();assert.ok((await page.locator('#selected-badge').textContent()).includes('U19'));
     await page.selectOption('#role-filter','admin');assert.equal(await page.locator('svg .map-node').count(),11);
   });
   fs.mkdirSync(path.join(root,'evidencias'),{recursive:true});

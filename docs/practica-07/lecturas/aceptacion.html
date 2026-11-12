@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aceptación y trazabilidad</title><link rel="stylesheet" href="../entrega.css"><link rel="stylesheet" href="../lectura.css"><script src="../lectura.js" defer></script></head>
+<body><header><p class="eyebrow">PRÁCTICA 07</p><nav aria-label="Sección Práctica 07"><a href="../../../index.html#practica-07">Volver al portal</a><a href="../revision.html">Los 15 puntos</a><a href="../navegacion.html">Diagrama conectado</a><a href="../../GUI/practica-07.html">Galería de sketches</a><a href="../index.html">Prototipo</a></nav></header>
+<main class="reading"><h1 id="aceptación-y-trazabilidad">Aceptación y trazabilidad</h1>
+<p>Esta matriz define pruebas por construir. No afirma que se hayan ejecutado. Conservar los identificadores al crear casos automatizados y enlazar la evidencia desde cada PR. Los AC completos se encuentran en el <a href="requisitos.html">catálogo</a>.</p>
+<h2 id="primer-recorrido-verificable">Primer recorrido verificable</h2>
+<pre><code class="language-mermaid">flowchart LR
+    A[Acceder RF-01] --&gt; B[Zona y permisos RF-02]
+    B --&gt; C[Crear hábito RF-03]
+    C --&gt; D[Registrar progreso RF-04]
+    D --&gt; E[Consultar métricas RF-05]
+    D --&gt; F[Reintentar y reconciliar]
+    F --&gt; E
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Caso</th>
+<th>Dado / Cuando / Entonces</th>
+<th>Cubre</th>
+<th>Evidencia necesaria</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CA-01</td>
+<td>Dado usuario A, cuando consulta/modifica un hábito de B, se deniega sin revelar contenido</td>
+<td>AC-01.1, AC-03.1; RNF-01</td>
+<td>Integración API con dos cuentas y acceso directo por identificador</td>
+</tr>
+<tr>
+<td>CA-02</td>
+<td>Dada sesión vencida o cuenta suspendida, cuando intenta una mutación, se aplica la política de acceso; el cliente preserva la intención sin duplicar al volver a autenticarse</td>
+<td>AC-01.4, AC-09.3</td>
+<td>Integración con IdP y recuperación del cliente</td>
+</tr>
+<tr>
+<td>CA-03</td>
+<td>Dado un hábito en zona distinta de UTC, cuando registra cerca de medianoche, el resultado queda en la fecha de agenda correcta</td>
+<td>AC-02.1, AC-04.1; RNF-03</td>
+<td>Casos unitarios de tiempo e integración del contrato</td>
+</tr>
+<tr>
+<td>CA-04</td>
+<td>Dada una creación inválida, cuando envía meta no positiva o frecuencia vacía, API y formulario rechazan y no queda registro parcial</td>
+<td>AC-03.1/4</td>
+<td>Validación de contrato y recorrido de formulario</td>
+</tr>
+<tr>
+<td>CA-05</td>
+<td>Dado progreso de 10, cuando establece 15 y reintenta por respuesta perdida, el consolidado es 15 con una sola aplicación de la operación</td>
+<td>AC-04.1/2</td>
+<td>Integración de persistencia, idempotencia y auditoría</td>
+</tr>
+<tr>
+<td>CA-06</td>
+<td>Dada una clave usada, cuando se reenvía con otro contenido, se devuelve conflicto sin modificar el consolidado</td>
+<td>AC-04.2/4; RNF-02</td>
+<td>Dos solicitudes con misma clave y cuerpos distintos</td>
+</tr>
+<tr>
+<td>CA-07</td>
+<td>Dados dos dispositivos con revisión N, cuando ambos corrigen, una revisión obsoleta se informa y no sobrescribe silenciosamente</td>
+<td>AC-04.4</td>
+<td>Integración concurrente y UI de resolución</td>
+</tr>
+<tr>
+<td>CA-08</td>
+<td>Dada meta de 20 hasta ayer y 30 desde hoy, cuando consulta historial, ayer conserva su meta y hoy utiliza 30</td>
+<td>AC-03.2, AC-05.1</td>
+<td>Fixture con versiones y comparación de métricas</td>
+</tr>
+<tr>
+<td>CA-09</td>
+<td>Dados lunes y miércoles completos, cuando llega un jueves no programado o un día pausado, la racha permanece; un día programado solo la extiende o rompe al cerrar, dentro del intervalo consultado</td>
+<td>AC-05.2</td>
+<td>Prueba determinista del motor con reloj controlado</td>
+</tr>
+<tr>
+<td>CA-10</td>
+<td>Dado un periodo sin oportunidades, cuando consulta cumplimiento, recibe ausencia y razón; el gráfico no dibuja un cero engañoso</td>
+<td>AC-05.3</td>
+<td>Contrato y componente visual</td>
+</tr>
+<tr>
+<td>CA-11</td>
+<td>Dado hábito con historia y recordatorio, cuando confirma archivo, desaparece de la rutina activa, no admite nuevas marcas y conserva historia</td>
+<td>AC-03.3, AC-06.2</td>
+<td>Integración API/worker y recorrido de confirmación</td>
+</tr>
+<tr>
+<td>CA-12</td>
+<td>Dado progreso local sin conexión, cuando vuelve la red, la cola se sincroniza una sola vez y cambia de pendiente a confirmado</td>
+<td>AC-04.2/4; RNF-02</td>
+<td>Prueba del cliente con corte de red y respuesta perdida</td>
+</tr>
+<tr>
+<td>CA-13</td>
+<td>Dado consentimiento de IA revocado con un trabajo pendiente, cuando el worker lo ejecuta, se cancela sin generar ni entregar recomendación</td>
+<td>AC-02.3, AC-07.1</td>
+<td>Integración de autorización en ejecución y lectura</td>
+</tr>
+<tr>
+<td>CA-14</td>
+<td>Dada una recomendación, cuando cancela su personalización no crea hábito; cuando guarda y reintenta, hay un solo hábito enlazado</td>
+<td>AC-07.3/4</td>
+<td>Transacción, idempotencia y recorrido de UI</td>
+</tr>
+<tr>
+<td>CA-15</td>
+<td>Dada plantilla ya usada, cuando el administrador la pausa, hábitos personales previos permanecen iguales y se registra motivo</td>
+<td>AC-09.1/2/4</td>
+<td>Integración y verificación de auditoría sin datos privados</td>
+</tr>
+<tr>
+<td>CA-16</td>
+<td>Dada exportación de A, cuando B intenta acceder, se deniega; cuando vence, el enlace deja de entregar datos</td>
+<td>AC-10.2</td>
+<td>Prueba de autorización y caducidad del artefacto</td>
+</tr>
+<tr>
+<td>CA-17</td>
+<td>Dada eliminación autorizada, cuando se procesa, hay estado por almacén/derivado; restaurar respaldo no reactiva datos borrados sin aplicar la política</td>
+<td>AC-10.3/4</td>
+<td>Ejercicio aislado de borrado y restauración</td>
+</tr>
+<tr>
+<td>CA-18</td>
+<td>Dado dispositivo revocado, cuando reenvía un lote nuevo o pendiente, la ingesta se deniega y no añade señales</td>
+<td>AC-08.2/3</td>
+<td>Integración de dispositivo, consentimiento y credenciales</td>
+</tr>
+<tr>
+<td>CA-19</td>
+<td>Dado envío de aviso con respuesta incierta, cuando se reintenta, la misma ocurrencia/canal no se entrega dos veces según capacidades del proveedor</td>
+<td>AC-06.3</td>
+<td>Prueba del adaptador y registro de entrega</td>
+</tr>
+<tr>
+<td>CA-20</td>
+<td>Dado modelo sin calidad suficiente o datos faltantes, cuando se solicita una sugerencia, responde abstención con motivo y no fabrica evidencia</td>
+<td>AC-07.2/5</td>
+<td>Dataset sintético, evaluación y contrato de salida</td>
+</tr>
+</tbody>
+</table>
+<h2 id="plantilla-de-historia-implementable">Plantilla de historia implementable</h2>
+<pre><code class="language-text">RF y AC:
+Como [actor] quiero [acción] para [resultado].
+Incluye / excluye:
+Reglas RN-P:
+Pantallas y estados (cargando, vacío, error, pendiente, conflicto):
+Operaciones y esquema de contrato:
+Datos, migración y autorización:
+Casos CA y otros escenarios relevantes:
+Decisiones pendientes que bloquean el cambio:
+Evidencia de validación y limitaciones:
+</code></pre>
+<p>Una historia está lista cuando puede implementarse sin inventar permisos, fórmula, campos o comportamiento ante errores. Está terminada cuando cumple los criterios de su alcance, registra pruebas reales, actualiza documentos y pasa revisión; una casilla marcada en esta guía no sustituye esa evidencia.</p></main><footer><a href="../revision.html">Práctica 07 · Guía completa</a><button id="back-top" type="button">Volver al inicio ↑</button></footer></body></html>

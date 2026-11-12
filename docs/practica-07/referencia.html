@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Referencia técnica de Práctica 07</title><link rel="stylesheet" href="./entrega.css"><link rel="stylesheet" href="./lectura.css"><script src="./lectura.js" defer></script></head>
+<body><header><p class="eyebrow">PRÁCTICA 07</p><nav aria-label="Sección Práctica 07"><a href="../../index.html#practica-07">Volver al portal</a><a href="./revision.html">Los 15 puntos</a><a href="./navegacion.html">Diagrama conectado</a><a href="../GUI/practica-07.html">Galería de sketches</a><a href="./index.html">Prototipo</a></nav></header>
+<main class="reading"><h1 id="referencia-técnica-de-práctica-07">Referencia técnica de Práctica 07</h1>
+<p><a href="revision.html">Volver al README y sus 15 puntos</a>. Aquí se conservan las tablas detalladas, los comandos, el proceso y los resultados de pruebas.</p>
+<p><a id="punto-1"></a></p>
+<h2 id="punto-1-requisitos-historias-reglas-actores-y-funcionalidades-seleccionadas">Punto 1 · Requisitos, historias, reglas, actores y funcionalidades seleccionadas</h2>
+<p>Las definiciones del proyecto se consultan en <a href="lecturas/requisitos.html">requisitos funcionales y no funcionales</a>, <a href="lecturas/historias.html">historias de usuario</a> y <a href="lecturas/reglas.html">reglas de negocio</a>. La <a href="../requerimientos/README.md#fuentes-y-organizacion">organización y procedencia</a> explica qué se recuperó de las demás carpetas. Aquí solo se identifica la selección para los prototipos PWA React/Vite y móvil Flutter exigida por el punto 1; la documentación de cada pantalla permanece en sus fichas.</p>
+<table>
+<thead>
+<tr>
+<th>Funcionalidad / requisito</th>
+<th>Historia</th>
+<th>Actor del recorrido</th>
+<th>Referencia a reglas de producto</th>
+<th>Pantallas seleccionadas / límite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="lecturas/requisitos.html#rf-01">RF-01 · Identidad</a></td>
+<td><a href="lecturas/historias.html#hu-01">HU-01</a></td>
+<td>Visitante, usuario y administrador</td>
+<td>RN-P01</td>
+<td>U01–U05, U15–U19, U22, A01, A10/A11; acceso simulado, sin Keycloak</td>
+</tr>
+<tr>
+<td><a href="lecturas/requisitos.html#rf-02">RF-02 · Perfil y consentimiento</a></td>
+<td><a href="lecturas/historias.html#hu-02">HU-02</a></td>
+<td>Usuario</td>
+<td>RN-P02/06/07/08</td>
+<td>U12; controles de demostración, sin gestión completa del consentimiento</td>
+</tr>
+<tr>
+<td><a href="lecturas/requisitos.html#rf-03">RF-03 · Hábitos</a></td>
+<td><a href="lecturas/historias.html#hu-03">HU-03</a></td>
+<td>Usuario</td>
+<td>RN-P03/04/05/09/12</td>
+<td>U06–U08, U13; pausa/reanudación y versionado de producto no se acreditan con el visor</td>
+</tr>
+<tr>
+<td><a href="lecturas/requisitos.html#rf-04">RF-04 · Registros</a></td>
+<td><a href="lecturas/historias.html#hu-04">HU-04</a></td>
+<td>Usuario</td>
+<td>RN-P11 a RN-P16</td>
+<td>U06/U08; sin cola de sincronización con API ni resolución entre dispositivos</td>
+</tr>
+<tr>
+<td><a href="lecturas/requisitos.html#rf-05">RF-05 · Historial y métricas</a></td>
+<td><a href="lecturas/historias.html#hu-05">HU-05</a></td>
+<td>Usuario</td>
+<td>RN-P09/17/18</td>
+<td>U08/U10; datos y fecha de ejemplo</td>
+</tr>
+<tr>
+<td><a href="lecturas/requisitos.html#rf-06">RF-06 · Avisos</a></td>
+<td><a href="lecturas/historias.html#hu-06">HU-06</a></td>
+<td>Usuario</td>
+<td>RN-P03/06/10</td>
+<td>U09/U14; sin entrega real de notificaciones</td>
+</tr>
+<tr>
+<td><a href="lecturas/requisitos.html#rf-07">RF-07 · Recomendaciones</a></td>
+<td><a href="lecturas/historias.html#hu-07">HU-07</a></td>
+<td>Usuario</td>
+<td>RN-P02/19/20/21</td>
+<td>U11 → U07; no incluye evaluación de modelos, indicadores preventivos ni arquetipos</td>
+</tr>
+<tr>
+<td><a href="lecturas/requisitos.html#rf-08">RF-08 · Dispositivos</a></td>
+<td><a href="lecturas/historias.html#hu-08">HU-08</a></td>
+<td>Usuario</td>
+<td>RN-P02/14/22</td>
+<td>No seleccionado: sin sketch de vinculación ni integración Wear OS</td>
+</tr>
+<tr>
+<td><a href="lecturas/requisitos.html#rf-09">RF-09 · Administración</a></td>
+<td><a href="lecturas/historias.html#hu-09">HU-09</a></td>
+<td>Administrador</td>
+<td>RN-P01/05/23/24</td>
+<td>A02–A05, A07–A09; simulación. Administración Flutter de producto por confirmar</td>
+</tr>
+<tr>
+<td><a href="lecturas/requisitos.html#rf-10">RF-10 · Auditoría y datos</a></td>
+<td><a href="lecturas/historias.html#hu-10">HU-10</a></td>
+<td>Administrador; usuario en derechos de datos</td>
+<td>RN-P01/02/23/24</td>
+<td>Solo A06 auditoría local; exportación y eliminación propias no seleccionadas</td>
+</tr>
+</tbody>
+</table>
+<p>Las RN-P se definen únicamente en <a href="lecturas/reglas.html">reglas de negocio</a>; las RN01–RN13 del visor son reglas de simulación con alcance propio. U20/U21 son vistas informativas obligatorias de la consigna, no requisitos nuevos de negocio.</p>
+<p><strong>No funcionales considerados en el diseño:</strong> RNF-01/05/11 (acceso y protección), RNF-02/03 (integridad y tiempo), RNF-04/12 (accesibilidad y adaptación), RNF-08/10/14 (consistencia, reproducción y evolución). Consultar sus condiciones en el <a href="lecturas/requisitos.html#no-funcionales">catálogo</a>. El visor HTML no demuestra aislamiento de API, cifrado, cumplimiento completo de accesibilidad ni compatibilidad nativa. RNF-06/07/09/13/15 requieren mediciones o integraciones que esta práctica no aporta.</p>
+<p><a id="roles-plataformas-y-alcance"></a>
+<a id="punto-2"></a></p>
+<h2 id="roles-operaciones-y-restricciones">Roles, operaciones y restricciones</h2>
+<table>
+<thead>
+<tr>
+<th>Actor</th>
+<th>Operaciones y módulos visibles</th>
+<th>Restricciones</th>
+<th>Pantallas de referencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Visitante</td>
+<td>Inicialización, registro, acceso, recuperación, desbloqueo e información</td>
+<td>No consulta rutinas ni usa módulos administrativos; el acceso inicial no equivale a una sesión válida</td>
+<td>U01–U05, U15–U21</td>
+</tr>
+<tr>
+<td>Usuario</td>
+<td>Perfil, consentimiento, rutina propia, registros, seguimiento, avisos y recomendaciones voluntarias</td>
+<td>Solo recursos propios; guardar confirma cambios; denegar una finalidad limita la función dependiente; intento administrativo muestra denegación</td>
+<td>U06–U14, U22</td>
+</tr>
+<tr>
+<td>Administrador</td>
+<td>Acceso administrativo, resumen agregado, catálogo, supervisión de IA, auditoría, estados de cuentas y configuración</td>
+<td>Sin acceso general a hábitos, biometría o recomendaciones privadas; cambios sensibles con motivo y auditoría; cuenta administrativa protegida</td>
+<td>A01–A11</td>
+</tr>
+</tbody>
+</table>
+<p>La matriz productiva de permisos se define en <a href="../seguridad/README.md">seguridad</a>. Aquí se documenta su selección para navegación: el selector de roles del visor permite revisar pantallas y no implementa autorización. La API debe comprobar rol y pertenencia en cada operación. La administración móvil del producto está por confirmar en <a href="../../apps/mobile/README.md">móvil</a>.</p>
+<p>Las fichas relacionan las funciones con <a href="lecturas/requisitos.html">RF-01 a RF-10</a> y sus <a href="lecturas/historias.html">historias HU</a>, <a href="lecturas/requisitos.html#no-funcionales">RNF</a> y las <a href="lecturas/reglas.html">reglas de producto</a>. Las vistas informativas y de inicialización apoyan el recorrido RF-01; no se presentan como requisitos nuevos del catálogo.</p>
+<p>Plataformas de destino: <strong>PWA React/Vite</strong> y <strong>Flutter</strong>. El visor académico se ejecuta con HTML/CSS/JavaScript y simula la distribución móvil y web. No incorpora instalación PWA, service worker, ejecución Flutter, backend, autenticación real, envío de correo, notificaciones del dispositivo ni inferencia de IA.</p>
+<p>Los bocetos de GUI son <strong>muy sencillos, a lápiz</strong>: fondo blanco, líneas finas e irregulares de grafito, recuadros, textos breves y botones sin acabado visual. Cada pantalla tiene SVG editable y PNG. El prototipo conserva sus interacciones y <code>sketch.css</code> simplifica también su presentación. Esto no sustituye los <a href="../../packages/design-tokens/README.md">tokens del producto</a> ni la identidad de <a href="../GUI/README.md">GUI</a>.</p>
+<p><a id="cómo-recorrerlo"></a>
+<a id="punto-3"></a></p>
+<h2 id="estructura-y-recorridos-de-navegación">Estructura y recorridos de navegación</h2>
+<ol>
+<li>Abrir el prototipo sin fragmento: U16 Splash → U17 Loading → U01 Bienvenida. La carga avanza manualmente para poder inspeccionar sus alternativas de error, reintento y cancelación.</li>
+<li>Iniciar sesión con la cuenta de ejemplo para llegar a Home. Un error válido de credenciales incrementa el contador; el tercer fallo muestra Lock Account.</li>
+<li>Solicitar desbloqueo, probar un código incorrecto y usar <code>654321</code> para volver al acceso. Cancelar o volver conserva el bloqueo durante esa visita.</li>
+<li>Desde Login, recuperar el acceso con <code>123456</code>, establecer una nueva clave de prueba y volver a iniciar sesión.</li>
+<li>Desde Home, crear o editar hábitos, registrar avance, configurar recordatorios, consultar análisis e IA y archivar con confirmación.</li>
+<li>Desde Ajustes, abrir About Software, About Team o el escenario de acceso administrativo denegado.</li>
+<li>Cambiar de rol para revisar Administración: acceso → resumen → catálogo, IA, auditoría, cuentas o configuración. El bloqueo y desbloqueo administrativo usan A10/A11.</li>
+<li>Alternar Móvil/PWA; se conservan los formularios en curso. El formato móvil usa navegación inferior y el web incorpora menú lateral y columnas.</li>
+<li>Abrir <strong>Ver navegación</strong>, el mapa completo o la galería. Sus selectores son herramientas de revisión que permiten inspeccionar pantallas directamente; no representan autorización productiva.</li>
+</ol>
+<h3 id="entradas-rutas-y-retorno">Entradas, rutas y retorno</h3>
+<table>
+<thead>
+<tr>
+<th>Ruta</th>
+<th>Secuencia principal</th>
+<th>Alternativa y retorno</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inicialización</td>
+<td>U16 → U17 → U01</td>
+<td>Carga fallida permanece en U17; reintentar o cancelar a U16</td>
+</tr>
+<tr>
+<td>Acceso de usuario</td>
+<td>U01 → U02 → U06</td>
+<td>Datos incorrectos permanecen en U02; tercer fallo abre U18</td>
+</tr>
+<tr>
+<td>Registro</td>
+<td>U02 → U03 → U05 → U06</td>
+<td>Datos/código inválidos permanecen; cancelar vuelve al acceso</td>
+</tr>
+<tr>
+<td>Recuperación</td>
+<td>U02 → U04 → U05 → U15 → U02</td>
+<td>Reenvío y código incorrecto no confirman la cuenta; la clave nueva no inicia sesión</td>
+</tr>
+<tr>
+<td>Desbloqueo</td>
+<td>U02 → U18 → U19 → U02</td>
+<td>Volver o cancelar conserva bloqueo; desbloquear exige iniciar sesión después</td>
+</tr>
+<tr>
+<td>Rutina</td>
+<td>U06 → U07 → U08 → U09/U13</td>
+<td>Cancelar devuelve a Home o detalle según contexto; archivo confirmado vuelve a U06</td>
+</tr>
+<tr>
+<td>Seguimiento</td>
+<td>U06 ↔ U10/U11/U12</td>
+<td>Personalizar sugerencia lleva a U07; solo guardar acepta</td>
+</tr>
+<tr>
+<td>Administración</td>
+<td>A01 → A02 → catálogo/IA/auditoría/cuentas/configuración</td>
+<td>Cancelación no modifica recursos; A10/A11 gestionan bloqueo propio; salida retorna a A01</td>
+</tr>
+<tr>
+<td>Denegación</td>
+<td>U12 → U22 → U06</td>
+<td>Ver un enlace administrativo no concede permisos</td>
+</tr>
+</tbody>
+</table>
+<p>En móvil se emplean controles apilados y navegación inferior; en PWA, menú lateral y columnas. El prototipo conserva formularios al alternar formato. Los retornos explícitos y el historial del navegador se revisan además de los enlaces principales. El historial del explorador registra pantallas inspeccionadas y es independiente de una sesión del prototipo.</p>
+<h2 id="nueve-pantallas-generales-obligatorias">Nueve pantallas generales obligatorias</h2>
+<table>
+<thead>
+<tr>
+<th>Pantalla solicitada</th>
+<th>ID</th>
+<th>Boceto móvil</th>
+<th>Recorrido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Splash Screen</td>
+<td>U16</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U16.png">PNG</a></td>
+<td><a href="index.html#usuario/U16">Abrir</a></td>
+</tr>
+<tr>
+<td>Loading Screen</td>
+<td>U17</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U17.png">PNG</a></td>
+<td><a href="index.html#usuario/U17">Abrir</a></td>
+</tr>
+<tr>
+<td>Login Screen</td>
+<td>U02</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U02.png">PNG</a></td>
+<td><a href="index.html#usuario/U02">Abrir</a></td>
+</tr>
+<tr>
+<td>Recovery Account or Password</td>
+<td>U04</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U04.png">PNG</a></td>
+<td><a href="index.html#usuario/U04">Abrir</a></td>
+</tr>
+<tr>
+<td>Lock Account</td>
+<td>U18</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U18.png">PNG</a></td>
+<td><a href="index.html#usuario/U18">Abrir</a></td>
+</tr>
+<tr>
+<td>Unlock Account Code</td>
+<td>U19</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U19.png">PNG</a></td>
+<td><a href="index.html#usuario/U19">Abrir</a></td>
+</tr>
+<tr>
+<td>About Software</td>
+<td>U20</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U20.png">PNG</a></td>
+<td><a href="index.html#usuario/U20">Abrir</a></td>
+</tr>
+<tr>
+<td>About Team / Enterprise</td>
+<td>U21</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U21.png">PNG</a></td>
+<td><a href="index.html#usuario/U21">Abrir</a></td>
+</tr>
+<tr>
+<td>Home</td>
+<td>U06</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U06.png">PNG</a></td>
+<td><a href="index.html#usuario/U06">Abrir</a></td>
+</tr>
+</tbody>
+</table>
+<p>Las 24 vistas restantes incluyen registro, verificación, hábitos, recordatorios, análisis, IA, ajustes, archivo, avisos, recuperación, acceso denegado y administración. No se cuentan los formatos móvil y PWA como pantallas funcionales diferentes. <a href="revision.html#fichas">Inventario y fichas de todas las pantallas</a>.</p>
+<p><a id="punto-5"></a></p>
+<h2 id="funciones-adicionales-por-rol">Funciones adicionales por rol</h2>
+<p>Hay 24 pantallas adicionales a las nueve generales. Estas once operaciones permiten comprobar el mínimo solicitado; el inventario completo y las demás pantallas están en las <a href="#fichas">fichas</a>.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Operación</th>
+<th>Actor</th>
+<th>Relación funcional</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="fichas.html#u07">U07</a></td>
+<td>Crear o editar un hábito</td>
+<td>Usuario</td>
+<td>RF-03 / HU-03</td>
+</tr>
+<tr>
+<td><a href="fichas.html#u08">U08</a></td>
+<td>Consultar detalle y registrar avance</td>
+<td>Usuario</td>
+<td>RF-04/05 / HU-04/05</td>
+</tr>
+<tr>
+<td><a href="fichas.html#u09">U09</a></td>
+<td>Configurar recordatorio</td>
+<td>Usuario</td>
+<td>RF-06 / HU-06</td>
+</tr>
+<tr>
+<td><a href="fichas.html#u10">U10</a></td>
+<td>Consultar análisis y rachas</td>
+<td>Usuario</td>
+<td>RF-05 / HU-05</td>
+</tr>
+<tr>
+<td><a href="fichas.html#u11">U11</a></td>
+<td>Revisar, personalizar o descartar sugerencias</td>
+<td>Usuario</td>
+<td>RF-07 / HU-07</td>
+</tr>
+<tr>
+<td><a href="fichas.html#u12">U12</a></td>
+<td>Ajustar perfil y preferencias</td>
+<td>Usuario</td>
+<td>RF-02 / HU-02</td>
+</tr>
+<tr>
+<td><a href="fichas.html#u13">U13</a></td>
+<td>Confirmar archivo sin borrar historial</td>
+<td>Usuario</td>
+<td>RF-03 / HU-03</td>
+</tr>
+<tr>
+<td><a href="fichas.html#u14">U14</a></td>
+<td>Consultar avisos y abrir el hábito asociado</td>
+<td>Usuario</td>
+<td>RF-06 / HU-06</td>
+</tr>
+<tr>
+<td><a href="fichas.html#a03">A03</a></td>
+<td>Consultar y mantener catálogo</td>
+<td>Administrador</td>
+<td>RF-09 / HU-09</td>
+</tr>
+<tr>
+<td><a href="fichas.html#a06">A06</a></td>
+<td>Consultar auditoría administrativa</td>
+<td>Administrador</td>
+<td>RF-10 / HU-10</td>
+</tr>
+<tr>
+<td><a href="fichas.html#a07">A07</a></td>
+<td>Gestionar estados de cuentas ficticias</td>
+<td>Administrador</td>
+<td>RF-09 / HU-09</td>
+</tr>
+</tbody>
+</table>
+<p><a id="punto-6"></a></p>
+<h2 id="representación-de-los-sketches">Representación de los sketches</h2>
+<p>Los dibujos representan la distribución y los componentes con líneas de grafito sobre blanco, sin acabado visual definitivo. Encabezados, formularios, botones, iconos, tarjetas, listas y mensajes se dibujan según cada operación. Los textos breves identifican controles; las descripciones extensas, permisos y condiciones se mantienen en las fichas. La consigna no exige eliminar todo texto del boceto.</p>
+<p>Cada pantalla tiene un PNG consultable y un SVG editable en GUI para móvil y PWA. Los dos formatos no cuentan como dos pantallas funcionales distintas. El explorador usa estas mismas imágenes, permite ampliarlas y enlaza sus fuentes; no almacena una segunda copia de los sketches.</p>
+<p><a id="punto-12"></a></p>
+<h2 id="escenarios-para-revisar-el-recorrido">Escenarios para revisar el recorrido</h2>
+<table>
+<thead>
+<tr>
+<th>Escenario</th>
+<th>Acción que se revisa</th>
+<th>Resultado esperado en la simulación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inicialización</td>
+<td>Completar carga, provocar error y reintentar</td>
+<td>Splash y Loading independientes; error visible, reintento y cancelación</td>
+</tr>
+<tr>
+<td>Acceso</td>
+<td>Probar credenciales válidas e inválidas</td>
+<td>Home tras éxito; error sin sesión tras fallo</td>
+</tr>
+<tr>
+<td>Bloqueo y desbloqueo, ambos roles</td>
+<td>Fallar tres veces, cancelar y probar códigos</td>
+<td>Bloqueo conservado al cancelar; código correcto retorna al acceso</td>
+</tr>
+<tr>
+<td>Recuperación</td>
+<td>Solicitar código, corregirlo y guardar nueva clave</td>
+<td>Validación por contexto; regreso al login</td>
+</tr>
+<tr>
+<td>Registro</td>
+<td>Enviar datos y verificar código</td>
+<td>Cuenta de prueba pendiente hasta verificar; sin correo real</td>
+</tr>
+<tr>
+<td>Hábitos</td>
+<td>Crear, editar, registrar, configurar aviso y archivar</td>
+<td>Validaciones, cancelación sin cambios y conservación de historial</td>
+</tr>
+<tr>
+<td>Información</td>
+<td>Abrir software y equipo y regresar</td>
+<td>Vistas independientes y retorno disponible</td>
+</tr>
+<tr>
+<td>Permisos</td>
+<td>Intentar administración como usuario</td>
+<td>U22 y retorno a Home, sin datos administrativos privados</td>
+</tr>
+<tr>
+<td>Administración</td>
+<td>Modificar plantilla o cuenta con motivo</td>
+<td>Confirmación y evento en auditoría local</td>
+</tr>
+<tr>
+<td>Paridad</td>
+<td>Alternar móvil/PWA con formulario en curso</td>
+<td>Pantalla y valores conservados</td>
+</tr>
+<tr>
+<td>Explorador</td>
+<td>Buscar, seguir escenarios, cambiar pestañas y ampliar</td>
+<td>Cada nodo muestra su imagen, reglas, requisitos, entradas y salidas</td>
+</tr>
+</tbody>
+</table>
+<p>Las pruebas y capturas se enlazan en <a href="#validacion">validación</a>. Esta tabla es la pauta de revisión; solo los informes con resultado acreditan escenarios ejecutados.</p>
+<h3 id="datos-exclusivos-de-demostración">Datos exclusivos de demostración</h3>
+<table>
+<thead>
+<tr>
+<th>Rol / contexto</th>
+<th>Cuenta o código</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Usuario</td>
+<td><code>alex@quantify.demo</code> / <code>Demo2026!</code></td>
+</tr>
+<tr>
+<td>Administrador</td>
+<td><code>admin@quantify.demo</code> / <code>Demo2026!</code></td>
+</tr>
+<tr>
+<td>Verificación de registro y recuperación</td>
+<td><code>123456</code></td>
+</tr>
+<tr>
+<td>Desbloqueo</td>
+<td><code>654321</code></td>
+</tr>
+</tbody>
+</table>
+<p>Las cuentas son ficticias. No se envía correo. Las contraseñas y el bloqueo viven en memoria y se reinician al recargar. Los datos de hábitos y operaciones de ejemplo se conservan en <code>localStorage</code> si está disponible. Restablecer demo elimina esos datos locales y vuelve a Splash. El producto usa Keycloak/OIDC, no estas claves ni el límite demo de tres intentos.</p>
+<h2 id="reglas-y-condiciones">Reglas y condiciones</h2>
+<p>Las trece reglas de la simulación se consultan completas en el panel del visor y en <code>data.js</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Regla</th>
+<th>Decisión académica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RN01</td>
+<td>Usuario gestiona su rutina; administración opera recursos autorizados y agregados.</td>
+</tr>
+<tr>
+<td>RN02</td>
+<td>Acceso y códigos demo, verificación previa de nuevas cuentas; tres fallos bloquean y desbloquear no inicia sesión.</td>
+</tr>
+<tr>
+<td>RN03</td>
+<td>Nombre válido, meta entera positiva, frecuencia no vacía y sin duplicados activos.</td>
+</tr>
+<tr>
+<td>RN04</td>
+<td>Completar/deshacer actualiza un único registro por hábito y fecha de ejemplo.</td>
+</tr>
+<tr>
+<td>RN05</td>
+<td>Rachas según días programados; edición conserva metas y frecuencias históricas.</td>
+</tr>
+<tr>
+<td>RN06</td>
+<td>Archivar conserva historial y desactiva nuevas marcas y recordatorios.</td>
+</tr>
+<tr>
+<td>RN07</td>
+<td>Avisos voluntarios; días compatibles con el hábito y horario válido.</td>
+</tr>
+<tr>
+<td>RN08</td>
+<td>IA con consentimiento, siete días de datos y umbrales exclusivamente demostrativos.</td>
+</tr>
+<tr>
+<td>RN09</td>
+<td>Solo guardar acepta la propuesta; cancelar no crea; descarte temporal y control de duplicados.</td>
+</tr>
+<tr>
+<td>RN10</td>
+<td>Pausar/reactivar catálogo o IA exige confirmación y motivo; no altera hábitos existentes.</td>
+</tr>
+<tr>
+<td>RN11</td>
+<td>Cambios administrativos generan auditoría local; no hay controles para editarla ni borrarla.</td>
+</tr>
+<tr>
+<td>RN12</td>
+<td>Suspensión/reactivación de cuentas ficticias con motivo y protección del administrador actual.</td>
+</tr>
+<tr>
+<td>RN13</td>
+<td>Paridad de pantallas, datos y formularios entre los formatos del visor.</td>
+</tr>
+</tbody>
+</table>
+<p>La fecha fija de los registros de hábitos es el <strong>14 de octubre de 2026</strong>. La auditoría muestra el instante real del cambio en <code>America/Mexico_City</code>. Las métricas administrativas son ilustrativas. Los umbrales, permisos simulados y almacenamiento de esta entrega no son decisiones de producción.</p>
+<h2 id="organización-y-reproducción">Organización y reproducción</h2>
+<pre><code class="language-text">docs/
+  GUI/prototipos/
+    movil/sketches/practica-07/   33 bocetos completos: PNG + SVG
+    pwa/sketches/practica-07/     33 bocetos completos: PNG + SVG
+  practica-07/
+    README.md                    Guía de revisión de los quince puntos
+    fichas.md                    Fichas completas de las 33 pantallas
+    referencia-tecnica.md        Detalles, proceso y resultados
+    entrega.html                 Entrada de la práctica
+    galeria.html                 Acceso compatible a la galería en GUI
+    index.html                   Prototipo navegable
+    mapa-completo.html           Acceso compatible al explorador
+    data.js                      Inventario y relaciones compartidos
+    evidencias/                  Capturas y resultados reproducibles
+    scripts/                     Generación de bocetos, fichas y mapas
+    tests/                       Lógica, prototipo y explorador en navegador
+    navegacion.html              Explorador con bocetos, pestañas y recorridos
+    navegacion.js / .css          Comportamiento y presentación del explorador
+    archify/navegacion-original.html  HTML original conservado sin cambios
+    navegacion.archify.json       Especificación original
+    navegacion-completa.archify.json  Ampliación preparada para Archify
+    navegacion-completa.mmd       Diagrama completo editable
+</code></pre>
+<p>Sin instalación para consultar el prototipo. Para comprobar lógica y generar documentación:</p>
+<pre><code class="language-sh">node --test --test-timeout=10000 docs/practica-07/tests/prototipo.test.cjs
+node docs/practica-07/scripts/dibujar-sketches.cjs
+node docs/practica-07/scripts/documentar.cjs
+node docs/practica-07/scripts/validar-entrega.cjs
+</code></pre>
+<p>Para las pruebas de navegador y regeneración de los 66 PNG en Windows, con Edge instalado y el servidor HTTP anterior activo, usar una carpeta temporal externa al repositorio:</p>
+<pre><code class="language-powershell">$taskTools = Join-Path $env:TEMP 'quantify-practica07-tools'
+npm.cmd install --prefix $taskTools playwright@1.65.0 --no-audit --no-fund
+$env:NODE_PATH = Join-Path $taskTools 'node_modules'
+node docs/practica-07/tests/entrega-browser.cjs
+node docs/practica-07/tests/explorador-browser.cjs
+</code></pre>
+<p><code>P07_URL</code> permite cambiar el origen local; <code>P07_BROWSER</code> permite seleccionar un canal Chromium compatible. El resultado registra la versión real del navegador y Playwright. No ejecutar contra datos de producción.</p>
+<h2 id="versionamiento-y-entrega">Versionamiento y entrega</h2>
+<p>Revisión actual en <code>docs/practica-07-requisitos</code>, con destino <code>develop</code>. La ampliación anterior se integró localmente mediante el commit <code>b4290dd</code>; las notas históricas conservan su rama original. Publicación remota de esta revisión no verificada. Seguir <a href="../guias/git-flow.md">Git Flow</a>, conservar commits descriptivos y revisar la matriz antes de integrar. Pages está configurado desde <code>develop</code> y <code>/ (root)</code>, según el cambio del responsable. La integración revisada a <code>develop</code> permite desplegar esta entrega; una futura release de producto a <code>main</code> sigue su procedimiento independiente.</p>
+<p><a id="fichas"></a></p>
+<p><a href="fichas.html">Consultar las fichas completas de las 33 pantallas</a>.</p>
+<p><a id="cumplimiento"></a></p>
+<h2 id="cumplimiento-de-la-consigna">Cumplimiento de la consigna</h2>
+<p>Consigna: «Diagrama de Secuencia o Navegación de Sketches del Proyecto Integrador» suministrada por el solicitante. Revisión de organización y navegación del 12 de noviembre de 2026 en <code>docs/practica-07-requisitos</code>. Las comprobaciones anteriores conservan sus fechas y ramas en el historial.</p>
+<p><strong>No se declara cierre al 100%:</strong> los entregables locales de diseño y navegación están ampliados; falta regenerar el diagrama completo mediante Archify y completar la revisión, integración y publicación de esta rama. Los prompts históricos de Archify no están disponibles. Esta tabla distingue archivos existentes de pasos pendientes.</p>
+<table>
+<thead>
+<tr>
+<th>Actividad de la consigna</th>
+<th>Evidencia verificable</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Analizar requisitos, historias, reglas, actores y funciones</td>
+<td><a href="revision.html#punto-1">Selección del punto 1</a>, <a href="lecturas/requisitos.html">catálogo canónico</a>, <a href="lecturas/historias.html">historias</a> y <a href="lecturas/reglas.html">reglas</a></td>
+<td>Cubierto en la documentación</td>
+</tr>
+<tr>
+<td>2. Documentar roles, privilegios y restricciones</td>
+<td><a href="revision.html#roles-plataformas-y-alcance">Roles del README</a>, fichas por rol, RN01 y escenario U22; administración sin datos privados</td>
+<td>Cubierto en el diseño académico</td>
+</tr>
+<tr>
+<td>3. Estructura general de navegación y diferencias web/móvil</td>
+<td>Entrada U16 → U17 → U01, recorridos del README y <a href="mapa-completo.html">mapa completo</a>; navegación inferior móvil y lateral PWA</td>
+<td>Cubierto</td>
+</tr>
+<tr>
+<td>4. Nueve sketches generales obligatorios</td>
+<td><a href="revision.html#nueve-pantallas-generales-obligatorias">Tabla de correspondencia</a>: U16, U17, U02, U04, U18, U19, U20, U21 y U06</td>
+<td>Nueve diseños independientes disponibles en ambos formatos</td>
+</tr>
+<tr>
+<td>5. Once sketches adicionales de funciones por rol</td>
+<td>24 vistas adicionales a las nueve generales; hábitos, registros, avisos, análisis, IA, perfil, archivo, catálogo, auditoría y gestión operativa</td>
+<td>Supera el mínimo de once</td>
+</tr>
+<tr>
+<td>6. Componentes comprensibles y apariencia a lápiz</td>
+<td><a href="galeria.html">Galería</a>, 66 PNG exportados del visor y <code>sketch.css</code>: gris, tipografía manuscrita, contornos, recuadros e hachurado</td>
+<td>Bocetos de baja fidelidad disponibles en PNG y SVG</td>
+</tr>
+<tr>
+<td>7. Documentar individualmente los veinte sketches</td>
+<td><a href="revision.html#fichas">33 fichas</a>: ID, nombre, descripción, plataforma, rol, componentes, acciones, relaciones y requisitos del catálogo e historias de UHs</td>
+<td>Supera el mínimo de veinte</td>
+</tr>
+<tr>
+<td>8. Transiciones y condiciones de acceso, error, recuperación, bloqueo, desbloqueo, salida, denegación y funciones</td>
+<td><code>data.js</code>, <a href="mapa-completo.html">mapa completo</a>, pruebas de lógica y escenarios de navegador</td>
+<td>Cubierto en la simulación; sin autenticación productiva</td>
+</tr>
+<tr>
+<td>9. Diagrama general con nodos, direcciones, roles y condiciones</td>
+<td><a href="mapa-completo.html">Mapa completo interactivo</a>, <a href="navegacion-completa.mmd">diagrama textual editable</a> e inventario del visor</td>
+<td>33 nodos con miniatura; salidas y entradas por pantalla, ocho escenarios guiados y 131 transiciones consultables</td>
+</tr>
+<tr>
+<td>10. Generar diagrama interactivo con Archify</td>
+<td><a href="archify/navegacion-original.html">HTML original de Archify</a>, <a href="navegacion.archify.json">especificación original</a>, recibo en <a href="revision.html#validacion">README.md#validacion</a></td>
+<td>Parcial: original de doce pantallas disponible; ampliación de 33 preparada en <code>navegacion-completa.archify.json</code>, pendiente de ejecutar con Archify</td>
+</tr>
+<tr>
+<td>11. Integrar referencias visuales y organizar los recorridos</td>
+<td>Pestañas de boceto, conexiones, reglas y trazabilidad; PNG/SVG originales en GUI, ampliación, búsqueda y filtros de rol/formato</td>
+<td>Cubierto mediante enlaces complementarios; el Archify original se conserva como antecedente</td>
+</tr>
+<tr>
+<td>12. Validar escenarios por rol, alternativas y retornos</td>
+<td><a href="revision.html#validacion">Pruebas y resultados</a>, <code>tests/prototipo.test.cjs</code>, <code>tests/entrega-browser.cjs</code>, <code>tests/explorador-browser.cjs</code> e informes en <code>evidencias/</code></td>
+<td>Comprobación automática de lógica y navegador; ver sus límites</td>
+</tr>
+<tr>
+<td>13. Documentar agente, herramientas, prompts, decisiones, relaciones, observaciones y correcciones</td>
+<td><a href="revision.html#proceso">README.md#proceso</a>, fichas y <a href="revision.html#validacion">README.md#validacion</a></td>
+<td>Parcial: proceso actual registrado; falta recuperar el prompt histórico original o ejecutar y registrar la nueva generación de Archify</td>
+</tr>
+<tr>
+<td>14. Integrar archivos organizados en una rama y explicar consulta en README</td>
+<td>Rama actual <code>docs/practica-07-requisitos</code>; README, prototipo y mapas en <code>docs/practica-07/</code>; bocetos en <code>docs/GUI/prototipos/{movil,pwa}/sketches/practica-07/</code></td>
+<td>Organización local cubierta; publicación de la rama pendiente</td>
+</tr>
+<tr>
+<td>15. Revisión final, commits descriptivos, integración revisada y enlace de entrega en GitHub</td>
+<td>Validadores, bocetos, fichas y <a href="../guias/git-flow.md">Git Flow</a>; Pages configurado desde <code>develop</code> y <code>/ (root)</code> por el responsable</td>
+<td>Pendiente de revisión e integración a <code>develop</code> y despliegue; una release posterior a <code>main</code> es independiente</td>
+</tr>
+</tbody>
+</table>
+<h3 id="lista-de-cierre">Lista de cierre</h3>
+<ul>
+<li>[x] Nueve pantallas generales independientes, incluidos bloqueo y desbloqueo por código.</li>
+<li>[x] Al menos once pantallas adicionales de funciones y veinte sketches totales.</li>
+<li>[x] Bocetos completos móvil/PWA en carpetas separadas y fichas por ID.</li>
+<li>[x] Mapa completo enlazado a los bocetos y al prototipo.</li>
+<li>[x] Roles, permisos de diseño, condiciones, errores, retornos y conservación de historial.</li>
+<li>[x] Pruebas de lógica y navegador; resultados y capturas revisables.</li>
+<li>[x] Acceso a la práctica desde el README raíz y GUI, sin duplicar el entregable.</li>
+<li>[ ] Ejecutar la especificación ampliada con Archify; conservar prompt real, HTML, recibo y evidencia de su revisión.</li>
+<li>[ ] Publicar la rama y abrir el pull request a <code>develop</code> para revisión del equipo.</li>
+<li>[ ] Integrar mediante Git Flow y publicar la versión aprobada; proporcionar el enlace de esa versión.</li>
+</ul>
+<p>El mapa complementario, la especificación preparada y el prompt propuesto no sustituyen una ejecución demostrable de Archify. La fusión o publicación no se realiza como efecto de editar esta matriz.</p>
+<p><a id="proceso"></a></p>
+<h2 id="proceso-decisiones-y-prompts">Proceso, decisiones y prompts</h2>
+<h3 id="integración-en-el-portal-12-de-noviembre-de-2026">Integración en el portal · 12 de noviembre de 2026</h3>
+<p>La sección <code>#practica-07</code> del portal abre la guía de quince puntos, el mapa, la galería, el prototipo, las fichas y los resultados como vistas del mismo sitio. Se retiraron de esos accesos las URLs de archivos en GitHub y las etiquetas HTML/MD. El mapa parte de las 33 pantallas y dibuja las 131 transiciones; las salidas seleccionadas se resaltan sobre las demás.</p>
+<p>Las lecturas se generan desde el Markdown canónico, sin editar otra definición del contenido. Para regenerarlas, instalar <code>Markdown==3.8.2</code> en una carpeta temporal, exponerla mediante <code>PYTHONPATH</code> y ejecutar <code>python docs/practica-07/scripts/publicar-lecturas.py</code>. No modifica alojamiento ni publica por sí mismo.</p>
+<p>Se ejecutaron <code>tests/portal-browser.cjs</code> (<strong>5/5 comprobaciones</strong>) y <code>tests/explorador-browser.cjs</code> (<strong>8/8 escenarios</strong>). Los informes están en <a href="evidencias/resultados-portal.json">resultados del portal</a> y <a href="evidencias/resultados-explorador.json">resultados del explorador</a>. La <a href="evidencias/portal-practica07.png">captura del portal</a> muestra los accesos dentro de Práctica 07. Se verificaron 33 nodos, 131 conexiones, quince secciones, fichas desplegables y adaptación móvil/escritorio. No acredita una nueva ejecución de Archify ni despliegue público.</p>
+<h3 id="simplificación-de-la-guía-12-de-noviembre-de-2026">Simplificación de la guía · 12 de noviembre de 2026</h3>
+<p>El README se redujo a los quince puntos en orden, con índice inicial y dos sketches de ejemplo. Las fichas completas se conservan en <code>fichas.md</code> y los detalles en este documento. La galería se consulta en <code>docs/GUI/practica-07.html</code>; sus imágenes permanecen en las carpetas de sketches existentes. El acceso anterior a <code>galeria.html</code> conserva su fragmento y redirige a GUI.</p>
+<p>Se comprobaron 326 enlaces con ancla sin destinos ausentes y la integridad local de la práctica. La galería se verificó en navegador: 33 pantallas, filtro de administrador con once, cambio a PWA, carga de imágenes y enlace a la ficha correcta.</p>
+<h3 id="organización-y-explorador-12-de-noviembre-de-2026">Organización y explorador · 12 de noviembre de 2026</h3>
+<p>Solicitud aplicada: reunir la revisión en la carpeta de Práctica 07, enlazarla desde el índice principal, conservar cada recurso en su ubicación real, eliminar el encabezado institucional no solicitado y detallar los diagramas con imágenes y contenido interactivo.</p>
+<p>Se reorganizó este README por los quince puntos; se conservaron requisitos en requerimientos, historias en UHs y dibujos en GUI. Se retiró la tabla repetida de pantallas generales dentro de las fichas generadas. Se añadió un explorador compartido con miniaturas, imágenes ampliables, entradas/salidas, reglas completas y enlaces RF/HU. La entrada anterior del mapa conserva sus fragmentos y lleva al mismo explorador.</p>
+<p>La búsqueda de Archify mediante la habilidad de gestión de plugins no devolvió una conexión disponible. Por ello se trasladó su HTML original a <code>archify/navegacion-original.html</code> sin editar su contenido y se identificó la nueva interfaz como explorador JavaScript. Su ampliación con ese agente sigue pendiente; no se fabricó un recibo ni un prompt ejecutado. Los cambios de interacción se verificaron en navegador y se enlazan en la validación de esta revisión.</p>
+<h3 id="contexto-y-fuentes">Contexto y fuentes</h3>
+<p>Ampliación del 11 de noviembre de 2026 en <code>feature/practica-07-entrega-completa</code>, creada desde <code>develop</code> después de comprobar el estado limpio y obtener las referencias remotas. Se conserva el prototipo académico existente y la evidencia histórica del diagrama original de Archify.</p>
+<p>Fuentes: <a href="lecturas/requisitos.html">requisitos</a>, <a href="lecturas/historias.html">historias</a>, <a href="lecturas/reglas.html">reglas de producto</a>, <a href="../Practica05/README.md">roles de Práctica 05</a>, <a href="../arquitectura/README.md">arquitectura</a>, <a href="../../packages/contracts/README.md">contratos</a> y la consigna de Práctica 07 suministrada por el solicitante. La <a href="revision.html#cumplimiento">matriz de cumplimiento</a> relaciona sus quince actividades con evidencias concretas.</p>
+<h3 id="herramientas-y-decisiones">Herramientas y decisiones</h3>
+<ul>
+<li>Codex: revisión del inventario, programación de las vistas adicionales, documentación, pruebas y generación de la especificación ampliada. No se invocó un agente Archify durante esta ampliación.</li>
+<li>HTML, CSS y JavaScript: visor académico existente. Se mantiene para diseñar recorridos; las plataformas de destino siguen siendo React/Vite y Flutter. No se cambia el stack del producto.</li>
+<li>Node.js: pruebas de lógica, generación reproducible de fichas y diagrama Mermaid.</li>
+<li>Playwright y Microsoft Edge: comprobación de navegador y exportación de imágenes de cada pantalla. Las versiones efectivamente utilizadas se registran en <code>evidencias/resultados-browser.json</code>.</li>
+<li>Archify: el artefacto original y su especificación se conservan sin cambios. No está disponible como herramienta ni ejecutable en esta sesión; la búsqueda del plugin por nombre tampoco encontró una conexión disponible. La procedencia original se documenta en <code>README.md#validacion</code>.</li>
+</ul>
+<p>Los bocetos se dibujan con <code>scripts/dibujar-sketches.cjs</code>: líneas dobles de grafito, recuadros simples y textos cortos sobre blanco. No hay marcos de teléfono decorativos, tarjetas con acabado final, paleta ni sombras. Se exportan desde SVG a PNG y se guardan exclusivamente en las carpetas de sketches de GUI. El visor mantiene la interacción y un tratamiento sencillo con <code>sketch.css</code>. La identidad y los tokens del producto permanecen en sus fuentes canónicas.</p>
+<p>Se conservan los IDs existentes U01–U15 y A01–A09 para no romper referencias. Se agregan U16–U22 y A10–A11. La pantalla de bienvenida no se reutiliza como Splash. El desbloqueo usa un contexto y código diferentes de la recuperación. La suspensión administrativa de A09 tampoco sustituye al bloqueo por intentos fallidos.</p>
+<h3 id="reglas-de-navegación-y-plataformas">Reglas de navegación y plataformas</h3>
+<p>Entrada principal U16 → U17 → U01. La carga y sus errores avanzan mediante controles explícitos para poder inspeccionar los estados. El visitante accede a autenticación, registro, recuperación e información; el usuario navega a su Home y recursos; la administración opera catálogo, estado de cuentas y datos agregados, sin rutinas privadas.</p>
+<p>Tres fallos de credenciales sintácticamente válidas producen el bloqueo demo del rol. Un formulario vacío no cuenta como intento. Cancelar o volver no elimina el bloqueo. El código correcto <code>654321</code> desbloquea y vuelve al acceso; no concede una sesión. El código <code>123456</code> solo verifica registro o recuperación. Bloqueos y claves viven en memoria y se reinician al recargar: son una simulación académica, no una política de seguridad. El producto delega la identidad y sus políticas en Keycloak.</p>
+<p>En móvil, navegación inferior y controles apilados; en PWA, menú lateral y distribución por columnas. El cambio de formato conserva la pantalla y los valores de formularios porque no vuelve a renderizar su contenido. Los enlaces del inventario, galería y mapas permiten revisar diseños directamente. El botón atrás de navegador y los retornos explícitos representan la navegación; la API de producto deberá aplicar permisos y propiedad independientemente de la vista.</p>
+<h3 id="prompts-y-solicitudes-registrados">Prompts y solicitudes registrados</h3>
+<p>Síntesis de la solicitud de ampliación:</p>
+<blockquote>
+<p>Completar la Práctica 07 en una rama nueva; incorporar las pantallas faltantes, Login y Register completos, bocetos muy sencillos a lápiz y una organización profesional en GUI. Reunir la documentación en un solo README e integrar a develop mediante merge sin fast-forward.</p>
+</blockquote>
+<p>La consigna exige nueve pantallas generales, once funcionalidades adicionales, fichas individuales, roles, transiciones, Archify, validación y entrega versionada. Se convirtió en la matriz de quince actividades sin afirmar que los pasos de publicación ya se realizaron.</p>
+<p><strong>Prompt preparado para Archify, pendiente de ejecución:</strong></p>
+<pre><code class="language-text">Genera un diagrama interactivo de navegación de Quantify Core para la Práctica 07.
+Usa navegacion-completa.archify.json y data.js como fuentes de nodos y relaciones.
+Incluye los 33 sketches, separando Usuario/visitante y Administrador.
+Representa todas las transiciones y condiciones, incluidos retornos y estados
+que permanecen en la pantalla: acceso correcto/incorrecto, recuperación,
+tres intentos fallidos, bloqueo, código incorrecto/correcto de desbloqueo,
+cierre de sesión, acceso denegado y operaciones autorizadas por rol.
+Los códigos y umbrales son exclusivamente demostrativos.
+Enlaza cada nodo con galeria.html#ID y con index.html#rol/ID mediante
+las capacidades admitidas por la herramienta o enlaces complementarios.
+Conserva el destino PWA React/Vite y móvil Flutter, sin afirmar que el visor
+HTML implementa esos clientes ni que autentica contra Keycloak.
+Entrega un HTML completo, la especificación editable y un recibo de validación.
+Verifica legibilidad, enlaces, retornos y visualización móvil/escritorio.
+</code></pre>
+<p>No se conserva el prompt de la generación original de Archify. Su recibo histórico no permite reconstruirlo; no se inventa una conversación de origen. El prompt anterior es una preparación para la siguiente ejecución, no evidencia de una llamada realizada.</p>
+<h3 id="observaciones-y-correcciones">Observaciones y correcciones</h3>
+<ol>
+<li>El inventario inicial tenía 24 vistas, pero omitía seis tipos obligatorios. Se añadieron como pantallas independientes y se identificaron las nueve en la guía de la práctica.</li>
+<li>El mapa original solo cubría doce pantallas. Se agregó un mapa completo derivado del mismo inventario con selección, flechas direccionales, condiciones, lista de transiciones y acceso al boceto.</li>
+<li>Las fichas originales no detallaban elementos y requisitos por pantalla. Se añadieron metadatos por ID y una generación común para Markdown y galería.</li>
+<li>El estilo conservaba acabados de interfaz final. Se añadió un tratamiento de baja fidelidad sin modificar la paleta institucional del producto.</li>
+<li>Se incorporaron pruebas de bloqueo, cancelación, reenvío, validación del código y separación entre roles. Los resultados reales se registran en <code>README.md#validacion</code> y en las evidencias del navegador.</li>
+<li>La documentación de acceso se conecta desde el README raíz, <code>docs/README.md</code> y <code>docs/GUI/README.md</code>, conservando una sola ubicación para la práctica.</li>
+</ol>
+<h3 id="revisión-e-integración">Revisión e integración</h3>
+<p>Rama de trabajo → pull request a <code>develop</code> → revisión del equipo → integración. La publicación final sigue el <a href="../guias/git-flow.md">Git Flow</a> y el alcance autorizado. No fusionar esta rama directamente en <code>main</code>. El enlace público de GitHub Pages puede seguir mostrando la entrega anterior hasta su despliegue; los accesos relativos del repositorio corresponden al contenido de la rama revisada.</p>
+<p><a id="validacion"></a></p>
+<h2 id="validación-de-la-entrega">Validación de la entrega</h2>
+<h3 id="revisión-de-organización-y-explorador-12-de-noviembre-de-2026">Revisión de organización y explorador · 12 de noviembre de 2026</h3>
+<p>Se ejecutó <code>tests/explorador-browser.cjs</code> con Playwright externo al repositorio y Microsoft Edge. <strong>8/8 escenarios aprobados</strong>, incluyendo las 33 pantallas, los ocho recorridos guiados, búsqueda, retorno del navegador, conexiones de entrada/salida, reglas, trazabilidad, cambio móvil/PWA, ampliación, zoom, teclado, carga del original y presentación a 390/1440 píxeles. Sin errores de página ni respuestas HTTP fallidas. Versiones y resultado real en <a href="evidencias/resultados-explorador.json">resultados-explorador.json</a>.</p>
+<p>El <a href="archify/navegacion-original.html">original conservado</a> coincide con el artefacto previo: SHA-256 normalizado a LF <code>35b50910d5f5b34847a36bb161482e5ffd9caac30cb52a3ab77c749ffa6f793d</code>. La diferencia de hash al usar CRLF no representa un cambio de su contenido.</p>
+<table>
+<thead>
+<tr>
+<th>Vista de revisión</th>
+<th>Captura</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Explorador en escritorio</td>
+<td><a href="evidencias/explorador-1440.png">Mapa y controles</a> · <a href="evidencias/explorador-detalle-1440.png">Detalle de pantalla</a></td>
+</tr>
+<tr>
+<td>Explorador en móvil</td>
+<td><a href="evidencias/explorador-390.png">Mapa y controles</a> · <a href="evidencias/explorador-detalle-390.png">Boceto ampliable y pestañas</a></td>
+</tr>
+</tbody>
+</table>
+<p>El validador de integridad confirma 33 pantallas, 131 transiciones y enlaces locales presentes. El validador documental general conserva los doce avisos previos de referencias externas OpenAPI no soportadas por su implementación. Esta revisión no acredita nueva generación de Archify, autenticación de producto ni publicación remota. Los resultados del prototipo que siguen corresponden a las fechas indicadas y no se presentan como una nueva ejecución.</p>
+
+
+<p>Comprobación del <strong>11 de noviembre de 2026</strong> con Node.js <strong>v24.14.1</strong>, Playwright <strong>1.65.0</strong> y Microsoft Edge <strong>157.0.4341.46</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lógica del prototipo</td>
+<td><strong>25/25 pruebas aprobadas</strong></td>
+</tr>
+<tr>
+<td>Navegador real</td>
+<td><strong>12/12 escenarios aprobados</strong>, sin errores de página ni respuestas HTTP fallidas</td>
+</tr>
+<tr>
+<td>Inventario</td>
+<td>33 pantallas, nueve generales obligatorias, 24 adicionales y 131 transiciones con destino existente</td>
+</tr>
+<tr>
+<td>Bocetos</td>
+<td>66 PNG y 66 SVG editables; móvil 390×780 y PWA 1040×780; grafito en escala de grises</td>
+</tr>
+<tr>
+<td>Galería y mapa</td>
+<td>Filtros, selección de nodos, bocetos y enlaces al prototipo comprobados</td>
+</tr>
+<tr>
+<td>Adaptación</td>
+<td>Prototipo, entrada, galería y mapa comprobados a 390 y 1440 píxeles sin desbordamiento de la página</td>
+</tr>
+<tr>
+<td>Enlaces locales de la práctica</td>
+<td>Sin destinos ausentes</td>
+</tr>
+<tr>
+<td>Espacios y sintaxis</td>
+<td><code>git diff --check</code> y comprobación de sintaxis JavaScript sin errores</td>
+</tr>
+<tr>
+<td>Validador documental general</td>
+<td>Informa 12 referencias externas OpenAPI no soportadas por ese validador; contratos y script sin cambios respecto de <code>develop</code>. No informa enlaces Markdown ausentes en esta entrega.</td>
+</tr>
+</tbody>
+</table>
+<p>Resultados: <a href="evidencias/resultados-browser.json">navegador</a> · <a href="evidencias/integridad.json">integridad</a> · <a href="evidencias/contacto-movil.png">lámina móvil</a> · <a href="evidencias/contacto-pwa.png">lámina PWA</a>.</p>
+<p>Los escenarios comprueban inicialización y carga con error/reintento; bloqueo, cancelación y desbloqueo de ambos roles; recuperación y nueva clave; registro y verificación; información del software/equipo; acceso denegado; creación, edición, avance, recordatorio y archivo de hábito; paridad de formulario y auditoría administrativa. Se recorren además las 33 pantallas en ambos formatos. Se usa movimiento reducido para estabilizar la medición del contenido durante cambios de formato.</p>
+<p>Las láminas de los 66 bocetos se inspeccionaron visualmente, además de revisar Login, Register y ejemplos individuales en ambos formatos. Las pruebas representan una simulación académica: no certifican Keycloak, API, clientes React/Flutter, biometría ni seguridad productiva. La especificación ampliada de Archify está preparada; no se afirma que haya sido ejecutada por esa herramienta.</p>
+<details>
+<summary>Evidencia histórica conservada · octubre de 2026</summary>
+<p>Revisión realizada el <strong>14 de octubre de 2026</strong>, en la rama <code>practica-07-integradora</code>.</p>
+<h2 id="prototipo">Prototipo</h2>
+<ul>
+<li><strong>16 pruebas de lógica aprobadas</strong> con <code>node --test --test-timeout=10000 docs/practica-07/tests/prototipo.test.cjs</code>.</li>
+<li>Los 24 sketches generan contenido y todas las transiciones del inventario apuntan a pantallas existentes del mismo rol.</li>
+<li>Se comprobaron duplicados, frecuencias vacías, límites de avance, completar/deshacer, metas y frecuencias históricas, archivo, rachas, filtros de IA, descarte, aceptación, días de recordatorios, motivos administrativos, protección de la cuenta actual, auditoría y ausencia de contraseñas en el almacenamiento persistente.</li>
+<li>Sintaxis de <code>app.js</code> y <code>data.js</code> comprobada con <code>node --check</code>.</li>
+<li>Recursos locales de <code>index.html</code> encontrados; sin scripts ni estilos de red requeridos.</li>
+<li>Vista por HTTP local con respuesta <strong>200 OK</strong> y apertura directa del archivo HTML verificadas.</li>
+</ul>
+<p>Las pruebas ejecutan la lógica real en un contexto JavaScript en memoria con adaptadores mínimos de formularios y DOM. No sustituyen una prueba automatizada de navegador.</p>
+<h2 id="revisión-manual-en-safari">Revisión manual en Safari</h2>
+<p>Se inspeccionó la composición en una ventana de escritorio y en el modo responsivo a <strong>390 × 844</strong>. Se revisaron los formatos Móvil y PWA, el mapa integrado y la adaptación del inventario de pantallas.</p>
+<p>Recorridos ejecutados en el navegador:</p>
+<ol>
+<li>Inicio de sesión demo de usuario → Hoy.</li>
+<li>Nuevo hábito → escribir nombre → cambiar a PWA conservando el formulario → guardar → detalle.</li>
+<li>Cambiar al rol Administrador → acceso demo → resumen.</li>
+<li>Catálogo → pausar plantilla → motivo y confirmación → estado pausado.</li>
+<li>Auditoría → comprobar entidad, motivo y responsable del cambio.</li>
+<li>Abrir el mapa y revisar las salidas del sketch y sus tarjetas de transiciones.</li>
+<li>Abrir el diagrama general y revisar sus temas oscuro y claro.</li>
+<li>Abrir el prototipo directamente desde <code>index.html</code> y comprobar su renderizado y datos iniciales.</li>
+</ol>
+<p>No se midió automáticamente el desbordamiento del DOM ni se ejecutó una matriz automatizada de todos los sketches y resoluciones. La revisión móvil corresponde a la emulación de viewport, no a un dispositivo físico.</p>
+<h2 id="diagrama-general-de-archify">Diagrama general de Archify</h2>
+<pre><code class="language-text">diagram_type: workflow
+output original: docs/practica-07/navegacion.html
+ubicación conservada: docs/practica-07/archify/navegacion-original.html
+specification_sha256: 5e75eb90ec17e869bb8f3209ee5c8076bd07e5db614a82bfcfdf5db3d380f6cd
+artifact_sha256: 35b50910d5f5b34847a36bb161482e5ffd9caac30cb52a3ab77c749ffa6f793d
+specification_bytes: 3784
+artifact_bytes: 810177
+validation: 9/9 showcase, 0 errors, 0 warnings
+browser_evidence: skipped
+visual_review: passed
+correction_rounds: 0
+</code></pre>
+<p><code>deliver</code> finalizó correctamente y vincula la especificación con el HTML mediante los hashes anteriores. No se modificó el artefacto después de su entrega.</p>
+<p><code>browser_evidence: skipped</code> corresponde al resultado real de <a href="navegacion.visual-check.json">navegacion.visual-check.json</a>: el verificador no encontró Chrome/Chromium. No se generaron capturas automáticas ni mediciones de sus cuatro viewports.</p>
+<p><code>visual_review: passed</code> se refiere exclusivamente a la inspección perceptual manual del HTML entregado en Safari, en los temas claro y oscuro. Las flechas y etiquetas de ambos recorridos resultaron legibles y sin superposiciones visibles en la ventana revisada. Esta inspección no cambia el resultado automático omitido ni acredita cobertura de 1440×900, 1600×1000, 1920×1080 y 2048×1320.</p>
+<h2 id="identidad-de-los-archivos-principales-revisados">Identidad de los archivos principales revisados</h2>
+<p>Después del ajuste visual a sketches, se volvieron a aprobar las 16 pruebas y la comprobación de sintaxis. Se inspeccionaron en Safari los recuadros de Análisis y del progreso de Hoy. Esta revisión adicional no modifica el diagrama independiente de Archify ni su recibo.</p>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>SHA-256</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>index.html</code></td>
+<td><code>72f34110c708a66eace53a784652f0121a6466b6cdcdb1a983ea721f9e6dfa20</code></td>
+</tr>
+<tr>
+<td><code>styles.css</code></td>
+<td><code>42fd0335120fcffd051010c91de72419cbdd25ac7a41ba480491d7f3003d6c5d</code></td>
+</tr>
+<tr>
+<td><code>data.js</code></td>
+<td><code>0216b08e3eaf608e6b207b548785e6d73b162750f22ed3cc7d482f85ce985153</code></td>
+</tr>
+<tr>
+<td><code>app.js</code></td>
+<td><code>786da1caeff36e94522eec2cc3c0e5feb9b649dd29c60193b9aea1bb57ea62f5</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="correcciones-y-comprobación-del-17-de-octubre-de-2026">Correcciones y comprobación del 17 de octubre de 2026</h2>
+<ul>
+<li><strong>21 de 21 pruebas de lógica aprobadas</strong>: las 16 originales y 5 regresiones adicionales.</li>
+<li>Las cuentas recién registradas requieren el código antes de iniciar sesión. Pueden retomar la verificación; recuperar una cuenta pendiente no omite este paso. El acceso y la recuperación de la cuenta demo siguen funcionando.</li>
+<li>El centro de avisos deriva sus entradas de los recordatorios activos para el día de ejemplo. Refleja horario y días, excluye hábitos archivados, conserva el estado leído para el mismo aviso y escapa los nombres al generar HTML.</li>
+<li>El README identifica la captura aportada como U01 — Bienvenida, de una versión anterior del diseño. La imagen original se conserva.</li>
+<li>Las referencias a Práctica 05 apuntan a los archivos de <code>main</code> en GitHub, bajo <code>docs/Practica05</code>, para funcionar con ambas estructuras de carpetas. Se comprobó su existencia en la referencia local <code>main</code>; no se comprobó su disponibilidad por HTTP.</li>
+<li>Sintaxis JavaScript, recursos locales y espacios del diff comprobados. No se realizó una nueva revisión visual en navegador; la inspección de Safari descrita arriba corresponde al 14 de octubre.</li>
+<li>Los hashes de la tabla anterior son históricos. Estos son los hashes de los archivos modificados de la aplicación en esta revisión:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Archivo</th>
+<th>SHA-256</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data.js</code></td>
+<td><code>76fb52b24b3fd3ddcef44f6d9d3fffac15b45aa74f19be8338bb74700237af6f</code></td>
+</tr>
+<tr>
+<td><code>app.js</code></td>
+<td><code>cc7ee0135b272eb7cbab3677b76e4d15402d3289a62028e097a2a9e2543e5f0e</code></td>
+</tr>
+</tbody>
+</table>
+</details></main><footer><a href="./revision.html">Práctica 07 · Guía completa</a><button id="back-top" type="button">Volver al inicio ↑</button></footer></body></html>
