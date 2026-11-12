@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-11",
+  "browser": "157.0.4341.46",
+  "playwright": "1.65.0",
+  "reducedMotion": "reduce",
+  "baseURL": "http://127.0.0.1:8765/docs/practica-07/",
+  "results": [
+    {
+      "name": "Inicialización, error de carga y reintento",
+      "status": "passed"
+    },
+    {
+      "name": "Bloqueo, cancelación, código incorrecto y desbloqueo: usuario",
+      "status": "passed"
+    },
+    {
+      "name": "Bloqueo, cancelación, código incorrecto y desbloqueo: admin",
+      "status": "passed"
+    },
+    {
+      "name": "Recuperación, nueva clave y cierre de sesión",
+      "status": "passed"
+    },
+    {
+      "name": "About Software, equipo y acceso denegado",
+      "status": "passed"
+    },
+    {
+      "name": "Registro, verificación incorrecta/correcta y Home",
+      "status": "passed"
+    },
+    {
+      "name": "Crear, editar, registrar, recordar y archivar un hábito; paridad de formulario",
+      "status": "passed"
+    },
+    {
+      "name": "Administración: nueva plantilla, motivo y auditoría",
+      "status": "passed"
+    },
+    {
+      "name": "33 pantallas en móvil y PWA: contenido, desbordamiento y exportación",
+      "status": "passed"
+    },
+    {
+      "name": "Galería: 33 fichas, filtro por rol y cambio a PWA",
+      "status": "passed"
+    },
+    {
+      "name": "Mapa: 22 nodos de usuario y 11 de administración, selección y boceto",
+      "status": "passed"
+    },
+    {
+      "name": "Revisión adaptable a 390 y 1440 píxeles",
+      "status": "passed"
+    }
+  ],
+  "screenExports": 66,
+  "pageErrors": []
+}
