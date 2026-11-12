@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-12",
+  "browser": "157.0.4341.46",
+  "results": [
+    {
+      "name": "Portal: recursos de Práctica 07 enlazan vistas del mismo sitio",
+      "status": "passed"
+    },
+    {
+      "name": "Guía: quince puntos con enlaces e imágenes presentadas",
+      "status": "passed"
+    },
+    {
+      "name": "Fichas: 33 documentos desplegables con tablas y dibujos",
+      "status": "passed"
+    },
+    {
+      "name": "Lecturas del proyecto: requisitos, historias, reglas y aceptación",
+      "status": "passed"
+    },
+    {
+      "name": "Guía y lecturas adaptables; fragmentos internos existentes",
+      "status": "passed"
+    }
+  ],
+  "pageErrors": [],
+  "scope": "Integración y lectura local del sitio; no acredita despliegue público ni nueva ejecución de Archify."
+}

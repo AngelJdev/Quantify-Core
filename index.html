@@ -1200,7 +1200,7 @@
          ====================================================================== */
       // Los archivos Markdown se abren en GitHub para mostrarse renderizados
       var REPO = 'https://github.com/angelJesus13/Quantify-Core/blob/main/';
-      var PAGES = 'https://angeljesus13.github.io/Quantify-Core/';
+      var PAGES = 'https://angeljdev.github.io/Quantify-Core/';
 
       var practicas = [
         {
@@ -1267,31 +1267,34 @@
           numero: '07',
           titulo: 'Diagrama de Secuencia y Sketches',
           tipo: 'Diseño y navegación',
-          estatus: 'Terminado',
-          firmas: '20',
+          estatus: 'En revisión',
+          firmas: '35',
           carpeta: 'docs/practica-07',
-          descripcion: 'Prototipo interactivo de navegación de 24 sketches para Usuario y Administrador en formatos móvil y PWA, con mapa de recorrido, validaciones, retornos y reglas de negocio.',
-          accion: { label: 'Abrir prototipo interactivo', url: 'docs/practica-07/index.html' },
-          documentacion: REPO + 'docs/practica-07/README.md',
+          descripcion: 'Los 15 puntos de la práctica, 33 pantallas con bocetos a lápiz y un mapa de 131 conexiones. Revisa cada recorrido, condición y regla desde el sitio.',
+          accion: { label: 'Explorar Práctica 07', url: 'docs/practica-07/entrega.html' },
+          documentacion: 'docs/practica-07/revision.html',
           objetivos: [
             'Representar y probar la navegación entre los sketches de Quantify Core mediante un prototipo interactivo.',
-            'Modelar 24 pantallas (15 de usuario y 9 de administración) en formatos móvil y PWA.',
+            'Modelar 33 pantallas (22 de usuario/visitante y 11 de administración) en formatos móvil y PWA.',
             'Definir acciones, condiciones, retornos y reglas de negocio para cada interacción.',
             'Proporcionar un mapa interactivo de transiciones y validación visual de la navegación.'
           ],
           entregables: [
-            'Prototipo interactivo navegable con 24 sketches en móvil y PWA.',
+            '33 bocetos sencillos en cada formato: móvil y PWA, con SVG editable y PNG.',
             'Mapa de navegación interactivo con transiciones de Usuario y Administrador.',
             'Documentación técnica con inventario de pantallas, conexiones y reglas de negocio.',
             'Evidencia de validación y pruebas de recorrido.'
           ],
           archivos: [
-            { nombre: 'Prototipo interactivo (GitHub Pages)', ruta: 'docs/practica-07/index.html', url: PAGES + 'docs/practica-07/', tag: 'HTML' },
-            { nombre: 'Mapa de navegación (GitHub Pages)', ruta: 'docs/practica-07/navegacion.html', url: PAGES + 'docs/practica-07/navegacion.html', tag: 'HTML' },
-            { nombre: 'Documentación de la práctica', ruta: 'docs/practica-07/README.md', url: REPO + 'docs/practica-07/README.md', tag: 'MD' },
-            { nombre: 'Evidencia de validación', ruta: 'docs/practica-07/VALIDACION.md', url: REPO + 'docs/practica-07/VALIDACION.md', tag: 'MD' }
+            { nombre: 'Guía de los 15 puntos', ruta: 'Qué se solicita y dónde revisarlo', url: 'docs/practica-07/revision.html', tag: 'GUÍA' },
+            { nombre: 'Archify interactivo', ruta: 'Abrir directamente el diagrama original', url: 'docs/practica-07/archify.html', tag: 'ARCHIFY' },
+            { nombre: 'Mapa de las 33 pantallas conectadas', ruta: '131 transiciones, bocetos, condiciones y reglas', url: 'docs/practica-07/navegacion.html', tag: 'MAPA' },
+            { nombre: 'Galería de sketches en GUI', ruta: 'Todos los dibujos, por rol y plataforma', url: 'docs/GUI/practica-07.html', tag: 'GALERÍA' },
+            { nombre: 'Prototipo navegable', ruta: 'Probar acceso, hábitos y administración', url: 'docs/practica-07/index.html', tag: 'PROTOTIPO' },
+            { nombre: 'Fichas de las 33 pantallas', ruta: 'Descripción, acciones, componentes y requisitos', url: 'docs/practica-07/fichas.html', tag: 'FICHAS' },
+            { nombre: 'Proceso y resultados de revisión', ruta: 'Decisiones, validación y pendientes', url: 'docs/practica-07/referencia.html#validacion', tag: 'REVISIÓN' }
           ],
-          conclusion: 'Se completó la simulación interactiva con 24 sketches conectando los flujos de bienvenida, autenticación, hábitos, telemetría y panel de administración, validando la experiencia en móvil y PWA.'
+          conclusion: 'Se amplían los bocetos y recorridos a 33 pantallas. La documentación única identifica validaciones, evidencia y los pasos pendientes de Archify e integración.'
         },
         {
           id: 'examen-unidad',
@@ -1378,7 +1381,7 @@
       }
 
       function renderPanel(p) {
-        var liveUrl = p.accion ? (p.accion.url.startsWith('http') ? p.accion.url : PAGES + p.accion.url) : '';
+        var liveUrl = p.accion ? (p.id === 'practica-07' ? new URL(p.accion.url, location.href).href : p.accion.url.startsWith('http') ? p.accion.url : PAGES + p.accion.url) : '';
         var actions = p.accion
           ? '<a class="btn btn--primary" id="practica-open" href="' + liveUrl + '" target="_blank" rel="noopener">' + ICONS.external + p.accion.label + '</a>' +
             '<a class="btn btn--ghost" id="practica-docs" href="' + p.documentacion + '" target="_blank" rel="noopener">' + ICONS.book + 'Ver documentación</a>'

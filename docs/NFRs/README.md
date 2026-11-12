@@ -1,30 +1,25 @@
 # NFRs · Requisitos no funcionales
 
-**NFRs** define cómo debe comportarse el sistema además de sus funciones. La fuente completa es la sección [no funcional del catálogo](../requerimientos/catalogo.md); los IDs `RNF-XX` se conservan aquí para revisión por área. **Estado:** criterios de diseño y pruebas pendientes de implementación.
+Índice de consulta. La definición y la aceptación se mantienen únicamente en el [catálogo canónico](../requerimientos/catalogo.md#no-funcionales); las condiciones no se vuelven a definir aquí. Su estado es de especificación propuesta; consultar evidencia por componente para conocer implementación real.
 
-| ID | Calidad | Evidencia que deberá existir |
+| ID | Área | Definición |
 |---|---|---|
-| RNF-01 | Aislamiento y autorización | Usuario A no accede a recursos de B; administrador tampoco ve rutinas privadas por defecto. |
-| RNF-02 | Integridad | Reintentos y escrituras simultáneas producen un resultado confirmado sin duplicados. |
-| RNF-03 | Tiempo | Fechas de negocio reproducibles con zona IANA y cambios de horario. |
-| RNF-04 | Accesibilidad | Formularios y gráficos utilizables con teclado, lector y señales adicionales al color. |
-| RNF-05 | Privacidad | Consentimiento comprobado y datos sensibles ausentes de logs y trazas. |
-| RNF-06 | Rendimiento | Perfil de carga medido antes de acordar límites de latencia y capacidad. |
-| RNF-07 | Recuperación | Restauración probada y trabajos reconciliados tras un fallo. |
-| RNF-08 | Mantenibilidad | Un contrato canónico y consumidores verificados ante cambios. |
-| RNF-09 | Observabilidad | Solicitudes y trabajos diagnosticables sin exponer información personal. |
-| RNF-10 | Reproducibilidad | Entorno y comandos documentados y repetibles desde un clon limpio. |
+| RNF-01 | Aislamiento | [Consultar](../requerimientos/catalogo.md#no-funcionales) |
+| RNF-02 | Integridad | [Consultar](../requerimientos/catalogo.md#no-funcionales) |
+| RNF-03 | Tiempo | [Consultar](../requerimientos/catalogo.md#no-funcionales) |
+| RNF-04 | Accesibilidad | [Consultar](../requerimientos/catalogo.md#no-funcionales) |
+| RNF-05 | Privacidad | [Consultar](../requerimientos/catalogo.md#no-funcionales) |
+| RNF-06 | Rendimiento | [Consultar](../requerimientos/catalogo.md#no-funcionales) |
+| RNF-07 | Recuperación | [Consultar](../requerimientos/catalogo.md#no-funcionales) |
+| RNF-08 | Mantenibilidad | [Consultar](../requerimientos/catalogo.md#no-funcionales) |
+| RNF-09 | Observabilidad | [Consultar](../requerimientos/catalogo.md#no-funcionales) |
+| RNF-10 | Reproducibilidad | [Consultar](../requerimientos/catalogo.md#no-funcionales) |
+| RNF-11 | Protección técnica | [Consultar](../requerimientos/catalogo.md#cualidades-identificadas-en-las-guías-del-proyecto) |
+| RNF-12 | Adaptación y compatibilidad | [Consultar](../requerimientos/catalogo.md#cualidades-identificadas-en-las-guías-del-proyecto) |
+| RNF-13 | Resiliencia del cliente | [Consultar](../requerimientos/catalogo.md#cualidades-identificadas-en-las-guías-del-proyecto) |
+| RNF-14 | Evolución y entrega | [Consultar](../requerimientos/catalogo.md#cualidades-identificadas-en-las-guías-del-proyecto) |
+| RNF-15 | Calidad analítica | [Consultar](../requerimientos/catalogo.md#cualidades-identificadas-en-las-guías-del-proyecto) |
 
-```mermaid
-flowchart TB
-    F[Función RF] --> S[Seguridad y privacidad]
-    F --> I[Integridad y tiempo]
-    F --> U[Uso y accesibilidad]
-    F --> O[Operación y recuperación]
-    S --> P[Pruebas y evidencia]
-    I --> P
-    U --> P
-    O --> P
-```
+[Historias](../UHs/README.md) · [Reglas](../BRs/README.md) · [Escenarios de aceptación](../requerimientos/aceptacion.md)
 
-No se fijan porcentajes de disponibilidad, p95, RPO o RTO sin una carga, presupuesto y responsables aprobados. La [decisión D-08](../arquitectura/decisiones-pendientes.md) requiere esa evidencia. Para cada cambio, escoger casos relevantes de la [estrategia de pruebas](../../tests/README.md) y registrar ambiente, resultado y límites.
+Los RNF-11 a RNF-15 incorporan cualidades ya documentadas en seguridad, clientes, contratos e IA. Las metas numéricas se aprueban con mediciones y presupuesto en D-08; las de evaluación de modelos, en D-07. No copiar valores ni IDs RNF de entregas académicas históricas.

@@ -51,7 +51,7 @@ Desde la raíz y con Node.js disponible:
 node --test docs/practica-07/tests/prototipo.test.cjs
 ```
 
-Este conjunto utiliza la lógica del prototipo en memoria. Sus mocks de navegador y almacenamiento no validan accesibilidad real, un servidor, autenticación productiva ni sincronización entre dispositivos. Ver [evidencia de la práctica](../docs/practica-07/VALIDACION.md) y [validación de esta documentación](../docs/guias/validacion-documental.md).
+Este conjunto utiliza la lógica del prototipo en memoria. Sus mocks de navegador y almacenamiento no validan accesibilidad real, un servidor, autenticación productiva ni sincronización entre dispositivos. Ver [evidencia de la práctica](../docs/practica-07/README.md#validacion) y [validación de esta documentación](../docs/guias/validacion-documental.md).
 
 ### Telemetría sintética · QUANCORE-35
 

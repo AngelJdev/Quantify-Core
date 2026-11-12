@@ -43,7 +43,7 @@ La bienvenida y el retorno de autenticación pertenecen al cliente. Las credenci
 | RF-09 Administración | A01–A09 | Cambios autorizados con motivo y auditoría | Acceso denegado, cuenta protegida, conflicto, cancelación |
 | RF-10 Auditoría y datos | A06; solicitud personal por diseñar | Consultar auditoría autorizada; gestionar datos propios | Solicitud pendiente, fallida, duplicada o no autorizada |
 
-Las vistas de dispositivos, exportación y eliminación de datos requieren diseño adicional; no están cubiertas por los 24 sketches. La exportación/eliminación debe explicar alcance, estado y consecuencias según política, y confirmar acciones irreversibles. Nunca convertir un botón de demo en una operación real sin esos criterios.
+Las vistas de dispositivos, exportación y eliminación de datos requieren diseño adicional; no están cubiertas por los 33 sketches. La exportación/eliminación debe explicar alcance, estado y consecuencias según política, y confirmar acciones irreversibles. Nunca convertir un botón de demo en una operación real sin esos criterios.
 
 ## Crear y editar un hábito
 

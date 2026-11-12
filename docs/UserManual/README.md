@@ -35,6 +35,6 @@ Inicio y recuperación mediante Keycloak, consentimiento por finalidad, sincroni
 <details>
 <summary>Cómo informar una inconsistencia de la demo</summary>
 
-Registrar pantalla, acción, resultado esperado y observado, y entorno. Usar datos ficticios y enlazar el requisito o la regla del [prototipo](../practica-07/README.md). Las pruebas disponibles se describen en su [validación](../practica-07/VALIDACION.md).
+Registrar pantalla, acción, resultado esperado y observado, y entorno. Usar datos ficticios y enlazar el requisito o la regla del [prototipo](../practica-07/README.md). Las pruebas disponibles se describen en su [validación](../practica-07/README.md#validacion).
 
 </details>

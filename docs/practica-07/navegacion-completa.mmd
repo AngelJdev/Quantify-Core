@@ -1,0 +1,169 @@
+flowchart LR
+  subgraph usuario["Usuario y visitante"]
+    U01["U01 · Bienvenida"]
+    U02["U02 · Login / Iniciar sesión"]
+    U03["U03 · Register / Crear cuenta"]
+    U04["U04 · Recuperar acceso"]
+    U05["U05 · Verificar código"]
+    U06["U06 · Hoy / Mis hábitos"]
+    U07["U07 · Crear / editar hábito"]
+    U08["U08 · Detalle del hábito"]
+    U09["U09 · Recordatorio"]
+    U10["U10 · Análisis y rachas"]
+    U11["U11 · IA Coach"]
+    U12["U12 · Perfil y ajustes"]
+    U13["U13 · Archivar hábito"]
+    U14["U14 · Centro de avisos"]
+    U15["U15 · Nueva contraseña"]
+    U16["U16 · Splash Screen"]
+    U17["U17 · Loading Screen"]
+    U18["U18 · Lock Account"]
+    U19["U19 · Unlock Account Code"]
+    U20["U20 · About Software"]
+    U21["U21 · About Team / Enterprise"]
+    U22["U22 · Acceso denegado"]
+  end
+  subgraph admin["Administrador"]
+    A01["A01 · Acceso administrador"]
+    A02["A02 · Resumen operativo"]
+    A03["A03 · Catálogo de hábitos"]
+    A04["A04 · Editar plantilla"]
+    A05["A05 · Supervisión de IA"]
+    A06["A06 · Auditoría"]
+    A07["A07 · Control de accesos"]
+    A08["A08 · Configuración global"]
+    A09["A09 · Confirmar cambio de acceso"]
+    A10["A10 · Lock Account · Administrador"]
+    A11["A11 · Unlock Account Code · Administrador"]
+  end
+  U01 -- "Iniciar sesión" --> U02
+  U01 -- "Crear cuenta" --> U03
+  U01 -- "Acerca del software" --> U20
+  U02 -- "Credenciales válidas" --> U06
+  U02 -. "Credenciales inválidas" .-> U02
+  U02 -- "Crear cuenta" --> U03
+  U02 -- "Olvidé mi contraseña" --> U04
+  U02 -- "Continuar verificación pendiente" --> U05
+  U02 -- "Volver" --> U01
+  U02 -- "Tercer intento fallido o acceso bloqueado" --> U18
+  U03 -- "Datos válidos" --> U05
+  U03 -. "Corregir datos" .-> U03
+  U03 -- "Ya tengo cuenta" --> U02
+  U04 -- "Solicitar código demo" --> U05
+  U04 -- "Cancelar" --> U02
+  U05 -- "Código válido · registro" --> U06
+  U05 -- "Código válido · recuperación" --> U15
+  U05 -. "Código inválido o reenviar" .-> U05
+  U05 -- "Cancelar" --> U02
+  U06 -- "Nuevo hábito" --> U07
+  U06 -- "Abrir hábito" --> U08
+  U06 -. "Completar o deshacer" .-> U06
+  U06 -- "Ver avisos" --> U14
+  U06 -- "Análisis" --> U10
+  U06 -- "IA Coach" --> U11
+  U06 -- "Ajustes" --> U12
+  U07 -- "Guardar válido" --> U08
+  U07 -. "Datos inválidos" .-> U07
+  U07 -- "Cancelar creación" --> U06
+  U07 -- "Cancelar edición" --> U08
+  U08 -- "Editar" --> U07
+  U08 -- "Recordatorio" --> U09
+  U08 -- "Archivar" --> U13
+  U08 -. "Guardar avance o deshacer" .-> U08
+  U08 -- "Ver análisis" --> U10
+  U08 -- "Volver a Hoy" --> U06
+  U09 -- "Guardar o cancelar" --> U08
+  U09 -. "Corregir horario o días" .-> U09
+  U10 -. "Cambiar periodo" .-> U10
+  U10 -- "Ver hábito" --> U08
+  U10 -- "Hoy" --> U06
+  U10 -- "IA Coach" --> U11
+  U10 -- "Ajustes" --> U12
+  U11 -- "Personalizar sugerencia" --> U07
+  U11 -. "Descartar por 21 días" .-> U11
+  U11 -- "Cambiar consentimiento" --> U12
+  U11 -- "Hoy" --> U06
+  U11 -- "Análisis" --> U10
+  U11 -- "Ajustes" --> U12
+  U12 -. "Guardar preferencias" .-> U12
+  U12 -- "Ver avisos" --> U14
+  U12 -- "Cerrar sesión" --> U02
+  U12 -- "Hoy" --> U06
+  U12 -- "Análisis" --> U10
+  U12 -- "IA Coach" --> U11
+  U12 -- "Acerca del software" --> U20
+  U12 -- "Intentar módulo administrativo" --> U22
+  U13 -- "Confirmar archivo" --> U06
+  U13 -- "Cancelar" --> U08
+  U14 -- "Abrir hábito asociado" --> U08
+  U14 -. "Marcar como leído" .-> U14
+  U14 -- "Preferencias" --> U12
+  U14 -- "Volver" --> U06
+  U15 -- "Guardar clave válida" --> U02
+  U15 -. "Corregir clave" .-> U15
+  U16 -- "Continuar inicialización" --> U17
+  U17 -- "Carga completada" --> U01
+  U17 -. "Error o reintentar" .-> U17
+  U17 -- "Cancelar" --> U16
+  U18 -- "Solicitar desbloqueo" --> U19
+  U18 -- "Volver al acceso; conserva bloqueo" --> U02
+  U19 -- "Código válido; volver a iniciar sesión" --> U02
+  U19 -. "Código inválido o reenviar" .-> U19
+  U19 -- "Cancelar; conserva bloqueo" --> U18
+  U20 -- "Conocer al equipo" --> U21
+  U20 -- "Volver a bienvenida" --> U01
+  U20 -- "Volver a ajustes" --> U12
+  U21 -- "Volver al software" --> U20
+  U21 -- "Volver a bienvenida" --> U01
+  U22 -- "Volver a Home" --> U06
+  U22 -- "Cerrar sesión" --> U02
+  A01 -- "Credenciales demo válidas" --> A02
+  A01 -. "Acceso denegado" .-> A01
+  A01 -- "Tercer intento fallido o acceso bloqueado" --> A10
+  A02 -- "Ver catálogo" --> A03
+  A02 -- "Supervisar IA" --> A05
+  A02 -- "Auditoría" --> A06
+  A02 -- "Cuentas" --> A07
+  A02 -- "Configuración" --> A08
+  A03 -- "Crear o editar plantilla" --> A04
+  A03 -. "Confirmar pausa o reactivación" .-> A03
+  A03 -- "Resumen" --> A02
+  A03 -- "IA" --> A05
+  A03 -- "Auditoría" --> A06
+  A03 -- "Cuentas" --> A07
+  A03 -- "Configuración" --> A08
+  A04 -- "Guardar o cancelar" --> A03
+  A04 -. "Corregir datos" .-> A04
+  A04 -- "Abrir IA" --> A05
+  A05 -. "Confirmar pausa o reactivación" .-> A05
+  A05 -- "Resumen" --> A02
+  A05 -- "Catálogo" --> A03
+  A05 -- "Ver auditoría" --> A06
+  A05 -- "Cuentas" --> A07
+  A05 -- "Configuración" --> A08
+  A06 -. "Filtrar eventos" .-> A06
+  A06 -- "Resumen" --> A02
+  A06 -- "Catálogo" --> A03
+  A06 -- "IA" --> A05
+  A06 -- "Cuentas" --> A07
+  A06 -- "Configuración" --> A08
+  A07 -- "Cambiar estado de cuenta" --> A09
+  A07 -- "Resumen" --> A02
+  A07 -- "Catálogo" --> A03
+  A07 -- "IA" --> A05
+  A07 -- "Auditoría" --> A06
+  A07 -- "Configuración" --> A08
+  A08 -. "Validar y guardar" .-> A08
+  A08 -- "Resumen" --> A02
+  A08 -- "Catálogo" --> A03
+  A08 -- "IA" --> A05
+  A08 -- "Auditoría" --> A06
+  A08 -- "Cuentas" --> A07
+  A08 -- "Cerrar sesión" --> A01
+  A09 -- "Confirmar o cancelar" --> A07
+  A09 -. "Motivo incompleto" .-> A09
+  A10 -- "Solicitar desbloqueo" --> A11
+  A10 -- "Volver; conserva bloqueo" --> A01
+  A11 -- "Código válido; volver a iniciar sesión" --> A01
+  A11 -. "Código inválido o reenviar" .-> A11
+  A11 -- "Cancelar; conserva bloqueo" --> A10
