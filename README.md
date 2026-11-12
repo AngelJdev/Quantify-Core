@@ -36,11 +36,9 @@
 - [Práctica 07 — Prototipo Interactivo de Sketches](https://angeljdev.github.io/Quantify-Core/docs/practica-07/)
 - [Práctica 07 — Mapa de Navegación de Sketches](https://angeljdev.github.io/Quantify-Core/docs/practica-07/navegacion.html)
 
-## Práctica 07 · Navegación y sketches
+## Práctica 07
 
-**[Guía de entrega y recorrido de revisión](docs/practica-07/README.md)** · **[33 fichas de sketches](docs/practica-07/README.md#fichas)** · **[Matriz de los 15 puntos solicitados](docs/practica-07/README.md#cumplimiento)**.
-
-**Un solo [README de entrega](docs/practica-07/README.md)** reúne las 33 fichas, el proceso y la validación. Incluye **Login y Register completos** y las nueve pantallas generales obligatorias. Los bocetos sencillos a lápiz están en `docs/GUI/prototipos/movil/sketches/practica-07/` y `docs/GUI/prototipos/pwa/sketches/practica-07/`; el prototipo y los mapas, en `docs/practica-07/`. [Abrir práctica en Pages](https://angeljdev.github.io/Quantify-Core/docs/practica-07/entrega.html), publicado desde `develop` y `/ (root)` tras integrar esta rama. La matriz identifica los pasos pendientes de Archify y publicación.
+La [carpeta de Práctica 07](docs/practica-07/) reúne la guía de los quince puntos, 33 fichas, galería, prototipo, explorador de navegación y evidencias. Su README enlaza las fuentes de requisitos e historias y los bocetos originales en GUI. [Abrir el explorador](docs/practica-07/navegacion.html).
 
 ## Documentación para desarrollar
 
@@ -62,6 +60,7 @@ Los diagramas y secciones desplegables de los README ayudan a recorrer estas gu�
 
 ## Contenido
 
+- [Práctica 07](docs/practica-07/)
 - [Documentación para desarrollar](#documentación-para-desarrollar)
 - [Descripción](#descripción)
 - [Planteamiento del problema](#planteamiento-del-problema)

@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Catálogo de requisitos</title><link rel="stylesheet" href="../entrega.css"><link rel="stylesheet" href="../lectura.css"><script src="../lectura.js" defer></script></head>
+<body><header><p class="eyebrow">PRÁCTICA 07</p><nav aria-label="Sección Práctica 07"><a href="../../../index.html#practica-07">Volver al portal</a><a href="../revision.html">Los 15 puntos</a><a href="../navegacion.html">Diagrama conectado</a><a href="../../GUI/practica-07.html">Galería de sketches</a><a href="../index.html">Prototipo</a></nav></header>
+<main class="reading"><h1 id="catálogo-de-requisitos">Catálogo de requisitos</h1>
+<p><strong>Estado:</strong> especificación propuesta del producto. Este catálogo es la fuente única de requisitos y criterios AC; las <a href="historias.html">historias</a>, <a href="reglas.html">reglas</a> y <a href="../revision.html#punto-1">selección de Práctica 07</a> se consultan mediante referencias. No acredita implementación ni aprobación del equipo.</p>
+<p>Los diez RF existentes son familias funcionales. Su desglose identifica operaciones verificables sin renumerar los RF ni los AC usados por contratos, pantallas y pruebas. Los sufijos <code>RF-XX.NN</code> identifican requisitos específicos de una familia, no nuevas funcionalidades fuera de alcance. Los RNF-01 a RNF-10 se conservan y los RNF-11 a RNF-15 hacen explícitas cualidades ya descritas en las guías del proyecto. <a href="../../requerimientos/README.md#fuentes-y-organizacion">Procedencia y organización</a>.</p>
+<h2 id="funcionales">Funcionales</h2>
+<table>
+<thead>
+<tr>
+<th>Familia</th>
+<th>Historia de referencia</th>
+<th>Criterios de aceptación mínimos</th>
+<th>Dependencias</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RF-01 · Identidad</td>
+<td><a href="historias.html#hu-01">HU-01</a></td>
+<td><strong>AC-01.1:</strong> una sesión válida permite usar recursos propios; una inválida se rechaza. <strong>AC-01.2:</strong> registro/recuperación siguen Keycloak; la API no guarda contraseñas. <strong>AC-01.3:</strong> usuario no puede asignarse rol administrador. <strong>AC-01.4:</strong> cierre de sesión y suspensión se verifican contra la política de revocación elegida</td>
+<td>Decisión de sesión web y configuración de Keycloak</td>
+</tr>
+<tr>
+<td>RF-02 · Perfil y consentimiento</td>
+<td><a href="historias.html#hu-02">HU-02</a></td>
+<td><strong>AC-02.1:</strong> perfil incluye zona horaria de negocio válida. <strong>AC-02.2:</strong> IA y cada fuente biométrica son opcionales y se registran por finalidad y versión. <strong>AC-02.3:</strong> revocar bloquea usos futuros y tareas pendientes antes de ejecutarse. <strong>AC-02.4:</strong> cambiar zona no reclasifica silenciosamente el historial</td>
+<td>RF-01; política de datos</td>
+</tr>
+<tr>
+<td>RF-03 · Hábitos</td>
+<td><a href="historias.html#hu-03">HU-03</a></td>
+<td><strong>AC-03.1:</strong> nombre, meta, unidad y frecuencia se validan en API y cliente. <strong>AC-03.2:</strong> edición versiona meta/frecuencia desde una fecha efectiva. <strong>AC-03.3:</strong> pausa y archivo conservan registros; el archivo bloquea nuevas marcas y avisos. <strong>AC-03.4:</strong> cancelar no crea ni cambia un hábito</td>
+<td>RF-01/02; reglas de agenda</td>
+</tr>
+<tr>
+<td>RF-04 · Registros</td>
+<td><a href="historias.html#hu-04">HU-04</a></td>
+<td><strong>AC-04.1:</strong> existe un resultado diario consolidado por hábito y fecha de negocio. <strong>AC-04.2:</strong> reintentar la misma operación no duplica progreso ni eventos. <strong>AC-04.3:</strong> origen, instante de ocurrencia/recepción y revisión quedan trazados. <strong>AC-04.4:</strong> una edición concurrente obsoleta se informa como conflicto; no se pierde silenciosamente</td>
+<td>RF-03; contrato de idempotencia</td>
+</tr>
+<tr>
+<td>RF-05 · Métricas y rachas</td>
+<td><a href="historias.html#hu-05">HU-05</a></td>
+<td><strong>AC-05.1:</strong> se aplican frecuencia y meta históricas, con versión de reglas. <strong>AC-05.2:</strong> un día no programado o pausado no cuenta como incumplimiento. <strong>AC-05.3:</strong> periodo sin oportunidades muestra «sin datos», no 0% de fracaso. <strong>AC-05.4:</strong> correcciones actualizan agregados y hacen visible si hay recálculo pendiente</td>
+<td>RF-03/04; definición de métricas</td>
+</tr>
+<tr>
+<td>RF-06 · Recordatorios</td>
+<td><a href="historias.html#hu-06">HU-06</a></td>
+<td><strong>AC-06.1:</strong> se valida horario, zona, canal y días compatibles. <strong>AC-06.2:</strong> desactivar/archivar impide nuevos envíos. <strong>AC-06.3:</strong> reintentos no generan avisos duplicados para la misma ocurrencia/canal. <strong>AC-06.4:</strong> denegar permisos del dispositivo mantiene utilizable el registro manual</td>
+<td>RF-02/03; proveedor de entrega pendiente</td>
+</tr>
+<tr>
+<td>RF-07 · Recomendaciones</td>
+<td><a href="historias.html#hu-07">HU-07</a></td>
+<td><strong>AC-07.1:</strong> consentimiento y suficiencia de datos se verifican al generar y servir resultados. <strong>AC-07.2:</strong> se muestran evidencia, ventana, versión y limitaciones. <strong>AC-07.3:</strong> solo guardar explícitamente la propuesta crea un hábito; cancelar no la acepta. <strong>AC-07.4:</strong> aceptar dos veces no duplica el hábito. <strong>AC-07.5:</strong> datos insuficientes o modelo deshabilitado generan abstención explicada</td>
+<td>RF-02/03/04/05; evaluación de reglas/modelo</td>
+</tr>
+<tr>
+<td>RF-08 · Dispositivos y biometría</td>
+<td><a href="historias.html#hu-08">HU-08</a></td>
+<td><strong>AC-08.1:</strong> vinculación prueba pertenencia y capacidades. <strong>AC-08.2:</strong> ingesta valida consentimiento, unidad, tiempos, esquema y duplicados por fuente. <strong>AC-08.3:</strong> desvincular impide nueva ingesta y uso de credenciales previas. <strong>AC-08.4:</strong> ausencias o señales inválidas no se interpretan como valor cero</td>
+<td>RF-01/02; prueba Wear OS, SDK y permisos pendientes</td>
+</tr>
+<tr>
+<td>RF-09 · Administración</td>
+<td><a href="historias.html#hu-09">HU-09</a></td>
+<td><strong>AC-09.1:</strong> cada mutación exige permiso, motivo y auditoría. <strong>AC-09.2:</strong> editar/pausar plantilla solo afecta futuras incorporaciones. <strong>AC-09.3:</strong> suspensión bloquea operaciones según política de sesión verificada. <strong>AC-09.4:</strong> interfaces administrativas y API no exponen rutinas privadas por defecto. <strong>AC-09.5:</strong> proteger la continuidad administrativa antes de suspender cuentas privilegiadas</td>
+<td>RF-01; política de acceso y catálogo</td>
+</tr>
+<tr>
+<td>RF-10 · Auditoría y derechos de datos</td>
+<td><a href="historias.html#hu-10">HU-10</a></td>
+<td><strong>AC-10.1:</strong> mutaciones sensibles registran actor, acción, recurso, resultado y motivo cuando corresponda. <strong>AC-10.2:</strong> exportar requiere identidad verificada, acceso exclusivo y caducidad. <strong>AC-10.3:</strong> eliminación sigue un estado trazable por almacén, derivados y copias. <strong>AC-10.4:</strong> el historial auditado no se edita desde funciones ordinarias; retención y eliminación se rigen por la política aprobada</td>
+<td>RF-01/02; política de retención y verificación de identidad</td>
+</tr>
+</tbody>
+</table>
+<h2 id="desglose-funcional">Desglose funcional</h2>
+<p>Cada operación remite a los AC de su familia o al escenario/regla ya existente que la precisa. La fuente enlazada explica su procedencia; no se copian esquemas, fórmulas ni políticas técnicas. Las funciones condicionadas siguen propuestas aunque exista un sketch o una simulación sintética.</p>
+<p><a id="rf-01"></a></p>
+<h3 id="rf-01-identidad-y-sesión">RF-01 · Identidad y sesión</h3>
+<p>Historia: <a href="historias.html#hu-01">HU-01</a>. Procedencia: <a href="../../seguridad/README.md">seguridad</a>, <a href="../../../apps/web/README.md">web</a> y <a href="../../../apps/mobile/README.md">móvil</a>.</p>
+<table>
+<thead>
+<tr>
+<th>ID específico</th>
+<th>Operación requerida</th>
+<th>Aceptación / trazabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RF-01.01</td>
+<td>Registrar y verificar la cuenta mediante el proveedor de identidad.</td>
+<td>AC-01.2</td>
+</tr>
+<tr>
+<td>RF-01.02</td>
+<td>Iniciar sesión y recuperar el acceso mediante Keycloak.</td>
+<td>AC-01.1/2</td>
+</tr>
+<tr>
+<td>RF-01.03</td>
+<td>Gestionar expiración y renovación de sesión; solicitar acceso de nuevo cuando corresponda.</td>
+<td>AC-01.1/4</td>
+</tr>
+<tr>
+<td>RF-01.04</td>
+<td>Cerrar sesión y aplicar suspensión/revocación según la política aprobada.</td>
+<td>AC-01.4</td>
+</tr>
+<tr>
+<td>RF-01.05</td>
+<td>Rechazar autoasignación de permisos y acceso a recursos ajenos.</td>
+<td>AC-01.1/3</td>
+</tr>
+</tbody>
+</table>
+<p><a id="rf-02"></a></p>
+<h3 id="rf-02-perfil-y-consentimiento">RF-02 · Perfil y consentimiento</h3>
+<p>Historia: <a href="historias.html#hu-02">HU-02</a>. Procedencia: <a href="../../datos-ia/calidad-ciclo-vida.md">ciclo de vida de datos</a> y <a href="reglas.html#agenda-y-tiempo">reglas de agenda</a>.</p>
+<table>
+<thead>
+<tr>
+<th>ID específico</th>
+<th>Operación requerida</th>
+<th>Aceptación / trazabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RF-02.01</td>
+<td>Consultar y actualizar preferencias propias y zona horaria válida.</td>
+<td>AC-02.1/4</td>
+</tr>
+<tr>
+<td>RF-02.02</td>
+<td>Otorgar consentimiento por finalidad y fuente, con versión y fecha.</td>
+<td>AC-02.2</td>
+</tr>
+<tr>
+<td>RF-02.03</td>
+<td>Consultar y revocar autorizaciones, deteniendo usos futuros y trabajos pendientes.</td>
+<td>AC-02.3</td>
+</tr>
+<tr>
+<td>RF-02.04</td>
+<td>Aplicar cambios de zona con fecha efectiva sin reclasificar registros anteriores.</td>
+<td>AC-02.4</td>
+</tr>
+</tbody>
+</table>
+<p><a id="rf-03"></a></p>
+<h3 id="rf-03-gestión-de-hábitos">RF-03 · Gestión de hábitos</h3>
+<p>Historia: <a href="historias.html#hu-03">HU-03</a>. Procedencia: <a href="../../../packages/contracts/README.md">contratos</a> y <a href="reglas.html#identidad-privacidad-y-estados">estados del hábito</a>.</p>
+<table>
+<thead>
+<tr>
+<th>ID específico</th>
+<th>Operación requerida</th>
+<th>Aceptación / trazabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RF-03.01</td>
+<td>Crear un hábito con nombre, meta, unidad y programación válidos.</td>
+<td>AC-03.1</td>
+</tr>
+<tr>
+<td>RF-03.02</td>
+<td>Consultar la rutina y el detalle de hábitos propios, incluido su estado.</td>
+<td>AC-01.1; AC-03.3</td>
+</tr>
+<tr>
+<td>RF-03.03</td>
+<td>Editar meta, unidad o programación mediante una versión con vigencia.</td>
+<td>AC-03.2</td>
+</tr>
+<tr>
+<td>RF-03.04</td>
+<td>Pausar y reanudar un hábito conservando historial y oportunidades elegibles.</td>
+<td>AC-03.3; AC-05.2</td>
+</tr>
+<tr>
+<td>RF-03.05</td>
+<td>Archivar con confirmación, conservar historial y bloquear nuevas marcas y avisos.</td>
+<td>AC-03.3</td>
+</tr>
+<tr>
+<td>RF-03.06</td>
+<td>Cancelar un alta o edición sin persistir cambios.</td>
+<td>AC-03.4</td>
+</tr>
+</tbody>
+</table>
+<p><a id="rf-04"></a></p>
+<h3 id="rf-04-registro-y-sincronización">RF-04 · Registro y sincronización</h3>
+<p>Historia: <a href="historias.html#hu-04">HU-04</a>. Procedencia: <a href="../../../packages/contracts/README.md">contratos</a>, <a href="reglas.html#progreso-correcciones-y-concurrencia">RN-P11 a RN-P16</a> y <a href="../../../apps/mobile/README.md">cliente móvil</a>.</p>
+<table>
+<thead>
+<tr>
+<th>ID específico</th>
+<th>Operación requerida</th>
+<th>Aceptación / trazabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RF-04.01</td>
+<td>Registrar el valor acumulado absoluto por hábito y fecha de negocio.</td>
+<td>AC-04.1</td>
+</tr>
+<tr>
+<td>RF-04.02</td>
+<td>Consultar y corregir registros con origen, tiempos y revisión auditables.</td>
+<td>AC-04.3</td>
+</tr>
+<tr>
+<td>RF-04.03</td>
+<td>Reintentar una escritura conservando la clave idempotente y su único resultado.</td>
+<td>AC-04.2</td>
+</tr>
+<tr>
+<td>RF-04.04</td>
+<td>Detectar revisión obsoleta y presentar conflicto para resolución explícita.</td>
+<td>AC-04.4</td>
+</tr>
+<tr>
+<td>RF-04.05</td>
+<td>Cuando se habilite offline, conservar comandos por cuenta, sincronizar al recuperar red/sesión y distinguir pendiente, confirmado, conflicto y fallo.</td>
+<td>AC-04.2/4; CA-12</td>
+</tr>
+</tbody>
+</table>
+<p><a id="rf-05"></a></p>
+<h3 id="rf-05-historial-y-métricas">RF-05 · Historial y métricas</h3>
+<p>Historia: <a href="historias.html#hu-05">HU-05</a>. Procedencia: <a href="../../datos-ia/estadisticas-dashboard.md">dashboard</a>, <a href="../../../packages/contracts/dashboard/README.md">contrato dashboard</a> y <a href="reglas.html#métricas-reproducibles">métricas reproducibles</a>.</p>
+<table>
+<thead>
+<tr>
+<th>ID específico</th>
+<th>Operación requerida</th>
+<th>Aceptación / trazabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RF-05.01</td>
+<td>Consultar progreso propio por fecha, hábito y periodo con meta histórica.</td>
+<td>AC-05.1</td>
+</tr>
+<tr>
+<td>RF-05.02</td>
+<td>Consultar calendario e historial separando días elegibles, pausados y no programados.</td>
+<td>AC-05.1/2</td>
+</tr>
+<tr>
+<td>RF-05.03</td>
+<td>Consultar cumplimiento, racha del periodo y mejor racha con ventana y reglas identificables.</td>
+<td>AC-05.1/2</td>
+</tr>
+<tr>
+<td>RF-05.04</td>
+<td>Mostrar ausencia de oportunidades como sin datos y separar el progreso del día abierto.</td>
+<td>AC-05.2/3</td>
+</tr>
+<tr>
+<td>RF-05.05</td>
+<td>Actualizar derivados tras correcciones e informar recálculo pendiente.</td>
+<td>AC-05.4</td>
+</tr>
+</tbody>
+</table>
+<p><a id="rf-06"></a></p>
+<h3 id="rf-06-recordatorios-y-avisos">RF-06 · Recordatorios y avisos</h3>
+<p>Historia: <a href="historias.html#hu-06">HU-06</a>. Procedencia: <a href="../../diseno/recorridos.md">recorridos</a> y <a href="../../arquitectura/componentes.md">componentes de notificación</a>.</p>
+<table>
+<thead>
+<tr>
+<th>ID específico</th>
+<th>Operación requerida</th>
+<th>Aceptación / trazabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RF-06.01</td>
+<td>Configurar canal, horario, zona y días compatibles con el hábito.</td>
+<td>AC-06.1</td>
+</tr>
+<tr>
+<td>RF-06.02</td>
+<td>Activar o desactivar recordatorios voluntarios; el archivo impide nuevos envíos.</td>
+<td>AC-06.2</td>
+</tr>
+<tr>
+<td>RF-06.03</td>
+<td>Entregar una sola notificación por ocurrencia/canal según las capacidades del proveedor.</td>
+<td>AC-06.3</td>
+</tr>
+<tr>
+<td>RF-06.04</td>
+<td>Consultar avisos vinculados al hábito y conservar uso manual si se deniegan permisos.</td>
+<td>AC-06.4; recorrido U14</td>
+</tr>
+</tbody>
+</table>
+<p><a id="rf-07"></a></p>
+<h3 id="rf-07-analítica-y-recomendaciones">RF-07 · Analítica y recomendaciones</h3>
+<p>Historia: <a href="historias.html#hu-07">HU-07</a>. Procedencia: <a href="../../../README.md#módulos-funcionales">visión del producto</a>, <a href="../../datos-ia/analitica-ia.md">analítica e IA</a> y <a href="../../arquitectura/decisiones-pendientes.md">D-07</a>.</p>
+<table>
+<thead>
+<tr>
+<th>ID específico</th>
+<th>Operación requerida</th>
+<th>Aceptación / trazabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RF-07.01</td>
+<td>Generar o consultar sugerencias solo con consentimiento, suficiencia de datos y modelo/regla habilitado.</td>
+<td>AC-07.1/5</td>
+</tr>
+<tr>
+<td>RF-07.02</td>
+<td>Mostrar evidencia, ventana, versión, limitaciones y motivo de abstención.</td>
+<td>AC-07.2/5</td>
+</tr>
+<tr>
+<td>RF-07.03</td>
+<td>Personalizar y aceptar guardando un hábito válido de forma atómica e idempotente.</td>
+<td>AC-07.3/4</td>
+</tr>
+<tr>
+<td>RF-07.04</td>
+<td>Descartar o cancelar sin crear un hábito ni aceptar implícitamente.</td>
+<td>AC-07.3</td>
+</tr>
+<tr>
+<td>RF-07.05</td>
+<td>Evaluar indicadores preventivos y arquetipos previstos en la visión, con ficha, población y validación; no habilitarlos antes de resolver D-07.</td>
+<td>AC-07.1/2/5; RNF-15</td>
+</tr>
+</tbody>
+</table>
+<p><a id="rf-08"></a></p>
+<h3 id="rf-08-dispositivos-y-señales">RF-08 · Dispositivos y señales</h3>
+<p>Historia: <a href="historias.html#hu-08">HU-08</a>. Procedencia: <a href="../../../apps/wear/README.md">Wear OS</a>, <a href="../../../packages/contracts/telemetry/README.md">telemetría</a> y <a href="../../datos-ia/calidad-ciclo-vida.md">calidad de datos</a>.</p>
+<table>
+<thead>
+<tr>
+<th>ID específico</th>
+<th>Operación requerida</th>
+<th>Aceptación / trazabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RF-08.01</td>
+<td>Vincular una fuente compatible verificando pertenencia, capacidades y permisos.</td>
+<td>AC-08.1</td>
+</tr>
+<tr>
+<td>RF-08.02</td>
+<td>Recibir lotes autorizados validando esquema, unidad, tiempos, calidad y duplicados.</td>
+<td>AC-08.2</td>
+</tr>
+<tr>
+<td>RF-08.03</td>
+<td>Consultar estado de vínculo, permisos y última sincronización de la fuente.</td>
+<td>AC-08.1/4; diseño de dispositivo</td>
+</tr>
+<tr>
+<td>RF-08.04</td>
+<td>Desvincular o revocar e impedir nueva ingesta con credenciales previas.</td>
+<td>AC-08.3</td>
+</tr>
+<tr>
+<td>RF-08.05</td>
+<td>Tratar señales ausentes o inválidas como tales, sin convertirlas en cero.</td>
+<td>AC-08.4</td>
+</tr>
+</tbody>
+</table>
+<p><a id="rf-09"></a></p>
+<h3 id="rf-09-operación-administrativa">RF-09 · Operación administrativa</h3>
+<p>Historia: <a href="historias.html#hu-09">HU-09</a>. Procedencia: <a href="../../seguridad/README.md">matriz de permisos</a>, <a href="reglas.html#identidad-privacidad-y-estados">catálogo</a> y <a href="reglas.html#recomendaciones-dispositivos-y-administración">RN-P23/24</a>.</p>
+<table>
+<thead>
+<tr>
+<th>ID específico</th>
+<th>Operación requerida</th>
+<th>Aceptación / trazabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RF-09.01</td>
+<td>Crear, editar y pausar plantillas versionadas sin alterar hábitos ya incorporados.</td>
+<td>AC-09.1/2</td>
+</tr>
+<tr>
+<td>RF-09.02</td>
+<td>Consultar y cambiar el estado de cuentas con permiso, motivo y auditoría.</td>
+<td>AC-09.1/3</td>
+</tr>
+<tr>
+<td>RF-09.03</td>
+<td>Proteger continuidad administrativa antes de suspender cuentas privilegiadas.</td>
+<td>AC-09.5</td>
+</tr>
+<tr>
+<td>RF-09.04</td>
+<td>Supervisar reglas/modelos y configuración autorizada mediante cambios auditados.</td>
+<td>AC-09.1; RN-P23</td>
+</tr>
+<tr>
+<td>RF-09.05</td>
+<td>Consultar métricas operativas agregadas sin acceso general a rutinas privadas.</td>
+<td>AC-09.4</td>
+</tr>
+</tbody>
+</table>
+<p><a id="rf-10"></a></p>
+<h3 id="rf-10-auditoría-y-derechos-de-datos">RF-10 · Auditoría y derechos de datos</h3>
+<p>Historia: <a href="historias.html#hu-10">HU-10</a>. Procedencia: <a href="../../seguridad/README.md">seguridad</a> y <a href="../../datos-ia/calidad-ciclo-vida.md">ciclo de vida</a>.</p>
+<table>
+<thead>
+<tr>
+<th>ID específico</th>
+<th>Operación requerida</th>
+<th>Aceptación / trazabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RF-10.01</td>
+<td>Registrar eventos sensibles con actor, acción, recurso, resultado y motivo aplicable.</td>
+<td>AC-10.1</td>
+</tr>
+<tr>
+<td>RF-10.02</td>
+<td>Consultar auditoría según permisos sin editar ni borrar su historial desde funciones ordinarias.</td>
+<td>AC-10.4</td>
+</tr>
+<tr>
+<td>RF-10.03</td>
+<td>Solicitar y obtener exportación propia con identidad verificada, acceso exclusivo y caducidad.</td>
+<td>AC-10.2</td>
+</tr>
+<tr>
+<td>RF-10.04</td>
+<td>Solicitar eliminación y consultar estado trazable por almacén, derivados y copias.</td>
+<td>AC-10.3</td>
+</tr>
+<tr>
+<td>RF-10.05</td>
+<td>Aplicar retención y eliminación aprobadas conciliando auditoría, respaldos y restauración.</td>
+<td>AC-10.3/4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="no-funcionales">No funcionales</h2>
+<p>Los números de rendimiento, capacidad y disponibilidad se fijarán con un perfil de carga y presupuesto aprobados. Las puertas siguientes son verificables sin inventar un SLA.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requisito</th>
+<th>Evidencia de aceptación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RNF-01 · Aislamiento</td>
+<td>Autorizar por rol y pertenencia en cada operación; denegar por defecto</td>
+<td>Matriz de pruebas con usuario A, usuario B, administrador y sesión inválida; ningún dato privado cruza cuentas</td>
+</tr>
+<tr>
+<td>RNF-02 · Integridad</td>
+<td>Operaciones críticas atómicas, idempotentes y con control de concurrencia</td>
+<td>Reintento tras respuesta perdida, dos dispositivos simultáneos y caída antes/después de confirmar; un resultado de negocio</td>
+</tr>
+<tr>
+<td>RNF-03 · Tiempo</td>
+<td>Separar instante UTC, fecha local de negocio y zona de agenda</td>
+<td>Casos de medianoche, cambio de zona y cambio horario; reproducción del resultado histórico</td>
+</tr>
+<tr>
+<td>RNF-04 · Accesibilidad</td>
+<td>Formularios, gráficos y estados utilizables con teclado, lector y sin depender del color</td>
+<td>Revisión de flujos RF-01 a RF-05 según <a href="../../diseno/README.md">diseño</a>, con incidencias resueltas o documentadas</td>
+</tr>
+<tr>
+<td>RNF-05 · Privacidad</td>
+<td>Minimizar captura y separar uso personal, biometría y telemetría técnica</td>
+<td>Revisión de campos, consentimiento revocado en tareas pendientes y ausencia de tokens/datos sensibles en logs</td>
+</tr>
+<tr>
+<td>RNF-06 · Rendimiento</td>
+<td>Medir latencia y capacidad del flujo prioritario antes de fijar objetivos</td>
+<td>Perfil reproducible: usuarios simultáneos, tamaño de historial, p95, errores, recursos y objetivo aprobado en decisión D-08</td>
+</tr>
+<tr>
+<td>RNF-07 · Recuperación</td>
+<td>Poder restaurar datos persistentes y reconciliar trabajos</td>
+<td>Ejercicio de restauración en entorno aislado; RPO/RTO medidos y comparados con objetivos pendientes de aprobar</td>
+</tr>
+<tr>
+<td>RNF-08 · Mantenibilidad</td>
+<td>Un contrato y reglas de negocio compartidos por clientes</td>
+<td>Cambios de contrato revisados, generación/validación de tipos y pruebas de compatibilidad; sin lógica divergente por pantalla</td>
+</tr>
+<tr>
+<td>RNF-09 · Observabilidad</td>
+<td>Identificar fallos de solicitudes y trabajos sin exponer datos personales</td>
+<td>Traza correlacionada de registro y recálculo; alertas con responsable y procedimiento de atención</td>
+</tr>
+<tr>
+<td>RNF-10 · Reproducibilidad</td>
+<td>Documentar herramientas, versiones, variables y comandos reales</td>
+<td>Un integrante levanta la entrega desde un clon limpio con datos sintéticos y obtiene las verificaciones documentadas</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cualidades-identificadas-en-las-guías-del-proyecto">Cualidades identificadas en las guías del proyecto</h3>
+<p>Estos requisitos complementan los diez anteriores. Su procedencia se indica por fila; los parámetros de plataforma, operación y evaluación siguen pendientes de revisión.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requisito</th>
+<th>Evidencia de aceptación</th>
+<th>Procedencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RNF-11 · Protección técnica</td>
+<td>Proteger comunicaciones, secretos, datos persistidos y límites de entrada; aplicar las políticas de sesión del IdP</td>
+<td>Revisar cifrado y permisos por ambiente, ausencia de secretos en bundles/logs, validación de entradas y comportamiento ante sesión inválida; configuración exacta por aprobar</td>
+<td><a href="../../seguridad/README.md">Seguridad</a></td>
+</tr>
+<tr>
+<td>RNF-12 · Adaptación y compatibilidad</td>
+<td>Mantener semántica de negocio entre PWA React/Vite y Flutter, con distribución y permisos propios de cada plataforma</td>
+<td>Matriz de navegadores/Android/iOS aprobada; mismos casos funcionales, formularios y errores en tamaños admitidos; rechazo de permisos conserva uso manual</td>
+<td><a href="../../../apps/web/README.md">Web</a>, <a href="../../../apps/mobile/README.md">móvil</a> y <a href="../../diseno/sistema-diseno.md">diseño</a></td>
+</tr>
+<tr>
+<td>RNF-13 · Resiliencia del cliente</td>
+<td>Informar desconexión y estados pendientes; cuando se habilite offline, aislar datos por cuenta y recuperar operaciones sin pérdida silenciosa ni duplicados</td>
+<td>Cortar red, perder respuesta, agotar almacenamiento y cambiar sesión; comprobar cola, conflicto y separación de avance provisional/confirmado. El alcance offline debe aprobarse antes</td>
+<td><a href="../../../apps/web/README.md#pwa-y-desconexión">Web</a>, <a href="reglas.html#progreso-correcciones-y-concurrencia">RN-P16</a></td>
+</tr>
+<tr>
+<td>RNF-14 · Evolución y entrega</td>
+<td>Versionar contratos y recursos; desplegar y actualizar sin introducir incompatibilidades ni perder formularios u operaciones pendientes</td>
+<td>Pruebas de consumidor y migraciones; actualización de caché y service worker cuando existan; recuperación documentada de una entrega fallida</td>
+<td><a href="../../../packages/contracts/README.md">Contratos</a>, <a href="../../despliegue/README.md">despliegue</a> y <a href="../../../apps/web/README.md">web</a></td>
+</tr>
+<tr>
+<td>RNF-15 · Calidad analítica</td>
+<td>Evaluar modelos/reglas con datos autorizados, partición sin fuga, métricas y sesgos; reproducir resultados y abstenerse cuando no sean fiables</td>
+<td>Ficha por versión, línea base, conjunto de evaluación, límites, abstención y retirada probados. Umbrales y población requieren D-07; la demo no demuestra calidad predictiva</td>
+<td><a href="../../datos-ia/analitica-ia.md">Analítica e IA</a></td>
+</tr>
+</tbody>
+</table>
+<p>Los objetivos históricos de 350 ms, dos toques o 99.9% encontrados en Práctica 05 y el examen no se incorporan como compromisos del producto. Rendimiento/disponibilidad se resuelven en D-08; usabilidad y compatibilidad necesitan una matriz y revisión propias. Sus identificadores RNF pertenecen a esos antecedentes, no equivalen a los del catálogo vigente.</p>
+<h2 id="puerta-del-primer-flujo">Puerta del primer flujo</h2>
+<p>Una entrega de RF-01 a RF-05 necesita además RNF-01/02/03/04/05/08/09/10. Antes de un piloto con datos personales también debe existir una solución probada para RF-10, restauración, suspensión y políticas de conservación. Implementar primero la interfaz no exonera estas condiciones.</p></main><footer><a href="../revision.html">Práctica 07 · Guía completa</a><button id="back-top" type="button">Volver al inicio ↑</button></footer></body></html>

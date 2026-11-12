@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UHs · Historias de usuario</title><link rel="stylesheet" href="../entrega.css"><link rel="stylesheet" href="../lectura.css"><script src="../lectura.js" defer></script></head>
+<body><header><p class="eyebrow">PRÁCTICA 07</p><nav aria-label="Sección Práctica 07"><a href="../../../index.html#practica-07">Volver al portal</a><a href="../revision.html">Los 15 puntos</a><a href="../navegacion.html">Diagrama conectado</a><a href="../../GUI/practica-07.html">Galería de sketches</a><a href="../index.html">Prototipo</a></nav></header>
+<main class="reading"><h1 id="uhs-historias-de-usuario">UHs · Historias de usuario</h1>
+<p>Esta carpeta es la fuente de las historias del producto. Los objetivos se definen aquí; las operaciones y los criterios AC se mantienen en el <a href="requisitos.html">catálogo</a>, las políticas en <a href="reglas.html">reglas de negocio</a> y los escenarios CA en <a href="aceptacion.html">aceptación</a>. <strong>Estado:</strong> historias propuestas; no equivalen a tickets asignados ni funcionalidades implementadas.</p>
+<p>Los IDs HU-01 a HU-10 se conservan. Cada historia agrupa operaciones de la familia RF correspondiente; se puede entregar una parte citando su <code>RF-XX.NN</code> y AC, sin declarar terminada toda la historia. Las decisiones D se consultan en <a href="../../arquitectura/decisiones-pendientes.md">pendientes de arquitectura</a>.</p>
+<p><a id="hu-01"></a></p>
+<h2 id="hu-01-acceso-y-continuidad-de-sesión">HU-01 · Acceso y continuidad de sesión</h2>
+<p>Como visitante quiero registrar y verificar mi cuenta, y como usuario quiero acceder, recuperar y cerrar mi sesión para conservar acceso seguro a mis datos entre dispositivos.</p>
+<table>
+<thead>
+<tr>
+<th>Referencia</th>
+<th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operaciones y aceptación</td>
+<td><a href="requisitos.html#rf-01">RF-01 y sus AC</a></td>
+</tr>
+<tr>
+<td>Reglas aplicables</td>
+<td><a href="reglas.html">RN-P01</a></td>
+</tr>
+<tr>
+<td>Escenarios</td>
+<td><a href="aceptacion.html">CA-01/02</a></td>
+</tr>
+<tr>
+<td>Decisiones pendientes</td>
+<td><a href="../../arquitectura/decisiones-pendientes.md">D-02</a></td>
+</tr>
+</tbody>
+</table>
+<p><a id="hu-02"></a></p>
+<h2 id="hu-02-perfil-y-control-de-datos">HU-02 · Perfil y control de datos</h2>
+<p>Como usuario quiero gestionar mis preferencias, zona horaria y autorizaciones por finalidad para decidir cómo se utilizan mis datos sin alterar mi historial.</p>
+<table>
+<thead>
+<tr>
+<th>Referencia</th>
+<th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operaciones y aceptación</td>
+<td><a href="requisitos.html#rf-02">RF-02 y sus AC</a></td>
+</tr>
+<tr>
+<td>Reglas aplicables</td>
+<td><a href="reglas.html">RN-P02/06/07/08</a></td>
+</tr>
+<tr>
+<td>Escenarios</td>
+<td><a href="aceptacion.html">CA-03/13</a></td>
+</tr>
+<tr>
+<td>Decisiones pendientes</td>
+<td><a href="../../arquitectura/decisiones-pendientes.md">D-03/09</a></td>
+</tr>
+</tbody>
+</table>
+<p><a id="hu-03"></a></p>
+<h2 id="hu-03-rutina-personal">HU-03 · Rutina personal</h2>
+<p>Como usuario quiero crear, consultar, editar, pausar, reanudar y archivar mis hábitos para adaptar mi rutina conservando su historia.</p>
+<table>
+<thead>
+<tr>
+<th>Referencia</th>
+<th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operaciones y aceptación</td>
+<td><a href="requisitos.html#rf-03">RF-03 y sus AC</a></td>
+</tr>
+<tr>
+<td>Reglas aplicables</td>
+<td><a href="reglas.html">RN-P03/04/05/09/12</a></td>
+</tr>
+<tr>
+<td>Escenarios</td>
+<td><a href="aceptacion.html">CA-04/08/11</a></td>
+</tr>
+<tr>
+<td>Decisiones pendientes</td>
+<td><a href="../../arquitectura/decisiones-pendientes.md">D-03</a></td>
+</tr>
+</tbody>
+</table>
+<p><a id="hu-04"></a></p>
+<h2 id="hu-04-progreso-y-sincronización">HU-04 · Progreso y sincronización</h2>
+<p>Como usuario quiero registrar y corregir el total alcanzado y conocer si está pendiente, confirmado o en conflicto para confiar en mi progreso aun cuando se interrumpa una operación.</p>
+<table>
+<thead>
+<tr>
+<th>Referencia</th>
+<th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operaciones y aceptación</td>
+<td><a href="requisitos.html#rf-04">RF-04 y sus AC</a></td>
+</tr>
+<tr>
+<td>Reglas aplicables</td>
+<td><a href="reglas.html">RN-P06/11/12/13/14/15/16</a></td>
+</tr>
+<tr>
+<td>Escenarios</td>
+<td><a href="aceptacion.html">CA-03/05/06/07/12</a></td>
+</tr>
+<tr>
+<td>Decisiones pendientes</td>
+<td><a href="../../arquitectura/decisiones-pendientes.md">D-03/04/10</a></td>
+</tr>
+</tbody>
+</table>
+<p><a id="hu-05"></a></p>
+<h2 id="hu-05-historial-y-métricas">HU-05 · Historial y métricas</h2>
+<p>Como usuario quiero consultar calendario, tendencias, cumplimiento y rachas por periodo para comprender mi evolución con las metas que correspondían a cada fecha.</p>
+<table>
+<thead>
+<tr>
+<th>Referencia</th>
+<th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operaciones y aceptación</td>
+<td><a href="requisitos.html#rf-05">RF-05 y sus AC</a></td>
+</tr>
+<tr>
+<td>Reglas aplicables</td>
+<td><a href="reglas.html">RN-P09/17/18</a></td>
+</tr>
+<tr>
+<td>Escenarios</td>
+<td><a href="aceptacion.html">CA-08/09/10</a></td>
+</tr>
+<tr>
+<td>Decisiones pendientes</td>
+<td><a href="../../arquitectura/decisiones-pendientes.md">D-03</a></td>
+</tr>
+</tbody>
+</table>
+<p><a id="hu-06"></a></p>
+<h2 id="hu-06-avisos-voluntarios">HU-06 · Avisos voluntarios</h2>
+<p>Como usuario quiero configurar recordatorios y consultar avisos asociados a mis hábitos para recordar mi rutina en los días y horarios elegidos.</p>
+<table>
+<thead>
+<tr>
+<th>Referencia</th>
+<th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operaciones y aceptación</td>
+<td><a href="requisitos.html#rf-06">RF-06 y sus AC</a></td>
+</tr>
+<tr>
+<td>Reglas aplicables</td>
+<td><a href="reglas.html">RN-P03/06/10</a></td>
+</tr>
+<tr>
+<td>Escenarios</td>
+<td><a href="aceptacion.html">CA-11/19</a></td>
+</tr>
+<tr>
+<td>Decisiones pendientes</td>
+<td><a href="../../arquitectura/decisiones-pendientes.md">D-05/10</a></td>
+</tr>
+</tbody>
+</table>
+<p><a id="hu-07"></a></p>
+<h2 id="hu-07-recomendaciones-comprensibles">HU-07 · Recomendaciones comprensibles</h2>
+<p>Como usuario quiero conocer la evidencia y los límites de una recomendación, personalizarla, aceptarla o descartarla para decidir sobre mi rutina sin cambios automáticos.</p>
+<table>
+<thead>
+<tr>
+<th>Referencia</th>
+<th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operaciones y aceptación</td>
+<td><a href="requisitos.html#rf-07">RF-07 y sus AC</a></td>
+</tr>
+<tr>
+<td>Reglas aplicables</td>
+<td><a href="reglas.html">RN-P02/19/20/21</a></td>
+</tr>
+<tr>
+<td>Escenarios</td>
+<td><a href="aceptacion.html">CA-13/14/20</a></td>
+</tr>
+<tr>
+<td>Decisiones pendientes</td>
+<td><a href="../../arquitectura/decisiones-pendientes.md">D-07</a></td>
+</tr>
+</tbody>
+</table>
+<p><a id="hu-08"></a></p>
+<h2 id="hu-08-fuentes-y-dispositivos">HU-08 · Fuentes y dispositivos</h2>
+<p>Como usuario quiero vincular una fuente compatible, conocer su estado y revocarla para controlar la aportación voluntaria de señales a mis análisis.</p>
+<table>
+<thead>
+<tr>
+<th>Referencia</th>
+<th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operaciones y aceptación</td>
+<td><a href="requisitos.html#rf-08">RF-08 y sus AC</a></td>
+</tr>
+<tr>
+<td>Reglas aplicables</td>
+<td><a href="reglas.html">RN-P02/14/22</a></td>
+</tr>
+<tr>
+<td>Escenarios</td>
+<td><a href="aceptacion.html">CA-18</a></td>
+</tr>
+<tr>
+<td>Decisiones pendientes</td>
+<td><a href="../../arquitectura/decisiones-pendientes.md">D-06/09</a></td>
+</tr>
+</tbody>
+</table>
+<p><a id="hu-09"></a></p>
+<h2 id="hu-09-administración-autorizada">HU-09 · Administración autorizada</h2>
+<p>Como administrador quiero mantener catálogo, estados de cuenta y configuración autorizada para operar el servicio con motivos auditables y sin consultar rutinas privadas.</p>
+<table>
+<thead>
+<tr>
+<th>Referencia</th>
+<th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operaciones y aceptación</td>
+<td><a href="requisitos.html#rf-09">RF-09 y sus AC</a></td>
+</tr>
+<tr>
+<td>Reglas aplicables</td>
+<td><a href="reglas.html">RN-P01/05/23/24</a></td>
+</tr>
+<tr>
+<td>Escenarios</td>
+<td><a href="aceptacion.html">CA-01/02/15</a></td>
+</tr>
+<tr>
+<td>Decisiones pendientes</td>
+<td><a href="../../arquitectura/decisiones-pendientes.md">D-02/11</a></td>
+</tr>
+</tbody>
+</table>
+<p><a id="hu-10"></a></p>
+<h2 id="hu-10-derechos-de-datos-y-trazabilidad">HU-10 · Derechos de datos y trazabilidad</h2>
+<p>Como usuario quiero exportar o solicitar la eliminación de mis datos y conocer el estado de mi solicitud; como operador autorizado quiero consultar trazabilidad para rendir cuentas sobre acciones sensibles.</p>
+<table>
+<thead>
+<tr>
+<th>Referencia</th>
+<th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operaciones y aceptación</td>
+<td><a href="requisitos.html#rf-10">RF-10 y sus AC</a></td>
+</tr>
+<tr>
+<td>Reglas aplicables</td>
+<td><a href="reglas.html">RN-P01/02/23/24</a></td>
+</tr>
+<tr>
+<td>Escenarios</td>
+<td><a href="aceptacion.html">CA-16/17</a></td>
+</tr>
+<tr>
+<td>Decisiones pendientes</td>
+<td><a href="../../arquitectura/decisiones-pendientes.md">D-05/09</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="alcance-y-desglose">Alcance y desglose</h2>
+<ul>
+<li>El <a href="../../UHs/primer-flujo.md">primer recorrido</a> enlaza HU-01 a HU-05 y su puerta de aceptación.</li>
+<li>HU-04 contempla sincronización offline únicamente cuando se aprueben almacenamiento y políticas; el prototipo local no demuestra esa integración.</li>
+<li>HU-07 incluye evaluación futura de indicadores preventivos/arquetipos a través de RF-07.05; no promete modelos validados ni resultados clínicos.</li>
+<li>HU-08 distingue la simulación sintética de la integración real con sensores y Wear OS.</li>
+<li>HU-09 no aprueba administración móvil: esa plataforma sigue por confirmar en la <a href="../../../apps/mobile/README.md">guía móvil</a>.</li>
+<li>La <a href="../../Practica05/HU-Recomendaciones-IA.md">HU-QC-05 de Práctica 05</a> se conserva como antecedente académico de HU-07. Sus umbrales y RNF no sustituyen los vigentes.</li>
+</ul>
+<h2 id="plantilla-de-tarea-derivada">Plantilla de tarea derivada</h2>
+<pre><code class="language-text">Historia HU / operación RF-XX.NN / AC:
+Resultado que se entrega y alcance excluido:
+Actor y recursos propios/autorizados:
+Reglas RN-P y escenarios CA enlazados:
+Pantallas, estados y operación del contrato:
+Decisiones D que impiden implementarla:
+Pruebas realizadas, evidencia y límites:
+</code></pre>
+<p>La tarea referencia estas definiciones. No vuelve a escribir reglas, criterios ni DTO en otra carpeta.</p></main><footer><a href="../revision.html">Práctica 07 · Guía completa</a><button id="back-top" type="button">Volver al inicio ↑</button></footer></body></html>

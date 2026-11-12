@@ -15,7 +15,7 @@ for(const screen of screens){
 }
 const spec=JSON.parse(fs.readFileSync(path.join(root,'navegacion-completa.archify.json'),'utf8'));
 assert.equal(spec.nodes.length,33);assert.equal(spec.edges.length,screens.reduce((n,s)=>n+s.edges.length,0));
-const files=fs.readdirSync(root).filter(f=>/\.(md|html)$/.test(f)&&f!=='navegacion.html');
+const files=fs.readdirSync(root).filter(f=>/\.(md|html)$/.test(f));
 for(const file of files){const content=fs.readFileSync(path.join(root,file),'utf8');const links=[...content.matchAll(/(?:href|src)="([^"<>]+)"/g),...content.matchAll(/\]\(([^)\s]+)\)/g)];
   for(const match of links){const ref=match[1];if(/^(https?:|mailto:|data:|#|\/)/.test(ref)||ref.includes('${'))continue;const clean=decodeURIComponent(ref.split('#')[0].split('?')[0]);if(clean&&!fs.existsSync(path.resolve(root,clean)))errors.push(`${file}: ${ref}`);}
 }

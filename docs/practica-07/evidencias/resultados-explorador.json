@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-12",
+  "browser": "157.0.4341.46",
+  "playwright": "1.65.0",
+  "baseURL": "http://127.0.0.1:8765/docs/practica-07/",
+  "results": [
+    {
+      "name": "Enlace compatible, selección por fragmento y retorno del navegador",
+      "status": "passed"
+    },
+    {
+      "name": "Búsqueda por ID y nombre; resultados inexistentes no cambian la selección",
+      "status": "passed"
+    },
+    {
+      "name": "Ocho escenarios: todas las conexiones existen y cada paso actualiza pantalla y condición",
+      "status": "passed"
+    },
+    {
+      "name": "33 pantallas: imagen legible, reglas completas, relaciones y referencias RF/HU",
+      "status": "passed"
+    },
+    {
+      "name": "Miniaturas, formatos, ampliación y zoom",
+      "status": "passed"
+    },
+    {
+      "name": "Teclado en pestañas y nodos; transición y consulta de entrada",
+      "status": "passed"
+    },
+    {
+      "name": "Original de Archify conservado y embebido bajo demanda",
+      "status": "passed"
+    },
+    {
+      "name": "Móvil y escritorio: contenido visible, imágenes y ausencia de desbordamiento",
+      "status": "passed"
+    }
+  ],
+  "pageErrors": [],
+  "scope": "Explorador y organización; no acredita una nueva ejecución de Archify ni publicación remota."
+}
