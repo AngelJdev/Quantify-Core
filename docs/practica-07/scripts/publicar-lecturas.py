@@ -81,7 +81,7 @@ for source, output in PAGES.items():
     portal = relative(ROOT / 'index.html', output)
     output.parent.mkdir(exist_ok=True)
     output.write_text(f'''<!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{escape(title)}</title><link rel="stylesheet" href="{base}entrega.css"><link rel="stylesheet" href="{base}lectura.css"><script src="{base}lectura.js" defer></script></head>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{escape(title)}</title><script src="{base}marca.js"></script><link rel="stylesheet" href="{base}entrega.css"><link rel="stylesheet" href="{base}lectura.css"><script src="{base}lectura.js" defer></script></head>
 <body><header><p class="eyebrow">PRÁCTICA 07</p><nav aria-label="Sección Práctica 07"><a href="{portal}#practica-07">Volver al portal</a><a href="{base}revision.html">Los 15 puntos</a><a href="{base}navegacion.html">Diagrama conectado</a><a href="{relative(ROOT / 'docs/GUI/practica-07.html', output)}">Galería de sketches</a><a href="{base}index.html">Prototipo</a></nav></header>
 <main class="reading">{body}</main><footer><a href="{base}revision.html">Práctica 07 · Guía completa</a><button id="back-top" type="button">Volver al inicio ↑</button></footer></body></html>
 ''', encoding='utf-8')
