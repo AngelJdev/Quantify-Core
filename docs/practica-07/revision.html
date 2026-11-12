@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Práctica 07 · Navegación de sketches</title><link rel="stylesheet" href="./entrega.css"><link rel="stylesheet" href="./lectura.css"><script src="./lectura.js" defer></script></head>
+<body><header><p class="eyebrow">PRÁCTICA 07</p><nav aria-label="Sección Práctica 07"><a href="../../index.html#practica-07">Volver al portal</a><a href="./revision.html">Los 15 puntos</a><a href="./navegacion.html">Diagrama conectado</a><a href="../GUI/practica-07.html">Galería de sketches</a><a href="./index.html">Prototipo</a></nav></header>
+<main class="reading"><h1 id="práctica-07-navegación-de-sketches">Práctica 07 · Navegación de sketches</h1>
+<p>Esta guía sigue los <strong>15 puntos solicitados</strong>, en el mismo orden. En cada punto encontrarás qué se hizo y un enlace para revisarlo. Los sketches se consultan en GUI; los documentos completos permanecen en sus carpetas.</p>
+<p><strong><a href="revision.html">Consultar esta guía dentro del sitio</a></strong></p>
+<h2 id="índice">Índice</h2>
+<ol>
+<li><a href="#punto-1">Requisitos, historias, reglas y funcionalidades</a></li>
+<li><a href="#punto-2">Roles y permisos</a></li>
+<li><a href="#punto-3">Estructura de navegación</a></li>
+<li><a href="#punto-4">Nueve sketches obligatorios</a></li>
+<li><a href="#punto-5">Once sketches adicionales como mínimo</a></li>
+<li><a href="#punto-6">Componentes y dibujo a lápiz</a></li>
+<li><a href="#punto-7">Ficha de cada pantalla</a></li>
+<li><a href="#punto-8">Transiciones y condiciones</a></li>
+<li><a href="#punto-9">Diagrama general de navegación</a></li>
+<li><a href="#punto-10">Diagrama con Archify</a></li>
+<li><a href="#punto-11">Sketches vinculados al recorrido</a></li>
+<li><a href="#punto-12">Revisión de los recorridos</a></li>
+<li><a href="#punto-13">Proceso, herramientas y decisiones</a></li>
+<li><a href="#punto-14">Organización y consulta de los archivos</a></li>
+<li><a href="#punto-15">Revisión final y entrega</a></li>
+</ol>
+<p><a id="punto-1"></a></p>
+<h2 id="1-requisitos-historias-reglas-y-funcionalidades">1. Requisitos, historias, reglas y funcionalidades</h2>
+<p>Se revisó qué debe hacer el proyecto, qué necesita cada usuario y qué reglas debe respetar. Se seleccionaron para el prototipo las funciones de acceso, hábitos, seguimiento, avisos, recomendaciones y administración.</p>
+<ul>
+<li><a href="lecturas/requisitos.html">Requisitos funcionales y no funcionales del proyecto</a>.</li>
+<li><a href="lecturas/historias.html">Historias de usuario</a>.</li>
+<li><a href="lecturas/reglas.html">Reglas de negocio</a>.</li>
+<li><a href="referencia.html#punto-1">Relación detallada entre funciones, actores y pantallas seleccionadas</a>.</li>
+</ul>
+<p>Los documentos se enlazan desde aquí para conservar una sola definición de cada requisito, historia y regla.</p>
+<p><a id="roles-plataformas-y-alcance"></a>
+<a id="punto-2"></a></p>
+<h2 id="2-roles-y-permisos">2. Roles y permisos</h2>
+<table>
+<thead>
+<tr>
+<th>Rol</th>
+<th>Qué puede consultar o hacer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Visitante</td>
+<td>Iniciar, registrarse, recuperar acceso, desbloquear la cuenta y consultar información pública.</td>
+</tr>
+<tr>
+<td>Usuario</td>
+<td>Gestionar sus hábitos, registrar avances, consultar resultados y ajustar sus preferencias.</td>
+</tr>
+<tr>
+<td>Administrador</td>
+<td>Mantener el catálogo, gestionar estados de cuentas y consultar auditoría y resultados agregados. No tiene acceso general a hábitos privados.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="referencia.html#punto-2">Consultar operaciones, restricciones y pantallas de cada rol</a>.</p>
+<p><a id="cómo-recorrerlo"></a>
+<a id="punto-3"></a></p>
+<h2 id="3-estructura-de-navegación">3. Estructura de navegación</h2>
+<p>El recorrido comienza en <strong>Splash → Loading → Bienvenida → Login → Home</strong>. Desde Home se accede a hábitos, análisis, avisos, recomendaciones y ajustes. Administración tiene un acceso y módulos propios.</p>
+<p><a href="referencia.html#entradas-rutas-y-retorno">Ver las rutas principales, alternativas y retornos</a> · <a href="index.html">Recorrer el prototipo</a>.</p>
+<p><a id="nueve-pantallas-generales-obligatorias"></a>
+<a id="punto-4"></a></p>
+<h2 id="4-nueve-sketches-obligatorios">4. Nueve sketches obligatorios</h2>
+<table>
+<thead>
+<tr>
+<th>Pantalla solicitada</th>
+<th>Sketch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Splash Screen</td>
+<td><a href="fichas.html#u16">U16</a></td>
+</tr>
+<tr>
+<td>Loading Screen</td>
+<td><a href="fichas.html#u17">U17</a></td>
+</tr>
+<tr>
+<td>Login Screen</td>
+<td><a href="fichas.html#u02">U02</a></td>
+</tr>
+<tr>
+<td>Recovery Account or Password</td>
+<td><a href="fichas.html#u04">U04</a></td>
+</tr>
+<tr>
+<td>Lock Account</td>
+<td><a href="fichas.html#u18">U18</a></td>
+</tr>
+<tr>
+<td>Unlock Account Code</td>
+<td><a href="fichas.html#u19">U19</a></td>
+</tr>
+<tr>
+<td>About Software</td>
+<td><a href="fichas.html#u20">U20</a></td>
+</tr>
+<tr>
+<td>About Team / Enterprise</td>
+<td><a href="fichas.html#u21">U21</a></td>
+</tr>
+<tr>
+<td>Home</td>
+<td><a href="fichas.html#u06">U06</a></td>
+</tr>
+</tbody>
+</table>
+<p>Dos ejemplos del dibujo a lápiz:</p>
+<table>
+<thead>
+<tr>
+<th>Login · U02</th>
+<th>Home · U06</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="../GUI/prototipos/movil/sketches/practica-07/U02.png" alt="Sketch a lápiz de Login" width="220"></td>
+<td><img src="../GUI/prototipos/movil/sketches/practica-07/U06.png" alt="Sketch a lápiz de Home" width="220"></td>
+</tr>
+</tbody>
+</table>
+<p><strong><a href="../GUI/practica-07.html">Ver todos los sketches en la galería de GUI →</a></strong></p>
+<p><a id="punto-5"></a></p>
+<h2 id="5-once-sketches-adicionales-como-mínimo">5. Once sketches adicionales como mínimo</h2>
+<p>Se incluyen <strong>24 pantallas adicionales</strong>, además de las nueve obligatorias. Entre ellas están crear hábito, registrar avance, configurar recordatorios, consultar análisis, revisar recomendaciones, editar perfil, archivar, consultar avisos, administrar catálogo, consultar auditoría y gestionar cuentas.</p>
+<p><a href="referencia.html#punto-5">Consultar las once funciones de referencia y sus roles</a> · <a href="../GUI/practica-07.html">Ver las 33 pantallas en GUI</a>.</p>
+<p><a id="punto-6"></a></p>
+<h2 id="6-componentes-y-dibujo-a-lápiz">6. Componentes y dibujo a lápiz</h2>
+<p>Los sketches muestran campos, botones, menús, listas, tarjetas y mensajes con trazos de grafito sobre blanco. Los textos breves ayudan a reconocer los controles; las explicaciones completas están en las fichas. Cada pantalla tiene una versión móvil y otra PWA.</p>
+<p><a href="../GUI/practica-07.html">Revisar los dibujos en GUI</a> · <a href="referencia.html#punto-6">Consultar los criterios de representación</a>.</p>
+<p><a id="fichas"></a>
+<a id="punto-7"></a></p>
+<h2 id="7-ficha-de-cada-pantalla">7. Ficha de cada pantalla</h2>
+<p>Cada ficha contiene identificador, nombre, descripción, plataforma, rol autorizado, componentes, acciones, pantallas relacionadas y requisitos o historias que justifican el diseño.</p>
+<p><strong><a href="fichas.html">Consultar las 33 fichas completas →</a></strong></p>
+<p><a id="reglas-y-condiciones"></a>
+<a id="punto-8"></a></p>
+<h2 id="8-transiciones-y-condiciones">8. Transiciones y condiciones</h2>
+<p>Se documentan los casos de acceso correcto e incorrecto, recuperación, bloqueo, desbloqueo, cierre de sesión, acceso denegado y operaciones propias de cada rol. También se indica cuándo una acción permanece en la misma pantalla.</p>
+<p><a href="navegacion.html">Revisar entradas y salidas en el explorador</a> · <a href="referencia.html#reglas-y-condiciones">Consultar las condiciones del prototipo</a>.</p>
+<p><a id="punto-9"></a></p>
+<h2 id="9-diagrama-general-de-navegación">9. Diagrama general de navegación</h2>
+<p>El mapa muestra las <strong>33 pantallas y sus 131 conexiones</strong>. Se pueden filtrar por rol; al seleccionar una pantalla se resaltan sus salidas y aparecen el boceto, las condiciones, las reglas y las funciones relacionadas.</p>
+<p><strong><a href="navegacion.html">Abrir el diagrama interactivo →</a></strong></p>
+<p><a id="archify-y-explorador"></a>
+<a id="punto-10"></a></p>
+<h2 id="10-diagrama-con-archify">10. Diagrama con Archify</h2>
+<p>Se conserva el <a href="archify/navegacion-original.html">diagrama original generado con Archify</a>, que contiene doce pantallas. La ampliación a 33 está preparada, pero <strong>su generación con Archify sigue pendiente</strong>. El explorador completo se mejoró por separado y no sustituye esa ejecución.</p>
+<p><a href="navegacion.html">Consultar el original y la ampliación desde el explorador</a> · <a href="navegacion-completa.archify.json">Ver la especificación preparada</a>.</p>
+<p><a id="punto-11"></a></p>
+<h2 id="11-sketches-vinculados-al-recorrido">11. Sketches vinculados al recorrido</h2>
+<p>Cada pantalla del explorador muestra su boceto y permite ampliarlo, abrir su ficha o probarla en el prototipo. La galería de GUI permite filtrar por rol y alternar entre móvil y PWA.</p>
+<p><a href="../GUI/practica-07.html">Ver la galería completa en GUI</a> · <a href="navegacion.html">Explorar las conexiones</a>.</p>
+<p><a id="validacion"></a>
+<a id="punto-12"></a></p>
+<h2 id="12-revisión-de-los-recorridos">12. Revisión de los recorridos</h2>
+<p>Se revisaron acceso, recuperación, bloqueo y desbloqueo, hábitos, administración y retornos. La última comprobación del explorador aprobó <strong>ocho escenarios</strong>, incluyendo las 33 pantallas y la presentación en móvil y escritorio.</p>
+<p><a href="referencia.html#validacion">Consultar escenarios y resultados de las revisiones</a> · <a href="evidencias/resultados-explorador.json">Ver el informe del explorador</a>.</p>
+<p><a id="proceso"></a>
+<a id="punto-13"></a></p>
+<h2 id="13-proceso-herramientas-y-decisiones">13. Proceso, herramientas y decisiones</h2>
+<p>Se documentan las herramientas utilizadas, solicitudes y prompts conservados, decisiones de navegación, observaciones y correcciones. Se distingue lo ejecutado de lo que sigue pendiente.</p>
+<p><a href="referencia.html#proceso">Leer el proceso y las decisiones</a>.</p>
+<p><a id="organización-y-reproducción"></a>
+<a id="punto-14"></a></p>
+<h2 id="14-organización-y-consulta-de-los-archivos">14. Organización y consulta de los archivos</h2>
+<table>
+<thead>
+<tr>
+<th>Contenido</th>
+<th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Guía de los 15 puntos</td>
+<td>Este README.</td>
+</tr>
+<tr>
+<td>Sketches y galería</td>
+<td><a href="../GUI/practica-07.html">GUI</a>, con imágenes en sus carpetas móvil/PWA.</td>
+</tr>
+<tr>
+<td>Fichas de pantallas</td>
+<td><a href="fichas.html">fichas.md</a>.</td>
+</tr>
+<tr>
+<td>Prototipo y diagrama</td>
+<td><a href="index.html">Prototipo</a> · <a href="navegacion.html">Explorador</a>.</td>
+</tr>
+<tr>
+<td>Detalles, proceso y pruebas</td>
+<td><a href="referencia.html">Referencia técnica</a> · <a href="evidencias">Evidencias</a>.</td>
+</tr>
+<tr>
+<td>Requisitos, historias y reglas</td>
+<td>Enlaces del <a href="#punto-1">punto 1</a>, sin copias adicionales.</td>
+</tr>
+</tbody>
+</table>
+<p><strong><a href="entrega.html">Abrir la entrada visual de la práctica</a></strong>. Para consultar los HTML localmente, las <a href="referencia.html#organización-y-reproducción">instrucciones de apertura</a> incluyen el comando y la dirección.</p>
+<p><a id="cumplimiento"></a>
+<a id="versionamiento-y-entrega"></a>
+<a id="punto-15"></a></p>
+<h2 id="15-revisión-final-y-entrega">15. Revisión final y entrega</h2>
+<p>Están disponibles los sketches, las fichas, el prototipo, el mapa completo y sus evidencias. Quedan pendientes la generación ampliada con Archify y la revisión, integración y publicación de los cambios actuales. El prototipo simula las interacciones; no acredita servicios de producto implementados.</p>
+<p><a href="referencia.html#cumplimiento">Consultar la lista de cierre y pendientes</a> · <a href="referencia.html#versionamiento-y-entrega">Consultar el procedimiento de entrega</a>.</p></main><footer><a href="./revision.html">Práctica 07 · Guía completa</a><button id="back-top" type="button">Volver al inicio ↑</button></footer></body></html>

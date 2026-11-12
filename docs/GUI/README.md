@@ -4,13 +4,13 @@ Documentación del sistema de diseño, guía de estilos visuales y prototipos de
 
 ## Práctica 07 · Navegación y sketches
 
-La entrega tiene **un único [README de Práctica 07](../practica-07/README.md)** con todas sus fichas, proceso y evidencias. El prototipo y los mapas están en `docs/practica-07/`; los bocetos a lápiz están en sus carpetas de GUI: [`movil/sketches/practica-07/`](prototipos/movil/sketches/practica-07/) y [`pwa/sketches/practica-07/`](prototipos/pwa/sketches/practica-07/). Incluyen **Login U02** y **Register U03** como pantallas completas.
+La entrega tiene **un único [README de Práctica 07](../practica-07/README.md)** con los quince puntos y enlaces a fichas, proceso y evidencias. El prototipo y los mapas están en `docs/practica-07/`; los bocetos a lápiz están en sus carpetas de GUI: [`movil/sketches/practica-07/`](prototipos/movil/sketches/practica-07/) y [`pwa/sketches/practica-07/`](prototipos/pwa/sketches/practica-07/). Incluyen **Login U02** y **Register U03** como pantallas completas.
 
 | Consultar | Acceso |
 |---|---|
 | Guía y ejecución local | [README de Práctica 07](../practica-07/README.md) · [Explorar la práctica](../practica-07/entrega.html) |
-| Nueve pantallas obligatorias y funciones adicionales | [33 fichas documentadas](../practica-07/README.md#fichas) · [Galería móvil/PWA](../practica-07/galeria.html) |
-| Recorridos y condiciones | [Prototipo](../practica-07/index.html) · [Mapa completo](../practica-07/mapa-completo.html) · [Archify original](../practica-07/navegacion.html) |
+| Nueve pantallas obligatorias y funciones adicionales | [33 fichas documentadas](../practica-07/README.md#fichas) · [Galería móvil/PWA](practica-07.html) |
+| Recorridos y condiciones | [Prototipo](../practica-07/index.html) · [Mapa completo](../practica-07/mapa-completo.html) · [Explorador con bocetos](../practica-07/navegacion.html) |
 | Evaluación de la consigna | [Matriz de cumplimiento](../practica-07/README.md#cumplimiento) · [Proceso y prompts](../practica-07/README.md#proceso) · [Validación](../practica-07/README.md#validacion) |
 
 Los HTML se exploran mediante el servidor local indicado en el README de la práctica. Los enlaces públicos pueden mostrar una versión anterior hasta que esta rama se integre y publique. La matriz distingue el mapa completo complementario de la regeneración pendiente con Archify.

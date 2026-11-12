@@ -19,7 +19,7 @@ Mapa de referencia para que el equipo y sus agentes implementen el mismo product
 | [GUI](GUI/README.md) | Pantallas, estados, prototipo y diseño del producto. |
 | [Installation](Installation/README.md) | Preparación comprobable y requisitos de instalación futura. |
 | [Manual](Manual/README.md) | Guía técnica para diseñar, programar y entregar cambios. |
-| [NFRs](NFRs/README.md) | Requisitos no funcionales `RNF-01` a `RNF-10`. |
+| [NFRs](NFRs/README.md) | Requisitos no funcionales `RNF-01` a `RNF-15`. |
 | [UHs](UHs/README.md) | Historias de usuario y [primer recorrido](UHs/primer-flujo.md). |
 | [UserManual](UserManual/README.md) | Uso del prototipo disponible y alcance del manual futuro. |
 
