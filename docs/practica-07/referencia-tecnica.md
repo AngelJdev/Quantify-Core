@@ -276,6 +276,14 @@ El mapa complementario, la especificación preparada y el prompt propuesto no su
 
 ## Proceso, decisiones y prompts
 
+### Detalle ampliado de las islas · 12 de noviembre de 2026
+
+Al pulsar una de las doce islas del diagrama original se abre una ficha ampliada en la vista del sitio. Cada isla tiene objetivo y condiciones previas propios, componentes, bocetos móvil/PWA, tres pasos del recorrido, al menos tres validaciones, resultado esperado, entradas/salidas, reglas completas y enlaces a requisitos e historias. Las conexiones permiten abrir pantallas relacionadas y regresar a la ficha anterior.
+
+La integración se realiza desde `detalles-islas.js` sobre el documento embebido del mismo origen. El HTML original se conserva sin cambios; el enriquecimiento no se presenta como una nueva generación de Archify. Los detalles usan el inventario y reglas existentes, con explicaciones específicas para las doce islas originales.
+
+Se ejecutó `tests/islas-browser.cjs`: doce islas comprobadas, bocetos móvil/PWA cargados, cuatro pestañas con contenido, conexiones y retorno, apertura por teclado, cierre y vista móvil sin errores ni desbordamiento. [Informe](evidencias/resultados-islas.json) · [Detalle en escritorio](evidencias/isla-detalle-1440.png) · [Flujo en móvil](evidencias/isla-detalle-390.png).
+
 ### Identidad visual del sitio · 12 de noviembre de 2026
 
 Se personalizaron la portada, las lecturas, la galería y el explorador con el logo existente de Quantify, Inter local y los colores de `packages/design-tokens/themes.css`. La interfaz comparte encabezado, temas oscuro/claro, tarjetas y jerarquía visual. Los PNG/SVG de sketches y el estilo del prototipo se conservaron.
