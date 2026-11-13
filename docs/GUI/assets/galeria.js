@@ -1,11 +1,16 @@
 'use strict';
-(() => {
-  const screens=JSON.parse(document.getElementById('screen-data').textContent);
+(async () => {
+  const baseScreens=JSON.parse(document.getElementById('screen-data').textContent);
+  const response=await fetch('prototipos/movil/autenticacion/catalogo.json');
+  if(!response.ok){document.getElementById('fidelity-note').textContent='No se pudo cargar el catálogo de autenticación. Recarga para consultar todas las pantallas.';return;}
+  const authScreens=await response.json();
+  const screens=baseScreens.concat(authScreens.map((s,i)=>({id:'auth-'+s.id,number:21+i,title:s.name,rf:'RF-01 · '+s.ref,intent:s.intent,note:'Vista complementaria de autenticación; diseño sin sesión real.',assets:s.assets})));
+
   const grid=document.getElementById('prototype-grid'),format=document.getElementById('format');
   const dialog=document.getElementById('viewer'),full=document.getElementById('full-image');
   const requestedFidelity=new URLSearchParams(location.search).get('fidelity');
-  let fidelity=['sketch','wireframe','mockup'].includes(requestedFidelity)?requestedFidelity:'sketch',theme='light',activeCards=[],current=0,opener;
-  const notes={sketch:'20 pantallas móviles · Solo cuadros y líneas de boceto, sin texto, color ni temas. El número y la intención se identifican fuera del dibujo.',wireframe:'Las mismas 20 pantallas · Estructura en grises, fuente genérica Arial y marcadores de imagen/logo. La numeración conserva la correspondencia con cada sketch.',mockup:'Las mismas 20 pantallas · Inter, paleta, iconos y logos existentes. Claro y oscuro son variantes de cada pantalla; no aumentan el conteo. Imágenes estáticas, con datos de ejemplo.'};
+  let fidelity=['sketch','wireframe','mockup'].includes(requestedFidelity)?requestedFidelity:'sketch',theme=new URLSearchParams(location.search).get('theme')==='dark'?'dark':'light',activeCards=[],current=0,opener;
+  const notes={sketch:'26 vistas móviles: 20 originales y 6 de autenticación · Solo cuadros y líneas de boceto, sin texto, color ni temas. El número y la intención se identifican fuera del dibujo.',wireframe:'26 vistas: 20 originales y 6 de autenticación · Estructura en grises, fuente genérica Arial y marcadores de imagen/logo. La numeración conserva la correspondencia con cada sketch.',mockup:'26 vistas: 20 originales y 6 de autenticación · Inter, paleta, iconos y logos existentes. Claro y oscuro son variantes de cada pantalla; no aumentan el conteo. Imágenes estáticas, con datos de ejemplo.'};
   function showImage(index){
     current=(index+activeCards.length)%activeCards.length;
     const card=activeCards[current];full.src=card.dataset.image;full.alt=card.dataset.title;
@@ -28,7 +33,7 @@
     document.querySelectorAll('[data-fidelity]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.fidelity===fidelity)));
     const desktop=format.value==='desktop';grid.classList.toggle('desktop',desktop);
     document.getElementById('fidelity-note').textContent=notes[fidelity];
-    document.querySelectorAll('[data-theme]').forEach(b=>b.disabled=fidelity!=='mockup');
+    document.querySelectorAll('[data-theme]').forEach(b=>{b.disabled=fidelity!=='mockup';b.setAttribute('aria-pressed',String(b.dataset.theme===theme));});
     document.querySelector('[aria-label="Tema"]').hidden=fidelity!=='mockup';
     if(fidelity!=='mockup'&&desktop){format.value='mobile';return render();}
     format.disabled=fidelity!=='mockup';

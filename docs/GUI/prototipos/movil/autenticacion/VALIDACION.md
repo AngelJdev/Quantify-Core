@@ -1,5 +1,22 @@
 # Validación técnica del flujo visual de identidad
 
+## Actualización del 13 de noviembre de 2026
+
+Práctica 09 se incorpora al README principal y al portal como avance visual. La galería GUI utiliza el catálogo original de 20 pantallas y el catálogo complementario de seis vistas, sin copiar sus imágenes. Login y Registro incorporan Google, Facebook y Apple: geometría sin texto en sketches y opciones identificadas en wireframes y mockups. No se modifican el realm ni la autenticación de producto.
+
+Validación local ejecutada con Node.js 24.14.1 y Microsoft Edge mediante Playwright:
+
+- `node docs/GUI/fuente/tests/auth-flow.test.mjs`: aprobado; inventario de seis vistas y 24 SVG, tres proveedores en Login/Registro, generación reproducible y sketches sin texto.
+- `node docs/GUI/fuente/tests/auth-flow.browser.test.mjs`: aprobado; 24 SVG sin desbordamiento, fuente efectiva, ocho combinaciones de galería de identidad y ocho de galería unificada a 1440/390 px. Las 26 imágenes cargan en cada fidelidad; el visor, los temas y la entrada de Práctica 09 funcionan.
+- `python -B -m unittest discover -s docs/GUI/fuente/tests -v`: 12/12 aprobadas.
+- `git diff --check`: aprobado.
+- `node scripts/check-docs.mjs`: sin enlaces Markdown locales faltantes; permanece el bloqueo previo de doce referencias externas de OpenAPI no validadas en telemetry/dashboard.
+
+El informe y las capturas de esta ejecución se generan en `docs/GUI/.build/auth-qa/`, ignorado por Git. La evidencia enlazada más abajo corresponde a la revisión histórica del 8 de noviembre y conserva su fecha.
+
+## Revisión histórica
+
+
 Revisión local del 8 de noviembre de 2026 (America/Mexico_City), para el [PR #1](https://github.com/AngelJdev/Quantify-Core/pull/1), rama `docs/auth-flow-ux-baseline`, base `develop` en `8ae2159`.
 
 ## Correcciones y alcance

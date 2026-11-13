@@ -20,10 +20,10 @@ Los HTML se exploran mediante el servidor local indicado en el README de la prá
 | Elemento | Estado | Dónde revisarlo |
 |---|---|---|
 | Identidad visual  | Cuatro lienzos de referencia conservados; claro y oscuro | [README de identidad visual](identidad/README.md) |
-| Autenticación · 6 vistas adicionales | Sketch, wireframe y mockups claro/oscuro; sin integración Keycloak | [Matriz y flujo](prototipos/movil/autenticacion/README.md) · [Galería](prototipos/movil/autenticacion/index.html) |
-| Móvil · Sketches | 20 bocetos correspondientes | [README de sketches](prototipos/movil/sketches/README.md) |
-| Móvil · Wireframes | 20 estructuras correspondientes | [README de wireframes](prototipos/movil/wireframes/README.md) |
-| Móvil · Mockups | 20 pantallas; claro y oscuro juntos (40 PNG) | [README de mockups](prototipos/movil/mockups/README.md) |
+| Autenticación · 6 vistas adicionales | Login/Register y recuperación en las tres fidelidades; acceso social visual Google/Facebook/Apple, sin autenticación real | [Matriz y flujo](prototipos/movil/autenticacion/README.md) · [Galería](prototipos/movil/autenticacion/index.html) |
+| Móvil · Sketches | 20 originales + 6 vistas de autenticación | [README de sketches](prototipos/movil/sketches/README.md) |
+| Móvil · Wireframes | 20 originales + 6 vistas de autenticación | [README de wireframes](prototipos/movil/wireframes/README.md) |
+| Móvil · Mockups | 20 originales (40 PNG) + 6 de autenticación (12 SVG de mockup) | [README de mockups](prototipos/movil/mockups/README.md) |
 | Matriz móvil | Correspondencia y condiciones de las veinte pantallas | [Índice y matriz móvil](prototipos/movil/README.md#matriz-por-áreas-funcionales) |
 | Galería pública | Configuración indicada por el responsable: `develop` y `/ (root)` | [Abrir galería](https://angeljdev.github.io/Quantify-Core/docs/GUI/) |
 | Archivo editable propio | Diez lienzos: seis de guía, sketches, wireframes, mockups y recursos en Figma | [Figma · Proyecto Integrador](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3?node-id=2-59) |
