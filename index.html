@@ -1271,7 +1271,7 @@
           firmas: '35',
           carpeta: 'docs/practica-07',
           descripcion: 'Los 15 puntos de la práctica, 33 pantallas con bocetos a lápiz y un mapa de 131 conexiones. Revisa cada recorrido, condición y regla desde el sitio.',
-          accion: { label: 'Explorar Práctica 07', url: 'docs/practica-07/entrega.html' },
+          accion: { label: 'Revisar sketches', url: 'docs/GUI/practica-07.html' },
           documentacion: 'docs/practica-07/revision.html',
           objetivos: [
             'Representar y probar la navegación entre los sketches de Quantify Core mediante un prototipo interactivo.',
@@ -1305,7 +1305,7 @@
           firmas: '40',
           carpeta: 'docs/GUI/prototipos/movil/wireframes',
           descripcion: 'Wireframes del Proyecto Integrador: consulta las 26 vistas móviles disponibles en GUI (20 originales y seis de autenticación), su estructura y componentes. El diagrama específico de Práctica 08 está pendiente de integrar.',
-          accion: { label: 'Explorar wireframes', url: 'docs/GUI/index.html?fidelity=wireframe#prototipos' },
+          accion: { label: 'Explorar wireframes', url: 'docs/GUI/index.html?fidelity=wireframe&review=1#prototipos' },
           documentacion: 'https://github.com/AngelJdev/Quantify-Core/tree/develop#práctica-08',
           objetivos: [
             'Revisar la distribución de componentes de las pantallas del proyecto.',
@@ -1318,7 +1318,7 @@
             'Pendiente: integrar el diagrama específico de visualización de Práctica 08.'
           ],
           archivos: [
-            { nombre: 'Galería de wireframes', ruta: '26 vistas, incluidas Login, Register y recuperación', url: 'docs/GUI/index.html?fidelity=wireframe#prototipos', tag: 'GALERÍA' },
+            { nombre: 'Galería de wireframes', ruta: '26 vistas, incluidas Login, Register y recuperación', url: 'docs/GUI/index.html?fidelity=wireframe&review=1#prototipos', tag: 'GALERÍA' },
             { nombre: 'Wireframes y documentación en GUI', ruta: 'Imágenes originales y organización por módulo', url: 'https://github.com/AngelJdev/Quantify-Core/blob/develop/docs/GUI/prototipos/movil/wireframes/README.md', tag: 'GUI' },
             { nombre: 'Matriz de pantallas', ruta: 'Correspondencia, funciones y condiciones', url: 'https://github.com/AngelJdev/Quantify-Core/blob/develop/docs/GUI/prototipos/movil/README.md', tag: 'MATRIZ' }
           ],
@@ -1333,7 +1333,7 @@
           firmas: 'Por confirmar',
           carpeta: 'docs/GUI/prototipos/movil/mockups',
           descripcion: 'Avance de mockups: 20 pantallas originales y seis vistas de autenticación, incluidas Login, Register, verificación y recuperación. Versiones claras y oscuras con la identidad visual de Quantify. No se presenta como entrega terminada.',
-          accion: { label: 'Explorar avance de mockups', url: 'docs/GUI/index.html?fidelity=mockup#prototipos' },
+          accion: { label: 'Explorar avance de mockups', url: 'docs/GUI/index.html?fidelity=mockup&review=1#prototipos' },
           documentacion: 'https://github.com/AngelJdev/Quantify-Core/tree/develop#práctica-09',
           objetivos: [
             'Revisar los mockups disponibles con tipografía, colores y marcas de Quantify.',
@@ -1346,8 +1346,8 @@
             'Login/Register con Google, Facebook y Apple como opciones visuales; sin conexión real de identidad.'
           ],
           archivos: [
-            { nombre: 'Mockups claros y oscuros', ruta: '26 vistas, incluidas las seis de autenticación', url: 'docs/GUI/index.html?fidelity=mockup#prototipos', tag: 'AVANCE' },
-            { nombre: 'Mockups en tema oscuro', ruta: 'Las mismas pantallas, con variante oscura', url: 'docs/GUI/index.html?fidelity=mockup&theme=dark#prototipos', tag: 'OSCURO' },
+            { nombre: 'Mockups claros y oscuros', ruta: '26 vistas, incluidas las seis de autenticación', url: 'docs/GUI/index.html?fidelity=mockup&review=1#prototipos', tag: 'AVANCE' },
+            { nombre: 'Mockups en tema oscuro', ruta: 'Las mismas pantallas, con variante oscura', url: 'docs/GUI/index.html?fidelity=mockup&theme=dark&review=1#prototipos', tag: 'OSCURO' },
             { nombre: 'Fuentes de los mockups', ruta: 'Imágenes originales en GUI, sin copias adicionales', url: 'https://github.com/AngelJdev/Quantify-Core/blob/develop/docs/GUI/prototipos/movil/mockups/README.md', tag: 'GUI' },
             { nombre: 'Flujo de autenticación', ruta: 'Login, Register, verificación y recuperación', url: 'docs/GUI/prototipos/movil/autenticacion/index.html', tag: 'ACCESO' }
           ],
@@ -1494,7 +1494,7 @@
             '<div class="block"><h4>' + ICONS.target + 'Objetivos</h4>' + list(p.objetivos) + '</div>' +
             '<div class="block"><h4>' + ICONS.box + 'Entregables</h4>' + list(p.entregables) + '</div>' +
           '</div>' +
-          '<div class="block" style="margin-top: 16px;"><h4>' + ICONS.folder + 'Archivos</h4>' + files + '</div>' +
+          '<details class="block" style="margin-top: 16px;"><summary>Documentación y recursos adicionales</summary>' + files + '</details>' +
           '<div class="callout"><strong>Conclusión.</strong> ' + p.conclusion + '</div>';
 
         panelEl.setAttribute('aria-labelledby', 'tab-' + p.id);

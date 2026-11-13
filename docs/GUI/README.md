@@ -2,6 +2,8 @@
 
 Documentación del sistema de diseño, guía de estilos visuales y prototipos de interfaz de usuario de **Quantify Core**. Este módulo centraliza las especificaciones visuales, los componentes de interfaz, las variables de diseño y los prototipos interactivos del producto.
 
+**Para revisar ahora:** [sketches con medidas, uno por uno](practica-07.html). Las 33 vistas corregidas son la referencia activa de Práctica 07. Los 20 bocetos históricos y las seis vistas complementarias se conservan como referencias previas; no son una segunda entrega vigente. Wireframes y mockups siguen en avance y se alinearán después con el orden, navegación y estructura de los sketches revisados.
+
 ## Práctica 07 · Navegación y sketches
 
 La entrega tiene **un único [README de Práctica 07](../practica-07/README.md)** con los quince puntos y enlaces a fichas, proceso y evidencias. El prototipo y los mapas están en `docs/practica-07/`; los bocetos a lápiz están en sus carpetas de GUI: [`movil/sketches/practica-07/`](prototipos/movil/sketches/practica-07/) y [`pwa/sketches/practica-07/`](prototipos/pwa/sketches/practica-07/). Incluyen **Login U02** y **Register U03** como pantallas completas.
@@ -21,7 +23,7 @@ Los HTML se exploran mediante el servidor local indicado en el README de la prá
 |---|---|---|
 | Identidad visual  | Cuatro lienzos de referencia conservados; claro y oscuro | [README de identidad visual](identidad/README.md) |
 | Autenticación · 6 vistas adicionales | Login/Register y recuperación en las tres fidelidades; acceso social visual Google/Facebook/Apple, sin autenticación real | [Matriz y flujo](prototipos/movil/autenticacion/README.md) · [Galería](prototipos/movil/autenticacion/index.html) |
-| Móvil · Sketches | 20 originales + 6 vistas de autenticación | [README de sketches](prototipos/movil/sketches/README.md) |
+| Móvil · Sketches | 33 vistas de Práctica 07 corregidas, acotadas y ordenadas | [README de sketches](prototipos/movil/sketches/README.md) |
 | Móvil · Wireframes | 20 originales + 6 vistas de autenticación | [README de wireframes](prototipos/movil/wireframes/README.md) |
 | Móvil · Mockups | 20 originales (40 PNG) + 6 de autenticación (12 SVG de mockup) | [README de mockups](prototipos/movil/mockups/README.md) |
 | Matriz móvil | Correspondencia y condiciones de las veinte pantallas | [Índice y matriz móvil](prototipos/movil/README.md#matriz-por-áreas-funcionales) |

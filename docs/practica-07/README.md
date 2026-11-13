@@ -4,6 +4,10 @@ Esta guía sigue los **15 puntos solicitados**, en el mismo orden. En cada punto
 
 **[Consultar esta guía dentro del sitio](https://angeljdev.github.io/Quantify-Core/docs/practica-07/revision.html)**
 
+**Revisión de sketches:** [abrir una pantalla a la vez](../GUI/practica-07.html). El orden comienza en Splash (solo logo) → Loading → Bienvenida → Login. Las 33 vistas conservan sus identificadores para no romper referencias; el número de revisión indica el orden de presentación. Cada PNG/SVG incluye cotas fuera de la interfaz: móvil **390 × 844 px**, PWA **1280 × 900 px**, margen de 24 px, separación de 16 px, cabecera de 64 px y navegación de 70 px en móvil o 224 px de lateral en PWA cuando corresponde. No hay navegación de sesión en las pantallas de acceso.
+
+Wireframes y mockups conservan su avance anterior y **están pendientes de alinear** con estos sketches. No se presentan todavía como tres niveles equivalentes. La página usa un tema común; el blanco dentro de las imágenes representa el papel de dibujo.
+
 ## Índice
 
 1. [Requisitos, historias, reglas y funcionalidades](#punto-1)
