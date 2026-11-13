@@ -1297,6 +1297,34 @@
           conclusion: 'Se amplían los bocetos y recorridos a 33 pantallas. La documentación única identifica validaciones, evidencia y los pasos pendientes de Archify e integración.'
         },
         {
+          id: 'practica-08',
+          numero: '08',
+          titulo: 'Visualización de Wireframes',
+          tipo: 'Diseño de interfaces',
+          estatus: 'En preparación',
+          firmas: '40',
+          carpeta: 'docs/GUI/prototipos/movil/wireframes',
+          descripcion: 'Wireframes del Proyecto Integrador: consulta las 20 pantallas móviles disponibles en GUI, su estructura y componentes. El diagrama específico de Práctica 08 está pendiente de integrar.',
+          accion: { label: 'Explorar wireframes', url: 'docs/GUI/index.html?fidelity=wireframe#prototipos' },
+          documentacion: 'https://github.com/AngelJdev/Quantify-Core/tree/develop#práctica-08',
+          objetivos: [
+            'Revisar la distribución de componentes de las pantallas del proyecto.',
+            'Consultar la correspondencia de cada wireframe con su pantalla y función.',
+            'Identificar el material visual disponible para la práctica sin duplicarlo fuera de GUI.'
+          ],
+          entregables: [
+            '20 wireframes móviles estáticos disponibles en la galería de GUI.',
+            'Matriz existente de pantallas y condiciones por área funcional.',
+            'Pendiente: integrar el diagrama específico de visualización de Práctica 08.'
+          ],
+          archivos: [
+            { nombre: 'Galería de wireframes', ruta: '20 pantallas móviles con ampliación y navegación', url: 'docs/GUI/index.html?fidelity=wireframe#prototipos', tag: 'GALERÍA' },
+            { nombre: 'Wireframes y documentación en GUI', ruta: 'Imágenes originales y organización por módulo', url: 'https://github.com/AngelJdev/Quantify-Core/blob/develop/docs/GUI/prototipos/movil/wireframes/README.md', tag: 'GUI' },
+            { nombre: 'Matriz de pantallas', ruta: 'Correspondencia, funciones y condiciones', url: 'https://github.com/AngelJdev/Quantify-Core/blob/develop/docs/GUI/prototipos/movil/README.md', tag: 'MATRIZ' }
+          ],
+          conclusion: 'El material visual se conserva en GUI y puede revisarse desde esta sección. La disponibilidad de los wireframes no implica que el diagrama específico ni la entrega completa de Práctica 08 estén terminados.'
+        },
+        {
           id: 'examen-unidad',
           numero: 'EX',
           titulo: 'Arquitectura de Software (Examen)',
@@ -1381,7 +1409,7 @@
       }
 
       function renderPanel(p) {
-        var liveUrl = p.accion ? (p.id === 'practica-07' ? new URL(p.accion.url, location.href).href : p.accion.url.startsWith('http') ? p.accion.url : PAGES + p.accion.url) : '';
+        var liveUrl = p.accion ? (['practica-07', 'practica-08'].includes(p.id) ? new URL(p.accion.url, location.href).href : p.accion.url.startsWith('http') ? p.accion.url : PAGES + p.accion.url) : '';
         var actions = p.accion
           ? '<a class="btn btn--primary" id="practica-open" href="' + liveUrl + '" target="_blank" rel="noopener">' + ICONS.external + p.accion.label + '</a>' +
             '<a class="btn btn--ghost" id="practica-docs" href="' + p.documentacion + '" target="_blank" rel="noopener">' + ICONS.book + 'Ver documentación</a>'
