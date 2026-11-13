@@ -98,6 +98,30 @@ try{
  await page.goto(base+'/docs/GUI/index.html');
  assert.ok((await page.locator('a[href="prototipos/movil/autenticacion/index.html"]').count())>0);
  assert.doesNotMatch(await page.locator('body').innerText(),/\\n/);
+ // Unified gallery must include the six canonical identity screens in every fidelity.
+ for(const width of [1440,390]){
+  await page.setViewportSize({width,height:1000});
+  for(const [stage,theme]of [['sketch','light'],['wireframe','light'],['mockup','light'],['mockup','dark']]){
+   await page.goto(`${base}/docs/GUI/index.html?fidelity=${stage}&theme=${theme}#prototipos`);
+   await page.waitForFunction(()=>document.querySelectorAll('#prototype-grid .image-card').length===26);
+   const cards=page.locator('#prototype-grid .image-card');
+   await cards.locator('img').evaluateAll(imgs=>Promise.all(imgs.map(i=>i.decode())));
+   assert.equal(await page.locator(`[data-fidelity="${stage}"]`).getAttribute('aria-pressed'),'true');
+   if(stage==='mockup')assert.equal(await page.locator(`[data-theme="${theme}"]`).getAttribute('aria-pressed'),'true');
+   const urls=await cards.locator('img').evaluateAll(imgs=>imgs.map(i=>new URL(i.src).pathname.replace('/docs/GUI/','')));
+   for(const screen of catalogue)assert.ok(urls.includes(screen.assets[`${stage}:${stage==='mockup'?theme:'none'}`]));
+   await cards.nth(20).click();
+   assert.ok(await page.locator('#viewer').isVisible());
+   assert.match(await page.locator('#viewer-title').innerText(),/Iniciar sesión/);
+   await page.locator('#close').click();
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  }
+ }
+ await page.goto(base+'/#practica-09');
+ await page.waitForSelector('#tab-practica-09');
+ assert.match(await page.locator('#practicaPanel').innerText(),/Mockups del proyecto/);
+ assert.match(await page.locator('#practicaPanel').innerText(),/Avance/);
+ assert.match(await page.locator('#practica-open').getAttribute('href'),/fidelity=mockup/);
  await page.setViewportSize({width:1440,height:1000});
  for(const [rel,heading]of [['docs/GUI/README.md','Quantify Core'],['docs/GUI/prototipos/movil/README.md','Acceso, registro de cuenta y recuperación'],['docs/diseno/recorridos.md','Flujo visual de identidad']]){
   const html=marked.parse(readFileSync(resolve(ROOT,rel),'utf8'),{gfm:true});
@@ -105,13 +129,13 @@ try{
   assert.ok((await page.locator('h1,h2,h3').allTextContents()).some(t=>t.includes(heading)),rel);
   assert.doesNotMatch(await page.locator('body').innerText(),/\\n/);
   if(rel==='docs/GUI/README.md'){
-   assert.equal(await page.locator('tr').filter({hasText:'Autenticación'}).count(),1);
-   assert.equal(await page.locator('tr').filter({hasText:'Autenticación'}).locator('td').count(),3);
+   assert.equal(await page.locator('tr').filter({has:page.locator('td:first-child').filter({hasText:/^Autenticación · 6 vistas adicionales$/})}).count(),1);
+   assert.equal(await page.locator('tr').filter({has:page.locator('td:first-child').filter({hasText:/^Autenticación · 6 vistas adicionales$/})}).locator('td').count(),3);
   }
   report.documents.push({path:rel,headings:await page.locator('h1,h2,h3').count(),tables:await page.locator('table').count()});
   await page.screenshot({path:resolve(out,'document-'+rel.replaceAll('/','-')+'.png'),fullPage:true});
  }
  assert.deepEqual(report.errors,[]);
  writeFileSync(resolve(out,'resultados.json'),JSON.stringify(report,null,2)+'\n');
- console.log(`OK: ${report.variants.length} SVG, fuentes CDP, geometría, 8 galerías, enlaces y controles negativos.`);
+ console.log(`OK: ${report.variants.length} SVG, fuentes CDP, geometría, 8 galerías de identidad, 8 galerías unificadas, Práctica 09, enlaces y controles negativos.`);
 }finally{await browser.close();await new Promise(r=>server.close(r));}

@@ -1,5 +1,7 @@
 # Móvil · Mockups
 
+La galería unificada incorpora además las [seis vistas de autenticación](../autenticacion/README.md): Login, Register, verificación, recuperación, nueva contraseña y confirmación. Son **26 vistas en total**; esta página conserva el catálogo original de 20. [Abrir galería completa](https://angeljdev.github.io/Quantify-Core/docs/GUI/index.html?fidelity=mockup#prototipos).
+
 20 pantallas, 40 PNG: cada pantalla presenta claro y oscuro juntos. Inter, paleta, iconos y marcas existentes aplicados a la misma estructura. Miniaturas de 210 px, hasta tres por fila; pulsa una imagen para abrir el PNG completo a 390 × 844. Son documentación estática.
 
 [Índice y matriz móvil](../README.md) · [Condiciones por pantalla](../README.md#condiciones-por-pantalla) · [Identidad visual](../../../identidad/README.md) · [Galería](../../../index.html#prototipos)
