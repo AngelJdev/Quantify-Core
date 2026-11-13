@@ -9,10 +9,10 @@ const root=path.resolve(__dirname,'..'),base=process.env.P07_URL||'http://127.0.
   page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
   const results=[];
   async function check(name,fn){await fn();results.push({name,status:'passed'});console.log('PASS',name);}
-  const open=async hash=>{await page.goto(base+(hash||''));await page.reload();await page.waitForSelector('#screen-content');await page.evaluate(()=>document.fonts.ready);};
+  const open=async hash=>{await page.goto(base+(hash||''));await page.reload();await page.waitForSelector(!hash||hash.endsWith('/U16')?'.splash-only':'#screen-content');await page.evaluate(()=>document.fonts.ready);};
   await check('Inicialización, error de carga y reintento',async()=>{
     await open();assert.equal(await page.locator('#screen-title').textContent(),'Splash Screen');
-    await page.locator('#screen-content [data-go="U17"]').click();await page.locator('[data-action="loading-error"]').click();
+    assert.equal(await page.locator('#app button,#app a').count(),0);await page.waitForSelector('#screen-content');await page.locator('[data-action="loading-error"]').click();
     await page.getByText('No se pudieron cargar los recursos de ejemplo. Reintenta o cancela.').waitFor();
     await page.locator('[data-action="retry-loading"]').click();await page.locator('#screen-content [data-go="U01"]').click();
     assert.equal(await page.locator('#screen-title').textContent(),'Bienvenida');
@@ -76,12 +76,14 @@ const root=path.resolve(__dirname,'..'),base=process.env.P07_URL||'http://127.0.
         await open(`#${role}/${id}`);
         if(format==='pwa')await page.locator('[data-platform=pwa]').click();
         await page.evaluate(()=>document.fonts.ready);
+        if(id!=='U16'){
         await page.locator('#screen-content').evaluate(el=>{el.style.overflow='visible';});
         const overflow=await page.locator('#screen-content').evaluate(el=>el.scrollWidth>el.clientWidth+2);
         assert.equal(overflow,false,`${id}/${format}: desbordamiento horizontal`);
         await page.locator('#device').evaluate(el=>{el.style.height='auto';el.style.maxHeight='none';el.style.minHeight='0';});
         await page.locator('#app').evaluate(el=>{el.style.height='auto';el.style.flex='none';});
         await page.locator('#screen-content').evaluate(el=>{el.style.height='auto';el.style.flex='none';el.style.maxHeight='none';});
+        }
         await page.goto(new URL(`../GUI/prototipos/${format==='movil'?'movil':'pwa'}/sketches/practica-07/${id}.svg`,base).href);
         await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(50);
         await page.locator('svg').screenshot({path:path.join(output,`${id}.png`),animations:'disabled'});
@@ -94,7 +96,7 @@ const root=path.resolve(__dirname,'..'),base=process.env.P07_URL||'http://127.0.
     await page.selectOption('#format-filter','pwa');assert.ok((await page.locator('#catalog img').first().getAttribute('src')).includes('/pwa/'));
   });
   await check('Mapa: 22 nodos de usuario y 11 de administración, selección y boceto',async()=>{
-    await page.goto(base+'mapa-completo.html');await page.waitForSelector('[data-node=U16]');assert.equal(await page.locator('svg .map-node').count(),22);
+    await page.goto(base+'mapa-completo.html');await page.waitForSelector('[data-node=U16]');await page.selectOption('#role-filter','usuario');assert.equal(await page.locator('svg .map-node').count(),22);
     await page.locator('svg [data-node=U18]').click();await page.locator('#tab-connections').click();assert.ok((await page.locator('#routes').textContent()).includes('Solicitar desbloqueo'));
     await page.locator('#panel-connections [data-node=U19]').first().click();assert.ok((await page.locator('#selected-badge').textContent()).includes('U19'));
     await page.selectOption('#role-filter','admin');assert.equal(await page.locator('svg .map-node').count(),11);

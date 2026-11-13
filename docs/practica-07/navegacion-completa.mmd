@@ -1,27 +1,27 @@
 flowchart LR
   subgraph usuario["Usuario y visitante"]
+    U16["U16 · Splash Screen"]
+    U17["U17 · Loading Screen"]
     U01["U01 · Bienvenida"]
     U02["U02 · Login / Iniciar sesión"]
     U03["U03 · Register / Crear cuenta"]
-    U04["U04 · Recuperar acceso"]
     U05["U05 · Verificar código"]
+    U04["U04 · Recuperar acceso"]
+    U15["U15 · Nueva contraseña"]
+    U18["U18 · Lock Account"]
+    U19["U19 · Unlock Account Code"]
     U06["U06 · Hoy / Mis hábitos"]
     U07["U07 · Crear / editar hábito"]
     U08["U08 · Detalle del hábito"]
     U09["U09 · Recordatorio"]
     U10["U10 · Análisis y rachas"]
     U11["U11 · IA Coach"]
+    U14["U14 · Centro de avisos"]
     U12["U12 · Perfil y ajustes"]
     U13["U13 · Archivar hábito"]
-    U14["U14 · Centro de avisos"]
-    U15["U15 · Nueva contraseña"]
-    U16["U16 · Splash Screen"]
-    U17["U17 · Loading Screen"]
-    U18["U18 · Lock Account"]
-    U19["U19 · Unlock Account Code"]
+    U22["U22 · Acceso denegado"]
     U20["U20 · About Software"]
     U21["U21 · About Team / Enterprise"]
-    U22["U22 · Acceso denegado"]
   end
   subgraph admin["Administrador"]
     A01["A01 · Acceso administrador"]
@@ -36,6 +36,10 @@ flowchart LR
     A10["A10 · Lock Account · Administrador"]
     A11["A11 · Unlock Account Code · Administrador"]
   end
+  U16 -- "Inicialización automática" --> U17
+  U17 -- "Carga completada" --> U01
+  U17 -. "Error o reintentar" .-> U17
+  U17 -- "Cancelar" --> U16
   U01 -- "Iniciar sesión" --> U02
   U01 -- "Crear cuenta" --> U03
   U01 -- "Acerca del software" --> U20
@@ -49,12 +53,19 @@ flowchart LR
   U03 -- "Datos válidos" --> U05
   U03 -. "Corregir datos" .-> U03
   U03 -- "Ya tengo cuenta" --> U02
-  U04 -- "Solicitar código demo" --> U05
-  U04 -- "Cancelar" --> U02
   U05 -- "Código válido · registro" --> U06
   U05 -- "Código válido · recuperación" --> U15
   U05 -. "Código inválido o reenviar" .-> U05
   U05 -- "Cancelar" --> U02
+  U04 -- "Solicitar código demo" --> U05
+  U04 -- "Cancelar" --> U02
+  U15 -- "Guardar clave válida" --> U02
+  U15 -. "Corregir clave" .-> U15
+  U18 -- "Solicitar desbloqueo" --> U19
+  U18 -- "Volver al acceso; conserva bloqueo" --> U02
+  U19 -- "Código válido; volver a iniciar sesión" --> U02
+  U19 -. "Código inválido o reenviar" .-> U19
+  U19 -- "Cancelar; conserva bloqueo" --> U18
   U06 -- "Nuevo hábito" --> U07
   U06 -- "Abrir hábito" --> U08
   U06 -. "Completar o deshacer" .-> U06
@@ -85,6 +96,10 @@ flowchart LR
   U11 -- "Hoy" --> U06
   U11 -- "Análisis" --> U10
   U11 -- "Ajustes" --> U12
+  U14 -- "Abrir hábito asociado" --> U08
+  U14 -. "Marcar como leído" .-> U14
+  U14 -- "Preferencias" --> U12
+  U14 -- "Volver" --> U06
   U12 -. "Guardar preferencias" .-> U12
   U12 -- "Ver avisos" --> U14
   U12 -- "Cerrar sesión" --> U02
@@ -95,28 +110,13 @@ flowchart LR
   U12 -- "Intentar módulo administrativo" --> U22
   U13 -- "Confirmar archivo" --> U06
   U13 -- "Cancelar" --> U08
-  U14 -- "Abrir hábito asociado" --> U08
-  U14 -. "Marcar como leído" .-> U14
-  U14 -- "Preferencias" --> U12
-  U14 -- "Volver" --> U06
-  U15 -- "Guardar clave válida" --> U02
-  U15 -. "Corregir clave" .-> U15
-  U16 -- "Continuar inicialización" --> U17
-  U17 -- "Carga completada" --> U01
-  U17 -. "Error o reintentar" .-> U17
-  U17 -- "Cancelar" --> U16
-  U18 -- "Solicitar desbloqueo" --> U19
-  U18 -- "Volver al acceso; conserva bloqueo" --> U02
-  U19 -- "Código válido; volver a iniciar sesión" --> U02
-  U19 -. "Código inválido o reenviar" .-> U19
-  U19 -- "Cancelar; conserva bloqueo" --> U18
+  U22 -- "Volver a Home" --> U06
+  U22 -- "Cerrar sesión" --> U02
   U20 -- "Conocer al equipo" --> U21
   U20 -- "Volver a bienvenida" --> U01
   U20 -- "Volver a ajustes" --> U12
   U21 -- "Volver al software" --> U20
   U21 -- "Volver a bienvenida" --> U01
-  U22 -- "Volver a Home" --> U06
-  U22 -- "Cerrar sesión" --> U02
   A01 -- "Credenciales demo válidas" --> A02
   A01 -. "Acceso denegado" .-> A01
   A01 -- "Tercer intento fallido o acceso bloqueado" --> A10
