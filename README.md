@@ -36,6 +36,7 @@
 - [Práctica 07 — Prototipo Interactivo de Sketches](https://angeljdev.github.io/Quantify-Core/docs/practica-07/)
 - [Práctica 07 — Mapa de Navegación de Sketches](https://angeljdev.github.io/Quantify-Core/docs/practica-07/navegacion.html)
 - [Práctica 08 — Wireframes del Proyecto Integrador](docs/GUI/prototipos/movil/wireframes/README.md)
+- [Práctica 09 — Avance de Mockups](https://angeljdev.github.io/Quantify-Core/#practica-09)
 
 ## Práctica 07
 
@@ -46,6 +47,12 @@ La [carpeta de Práctica 07](docs/practica-07/) reúne la guía de los quince pu
 **Diagrama de Visualización de Wireframes del Proyecto Integrador.** Los [wireframes móviles disponibles](docs/GUI/prototipos/movil/wireframes/README.md) y su [matriz de pantallas](docs/GUI/prototipos/movil/README.md) se conservan en GUI. También pueden consultarse en la [galería visual del sitio](https://angeljdev.github.io/Quantify-Core/docs/GUI/index.html?fidelity=wireframe#prototipos), con **Wireframe** seleccionado automáticamente.
 
 **Estado:** material visual disponible; el diagrama específico de Práctica 08 está pendiente de integrar. La publicación de los wireframes no acredita por sí sola la entrega completa de la práctica.
+
+## Práctica 09
+
+**Avance de mockups.** La [galería del sitio](https://angeljdev.github.io/Quantify-Core/docs/GUI/index.html?fidelity=mockup#prototipos) reúne las 20 pantallas originales y seis vistas complementarias de autenticación: Login, Register, verificación, recuperación, nueva contraseña y confirmación. Las variantes clara y oscura conservan las mismas 26 vistas; las imágenes originales siguen en [GUI](docs/GUI/prototipos/movil/mockups/README.md).
+
+**Estado:** avance visual, no entrega terminada. Login y Register incluyen Google, Facebook y Apple solo como opciones de prototipo. El [flujo de autenticación](docs/GUI/prototipos/movil/autenticacion/README.md) distingue el diseño de la conexión real con Keycloak y proveedores sociales.
 
 ## Documentación para desarrollar
 
@@ -69,6 +76,7 @@ Los diagramas y secciones desplegables de los README ayudan a recorrer estas gu�
 
 - [Práctica 07](docs/practica-07/)
 - [Práctica 08](#práctica-08)
+- [Práctica 09](#práctica-09)
 - [Documentación para desarrollar](#documentación-para-desarrollar)
 - [Descripción](#descripción)
 - [Planteamiento del problema](#planteamiento-del-problema)
@@ -473,6 +481,7 @@ La documentación general se organiza en [docs/](docs/), separando el producto y
 | Práctica 05 | [Diagrama de roles de usuario](https://angeljdev.github.io/Quantify-Core/docs/Practica05/diagrama-roles-quantify.html) · [Doc](docs/Practica05/README.md) | Diagrama interactivo de roles de usuario del proyecto | 15 | Terminado |
 | Práctica 07 | [Práctica 07](https://angeljdev.github.io/Quantify-Core/docs/practica-07/entrega.html) · [Galería](https://angeljdev.github.io/Quantify-Core/docs/practica-07/galeria.html) · [README único](docs/practica-07/README.md) | 33 sketches sencillos a lápiz, Login/Register completos y navegación por rol en móvil/PWA | 35 | En revisión |
 | Práctica 08 | [Wireframes en GUI](docs/GUI/prototipos/movil/wireframes/README.md) · [Galería visual](https://angeljdev.github.io/Quantify-Core/docs/GUI/index.html?fidelity=wireframe#prototipos) | Diagrama de Visualización de Wireframes del Proyecto Integrador | 40 | Wireframes disponibles; diagrama pendiente de integrar |
+| Práctica 09 | [Galería de mockups](https://angeljdev.github.io/Quantify-Core/docs/GUI/index.html?fidelity=mockup#prototipos) · [Autenticación](docs/GUI/prototipos/movil/autenticacion/README.md) | 20 pantallas originales y seis complementarias de autenticación; variantes clara y oscura | Por confirmar | Avance visual |
 | Examen de arquitectura | [Plano interactivo](https://angeljdev.github.io/Quantify-Core/docs/examen/index.html) · [Doc](docs/examen/README.md) | Entregable académico de arquitectura; sus alternativas no sustituyen la base tecnológica de este README | — | Terminado |
 
 Los modelos, diagramas y prototipos interactivos enlazan a su versión en **GitHub Pages**. Los enlaces de documentación técnica dirigen a los archivos correspondientes en el repositorio.
