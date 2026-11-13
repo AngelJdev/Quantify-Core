@@ -4,6 +4,156 @@
 <main class="reading"><h1 id="fichas-de-los-33-sketches">Fichas de los 33 sketches</h1>
 <p><a href="galeria.html">Galería visual</a> · <a href="navegacion.html">Explorador de navegación</a></p>
 <p>Cada ficha reúne descripción, componentes, plataformas, rol, requisitos, historias, reglas, acciones y pantallas relacionadas. Los PNG y SVG permanecen en GUI. <a href="revision.html">Volver a los 15 puntos de la práctica</a>.</p>
+<p><a id="u16"></a></p>
+<details>
+<summary><strong>U16 · Splash Screen</strong> — ficha individual</summary>
+<p><img src="../GUI/prototipos/movil/sketches/practica-07/U16.png" alt="Sketch U16" width="180"></p>
+<p><strong>Pantalla general obligatoria:</strong> Splash Screen.</p>
+<p>Identificar el producto al iniciar la aplicación.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Especificación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plataforma de destino</td>
+<td>PWA con React/Vite y aplicación Flutter</td>
+</tr>
+<tr>
+<td>Rol autorizado</td>
+<td>Usuario / visitante según el recorrido</td>
+</tr>
+<tr>
+<td>Módulo</td>
+<td>Acceso</td>
+</tr>
+<tr>
+<td>Elementos principales</td>
+<td>Solo logotipo centrado; transición automática a carga, sin botones ni navegación</td>
+</tr>
+<tr>
+<td>Requisitos / historias</td>
+<td><a href="lecturas/requisitos.html#rf-01">RF-01</a>; <a href="lecturas/historias.html#hu-01">HU-01</a></td>
+</tr>
+<tr>
+<td>Reglas de navegación / demo</td>
+<td>RN13; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
+</tr>
+<tr>
+<td>Referencia visual</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U16.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U16.png">Sketch PWA</a></td>
+</tr>
+<tr>
+<td>Fuente editable</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U16.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U16.svg">SVG PWA</a></td>
+</tr>
+<tr>
+<td>Recorrido interactivo</td>
+<td><a href="index.html#usuario/U16">Abrir pantalla</a> · <a href="mapa-completo.html#U16">Ver nodo</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
+<table>
+<thead>
+<tr>
+<th>Acción o condición</th>
+<th>Destino</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inicialización automática</td>
+<td><a href="#u17">U17</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p><a id="u17"></a></p>
+<details>
+<summary><strong>U17 · Loading Screen</strong> — ficha individual</summary>
+<p><img src="../GUI/prototipos/movil/sketches/practica-07/U17.png" alt="Sketch U17" width="180"></p>
+<p><strong>Pantalla general obligatoria:</strong> Loading Screen.</p>
+<p>Mostrar la carga inicial, reintento y salida ante un fallo.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Especificación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plataforma de destino</td>
+<td>PWA con React/Vite y aplicación Flutter</td>
+</tr>
+<tr>
+<td>Rol autorizado</td>
+<td>Usuario / visitante según el recorrido</td>
+</tr>
+<tr>
+<td>Módulo</td>
+<td>Acceso</td>
+</tr>
+<tr>
+<td>Elementos principales</td>
+<td>Indicador de carga, mensaje de error, completar, reintentar y cancelar</td>
+</tr>
+<tr>
+<td>Requisitos / historias</td>
+<td><a href="lecturas/requisitos.html#rf-01">RF-01</a>; <a href="lecturas/historias.html#hu-01">HU-01</a></td>
+</tr>
+<tr>
+<td>Reglas de navegación / demo</td>
+<td>RN13; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
+</tr>
+<tr>
+<td>Referencia visual</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U17.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U17.png">Sketch PWA</a></td>
+</tr>
+<tr>
+<td>Fuente editable</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U17.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U17.svg">SVG PWA</a></td>
+</tr>
+<tr>
+<td>Recorrido interactivo</td>
+<td><a href="index.html#usuario/U17">Abrir pantalla</a> · <a href="mapa-completo.html#U17">Ver nodo</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
+<table>
+<thead>
+<tr>
+<th>Acción o condición</th>
+<th>Destino</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Carga completada</td>
+<td><a href="#u01">U01</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+<tr>
+<td>Error o reintentar</td>
+<td><a href="#u17">U17</a></td>
+<td>Permanece en el sketch; muestra estado o validación</td>
+</tr>
+<tr>
+<td>Cancelar</td>
+<td><a href="#u16">U16</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+</tbody>
+</table>
+</details>
 <p><a id="u01"></a></p>
 <details>
 <summary><strong>U01 · Bienvenida</strong> — ficha individual</summary>
@@ -262,81 +412,6 @@
 </tbody>
 </table>
 </details>
-<p><a id="u04"></a></p>
-<details>
-<summary><strong>U04 · Recuperar acceso</strong> — ficha individual</summary>
-<p><img src="../GUI/prototipos/movil/sketches/practica-07/U04.png" alt="Sketch U04" width="180"></p>
-<p><strong>Pantalla general obligatoria:</strong> Recovery Account or Password.</p>
-<p>Iniciar una recuperación simulada sin enviar correos.</p>
-<table>
-<thead>
-<tr>
-<th>Campo</th>
-<th>Especificación</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Plataforma de destino</td>
-<td>PWA con React/Vite y aplicación Flutter</td>
-</tr>
-<tr>
-<td>Rol autorizado</td>
-<td>Usuario / visitante según el recorrido</td>
-</tr>
-<tr>
-<td>Módulo</td>
-<td>Acceso</td>
-</tr>
-<tr>
-<td>Elementos principales</td>
-<td>Correo demo, solicitud de código, aviso de simulación y cancelar</td>
-</tr>
-<tr>
-<td>Requisitos / historias</td>
-<td><a href="lecturas/requisitos.html#rf-01">RF-01</a>; <a href="lecturas/historias.html#hu-01">HU-01</a></td>
-</tr>
-<tr>
-<td>Reglas de navegación / demo</td>
-<td>RN02; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
-</tr>
-<tr>
-<td>Referencia visual</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U04.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U04.png">Sketch PWA</a></td>
-</tr>
-<tr>
-<td>Fuente editable</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U04.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U04.svg">SVG PWA</a></td>
-</tr>
-<tr>
-<td>Recorrido interactivo</td>
-<td><a href="index.html#usuario/U04">Abrir pantalla</a> · <a href="mapa-completo.html#U04">Ver nodo</a></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
-<table>
-<thead>
-<tr>
-<th>Acción o condición</th>
-<th>Destino</th>
-<th>Resultado</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Solicitar código demo</td>
-<td><a href="#u05">U05</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-<tr>
-<td>Cancelar</td>
-<td><a href="#u02">U02</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-</tbody>
-</table>
-</details>
 <p><a id="u05"></a></p>
 <details>
 <summary><strong>U05 · Verificar código</strong> — ficha individual</summary>
@@ -416,6 +491,310 @@
 <tr>
 <td>Cancelar</td>
 <td><a href="#u02">U02</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p><a id="u04"></a></p>
+<details>
+<summary><strong>U04 · Recuperar acceso</strong> — ficha individual</summary>
+<p><img src="../GUI/prototipos/movil/sketches/practica-07/U04.png" alt="Sketch U04" width="180"></p>
+<p><strong>Pantalla general obligatoria:</strong> Recovery Account or Password.</p>
+<p>Iniciar una recuperación simulada sin enviar correos.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Especificación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plataforma de destino</td>
+<td>PWA con React/Vite y aplicación Flutter</td>
+</tr>
+<tr>
+<td>Rol autorizado</td>
+<td>Usuario / visitante según el recorrido</td>
+</tr>
+<tr>
+<td>Módulo</td>
+<td>Acceso</td>
+</tr>
+<tr>
+<td>Elementos principales</td>
+<td>Correo demo, solicitud de código, aviso de simulación y cancelar</td>
+</tr>
+<tr>
+<td>Requisitos / historias</td>
+<td><a href="lecturas/requisitos.html#rf-01">RF-01</a>; <a href="lecturas/historias.html#hu-01">HU-01</a></td>
+</tr>
+<tr>
+<td>Reglas de navegación / demo</td>
+<td>RN02; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
+</tr>
+<tr>
+<td>Referencia visual</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U04.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U04.png">Sketch PWA</a></td>
+</tr>
+<tr>
+<td>Fuente editable</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U04.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U04.svg">SVG PWA</a></td>
+</tr>
+<tr>
+<td>Recorrido interactivo</td>
+<td><a href="index.html#usuario/U04">Abrir pantalla</a> · <a href="mapa-completo.html#U04">Ver nodo</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
+<table>
+<thead>
+<tr>
+<th>Acción o condición</th>
+<th>Destino</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solicitar código demo</td>
+<td><a href="#u05">U05</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+<tr>
+<td>Cancelar</td>
+<td><a href="#u02">U02</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p><a id="u15"></a></p>
+<details>
+<summary><strong>U15 · Nueva contraseña</strong> — ficha individual</summary>
+<p><img src="../GUI/prototipos/movil/sketches/practica-07/U15.png" alt="Sketch U15" width="180"></p>
+<p>Completar la recuperación simulada. La nueva clave vive solo en memoria.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Especificación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plataforma de destino</td>
+<td>PWA con React/Vite y aplicación Flutter</td>
+</tr>
+<tr>
+<td>Rol autorizado</td>
+<td>Usuario / visitante según el recorrido</td>
+</tr>
+<tr>
+<td>Módulo</td>
+<td>Acceso</td>
+</tr>
+<tr>
+<td>Elementos principales</td>
+<td>Nueva contraseña de prueba, confirmación, error y guardar</td>
+</tr>
+<tr>
+<td>Requisitos / historias</td>
+<td><a href="lecturas/requisitos.html#rf-01">RF-01</a>; <a href="lecturas/historias.html#hu-01">HU-01</a></td>
+</tr>
+<tr>
+<td>Reglas de navegación / demo</td>
+<td>RN02; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
+</tr>
+<tr>
+<td>Referencia visual</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U15.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U15.png">Sketch PWA</a></td>
+</tr>
+<tr>
+<td>Fuente editable</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U15.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U15.svg">SVG PWA</a></td>
+</tr>
+<tr>
+<td>Recorrido interactivo</td>
+<td><a href="index.html#usuario/U15">Abrir pantalla</a> · <a href="mapa-completo.html#U15">Ver nodo</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
+<table>
+<thead>
+<tr>
+<th>Acción o condición</th>
+<th>Destino</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Guardar clave válida</td>
+<td><a href="#u02">U02</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+<tr>
+<td>Corregir clave</td>
+<td><a href="#u15">U15</a></td>
+<td>Permanece en el sketch; muestra estado o validación</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p><a id="u18"></a></p>
+<details>
+<summary><strong>U18 · Lock Account</strong> — ficha individual</summary>
+<p><img src="../GUI/prototipos/movil/sketches/practica-07/U18.png" alt="Sketch U18" width="180"></p>
+<p><strong>Pantalla general obligatoria:</strong> Lock Account.</p>
+<p>Informar el bloqueo temporal después de tres intentos fallidos de demostración.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Especificación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plataforma de destino</td>
+<td>PWA con React/Vite y aplicación Flutter</td>
+</tr>
+<tr>
+<td>Rol autorizado</td>
+<td>Usuario / visitante según el recorrido</td>
+</tr>
+<tr>
+<td>Módulo</td>
+<td>Acceso</td>
+</tr>
+<tr>
+<td>Elementos principales</td>
+<td>Candado, explicación del bloqueo, solicitar código y volver</td>
+</tr>
+<tr>
+<td>Requisitos / historias</td>
+<td><a href="lecturas/requisitos.html#rf-01">RF-01</a>; <a href="lecturas/historias.html#hu-01">HU-01</a></td>
+</tr>
+<tr>
+<td>Reglas de navegación / demo</td>
+<td>RN02; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
+</tr>
+<tr>
+<td>Referencia visual</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U18.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U18.png">Sketch PWA</a></td>
+</tr>
+<tr>
+<td>Fuente editable</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U18.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U18.svg">SVG PWA</a></td>
+</tr>
+<tr>
+<td>Recorrido interactivo</td>
+<td><a href="index.html#usuario/U18">Abrir pantalla</a> · <a href="mapa-completo.html#U18">Ver nodo</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
+<table>
+<thead>
+<tr>
+<th>Acción o condición</th>
+<th>Destino</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solicitar desbloqueo</td>
+<td><a href="#u19">U19</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+<tr>
+<td>Volver al acceso; conserva bloqueo</td>
+<td><a href="#u02">U02</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p><a id="u19"></a></p>
+<details>
+<summary><strong>U19 · Unlock Account Code</strong> — ficha individual</summary>
+<p><img src="../GUI/prototipos/movil/sketches/practica-07/U19.png" alt="Sketch U19" width="180"></p>
+<p><strong>Pantalla general obligatoria:</strong> Unlock Account Code.</p>
+<p>Validar un código exclusivo del recorrido de desbloqueo.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Especificación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plataforma de destino</td>
+<td>PWA con React/Vite y aplicación Flutter</td>
+</tr>
+<tr>
+<td>Rol autorizado</td>
+<td>Usuario / visitante según el recorrido</td>
+</tr>
+<tr>
+<td>Módulo</td>
+<td>Acceso</td>
+</tr>
+<tr>
+<td>Elementos principales</td>
+<td>Código de desbloqueo, error, validación, reenvío y cancelar</td>
+</tr>
+<tr>
+<td>Requisitos / historias</td>
+<td><a href="lecturas/requisitos.html#rf-01">RF-01</a>; <a href="lecturas/historias.html#hu-01">HU-01</a></td>
+</tr>
+<tr>
+<td>Reglas de navegación / demo</td>
+<td>RN02; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
+</tr>
+<tr>
+<td>Referencia visual</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U19.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U19.png">Sketch PWA</a></td>
+</tr>
+<tr>
+<td>Fuente editable</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U19.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U19.svg">SVG PWA</a></td>
+</tr>
+<tr>
+<td>Recorrido interactivo</td>
+<td><a href="index.html#usuario/U19">Abrir pantalla</a> · <a href="mapa-completo.html#U19">Ver nodo</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
+<table>
+<thead>
+<tr>
+<th>Acción o condición</th>
+<th>Destino</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Código válido; volver a iniciar sesión</td>
+<td><a href="#u02">U02</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+<tr>
+<td>Código inválido o reenviar</td>
+<td><a href="#u19">U19</a></td>
+<td>Permanece en el sketch; muestra estado o validación</td>
+</tr>
+<tr>
+<td>Cancelar; conserva bloqueo</td>
+<td><a href="#u18">U18</a></td>
 <td>Transición al sketch indicado</td>
 </tr>
 </tbody>
@@ -956,6 +1335,90 @@
 </tbody>
 </table>
 </details>
+<p><a id="u14"></a></p>
+<details>
+<summary><strong>U14 · Centro de avisos</strong> — ficha individual</summary>
+<p><img src="../GUI/prototipos/movil/sketches/practica-07/U14.png" alt="Sketch U14" width="180"></p>
+<p>Avisos locales de ejemplo con estado leído y acceso al hábito asociado.</p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Especificación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plataforma de destino</td>
+<td>PWA con React/Vite y aplicación Flutter</td>
+</tr>
+<tr>
+<td>Rol autorizado</td>
+<td>Usuario / visitante según el recorrido</td>
+</tr>
+<tr>
+<td>Módulo</td>
+<td>Cuenta</td>
+</tr>
+<tr>
+<td>Elementos principales</td>
+<td>Lista de avisos, horario, estado leído y enlace al hábito asociado</td>
+</tr>
+<tr>
+<td>Requisitos / historias</td>
+<td><a href="lecturas/requisitos.html#rf-06">RF-06</a>; <a href="lecturas/historias.html#hu-06">HU-06</a></td>
+</tr>
+<tr>
+<td>Reglas de navegación / demo</td>
+<td>RN07; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
+</tr>
+<tr>
+<td>Referencia visual</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U14.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U14.png">Sketch PWA</a></td>
+</tr>
+<tr>
+<td>Fuente editable</td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U14.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U14.svg">SVG PWA</a></td>
+</tr>
+<tr>
+<td>Recorrido interactivo</td>
+<td><a href="index.html#usuario/U14">Abrir pantalla</a> · <a href="mapa-completo.html#U14">Ver nodo</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
+<table>
+<thead>
+<tr>
+<th>Acción o condición</th>
+<th>Destino</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Abrir hábito asociado</td>
+<td><a href="#u08">U08</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+<tr>
+<td>Marcar como leído</td>
+<td><a href="#u14">U14</a></td>
+<td>Permanece en el sketch; muestra estado o validación</td>
+</tr>
+<tr>
+<td>Preferencias</td>
+<td><a href="#u12">U12</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+<tr>
+<td>Volver</td>
+<td><a href="#u06">U06</a></td>
+<td>Transición al sketch indicado</td>
+</tr>
+</tbody>
+</table>
+</details>
 <p><a id="u12"></a></p>
 <details>
 <summary><strong>U12 · Perfil y ajustes</strong> — ficha individual</summary>
@@ -1134,11 +1597,11 @@
 </tbody>
 </table>
 </details>
-<p><a id="u14"></a></p>
+<p><a id="u22"></a></p>
 <details>
-<summary><strong>U14 · Centro de avisos</strong> — ficha individual</summary>
-<p><img src="../GUI/prototipos/movil/sketches/practica-07/U14.png" alt="Sketch U14" width="180"></p>
-<p>Avisos locales de ejemplo con estado leído y acceso al hábito asociado.</p>
+<summary><strong>U22 · Acceso denegado</strong> — ficha individual</summary>
+<p><img src="../GUI/prototipos/movil/sketches/practica-07/U22.png" alt="Sketch U22" width="180"></p>
+<p>Explicar por qué el rol Usuario no puede operar módulos administrativos.</p>
 <table>
 <thead>
 <tr>
@@ -1161,27 +1624,27 @@
 </tr>
 <tr>
 <td>Elementos principales</td>
-<td>Lista de avisos, horario, estado leído y enlace al hábito asociado</td>
+<td>Mensaje de acceso denegado, alcance del rol, Home y cierre de sesión</td>
 </tr>
 <tr>
 <td>Requisitos / historias</td>
-<td><a href="lecturas/requisitos.html#rf-06">RF-06</a>; <a href="lecturas/historias.html#hu-06">HU-06</a></td>
+<td><a href="lecturas/requisitos.html#rf-09">RF-09</a>; <a href="lecturas/historias.html#hu-09">HU-09</a></td>
 </tr>
 <tr>
 <td>Reglas de navegación / demo</td>
-<td>RN07; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
+<td>RN01; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
 </tr>
 <tr>
 <td>Referencia visual</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U14.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U14.png">Sketch PWA</a></td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U22.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U22.png">Sketch PWA</a></td>
 </tr>
 <tr>
 <td>Fuente editable</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U14.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U14.svg">SVG PWA</a></td>
+<td><a href="../GUI/prototipos/movil/sketches/practica-07/U22.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U22.svg">SVG PWA</a></td>
 </tr>
 <tr>
 <td>Recorrido interactivo</td>
-<td><a href="index.html#usuario/U14">Abrir pantalla</a> · <a href="mapa-completo.html#U14">Ver nodo</a></td>
+<td><a href="index.html#usuario/U22">Abrir pantalla</a> · <a href="mapa-completo.html#U22">Ver nodo</a></td>
 </tr>
 </tbody>
 </table>
@@ -1196,402 +1659,13 @@
 </thead>
 <tbody>
 <tr>
-<td>Abrir hábito asociado</td>
-<td><a href="#u08">U08</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-<tr>
-<td>Marcar como leído</td>
-<td><a href="#u14">U14</a></td>
-<td>Permanece en el sketch; muestra estado o validación</td>
-</tr>
-<tr>
-<td>Preferencias</td>
-<td><a href="#u12">U12</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-<tr>
-<td>Volver</td>
+<td>Volver a Home</td>
 <td><a href="#u06">U06</a></td>
 <td>Transición al sketch indicado</td>
 </tr>
-</tbody>
-</table>
-</details>
-<p><a id="u15"></a></p>
-<details>
-<summary><strong>U15 · Nueva contraseña</strong> — ficha individual</summary>
-<p><img src="../GUI/prototipos/movil/sketches/practica-07/U15.png" alt="Sketch U15" width="180"></p>
-<p>Completar la recuperación simulada. La nueva clave vive solo en memoria.</p>
-<table>
-<thead>
 <tr>
-<th>Campo</th>
-<th>Especificación</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Plataforma de destino</td>
-<td>PWA con React/Vite y aplicación Flutter</td>
-</tr>
-<tr>
-<td>Rol autorizado</td>
-<td>Usuario / visitante según el recorrido</td>
-</tr>
-<tr>
-<td>Módulo</td>
-<td>Acceso</td>
-</tr>
-<tr>
-<td>Elementos principales</td>
-<td>Nueva contraseña de prueba, confirmación, error y guardar</td>
-</tr>
-<tr>
-<td>Requisitos / historias</td>
-<td><a href="lecturas/requisitos.html#rf-01">RF-01</a>; <a href="lecturas/historias.html#hu-01">HU-01</a></td>
-</tr>
-<tr>
-<td>Reglas de navegación / demo</td>
-<td>RN02; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
-</tr>
-<tr>
-<td>Referencia visual</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U15.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U15.png">Sketch PWA</a></td>
-</tr>
-<tr>
-<td>Fuente editable</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U15.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U15.svg">SVG PWA</a></td>
-</tr>
-<tr>
-<td>Recorrido interactivo</td>
-<td><a href="index.html#usuario/U15">Abrir pantalla</a> · <a href="mapa-completo.html#U15">Ver nodo</a></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
-<table>
-<thead>
-<tr>
-<th>Acción o condición</th>
-<th>Destino</th>
-<th>Resultado</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Guardar clave válida</td>
+<td>Cerrar sesión</td>
 <td><a href="#u02">U02</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-<tr>
-<td>Corregir clave</td>
-<td><a href="#u15">U15</a></td>
-<td>Permanece en el sketch; muestra estado o validación</td>
-</tr>
-</tbody>
-</table>
-</details>
-<p><a id="u16"></a></p>
-<details>
-<summary><strong>U16 · Splash Screen</strong> — ficha individual</summary>
-<p><img src="../GUI/prototipos/movil/sketches/practica-07/U16.png" alt="Sketch U16" width="180"></p>
-<p><strong>Pantalla general obligatoria:</strong> Splash Screen.</p>
-<p>Identificar el producto al iniciar la aplicación.</p>
-<table>
-<thead>
-<tr>
-<th>Campo</th>
-<th>Especificación</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Plataforma de destino</td>
-<td>PWA con React/Vite y aplicación Flutter</td>
-</tr>
-<tr>
-<td>Rol autorizado</td>
-<td>Usuario / visitante según el recorrido</td>
-</tr>
-<tr>
-<td>Módulo</td>
-<td>Acceso</td>
-</tr>
-<tr>
-<td>Elementos principales</td>
-<td>Identidad del producto, texto de inicialización y continuar</td>
-</tr>
-<tr>
-<td>Requisitos / historias</td>
-<td><a href="lecturas/requisitos.html#rf-01">RF-01</a>; <a href="lecturas/historias.html#hu-01">HU-01</a></td>
-</tr>
-<tr>
-<td>Reglas de navegación / demo</td>
-<td>RN13; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
-</tr>
-<tr>
-<td>Referencia visual</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U16.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U16.png">Sketch PWA</a></td>
-</tr>
-<tr>
-<td>Fuente editable</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U16.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U16.svg">SVG PWA</a></td>
-</tr>
-<tr>
-<td>Recorrido interactivo</td>
-<td><a href="index.html#usuario/U16">Abrir pantalla</a> · <a href="mapa-completo.html#U16">Ver nodo</a></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
-<table>
-<thead>
-<tr>
-<th>Acción o condición</th>
-<th>Destino</th>
-<th>Resultado</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Continuar inicialización</td>
-<td><a href="#u17">U17</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-</tbody>
-</table>
-</details>
-<p><a id="u17"></a></p>
-<details>
-<summary><strong>U17 · Loading Screen</strong> — ficha individual</summary>
-<p><img src="../GUI/prototipos/movil/sketches/practica-07/U17.png" alt="Sketch U17" width="180"></p>
-<p><strong>Pantalla general obligatoria:</strong> Loading Screen.</p>
-<p>Mostrar la carga inicial, reintento y salida ante un fallo.</p>
-<table>
-<thead>
-<tr>
-<th>Campo</th>
-<th>Especificación</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Plataforma de destino</td>
-<td>PWA con React/Vite y aplicación Flutter</td>
-</tr>
-<tr>
-<td>Rol autorizado</td>
-<td>Usuario / visitante según el recorrido</td>
-</tr>
-<tr>
-<td>Módulo</td>
-<td>Acceso</td>
-</tr>
-<tr>
-<td>Elementos principales</td>
-<td>Indicador de carga, mensaje de error, completar, reintentar y cancelar</td>
-</tr>
-<tr>
-<td>Requisitos / historias</td>
-<td><a href="lecturas/requisitos.html#rf-01">RF-01</a>; <a href="lecturas/historias.html#hu-01">HU-01</a></td>
-</tr>
-<tr>
-<td>Reglas de navegación / demo</td>
-<td>RN13; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
-</tr>
-<tr>
-<td>Referencia visual</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U17.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U17.png">Sketch PWA</a></td>
-</tr>
-<tr>
-<td>Fuente editable</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U17.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U17.svg">SVG PWA</a></td>
-</tr>
-<tr>
-<td>Recorrido interactivo</td>
-<td><a href="index.html#usuario/U17">Abrir pantalla</a> · <a href="mapa-completo.html#U17">Ver nodo</a></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
-<table>
-<thead>
-<tr>
-<th>Acción o condición</th>
-<th>Destino</th>
-<th>Resultado</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Carga completada</td>
-<td><a href="#u01">U01</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-<tr>
-<td>Error o reintentar</td>
-<td><a href="#u17">U17</a></td>
-<td>Permanece en el sketch; muestra estado o validación</td>
-</tr>
-<tr>
-<td>Cancelar</td>
-<td><a href="#u16">U16</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-</tbody>
-</table>
-</details>
-<p><a id="u18"></a></p>
-<details>
-<summary><strong>U18 · Lock Account</strong> — ficha individual</summary>
-<p><img src="../GUI/prototipos/movil/sketches/practica-07/U18.png" alt="Sketch U18" width="180"></p>
-<p><strong>Pantalla general obligatoria:</strong> Lock Account.</p>
-<p>Informar el bloqueo temporal después de tres intentos fallidos de demostración.</p>
-<table>
-<thead>
-<tr>
-<th>Campo</th>
-<th>Especificación</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Plataforma de destino</td>
-<td>PWA con React/Vite y aplicación Flutter</td>
-</tr>
-<tr>
-<td>Rol autorizado</td>
-<td>Usuario / visitante según el recorrido</td>
-</tr>
-<tr>
-<td>Módulo</td>
-<td>Acceso</td>
-</tr>
-<tr>
-<td>Elementos principales</td>
-<td>Candado, explicación del bloqueo, solicitar código y volver</td>
-</tr>
-<tr>
-<td>Requisitos / historias</td>
-<td><a href="lecturas/requisitos.html#rf-01">RF-01</a>; <a href="lecturas/historias.html#hu-01">HU-01</a></td>
-</tr>
-<tr>
-<td>Reglas de navegación / demo</td>
-<td>RN02; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
-</tr>
-<tr>
-<td>Referencia visual</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U18.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U18.png">Sketch PWA</a></td>
-</tr>
-<tr>
-<td>Fuente editable</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U18.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U18.svg">SVG PWA</a></td>
-</tr>
-<tr>
-<td>Recorrido interactivo</td>
-<td><a href="index.html#usuario/U18">Abrir pantalla</a> · <a href="mapa-completo.html#U18">Ver nodo</a></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
-<table>
-<thead>
-<tr>
-<th>Acción o condición</th>
-<th>Destino</th>
-<th>Resultado</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Solicitar desbloqueo</td>
-<td><a href="#u19">U19</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-<tr>
-<td>Volver al acceso; conserva bloqueo</td>
-<td><a href="#u02">U02</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-</tbody>
-</table>
-</details>
-<p><a id="u19"></a></p>
-<details>
-<summary><strong>U19 · Unlock Account Code</strong> — ficha individual</summary>
-<p><img src="../GUI/prototipos/movil/sketches/practica-07/U19.png" alt="Sketch U19" width="180"></p>
-<p><strong>Pantalla general obligatoria:</strong> Unlock Account Code.</p>
-<p>Validar un código exclusivo del recorrido de desbloqueo.</p>
-<table>
-<thead>
-<tr>
-<th>Campo</th>
-<th>Especificación</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Plataforma de destino</td>
-<td>PWA con React/Vite y aplicación Flutter</td>
-</tr>
-<tr>
-<td>Rol autorizado</td>
-<td>Usuario / visitante según el recorrido</td>
-</tr>
-<tr>
-<td>Módulo</td>
-<td>Acceso</td>
-</tr>
-<tr>
-<td>Elementos principales</td>
-<td>Código de desbloqueo, error, validación, reenvío y cancelar</td>
-</tr>
-<tr>
-<td>Requisitos / historias</td>
-<td><a href="lecturas/requisitos.html#rf-01">RF-01</a>; <a href="lecturas/historias.html#hu-01">HU-01</a></td>
-</tr>
-<tr>
-<td>Reglas de navegación / demo</td>
-<td>RN02; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
-</tr>
-<tr>
-<td>Referencia visual</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U19.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U19.png">Sketch PWA</a></td>
-</tr>
-<tr>
-<td>Fuente editable</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U19.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U19.svg">SVG PWA</a></td>
-</tr>
-<tr>
-<td>Recorrido interactivo</td>
-<td><a href="index.html#usuario/U19">Abrir pantalla</a> · <a href="mapa-completo.html#U19">Ver nodo</a></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
-<table>
-<thead>
-<tr>
-<th>Acción o condición</th>
-<th>Destino</th>
-<th>Resultado</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Código válido; volver a iniciar sesión</td>
-<td><a href="#u02">U02</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-<tr>
-<td>Código inválido o reenviar</td>
-<td><a href="#u19">U19</a></td>
-<td>Permanece en el sketch; muestra estado o validación</td>
-</tr>
-<tr>
-<td>Cancelar; conserva bloqueo</td>
-<td><a href="#u18">U18</a></td>
 <td>Transición al sketch indicado</td>
 </tr>
 </tbody>
@@ -1747,80 +1821,6 @@
 <tr>
 <td>Volver a bienvenida</td>
 <td><a href="#u01">U01</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-</tbody>
-</table>
-</details>
-<p><a id="u22"></a></p>
-<details>
-<summary><strong>U22 · Acceso denegado</strong> — ficha individual</summary>
-<p><img src="../GUI/prototipos/movil/sketches/practica-07/U22.png" alt="Sketch U22" width="180"></p>
-<p>Explicar por qué el rol Usuario no puede operar módulos administrativos.</p>
-<table>
-<thead>
-<tr>
-<th>Campo</th>
-<th>Especificación</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Plataforma de destino</td>
-<td>PWA con React/Vite y aplicación Flutter</td>
-</tr>
-<tr>
-<td>Rol autorizado</td>
-<td>Usuario / visitante según el recorrido</td>
-</tr>
-<tr>
-<td>Módulo</td>
-<td>Cuenta</td>
-</tr>
-<tr>
-<td>Elementos principales</td>
-<td>Mensaje de acceso denegado, alcance del rol, Home y cierre de sesión</td>
-</tr>
-<tr>
-<td>Requisitos / historias</td>
-<td><a href="lecturas/requisitos.html#rf-09">RF-09</a>; <a href="lecturas/historias.html#hu-09">HU-09</a></td>
-</tr>
-<tr>
-<td>Reglas de navegación / demo</td>
-<td>RN01; <a href="referencia.html#reglas-y-condiciones">definición</a></td>
-</tr>
-<tr>
-<td>Referencia visual</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U22.png">Sketch móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U22.png">Sketch PWA</a></td>
-</tr>
-<tr>
-<td>Fuente editable</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U22.svg">SVG móvil</a> · <a href="../GUI/prototipos/pwa/sketches/practica-07/U22.svg">SVG PWA</a></td>
-</tr>
-<tr>
-<td>Recorrido interactivo</td>
-<td><a href="index.html#usuario/U22">Abrir pantalla</a> · <a href="mapa-completo.html#U22">Ver nodo</a></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Acciones, condiciones y pantallas relacionadas</strong></p>
-<table>
-<thead>
-<tr>
-<th>Acción o condición</th>
-<th>Destino</th>
-<th>Resultado</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Volver a Home</td>
-<td><a href="#u06">U06</a></td>
-<td>Transición al sketch indicado</td>
-</tr>
-<tr>
-<td>Cerrar sesión</td>
-<td><a href="#u02">U02</a></td>
 <td>Transición al sketch indicado</td>
 </tr>
 </tbody>

@@ -46,7 +46,7 @@ window.QC = (() => {
     s('A09','Confirmar cambio de acceso','Control','Confirmar suspensión o reactivación con un motivo obligatorio.',['RN11','RN12'],[['A07','Confirmar o cancelar'],['A09','Motivo incompleto','state']])
   ];
   user.push(
-    s('U16','Splash Screen','Acceso','Identificar el producto al iniciar la aplicación.',['RN13'],[['U17','Continuar inicialización']]),
+    s('U16','Splash Screen','Acceso','Identificar el producto al iniciar la aplicación.',['RN13'],[['U17','Inicialización automática']]),
     s('U17','Loading Screen','Acceso','Mostrar la carga inicial, reintento y salida ante un fallo.',['RN13'],[['U01','Carga completada'],['U17','Error o reintentar','state'],['U16','Cancelar']]),
     s('U18','Lock Account','Acceso','Informar el bloqueo temporal después de tres intentos fallidos de demostración.',['RN02'],[['U19','Solicitar desbloqueo'],['U02','Volver al acceso; conserva bloqueo']]),
     s('U19','Unlock Account Code','Acceso','Validar un código exclusivo del recorrido de desbloqueo.',['RN02'],[['U02','Código válido; volver a iniciar sesión'],['U19','Código inválido o reenviar','state'],['U18','Cancelar; conserva bloqueo']]),
@@ -78,7 +78,7 @@ window.QC = (() => {
     U13:['RF-03','Resumen del hábito, advertencia de conservación del historial y confirmación'],
     U14:['RF-06','Lista de avisos, horario, estado leído y enlace al hábito asociado'],
     U15:['RF-01','Nueva contraseña de prueba, confirmación, error y guardar'],
-    U16:['RF-01','Identidad del producto, texto de inicialización y continuar'],
+    U16:['RF-01','Solo logotipo centrado; transición automática a carga, sin botones ni navegación'],
     U17:['RF-01','Indicador de carga, mensaje de error, completar, reintentar y cancelar'],
     U18:['RF-01','Candado, explicación del bloqueo, solicitar código y volver'],
     U19:['RF-01','Código de desbloqueo, error, validación, reenvío y cancelar'],
@@ -104,5 +104,8 @@ window.QC = (() => {
     screen.elements=details[screen.id][1];
     screen.sketch=`../GUI/prototipos/movil/sketches/practica-07/${screen.id}.png`;
   }
+  const order=['U16','U17','U01','U02','U03','U05','U04','U15','U18','U19','U06','U07','U08','U09','U10','U11','U14','U12','U13','U22','U20','U21'];
+  user.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));
+  for(const [i,screen]of [...user,...admin].entries())screen.reviewOrder=i+1;
   return {rules,screens:{usuario:user,admin},date:'2026-10-14'};
 })();

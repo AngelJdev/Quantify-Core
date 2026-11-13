@@ -1,5 +1,19 @@
 # Referencia técnica de Práctica 07
 
+## Revisión de bocetos · 13 de noviembre de 2026
+
+La revisión vigente reemplaza las 66 láminas de Práctica 07: viewport móvil 390 × 844 y PWA 1280 × 900, con cotas exteriores y sus SVG editables. Los tamaños totales de archivo incluyen el papel reservado para anotaciones; se registran en `sketch-medidas.json`. Las referencias de tamaño y capturas anteriores de este documento son históricas.
+
+Splash es la primera vista de revisión (conserva el identificador U16), con solo el logotipo centrado; el prototipo avanza automáticamente a Loading sin botón dentro del splash. Login muestra correo, contraseña enmascarada, acceso principal, recuperación, registro y tres alternativas sociales; Registro incluye confirmación de contraseña. Los controles son trazos y cajas; solo las cotas y el nombre exterior se rotulan. El logotipo es la excepción solicitada para Splash.
+
+Las pantallas de acceso no llevan navegación de sesión. Las demás reservan la misma zona de navegación por rol: cuatro destinos de usuario y seis de administrador; barra inferior móvil o lateral PWA. La estructura revisada queda en el SVG mediante grupos con tipo y coordenadas para alinear después las otras fidelidades. Wireframes/mockups todavía conservan su avance previo.
+
+La galería permite avanzar una vista a la vez. Las fichas se despliegan a petición; el portal agrupa los enlaces secundarios bajo «Documentación y recursos adicionales». El tema claro/oscuro del sitio se propaga a las galerías, independientemente del tema de cada mockup. El blanco del papel no cambia.
+
+Validación ejecutada el 13 de noviembre: `tests/sketches-browser.cjs` aprobó las 66 láminas, cotas, navegación, orden, visor responsivo y Splash automático. `tests/entrega-browser.cjs` aprobó 12 escenarios completos (incluidos acceso, registro, recuperación, bloqueo, hábitos, administración, exportación, galería y mapa). `tests/prototipo.test.cjs`: 25/25. El QA de autenticación conservó sus 24 SVG y comprobó seis combinaciones de galería de identidad y seis de wireframes/mockups. `scripts/validar-entrega.cjs` no encontró referencias locales faltantes. El chequeo global conserva doce referencias externas OpenAPI no soportadas, previas a este cambio.
+
+
+
 [Volver al README y sus 15 puntos](README.md). Aquí se conservan las tablas detalladas, los comandos, el proceso y los resultados de pruebas.
 
 <a id="punto-1"></a>

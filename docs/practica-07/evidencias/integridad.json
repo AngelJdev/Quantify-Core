@@ -5,8 +5,8 @@
   "pngExports": 66,
   "editableSVG": 66,
   "dimensions": {
-    "movil": "390x780",
-    "pwa": "1040x780"
+    "movil": "390x844 + cotas exteriores",
+    "pwa": "1280x900 + cotas exteriores"
   },
   "transitions": 131,
   "localDocumentsChecked": 12,

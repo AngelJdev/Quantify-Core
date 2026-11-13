@@ -79,7 +79,7 @@ try{
  for(const width of [1440,390]){
   await page.setViewportSize({width,height:1000});
   await page.goto(base+'/docs/GUI/prototipos/movil/autenticacion/index.html');
-  for(const [stage,theme]of [['sketch','light'],['wireframe','light'],['mockup','light'],['mockup','dark']]){
+  for(const [stage,theme]of [['wireframe','light'],['mockup','light'],['mockup','dark']]){
    await page.selectOption('#stage',stage);if(stage==='mockup')await page.selectOption('#theme',theme);
    await page.locator('.card img').evaluateAll(imgs=>imgs.forEach(i=>i.loading='eager'));
    await page.waitForFunction(()=>document.images.length===6&&[...document.images].every(i=>i.complete&&i.naturalWidth===390));
@@ -98,10 +98,10 @@ try{
  await page.goto(base+'/docs/GUI/index.html');
  assert.ok((await page.locator('a[href="prototipos/movil/autenticacion/index.html"]').count())>0);
  assert.doesNotMatch(await page.locator('body').innerText(),/\\n/);
- // Unified gallery must include the six canonical identity screens in every fidelity.
+ // Wireframe/mockup gallery retains its six complementary identity screens; sketches have a separate 33-view review.
  for(const width of [1440,390]){
   await page.setViewportSize({width,height:1000});
-  for(const [stage,theme]of [['sketch','light'],['wireframe','light'],['mockup','light'],['mockup','dark']]){
+  for(const [stage,theme]of [['wireframe','light'],['mockup','light'],['mockup','dark']]){
    await page.goto(`${base}/docs/GUI/index.html?fidelity=${stage}&theme=${theme}#prototipos`);
    await page.waitForFunction(()=>document.querySelectorAll('#prototype-grid .image-card').length===26);
    const cards=page.locator('#prototype-grid .image-card');
@@ -137,5 +137,5 @@ try{
  }
  assert.deepEqual(report.errors,[]);
  writeFileSync(resolve(out,'resultados.json'),JSON.stringify(report,null,2)+'\n');
- console.log(`OK: ${report.variants.length} SVG, fuentes CDP, geometría, 8 galerías de identidad, 8 galerías unificadas, Práctica 09, enlaces y controles negativos.`);
+ console.log(`OK: ${report.variants.length} SVG, fuentes CDP, geometría, 6 galerías de identidad, 6 galerías de avance, Práctica 09, enlaces y controles negativos.`);
 }finally{await browser.close();await new Promise(r=>server.close(r));}
