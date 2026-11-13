@@ -6,11 +6,12 @@
   const authScreens=await response.json();
   const screens=baseScreens.concat(authScreens.map((s,i)=>({id:'auth-'+s.id,number:21+i,title:s.name,rf:'RF-01 · '+s.ref,intent:s.intent,note:'Vista complementaria de autenticación; diseño sin sesión real.',assets:s.assets})));
 
+  const sketches=Object.values(window.QC.screens).flat().map(s=>({id:s.id,number:s.reviewOrder,title:s.title,rf:s.requirements.join(', '),intent:s.description,note:s.elements,assets:{'sketch:none':`prototipos/${'movil'}/sketches/practica-07/${s.id}.png`}}));
   const grid=document.getElementById('prototype-grid'),format=document.getElementById('format');
   const dialog=document.getElementById('viewer'),full=document.getElementById('full-image');
   const requestedFidelity=new URLSearchParams(location.search).get('fidelity');
   let fidelity=['sketch','wireframe','mockup'].includes(requestedFidelity)?requestedFidelity:'sketch',theme=new URLSearchParams(location.search).get('theme')==='dark'?'dark':'light',activeCards=[],current=0,opener;
-  const notes={sketch:'26 vistas móviles: 20 originales y 6 de autenticación · Solo cuadros y líneas de boceto, sin texto, color ni temas. El número y la intención se identifican fuera del dibujo.',wireframe:'26 vistas: 20 originales y 6 de autenticación · Estructura en grises, fuente genérica Arial y marcadores de imagen/logo. La numeración conserva la correspondencia con cada sketch.',mockup:'26 vistas: 20 originales y 6 de autenticación · Inter, paleta, iconos y logos existentes. Claro y oscuro son variantes de cada pantalla; no aumentan el conteo. Imágenes estáticas, con datos de ejemplo.'};
+  const notes={sketch:'33 sketches acotados · Splash primero, móvil 390 × 844 px. Las cotas están fuera de la interfaz; cabecera y navegación se conservan según el rol. Wireframes y mockups pendientes de alinear.',wireframe:'26 vistas: 20 originales y 6 de autenticación · Estructura en grises, fuente genérica Arial y marcadores de imagen/logo. La numeración conserva la correspondencia con cada sketch.',mockup:'26 vistas: 20 originales y 6 de autenticación · Inter, paleta, iconos y logos existentes. Claro y oscuro son variantes de cada pantalla; no aumentan el conteo. Imágenes estáticas, con datos de ejemplo.'};
   function showImage(index){
     current=(index+activeCards.length)%activeCards.length;
     const card=activeCards[current];full.src=card.dataset.image;full.alt=card.dataset.title;
@@ -37,7 +38,7 @@
     document.querySelector('[aria-label="Tema"]').hidden=fidelity!=='mockup';
     if(fidelity!=='mockup'&&desktop){format.value='mobile';return render();}
     format.disabled=fidelity!=='mockup';
-    const visible=desktop?screens.filter(s=>['hoy','administracion'].includes(s.id)):screens.filter(s=>!s.legacyDesktop);
+    const visible=fidelity==='sketch'?sketches:desktop?screens.filter(s=>['hoy','administracion'].includes(s.id)):screens.filter(s=>!s.legacyDesktop);
     for(const s of visible){
       const folder={sketch:'sketches',wireframe:'wireframes',mockup:'mockups'}[fidelity];
       const name=s.id==='hoy'&&desktop?'hoy-escritorio':s.id;

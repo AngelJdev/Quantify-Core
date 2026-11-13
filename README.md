@@ -33,12 +33,13 @@
 - [Manual móvil integral](docs/manual%20de%20instalacion/MANUAL_MOVIL_INTEGRAL.pdf)
 - [Práctica 05 — Diagrama Interactivo de Roles de Usuario](https://angeljdev.github.io/Quantify-Core/docs/Practica05/diagrama-roles-quantify.html)
 - [Examen de arquitectura — Plano interactivo](https://angeljdev.github.io/Quantify-Core/docs/examen/index.html)
-- [Práctica 07 — Prototipo Interactivo de Sketches](https://angeljdev.github.io/Quantify-Core/docs/practica-07/)
-- [Práctica 07 — Mapa de Navegación de Sketches](https://angeljdev.github.io/Quantify-Core/docs/practica-07/navegacion.html)
+- [Práctica 07 — Revisar sketches con medidas](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html)
 - [Práctica 08 — Wireframes del Proyecto Integrador](docs/GUI/prototipos/movil/wireframes/README.md)
 - [Práctica 09 — Avance de Mockups](https://angeljdev.github.io/Quantify-Core/#practica-09)
 
 ## Práctica 07
+
+**[Revisar sketches uno por uno](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html):** Splash primero y solo logo; 33 vistas con cotas exteriores, móvil 390 × 844 px y PWA 1280 × 900 px. Wireframes y mockups se alinearán en la siguiente etapa.
 
 La [carpeta de Práctica 07](docs/practica-07/) reúne la guía de los quince puntos, 33 fichas, galería, prototipo, explorador de navegación y evidencias. Su README enlaza las fuentes de requisitos e historias y los bocetos originales en GUI. [Abrir el explorador](docs/practica-07/navegacion.html).
 
