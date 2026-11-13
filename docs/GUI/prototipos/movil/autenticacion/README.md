@@ -35,6 +35,12 @@ flowchart TD
 
 **No implementar un sistema de credenciales paralelo** dentro de React, Flutter o API. Keycloak debe encargarse de formularios, identidad y desafío, con redirección OIDC Authorization Code + PKCE; la aplicación solo muestra la entrada y el retorno. El flujo de seis dígitos es una **propuesta visual opcional**: el mecanismo estándar de verificación de correo de Keycloak es por enlace y el OTP de correo requiere personalización/extension aprobada.
 
+## Acceso social en los prototipos
+
+Login y Register incluyen **Continuar con Google, Facebook y Apple** en wireframes y mockups; los sketches representan esos tres controles con geometría de baja fidelidad. Son opciones visuales de demostración: no abren un proveedor ni crean una sesión.
+
+El recorrido previsto es elegir proveedor → autorización del proveedor mediante Keycloak → retorno a Quantify. Cancelar, denegar permisos o recibir un error debe permitir volver al acceso sin sesión y sin perder la alternativa de correo. La conexión real, las aplicaciones OAuth y la vinculación segura de cuentas quedan fuera de este avance. No se modificó el realm ni se creó autenticación paralela.
+
 ## Estados a validar
 
 | Pantalla | Comportamientos y validaciones previstos |

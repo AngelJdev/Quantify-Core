@@ -21,7 +21,21 @@
       "wireframe:none": "prototipos/movil/wireframes/auth-inicio-sesion.svg",
       "mockup:light": "prototipos/movil/mockups/light/auth-inicio-sesion.svg",
       "mockup:dark": "prototipos/movil/mockups/dark/auth-inicio-sesion.svg"
-    }
+    },
+    "socialProviders": [
+      {
+        "id": "google",
+        "label": "Google"
+      },
+      {
+        "id": "facebook",
+        "label": "Facebook"
+      },
+      {
+        "id": "apple",
+        "label": "Apple"
+      }
+    ]
   },
   {
     "id": "crear-cuenta",
@@ -43,7 +57,21 @@
       "wireframe:none": "prototipos/movil/wireframes/auth-crear-cuenta.svg",
       "mockup:light": "prototipos/movil/mockups/light/auth-crear-cuenta.svg",
       "mockup:dark": "prototipos/movil/mockups/dark/auth-crear-cuenta.svg"
-    }
+    },
+    "socialProviders": [
+      {
+        "id": "google",
+        "label": "Google"
+      },
+      {
+        "id": "facebook",
+        "label": "Facebook"
+      },
+      {
+        "id": "apple",
+        "label": "Apple"
+      }
+    ]
   },
   {
     "id": "verificar-correo",
