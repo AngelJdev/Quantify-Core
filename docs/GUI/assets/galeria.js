@@ -3,7 +3,8 @@
   const screens=JSON.parse(document.getElementById('screen-data').textContent);
   const grid=document.getElementById('prototype-grid'),format=document.getElementById('format');
   const dialog=document.getElementById('viewer'),full=document.getElementById('full-image');
-  let fidelity='sketch',theme='light',activeCards=[],current=0,opener;
+  const requestedFidelity=new URLSearchParams(location.search).get('fidelity');
+  let fidelity=['sketch','wireframe','mockup'].includes(requestedFidelity)?requestedFidelity:'sketch',theme='light',activeCards=[],current=0,opener;
   const notes={sketch:'20 pantallas móviles · Solo cuadros y líneas de boceto, sin texto, color ni temas. El número y la intención se identifican fuera del dibujo.',wireframe:'Las mismas 20 pantallas · Estructura en grises, fuente genérica Arial y marcadores de imagen/logo. La numeración conserva la correspondencia con cada sketch.',mockup:'Las mismas 20 pantallas · Inter, paleta, iconos y logos existentes. Claro y oscuro son variantes de cada pantalla; no aumentan el conteo. Imágenes estáticas, con datos de ejemplo.'};
   function showImage(index){
     current=(index+activeCards.length)%activeCards.length;
@@ -24,6 +25,7 @@
   }
   function render(){
     grid.replaceChildren();
+    document.querySelectorAll('[data-fidelity]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.fidelity===fidelity)));
     const desktop=format.value==='desktop';grid.classList.toggle('desktop',desktop);
     document.getElementById('fidelity-note').textContent=notes[fidelity];
     document.querySelectorAll('[data-theme]').forEach(b=>b.disabled=fidelity!=='mockup');
