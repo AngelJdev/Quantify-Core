@@ -43,7 +43,7 @@ La [carpeta de Práctica 07](docs/practica-07/) reúne la guía de los quince pu
 
 ## Práctica 08
 
-**Diagrama de Visualización de Wireframes del Proyecto Integrador.** Los [wireframes móviles disponibles](docs/GUI/prototipos/movil/wireframes/README.md) y su [matriz de pantallas](docs/GUI/prototipos/movil/README.md) se conservan en GUI. También pueden consultarse en la [galería visual del sitio](https://angeljdev.github.io/Quantify-Core/docs/GUI/#prototipos), seleccionando **Wireframe**.
+**Diagrama de Visualización de Wireframes del Proyecto Integrador.** Los [wireframes móviles disponibles](docs/GUI/prototipos/movil/wireframes/README.md) y su [matriz de pantallas](docs/GUI/prototipos/movil/README.md) se conservan en GUI. También pueden consultarse en la [galería visual del sitio](https://angeljdev.github.io/Quantify-Core/docs/GUI/index.html?fidelity=wireframe#prototipos), con **Wireframe** seleccionado automáticamente.
 
 **Estado:** material visual disponible; el diagrama específico de Práctica 08 está pendiente de integrar. La publicación de los wireframes no acredita por sí sola la entrega completa de la práctica.
 
@@ -472,7 +472,7 @@ La documentación general se organiza en [docs/](docs/), separando el producto y
 | Práctica 04 | [Modelo Canvas Interactivo](https://angeljdev.github.io/Quantify-Core/docs/Practica04/business-model-canvas.html) · [Doc](docs/Practica04/README.md) | Elaboración asistida del Business Model Canvas del proyecto integrador | 20 | Terminado |
 | Práctica 05 | [Diagrama de roles de usuario](https://angeljdev.github.io/Quantify-Core/docs/Practica05/diagrama-roles-quantify.html) · [Doc](docs/Practica05/README.md) | Diagrama interactivo de roles de usuario del proyecto | 15 | Terminado |
 | Práctica 07 | [Práctica 07](https://angeljdev.github.io/Quantify-Core/docs/practica-07/entrega.html) · [Galería](https://angeljdev.github.io/Quantify-Core/docs/practica-07/galeria.html) · [README único](docs/practica-07/README.md) | 33 sketches sencillos a lápiz, Login/Register completos y navegación por rol en móvil/PWA | 35 | En revisión |
-| Práctica 08 | [Wireframes en GUI](docs/GUI/prototipos/movil/wireframes/README.md) · [Galería visual](https://angeljdev.github.io/Quantify-Core/docs/GUI/#prototipos) | Diagrama de Visualización de Wireframes del Proyecto Integrador | 40 | Wireframes disponibles; diagrama pendiente de integrar |
+| Práctica 08 | [Wireframes en GUI](docs/GUI/prototipos/movil/wireframes/README.md) · [Galería visual](https://angeljdev.github.io/Quantify-Core/docs/GUI/index.html?fidelity=wireframe#prototipos) | Diagrama de Visualización de Wireframes del Proyecto Integrador | 40 | Wireframes disponibles; diagrama pendiente de integrar |
 | Examen de arquitectura | [Plano interactivo](https://angeljdev.github.io/Quantify-Core/docs/examen/index.html) · [Doc](docs/examen/README.md) | Entregable académico de arquitectura; sus alternativas no sustituyen la base tecnológica de este README | — | Terminado |
 
 Los modelos, diagramas y prototipos interactivos enlazan a su versión en **GitHub Pages**. Los enlaces de documentación técnica dirigen a los archivos correspondientes en el repositorio.
