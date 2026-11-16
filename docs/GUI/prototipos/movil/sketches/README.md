@@ -1,5 +1,11 @@
 # Móvil · Sketches
 
+**Referencia activa:** [33 sketches acotados y ordenados de Práctica 07](../../../practica-07.html). Splash aparece primero y contiene solo logo. Los 20 PNG y seis SVG descritos a continuación son referencias históricas conservadas; la galería del sitio muestra el conjunto corregido de Práctica 07.
+
+El inventario histórico reúne las 20 vistas originales y las [6 vistas complementarias de autenticación](../autenticacion/README.md). Estas últimas incluyen Login y Registro con espacios para Google, Facebook y Apple, representados únicamente con geometría a lápiz.
+
+**Práctica 07 · Bocetos sencillos a lápiz:** [único README y 33 fichas](../../../../practica-07/README.md#fichas) · [galería](../../../../practica-07/galeria.html) · [Login completo](practica-07/U02.png) · [Register completo](practica-07/U03.png). Los archivos de esta entrega están en `practica-07/`; las veinte referencias históricas siguientes se conservan por separado.
+
 20 PNG. Solo cuadros y líneas en blanco/gris; sin texto, logos, fotos, color ni temas. El número y el nombre se identifican fuera del dibujo. Miniaturas de 210 px, hasta tres por fila; pulsa una imagen para abrir el PNG completo a 390 × 844. Son documentación estática.
 
 [Índice y matriz móvil](../README.md) · [Condiciones por pantalla](../README.md#condiciones-por-pantalla) · [Identidad visual](../../../identidad/README.md) · [Galería](../../../index.html#prototipos)

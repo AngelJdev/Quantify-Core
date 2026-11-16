@@ -2,17 +2,32 @@
 
 Documentación del sistema de diseño, guía de estilos visuales y prototipos de interfaz de usuario de **Quantify Core**. Este módulo centraliza las especificaciones visuales, los componentes de interfaz, las variables de diseño y los prototipos interactivos del producto.
 
+**Para revisar ahora:** [sketches con medidas, uno por uno](practica-07.html). Las 33 vistas corregidas son la referencia activa de Práctica 07. Los 20 bocetos históricos y las seis vistas complementarias se conservan como referencias previas; no son una segunda entrega vigente. Wireframes y mockups siguen en avance y se alinearán después con el orden, navegación y estructura de los sketches revisados.
+
+## Práctica 07 · Navegación y sketches
+
+La entrega tiene **un único [README de Práctica 07](../practica-07/README.md)** con los quince puntos y enlaces a fichas, proceso y evidencias. El prototipo y los mapas están en `docs/practica-07/`; los bocetos a lápiz están en sus carpetas de GUI: [`movil/sketches/practica-07/`](prototipos/movil/sketches/practica-07/) y [`pwa/sketches/practica-07/`](prototipos/pwa/sketches/practica-07/). Incluyen **Login U02** y **Register U03** como pantallas completas.
+
+| Consultar | Acceso |
+|---|---|
+| Guía y ejecución local | [README de Práctica 07](../practica-07/README.md) · [Explorar la práctica](../practica-07/entrega.html) |
+| Nueve pantallas obligatorias y funciones adicionales | [33 fichas documentadas](../practica-07/README.md#fichas) · [Galería móvil/PWA](practica-07.html) |
+| Recorridos y condiciones | [Prototipo](../practica-07/index.html) · [Mapa completo](../practica-07/mapa-completo.html) · [Explorador con bocetos](../practica-07/navegacion.html) |
+| Evaluación de la consigna | [Matriz de cumplimiento](../practica-07/README.md#cumplimiento) · [Proceso y prompts](../practica-07/README.md#proceso) · [Validación](../practica-07/README.md#validacion) |
+
+Los HTML se exploran mediante el servidor local indicado en el README de la práctica. Los enlaces públicos pueden mostrar una versión anterior hasta que esta rama se integre y publique. La matriz distingue el mapa completo complementario de la regeneración pendiente con Archify.
+
 ## Estado de la entrega
 
 | Elemento | Estado | Dónde revisarlo |
 |---|---|---|
 | Identidad visual  | Cuatro lienzos de referencia conservados; claro y oscuro | [README de identidad visual](identidad/README.md) |
-| Autenticación · 6 vistas adicionales | Sketch, wireframe y mockups claro/oscuro; sin integración Keycloak | [Matriz y flujo](prototipos/movil/autenticacion/README.md) · [Galería](prototipos/movil/autenticacion/index.html) |
-| Móvil · Sketches | 20 bocetos correspondientes | [README de sketches](prototipos/movil/sketches/README.md) |
-| Móvil · Wireframes | 20 estructuras correspondientes | [README de wireframes](prototipos/movil/wireframes/README.md) |
-| Móvil · Mockups | 20 pantallas; claro y oscuro juntos (40 PNG) | [README de mockups](prototipos/movil/mockups/README.md) |
+| Autenticación · 6 vistas adicionales | Login/Register y recuperación en las tres fidelidades; acceso social visual Google/Facebook/Apple, sin autenticación real | [Matriz y flujo](prototipos/movil/autenticacion/README.md) · [Galería](prototipos/movil/autenticacion/index.html) |
+| Móvil · Sketches | 33 vistas de Práctica 07 corregidas, acotadas y ordenadas | [README de sketches](prototipos/movil/sketches/README.md) |
+| Móvil · Wireframes | 20 originales + 6 vistas de autenticación | [README de wireframes](prototipos/movil/wireframes/README.md) |
+| Móvil · Mockups | 20 originales (40 PNG) + 6 de autenticación (12 SVG de mockup) | [README de mockups](prototipos/movil/mockups/README.md) |
 | Matriz móvil | Correspondencia y condiciones de las veinte pantallas | [Índice y matriz móvil](prototipos/movil/README.md#matriz-por-áreas-funcionales) |
-| Galería pública | Publicación desde `gh-pages` | [Abrir galería](https://angeljesus13.github.io/Quantify-Core/docs/GUI/) |
+| Galería pública | Configuración indicada por el responsable: `develop` y `/ (root)` | [Abrir galería](https://angeljdev.github.io/Quantify-Core/docs/GUI/) |
 | Archivo editable propio | Diez lienzos: seis de guía, sketches, wireframes, mockups y recursos en Figma | [Figma · Proyecto Integrador](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3?node-id=2-59) |
 | Implementación en producto | Pendiente | Ver [Validación técnica y consideraciones de alcance](#validación-técnica-y-consideraciones-de-alcance) |
 
@@ -59,7 +74,7 @@ Para revisar y validar estos entregables visuales se disponen las siguientes opc
 - **Visor interactivo de la Guía de Estilos:**
   Permite consultar los seis frames exportados en alta resolución directamente en el navegador abriendo [identidad/guia/index.html](identidad/guia/index.html).
 - **Galería pública en línea:**
-  Disponible en [GitHub Pages](https://angeljesus13.github.io/Quantify-Core/docs/GUI/) para una visualización accesible sin necesidad de instalar herramientas locales.
+  Disponible en [GitHub Pages](https://angeljdev.github.io/Quantify-Core/docs/GUI/) para una visualización accesible sin necesidad de instalar herramientas locales.
 - **Servidor local de desarrollo:**
   Para ejecutar la galería completa en un entorno local y acceder a los recursos en alta resolución, inicie un servidor web desde la raíz del repositorio:
   ```powershell
