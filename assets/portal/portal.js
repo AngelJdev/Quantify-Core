@@ -462,13 +462,23 @@ async function route({ initial = false } = {}) {
     location.replace("#" + aliases[requested]);
     return;
   }
-  const section = titles[requested] ? requested : "inicio",
+  const entry = document.documentElement.dataset.pageEntry;
+  const section = titles[requested] ? requested : entry || "inicio",
     params = new URLSearchParams(search);
+  if (["workflow", "edt"].includes(section) && entry !== section) {
+    location.replace(section + ".html" + location.hash);
+    return;
+  }
+  if (entry && section !== entry) {
+    location.replace("index.html" + location.hash);
+    return;
+  }
   for (const a of document.querySelectorAll("#navigation a"))
     a.toggleAttribute("data-active", false);
   for (const a of document.querySelectorAll("#navigation a")) {
     if (
       a.hash === "#" + section ||
+      a.dataset.section === section ||
       (section === "documento" && a.hash === "#biblioteca") ||
       (section === "vista" && a.hash === "#diseno")
     )
@@ -491,6 +501,14 @@ async function route({ initial = false } = {}) {
       vista: viewer,
     })[section](params);
   if (version !== navigationVersion) return;
+  for (const link of main.querySelectorAll(
+    'a[href^="#workflow"],a[href^="#edt"]',
+  )) {
+    const href = link.getAttribute("href");
+    const section = href.slice(1).split("?")[0];
+    if (["workflow", "edt"].includes(section))
+      link.setAttribute("href", section + ".html" + href);
+  }
   if (!params.has("anchor")) window.scrollTo(0, 0);
   if (!initial) main.focus({ preventScroll: true });
 }

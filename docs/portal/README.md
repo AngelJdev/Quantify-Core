@@ -6,6 +6,8 @@ Pages publica la raíz de `develop`. `.nojekyll` evita que Liquid/Jekyll interpr
 
 ## Navegación
 
+El [workflow de desarrollo](../../workflow.html) y la [EDT](../../edt.html) tienen páginas y apartados independientes, cada uno con su propia entrada de menú, encabezado y estado compartible. La portada solo ofrece accesos a ambos. Los enlaces antiguos `#workflow` y `#edt` redirigen a sus páginas; se conserva el mismo sistema visual y código compartido para evitar divergencias.
+
 - Vista general con ruta de lectura y accesos por área.
 - Biblioteca con búsqueda por título, texto y ruta, filtros por área y enlaces compartibles.
 - Lector con tablas adaptables, índice de secciones y acceso a la fuente original.
@@ -53,7 +55,7 @@ node scripts/check-docs.mjs
 
 [build.mjs](../../tools/portal/build.mjs) genera `index.html` y el visor de bocetos desde sus plantillas, sincroniza la inclusión de la capa visual con [sync-pages.mjs](../../tools/portal/sync-pages.mjs), genera el catálogo y las lecturas de Markdown en `assets/portal/`, los colores desde [tokens](../../packages/design-tokens/preview.json) y la especificación EDT. Reconstruir en el mismo cambio cuando se modifique documentación. Se versionan los resultados para que Pages pueda servir la raíz sin ejecutar Node en producción. No editar manualmente `catalog.json`, `content.json`, `tokens.css`, `index.html`, `docs/GUI/practica-07.html` ni la especificación EDT generada.
 
-`check` detecta resultados desactualizados sin escribir archivos. El formateador Prettier está fijado como dependencia de desarrollo para mantener revisables JavaScript, CSS, HTML y especificaciones; los resultados generados usan el formato determinista del constructor.
+`check` detecta resultados desactualizados sin escribir archivos, incluidas las páginas independientes `workflow.html` y `edt.html`, generadas desde la misma plantilla visual. El formateador Prettier está fijado como dependencia de desarrollo para mantener revisables JavaScript, CSS, HTML y especificaciones; los resultados generados usan el formato determinista del constructor.
 
 Markdown se procesa durante la generación y se sanitiza mediante una lista de etiquetas y atributos permitidos. Se conservan tablas, imágenes, anclas y desplegables; se eliminan scripts, estilos y manejadores de eventos de las fuentes. Los documentos históricos conservan su redacción y su alcance. Los diagramas Mermaid en documentos se muestran como código fuente; las vistas interactivas disponibles tienen accesos propios en el portal. El buscador cubre título, texto y ruta; excluye bloques de código del índice textual.
 
@@ -78,6 +80,7 @@ py -m http.server 8765 --bind 127.0.0.1
 # En otra terminal, con las dependencias de apps/web instaladas:
 npm.cmd run test --prefix tools/portal
 node tools/portal/tests/consistency.mjs
+node tools/portal/tests/sections.mjs
 ```
 
 La prueba de navegador utiliza Playwright y axe ya disponibles en `apps/web`. Cubre búsqueda, lectura enlazada, EDT, escenarios, visores, accesos antiguos, teclado, temas, contraste y navegación en anchos de 390 y 1440 píxeles. Los resultados y capturas se guardan localmente en `tools/portal/.artifacts/`, excluido de Git. El sitio no modifica Jira ni representa el estado de servicios en vivo.

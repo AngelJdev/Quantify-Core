@@ -245,6 +245,27 @@ await writeGenerated(
   path.join(root, "index.html"),
   await fs.readFile(new URL("index.html", import.meta.url), "utf8"),
 );
+const pageTemplate = await fs.readFile(
+  new URL("index.html", import.meta.url),
+  "utf8",
+);
+for (const [section, title] of [
+  ["workflow", "Workflow de desarrollo"],
+  ["edt", "EDT · Estructura del trabajo"],
+]) {
+  await writeGenerated(
+    path.join(root, section + ".html"),
+    pageTemplate
+      .replace(
+        '<html lang="es" data-mode="dark">',
+        '<html lang="es" data-mode="dark" data-page-entry="' + section + '">',
+      )
+      .replace(
+        "<title>Quantify Core · Centro del proyecto</title>",
+        "<title>" + title + " · Quantify Core</title>",
+      ),
+  );
+}
 if (!checkOnly)
   await fs.mkdir(path.join(root, "docs/portal/archify"), { recursive: true });
 await writeGenerated(
