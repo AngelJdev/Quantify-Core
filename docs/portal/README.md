@@ -12,7 +12,7 @@ El [workflow de Quantify](../../workflow.html) y la [EDT](../../edt.html) tienen
 - Biblioteca con búsqueda por título, texto y ruta, filtros por área y enlaces compartibles.
 - Lector con tablas adaptables, índice de secciones y acceso a la fuente original.
 - Workflow visual del producto: móvil Flutter, PWA React y servicios NestJS/PostgreSQL; conexiones de solicitud/respuesta, ocho pasos, reproducción/pausa, velocidad, selector de cliente y escenarios de replay/conflicto. La evidencia de GitHub es un panel complementario desplegable.
-- EDT con seis paquetes y dieciocho entregables, criterios, coordinación de referencia y commits de su carpeta. Se genera de [la EDT canónica](../gestion/edt.md); no calcula porcentajes ni consulta estados Jira en tiempo real.
+- EDT con seis paquetes y dieciocho entregables, responsables con foto/avatar, tareas Jira, dependencias, criterios, commits y PR. Se genera de [la EDT canónica](../gestion/edt.md), con cortes fechados de Jira/GitHub; el conteo de tareas listas no acredita implementación ni se consulta Jira desde el navegador.
 - Flujo de hábitos con ocho pasos, tres carriles y escenarios de operación nueva, reintento y conflicto, basado en [flujos](../arquitectura/flujos.md) y [reglas](../requerimientos/reglas-negocio.md).
 - Catálogo visual y visor con navegación de retorno: identidad, sketches, wireframes, mockups, fichas, prototipo y mapas existentes.
 - Ingeniería con acceso a contratos, incorporación, pruebas y evidencia local.
@@ -35,7 +35,21 @@ El workflow ajusta el diagrama completo al alto disponible en escritorio desde 1
 
 [workflow.js](../../assets/portal/workflow.js) y [workflow.css](../../assets/portal/workflow.css) construyen el diagrama de carriles a partir del flujo de check-in documentado. Las conexiones se recalculan con el tamaño del lienzo; los paquetes recorren los trazos SVG, se detienen al pausar y desaparecen con movimiento reducido. Los controles y la URL conservan paso, cliente y escenario. La animación no envía operaciones a la API: los valores visibles son ejemplos y el diagrama identifica su alcance ilustrativo. El proceso de ramas, commits y PR se consulta en [Git Flow](../guias/git-flow.md).
 
-[github.js](../../assets/portal/github.js) consulta la API pública de `AngelJdev/Quantify-Core`, rama `develop`, sin autenticación ni credenciales en el navegador. El workflow muestra commits y PR recientes; la EDT filtra commits por la carpeta relacionada al entregable. Los autores conservan su autoría y los roles proceden de [team.json](../../tools/portal/team.json), contrastado con README/RACI y el alcance móvil/PWA indicado por coordinación. Se presentan nombres y roles sin correos ni avatares. Una referencia por paquete no reasigna tareas Jira ni equivale a una aprobación.
+[github.js](../../assets/portal/github.js) consulta la API pública de `AngelJdev/Quantify-Core`, rama `develop`, sin autenticación ni credenciales en el navegador. El workflow muestra commits y PR recientes; la EDT filtra el historial reciente por carpeta. Los autores conservan su autoría y los roles proceden de [team.json](../../tools/portal/team.json), contrastado con README/RACI y el alcance móvil/PWA indicado por coordinación. El workflow y los historiales presentan nombres y roles sin correos; la EDT incorpora los perfiles descritos a continuación. Una referencia por paquete no reasigna tareas Jira ni equivale a una aprobación.
+
+## EDT detallada
+
+[edt.js](../../assets/portal/edt.js) y [edt.css](../../assets/portal/edt.css) presentan el árbol de seis columnas, sus 18 hojas y un inspector con Resumen, Jira y GitHub. Incluyen filtros combinados por responsable/estado, vista de lista, enlace compartible y persistencia al recargar. La versión móvil reorganiza las columnas. El inspector desplaza sus evidencias sin ocultar el árbol; el historial reciente por carpeta se abre aparte.
+
+El [corte Jira](../../tools/portal/data/jira-snapshot.json) procede de la consulta completa `project = QUANCORE ORDER BY key ASC` del 16/11/2026: 49 incidencias y cuatro asignados. El resumen cuenta 39 tareas únicas vinculadas, excluye las diez épicas y evita sumar de nuevo QUANCORE-13/22/43 cuando aparecen en varias hojas. En ese corte hay 23 tareas listas, 13 en curso y tres por hacer. La barra representa **tareas listas / tareas vinculadas**, no esfuerzo, porcentaje del producto ni aceptación de un entregable. Los filtros aplican ambas condiciones a la misma tarea; el resumen se recalcula sobre tareas filtradas únicas. Los criterios, asignados y barras de cada hoja conservan el alcance completo del entregable seleccionado.
+
+Las dependencias muestran dirección y estado: una relación cuyo requisito ya está listo no se cuenta como bloqueo abierto. «Requieren atención» es la unión de dependencias abiertas, tareas sin asignar y fechas previstas anteriores al corte para tareas abiertas. Las fechas vencidas son una señal para revisión, no una conclusión de incumplimiento. La hoja 5.3 identifica que falta su desglose Jira.
+
+[edt-data.mjs](../../tools/portal/edt-data.mjs) combina el corte con los 184 commits alcanzables en `develop` hasta `3067cc4` y el [corte de 14 PR](../../tools/portal/data/edt-pull-requests.json), con paginación completa de sus archivos. Una evidencia se relaciona por mención explícita `QUANCORE-N`/`QC-N` o por carpeta; el inspector indica el motivo. **Coincidir por carpeta no equivale a implementar una tarea**. Los autores Git y los asignados Jira se muestran por separado. El [JSON servido](../../assets/portal/edt-data.json) se reconstruye con el portal; no se edita manualmente.
+
+Los [avatares locales](../../assets/portal/people/README.md) proceden de perfiles verificados por autoría del repositorio y del avatar Jira disponible. Se conserva la imagen del perfil, incluidas iniciales o logotipo si no hay fotografía; no se inventan retratos. No se publican correos, IDs de cuentas Jira, respuestas crudas, credenciales ni enlaces personales de Gravatar. Los títulos se presentan con vocabulario de producto, manteniendo las claves y enlaces originales.
+
+Para actualizar el corte, repetir la consulta Jira con los campos declarados, completar su paginación y sustituir únicamente el modelo público normalizado. Para GitHub, consultar todos los PR hacia `develop`, paginar sus archivos y registrar el SHA y la fecha del nuevo corte. Revisar correspondencias de identidad y regenerar el portal. La reconstrucción ordinaria no consulta servicios ni adelanta silenciosamente el corte; tampoco cambia asignaciones o estados Jira.
 
 Cada panel identifica si corresponde a consulta directa o a un corte versionado, con fecha en `America/Mexico_City`. Un fallo, límite de GitHub o tiempo de espera activa el corte disponible y mantiene acceso al historial del repositorio. La acción «Actualizar GitHub» reintenta la consulta. No se deduce progreso ni aceptación de la cantidad de commits y no se afirma que hay CI por existir un PR.
 
@@ -88,9 +102,12 @@ npm.cmd run test --prefix tools/portal
 node tools/portal/tests/consistency.mjs
 node tools/portal/tests/sections.mjs
 node tools/portal/tests/workflow-motion.mjs
+npm.cmd run test:edt --prefix tools/portal
 ```
 
 La prueba de navegador utiliza Playwright y axe ya disponibles en `apps/web`. Cubre búsqueda, lectura enlazada, EDT, escenarios, visores, accesos antiguos, teclado, temas, contraste y navegación en anchos de 390 y 1440 píxeles. Los resultados y capturas se guardan localmente en `tools/portal/.artifacts/`, excluido de Git. El sitio no modifica Jira ni representa el estado de servicios en vivo.
+
+`edt-details.mjs` verifica claves compuestas, deduplicación, integridad del corte y ausencia de correos/IDs Jira; seis ramas y 18 hojas; imágenes locales; detalle de tareas, fechas y dependencias; commits/PR y relación con Jira; filtros combinados, vacío, lista, recarga y foco de teclado. Cinco escenarios aprobados, incluidas seis revisiones axe entre 1920, 1440 y 390 px en ambos temas. [Informe de EDT detallada](evidencias/edt-detallada-2026-11-16.json) · [1920 px](evidencias/edt-detallada-1920.png) · [1440 px](evidencias/edt-detallada-1440.png) · [Móvil](evidencias/edt-detallada-390.png). Las pruebas generales del portal, consistencia y páginas independientes permanecen aprobadas con los nuevos controles.
 
 `consistency.mjs` verifica además el workflow, las consultas filtradas y su fallback, cambios rápidos de selección sin mezclar respuestas, el boceto completo sin scroll vertical a 1366×768 y 1440×900, el tema en iframe, trece páginas con identidad compartida y ocho revisiones axe de workflow/bocetos entre temas y tamaños. Las respuestas controladas de las pruebas de GitHub proceden del corte real: prueban comportamiento de red, no aceptación de tareas ni ejecución de CI.
 
