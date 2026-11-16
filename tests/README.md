@@ -1,5 +1,7 @@
 # Estrategia de pruebas
 
+**Verificación conjunta (16/11/2026):** [guía y resultados](../docs/guias/base-tecnica.md). Ejecutar `node scripts/verify-base.mjs`; después, con Compose preparado y Chrome instalado, `node scripts/verify-oidc-base.mjs` verifica Keycloak real, PKCE, API y permisos SQL. Es un harness de protocolo, no sesión implementada de React/Flutter.
+
 Esta carpeta reúne la estrategia para verificar Quantify Core. **Estado:** hay pruebas del prototipo de la Práctica 07, del módulo aislado de telemetría sintética QUANCORE-35 y del núcleo persistente QUANCORE-43. La integración de clientes, sesión real y despliegue siguen pendientes. Los casos siguientes son obligaciones de desarrollo, no resultados ya aprobados.
 
 ```mermaid
