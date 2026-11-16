@@ -1,0 +1,86 @@
+
+> @quantify/telemetry-simulation@0.1.0 test
+> npm run build && node --test --test-timeout=120000 tests/*.test.cjs
+
+
+> @quantify/telemetry-simulation@0.1.0 build
+> npm run contracts && tsc -p tsconfig.json
+
+
+> @quantify/telemetry-simulation@0.1.0 contracts
+> node scripts/generate-types.cjs
+
+✔ El generador es reproducible y el fixture cumple el contrato versionado (6.6336ms)
+✔ Unidades, ausencias, null, valores no finitos y propiedades ajenas se rechazan (2.1373ms)
+✔ Consentimientos granulares no aceptan finalidades implícitas ni duplicados (1.2072ms)
+✔ La huella ignora el orden de propiedades pero conserva el de muestras (0.6687ms)
+✔ Simulación deshabilitada por defecto y OIDC remoto exige HTTPS (0.6117ms)
+✔ Tipos generados proceden de los esquemas canónicos, sin contrato alterno por cliente (0.4946ms)
+✔ El día de cambio horario cierra según IANA, sin asumir medianoche UTC (12.6582ms)
+✔ Meta decimal histórica se compara exactamente; no redondear una cantidad parcial a completada (2.8432ms)
+✔ Pausas, archivo y días no programados no entran al denominador (3.351ms)
+✔ Tendencias ponderan oportunidades, sin promediar tasas de días distintos (1.5773ms)
+✔ Sin oportunidades retorna null y causa; jamás simula un porcentaje de fallo (0.5088ms)
+✔ Consultas inválidas, parámetros de dueño/reloj y duplicados de query se rechazan (1.5682ms)
+✔ Datos de origen ambiguos, unidades, zonas y versiones erróneas fallan explícitamente (3.4575ms)
+✔ El módulo está deshabilitado sin opt-in y no consulta un origen inexistente como vacío (19120.8237ms)
+✔ Progreso HTTP desde registros SQL: completos, parcial, cero y ausencias distintos (88.0228ms)
+✔ Calendario conserva fechas y denominadores; tendencias diarias son consistentes (27.2338ms)
+✔ Filtrar hábito respeta meta histórica, día abierto y futuro separados (10.6116ms)
+✔ Otro usuario y un admin no reciben estadísticas ni identificadores de A (17.9431ms)
+✔ Corrección confirmada cambia agregados sin sumar intentos ni alterar otros hábitos (26.2774ms)
+✔ Origen ausente devuelve 503, no un dashboard vacío inventado (7.1884ms)
+✔ Unidad inválida y revisiones ambiguas del origen se rechazan, sin modificarlo (16.9289ms)
+✔ Una vista que duplica consolidaciones no duplica métricas silenciosamente (13.7373ms)
+✔ Consulta inválida, ventana excesiva, reloj y dueño del cliente se rechazan con 400 (20.3814ms)
+✔ La API usa snapshot consistente cuando el escritor corrige durante la consulta (3283.4867ms)
+✔ Repetir o reiniciar la API no cambia datos ni pierde estadísticas (99.0652ms)
+✔ Perfil suspendido no consulta estadísticas (6.5544ms)
+✔ Exceso de hábitos se informa sin truncar ni fabricar un agregado parcial (95.5867ms)
+Persistencia real: PostgreSQL 18.6; esquema base: fixture mínimo de perfiles
+✔ La migración es repetible y verifica su huella (9489.7771ms)
+✔ Ingesta HTTP confirma filas reales y respuesta conforme al JSON Schema (244.2808ms)
+✔ Lote repetido conserva recibo, filas y conteos sin sumar otra vez (44.5092ms)
+✔ Un cero explícito de stepCount se conserva sin inventar un check-in de hábito (35.2567ms)
+✔ Reintentos concurrentes confirman un solo lote y una aplicación por muestra (142.4699ms)
+✔ Mismo lote con contenido distinto devuelve 409 sin mutaciones (48.6792ms)
+✔ Muestra ya recibida en otro lote se informa como duplicada, sin doble métrica (39.672ms)
+✔ Colisión de sampleId y mismo instante con otro ID se rechazan sin sustituir valores (44.1992ms)
+✔ Fuera de orden se acepta informado y no retrocede el último instante observado (52.5021ms)
+✔ Unidad inválida, dato ausente y null rechazan el lote completo, sin ceros inventados (27.8099ms)
+✔ Timestamps imposibles, sin UTC canónico, futuros o anteriores al consentimiento se rechazan (47.4458ms)
+✔ Origen, versión desconocida, campos ajenos y permisos no concedidos se rechazan (31.7184ms)
+✔ Revocación granular bloquea lote nuevo, repetido y recibos antiguos; conserva historial (60.4934ms)
+✔ Revocación total deniega lecturas y nuevas ingestas, también tras reautorizar una nueva versión (64.2487ms)
+✔ La versión de consentimiento evita que una actualización obsoleta deshaga una revocación (30.8457ms)
+✔ Reautorizar no reutiliza el máximo temporal ni datos de una versión de consentimiento anterior (53.5168ms)
+✔ La desvinculación de la fuente deniega nuevos lotes, lecturas y permisos (41.9647ms)
+✔ Otro dueño, incluso admin, recibe 404 y no puede consultar, ingerir ni revocar (37.0868ms)
+✔ Sin JWT, ID token, audiencia incorrecta y perfil suspendido no obtienen acceso (36.811ms)
+✔ Límite de muestras, JSON malformado y tamaño máximo no dejan escrituras (27.5903ms)
+✔ Un fallo después de insertar el recibo hace rollback de recibo y muestras (39.6478ms)
+✔ Un lote pendiente espera la revocación y vuelve a comprobar permiso antes de escribir (112.6781ms)
+✔ Un reinicio de API mantiene deduplicación durable y el mismo recibo (117.3754ms)
+MongoDB real 8.2.6, PostgreSQL 18.6; usuario runtime con find/insert por colección.
+✔ Colecciones reales tienen validación estricta, unicidad y TTL versionados (11780.1839ms)
+✔ Ingesta y consulta exponen un evento con dueño, origen, tiempos, versión y unidades (359.4278ms)
+✔ Lotes repetidos y proyecciones concurrentes no duplican documentos ni métricas (163.113ms)
+✔ Respuesta perdida después de insertar en Mongo se reintenta comparando el documento (108.8304ms)
+✔ Datos inválidos y solicitudes sin permiso no generan hechos ni auditoría falsa (68.0676ms)
+✔ Revocación descarta señales pendientes y oculta las entregadas, conservando auditoría mínima (92.8898ms)
+✔ MongoDB rechaza unidad inválida, valor ausente, versión extra y datos en auditoría (60.9784ms)
+✔ Usuario runtime no puede modificar, borrar, cambiar índices ni leer colecciones ajenas (54.8828ms)
+✔ Revocación espera al proyector sin transacción SQL abierta durante MongoDB (1062.8666ms)
+✔ Fallo real de Mongo mantiene outbox pendiente y permite recuperar sin doble efecto (318.5592ms)
+✔ Recuperar una proyección perdida reutiliza IDs y no duplica progreso SQL (80.5878ms)
+✔ Expiración no se prolonga al recuperar; consulta excluye TTL pendiente de limpieza (81.0723ms)
+✔ Un pendiente histórico expirado se descarta sin recrear ni extender la retención (105.8499ms)
+✔ Reinicio conserva documentos y consulta respeta límite y pertenencia (187.3862ms)
+ℹ tests 64
+ℹ suites 0
+ℹ pass 64
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 24846.303
