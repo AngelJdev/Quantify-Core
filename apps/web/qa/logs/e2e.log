@@ -1,0 +1,21 @@
+> @quantify-core/web@0.2.0-consolidation test:e2e
+> playwright test
+
+npm.cmd : [WebServer] (node:24596) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+En línea: 6 Carácter: 394
++ ... w 'Build fallo' }; npm.cmd run test:e2e > .build/e2e.log 2>&1; Get-Co ...
++                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([WebServer] (no... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:30880) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\e2e\frontend.spec.ts:6:1 › rutas, temas, reflujo, fuentes y accesibilidad básica (1.2m)
+  ok 2 tests\e2e\frontend.spec.ts:44:1 › crear, navegar, editar, registrar absoluto y archivar sin perder historia (3.7s)
+  ok 3 tests\e2e\frontend.spec.ts:83:1 › errores, navegación móvil y teclado (2.1s)
+
+  3 passed (1.4m)

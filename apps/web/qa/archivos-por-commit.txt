@@ -1,0 +1,188 @@
+INVENTARIO DE ARCHIVOS POR COMMIT
+Los dos primeros ya existian; no se reescribieron.
+
+commit e083f2123a8aa4b90f52c709830666cd0907c65e
+Author:     AngelJdev <tellezangel292@gmail.com>
+AuthorDate: Sun Nov 8 22:57:27 2026 -0600
+Commit:     AngelJdev <tellezangel292@gmail.com>
+CommitDate: Sun Nov 8 22:57:27 2026 -0600
+
+    feat(QUANCORE-42): consolidar frontend modular con fixtures y rutas
+
+A	apps/web/.gitignore
+A	apps/web/eslint.config.js
+A	apps/web/index.html
+A	apps/web/package-lock.json
+A	apps/web/package.json
+A	apps/web/playwright.config.ts
+A	apps/web/public/icon.svg
+A	apps/web/scripts/generate-contracts.mjs
+A	apps/web/src/app/DemoProvider.tsx
+A	apps/web/src/app/ThemeProvider.tsx
+A	apps/web/src/app/consolidation.css
+A	apps/web/src/app/layout/MainLayout.tsx
+A	apps/web/src/app/main.tsx
+A	apps/web/src/app/router.tsx
+A	apps/web/src/app/styles.css
+A	apps/web/src/features/analytics/ui/AnalyticsPage.tsx
+A	apps/web/src/features/analytics/ui/Chart.tsx
+A	apps/web/src/features/checkins/ui/CheckInPage.tsx
+A	apps/web/src/features/dashboard/ui/DashboardPage.tsx
+A	apps/web/src/features/habits/data/model.ts
+A	apps/web/src/features/habits/ui/HabitDetailPage.tsx
+A	apps/web/src/features/habits/ui/HabitEditorPage.tsx
+A	apps/web/src/features/habits/ui/HabitRow.tsx
+A	apps/web/src/features/habits/ui/HabitsPage.tsx
+A	apps/web/src/features/history/ui/HistoryPage.tsx
+A	apps/web/src/features/identity/ui/IdentityPages.tsx
+A	apps/web/src/features/notices/ui/NoticesPage.tsx
+A	apps/web/src/features/profile/ui/ProfilePage.tsx
+A	apps/web/src/features/suggestions/ui/SuggestionsPage.tsx
+A	apps/web/src/shared/api/ports.ts
+A	apps/web/src/shared/api/schema.ts
+A	apps/web/src/shared/fixtures/demo.ts
+A	apps/web/src/shared/ui/Brand.tsx
+A	apps/web/src/shared/ui/Icon.tsx
+A	apps/web/src/shared/ui/StatePanel.tsx
+A	apps/web/tests/demo.test.ts
+A	apps/web/tests/e2e/frontend.spec.ts
+A	apps/web/tests/navigation.test.tsx
+A	apps/web/tests/setup.ts
+A	apps/web/tsconfig.json
+A	apps/web/vite.config.ts
+A	apps/web/vitest.config.ts
+
+commit 7f5a5ae4f49b8b8b9578e535a71d2ee40c9980b4
+Author:     AngelJdev <tellezangel292@gmail.com>
+AuthorDate: Sun Nov 8 22:57:28 2026 -0600
+Commit:     AngelJdev <tellezangel292@gmail.com>
+CommitDate: Sun Nov 8 22:57:28 2026 -0600
+
+    docs(QUANCORE-42): registrar decisiones y evidencia de consolidacion
+
+M	apps/README.md
+M	apps/web/README.md
+A	apps/web/docs/pwa-referencia.md
+A	apps/web/qa/README.md
+A	apps/web/qa/evidencias/1440-light-hoy.png
+A	apps/web/qa/evidencias/320-dark-nuevo.png
+A	apps/web/qa/evidencias/390-dark-habitos.png
+A	apps/web/qa/evidencias/390-light-auth.png
+A	apps/web/qa/evidencias/390-light-habitos.png
+A	apps/web/qa/evidencias/rutas.json
+A	apps/web/qa/incidencias/contraste-movil-oscuro-antes.png
+A	apps/web/qa/incidencias/e2e-contraste-antes.log
+A	apps/web/qa/logs/build.log
+A	apps/web/qa/logs/e2e.log
+A	apps/web/qa/logs/lint.log
+A	apps/web/qa/logs/npm-audit.json
+A	apps/web/qa/logs/npm-ci.log
+A	apps/web/qa/logs/tests.log
+A	apps/web/qa/logs/typecheck.log
+M	docs/README.md
+A	docs/arquitectura/adr/0002-consolidacion-frontend.md
+M	docs/arquitectura/adr/README.md
+
+NUEVO MERGE LOCAL: chore(web): integrar develop revisado y conciliar ADR frontend
+Primer padre: 7f5a5ae4f49b8b8b9578e535a71d2ee40c9980b4
+Segundo padre: 0272ed8ea8fe729b42a54ad8031b16f616636a4e
+Diferencia frente al primer padre, incluidos archivos importados del remoto:
+
+M	.gitignore
+M	apps/web/README.md
+M	apps/web/qa/README.md
+A	apps/web/qa/archivos-por-commit.txt
+A	apps/web/qa/evidencias/320-dark-menu.png
+M	apps/web/qa/evidencias/320-dark-nuevo.png
+A	apps/web/qa/evidencias/320-light-validacion.png
+M	apps/web/qa/evidencias/390-light-auth.png
+A	apps/web/qa/evidencias/revision.json
+A	apps/web/qa/logs/integracion.log
+A	apps/web/qa/revision-integracion.md
+M	docs/README.md
+M	docs/api/README.md
+A	docs/arquitectura/adr/0002-simulacion-telemetria-aislada.md
+A	docs/arquitectura/adr/0003-proyeccion-mongodb-telemetria-sintetica.md
+A	docs/arquitectura/adr/0004-dashboard-lectura-versionada.md
+R084	docs/arquitectura/adr/0002-consolidacion-frontend.md	docs/arquitectura/adr/0005-consolidacion-frontend.md
+M	docs/arquitectura/adr/README.md
+M	docs/datos-ia/README.md
+A	docs/datos-ia/estadisticas-dashboard.md
+A	docs/datos-ia/eventos-mongodb.md
+A	docs/datos-ia/evidencia-QUANCORE-22.json
+A	docs/datos-ia/evidencia-QUANCORE-25.json
+A	docs/datos-ia/evidencia-QUANCORE-35.json
+A	docs/datos-ia/telemetria-simulada.md
+A	docs/despliegue/recuperacion-telemetria-sintetica.md
+M	packages/contracts/README.md
+A	packages/contracts/dashboard/README.md
+A	packages/contracts/dashboard/v1/calendar.schema.json
+A	packages/contracts/dashboard/v1/common.schema.json
+A	packages/contracts/dashboard/v1/openapi.json
+A	packages/contracts/dashboard/v1/progress.schema.json
+A	packages/contracts/dashboard/v1/read-input.schema.json
+A	packages/contracts/dashboard/v1/trends.schema.json
+M	packages/contracts/events/README.md
+A	packages/contracts/events/telemetry/README.md
+A	packages/contracts/events/telemetry/v1/audit-event.schema.json
+A	packages/contracts/events/telemetry/v1/audit-list.schema.json
+A	packages/contracts/events/telemetry/v1/batch-event.schema.json
+A	packages/contracts/events/telemetry/v1/event-list.schema.json
+A	packages/contracts/events/telemetry/v1/projection-result.schema.json
+M	packages/contracts/openapi.json
+A	packages/contracts/telemetry/README.md
+A	packages/contracts/telemetry/v1/batch.schema.json
+A	packages/contracts/telemetry/v1/consent.schema.json
+A	packages/contracts/telemetry/v1/error.schema.json
+A	packages/contracts/telemetry/v1/openapi.json
+A	packages/contracts/telemetry/v1/receipt.schema.json
+A	packages/contracts/telemetry/v1/source-state.schema.json
+A	packages/contracts/telemetry/v1/source.schema.json
+A	packages/contracts/telemetry/v1/summary.schema.json
+M	services/README.md
+M	services/api/README.md
+A	services/api/telemetry/.env.example
+A	services/api/telemetry/README.md
+A	services/api/telemetry/db/001_telemetry_simulation.sql
+A	services/api/telemetry/db/002_mongo_outbox.sql
+A	services/api/telemetry/db/mongodb.generated.json
+A	services/api/telemetry/package-lock.json
+A	services/api/telemetry/package.json
+A	services/api/telemetry/scripts/evidence-dashboard.cjs
+A	services/api/telemetry/scripts/evidence-mongo.cjs
+A	services/api/telemetry/scripts/evidence.cjs
+A	services/api/telemetry/scripts/fixtures.cjs
+A	services/api/telemetry/scripts/generate-types.cjs
+A	services/api/telemetry/scripts/migrate.cjs
+A	services/api/telemetry/scripts/mongo-schema.cjs
+A	services/api/telemetry/scripts/validate-openapi.cjs
+A	services/api/telemetry/src/auth.ts
+A	services/api/telemetry/src/config.ts
+A	services/api/telemetry/src/contracts.generated.ts
+A	services/api/telemetry/src/database.ts
+A	services/api/telemetry/src/errors.ts
+A	services/api/telemetry/src/main.ts
+A	services/api/telemetry/src/module.ts
+A	services/api/telemetry/src/modules/dashboard/README.md
+A	services/api/telemetry/src/modules/dashboard/controller.ts
+A	services/api/telemetry/src/modules/dashboard/input.generated.ts
+A	services/api/telemetry/src/modules/dashboard/model.ts
+A	services/api/telemetry/src/modules/dashboard/service.ts
+A	services/api/telemetry/src/mongo.ts
+A	services/api/telemetry/src/service.ts
+A	services/api/telemetry/src/validation.ts
+A	services/api/telemetry/tests/contract.test.cjs
+A	services/api/telemetry/tests/dashboard-domain.test.cjs
+A	services/api/telemetry/tests/dashboard-fixture.cjs
+A	services/api/telemetry/tests/dashboard.test.cjs
+A	services/api/telemetry/tests/environment.cjs
+A	services/api/telemetry/tests/ingestion.test.cjs
+A	services/api/telemetry/tests/mongo-environment.cjs
+A	services/api/telemetry/tests/mongo.test.cjs
+A	services/api/telemetry/tsconfig.json
+M	tests/README.md
+
+El codigo en services/ y packages/contracts/ es identico al segundo padre.
+Los cambios propios de cierre son la resolucion de docs/README.md y del indice ADR,
+la renumeracion a 0005 y referencias, informe/inventario, logs y capturas reales.
+No se modificaron el generador, DTO, runtime, dependencias ni pruebas del frontend.

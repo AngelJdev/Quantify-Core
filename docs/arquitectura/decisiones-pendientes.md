@@ -20,6 +20,8 @@ Este registro evita que desarrolladores o agentes conviertan una suposición en 
 
 ## Cómo resolver un pendiente
 
+La [propuesta ADR-0006 de QUANCORE-43](adr/0006-integracion-api-identidad-http.md) reúne composición NestJS, matriz de endpoints, HTTP/CORS, salud, identidad y autoridad de datos. Recomienda SPA pública con PKCE para revisión y enumera brechas del escritor y del puerto dashboard. No cierra D-01/02/03/04/05/08/09/10 ni aprueba alojamiento, retención o datos reales; las opciones y sus puertas de aceptación siguen pendientes del equipo.
+
 1. Abrir trabajo con la pregunta, RF afectados, opciones, restricciones y dueño de revisión.
 2. Hacer una prueba pequeña con datos sintéticos y registrar lo que demuestra y lo que no.
 3. Copiar la [plantilla](adr/plantilla.md), describir opción propuesta, consecuencias y criterios de reversión.

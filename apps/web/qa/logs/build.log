@@ -1,0 +1,29 @@
+> @quantify-core/web@0.2.0-consolidation build
+> npm run typecheck && vite build
+
+
+> @quantify-core/web@0.2.0-consolidation typecheck
+> npm run contracts:check && tsc -b --pretty false
+
+
+> @quantify-core/web@0.2.0-consolidation contracts:check
+> node scripts/generate-contracts.mjs --check
+
+Canonical contract types match.
+vite v8.3.6 building client environment for production...
+transforming...
+✓ 50 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                0.61 kB │ gzip:   0.36 kB
+dist/inter-license.txt                         4.47 kB │ gzip:   2.01 kB
+dist/assets/product-dark-CmrFHwGN.png        102.48 kB
+dist/assets/enterprise-dark-W8u1dGyp.png     156.84 kB
+dist/assets/enterpriseLogo-tLnlNRfJ.jpeg     161.04 kB
+dist/assets/productLogo-DkcLRqTa.jpeg        214.66 kB
+dist/assets/inter-DiVDrmQJ.woff2             352.24 kB
+dist/assets/ritual-cotidiano-DZrK97Yg.png  1,967.20 kB
+dist/assets/index-C2I1Qi3v.css                25.87 kB │ gzip:   5.85 kB
+dist/assets/index-k7g-NUv6.js                356.36 kB │ gzip: 111.04 kB
+
+✓ built in 701ms
