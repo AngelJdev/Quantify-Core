@@ -13,6 +13,7 @@ if (!npmCli || !existsSync(npmCli)) throw new Error('npm CLI unavailable; instal
 const checks = [
   ['.', 'node', ['scripts/check-keycloak.mjs']],
   ['.', 'node', ['scripts/check-docs.mjs']],
+  ['.', 'node', ['--test','scripts/tests/check-json-refs.test.mjs']],
   ['services/api', 'npm', ['test']],
   ['services/api', 'npm', ['run', 'validate:openapi']],
   ['apps/web', 'npm', ['run', 'typecheck']],

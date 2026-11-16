@@ -1,5 +1,35 @@
 name: quantify-core-dev
 services:
+  api:
+    profiles: [app]
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/api.Dockerfile
+      args:
+        APP_REVISION: ${APP_REVISION:-unversioned}
+    image: quantify-core-api:${APP_REVISION:-local-review}
+    environment:
+      DATABASE_URL: postgresql://quantify_api:${CORE_RUNTIME_PASSWORD:?Run init}@postgres:5432/quantify_core_dev
+      KEYCLOAK_ISSUER: http://localhost:8180/realms/quantify
+      KEYCLOAK_JWKS_URL: http://keycloak:8080/realms/quantify/protocol/openid-connect/certs
+      KEYCLOAK_AUDIENCE: quantify-api
+      HOST: 0.0.0.0
+      PORT: "3000"
+      CORS_ALLOWED_ORIGINS: http://localhost:5173
+      CORE_REVIEW_WRITES_ENABLED: ${CORE_REVIEW_WRITES_ENABLED:-0}
+      OBSERVABILITY_ENABLED: "1"
+      METRICS_HOST: 0.0.0.0
+      LOKI_PUSH_URL: http://loki:3100/loki/api/v1/push
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:3000/api/v1/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 4s
+      retries: 12
   postgres:
     image: postgres:18.6
     environment:

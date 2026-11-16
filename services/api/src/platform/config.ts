@@ -4,6 +4,7 @@ export interface CoreConfig extends TelemetryConfig {
   host: string;
   corsOrigins: string[];
   writesEnabled: boolean;
+  observability?: { port: number; host: string; lokiUrl?: string };
 }
 export function configuration(env = process.env): CoreConfig {
   if (!env.DATABASE_URL || !env.KEYCLOAK_ISSUER || !env.KEYCLOAK_AUDIENCE)
@@ -22,7 +23,28 @@ export function configuration(env = process.env): CoreConfig {
     if (url.origin !== value || !['http:', 'https:'].includes(url.protocol)) throw new Error('Invalid CORS origin');
   }
   if (env.CORE_REVIEW_WRITES_ENABLED && !['0','1'].includes(env.CORE_REVIEW_WRITES_ENABLED)) throw new Error('Invalid write flag');
+  let jwksUrl: string | undefined;
+  if (env.KEYCLOAK_JWKS_URL) {
+    const jwks = new URL(env.KEYCLOAK_JWKS_URL);
+    const localBackchannel = ['localhost','127.0.0.1'].includes(issuer.hostname) &&
+      jwks.origin === 'http://keycloak:8080';
+    if (jwks.username || jwks.password || jwks.search || jwks.hash ||
+        (jwks.protocol !== 'https:' && !localBackchannel) ||
+        jwks.pathname !== issuer.pathname.replace(/\/$/,'') + '/protocol/openid-connect/certs')
+      throw new Error('Invalid JWKS backchannel');
+    jwksUrl = jwks.href;
+  }
+  if (env.OBSERVABILITY_ENABLED && !['0','1'].includes(env.OBSERVABILITY_ENABLED)) throw new Error('Invalid observability flag');
+  let observability: CoreConfig['observability'];
+  if (env.OBSERVABILITY_ENABLED === '1') {
+    const metricsPort = Number(env.METRICS_PORT ?? 9464);
+    if (!Number.isInteger(metricsPort) || metricsPort < 1 || metricsPort > 65535 || metricsPort === port)
+      throw new Error('Invalid metrics port');
+    if (env.LOKI_PUSH_URL && env.LOKI_PUSH_URL !== 'http://loki:3100/loki/api/v1/push')
+      throw new Error('Only the isolated local Loki sink is supported');
+    observability = { port: metricsPort, host: env.METRICS_HOST ?? '127.0.0.1', lokiUrl: env.LOKI_PUSH_URL };
+  }
   return { databaseUrl: env.DATABASE_URL, issuer: env.KEYCLOAK_ISSUER, audience: env.KEYCLOAK_AUDIENCE,
     port, host: env.HOST ?? '127.0.0.1', corsOrigins, dashboardEnabled: true,
-    writesEnabled: env.CORE_REVIEW_WRITES_ENABLED === '1' };
+    writesEnabled: env.CORE_REVIEW_WRITES_ENABLED === '1', jwksUrl, observability };
 }

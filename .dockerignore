@@ -1,0 +1,11 @@
+.git
+**/node_modules
+**/.env
+**/.env.*
+**/*.mp4
+**/dist
+**/build
+**/coverage
+**/test-results
+**/playwright-report
+docs/GUI

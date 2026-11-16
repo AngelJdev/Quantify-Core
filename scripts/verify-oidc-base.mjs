@@ -74,9 +74,15 @@ try {
     await pool.query('INSERT INTO profiles(oidc_issuer,oidc_subject,time_zone) VALUES($1,$2,$3)', [issuer, id, 'UTC']);
     accounts.push({ username, password, id });
   }
-  app = await createApi({ ...configuration(settings), writesEnabled: true });
-  await app.listen(0, '127.0.0.1');
-  const base = `http://127.0.0.1:${app.getHttpServer().address().port}/api/v1`;
+  let base;
+  if (process.env.VERIFY_CONTAINER_API === '1') {
+    // Explicit opt-in: isolated Compose API must already allow synthetic review writes.
+    base = 'http://127.0.0.1:3000/api/v1';
+  } else {
+    app = await createApi({ ...configuration(settings), writesEnabled: true });
+    await app.listen(0, '127.0.0.1');
+    base = `http://127.0.0.1:${app.getHttpServer().address().port}/api/v1`;
+  }
   callbackServer = createServer((_req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/html', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer' });
     res.end('<!doctype html><title>Local protocol verification</title>');

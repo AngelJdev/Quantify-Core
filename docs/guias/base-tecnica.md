@@ -1,6 +1,6 @@
 # Base técnica para desarrollar el prototipo
 
-**Rama de revisión:** `feature/QUANCORE-43-base-tecnica`. **Fecha de validación:** 16/11/2026. Núcleo NestJS y base React reunidos localmente; publicación, PR y revisión del equipo pendientes. No equivale a un prototipo completo ni a despliegue público.
+**Rama de entrega:** `feature/QUANCORE-43-base-tecnica`. **Fecha de validación:** 16/11/2026. Núcleo NestJS y base React reunidos, con API contenerizada y monitoreo local. Publicación/revisión se siguen mediante PR y Jira. No equivale a un prototipo completo ni a despliegue público.
 
 ## Qué recibe el equipo
 
@@ -13,7 +13,7 @@
 | Flutter | En esta rama solo especificación; existen ramas del equipo que deben revisarse | Recuperar su implementación selectivamente, alinear DTO/OIDC y compilar Android; iOS requiere entorno Apple |
 | Analítica | Especificación FastAPI, sin servicio integrado | Jesús: QUANCORE-33, contrato interno y minimización; no bloquea hábitos manuales |
 | Telemetría | Host sintético aislado y proyección MongoDB opcional existentes | Mantener opt-in; no copiar señales ni cuentas de demostración al producto |
-| Observabilidad y entrega | Fronteras de salud y comandos verificables | Francisco/Al: instrumentación, pipeline y restauración; después monitoreo/despliegue real |
+| Observabilidad y entrega | API instrumentada, Prometheus/Grafana/Loki/Alertmanager y ensayo aislado | Pipeline/restauración y FastAPI del equipo; destino público, carga y acuerdos pendientes |
 
 La asignación personal debe confirmarse en Jira. Según la indicación del responsable del proyecto, Ángel continuará con frontend móvil/PWA después de estabilizar bases y diseño. No se reasignan tickets de otras personas automáticamente.
 
@@ -128,4 +128,4 @@ node scripts/dev-base.mjs stop
 
 Conserva contenedores/volúmenes; `up` vuelve a iniciarlos. API/web se paran con Ctrl+C en sus terminales. El script no tiene comando de borrado. Conservar los cuatro archivos privados para reutilizar los volúmenes; la importación de Keycloak al arrancar omite realms existentes y **no actualiza** un realm previo. Para instalaciones anteriores revisar el diff del export y aplicar manualmente callback exacto, logout y mapper de audiencia, con respaldo y revisión; no reinicializar datos para actualizar configuración.
 
-Despliegue público, Dockerfile de API, presupuesto, DNS/TLS, backups y monitoreo requieren su entrega específica. MongoDB/Redis/FastAPI no son dependencias obligatorias del núcleo manual. Después de revisar e integrar esta base, continuar con sketches aprobados, wireframes y mockups y, luego, frontend móvil/PWA.
+La ampliación de esta entrega incorpora [Dockerfile de API](../../infrastructure/docker/api.Dockerfile) y [monitoreo local con pruebas](../despliegue/runbook-observabilidad.md). El [estado por tarea](../gestion/estado-base-tecnica.md), [matriz de arquitectura](../arquitectura/matriz-entrega.md), [ficha de niveles](../despliegue/niveles-servicio.md) y [estudio de caso](../despliegue/estudio-caso-liberacion.md) reúnen la base documental. Despliegue público, presupuesto, DNS/TLS, backups y validación final de clientes siguen pendientes. MongoDB/Redis/FastAPI no son dependencias obligatorias del núcleo manual. Después de integrar esta base, continuar con sketches aprobados, wireframes y mockups y frontend móvil/PWA.

@@ -57,7 +57,7 @@ La [carpeta de Práctica 07](docs/practica-07/) reúne la guía de los quince pu
 
 ## Documentación para desarrollar
 
-**Base técnica del prototipo:** [arranque, contratos, pruebas y entrega al equipo](docs/guias/base-tecnica.md). La rama `feature/QUANCORE-43-base-tecnica` reúne API NestJS y React con PostgreSQL/Keycloak local verificado; revisión y publicación pendientes. Sesión de clientes, Flutter y despliegue público siguen pendientes.
+**Base técnica del prototipo:** [arranque, contratos, pruebas y entrega al equipo](docs/guias/base-tecnica.md). La entrega QUANCORE-43 reúne API NestJS, React, PostgreSQL/Keycloak y observabilidad local verificada; su integración se registra mediante PR hacia `develop`. Sesión de clientes, Flutter y despliegue público siguen pendientes.
 
 La base de trabajo del equipo está en el **[mapa de documentación](docs/README.md)**. Incluye requisitos, arquitectura, contratos de API, datos, seguridad, diseño, guías por componente y criterios de pruebas y operación.
 

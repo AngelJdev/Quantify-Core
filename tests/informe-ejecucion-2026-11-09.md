@@ -37,7 +37,7 @@ Comprobé acceso al [repositorio GitHub](https://github.com/AngelJdev/Quantify-C
 
 Los archivos [QUANCORE-35](../docs/datos-ia/evidencia-QUANCORE-35.json), [QUANCORE-22](../docs/datos-ia/evidencia-QUANCORE-22.json) y [QUANCORE-25](../docs/datos-ia/evidencia-QUANCORE-25.json) son evidencias de sus entregas previas, integradas por Al Farias. Conservo fecha, entorno y commits de origen; no los presento como implementaciones propias. Reejecuté sus suites en la corrida directa registrada arriba; reproducirlas no cambia la autoría de esas implementaciones ni acredita un backend general integrado.
 
-La [validación de autenticación visual](../docs/GUI/prototipos/movil/autenticacion/VALIDACION.md) y la [Práctica 07](../docs/practica-07/VALIDACION.md) contienen capturas y resultados históricos. No generé capturas nuevas porque esta entrega no modifica interfaces visuales. La evidencia web de la rama frontend permanece en su worktree y no se mezcla con esta base.
+La [validación de autenticación visual](../docs/GUI/prototipos/movil/autenticacion/VALIDACION.md) y la [referencia técnica de Práctica 07](../docs/practica-07/referencia-tecnica.md#validacion) contienen capturas y resultados históricos. El antiguo `VALIDACION.md` se consolidó en esa referencia. No generé capturas nuevas porque esta entrega no modifica interfaces visuales. La evidencia web de la rama frontend permanece en su worktree y no se mezcla con esta base.
 
 ## Casos integrados y límites
 
