@@ -2,6 +2,8 @@
 
 El [portal de Quantify Core](../../index.html) organiza producto, planificación, arquitectura, diseño y validación. Sirve archivos estáticos en GitHub Pages, sin backend ni credenciales. Conserva las fuentes Markdown en sus ubicaciones originales y los prototipos con sus límites documentados.
 
+Pages publica la raíz de `develop`. `.nojekyll` evita que Liquid/Jekyll interprete código o JSON de las fuentes; el sitio se sirve como archivos estáticos. Publicar mediante PR hacia `develop` y merge commit, conservando la revisión de cambios y sus comprobaciones.
+
 ## Navegación
 
 - Vista general con ruta de lectura y accesos por área.
@@ -21,12 +23,15 @@ Requiere Node.js compatible con la versión usada por el repositorio y npm. Desd
 ```powershell
 npm.cmd ci --prefix tools/portal
 npm.cmd run build --prefix tools/portal
+npm.cmd run check --prefix tools/portal
 node scripts/check-docs.mjs
 ```
 
 [build.mjs](../../tools/portal/build.mjs) genera `index.html` desde su plantilla, el catálogo y las lecturas de Markdown en `assets/portal/`, los colores desde [tokens](../../packages/design-tokens/preview.json) y la especificación EDT. Reconstruir en el mismo cambio cuando se modifique documentación. Se versionan los resultados para que Pages pueda servir la raíz sin ejecutar Node en producción. No editar manualmente `catalog.json`, `content.json`, `tokens.css`, `index.html` ni la especificación EDT generada.
 
-Markdown se procesa durante la generación con HTML deshabilitado: no se ejecutan scripts ni HTML de las fuentes. Los documentos históricos conservan su redacción y su alcance. Los diagramas Mermaid en documentos se muestran como código fuente; las vistas interactivas disponibles tienen accesos propios en el portal. El buscador cubre título, texto y ruta; excluye bloques de código del índice textual.
+`check` detecta resultados desactualizados sin escribir archivos. El formateador Prettier está fijado como dependencia de desarrollo para mantener revisables JavaScript, CSS, HTML y especificaciones; los resultados generados usan el formato determinista del constructor.
+
+Markdown se procesa durante la generación y se sanitiza mediante una lista de etiquetas y atributos permitidos. Se conservan tablas, imágenes, anclas y desplegables; se eliminan scripts, estilos y manejadores de eventos de las fuentes. Los documentos históricos conservan su redacción y su alcance. Los diagramas Mermaid en documentos se muestran como código fuente; las vistas interactivas disponibles tienen accesos propios en el portal. El buscador cubre título, texto y ruta; excluye bloques de código del índice textual.
 
 ## Archify y procedencia
 
@@ -51,3 +56,5 @@ npm.cmd run test --prefix tools/portal
 ```
 
 La prueba de navegador utiliza Playwright y axe ya disponibles en `apps/web`. Cubre búsqueda, lectura enlazada, EDT, escenarios, visores, accesos antiguos, teclado, temas, contraste y navegación en anchos de 390 y 1440 píxeles. Los resultados y capturas se guardan localmente en `tools/portal/.artifacts/`, excluido de Git. El sitio no modifica Jira ni representa el estado de servicios en vivo.
+
+Validación local del 16/11/2026: nueve escenarios del portal y cinco de guías/fichas aprobados. [Informe](evidencias/validacion-local.json) · [Portada](evidencias/inicio-1440.png) · [EDT](evidencias/edt-1440.png) · [Flujo móvil](evidencias/flujo-390.png). Las 14 revisiones axe de las vistas nuevas no sustituyen una evaluación manual integral ni certifican los visores históricos.

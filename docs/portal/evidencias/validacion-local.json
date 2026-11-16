@@ -1,0 +1,52 @@
+{
+  "results": [
+    {
+      "name": "Inicio, marcas y navegación por áreas",
+      "status": "passed"
+    },
+    {
+      "name": "Biblioteca: búsqueda sin acentos, filtro, vacío, URL y limpieza",
+      "status": "passed"
+    },
+    {
+      "name": "Lector: tabla, índice, navegación entre fuentes y documento desconocido",
+      "status": "passed"
+    },
+    {
+      "name": "EDT: 18 entregables, detalle, trazabilidad y enlace compartible",
+      "status": "passed"
+    },
+    {
+      "name": "Flujo: ocho pasos, límites y escenarios de replay/conflicto",
+      "status": "passed"
+    },
+    {
+      "name": "Catálogo visual, visor y rutas históricas",
+      "status": "passed"
+    },
+    {
+      "name": "Recursos enlazados y fuentes del catálogo existen",
+      "status": "passed"
+    },
+    {
+      "name": "Teclado, temas y accesibilidad automática de las vistas nuevas",
+      "status": "passed"
+    },
+    {
+      "name": "Móvil: navegación, lectura, EDT y flujo sin desbordamiento",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "date": "2026-11-16",
+  "scope": "Portal est?tico local. 390/1440 px, 14 revisiones axe entre dos temas; no acredita accesibilidad integral de los artefactos hist?ricos, nueva ejecuci?n de Archify ni despliegue p?blico del producto.",
+  "browser": "Microsoft Edge 157.0.4341.60",
+  "checks": {
+    "portal_browser": 9,
+    "legacy_browser": 5,
+    "markdown_files": 114,
+    "local_links": 1829,
+    "mermaid_blocks": 50,
+    "npm_audit_vulnerabilities": 0
+  }
+}

@@ -11,13 +11,13 @@ const base=process.env.P07_SITE_URL||'http://127.0.0.1:8765/';
  async function check(name,fn){await fn();results.push({name,status:'passed'});console.log('PASS',name);}
  try{
   await check('Portal: recursos de Práctica 07 enlazan vistas del mismo sitio',async()=>{
-   await page.goto(base+'#practica-07');await page.locator('#tab-practica-07[aria-selected=true]').waitFor();
-   const links=await page.locator('#practicaPanel a').evaluateAll(items=>items.map(a=>a.href));
-   assert.ok(links.some(url=>url.endsWith('/revision.html')));
-   assert.ok(links.some(url=>url.endsWith('/navegacion.html')));
-   assert.ok(links.some(url=>url.endsWith('/GUI/practica-07.html')));
-   assert.equal(links.some(url=>url.includes('github.com')||url.includes('.md')),false);
-   await page.getByText('Guía de los 15 puntos',{exact:true}).scrollIntoViewIfNeeded();
+   await page.goto(base+'#practica-07');await page.locator('main h1').filter({hasText:'Del primer trazo'}).waitFor();
+   const links=await page.locator('main a').evaluateAll(items=>items.map(a=>a.getAttribute('href')));
+   assert.ok(links.some(url=>url==='#vista?id=sheets'));
+   assert.ok(links.some(url=>url==='#vista?id=navigation'));
+   assert.ok(links.some(url=>url==='#vista?id=sketches'));
+   await page.locator('main h3 a').filter({hasText:'Sketches'}).click();await page.locator('iframe').waitFor();
+   assert.ok((await page.locator('iframe').getAttribute('src')).endsWith('/GUI/practica-07.html'));
    await page.screenshot({path:path.resolve(__dirname,'../evidencias/portal-practica07.png')});
   });
   await check('Guía: quince puntos con enlaces e imágenes presentadas',async()=>{
@@ -53,7 +53,7 @@ const base=process.env.P07_SITE_URL||'http://127.0.0.1:8765/';
    }
   });
   assert.deepEqual(errors,[]);
-  const report={date:'2026-11-12',browser:await browser.version(),results,pageErrors:errors,scope:'Integración y lectura local del sitio; no acredita despliegue público ni nueva ejecución de Archify.'};
+  const report={date:new Date().toISOString().slice(0,10),browser:await browser.version(),results,pageErrors:errors,scope:'Integración y lectura local del sitio; no acredita despliegue público ni nueva ejecución de Archify.'};
   fs.writeFileSync(path.resolve(__dirname,'../evidencias/resultados-portal.json'),JSON.stringify(report,null,2)+'\n');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1);});
