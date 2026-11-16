@@ -1,5 +1,7 @@
 # Decisiones pendientes
 
+**Avance del prototipo (16/11/2026):** [ADR-0007](adr/0007-base-tecnica-prototipo.md) fija una base operativa local: NestJS, PostgreSQL, lockfiles API/web y SPA pública Code+PKCE. El harness real está verificado; sesión React/Flutter y aceptación del equipo pendientes. D-01/02 avanzan en ese alcance; D-08 solo cuenta con destino local. Se conservan las decisiones de producto pendientes; esta configuración no habilita un entorno público.
+
 Este registro evita que desarrolladores o agentes conviertan una suposición en una decisión aceptada. La selección base del [README](../../README.md) se mantiene mientras se valida; alternativas históricas como Next.js, MySQL o Express directo no se adoptan por aparecer en una práctica.
 
 **Estado de todas las filas:** pendiente. Los responsables indicados son funciones sugeridas, no asignaciones personales confirmadas. Una decisión se cierra mediante evidencia y revisión registrada en un [ADR](adr/README.md); agregar fecha, autores, PR y consecuencias.
@@ -19,6 +21,8 @@ Este registro evita que desarrolladores o agentes conviertan una suposición en 
 | D-11 | Parámetros de administración y privacidad de agregados | Producto + seguridad + backend | Protección del último administrador, permisos/motivos, agregados que no identifiquen individuos y revocación probada | RF-09 |
 
 ## Cómo resolver un pendiente
+
+La [propuesta ADR-0006 de QUANCORE-43](adr/0006-integracion-api-identidad-http.md) reúne composición NestJS, matriz de endpoints, HTTP/CORS, salud, identidad y autoridad de datos. Recomienda SPA pública con PKCE para revisión y enumera brechas del escritor y del puerto dashboard. No cierra D-01/02/03/04/05/08/09/10 ni aprueba alojamiento, retención o datos reales; las opciones y sus puertas de aceptación siguen pendientes del equipo.
 
 1. Abrir trabajo con la pregunta, RF afectados, opciones, restricciones y dueño de revisión.
 2. Hacer una prueba pequeña con datos sintéticos y registrar lo que demuestra y lo que no.

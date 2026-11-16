@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Quantify Core">
+  <rect width="512" height="512" rx="112" fill="#275BC0"/>
+  <!-- Isotipo Q de docs/GUI/fuente/guia_estilos.py, sin alterar su geometría. -->
+  <path d="M50 12a34 34 0 1 0 0 68 34 34 0 1 0 0-68 M62 66l24 22" transform="translate(76 76) scale(3.6)" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

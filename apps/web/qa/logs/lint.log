@@ -1,0 +1,2 @@
+> @quantify-core/web@0.2.0-consolidation lint
+> eslint . --max-warnings 0

@@ -1,6 +1,6 @@
 import Ajv from 'ajv/dist/2020';
 import addFormats from 'ajv-formats';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { TelemetryError as ApiError } from '../../errors';
 import type { DashboardInput } from './input.generated';
@@ -8,7 +8,18 @@ export type Query = {from:string;to:string;habitId?:string;bucket:'day'|'week'};
 type Revision = DashboardInput['revisions'][number];
 type CheckIn = DashboardInput['checkIns'][number];
 const ajv=new Ajv({strict:true});addFormats(ajv);
-const validate=ajv.compile(JSON.parse(readFileSync(resolve(__dirname,'../../../../../../packages/contracts/dashboard/v1/read-input.schema.json'),'utf8')));
+// Both the isolated host and the core host compile this same module.
+// Locate the canonical contracts from the repository/deployment root, not cwd.
+function inputSchema() {
+  let directory=__dirname;
+  for(let depth=0;depth<12;depth++) {
+    const file=resolve(directory,'packages/contracts/dashboard/v1/read-input.schema.json');
+    if(existsSync(file))return JSON.parse(readFileSync(file,'utf8'));
+    const parent=resolve(directory,'..');if(parent===directory)break;directory=parent;
+  }
+  throw new Error('Canonical dashboard contract not found');
+}
+const validate=ajv.compile(inputSchema());
 const dayMs=86400000;
 export function realDate(value:string):boolean {
   const time=Date.parse(value+'T00:00:00Z');

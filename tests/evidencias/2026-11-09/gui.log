@@ -1,0 +1,17 @@
+test_estados_legibles_sin_texto_blanco_sobre_acento (test_contraste_guia.GuideContrast.test_estados_legibles_sin_texto_blanco_sobre_acento) ... ok
+test_textos_y_controles_en_ambos_temas (test_contraste_guia.GuideContrast.test_textos_y_controles_en_ambos_temas) ... ok
+test_logos_una_vez_por_mockup_y_sin_imagenes_de_ui (test_figma_prototipos.EditableTransfer.test_logos_una_vez_por_mockup_y_sin_imagenes_de_ui) ... ok
+test_texto_editable_y_sketch_sin_rotulos_internos (test_figma_prototipos.EditableTransfer.test_texto_editable_y_sketch_sin_rotulos_internos) ... ok
+test_generacion_determinista_con_roles_existentes (test_marcas.BrandVariants.test_generacion_determinista_con_roles_existentes) ... ok
+test_mismas_coordenadas_cobertura_y_transparencia_sin_placa (test_marcas.BrandVariants.test_mismas_coordenadas_cobertura_y_transparencia_sin_placa) ... ok
+test_originales_no_sobrescritos (test_marcas.BrandVariants.test_originales_no_sobrescritos) ... ok
+test_20_pantallas_distintas_y_80_archivos (test_movil.MobileDesign.test_20_pantallas_distintas_y_80_archivos) ... ok
+test_correspondencia_de_todos_los_bloques_y_destinos (test_movil.MobileDesign.test_correspondencia_de_todos_los_bloques_y_destinos) ... ok
+test_mockups_inter_paleta_y_logos_existentes_en_dos_temas (test_movil.MobileDesign.test_mockups_inter_paleta_y_logos_existentes_en_dos_temas) ... ok
+test_sketches_solo_cuadros_y_lineas_sin_texto_imagenes_ni_color (test_movil.MobileDesign.test_sketches_solo_cuadros_y_lineas_sin_texto_imagenes_ni_color) ... ok
+test_wireframes_fuente_generica_grises_y_marcadores (test_movil.MobileDesign.test_wireframes_fuente_generica_grises_y_marcadores) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 7.208s
+
+OK

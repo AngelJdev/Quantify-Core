@@ -1,0 +1,49 @@
+name: quantify-core-dev
+services:
+  alertmanager:
+    image: prom/alertmanager:v0.35.0
+    command: [--config.file=/etc/alertmanager/alertmanager.yaml, --storage.path=/alertmanager]
+    ports: ["127.0.0.1:9093:9093"]
+    volumes:
+      - ../observability/alertmanager.yaml:/etc/alertmanager/alertmanager.yaml:ro
+      - alertmanager-data:/alertmanager
+  alert-receiver:
+    image: node:24.14.1-bookworm-slim
+    user: node
+    command: [node, /opt/alert-receiver.mjs]
+    ports: ["127.0.0.1:9194:9194"]
+    volumes:
+      - ../observability/alert-receiver.mjs:/opt/alert-receiver.mjs:ro
+  prometheus:
+    image: prom/prometheus:v3.16.0
+    command: [--config.file=/etc/prometheus/prometheus.yaml, --storage.tsdb.retention.time=7d, --storage.tsdb.retention.size=256MB]
+    ports: ["127.0.0.1:9090:9090"]
+    volumes:
+      - ../observability/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - ../observability/alerts.yaml:/etc/prometheus/alerts.yaml:ro
+      - prometheus-data:/prometheus
+  loki:
+    image: grafana/loki:3.7.9
+    command: [-config.file=/etc/loki/config.yaml]
+    volumes:
+      - ../observability/loki.yaml:/etc/loki/config.yaml:ro
+      - loki-data:/loki
+  grafana:
+    image: grafana/grafana:13.2.4
+    environment:
+      GF_SECURITY_ADMIN_USER: quantify-operator
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Run observability init}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+    ports: ["127.0.0.1:3300:3000"]
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ../observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ../observability/grafana/dashboards:/etc/grafana/dashboards:ro
+volumes:
+  alertmanager-data:
+  prometheus-data:
+  loki-data:
+  grafana-data:

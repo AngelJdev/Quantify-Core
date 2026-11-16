@@ -7,7 +7,7 @@ import { calculate,query } from './model';
 @Injectable()
 export class DashboardService {
   constructor(private readonly db:Database,@Inject(CONFIG)private readonly config:TelemetryConfig) {}
-  async read(owner:string,kind:'progress'|'calendar'|'trends',raw:Record<string,unknown>) {
+  async snapshot(owner:string,kind:'progress'|'calendar'|'trends',raw:Record<string,unknown>,knownOwnedHabit=false) {
     const q=query(raw,kind);
     if(!this.config.dashboardEnabled)throw new ApiError(503,'DASHBOARD_NOT_ENABLED');
     const c=await this.db.pool.connect();let result;
@@ -31,7 +31,9 @@ export class DashboardService {
         FROM dashboard_read.v1_check_ins WHERE owner_id=$1 AND business_date BETWEEN $2 AND $3
         AND ($4::uuid IS NULL OR habit_id=$4) ORDER BY habit_id,business_date LIMIT 100001`,[owner,q.from,q.to,q.habitId??null]);
       const data={revisions:revisions.rows,checkIns:checkIns.rows.map(row=>({...row,recordedAt:row.recordedAt instanceof Date?row.recordedAt.toISOString():row.recordedAt}))} as DashboardInput;
-      result=calculate(data,owner,q,at);
+      // The core writer can prove ownership even when the requested window precedes creation.
+      const calculationQuery=knownOwnedHabit&&data.revisions.length===0?{...q,habitId:undefined}:q;
+      result={data,at,q,results:calculate(data,owner,calculationQuery,at)};
       await c.query('COMMIT');
     } catch(error) {
       await c.query('ROLLBACK');
@@ -40,6 +42,9 @@ export class DashboardService {
     } finally {c.release();}
     const active=(await this.db.query('SELECT status FROM public.profiles WHERE id=$1',[owner])).rows[0];
     if(active?.status!=='active')throw new ApiError(403,'PROFILE_NOT_ACTIVE');
-    return result[kind];
+    return result!;
+  }
+  async read(owner:string,kind:'progress'|'calendar'|'trends',raw:Record<string,unknown>) {
+    return (await this.snapshot(owner,kind,raw)).results[kind];
   }
 }

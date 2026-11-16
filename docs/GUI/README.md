@@ -78,9 +78,9 @@ Para revisar y validar estos entregables visuales se disponen las siguientes opc
 - **Servidor local de desarrollo:**
   Para ejecutar la galería completa en un entorno local y acceder a los recursos en alta resolución, inicie un servidor web desde la raíz del repositorio:
   ```powershell
-  python -m http.server 8765
+  python -m http.server 8765 --bind 127.0.0.1
   ```
-  Luego abra en el navegador la dirección: `http://localhost:8765/docs/GUI/`.
+  Luego abra en el navegador la dirección: `http://127.0.0.1:8765/docs/GUI/`.
 
 ## Prototipos móviles complementarios
 
@@ -89,6 +89,20 @@ Además de la Guía de Estilos, el módulo de diseño incluye la progresión de 
 - **[Wireframes](prototipos/movil/wireframes/README.md):** 20 esquemas estructurales en escala de grises con tipografía neutra y jerarquía funcional.
 - **[Mockups](prototipos/movil/mockups/README.md):** 20 pantallas finales de alta fidelidad, diseñadas en versión de tema claro y tema oscuro (40 vistas en total).
 - Para consultar la matriz completa de correspondencia entre pantallas y requerimientos funcionales, consulte el [Índice de Prototipos Móviles](prototipos/movil/README.md).
+
+## Prototipo interactivo en Figma
+
+El archivo oficial ya contiene navegación entre pantallas: no es necesario crear otro prototipo ni importar de nuevo las imágenes. Revisé su estructura el 09/11/2026 mediante la conexión Figma, sin modificar nodos, estilos ni conexiones:
+
+| Página | Pantallas / variantes | Conexiones NODE | Entradas y destinos |
+|---|---|---|---|
+| Sketches `5:256` | 20 frames | 0 | Un punto inicial; no se declara navegación conectada en esta fidelidad |
+| Wireframes `5:257` | 20 frames | 123 | Una entrada `5:1363`; 18 destinos distintos, ninguno ausente |
+| Mockups `5:258` | 40 frames, 20 por tema | 246 | Entradas `5:2436` claro y `5:3531` oscuro; 36 destinos distintos, ninguno ausente |
+
+Abrir [wireframes](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3?node-id=5-1363), [mockups claros](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3?node-id=5-2436) o [mockups oscuros](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3?node-id=5-3531), seleccionar el flujo correspondiente y usar Present. Verifiqué acceso al archivo y resolución de destinos con el conector; no ejecuté el reproductor Present ni certifico permisos de publicación pública.
+
+Son recorridos visuales con datos de referencia: no realizan login OIDC, persistencia ni ingesta real. Las seis vistas adicionales de autenticación tienen sus SVG y galería en Git, pero esta revisión no encontró frames de esas vistas entre las 80 pantallas originales de las tres páginas inspeccionadas. No se afirma que estén incorporadas al prototipo Figma. La [Práctica 07](../practica-07/README.md) conserva su prototipo HTML independiente.
 
 ## Organización de directorios
 

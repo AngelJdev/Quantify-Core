@@ -1,14 +1,14 @@
 # API REST e integración
 
-> **Estado: primer flujo propuesto; simulación QUANCORE-35 ejecutable localmente y separada.** La fuente de esquemas, campos, tipos y respuestas es [packages/contracts/openapi.json](../../packages/contracts/openapi.json). Esta guía explica cómo implementar y consumir ese contrato.
+> **Estado: núcleo del primer flujo ejecutable localmente en QUANCORE-43, pendiente de revisión; simulación QUANCORE-35 separada.** La fuente de esquemas, campos, tipos y respuestas es [packages/contracts/openapi.json](../../packages/contracts/openapi.json). Consultar [ejecución, restricciones y política provisional de escritura](../../services/api/README.md) antes de consumirlo; no se acredita un despliegue productivo.
 
 **Ampliación aislada QUANCORE-35:** el [contrato de telemetría sintética](../../packages/contracts/telemetry/README.md) define rutas ejecutables localmente bajo `/api/v1/telemetry/simulation`, con su [implementación y evidencia](../../services/api/telemetry/README.md). Mantiene identidad Keycloak y pertenencia; la clave de ingesta es `(sourceId, batchId)`, no el header del primer flujo. Sus errores también usan `application/problem+json`. No habilita fuentes físicas ni declara integrada la API general.
 
-**QUANCORE-25:** [contrato del dashboard](../../packages/contracts/dashboard/README.md), con `GET /api/v1/me/dashboard/progress`, `/calendar` y `/trends`. Implementación de solo lectura, opt-in, probada contra vistas SQL sobre registros sintéticos persistidos; integración del escritor pendiente. [Evidencia](../datos-ia/estadisticas-dashboard.md).
+**QUANCORE-25/43:** [contrato del dashboard](../../packages/contracts/dashboard/README.md), con `GET /api/v1/me/dashboard/progress`, `/calendar` y `/trends`. El núcleo monta el lector existente sobre vistas de hábitos/check-ins reales. El host sintético conserva su opt-in y [evidencia original](../datos-ia/estadisticas-dashboard.md); esa evidencia no se reatribuye a QUANCORE-43.
 
 ## Primer flujo propuesto
 
-Servidor relativo: `/api/v1`. No se fija dominio, puerto ni ambiente inexistente. Todos los endpoints requieren access token de Keycloak, propiedad del recurso y cuenta habilitada.
+Servidor relativo: `/api/v1`. La implementación local propone loopback en puerto 3000, sin fijar un destino productivo. Los endpoints de negocio requieren access token de Keycloak, propiedad del recurso y cuenta habilitada. `GET /health/live` y `/health/ready` son públicos y mínimos: proceso y disponibilidad de PostgreSQL/esquema respectivamente; readiness falla con 503 y no exige MongoDB. No hay alias `/health`.
 
 | Método y ruta | Propósito | Requisito |
 |---|---|---|

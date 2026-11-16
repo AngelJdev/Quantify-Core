@@ -25,6 +25,8 @@ Desde la raíz, comprobar el estado con `git status` y obtener referencias con `
 
 Usar commits con intención concreta, por ejemplo `docs(api): definir contrato de check-ins` o `feat(habits): validar frecuencia semanal`. Agrupar archivos relacionados; evitar commits que mezclen rediseño, migraciones y una corrección sin relación.
 
+Hacer commits periódicos al completar una unidad de trabajo revisable y validada, sin fragmentar cada ajuste ni acumular funcionalidades independientes en una sola entrega. Usar `tipo(área): descripción concreta`: `feat` para capacidades nuevas, `fix` para correcciones, `test` para pruebas, `docs` para documentación, `refactor` para reorganización sin cambio de comportamiento y `chore` para mantenimiento. El área identifica el módulo, por ejemplo `api`, `auth`, `web`, `mobile` o `arquitectura`; enlazar la tarea Jira existente en el cuerpo cuando corresponda. El historial debe reflejar trabajo real y sus comprobaciones, sin commits vacíos ni fechas o autorías artificiales.
+
 `git diff --check` detecta errores de espacios en el diff. Revisar también rutas, ejemplos, enlaces y documentación de variables. El uso de agentes no sustituye la revisión del resultado: indicar qué cambió y cómo se verificó, sin necesidad de registrar conversaciones privadas.
 
 ## Criterio de terminado

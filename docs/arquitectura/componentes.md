@@ -2,6 +2,8 @@
 
 **Estado:** propuesta. Aplicar junto con [requisitos](../requerimientos/catalogo.md) y [seguridad](../seguridad/README.md). Los nombres de módulos son responsabilidades lógicas; no son rutas ni clases ya implementadas.
 
+**Implementación local QUANCORE-43:** el [núcleo NestJS](../../services/api/README.md) contiene módulos Platform, Profiles, Habits, CheckIns y Metrics, con un pool/guard compartidos y el lector QUANCORE-25 existente. Sus vistas leen tablas e historial PostgreSQL reales. Este avance no acepta los ADR ni acredita el despliegue o la sesión de clientes; la ingesta sintética y su proyección MongoDB conservan su host separado y opt-in.
+
 ## Clientes y servicios
 
 | Componente | Responsabilidad | No debe asumir |

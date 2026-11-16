@@ -1,6 +1,8 @@
 # Estrategia de pruebas
 
-Esta carpeta reúne la estrategia para verificar Quantify Core. **Estado:** hay pruebas del prototipo de la Práctica 07 y del módulo aislado de telemetría sintética QUANCORE-35. La plataforma general y sus integraciones siguen pendientes. Los casos siguientes son obligaciones de desarrollo, no resultados ya aprobados.
+**Verificación conjunta (16/11/2026):** [guía y resultados](../docs/guias/base-tecnica.md). Ejecutar `node scripts/verify-base.mjs`; después, con Compose preparado y Chrome instalado, `node scripts/verify-oidc-base.mjs` verifica Keycloak real, PKCE, API y permisos SQL. Es un harness de protocolo, no sesión implementada de React/Flutter.
+
+Esta carpeta reúne la estrategia para verificar Quantify Core. **Estado:** hay pruebas del prototipo de la Práctica 07, del módulo aislado de telemetría sintética QUANCORE-35 y del núcleo persistente QUANCORE-43. La integración de clientes, sesión real y despliegue siguen pendientes. Los casos siguientes son obligaciones de desarrollo, no resultados ya aprobados.
 
 ```mermaid
 flowchart TB
@@ -72,7 +74,15 @@ Pruebas de contrato e integración HTTP con PostgreSQL temporal real, JWT/JWKS s
 
 La misma suite de `services/api/telemetry` suma 21 pruebas de dominio/HTTP del dashboard: 64 en total con las regresiones previas. Usa tablas y vistas solo en PostgreSQL temporal, comprueba correcciones y snapshot concurrente, pertenencia, ausencia/cero, historial, IANA/DST y tasas ponderadas. `node scripts/evidence-dashboard.cjs` reproduce la demo de consultas SQL, sin afirmar que el escritor esté integrado. [Alcance, comandos y evidencia](../docs/datos-ia/estadisticas-dashboard.md).
 
+## Núcleo persistente · QUANCORE-43
+
+Desde `services/api`, `npm ci` y `npm test`. La suite usa PostgreSQL 18.6 temporal real y JWT/JWKS sintéticos; verifica migración incremental conservando datos, autorización de dos usuarios, ETag, idempotencia durable/concurrente, rollback, correcciones, historial, métricas/dashboard sobre vistas reales, reinicio, CORS y salud ante fallo de SQL. Las funciones/pruebas de dominio QUANCORE-24 conservan su procedencia. No se omite la BD si falla, ni se acredita login Keycloak real por validar JWT sintéticos. [Configuración y restricciones](../services/api/README.md).
+
+El host `services/api/telemetry` mantiene su suite independiente para comprobar las regresiones de los adaptadores compartidos. Los fixtures PostgreSQL 18 usan E/S síncrona para que el cierre de procesos temporales en Windows no deje workers huérfanos; no es una configuración impuesta a bases de producto.
+
 ## Condiciones de revisión
+
+El [plan operativo](plan-pruebas.md) fija entornos, criterios y procedimientos de ejecución. Los [casos CA-01..20](../docs/requerimientos/aceptacion.md) mantienen sus resultados esperados y pasos; el [informe del 09/11/2026](informe-ejecucion-2026-11-09.md) identifica resultados efectivamente obtenidos, revisión evaluada y limitaciones. Una prueba sintética relacionada no aprueba automáticamente un caso integrado.
 
 Una funcionalidad no se marca verificada sin pruebas de sus caminos principales y fallos relevantes. Elegir las herramientas y umbrales de cobertura cuando existan módulos medibles; no usar un porcentaje arbitrario como sustituto de comportamiento comprobado. Una corrección que afecte contratos debe verificar también a sus consumidores.
 

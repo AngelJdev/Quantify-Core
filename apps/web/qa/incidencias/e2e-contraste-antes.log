@@ -1,0 +1,70 @@
+> @quantify-core/web@0.2.0-consolidation test:e2e
+> playwright test
+
+npm.cmd : [WebServer] (node:17692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+En línea: 2 Carácter: 652
++ ... 'Build fallido' }; npm.cmd run test:e2e > .build/e2e.log 2>&1; Get-Co ...
++                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([WebServer] (no... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:29272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 tests\e2e\frontend.spec.ts:6:1 › rutas, temas, reflujo, fuentes y accesibilidad básica (18.6s)
+(node:27952) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 tests\e2e\frontend.spec.ts:45:1 › crear, navegar, editar, registrar absoluto y archivar sin perder historia (3.0s)
+  ok 3 tests\e2e\frontend.spec.ts:84:1 › errores, navegación móvil y teclado (1.5s)
+
+
+  1) tests\e2e\frontend.spec.ts:6:1 › rutas, temas, reflujo, fuentes y accesibilidad básica ────────
+
+    Error: 320 dark /hoy
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 10
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "id": "color-contrast",
+    +     "nodes": Array [
+    +       Array [
+    +         ".mobile-nav > .active[aria-current=\"page\"][href$=\"#/hoy\"] > span",
+    +       ],
+    +     ],
+    +   },
+    + ]
+
+      26 |         if (['/hoy', '/nuevo', '/auth', `/check-ins/${fixtureId}`, '/ajustes?seccion=Privacidad'].includes(route)) {
+      27 |           const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze()
+    > 28 |           expect(result.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.target) })), `${width} ${theme} ${route}`).toEqual([])
+         |                                                                                                                               ^
+      29 |         }
+      30 |         if ((width === 1440 && theme === 'light' && route === '/hoy') || (width === 390 && route === '/habitos') || (width === 320 && theme === 'dark' && route === '/nuevo') || (width === 390 && theme === 'light' && route === '/auth')) await page.screenshot({ path: `${out}/${width}-${theme}-${route.replace(/[^a-z]/gi, '')}.png`, fullPage: true })
+      31 |       }
+        at C:\Users\telle\OneDrive\Escritorio\Quantify-Core-consolidacion-frontend\apps\web\tests\e2e\frontend.spec.ts:28:127
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\frontend-rutas-temas-reflujo-fuentes-y-accesibilidad-básica\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\frontend-rutas-temas-reflujo-fuentes-y-accesibilidad-básica\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\frontend-rutas-temas-reflujo-fuentes-y-accesibilidad-básica\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\frontend-rutas-temas-reflujo-fuentes-y-accesibilidad-básica\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests\e2e\frontend.spec.ts:6:1 › rutas, temas, reflujo, fuentes y accesibilidad básica ─────────
+  2 passed (31.4s)

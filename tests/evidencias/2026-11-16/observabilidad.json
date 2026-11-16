@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-11-16T15:58:29.567Z",
+  "sourceRevision": "ea643e09cb1aa0507f66b9c3821ce569611290bc",
+  "environment": "local-review",
+  "workingTreeDirty": false,
+  "scope": "Real local Compose; no public deployment, Flutter or SLA claim",
+  "checks": [
+    "real API scrape and SQL readiness",
+    "Grafana requires authentication; provisioned dashboard and both datasources",
+    "real API logs in Loki, generated correlation, request secrets excluded",
+    "real Alertmanager webhook firing receipt, repeat deduplication and API silence",
+    "actual API stop triggers firing rule; restart resolves alert and restores readiness",
+    "Loki outage does not block API; dropped operational logs counted; collector restarted",
+    "Grafana blocks write proxying; internal Loki rejects 26-hour-old sample under 24-hour policy; physical compaction aging not claimed",
+    "authenticated real dashboard captured without credentials"
+  ],
+  "measurements": {
+    "alertDetectionSeconds": 27.11,
+    "processRecoverySeconds": 14.26
+  },
+  "result": "passed"
+}

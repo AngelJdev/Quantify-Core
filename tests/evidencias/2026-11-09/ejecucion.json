@@ -1,0 +1,97 @@
+{
+  "date": "2026-11-09",
+  "timeZone": "America/Mexico_City",
+  "head": "e678379b8daf2c03e692beb8eb8ee46285ce9359",
+  "base": "0272ed8ea8fe729b42a54ad8031b16f616636a4e",
+  "scope": "Código del verificador registrado; documentación en preparación. Sin cambios de backend ni generación visual.",
+  "environment": {
+    "node": "v24.14.1",
+    "python": "Python 3.14.4",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "runs": [
+    {
+      "id": "json-refs",
+      "command": "node --test scripts/tests/check-json-refs.test.mjs",
+      "startedAt": "2026-11-09T15:45:47.814Z",
+      "finishedAt": "2026-11-09T15:45:48.087Z",
+      "exitCode": 0,
+      "log": "json-refs.log"
+    },
+    {
+      "id": "gui",
+      "command": "python -B -m unittest discover -s docs/GUI/fuente/tests -v",
+      "startedAt": "2026-11-09T15:45:48.088Z",
+      "finishedAt": "2026-11-09T15:45:56.081Z",
+      "exitCode": 0,
+      "log": "gui.log"
+    },
+    {
+      "id": "prototipo",
+      "command": "node --test docs/practica-07/tests/prototipo.test.cjs",
+      "startedAt": "2026-11-09T15:45:56.361Z",
+      "finishedAt": "2026-11-09T15:45:56.814Z",
+      "exitCode": 0,
+      "log": "prototipo.log"
+    },
+    {
+      "id": "keycloak-estatico",
+      "command": "node scripts/check-keycloak.mjs",
+      "startedAt": "2026-11-09T15:45:56.814Z",
+      "finishedAt": "2026-11-09T15:45:56.936Z",
+      "exitCode": 0,
+      "log": "keycloak-estatico.log"
+    },
+    {
+      "id": "openapi",
+      "command": "npm.cmd run validate:openapi",
+      "cwd": "services/api/telemetry",
+      "startedAt": "2026-11-09T15:47:40.917Z",
+      "finishedAt": "2026-11-09T15:47:42.281Z",
+      "exitCode": 0,
+      "log": "openapi.log"
+    },
+    {
+      "id": "telemetry",
+      "command": "npm.cmd test",
+      "cwd": "services/api/telemetry",
+      "startedAt": "2026-11-09T15:47:42.283Z",
+      "finishedAt": "2026-11-09T15:50:42.301Z",
+      "exitCode": null,
+      "log": "telemetry.log",
+      "outcome": "inconclusive",
+      "captureError": "ETIMEDOUT",
+      "captureTimeoutMs": 180000
+    },
+    {
+      "id": "telemetry-directo",
+      "command": "npm.cmd test",
+      "cwd": "services/api/telemetry",
+      "startedAt": "2026-11-09T15:52:20.5055558Z",
+      "finishedAt": "2026-11-09T15:52:50.3605099Z",
+      "exitCode": 0,
+      "log": "telemetry-directo.log",
+      "outcome": "passed",
+      "tests": 64,
+      "failed": 0
+    },
+    {
+      "id": "auth-visual",
+      "command": "node docs/GUI/fuente/tests/auth-flow.test.mjs",
+      "startedAt": "2026-11-09T15:55:16.269Z",
+      "finishedAt": "2026-11-09T15:55:16.452Z",
+      "exitCode": 0,
+      "log": "auth-visual.log"
+    },
+    {
+      "id": "documentacion",
+      "command": "node scripts/check-docs.mjs",
+      "startedAt": "2026-11-09T15:56:07.587Z",
+      "finishedAt": "2026-11-09T15:56:08.942Z",
+      "exitCode": 0,
+      "log": "documentacion.log"
+    }
+  ],
+  "lockfileSha256": "828c57cbd7e7929ba09624a8cf8a37d585582f353202d1586b22e827cdce938a"
+}
