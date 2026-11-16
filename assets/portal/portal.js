@@ -1,3 +1,4 @@
+import { mountEdt } from "./edt.js";
 import { mountEvidence } from "./github.js";
 import { serviceWorkflow } from "./workflow.js";
 const main = document.querySelector("#content");
@@ -317,103 +318,8 @@ function engineering() {
       "",
     )}</div><div class="notice">API NestJS, PostgreSQL, Keycloak y monitoreo tienen evidencia local. Esto no acredita sesión final en React/Flutter, instalación PWA, rendimiento final ni operación pública.</div><div class="actions">${button("Informe de validación", "tests/evidencias/2026-11-16/resumen-validacion.json")}${button("Monitoreo verificado", "tests/evidencias/2026-11-16/observabilidad.json")}${button("Ver panel de monitoreo", "tests/evidencias/2026-11-16/grafana-local.png")}${button("Consultar decisiones", "#biblioteca?area=Arquitectura&q=ADR")}</div>`;
 }
-const packageSources = {
-  1.1: "docs/requerimientos/catalogo.md",
-  1.2: "docs/gestion/raci.md",
-  1.3: "docs/gestion/acta-cierre.md",
-  2.1: "packages/contracts/README.md",
-  2.2: "infrastructure/keycloak/README.md",
-  2.3: "docs/datos-ia/modelo-datos.md",
-  3.1: "services/api/README.md",
-  3.2: "docs/requerimientos/reglas-negocio.md",
-  3.3: "docs/datos-ia/estadisticas-dashboard.md",
-  4.1: "docs/diseno/sistema-diseno.md",
-  4.2: "apps/web/README.md",
-  4.3: "apps/mobile/README.md",
-  5.1: "docs/datos-ia/README.md",
-  5.2: "docs/datos-ia/telemetria-simulada.md",
-  5.3: "docs/arquitectura/decisiones-pendientes.md",
-  6.1: "tests/plan-pruebas.md",
-  6.2: "docs/despliegue/README.md",
-  6.3: "docs/despliegue/runbook-observabilidad.md",
-};
 function wbs(params) {
-  const leaves = catalog.wbs.flatMap((p) => p.children);
-  const selected = leaves.find((n) => n.id === params.get("nodo")) || leaves[0];
-  main.innerHTML =
-    heading(
-      "PLANIFICACIÓN / EDT",
-      "EDT · Estructura del trabajo",
-      "Quantify Core: seis paquetes, dieciocho entregables y evidencia del repositorio. Selecciona una hoja para consultar su criterio, responsables de referencia y commits relacionados.",
-    ) +
-    `<div class="wbs-root"><strong>Quantify Core</strong><span>Producto · Plataforma · Experiencia · Operación</span></div><div class="diagram-layout"><div><div class="wbs">${catalog.wbs.map((p) => `<section class="package"><h3>${esc(p.id)}. ${esc(p.title)}</h3>${p.children.map((n) => `<button class="node" data-node="${n.id}" aria-pressed="${n.id === selected.id}"><strong>${n.id}</strong>${esc(n.title)}</button>`).join("")}</section>`).join("")}</div><div class="count-strip"><span><strong>${catalog.wbs.length}</strong>paquetes</span><span><strong>${leaves.length}</strong>entregables</span><span>Fuente: EDT versionada</span></div></div><aside id="node-detail" class="detail" aria-label="Detalle del entregable" aria-live="polite"></aside></div><div class="notice">Orden de integración: contratos e identidad → núcleo de hábitos → clientes → pruebas y destino → cierre. Documentar un paquete no acredita su implementación. Consulta Jira y las evidencias para conocer su estado.</div><div class="actions">${button("Leer EDT y dependencias", read("docs/gestion/edt.md"))}${button("Consultar RACI", read("docs/gestion/raci.md"))}${button("Recursos y estimación", read("docs/gestion/presupuesto.md"))}</div>`;
-  function select(node) {
-    for (const control of main.querySelectorAll("[data-node]"))
-      control.setAttribute(
-        "aria-pressed",
-        String(control.dataset.node === node.id),
-      );
-    const refs = [
-      ...new Set(
-        [...node.refs.matchAll(/QUANCORE-(\d+(?:\/\d+)*)/g)].flatMap((match) =>
-          match[1].split("/").map((n) => "QUANCORE-" + n),
-        ),
-      ),
-    ];
-    const source = packageSources[node.id];
-    document.querySelector("#node-detail").innerHTML =
-      `<span class="eyebrow">ENTREGABLE ${node.id}</span><h2>${esc(node.title)}</h2><span class="tag">Criterio documentado</span><h3>Criterio de salida</h3><p>${esc(node.criterion)}</p><h3>Trazabilidad</h3><p>${esc(node.refs.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1"))}</p>${refs.length ? '<h3>Consultar en Jira</h3><div class="actions">' + refs.map((key) => `<a href="https://utxicotepec-team-q5ufett6.atlassian.net/browse/${key}" target="_blank" rel="noopener">${key} ↗</a>`).join("") + "</div>" : ""}${source ? button("Consultar fuente", read(source)) : ""}${button("Estado y evidencia", read("docs/gestion/estado-base-tecnica.md"))}`;
-    const ownership = {
-      1: "Ángel de Jesús Baños Telles · Coordinación y documentación",
-      2: "Ángel de Jesús Baños Telles · Arquitectura",
-      3: "Francisco García García · Backend e integración",
-      4: "Al Farias Leyva · Diseño y frontend",
-      5: "Jesús Alejandro Artiaga Morales · Datos y analítica",
-      6: "Ángel de Jesús Baños Telles · Calidad y operación",
-    };
-    const owner = document.createElement("div");
-    owner.className = "wbs-owner";
-    owner.innerHTML =
-      "<h3>Referencia de coordinación</h3><p>" +
-      esc(ownership[node.id[0]]) +
-      "</p><small>Referencia por paquete; consultar la RACI propuesta y la asignación de cada tarea.</small>";
-    document.querySelector("#node-detail").append(owner);
-    let evidencePanel = document.querySelector("#edt-evidence");
-    if (!evidencePanel) {
-      const section = document.createElement("section");
-      section.className = "github-workflow-section";
-      section.innerHTML =
-        '<div class="section-heading"><h2>Evidencia del entregable en GitHub</h2><span id="edt-evidence-path"></span></div><div class="card" id="edt-evidence"></div>';
-      main.append(section);
-      evidencePanel = section.querySelector("#edt-evidence");
-    }
-    const paths = {
-      1: "docs",
-      2: "docs/arquitectura",
-      3: "services/api",
-      4: "docs/GUI",
-      5: "docs/datos-ia",
-      6: "tests",
-    };
-    const path =
-      node.id === "4.2"
-        ? "apps/web"
-        : node.id === "4.3"
-          ? "apps/mobile"
-          : node.id === "2.2"
-            ? "infrastructure/keycloak"
-            : node.id === "6.3"
-              ? "infrastructure/observability"
-              : paths[node.id[0]];
-    document.querySelector("#edt-evidence-path").textContent = path;
-    mountEvidence(evidencePanel, path);
-    history.replaceState(null, "", "#edt?nodo=" + node.id);
-  }
-  for (const control of main.querySelectorAll("[data-node]"))
-    control.addEventListener("click", () =>
-      select(leaves.find((n) => n.id === control.dataset.node)),
-    );
-  select(selected);
+  return mountEdt(main, catalog, params);
 }
 async function reader(params, version) {
   const source = params.get("src"),
@@ -490,7 +396,7 @@ async function route({ initial = false } = {}) {
   document.title = titles[section] + " · Quantify Core";
   if (section === "documento") await reader(params, version);
   else
-    ({
+    await {
       inicio: home,
       biblioteca: library,
       diseno: design,
@@ -499,7 +405,7 @@ async function route({ initial = false } = {}) {
       workflow: (params) => serviceWorkflow(main, params),
       flujo: workflow,
       vista: viewer,
-    })[section](params);
+    }[section](params);
   if (version !== navigationVersion) return;
   for (const link of main.querySelectorAll(
     'a[href^="#workflow"],a[href^="#edt"]',
