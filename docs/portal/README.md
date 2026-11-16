@@ -29,7 +29,7 @@ El [original de Archify](../practica-07/archify/navegacion-original.html) conser
 
 ## Evidencia de GitHub
 
-El workflow ajusta el diagrama completo al alto disponible en escritorio desde 1200 × 700 px: móvil, PWA, API/datos, ocho pasos y detalle permanecen en una sola vista. En pantallas pequeñas se mantiene la distribución vertical. «Registrar progreso» en cualquiera de los dos clientes inicia la simulación desde identidad, recorre los ocho pasos y se detiene en el dashboard. No arranca automáticamente ni repite operaciones en bucle. Se puede pausar, continuar, reiniciar o seleccionar un paso; con movimiento reducido se conservan los cambios de estado sin paquetes animados.
+El workflow ajusta el diagrama completo al alto disponible en escritorio desde 1366 × 768 px: móvil, PWA, API/datos, ocho pasos y detalle permanecen en una sola vista. En pantallas pequeñas se mantiene la distribución vertical. «Registrar progreso» en cualquiera de los dos clientes inicia la simulación desde identidad, recorre los ocho pasos y se detiene en el dashboard. No arranca automáticamente ni repite operaciones en bucle. Se puede pausar, continuar, reiniciar o seleccionar un paso; con movimiento reducido se conservan los cambios de estado sin paquetes animados.
 
 «El código detrás del recorrido» abre la evidencia en un panel superpuesto con desplazamiento propio, sin alargar el diagrama. El mismo control o la tecla Escape lo cierran. Las consultas de GitHub siguen siendo de lectura y la simulación no registra hábitos reales.
 
@@ -95,6 +95,8 @@ La prueba de navegador utiliza Playwright y axe ya disponibles en `apps/web`. Cu
 `consistency.mjs` verifica además el workflow, las consultas filtradas y su fallback, cambios rápidos de selección sin mezclar respuestas, el boceto completo sin scroll vertical a 1366×768 y 1440×900, el tema en iframe, trece páginas con identidad compartida y ocho revisiones axe de workflow/bocetos entre temas y tamaños. Las respuestas controladas de las pruebas de GitHub proceden del corte real: prueban comportamiento de red, no aceptación de tareas ni ejecución de CI.
 
 `workflow-motion.mjs` comprueba que los paquetes SVG cambian de posición al reproducir y quedan inmóviles al pausar; valida velocidad, cambio de cliente, replay/conflicto, teclado, persistencia y movimiento reducido. Incluye seis revisiones axe entre temas y anchos. [Informe del diagrama animado](evidencias/workflow-animado-2026-11-16.json) · [Vista amplia](evidencias/workflow-animado-1600.png) · [Escritorio](evidencias/workflow-animado-1440.png) · [Móvil](evidencias/workflow-animado-390.png).
+
+La ampliación a vista única verifica además el inicio desde ambos clientes, la parada al completar el recorrido, reinicio y cierre de la evidencia con Escape. Comprueba los ocho pasos en 1920 × 970, 1440 × 900 y 1366 × 768: sin scroll vertical de la página y sin hijos fuera de los carriles ni del inspector. Cinco escenarios aprobados, incluidas las seis revisiones axe: [informe de vista única](evidencias/workflow-vista-unica-2026-11-16.json), [1366 × 768](evidencias/workflow-vista-unica-1366.png) y [1440 × 900](evidencias/workflow-vista-unica-1440.png).
 
 Validación local del 16/11/2026: nueve escenarios del portal y cinco de guías/fichas aprobados. [Informe](evidencias/validacion-local.json) · [Portada](evidencias/inicio-1440.png) · [EDT](evidencias/edt-1440.png) · [Flujo móvil](evidencias/flujo-390.png). Las 14 revisiones axe de las vistas nuevas no sustituyen una evaluación manual integral ni certifican los visores históricos.
 

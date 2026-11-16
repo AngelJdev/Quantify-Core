@@ -175,7 +175,7 @@ export function serviceWorkflow(main, params) {
     const mobile = box("mobile"),
       pwa = box("pwa"),
       api = box("api");
-    const vertical = width < 700;
+    const vertical = pwa.top >= mobile.bottom;
     function route(source, returning) {
       if (vertical) {
         const x = width - (returning ? 5 : 15);

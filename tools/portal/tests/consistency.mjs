@@ -74,6 +74,7 @@ try {
         await page.locator('.team-names a[href^="mailto"]').count(),
         0,
       );
+      await page.keyboard.press("Escape");
       await page.locator('[data-dev-step="6"]').click();
       assert.match(
         await page.locator("#development-detail").textContent(),
