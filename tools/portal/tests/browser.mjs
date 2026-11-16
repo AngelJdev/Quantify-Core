@@ -118,6 +118,8 @@ try {
         await page.locator('[data-node="3.2"]').getAttribute("aria-pressed"),
         "true",
       );
+      assert.ok(await page.locator('[data-edt-tab="jira"]').count());
+      await page.locator('[data-edt-tab="jira"]').click();
       assert.ok(
         await page.locator('#node-detail a[href*="QUANCORE-24"]').count(),
       );
