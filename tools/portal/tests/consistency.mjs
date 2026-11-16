@@ -90,6 +90,7 @@ try {
     async () => {
       await page.goto(base + "#edt");
       await page.locator('[data-node="4.2"]').click();
+      await page.locator(".edt-live-evidence summary").click();
       await page.locator("#edt-evidence .commit-list").waitFor();
       assert.equal(
         await page.locator("#edt-evidence-path").textContent(),
@@ -132,6 +133,7 @@ try {
       await page.goto("about:blank");
       await page.goto(base + "#edt");
       await page.locator('[data-node="4.3"]').click();
+      await page.locator(".edt-live-evidence summary").click();
       await page.locator("#edt-evidence .commit-list").waitFor();
       assert.match(
         await page.locator("#edt-evidence").textContent(),

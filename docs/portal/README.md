@@ -102,9 +102,12 @@ npm.cmd run test --prefix tools/portal
 node tools/portal/tests/consistency.mjs
 node tools/portal/tests/sections.mjs
 node tools/portal/tests/workflow-motion.mjs
+npm.cmd run test:edt --prefix tools/portal
 ```
 
 La prueba de navegador utiliza Playwright y axe ya disponibles en `apps/web`. Cubre búsqueda, lectura enlazada, EDT, escenarios, visores, accesos antiguos, teclado, temas, contraste y navegación en anchos de 390 y 1440 píxeles. Los resultados y capturas se guardan localmente en `tools/portal/.artifacts/`, excluido de Git. El sitio no modifica Jira ni representa el estado de servicios en vivo.
+
+`edt-details.mjs` verifica claves compuestas, deduplicación, integridad del corte y ausencia de correos/IDs Jira; seis ramas y 18 hojas; imágenes locales; detalle de tareas, fechas y dependencias; commits/PR y relación con Jira; filtros combinados, vacío, lista, recarga y foco de teclado. Cinco escenarios aprobados, incluidas seis revisiones axe entre 1920, 1440 y 390 px en ambos temas. [Informe de EDT detallada](evidencias/edt-detallada-2026-11-16.json) · [1920 px](evidencias/edt-detallada-1920.png) · [1440 px](evidencias/edt-detallada-1440.png) · [Móvil](evidencias/edt-detallada-390.png). Las pruebas generales del portal, consistencia y páginas independientes permanecen aprobadas con los nuevos controles.
 
 `consistency.mjs` verifica además el workflow, las consultas filtradas y su fallback, cambios rápidos de selección sin mezclar respuestas, el boceto completo sin scroll vertical a 1366×768 y 1440×900, el tema en iframe, trece páginas con identidad compartida y ocho revisiones axe de workflow/bocetos entre temas y tamaños. Las respuestas controladas de las pruebas de GitHub proceden del corte real: prueban comportamiento de red, no aceptación de tareas ni ejecución de CI.
 

@@ -240,9 +240,12 @@ export async function mountEdt(main, catalog, params) {
       };
   }
   function select(node) {
+    const focusNode = host.querySelector("[data-node]:focus");
     selected = node;
     drawTree();
     drawDetail();
+    if (focusNode)
+      q(`[data-node="${selected.id}"]`)?.focus({ preventScroll: true });
     const { path } = relatedEvidence(node, github);
     q("#edt-evidence-path").textContent = path;
     mountEvidence(q("#edt-evidence"), path);
