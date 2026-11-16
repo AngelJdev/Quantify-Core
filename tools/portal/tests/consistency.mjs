@@ -54,15 +54,16 @@ try {
       await page.route("https://api.github.com/**", (route) => route.abort());
       await page.goto(base + "#inicio");
       await page
-        .locator('.project-entrypoints a[href="#workflow"]')
+        .locator('.project-entrypoints a[href="workflow.html#workflow"]')
         .first()
         .waitFor();
       await page
-        .locator('.project-entrypoints a[href="#workflow"]')
+        .locator('.project-entrypoints a[href="workflow.html#workflow"]')
         .first()
         .click();
       await page.locator("[data-dev-step]").first().waitFor();
       assert.equal(await page.locator("[data-dev-step]").count(), 8);
+      await page.locator(".wf-github summary").click();
       await page.locator("#workflow-evidence .commit-list").waitFor();
       assert.match(
         await page.locator("#workflow-evidence").textContent(),
@@ -76,7 +77,7 @@ try {
       await page.locator('[data-dev-step="6"]').click();
       assert.match(
         await page.locator("#development-detail").textContent(),
-        /merge commit/,
+        /estado confirmado/,
       );
       await page.reload();
       await page.locator('[data-dev-step="6"][aria-pressed=true]').waitFor();
@@ -244,7 +245,9 @@ try {
         await page.goto(base + file, { waitUntil: "domcontentloaded" });
         await page.locator(".qc-doc-sidebar").waitFor();
         assert.equal(
-          await page.locator('.qc-doc-sidebar a[href$="#workflow"]').count(),
+          await page
+            .locator('.qc-doc-sidebar a[href$="workflow.html"]')
+            .count(),
           1,
           file,
         );

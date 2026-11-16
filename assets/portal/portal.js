@@ -1,5 +1,5 @@
 import { mountEvidence } from "./github.js";
-import { development } from "./development.js";
+import { serviceWorkflow } from "./workflow.js";
 const main = document.querySelector("#content");
 const esc = (value) =>
   String(value ?? "").replace(
@@ -22,7 +22,7 @@ const titles = {
   inicio: "Vista general",
   biblioteca: "Biblioteca documental",
   edt: "Estructura del trabajo",
-  workflow: "Workflow de desarrollo",
+  workflow: "Workflow de Quantify",
   flujo: "Flujo de hábitos",
   diseno: "Diseño y prototipos",
   ingenieria: "Ingeniería y validación",
@@ -188,7 +188,7 @@ function home() {
     .querySelector(".hero")
     .insertAdjacentHTML(
       "afterend",
-      `<section class="project-entrypoints" aria-label="Trabajo de Quantify Core">${card("Workflow de desarrollo", "Recorre ramas, commits, pull requests e integración con evidencia real de GitHub.", "#workflow", "Abrir workflow", "GITHUB / EQUIPO")}${card("EDT · Estructura del trabajo", "Explora los seis paquetes y sus entregables, responsables de referencia y commits relacionados.", "#edt", "Abrir estructura", "QUANTIFY / ENTREGABLES")}</section>`,
+      `<section class="project-entrypoints" aria-label="Trabajo de Quantify Core">${card("Workflow de Quantify", "Explora móvil, PWA y servicios con conexiones animadas, escenarios y evidencia real de GitHub.", "#workflow", "Abrir workflow", "RECORRIDO / INTEGRACIÓN")}${card("EDT · Estructura del trabajo", "Explora los seis paquetes y sus entregables, responsables de referencia y commits relacionados.", "#edt", "Abrir estructura", "QUANTIFY / ENTREGABLES")}</section>`,
     );
 }
 function library(params) {
@@ -462,13 +462,23 @@ async function route({ initial = false } = {}) {
     location.replace("#" + aliases[requested]);
     return;
   }
-  const section = titles[requested] ? requested : "inicio",
+  const entry = document.documentElement.dataset.pageEntry;
+  const section = titles[requested] ? requested : entry || "inicio",
     params = new URLSearchParams(search);
+  if (["workflow", "edt"].includes(section) && entry !== section) {
+    location.replace(section + ".html" + location.hash);
+    return;
+  }
+  if (entry && section !== entry) {
+    location.replace("index.html" + location.hash);
+    return;
+  }
   for (const a of document.querySelectorAll("#navigation a"))
     a.toggleAttribute("data-active", false);
   for (const a of document.querySelectorAll("#navigation a")) {
     if (
       a.hash === "#" + section ||
+      a.dataset.section === section ||
       (section === "documento" && a.hash === "#biblioteca") ||
       (section === "vista" && a.hash === "#diseno")
     )
@@ -486,11 +496,19 @@ async function route({ initial = false } = {}) {
       diseno: design,
       ingenieria: engineering,
       edt: wbs,
-      workflow: (params) => development(main, params),
+      workflow: (params) => serviceWorkflow(main, params),
       flujo: workflow,
       vista: viewer,
     })[section](params);
   if (version !== navigationVersion) return;
+  for (const link of main.querySelectorAll(
+    'a[href^="#workflow"],a[href^="#edt"]',
+  )) {
+    const href = link.getAttribute("href");
+    const section = href.slice(1).split("?")[0];
+    if (["workflow", "edt"].includes(section))
+      link.setAttribute("href", section + ".html" + href);
+  }
   if (!params.has("anchor")) window.scrollTo(0, 0);
   if (!initial) main.focus({ preventScroll: true });
 }
