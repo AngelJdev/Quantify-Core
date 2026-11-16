@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Ángel de Jesús Baños Telles",
+    "role": "Coordinación y arquitectura · móvil y PWA",
+    "aliases": ["AngelJdev"]
+  },
+  {
+    "name": "Al Farias Leyva",
+    "role": "Frontend y datos",
+    "aliases": ["Al Farias"]
+  },
+  {
+    "name": "Francisco García García",
+    "role": "Backend e integración",
+    "aliases": ["Francisco Garcia Garcia"]
+  },
+  {
+    "name": "Jesús Alejandro Artiaga Morales",
+    "role": "Datos y analítica",
+    "aliases": ["Jesus Alejandro Artiaga Morales", "Jesus Artiaga"]
+  }
+]
