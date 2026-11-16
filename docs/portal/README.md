@@ -29,6 +29,10 @@ El [original de Archify](../practica-07/archify/navegacion-original.html) conser
 
 ## Evidencia de GitHub
 
+El workflow ajusta el diagrama completo al alto disponible en escritorio desde 1200 × 700 px: móvil, PWA, API/datos, ocho pasos y detalle permanecen en una sola vista. En pantallas pequeñas se mantiene la distribución vertical. «Registrar progreso» en cualquiera de los dos clientes inicia la simulación desde identidad, recorre los ocho pasos y se detiene en el dashboard. No arranca automáticamente ni repite operaciones en bucle. Se puede pausar, continuar, reiniciar o seleccionar un paso; con movimiento reducido se conservan los cambios de estado sin paquetes animados.
+
+«El código detrás del recorrido» abre la evidencia en un panel superpuesto con desplazamiento propio, sin alargar el diagrama. El mismo control o la tecla Escape lo cierran. Las consultas de GitHub siguen siendo de lectura y la simulación no registra hábitos reales.
+
 [workflow.js](../../assets/portal/workflow.js) y [workflow.css](../../assets/portal/workflow.css) construyen el diagrama de carriles a partir del flujo de check-in documentado. Las conexiones se recalculan con el tamaño del lienzo; los paquetes recorren los trazos SVG, se detienen al pausar y desaparecen con movimiento reducido. Los controles y la URL conservan paso, cliente y escenario. La animación no envía operaciones a la API: los valores visibles son ejemplos y el diagrama identifica su alcance ilustrativo. El proceso de ramas, commits y PR se consulta en [Git Flow](../guias/git-flow.md).
 
 [github.js](../../assets/portal/github.js) consulta la API pública de `AngelJdev/Quantify-Core`, rama `develop`, sin autenticación ni credenciales en el navegador. El workflow muestra commits y PR recientes; la EDT filtra commits por la carpeta relacionada al entregable. Los autores conservan su autoría y los roles proceden de [team.json](../../tools/portal/team.json), contrastado con README/RACI y el alcance móvil/PWA indicado por coordinación. Se presentan nombres y roles sin correos ni avatares. Una referencia por paquete no reasigna tareas Jira ni equivale a una aprobación.

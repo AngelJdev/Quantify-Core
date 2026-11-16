@@ -130,11 +130,12 @@ export function serviceWorkflow(main, params) {
     ? params.get("escenario")
     : "normal";
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
-  let playing = !motion.matches && !params.has("paso"),
+  let playing = false,
+    completed = false,
     speed = 1,
     timer,
     disposed = false;
-  main.innerHTML = `<section class="orchestrator" aria-labelledby="workflow-title"><div class="wf-heading"><div><span class="eyebrow">QUANTIFY CORE / WORKFLOW</span><h1 id="workflow-title">Así se conecta tu progreso.</h1><p>De una acción en el cliente a un resultado confirmado en tus métricas.</p></div><span class="wf-demo-label">Simulación visual</span></div><div class="wf-toolbar"><div class="wf-client-switch" role="group" aria-label="Cliente de origen"><button data-wf-client="mobile" aria-pressed="true">Móvil <small>Flutter</small></button><button data-wf-client="pwa" aria-pressed="false">PWA <small>React</small></button></div><div class="wf-playback"><button id="wf-play" type="button">Pausar recorrido</button><button id="wf-reset" type="button">Reiniciar</button><label>Velocidad<select id="wf-speed"><option value="1">1×</option><option value="0.5">0.5×</option><option value="2">2×</option></select></label></div></div><div class="wf-layout"><section class="wf-board" aria-label="Diagrama de integración"><div class="wf-board-top"><span>FLUJO DE DATOS</span><span id="wf-position" role="status"></span></div><div class="wf-canvas"><svg class="wf-connections" aria-hidden="true"></svg><div class="wf-systems"><section class="wf-system wf-mobile" data-wf-system="mobile"><div class="wf-system-header"><span class="wf-system-index">01</span><div><h2>App móvil</h2><p>Flutter · cuenta personal</p></div><span class="wf-status-dot"></span></div><div class="wf-device"><div class="wf-phone-top"><span>QUANTIFY</span><span>•••</span></div><div class="wf-phone-greeting">Tu progreso empieza aquí.</div><div class="wf-habit"><span>EJEMPLO / HÁBITO</span><strong>Hidratación</strong><div class="wf-example-value">1.5 <small>/ 3 L</small></div><div class="wf-meter"><i></i></div><div class="wf-mini-row"><span>Registro de hoy</span><b>Valor acumulado</b></div></div><div class="wf-command">Registrar progreso <span>→</span></div><div class="wf-mobile-state" data-wf-status="mobile"></div><div class="wf-phone-nav"><span>Hoy</span><span>Hábitos</span><span>Análisis</span></div></div><div class="wf-system-foot"><span>RF-01 / RF-04</span><span>Cliente → API</span></div></section><section class="wf-system wf-pwa" data-wf-system="pwa"><div class="wf-system-header"><span class="wf-system-index">02</span><div><h2>Web / PWA</h2><p>React · misma API</p></div><span class="wf-status-dot"></span></div><div class="wf-browser"><div class="wf-browser-bar"><i></i><i></i><i></i><span>Quantify / Tu espacio</span></div><div class="wf-web-layout"><div class="wf-mini-nav"><span>Q</span><b>Hoy</b><span>Hábitos</span><span>Análisis</span></div><div class="wf-web-body"><strong>Tu rutina, en perspectiva.</strong><div class="wf-mini-stats"><span>Tu progreso<b>Diario</b></span><span>Historial<b>Propio</b></span></div><div class="wf-chart" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="wf-web-result" data-wf-status="pwa"></div></div></div></div><div class="wf-sync-note">Misma cuenta. Mismo contrato.</div><div class="wf-system-foot"><span>React / TypeScript</span><span>Cliente → API</span></div></section><section class="wf-system wf-api" data-wf-system="api"><div class="wf-system-header"><span class="wf-system-index">03</span><div><h2>API + datos</h2><p>NestJS · PostgreSQL</p></div><span class="wf-status-dot"></span></div><div class="wf-api-stack"><div class="wf-api-node"><span>IDENTIDAD Y PERMISOS</span><strong>JWT / OIDC</strong><small>Keycloak · propietario del recurso</small></div><div class="wf-stack-link" aria-hidden="true">↓</div><div class="wf-api-node wf-write-node"><span>OPERACIÓN DE NEGOCIO</span><strong data-wf-status="api"></strong><small>Validación · concurrencia · dedupe</small></div><div class="wf-stack-link" aria-hidden="true">↓</div><div class="wf-api-node wf-database"><span>PERSISTENCIA</span><strong data-wf-status="data"></strong><small>Historial y reglas versionadas</small></div></div><div class="wf-system-foot"><span>REST / SQL</span><span id="wf-response-state"></span></div></section></div><div class="wf-wire-caption"><span class="wf-legend-request"></span>Solicitud<span class="wf-legend-response"></span>Respuesta del servidor</div></div><div class="wf-request-bar"><span id="wf-request-kind">INTERCAMBIO</span><code id="wf-request"></code></div><div class="wf-timeline" role="group" aria-label="Secuencia del proceso">${steps.map((step, i) => `<button type="button" data-dev-step="${i}" aria-pressed="false"><span>${String(i + 1).padStart(2, "0")}</span>${step.title}<i></i></button>`).join("")}</div></section><aside class="wf-inspector" id="development-detail" aria-label="Detalle del paso"><div id="wf-step-detail" aria-live="polite"></div><div class="wf-step-controls"><button id="wf-previous" type="button">← Anterior</button><button id="wf-next" type="button">Siguiente →</button></div><div class="wf-scenarios"><h3>Prueba otro resultado</h3>${Object.entries(
+  main.innerHTML = `<section class="orchestrator" aria-labelledby="workflow-title"><div class="wf-heading"><div><span class="eyebrow">QUANTIFY CORE / WORKFLOW</span><h1 id="workflow-title">Así se conecta tu progreso.</h1><p>De una acción en el cliente a un resultado confirmado en tus métricas.</p></div><span class="wf-demo-label">Simulación visual</span></div><div class="wf-toolbar"><div class="wf-client-switch" role="group" aria-label="Cliente de origen"><button data-wf-client="mobile" aria-pressed="true">Móvil <small>Flutter</small></button><button data-wf-client="pwa" aria-pressed="false">PWA <small>React</small></button></div><div class="wf-playback"><button id="wf-play" type="button">Pausar recorrido</button><button id="wf-reset" type="button">Reiniciar</button><label>Velocidad<select id="wf-speed"><option value="1">1×</option><option value="0.5">0.5×</option><option value="2">2×</option></select></label></div></div><div class="wf-layout"><section class="wf-board" aria-label="Diagrama de integración"><div class="wf-board-top"><span>FLUJO DE DATOS</span><span id="wf-position" role="status"></span></div><div class="wf-canvas"><svg class="wf-connections" aria-hidden="true"></svg><div class="wf-systems"><section class="wf-system wf-mobile" data-wf-system="mobile"><div class="wf-system-header"><span class="wf-system-index">01</span><div><h2>App móvil</h2><p>Flutter · cuenta personal</p></div><span class="wf-status-dot"></span></div><div class="wf-device"><div class="wf-phone-top"><span>QUANTIFY</span><span>•••</span></div><div class="wf-phone-greeting">Tu progreso empieza aquí.</div><div class="wf-habit"><span>EJEMPLO / HÁBITO</span><strong>Hidratación</strong><div class="wf-example-value">1.5 <small>/ 3 L</small></div><div class="wf-meter"><i></i></div><div class="wf-mini-row"><span>Registro de hoy</span><b>Valor acumulado</b></div></div><button type="button" class="wf-command" data-wf-run="mobile" aria-label="Registrar progreso y ejecutar el flujo móvil">Registrar progreso <span aria-hidden="true">→</span></button><div class="wf-mobile-state" data-wf-status="mobile"></div><div class="wf-phone-nav"><span>Hoy</span><span>Hábitos</span><span>Análisis</span></div></div><div class="wf-system-foot"><span>RF-01 / RF-04</span><span>Cliente → API</span></div></section><section class="wf-system wf-pwa" data-wf-system="pwa"><div class="wf-system-header"><span class="wf-system-index">02</span><div><h2>Web / PWA</h2><p>React · misma API</p></div><span class="wf-status-dot"></span></div><div class="wf-browser"><div class="wf-browser-bar"><i></i><i></i><i></i><span>Quantify / Tu espacio</span></div><div class="wf-web-layout"><div class="wf-mini-nav"><span>Q</span><b>Hoy</b><span>Hábitos</span><span>Análisis</span></div><div class="wf-web-body"><strong>Tu rutina, en perspectiva.</strong><div class="wf-mini-stats"><span>Tu progreso<b>Diario</b></span><span>Historial<b>Propio</b></span></div><div class="wf-chart" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="wf-web-result" data-wf-status="pwa"></div></div></div></div><button type="button" class="wf-command wf-pwa-command" data-wf-run="pwa" aria-label="Registrar progreso y ejecutar el flujo PWA">Registrar progreso <span aria-hidden="true">→</span></button><div class="wf-sync-note">Misma cuenta. Mismo contrato.</div><div class="wf-system-foot"><span>React / TypeScript</span><span>Cliente → API</span></div></section><section class="wf-system wf-api" data-wf-system="api"><div class="wf-system-header"><span class="wf-system-index">03</span><div><h2>API + datos</h2><p>NestJS · PostgreSQL</p></div><span class="wf-status-dot"></span></div><div class="wf-api-stack"><div class="wf-api-node"><span>IDENTIDAD Y PERMISOS</span><strong>JWT / OIDC</strong><small>Keycloak · propietario del recurso</small></div><div class="wf-stack-link" aria-hidden="true">↓</div><div class="wf-api-node wf-write-node"><span>OPERACIÓN DE NEGOCIO</span><strong data-wf-status="api"></strong><small>Validación · concurrencia · dedupe</small></div><div class="wf-stack-link" aria-hidden="true">↓</div><div class="wf-api-node wf-database"><span>PERSISTENCIA</span><strong data-wf-status="data"></strong><small>Historial y reglas versionadas</small></div></div><div class="wf-system-foot"><span>REST / SQL</span><span id="wf-response-state"></span></div></section></div><div class="wf-wire-caption"><span class="wf-legend-request"></span>Solicitud<span class="wf-legend-response"></span>Respuesta del servidor</div></div><div class="wf-request-bar"><span id="wf-request-kind">INTERCAMBIO</span><code id="wf-request"></code></div><div class="wf-timeline" role="group" aria-label="Secuencia del proceso">${steps.map((step, i) => `<button type="button" data-dev-step="${i}" aria-pressed="false"><span>${String(i + 1).padStart(2, "0")}</span>${step.title}<i></i></button>`).join("")}</div></section><aside class="wf-inspector" id="development-detail" aria-label="Detalle del paso"><div id="wf-step-detail" aria-live="polite"></div><div class="wf-step-controls"><button id="wf-previous" type="button">← Anterior</button><button id="wf-next" type="button">Siguiente →</button></div><div class="wf-scenarios"><h3>Prueba otro resultado</h3>${Object.entries(
     scenarios,
   )
     .map(
@@ -143,12 +144,18 @@ export function serviceWorkflow(main, params) {
     )
     .join(
       "",
-    )}</div></aside></div><div class="wf-boundary"><span>DIAGRAMA EXPLICATIVO</span> La animación representa el flujo previsto. La API tiene evidencia local; la conexión final de React/Flutter y las capacidades PWA siguen pendientes.</div><details class="wf-github" open><summary><span>El código detrás del recorrido</span><small>GitHub · nombres, roles, commits y PR</small></summary><div id="workflow-team"></div><div class="wf-evidence-grid"><div class="card"><h2>Evidencia del repositorio</h2><div id="workflow-evidence"></div></div><div class="card pull-request-list" id="workflow-prs"></div></div></details></section>`;
+    )}</div></aside></div><div class="wf-boundary"><span>DIAGRAMA EXPLICATIVO</span> La animación representa el flujo previsto. La API tiene evidencia local; la conexión final de React/Flutter y las capacidades PWA siguen pendientes.</div><div class="wf-evidence-slot"><details class="wf-github"><summary><span>El código detrás del recorrido</span><small>GitHub · nombres, roles, commits y PR</small></summary><div id="workflow-team"></div><div class="wf-evidence-grid"><div class="card"><h2>Evidencia del repositorio</h2><div id="workflow-evidence"></div></div><div class="card pull-request-list" id="workflow-prs"></div></div></details></div></section>`;
   const host = main.querySelector(".orchestrator"),
     canvas = host.querySelector(".wf-canvas"),
     svg = host.querySelector("svg");
   const q = (selector) => host.querySelector(selector);
   q(".wf-github").open = false;
+  host.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && q(".wf-github").open) {
+      q(".wf-github").open = false;
+      q(".wf-github summary").focus();
+    }
+  });
   function draw() {
     if (disposed) return;
     const bounds = canvas.getBoundingClientRect(),
@@ -200,14 +207,24 @@ export function serviceWorkflow(main, params) {
     host.dataset.client = client;
     host.dataset.scenario = scenario;
     host.dataset.playing = String(playing);
+    host.dataset.step = String(index);
+    host.dataset.runState = playing
+      ? "running"
+      : completed
+        ? "complete"
+        : "paused";
     host.style.setProperty("--wf-duration", 2800 / speed + "ms");
     q("#wf-step-detail").setAttribute("aria-live", playing ? "off" : "polite");
     q("#wf-position").setAttribute("aria-live", playing ? "off" : "polite");
     q("#wf-position").textContent =
       `PASO ${String(index + 1).padStart(2, "0")} / 08`;
     q("#wf-play").textContent = playing
-      ? "Pausar recorrido"
-      : "Reproducir recorrido";
+      ? "Pausar flujo"
+      : completed
+        ? "Repetir flujo"
+        : index === 0
+          ? "Ejecutar flujo"
+          : "Continuar flujo";
     q("#wf-play").setAttribute("aria-pressed", String(playing));
     for (const button of host.querySelectorAll("[data-dev-step]")) {
       const n = Number(button.dataset.devStep);
@@ -267,26 +284,42 @@ export function serviceWorkflow(main, params) {
           destroy();
           return;
         }
-        index = (index + 1) % 8;
+        index = Math.min(index + 1, 7);
+        if (index === 7) {
+          playing = false;
+          completed = true;
+          clearInterval(timer);
+        }
         render();
       }, 2800 / speed);
   }
   function select(i) {
     playing = false;
+    completed = false;
     index = Math.max(0, Math.min(7, i));
     render();
     schedule();
   }
+  function run(source) {
+    client = source;
+    index = 0;
+    completed = false;
+    playing = true;
+    render();
+    schedule();
+  }
+  for (const button of host.querySelectorAll("[data-wf-run]"))
+    button.onclick = () => run(button.dataset.wfRun);
   q("#wf-play").onclick = () => {
+    if (completed || index === 7) {
+      run(client);
+      return;
+    }
     playing = !playing;
     render();
     schedule();
   };
-  q("#wf-reset").onclick = () => {
-    index = 0;
-    render();
-    schedule();
-  };
+  q("#wf-reset").onclick = () => select(0);
   q("#wf-previous").onclick = () => select(index - 1);
   q("#wf-next").onclick = () => select(index + 1);
   q("#wf-speed").onchange = (event) => {
