@@ -2,6 +2,8 @@
 
 # Documentación del proyecto · Quantify Core
 
+**Explorar en el sitio:** [Centro del proyecto](../index.html) · [Biblioteca con buscador](../index.html#biblioteca) · [EDT interactiva](../index.html#edt) · [Flujo de hábitos](../index.html#flujo) · [Diseño y prototipos](../index.html#diseno). La lectura conserva sus fuentes en este índice; [mantenimiento del portal](portal/README.md).
+
 **Empezar el prototipo:** [base técnica para el equipo](guias/base-tecnica.md), con API NestJS, contratos, Keycloak y monitoreo local verificados. [Estado de tareas y bloqueos](gestion/estado-base-tecnica.md); integración mediante PR y aceptación del equipo según su registro efectivo.
 
 Mapa de referencia para que el equipo y sus agentes implementen el mismo producto con contratos, reglas y diseño coherentes. Empezar por [incorporación](guias/incorporacion.md), [contribución](../CONTRIBUTING.md) y el README del componente que se modificará.
@@ -168,6 +170,6 @@ Un documento aceptado define una decisión; no demuestra por sí mismo que la im
 - [Práctica 05 — Roles y funcionalidades](Practica05/README.md).
 - [Examen de arquitectura — plano y memoria técnica](examen/README.md).
 - [Práctica 07 — Prototipo y navegación](practica-07/README.md).
-- [Portal académico](index.html).
+- [Centro del proyecto](index.html).
 
 Las prácticas conservan su contexto. Paletas, cuentas demo, modelos de almacenamiento local y umbrales ilustrativos se interpretan según su alcance; la implementación sigue los contratos y decisiones de esta base. Consultar la [validación de la documentación](guias/validacion-documental.md) para conocer las comprobaciones realizadas y sus límites.

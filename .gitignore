@@ -14,3 +14,7 @@ services/api/telemetry/node_modules/
 services/api/telemetry/dist/
 services/api/node_modules/
 services/api/build/
+
+# Herramientas del portal documental
+tools/portal/node_modules/
+tools/portal/.artifacts/
