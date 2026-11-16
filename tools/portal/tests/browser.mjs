@@ -300,7 +300,7 @@ try {
             fullPage: true,
           });
       }
-      await page.locator('#navigation a[href="#edt"]').click();
+      await page.locator('#navigation a[href="edt.html"]').click();
       await page.locator('[data-node="6.3"]').click();
       assert.match(
         await page.locator("#node-detail h2").textContent(),

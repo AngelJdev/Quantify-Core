@@ -18,6 +18,8 @@
     ["ingenieria", "Ingeniería y validación"],
   ];
   const url = (path) => new URL(path, root).href;
+  const sectionUrl = (id) =>
+    url(["workflow", "edt"].includes(id) ? id + ".html" : "index.html#" + id);
   function apply(mode, broadcast = false) {
     mode = mode === "light" ? "light" : "dark";
     html.dataset.mode = mode;
@@ -66,7 +68,7 @@
     const sidebar = document.createElement("aside");
     sidebar.className = "qc-doc-sidebar";
     sidebar.setAttribute("aria-label", "Navegación principal del proyecto");
-    sidebar.innerHTML = `<a class="qc-shell-brand" href="${url("index.html#inicio")}" target="_top"><img data-qc-logo="product" alt="Quantify Core" width="150" height="66"></a><span class="qc-shell-label">CENTRO DEL PROYECTO</span><nav>${links.map(([id, label]) => `<a href="${url("index.html#" + id)}" target="_top"${id === active ? ' aria-current="page"' : ""}>${label}</a>`).join("")}</nav><div class="qc-shell-company">Desarrollado por<img data-qc-logo="enterprise" alt="Nexus Core" width="130" height="56"><a href="https://github.com/AngelJdev/Quantify-Core">Repositorio del proyecto ↗</a></div>`;
+    sidebar.innerHTML = `<a class="qc-shell-brand" href="${url("index.html#inicio")}" target="_top"><img data-qc-logo="product" alt="Quantify Core" width="150" height="66"></a><span class="qc-shell-label">CENTRO DEL PROYECTO</span><nav>${links.map(([id, label]) => `<a href="${sectionUrl(id)}" target="_top"${id === active ? ' aria-current="page"' : ""}>${label}</a>`).join("")}</nav><div class="qc-shell-company">Desarrollado por<img data-qc-logo="enterprise" alt="Nexus Core" width="130" height="56"><a href="https://github.com/AngelJdev/Quantify-Core">Repositorio del proyecto ↗</a></div>`;
     const header = document.createElement("div");
     header.className = "qc-doc-topbar";
     header.innerHTML = `<a href="${url("index.html#diseno")}" target="_top">Quantify Core / Explorar proyecto</a><button id="qc-shell-theme" type="button">Modo claro</button>`;
