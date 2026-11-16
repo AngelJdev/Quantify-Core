@@ -49,6 +49,7 @@ Los clientes solo acceden mediante contratos autorizados. La API es dueña de la
 | [ADR](adr/README.md) | Justificación y estado de decisiones relevantes |
 | [Modelo de datos](../datos-ia/modelo-datos.md) | Entidades, relaciones y diccionario |
 | [API](../api/README.md) | Operaciones, esquemas y errores |
+| [Propuesta de integración QUANCORE-43](adr/0006-integracion-api-identidad-http.md) | Composición NestJS, endpoints, salud, HTTP/CORS, Keycloak y bloqueos verificados; pendiente de revisión |
 
 ## Reglas para cambios arquitectónicos
 

@@ -1,0 +1,15 @@
+npm.cmd : npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see
+https://eslint.org/version-support for other options.
+En línea: 2 Carácter: 1
++ npm.cmd ci > .build/npm-ci.log 2>&1; if ($LASTEXITCODE -ne 0) { Get-C ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm warn deprec... other options.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+added 223 packages, and audited 224 packages in 11s
+
+59 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
