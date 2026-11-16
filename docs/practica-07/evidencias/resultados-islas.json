@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-12",
+  "browser": "157.0.4341.46",
+  "islands": [
+    "U01",
+    "U02",
+    "U06",
+    "U07",
+    "U08",
+    "U10",
+    "A01",
+    "A02",
+    "A03",
+    "A04",
+    "A05",
+    "A06"
+  ],
+  "checks": [
+    "contenido por isla",
+    "PNG móvil/PWA",
+    "pasos y validaciones",
+    "entradas y salidas",
+    "reglas y trazabilidad",
+    "teclado y cierre",
+    "navegación relacionada y retorno",
+    "móvil y escritorio"
+  ],
+  "pageErrors": [],
+  "scope": "Enriquecimiento en la vista de Archify; artefacto original conservado."
+}

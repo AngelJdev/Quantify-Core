@@ -26,10 +26,10 @@ function environment(){
   return api;
 }
 
-test('Los 24 sketches se renderizan y todas sus transiciones tienen destino del mismo rol',()=>{
+test('Los 33 sketches se renderizan y todas sus transiciones tienen destino del mismo rol',()=>{
   const a=environment();let count=0;
   for(const [role,list] of Object.entries(a.screens))for(const s of list){a.view.role=role;a.view.screen=s.id;assert.ok(a.renderers[s.id]().length>100,s.id);for(const e of s.edges)assert.ok(list.some(t=>t.id===e.to),`${s.id} -> ${e.to}`);count++;}
-  assert.equal(count,24);
+  assert.equal(count,33);
 });
 test('Avance parcial se limita a la meta; no genera dos cumplimientos',()=>{
   const a=environment();a.view.selected='h2';const h=a.db.habits[1];
@@ -137,4 +137,27 @@ test('Los avisos escapan nombres y conservan el estado leído mientras no cambia
   a.action('read-notice','reminder:h1:2026-10-14:08:00');assert.match(a.renderers.U14(),/>Leído</);
   a.view.selected='h1';a.submit(a.form('reminder-form',{enabled:'on',time:'09:30',days:['2']}));
   assert.ok(!a.renderers.U14().includes('>Leído<'));
+});
+
+for(const role of ['usuario','admin'])test(`Tres fallos bloquean; cancelar conserva bloqueo y desbloquear exige código: ${role}`,()=>{
+  const a=environment(),admin=role==='admin',login=admin?'admin-login':'login',start=admin?'A01':'U02',lock=admin?'A10':'U18',unlock=admin?'A11':'U19';
+  a.view.role=role;a.view.screen=start;
+  for(let i=0;i<3;i++)a.submit(a.form(login,{email:admin?'admin@quantify.demo':'alex@quantify.demo',password:'Incorrecta123'}));
+  assert.equal(a.view.screen,lock);
+  a.view.screen=start;a.submit(a.form(login,{email:admin?'admin@quantify.demo':'alex@quantify.demo',password:'Demo2026!'}));assert.equal(a.view.screen,lock);
+  a.view.screen=unlock;a.submit(a.form('unlock',{code:'123456'}));assert.equal(a.view.screen,unlock);assert.match(a.error(),/incorrecto/);
+  a.view.screen=lock;a.view.screen=unlock;a.submit(a.form('unlock',{code:'654321'}));assert.equal(a.view.screen,start);
+  a.submit(a.form(login,{email:admin?'admin@quantify.demo':'alex@quantify.demo',password:'Demo2026!'}));assert.equal(a.view.screen,admin?'A02':'U06');
+});
+
+test('Bloqueo de usuario no bloquea administración ni se persiste',()=>{
+  const a=environment();a.view.role='usuario';
+  for(let i=0;i<3;i++)a.submit(a.form('login',{email:'alex@quantify.demo',password:'Incorrecta123'}));
+  a.view.role='admin';a.submit(a.form('admin-login',{email:'admin@quantify.demo',password:'Demo2026!'}));assert.equal(a.view.screen,'A02');
+  assert.ok(![...a.storage.values()].some(value=>/"locked"|"attempts"|654321/.test(value)));
+});
+
+test('Desbloqueo sin bloqueo activo no autoriza y la carga se puede reintentar',()=>{
+  const a=environment();a.view.screen='U19';a.submit(a.form('unlock',{code:'654321'}));assert.equal(a.view.screen,'U19');assert.match(a.error(),/No hay un bloqueo/);
+  a.view.screen='U17';a.action('loading-error');assert.equal(a.view.loadError,true);a.action('retry-loading');assert.equal(a.view.loadError,false);
 });
