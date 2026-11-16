@@ -7,7 +7,8 @@
     "check": "node build.mjs --check",
     "test": "node tests/browser.mjs",
     "test:consistency": "node tests/consistency.mjs",
-    "test:edt": "node tests/edt-details.mjs"
+    "test:edt": "node tests/edt-details.mjs",
+    "test:ambient": "node tests/ambient.mjs"
   },
   "dependencies": {
     "markdown-it": "15.0.3",

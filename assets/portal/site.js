@@ -58,6 +58,17 @@
   try {
     mode = JSON.parse(localStorage.getItem("qc-theme"))?.mode || mode;
   } catch {}
+  // Conservar el modo inicial al entrar a documentos con un selector histórico.
+  // Los iframes reciben la preferencia del portal y no la sobrescriben al cargar.
+  if (!embedded) {
+    try {
+      if (!localStorage.getItem("qc-theme"))
+        localStorage.setItem(
+          "qc-theme",
+          JSON.stringify({ palette: "tech", mode }),
+        );
+    } catch {}
+  }
   apply(mode);
   if (standalone) {
     const path = location.pathname;
