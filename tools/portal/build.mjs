@@ -250,7 +250,7 @@ const pageTemplate = await fs.readFile(
   "utf8",
 );
 for (const [section, title] of [
-  ["workflow", "Workflow de desarrollo"],
+  ["workflow", "Workflow de Quantify"],
   ["edt", "EDT · Estructura del trabajo"],
 ]) {
   await writeGenerated(
