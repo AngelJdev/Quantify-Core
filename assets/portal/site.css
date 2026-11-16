@@ -1,3 +1,4 @@
+@import url("./tokens.css");
 @import url("../../packages/design-tokens/themes.css");
 @font-face {
   font-family: Inter;
@@ -11,6 +12,18 @@
   --qc-shell-wash: color-mix(in srgb, var(--qc-action) 16%, var(--qc-canvas));
   --qc-shell-header: 68px;
   --qc-shell-sidebar: 248px;
+  --qc-ambient-blue: color-mix(in srgb, var(--qc-laserBlue) 54%, transparent);
+  --qc-ambient-cobalt: color-mix(
+    in srgb,
+    var(--qc-deepCobalt) 68%,
+    transparent
+  );
+  --qc-ambient-sky: color-mix(in srgb, var(--qc-skyLaser) 26%, transparent);
+  --qc-ambient-base: color-mix(
+    in srgb,
+    var(--qc-deepCobalt) 18%,
+    var(--qc-canvas)
+  );
 }
 html.qc-site {
   color-scheme: dark;
@@ -19,6 +32,18 @@ html.qc-site {
 }
 html.qc-site[data-qc-theme="light"] {
   color-scheme: light;
+  --qc-ambient-blue: color-mix(in srgb, var(--qc-laserBlue) 17%, transparent);
+  --qc-ambient-cobalt: color-mix(
+    in srgb,
+    var(--qc-deepCobalt) 12%,
+    transparent
+  );
+  --qc-ambient-sky: color-mix(in srgb, var(--qc-skyLaser) 16%, transparent);
+  --qc-ambient-base: color-mix(
+    in srgb,
+    var(--qc-skyLaser) 7%,
+    var(--qc-canvas)
+  );
 }
 html.qc-site body {
   background: transparent !important;
@@ -26,37 +51,51 @@ html.qc-site body {
   font-family: Inter, system-ui, sans-serif !important;
   isolation: isolate;
 }
-html.qc-site body:before {
+html.qc-site body:before,
+html.qc-site body:after {
   content: "";
   position: fixed;
-  inset: -12%;
+  inset: -20%;
   z-index: -1;
   pointer-events: none;
+  opacity: 1;
+  transform-origin: center;
+}
+html.qc-site body:before {
   background:
     radial-gradient(
-      ellipse at 18% 15%,
-      color-mix(in srgb, var(--qc-action) 20%, transparent),
-      transparent 52%
+      ellipse at 16% 18%,
+      var(--qc-ambient-blue),
+      transparent 62%
     ),
     radial-gradient(
-      ellipse at 86% 76%,
-      color-mix(in srgb, #0ea5e9 12%, transparent),
-      transparent 48%
+      ellipse at 92% 78%,
+      var(--qc-ambient-cobalt),
+      transparent 65%
     ),
-    linear-gradient(
-      145deg,
-      var(--qc-canvas),
-      color-mix(in srgb, var(--qc-action) 6%, var(--qc-canvas))
-    );
-  animation: qc-ambient 22s ease-in-out infinite alternate;
-  transform-origin: center;
+    linear-gradient(145deg, var(--qc-canvas), var(--qc-ambient-base));
+  animation: qc-ambient 16s ease-in-out infinite alternate;
+}
+html.qc-site body:after {
+  background:
+    radial-gradient(ellipse at 64% 74%, var(--qc-ambient-sky), transparent 58%),
+    radial-gradient(ellipse at 92% 8%, var(--qc-ambient-blue), transparent 54%);
+  animation: qc-aurora 20s ease-in-out infinite alternate;
 }
 @keyframes qc-ambient {
   from {
-    transform: translate3d(-1%, -1%, 0) scale(1);
+    transform: translate3d(-4%, -3%, 0) scale(1.02);
   }
   to {
-    transform: translate3d(2%, 2%, 0) scale(1.06);
+    transform: translate3d(6%, 5%, 0) scale(1.14);
+  }
+}
+@keyframes qc-aurora {
+  from {
+    transform: translate3d(5%, -5%, 0) rotate(-4deg) scale(1.04);
+  }
+  to {
+    transform: translate3d(-6%, 5%, 0) rotate(5deg) scale(1.12);
   }
 }
 .qc-site :is(button, select, input, .button, .pill-link, .action-link) {
@@ -256,6 +295,13 @@ html.qc-site body:before {
 .qc-embedded body {
   padding: 0 !important;
 }
+html.qc-site.qc-embedded {
+  background: transparent;
+}
+html.qc-site.qc-embedded body:before,
+html.qc-site.qc-embedded body:after {
+  display: none;
+}
 .qc-document [data-artboard] {
   max-width: 100%;
   overflow: auto;
@@ -328,7 +374,8 @@ html.qc-site body:before {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .qc-site body:before {
+  .qc-site body:before,
+  .qc-site body:after {
     animation: none !important;
     transform: none !important;
   }
@@ -345,7 +392,8 @@ html.qc-site body:before {
   .qc-document body {
     padding: 0 !important;
   }
-  .qc-site body:before {
+  .qc-site body:before,
+  .qc-site body:after {
     display: none;
   }
 }
