@@ -118,15 +118,13 @@ try {
         const path = requested.searchParams.get("path") || "";
         if (path === "docs")
           await new Promise((resolve) => setTimeout(resolve, 500));
-        const commits = (snapshot.groups[path] || [])
-          .slice(0, 3)
-          .map((c) => ({
-            sha: c.sha,
-            commit: {
-              message: c.subject,
-              author: { name: c.author, date: c.date },
-            },
-          }));
+        const commits = (snapshot.groups[path] || []).slice(0, 3).map((c) => ({
+          sha: c.sha,
+          commit: {
+            message: c.subject,
+            author: { name: c.author, date: c.date },
+          },
+        }));
         return route.fulfill({ json: commits });
       });
       await page.goto("about:blank");
@@ -317,6 +315,13 @@ try {
         }
       }
     },
+  );
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  assert.equal(
+    await page
+      .locator("body")
+      .evaluate((el) => getComputedStyle(el, "::before").animationName),
+    "qc-ambient",
   );
   await fs.writeFile(
     new URL("results.json", output),

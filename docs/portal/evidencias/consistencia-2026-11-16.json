@@ -1,0 +1,47 @@
+{
+  "results": [
+    {
+      "name": "Workflow visible, 8 pasos y GitHub con corte versionado ante fallo",
+      "status": "passed"
+    },
+    {
+      "name": "EDT filtra ruta y muestra commits del corte, sin porcentajes inventados",
+      "status": "passed"
+    },
+    {
+      "name": "Consulta GitHub y cambio rápido de ruta no mezclan evidencias",
+      "status": "passed"
+    },
+    {
+      "name": "Boceto completo en 1366×768 y 1440×900; ajuste, ampliación y formato",
+      "status": "passed"
+    },
+    {
+      "name": "Visor embebido usa la misma identidad, sin duplicar navegación",
+      "status": "passed"
+    },
+    {
+      "name": "Páginas documentales comparten fondo, tipografía, tema y navegación",
+      "status": "passed"
+    },
+    {
+      "name": "Workflow y bocetos accesibles en ambos temas; móvil sin desbordamiento",
+      "status": "passed"
+    }
+  ],
+  "scope": "GitHub: fallo de red real simulado y respuestas controladas derivadas de commits reales del corte versionado. No acredita aceptación de tareas ni CI.",
+  "date": "2026-11-16",
+  "sourceCommit": "cfe2ec6",
+  "workingTree": "Revisi?n de documentaci?n, comprobaci?n de plantilla y verificaci?n de animaci?n posteriores al commit base.",
+  "checks": {
+    "consistency_scenarios": 7,
+    "shared_document_pages": 13,
+    "workflow_sketch_axe_reviews": 8,
+    "desktop_fit_viewports": [
+      "1366x768",
+      "1440x900"
+    ],
+    "github_network": "Fallos y respuestas controladas desde el corte real del repositorio; consulta p?blica por verificar despu?s de desplegar."
+  },
+  "captures": "Workflow captura la consulta offline y la identifica como corte versionado; las l?minas de bocetos no se modifican."
+}
