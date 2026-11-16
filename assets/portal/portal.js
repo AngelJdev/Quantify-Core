@@ -1,3 +1,5 @@
+import { mountEvidence } from "./github.js";
+import { development } from "./development.js";
 const main = document.querySelector("#content");
 const esc = (value) =>
   String(value ?? "").replace(
@@ -20,6 +22,7 @@ const titles = {
   inicio: "Vista general",
   biblioteca: "Biblioteca documental",
   edt: "Estructura del trabajo",
+  workflow: "Workflow de desarrollo",
   flujo: "Flujo de hábitos",
   diseno: "Diseño y prototipos",
   ingenieria: "Ingeniería y validación",
@@ -83,7 +86,7 @@ const artifacts = {
   },
   archify: {
     title: "Mapa original de Archify",
-    url: "docs/practica-07/archify/navegacion-original.html",
+    url: "docs/practica-07/archify.html",
     text: "Original de 12 pantallas. La ampliación con Archify continúa pendiente.",
     type: "Referencia",
   },
@@ -181,6 +184,12 @@ function home() {
     "",
   )}</div><div class="notice"><strong>Estado del proyecto.</strong> La base técnica se verificó en entorno local. La integración final de clientes, capacidades PWA y despliegue público del producto siguen pendientes. Los prototipos visuales simulan las interacciones.</div>
   <div class="section-heading"><h2>Vistas interactivas</h2><span>Selecciona, recorre y consulta sus fuentes</span></div><div class="grid">${["canvas", "roles", "architecture"].map((id) => card(artifacts[id].title, artifacts[id].text, view(id))).join("")}</div>`;
+  main
+    .querySelector(".hero")
+    .insertAdjacentHTML(
+      "afterend",
+      `<section class="project-entrypoints" aria-label="Trabajo de Quantify Core">${card("Workflow de desarrollo", "Recorre ramas, commits, pull requests e integración con evidencia real de GitHub.", "#workflow", "Abrir workflow", "GITHUB / EQUIPO")}${card("EDT · Estructura del trabajo", "Explora los seis paquetes y sus entregables, responsables de referencia y commits relacionados.", "#edt", "Abrir estructura", "QUANTIFY / ENTREGABLES")}</section>`,
+    );
 }
 function library(params) {
   const area = params.get("area") || "",
@@ -334,8 +343,8 @@ function wbs(params) {
   main.innerHTML =
     heading(
       "PLANIFICACIÓN / EDT",
-      "Cada resultado tiene su lugar.",
-      "Selecciona un entregable para ver su criterio de salida, trazabilidad y fuente. La estructura procede de la EDT canónica; no representa un tablero de avance en tiempo real.",
+      "EDT · Estructura del trabajo",
+      "Quantify Core: seis paquetes, dieciocho entregables y evidencia del repositorio. Selecciona una hoja para consultar su criterio, responsables de referencia y commits relacionados.",
     ) +
     `<div class="wbs-root"><strong>Quantify Core</strong><span>Producto · Plataforma · Experiencia · Operación</span></div><div class="diagram-layout"><div><div class="wbs">${catalog.wbs.map((p) => `<section class="package"><h3>${esc(p.id)}. ${esc(p.title)}</h3>${p.children.map((n) => `<button class="node" data-node="${n.id}" aria-pressed="${n.id === selected.id}"><strong>${n.id}</strong>${esc(n.title)}</button>`).join("")}</section>`).join("")}</div><div class="count-strip"><span><strong>${catalog.wbs.length}</strong>paquetes</span><span><strong>${leaves.length}</strong>entregables</span><span>Fuente: EDT versionada</span></div></div><aside id="node-detail" class="detail" aria-label="Detalle del entregable" aria-live="polite"></aside></div><div class="notice">Orden de integración: contratos e identidad → núcleo de hábitos → clientes → pruebas y destino → cierre. Documentar un paquete no acredita su implementación. Consulta Jira y las evidencias para conocer su estado.</div><div class="actions">${button("Leer EDT y dependencias", read("docs/gestion/edt.md"))}${button("Consultar RACI", read("docs/gestion/raci.md"))}${button("Recursos y estimación", read("docs/gestion/presupuesto.md"))}</div>`;
   function select(node) {
@@ -354,6 +363,50 @@ function wbs(params) {
     const source = packageSources[node.id];
     document.querySelector("#node-detail").innerHTML =
       `<span class="eyebrow">ENTREGABLE ${node.id}</span><h2>${esc(node.title)}</h2><span class="tag">Criterio documentado</span><h3>Criterio de salida</h3><p>${esc(node.criterion)}</p><h3>Trazabilidad</h3><p>${esc(node.refs.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1"))}</p>${refs.length ? '<h3>Consultar en Jira</h3><div class="actions">' + refs.map((key) => `<a href="https://utxicotepec-team-q5ufett6.atlassian.net/browse/${key}" target="_blank" rel="noopener">${key} ↗</a>`).join("") + "</div>" : ""}${source ? button("Consultar fuente", read(source)) : ""}${button("Estado y evidencia", read("docs/gestion/estado-base-tecnica.md"))}`;
+    const ownership = {
+      1: "Ángel de Jesús Baños Telles · Coordinación y documentación",
+      2: "Ángel de Jesús Baños Telles · Arquitectura",
+      3: "Francisco García García · Backend e integración",
+      4: "Al Farias Leyva · Diseño y frontend",
+      5: "Jesús Alejandro Artiaga Morales · Datos y analítica",
+      6: "Ángel de Jesús Baños Telles · Calidad y operación",
+    };
+    const owner = document.createElement("div");
+    owner.className = "wbs-owner";
+    owner.innerHTML =
+      "<h3>Referencia de coordinación</h3><p>" +
+      esc(ownership[node.id[0]]) +
+      "</p><small>Referencia por paquete; consultar la RACI propuesta y la asignación de cada tarea.</small>";
+    document.querySelector("#node-detail").append(owner);
+    let evidencePanel = document.querySelector("#edt-evidence");
+    if (!evidencePanel) {
+      const section = document.createElement("section");
+      section.className = "github-workflow-section";
+      section.innerHTML =
+        '<div class="section-heading"><h2>Evidencia del entregable en GitHub</h2><span id="edt-evidence-path"></span></div><div class="card" id="edt-evidence"></div>';
+      main.append(section);
+      evidencePanel = section.querySelector("#edt-evidence");
+    }
+    const paths = {
+      1: "docs",
+      2: "docs/arquitectura",
+      3: "services/api",
+      4: "docs/GUI",
+      5: "docs/datos-ia",
+      6: "tests",
+    };
+    const path =
+      node.id === "4.2"
+        ? "apps/web"
+        : node.id === "4.3"
+          ? "apps/mobile"
+          : node.id === "2.2"
+            ? "infrastructure/keycloak"
+            : node.id === "6.3"
+              ? "infrastructure/observability"
+              : paths[node.id[0]];
+    document.querySelector("#edt-evidence-path").textContent = path;
+    mountEvidence(evidencePanel, path);
     history.replaceState(null, "", "#edt?nodo=" + node.id);
   }
   for (const control of main.querySelectorAll("[data-node]"))
@@ -433,6 +486,7 @@ async function route({ initial = false } = {}) {
       diseno: design,
       ingenieria: engineering,
       edt: wbs,
+      workflow: (params) => development(main, params),
       flujo: workflow,
       vista: viewer,
     })[section](params);

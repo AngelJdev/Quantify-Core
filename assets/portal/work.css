@@ -1,0 +1,350 @@
+.compact-heading {
+  margin-bottom: 18px;
+}
+.topbar {
+  min-height: 68px;
+}
+.compact-heading h1 {
+  font-size: 34px;
+  margin-bottom: 12px;
+}
+.workflow-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.project-entrypoints {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0 0 32px;
+}
+.project-entrypoints .card {
+  background: linear-gradient(140deg, var(--soft), var(--surface));
+  border-top: 3px solid var(--primary);
+}
+.team-names {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0 24px;
+}
+.team-names > span {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  min-width: 0;
+}
+.team-names strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.team-names small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+  margin-top: 5px;
+}
+.development-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
+  gap: 20px;
+  align-items: start;
+}
+.development-board {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 22px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+}
+.development-lanes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.development-lane {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  min-height: 158px;
+  padding: 18px;
+  background: var(--bg);
+}
+.development-lane.selected {
+  border-color: var(--focus);
+  background: var(--soft);
+}
+.development-lane h2 {
+  font-size: 17px;
+  margin: 14px 0 12px;
+}
+.development-lane p {
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0;
+}
+.development-connector {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-top: 2px solid var(--focus);
+  margin: 24px 0 18px;
+  padding-top: 10px;
+}
+.development-connector span {
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+}
+.development-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.development-steps button {
+  font-size: 11px;
+  text-align: left;
+  line-height: 1.5;
+  padding: 12px;
+  min-height: 78px;
+}
+.development-steps button span {
+  display: block;
+  color: var(--link);
+  font-size: 10px;
+  margin-bottom: 6px;
+}
+.development-steps button[aria-pressed="true"] {
+  background: var(--soft);
+  border-color: var(--focus);
+}
+.development-detail .dev-controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+.dev-controls button {
+  font-size: 11px;
+  flex: 1;
+  padding: 10px 6px;
+}
+.dev-controls button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.development-detail h2 {
+  font-size: 20px;
+}
+.github-workflow-section {
+  margin-top: 30px;
+  min-width: 0;
+}
+.github-status {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.github-status small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.commit-list {
+  list-style: none;
+  margin: 12px 0 18px;
+  padding: 0;
+}
+.commit-list li {
+  border-top: 1px solid var(--line);
+  padding: 13px 0;
+  overflow-wrap: anywhere;
+}
+.commit-list a {
+  display: block;
+  font-size: 13px;
+  text-decoration: none;
+}
+.commit-list code {
+  font-size: 11px;
+  background: var(--soft);
+  padding: 3px 6px;
+  margin-right: 5px;
+  border-radius: 4px;
+}
+.commit-list li > span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+}
+.github-refresh {
+  margin-top: 18px;
+  font-size: 12px;
+}
+.pull-request-list {
+  margin-top: 16px;
+}
+.pull-request-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pull-request-list li {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.pull-request-list .tag {
+  margin: 0;
+  flex: none;
+}
+.wbs-owner small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.artifact-frame {
+  height: calc(100dvh - 230px);
+  min-height: 420px;
+}
+.workspace:has(.artifact-frame) main {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.workspace:has(.artifact-frame) .page-footer {
+  display: none;
+}
+.workspace:has(.artifact-frame) .back-link {
+  margin-bottom: 12px;
+}
+.workspace:has(.artifact-frame) .viewer-toolbar {
+  margin-bottom: 10px;
+}
+.workspace:has(.artifact-frame) main > p {
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+.hero {
+  padding-top: 12px;
+  padding-bottom: 24px;
+}
+.hero h1 {
+  font-size: clamp(34px, 3.7vw, 52px);
+}
+.hero-map {
+  padding: 22px;
+}
+.hero-map li {
+  padding: 9px 0;
+}
+.hero p {
+  font-size: 15px;
+}
+.wbs-root {
+  position: relative;
+}
+.wbs-root:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  height: 26px;
+  width: 1px;
+  background: var(--focus);
+}
+.package {
+  position: relative;
+}
+.package:before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -13px;
+  width: 1px;
+  height: 12px;
+  background: var(--focus);
+}
+@media (max-width: 1150px) {
+  .development-layout {
+    grid-template-columns: 1fr;
+  }
+  .development-detail {
+    position: static;
+  }
+  .team-names {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 720px) {
+  .project-entrypoints {
+    grid-template-columns: 1fr;
+  }
+  .team-names {
+    gap: 8px;
+  }
+  .team-names > span {
+    padding: 10px;
+  }
+  .team-names strong {
+    font-size: 11px;
+  }
+  .development-board {
+    padding: 15px;
+  }
+  .development-lanes {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .development-lane {
+    min-height: 0;
+    padding: 14px;
+  }
+  .development-lane h2 {
+    font-size: 16px;
+    margin: 7px 0;
+  }
+  .development-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .development-connector span {
+    font-size: 8px;
+  }
+  .pull-request-list li {
+    align-items: start;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .compact-heading h1 {
+    font-size: 28px;
+  }
+  .sidebar nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: visible;
+    gap: 3px;
+  }
+  .sidebar nav a {
+    white-space: normal;
+    font-size: 11px;
+    min-height: 36px;
+    padding: 8px 10px;
+  }
+  .artifact-frame {
+    height: 80dvh;
+    min-height: 500px;
+  }
+  .hero h1 {
+    font-size: 37px;
+  }
+  .hero {
+    padding-top: 0;
+  }
+}

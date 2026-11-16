@@ -3,10 +3,32 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import MarkdownIt from "markdown-it";
 import sanitizeHtml from "sanitize-html";
+import { syncPages } from "./sync-pages.mjs";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
 const out = path.join(root, "assets/portal");
 const checkOnly = process.argv.includes("--check");
+if (checkOnly) {
+  const generated = await fs.readFile(
+    path.join(root, "docs/GUI/practica-07.html"),
+    "utf8",
+  );
+  const template = await fs.readFile(
+    new URL("sketches.html", import.meta.url),
+    "utf8",
+  );
+  const clean = generated.replace(
+    /<!-- qc-shared-start -->[\s\S]*?<!-- qc-shared-end -->/g,
+    "",
+  );
+  if (clean.replace(/\r\n/g, "\n") !== template.replace(/\r\n/g, "\n"))
+    throw new Error("Reconstruir el visor de bocetos desde su plantilla.");
+} else
+  await fs.copyFile(
+    new URL("sketches.html", import.meta.url),
+    path.join(root, "docs/GUI/practica-07.html"),
+  );
+await syncPages(checkOnly);
 const stale = [];
 async function writeGenerated(file, text) {
   if (!checkOnly) return fs.writeFile(file, text);
