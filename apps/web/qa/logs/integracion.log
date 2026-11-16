@@ -1,0 +1,91 @@
+$ npm.cmd run typecheck
+
+> @quantify-core/web@0.2.0-consolidation typecheck
+> npm run contracts:check && tsc -b --pretty false
+
+
+> @quantify-core/web@0.2.0-consolidation contracts:check
+> node scripts/generate-contracts.mjs --check
+
+Canonical contract types match.
+
+exit=0
+
+$ npm.cmd run lint
+
+> @quantify-core/web@0.2.0-consolidation lint
+> eslint . --max-warnings 0
+
+
+exit=0
+
+$ npm.cmd test
+
+> @quantify-core/web@0.2.0-consolidation test
+> vitest run
+
+
+ RUN  v5.1.0 C:/Users/telle/OneDrive/Escritorio/Quantify-Core-consolidacion-frontend/apps/web
+
+
+ Test Files  2 passed (2)
+      Tests  9 passed (9)
+   Start at  23:46:57
+   Duration  5.43s (environment 52%, tests 18%, setup 15%, transform 12%, import 2%)
+
+
+exit=0
+
+$ npm.cmd run build
+
+> @quantify-core/web@0.2.0-consolidation build
+> npm run typecheck && vite build
+
+
+> @quantify-core/web@0.2.0-consolidation typecheck
+> npm run contracts:check && tsc -b --pretty false
+
+
+> @quantify-core/web@0.2.0-consolidation contracts:check
+> node scripts/generate-contracts.mjs --check
+
+Canonical contract types match.
+vite v8.3.6 building client environment for production...
+transforming...
+✓ 50 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                0.61 kB │ gzip:   0.36 kB
+dist/inter-license.txt                         4.47 kB │ gzip:   2.01 kB
+dist/assets/product-dark-CmrFHwGN.png        102.48 kB
+dist/assets/enterprise-dark-W8u1dGyp.png     156.84 kB
+dist/assets/enterpriseLogo-tLnlNRfJ.jpeg     161.04 kB
+dist/assets/productLogo-DkcLRqTa.jpeg        214.66 kB
+dist/assets/inter-DiVDrmQJ.woff2             352.24 kB
+dist/assets/ritual-cotidiano-DZrK97Yg.png  1,967.20 kB
+dist/assets/index-B2sa3RzI.css                25.87 kB │ gzip:   5.85 kB
+dist/assets/index-DIBg8_ks.js                356.38 kB │ gzip: 111.05 kB
+
+✓ built in 782ms
+
+exit=0
+
+$ npm.cmd run test:e2e
+
+> @quantify-core/web@0.2.0-consolidation test:e2e
+> playwright test
+
+[WebServer] (node:23092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:18252) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\e2e\frontend.spec.ts:6:1 › rutas, temas, reflujo, fuentes y accesibilidad básica (1.1m)
+  ok 2 tests\e2e\frontend.spec.ts:131:1 › crear, navegar, editar, registrar absoluto y archivar sin perder historia (2.0s)
+  ok 3 tests\e2e\frontend.spec.ts:203:1 › errores, navegación móvil y teclado (1.1s)
+
+  3 passed (1.2m)
+
+exit=0

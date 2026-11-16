@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-16",
+  "runtimeSourceRevision": "ea643e09cb1aa0507f66b9c3821ce569611290bc",
+  "scope": "Local technical/documentary foundation; not final public or mobile delivery",
+  "checks": [
+    {
+      "command": "node scripts/verify-base.mjs",
+      "result": "passed",
+      "includes": {
+        "coreTests": 37,
+        "webTests": 39,
+        "jsonReferenceTests": 11,
+        "typecheck": "passed",
+        "lint": "passed",
+        "build": "passed",
+        "openapiPaths": [
+          19,
+          9,
+          3
+        ]
+      }
+    },
+    {
+      "command": "npm.cmd test --prefix services/api/telemetry",
+      "result": "passed",
+      "tests": 64,
+      "dependencies": [
+        "PostgreSQL 18.6",
+        "MongoDB 8.2.6"
+      ]
+    },
+    {
+      "command": "npm.cmd run test:e2e --prefix apps/web",
+      "result": "passed",
+      "tests": 3,
+      "note": "Executed earlier in this delivery; apps/web source unchanged by subsequent operational/documentary changes"
+    },
+    {
+      "command": "VERIFY_CONTAINER_API=1 node scripts/verify-oidc-base.mjs",
+      "result": "passed",
+      "note": "Explicit synthetic writes during test, disabled again afterwards; actual Keycloak and container API"
+    },
+    {
+      "command": "node scripts/verify-observability.mjs",
+      "result": "passed",
+      "evidence": "observabilidad.json"
+    }
+  ],
+  "limits": [
+    "No real React/Flutter session implemented",
+    "No public TLS/provider/pipeline claimed",
+    "No SLA agreement or data-restoration measurement claimed",
+    "Retention admission boundary tested; physical compaction aging not claimed"
+  ]
+}

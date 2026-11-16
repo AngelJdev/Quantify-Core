@@ -1,0 +1,41 @@
+
+> @quantify/telemetry-simulation@0.1.0 test
+> npm run build && node --test --test-timeout=120000 tests/*.test.cjs
+
+
+> @quantify/telemetry-simulation@0.1.0 build
+> npm run contracts && tsc -p tsconfig.json
+
+
+> @quantify/telemetry-simulation@0.1.0 contracts
+> node scripts/generate-types.cjs
+
+✔ El generador es reproducible y el fixture cumple el contrato versionado (6.9957ms)
+✔ Unidades, ausencias, null, valores no finitos y propiedades ajenas se rechazan (3.6554ms)
+✔ Consentimientos granulares no aceptan finalidades implícitas ni duplicados (1.1885ms)
+✔ La huella ignora el orden de propiedades pero conserva el de muestras (0.7816ms)
+✔ Simulación deshabilitada por defecto y OIDC remoto exige HTTPS (0.6633ms)
+✔ Tipos generados proceden de los esquemas canónicos, sin contrato alterno por cliente (0.5255ms)
+✔ El día de cambio horario cierra según IANA, sin asumir medianoche UTC (10.9359ms)
+✔ Meta decimal histórica se compara exactamente; no redondear una cantidad parcial a completada (1.3038ms)
+✔ Pausas, archivo y días no programados no entran al denominador (4.8328ms)
+✔ Tendencias ponderan oportunidades, sin promediar tasas de días distintos (1.6612ms)
+✔ Sin oportunidades retorna null y causa; jamás simula un porcentaje de fallo (0.3831ms)
+✔ Consultas inválidas, parámetros de dueño/reloj y duplicados de query se rechazan (1.661ms)
+✔ Datos de origen ambiguos, unidades, zonas y versiones erróneas fallan explícitamente (3.9897ms)
+✔ El módulo está deshabilitado sin opt-in y no consulta un origen inexistente como vacío (19848.2986ms)
+✔ Progreso HTTP desde registros SQL: completos, parcial, cero y ausencias distintos (86.0433ms)
+✔ Calendario conserva fechas y denominadores; tendencias diarias son consistentes (23.0083ms)
+✔ Filtrar hábito respeta meta histórica, día abierto y futuro separados (9.5943ms)
+✔ Otro usuario y un admin no reciben estadísticas ni identificadores de A (15.4068ms)
+✔ Corrección confirmada cambia agregados sin sumar intentos ni alterar otros hábitos (23.6589ms)
+✔ Origen ausente devuelve 503, no un dashboard vacío inventado (5.6355ms)
+✔ Unidad inválida y revisiones ambiguas del origen se rechazan, sin modificarlo (16.1993ms)
+✔ Una vista que duplica consolidaciones no duplica métricas silenciosamente (10.6174ms)
+✔ Consulta inválida, ventana excesiva, reloj y dueño del cliente se rechazan con 400 (10.4402ms)
+✔ La API usa snapshot consistente cuando el escritor corrige durante la consulta (3280.0438ms)
+✔ Repetir o reiniciar la API no cambia datos ni pierde estadísticas (97.7212ms)
+✔ Perfil suspendido no consulta estadísticas (5.7345ms)
+✔ Exceso de hábitos se informa sin truncar ni fabricar un agregado parcial (98.7026ms)
+
+spawnSync cmd.exe ETIMEDOUT

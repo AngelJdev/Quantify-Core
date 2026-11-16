@@ -12,3 +12,5 @@ docs/GUI/fuente/__pycache__/
 # Dependencias y compilación del módulo aislado QUANCORE-35
 services/api/telemetry/node_modules/
 services/api/telemetry/dist/
+services/api/node_modules/
+services/api/build/

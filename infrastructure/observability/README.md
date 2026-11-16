@@ -2,7 +2,7 @@
 
 Esta carpeta definirá cómo saber si Quantify Core funciona, detectar degradaciones y seguir un fallo entre componentes. El objetivo es que cualquier integrante pueda relacionar una solicitud con sus errores y trabajos asociados sin depender de mensajes de depuración particulares de otro desarrollador.
 
-**Estado actual:** solo documentación; no hay colectores, reglas de métricas, tableros ni alertas configurados aquí. La arquitectura propone OpenTelemetry y evalúa Prometheus y Grafana. El almacenamiento de logs, la retención y el alojamiento siguen pendientes. Aplican las [convenciones generales de infraestructura](../README.md).
+**Estado actual (16/11/2026):** laboratorio ejecutable Prometheus/Grafana/Loki/Alertmanager con fuentes reales de API, paneles y prueba de caída/recuperación. Seguir el [runbook](../../docs/despliegue/runbook-observabilidad.md), [ficha de niveles](../../docs/despliegue/niveles-servicio.md) y [ADR-0008](../../docs/arquitectura/adr/0008-observabilidad-local.md). OpenTelemetry distribuido, FastAPI instrumentado, destino público y acuerdo SLA siguen pendientes. Aplican las [convenciones de infraestructura](../README.md).
 
 ## Alcance y límites
 

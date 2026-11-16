@@ -1,0 +1,2 @@
+PASS: real Keycloak, Chrome PKCE, nonce/state, API audience, SQL runtime privileges, two accounts, CORS, ownership, replay, metrics, refresh and logout.
+Synthetic SQL history is retained. This protocol harness does not implement React/Flutter sessions.

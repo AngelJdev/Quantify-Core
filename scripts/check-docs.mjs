@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { checkJsonReferences } from './lib/check-json-refs.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ignoredDirectories = new Set(['.git', 'node_modules', 'dist', 'build', '.venv']);
@@ -101,26 +102,9 @@ const specPath = path.join(root, 'packages', 'contracts', 'openapi.json');
 if (fs.existsSync(specPath)) {
   const spec = JSON.parse(fs.readFileSync(specPath, 'utf8'));
   if (spec.openapi !== '3.1.1') issues.push('packages/contracts/openapi.json: versión OpenAPI inesperada');
-  const seen = new Set();
-  function inspectRefs(value) {
-    if (!value || typeof value !== 'object') return;
-    if (value.$ref) {
-      const reference = value.$ref;
-      if (!reference.startsWith('#/')) {
-        issues.push(`Referencia externa no validada: ${reference}`);
-      } else {
-        let current = spec;
-        for (const segment of reference.slice(2).split('/')) {
-          current = current?.[segment.replaceAll('~1', '/').replaceAll('~0', '~')];
-        }
-        if (current === undefined) issues.push(`Referencia OpenAPI no resuelta: ${reference}`);
-      }
-      seen.add(reference);
-    }
-    for (const nested of Object.values(value)) inspectRefs(nested);
-  }
-  inspectRefs(spec);
-  console.log(`Contrato OpenAPI: JSON válido, ${Object.keys(spec.paths ?? {}).length} rutas, ${seen.size} referencias distintas`);
+  const refs = checkJsonReferences(specPath, path.dirname(specPath));
+  issues.push(...refs.issues);
+  console.log(`Contrato OpenAPI: JSON válido, ${Object.keys(spec.paths ?? {}).length} rutas, ${refs.documentCount} documentos JSON, ${refs.referenceCount} referencias locales distintas`);
 }
 
 console.log(`${markdownFiles.length} archivos Markdown; ${checkedLinks} enlaces locales; ${checkedDiagrams} bloques Mermaid`);

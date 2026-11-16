@@ -36,6 +36,10 @@
     {
       "name": "Dashboard",
       "description": "QUANCORE-25 — estadísticas agregadas propias RF-05"
+    },
+    {
+      "name": "Health",
+      "description": "Operational core health; no credentials or dependency details"
     }
   ],
   "security": [
@@ -727,6 +731,77 @@
     },
     "/me/dashboard/trends": {
       "$ref": "./dashboard/v1/openapi.json#/paths/~1me~1dashboard~1trends"
+    },
+    "/health/live": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "operationId": "getCoreLive",
+        "summary": "Process liveness without dependency probes",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Available",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "operationId": "getCoreReady",
+        "summary": "Core readiness: compatible schema and PostgreSQL read ports",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Available",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        }
+      }
     }
   },
   "components": {
