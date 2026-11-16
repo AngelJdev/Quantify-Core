@@ -1,0 +1,879 @@
+{
+  "repository": "AngelJdev/Quantify-Core",
+  "branch": "develop",
+  "revision": "3067cc428886c420630507b8abeb6e8daa3411c1",
+  "asOf": "2026-11-16T12:18:06-06:00",
+  "team": [
+    {
+      "name": "Ángel de Jesús Baños Telles",
+      "role": "Coordinación y arquitectura · móvil y PWA",
+      "aliases": [
+        "AngelJdev"
+      ]
+    },
+    {
+      "name": "Al Farias Leyva",
+      "role": "Frontend y datos",
+      "aliases": [
+        "Al Farias"
+      ]
+    },
+    {
+      "name": "Francisco García García",
+      "role": "Backend e integración",
+      "aliases": [
+        "Francisco Garcia Garcia"
+      ]
+    },
+    {
+      "name": "Jesús Alejandro Artiaga Morales",
+      "role": "Datos y analítica",
+      "aliases": [
+        "Jesus Alejandro Artiaga Morales",
+        "Jesus Artiaga"
+      ]
+    }
+  ],
+  "groups": {
+    "docs": [
+      {
+        "sha": "360b2685c4f667282c525731e03e51401451c1cc",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T12:17:31-06:00",
+        "subject": "test(workflow): validar vista completa y ejecución por clic",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/360b2685c4f667282c525731e03e51401451c1cc"
+      },
+      {
+        "sha": "b155752534784673e9897a6e5d884c1fb3b38b8d",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T12:14:14-06:00",
+        "subject": "feat(workflow): ejecutar el recorrido desde un diagrama de una sola vista",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/b155752534784673e9897a6e5d884c1fb3b38b8d"
+      },
+      {
+        "sha": "e96b67d107bbb4328ee0e6dcc415019f146a40ce",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T11:34:59-06:00",
+        "subject": "feat(workflow): crear diagrama animado de móvil PWA y servicios",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e96b67d107bbb4328ee0e6dcc415019f146a40ce"
+      },
+      {
+        "sha": "2d284226bd8d94cd0e02eee351bfd547e46c2196",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:59:53-06:00",
+        "subject": "fix(portal): separar workflow y EDT en páginas individuales",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/2d284226bd8d94cd0e02eee351bfd547e46c2196"
+      },
+      {
+        "sha": "f97ca694d9395ac08d1cf81492a11a127afc5f2e",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:53:33-06:00",
+        "subject": "test(portal): registrar consistencia visual y actualizar fuentes",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/f97ca694d9395ac08d1cf81492a11a127afc5f2e"
+      },
+      {
+        "sha": "cfe2ec676a86ff2e9de1246e24a1bd4e5fe98613",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:48:06-06:00",
+        "subject": "feat(portal): conectar workflow y EDT con GitHub y unificar visores",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/cfe2ec676a86ff2e9de1246e24a1bd4e5fe98613"
+      },
+      {
+        "sha": "a4a4700e6da43208155916bd11975b6fcd79c94d",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:25:18-06:00",
+        "subject": "fix(portal): preservar lecturas y verificar publicación estática",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/a4a4700e6da43208155916bd11975b6fcd79c94d"
+      },
+      {
+        "sha": "e89e8692a07a762c4c4250032c2355d73692d637",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:20:09-06:00",
+        "subject": "feat(portal): centralizar documentación y recorridos interactivos",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e89e8692a07a762c4c4250032c2355d73692d637"
+      }
+    ],
+    "docs/requerimientos": [
+      {
+        "sha": "5a285dfcfed76811d8439fe933bbb272891c6e0f",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:32:31-06:00",
+        "subject": "merge(docs): integrar gestion y evidencias del proyecto",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/5a285dfcfed76811d8439fe933bbb272891c6e0f"
+      },
+      {
+        "sha": "2f579d6944f032a767e9557c9a34892bd2a4e9f1",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-12T10:18:00-06:00",
+        "subject": "feat(practica-07): integrar guia y mapa completo en el portal",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/2f579d6944f032a767e9557c9a34892bd2a4e9f1"
+      },
+      {
+        "sha": "c59c9849c84cd07d3e3202cd80b962b7ba76edae",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-11T19:11:05-06:00",
+        "subject": "feat(practica-07): completar pantallas y organizar sketches a lapiz",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/c59c9849c84cd07d3e3202cd80b962b7ba76edae"
+      },
+      {
+        "sha": "ba6d8aaea73575d4e43a4dbf445f932b39bc4738",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T09:56:09-06:00",
+        "subject": "docs(QUANCORE-13): consolidar entregables academicos y evidencia verificable",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/ba6d8aaea73575d4e43a4dbf445f932b39bc4738"
+      },
+      {
+        "sha": "30e38c71b4ff7b05703e96f80e757edf044eefa8",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-19T14:23:53-06:00",
+        "subject": "docs: organizar reglas requisitos e historias de usuario",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/30e38c71b4ff7b05703e96f80e757edf044eefa8"
+      },
+      {
+        "sha": "252d75e4ef74921790a1aad84704ad06e1608e0d",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-18T13:57:11-06:00",
+        "subject": "docs/arquitectura",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/252d75e4ef74921790a1aad84704ad06e1608e0d"
+      },
+      {
+        "sha": "d30e42857164e6be65cffff2da049102bb214328",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-17T19:01:52-06:00",
+        "subject": "refactor:estructura del proyecto",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/d30e42857164e6be65cffff2da049102bb214328"
+      }
+    ],
+    "docs/gestion": [
+      {
+        "sha": "a4a4700e6da43208155916bd11975b6fcd79c94d",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:25:18-06:00",
+        "subject": "fix(portal): preservar lecturas y verificar publicación estática",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/a4a4700e6da43208155916bd11975b6fcd79c94d"
+      },
+      {
+        "sha": "ea643e09cb1aa0507f66b9c3821ce569611290bc",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:57:30-06:00",
+        "subject": "feat(ops): completar base tecnica y observabilidad local",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/ea643e09cb1aa0507f66b9c3821ce569611290bc"
+      },
+      {
+        "sha": "8eb6bfdc58676ccd0877ca2829e36c300bb26e1c",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T10:13:33-06:00",
+        "subject": "docs(project): organicé el índice por áreas y precisé la planificación",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/8eb6bfdc58676ccd0877ca2829e36c300bb26e1c"
+      },
+      {
+        "sha": "ba6d8aaea73575d4e43a4dbf445f932b39bc4738",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T09:56:09-06:00",
+        "subject": "docs(QUANCORE-13): consolidar entregables academicos y evidencia verificable",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/ba6d8aaea73575d4e43a4dbf445f932b39bc4738"
+      }
+    ],
+    "docs/arquitectura": [
+      {
+        "sha": "ea643e09cb1aa0507f66b9c3821ce569611290bc",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:57:30-06:00",
+        "subject": "feat(ops): completar base tecnica y observabilidad local",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/ea643e09cb1aa0507f66b9c3821ce569611290bc"
+      },
+      {
+        "sha": "e87d0e74519ad7e625a0b6d5de93ef124080c819",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:28:53-06:00",
+        "subject": "feat(core): preparar base tecnica integrada del prototipo",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e87d0e74519ad7e625a0b6d5de93ef124080c819"
+      },
+      {
+        "sha": "ebb6c1b8598a3ba1eb84af7a20077b036d212025",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:11:33-06:00",
+        "subject": "Merge branch 'feature/QUANCORE-42-consolidacion-frontend' into feature/QUANCORE-43-base-tecnica",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/ebb6c1b8598a3ba1eb84af7a20077b036d212025"
+      },
+      {
+        "sha": "583e2c7f5dd3f12b79905170c79258068edf637a",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T14:27:38-06:00",
+        "subject": "feat(QUANCORE-43): integré el núcleo NestJS con persistencia e historial",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/583e2c7f5dd3f12b79905170c79258068edf637a"
+      },
+      {
+        "sha": "5a0268021ae552a8f62d0aab2fd933c0bf667a95",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T09:22:03-06:00",
+        "subject": "docs(QUANCORE-43): proponer integracion NestJS identidad y HTTP",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/5a0268021ae552a8f62d0aab2fd933c0bf667a95"
+      },
+      {
+        "sha": "7c86ed807481a07906ca197804621db0078774e1",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T08:44:51-06:00",
+        "subject": "chore(web): integrar develop revisado y conciliar ADR frontend",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/7c86ed807481a07906ca197804621db0078774e1"
+      },
+      {
+        "sha": "8258bb44224c824198c50b95aa461414ab74f6ad",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T23:22:11-06:00",
+        "subject": "feat(QUANCORE-25): definir contrato de progreso calendario y tendencias",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/8258bb44224c824198c50b95aa461414ab74f6ad"
+      },
+      {
+        "sha": "4c5c4f8188e2a692bf1ea0b80ba6933ed9351d43",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T22:58:31-06:00",
+        "subject": "feat(QUANCORE-22): definir contratos de eventos y auditoria MongoDB",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/4c5c4f8188e2a692bf1ea0b80ba6933ed9351d43"
+      }
+    ],
+    "packages/contracts": [
+      {
+        "sha": "583e2c7f5dd3f12b79905170c79258068edf637a",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T14:27:38-06:00",
+        "subject": "feat(QUANCORE-43): integré el núcleo NestJS con persistencia e historial",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/583e2c7f5dd3f12b79905170c79258068edf637a"
+      },
+      {
+        "sha": "44fe177212e91a835c861dae68156f9ea9dea9fa",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T23:33:35-06:00",
+        "subject": "docs(QUANCORE-25): registrar evidencia SQL y demo de estadisticas propias",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/44fe177212e91a835c861dae68156f9ea9dea9fa"
+      },
+      {
+        "sha": "8258bb44224c824198c50b95aa461414ab74f6ad",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T23:22:11-06:00",
+        "subject": "feat(QUANCORE-25): definir contrato de progreso calendario y tendencias",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/8258bb44224c824198c50b95aa461414ab74f6ad"
+      },
+      {
+        "sha": "cb1acfe70a77e053cec2d713bfe1d61850e2eb4e",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T23:07:20-06:00",
+        "subject": "docs(QUANCORE-22): registrar evidencia MongoDB y recuperacion para demo",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/cb1acfe70a77e053cec2d713bfe1d61850e2eb4e"
+      },
+      {
+        "sha": "4c5c4f8188e2a692bf1ea0b80ba6933ed9351d43",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T22:58:31-06:00",
+        "subject": "feat(QUANCORE-22): definir contratos de eventos y auditoria MongoDB",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/4c5c4f8188e2a692bf1ea0b80ba6933ed9351d43"
+      },
+      {
+        "sha": "2746acc8e096e8d0fa46375b80371b9e0010a9a1",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T22:41:52-06:00",
+        "subject": "feat(telemetry): definir contrato versionado QUANCORE-35",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/2746acc8e096e8d0fa46375b80371b9e0010a9a1"
+      },
+      {
+        "sha": "f488c44c88799fa8e72dc40a03814f9314f6415c",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-19T14:06:11-06:00",
+        "subject": "docs: definir datos y contrato del primer flujo",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/f488c44c88799fa8e72dc40a03814f9314f6415c"
+      },
+      {
+        "sha": "40a737c8943d621e8ee3911e99e589ed701fcae4",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-19T13:04:58-06:00",
+        "subject": "docs/arquitectura",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/40a737c8943d621e8ee3911e99e589ed701fcae4"
+      }
+    ],
+    "infrastructure/keycloak": [
+      {
+        "sha": "e87d0e74519ad7e625a0b6d5de93ef124080c819",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:28:53-06:00",
+        "subject": "feat(core): preparar base tecnica integrada del prototipo",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e87d0e74519ad7e625a0b6d5de93ef124080c819"
+      },
+      {
+        "sha": "7dd7548a230b59be235fd3b22b0497da55e1e867",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-25T16:50:22-06:00",
+        "subject": "docs(iam): unificar guía y evidencias en README de Keycloak",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/7dd7548a230b59be235fd3b22b0497da55e1e867"
+      },
+      {
+        "sha": "569ac83f362ea7f68b0d505812d3e0a4a2ae7b86",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-25T16:23:55-06:00",
+        "subject": "docs(iam): documentar instalación y configuración de Keycloak",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/569ac83f362ea7f68b0d505812d3e0a4a2ae7b86"
+      },
+      {
+        "sha": "37d439c89f638551887e233862fc3cc3525c0576",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-25T16:22:22-06:00",
+        "subject": "chore(iam): importar realm auditado y estructura local",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/37d439c89f638551887e233862fc3cc3525c0576"
+      }
+    ],
+    "docs/datos-ia": [
+      {
+        "sha": "44fe177212e91a835c861dae68156f9ea9dea9fa",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T23:33:35-06:00",
+        "subject": "docs(QUANCORE-25): registrar evidencia SQL y demo de estadisticas propias",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/44fe177212e91a835c861dae68156f9ea9dea9fa"
+      },
+      {
+        "sha": "cb1acfe70a77e053cec2d713bfe1d61850e2eb4e",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T23:07:20-06:00",
+        "subject": "docs(QUANCORE-22): registrar evidencia MongoDB y recuperacion para demo",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/cb1acfe70a77e053cec2d713bfe1d61850e2eb4e"
+      },
+      {
+        "sha": "7411879498a03699cc58864db7f9e75db3ed46f6",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T22:42:57-06:00",
+        "subject": "docs(telemetry): registrar arquitectura y evidencia QUANCORE-35",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/7411879498a03699cc58864db7f9e75db3ed46f6"
+      },
+      {
+        "sha": "f488c44c88799fa8e72dc40a03814f9314f6415c",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-19T14:06:11-06:00",
+        "subject": "docs: definir datos y contrato del primer flujo",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/f488c44c88799fa8e72dc40a03814f9314f6415c"
+      },
+      {
+        "sha": "d30e42857164e6be65cffff2da049102bb214328",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-17T19:01:52-06:00",
+        "subject": "refactor:estructura del proyecto",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/d30e42857164e6be65cffff2da049102bb214328"
+      }
+    ],
+    "services/api": [
+      {
+        "sha": "ea643e09cb1aa0507f66b9c3821ce569611290bc",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:57:30-06:00",
+        "subject": "feat(ops): completar base tecnica y observabilidad local",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/ea643e09cb1aa0507f66b9c3821ce569611290bc"
+      },
+      {
+        "sha": "e87d0e74519ad7e625a0b6d5de93ef124080c819",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:28:53-06:00",
+        "subject": "feat(core): preparar base tecnica integrada del prototipo",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e87d0e74519ad7e625a0b6d5de93ef124080c819"
+      },
+      {
+        "sha": "583e2c7f5dd3f12b79905170c79258068edf637a",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T14:27:38-06:00",
+        "subject": "feat(QUANCORE-43): integré el núcleo NestJS con persistencia e historial",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/583e2c7f5dd3f12b79905170c79258068edf637a"
+      },
+      {
+        "sha": "d8e97710d446fc643ef2d9659ca59a071f50a1d0",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T14:22:04-06:00",
+        "subject": "fix(test): estabilicé el cierre de PostgreSQL temporal en Windows",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/d8e97710d446fc643ef2d9659ca59a071f50a1d0"
+      },
+      {
+        "sha": "44fe177212e91a835c861dae68156f9ea9dea9fa",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T23:33:35-06:00",
+        "subject": "docs(QUANCORE-25): registrar evidencia SQL y demo de estadisticas propias",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/44fe177212e91a835c861dae68156f9ea9dea9fa"
+      },
+      {
+        "sha": "373b5f411326e351f22c75550c83be26c498c779",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T23:30:41-06:00",
+        "subject": "test(QUANCORE-25): verificar agregados historicos y lectura consistente en PostgreSQL",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/373b5f411326e351f22c75550c83be26c498c779"
+      },
+      {
+        "sha": "e632699f4d443303e1284e389d6001215eb43c30",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T23:26:38-06:00",
+        "subject": "feat(QUANCORE-25): agregar endpoints propios de estadisticas desde PostgreSQL",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e632699f4d443303e1284e389d6001215eb43c30"
+      },
+      {
+        "sha": "cb1acfe70a77e053cec2d713bfe1d61850e2eb4e",
+        "author": "Al Farias Leyva",
+        "role": "Frontend y datos",
+        "date": "2026-11-08T23:07:20-06:00",
+        "subject": "docs(QUANCORE-22): registrar evidencia MongoDB y recuperacion para demo",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/cb1acfe70a77e053cec2d713bfe1d61850e2eb4e"
+      }
+    ],
+    "docs/GUI": [
+      {
+        "sha": "f97ca694d9395ac08d1cf81492a11a127afc5f2e",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:53:33-06:00",
+        "subject": "test(portal): registrar consistencia visual y actualizar fuentes",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/f97ca694d9395ac08d1cf81492a11a127afc5f2e"
+      },
+      {
+        "sha": "cfe2ec676a86ff2e9de1246e24a1bd4e5fe98613",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:48:06-06:00",
+        "subject": "feat(portal): conectar workflow y EDT con GitHub y unificar visores",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/cfe2ec676a86ff2e9de1246e24a1bd4e5fe98613"
+      },
+      {
+        "sha": "5a285dfcfed76811d8439fe933bbb272891c6e0f",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:32:31-06:00",
+        "subject": "merge(docs): integrar gestion y evidencias del proyecto",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/5a285dfcfed76811d8439fe933bbb272891c6e0f"
+      },
+      {
+        "sha": "9a1b5ae874a31ed1ee7ebad2aaa436f34ddb4590",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-13T11:48:49-06:00",
+        "subject": "fix: acotar y ordenar sketches y simplificar revision visual",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/9a1b5ae874a31ed1ee7ebad2aaa436f34ddb4590"
+      },
+      {
+        "sha": "66997f2f763f3c6c12c2164394109711530551a0",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-13T10:56:28-06:00",
+        "subject": "fix: corregir acento en enlace de galeria",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/66997f2f763f3c6c12c2164394109711530551a0"
+      },
+      {
+        "sha": "92eddf31e16d4a56bbfdb1f5395b4cb31751dbd6",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-13T10:52:11-06:00",
+        "subject": "feat: publicar avance de practica 09 y acceso social visual",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/92eddf31e16d4a56bbfdb1f5395b4cb31751dbd6"
+      },
+      {
+        "sha": "16bc141ad8da11615bef8d20b3dae409883a9cb6",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-13T10:40:53-06:00",
+        "subject": "fix(portal): mostrar practica 08 con acceso a wireframes",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/16bc141ad8da11615bef8d20b3dae409883a9cb6"
+      },
+      {
+        "sha": "6ad857b2c817359f5b574ff6ca5bf8f5d5c86b52",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-12T11:57:28-06:00",
+        "subject": "fix(practica-07): aplicar identidad Quantify y destacar Archify",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/6ad857b2c817359f5b574ff6ca5bf8f5d5c86b52"
+      }
+    ],
+    "apps/web": [
+      {
+        "sha": "e87d0e74519ad7e625a0b6d5de93ef124080c819",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:28:53-06:00",
+        "subject": "feat(core): preparar base tecnica integrada del prototipo",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e87d0e74519ad7e625a0b6d5de93ef124080c819"
+      },
+      {
+        "sha": "4a8d9a8f3f79d70b86d27925abdbce5be2608f8a",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T09:22:30-06:00",
+        "subject": "fix(QUANCORE-42): exigir ruta explicita para diagnostico HTTP",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/4a8d9a8f3f79d70b86d27925abdbce5be2608f8a"
+      },
+      {
+        "sha": "93ba8340e20ad828ecc772d4cc8f43d05f88f3be",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T08:57:26-06:00",
+        "subject": "feat(QUANCORE-42): agregar diagnostico HTTP configurable y acotado",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/93ba8340e20ad828ecc772d4cc8f43d05f88f3be"
+      },
+      {
+        "sha": "7c86ed807481a07906ca197804621db0078774e1",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T08:44:51-06:00",
+        "subject": "chore(web): integrar develop revisado y conciliar ADR frontend",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/7c86ed807481a07906ca197804621db0078774e1"
+      },
+      {
+        "sha": "7f5a5ae4f49b8b8b9578e535a71d2ee40c9980b4",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-08T22:57:28-06:00",
+        "subject": "docs(QUANCORE-42): registrar decisiones y evidencia de consolidacion",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/7f5a5ae4f49b8b8b9578e535a71d2ee40c9980b4"
+      },
+      {
+        "sha": "e083f2123a8aa4b90f52c709830666cd0907c65e",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-08T22:57:27-06:00",
+        "subject": "feat(QUANCORE-42): consolidar frontend modular con fixtures y rutas",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e083f2123a8aa4b90f52c709830666cd0907c65e"
+      },
+      {
+        "sha": "252d75e4ef74921790a1aad84704ad06e1608e0d",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-18T13:57:11-06:00",
+        "subject": "docs/arquitectura",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/252d75e4ef74921790a1aad84704ad06e1608e0d"
+      },
+      {
+        "sha": "d30e42857164e6be65cffff2da049102bb214328",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-17T19:01:52-06:00",
+        "subject": "refactor:estructura del proyecto",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/d30e42857164e6be65cffff2da049102bb214328"
+      }
+    ],
+    "apps/mobile": [
+      {
+        "sha": "e87d0e74519ad7e625a0b6d5de93ef124080c819",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:28:53-06:00",
+        "subject": "feat(core): preparar base tecnica integrada del prototipo",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e87d0e74519ad7e625a0b6d5de93ef124080c819"
+      },
+      {
+        "sha": "252d75e4ef74921790a1aad84704ad06e1608e0d",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-18T13:57:11-06:00",
+        "subject": "docs/arquitectura",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/252d75e4ef74921790a1aad84704ad06e1608e0d"
+      },
+      {
+        "sha": "d30e42857164e6be65cffff2da049102bb214328",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-17T19:01:52-06:00",
+        "subject": "refactor:estructura del proyecto",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/d30e42857164e6be65cffff2da049102bb214328"
+      }
+    ],
+    "services/analytics": [
+      {
+        "sha": "252d75e4ef74921790a1aad84704ad06e1608e0d",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-18T13:57:11-06:00",
+        "subject": "docs/arquitectura",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/252d75e4ef74921790a1aad84704ad06e1608e0d"
+      },
+      {
+        "sha": "d30e42857164e6be65cffff2da049102bb214328",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-17T19:01:52-06:00",
+        "subject": "refactor:estructura del proyecto",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/d30e42857164e6be65cffff2da049102bb214328"
+      }
+    ],
+    "tests": [
+      {
+        "sha": "4a9f08b8a26fd06abae02d5a917a03ec47e4010f",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:01:40-06:00",
+        "subject": "fix(evidencias): normalizar salida del ensayo OIDC",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/4a9f08b8a26fd06abae02d5a917a03ec47e4010f"
+      },
+      {
+        "sha": "a5863501ab93ceb0eb24660968689a7a789dceb5",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:01:19-06:00",
+        "subject": "test(entrega): registrar evidencia real de la base tecnica",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/a5863501ab93ceb0eb24660968689a7a789dceb5"
+      },
+      {
+        "sha": "ea643e09cb1aa0507f66b9c3821ce569611290bc",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:57:30-06:00",
+        "subject": "feat(ops): completar base tecnica y observabilidad local",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/ea643e09cb1aa0507f66b9c3821ce569611290bc"
+      },
+      {
+        "sha": "5a285dfcfed76811d8439fe933bbb272891c6e0f",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:32:31-06:00",
+        "subject": "merge(docs): integrar gestion y evidencias del proyecto",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/5a285dfcfed76811d8439fe933bbb272891c6e0f"
+      },
+      {
+        "sha": "e87d0e74519ad7e625a0b6d5de93ef124080c819",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:28:53-06:00",
+        "subject": "feat(core): preparar base tecnica integrada del prototipo",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e87d0e74519ad7e625a0b6d5de93ef124080c819"
+      },
+      {
+        "sha": "b17599b6706dba4a8fdf988817039ab6ace8c49d",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:11:32-06:00",
+        "subject": "Merge branch 'develop' into feature/QUANCORE-43-base-tecnica",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/b17599b6706dba4a8fdf988817039ab6ace8c49d"
+      },
+      {
+        "sha": "c59c9849c84cd07d3e3202cd80b962b7ba76edae",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-11T19:11:05-06:00",
+        "subject": "feat(practica-07): completar pantallas y organizar sketches a lapiz",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/c59c9849c84cd07d3e3202cd80b962b7ba76edae"
+      },
+      {
+        "sha": "583e2c7f5dd3f12b79905170c79258068edf637a",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-09T14:27:38-06:00",
+        "subject": "feat(QUANCORE-43): integré el núcleo NestJS con persistencia e historial",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/583e2c7f5dd3f12b79905170c79258068edf637a"
+      }
+    ],
+    "infrastructure": [
+      {
+        "sha": "ea643e09cb1aa0507f66b9c3821ce569611290bc",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:57:30-06:00",
+        "subject": "feat(ops): completar base tecnica y observabilidad local",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/ea643e09cb1aa0507f66b9c3821ce569611290bc"
+      },
+      {
+        "sha": "e87d0e74519ad7e625a0b6d5de93ef124080c819",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:28:53-06:00",
+        "subject": "feat(core): preparar base tecnica integrada del prototipo",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e87d0e74519ad7e625a0b6d5de93ef124080c819"
+      },
+      {
+        "sha": "7dd7548a230b59be235fd3b22b0497da55e1e867",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-25T16:50:22-06:00",
+        "subject": "docs(iam): unificar guía y evidencias en README de Keycloak",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/7dd7548a230b59be235fd3b22b0497da55e1e867"
+      },
+      {
+        "sha": "e65aa4edbbf571c5fb999d71f6464deb02bba131",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-25T16:29:16-06:00",
+        "subject": "docs(iam): integrar capturas, índices y checklist de Jira",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e65aa4edbbf571c5fb999d71f6464deb02bba131"
+      },
+      {
+        "sha": "569ac83f362ea7f68b0d505812d3e0a4a2ae7b86",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-25T16:23:55-06:00",
+        "subject": "docs(iam): documentar instalación y configuración de Keycloak",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/569ac83f362ea7f68b0d505812d3e0a4a2ae7b86"
+      },
+      {
+        "sha": "37d439c89f638551887e233862fc3cc3525c0576",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-25T16:22:22-06:00",
+        "subject": "chore(iam): importar realm auditado y estructura local",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/37d439c89f638551887e233862fc3cc3525c0576"
+      },
+      {
+        "sha": "252d75e4ef74921790a1aad84704ad06e1608e0d",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-18T13:57:11-06:00",
+        "subject": "docs/arquitectura",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/252d75e4ef74921790a1aad84704ad06e1608e0d"
+      },
+      {
+        "sha": "01e85d9c02d70546210d499ca675a4a87338abfd",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-18T13:41:34-06:00",
+        "subject": "docs/arquitectura: actualizacion de readme's",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/01e85d9c02d70546210d499ca675a4a87338abfd"
+      }
+    ],
+    "infrastructure/observability": [
+      {
+        "sha": "ea643e09cb1aa0507f66b9c3821ce569611290bc",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T09:57:30-06:00",
+        "subject": "feat(ops): completar base tecnica y observabilidad local",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/ea643e09cb1aa0507f66b9c3821ce569611290bc"
+      },
+      {
+        "sha": "252d75e4ef74921790a1aad84704ad06e1608e0d",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-18T13:57:11-06:00",
+        "subject": "docs/arquitectura",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/252d75e4ef74921790a1aad84704ad06e1608e0d"
+      },
+      {
+        "sha": "01e85d9c02d70546210d499ca675a4a87338abfd",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-18T13:41:34-06:00",
+        "subject": "docs/arquitectura: actualizacion de readme's",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/01e85d9c02d70546210d499ca675a4a87338abfd"
+      },
+      {
+        "sha": "d30e42857164e6be65cffff2da049102bb214328",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-10-17T19:01:52-06:00",
+        "subject": "refactor:estructura del proyecto",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/d30e42857164e6be65cffff2da049102bb214328"
+      }
+    ],
+    "": [
+      {
+        "sha": "3067cc428886c420630507b8abeb6e8daa3411c1",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T12:18:06-06:00",
+        "subject": "Merge pull request #14: workflow de una sola vista y ejecución por clic",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/3067cc428886c420630507b8abeb6e8daa3411c1"
+      },
+      {
+        "sha": "360b2685c4f667282c525731e03e51401451c1cc",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T12:17:31-06:00",
+        "subject": "test(workflow): validar vista completa y ejecución por clic",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/360b2685c4f667282c525731e03e51401451c1cc"
+      },
+      {
+        "sha": "b155752534784673e9897a6e5d884c1fb3b38b8d",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T12:14:14-06:00",
+        "subject": "feat(workflow): ejecutar el recorrido desde un diagrama de una sola vista",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/b155752534784673e9897a6e5d884c1fb3b38b8d"
+      },
+      {
+        "sha": "417e505e25838a0e0101e00b4e7179ccb2b06c55",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T11:35:51-06:00",
+        "subject": "Merge PR #13: workflow animado y apartados independientes",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/417e505e25838a0e0101e00b4e7179ccb2b06c55"
+      },
+      {
+        "sha": "e96b67d107bbb4328ee0e6dcc415019f146a40ce",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T11:34:59-06:00",
+        "subject": "feat(workflow): crear diagrama animado de móvil PWA y servicios",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/e96b67d107bbb4328ee0e6dcc415019f146a40ce"
+      },
+      {
+        "sha": "2d284226bd8d94cd0e02eee351bfd547e46c2196",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:59:53-06:00",
+        "subject": "fix(portal): separar workflow y EDT en páginas individuales",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/2d284226bd8d94cd0e02eee351bfd547e46c2196"
+      },
+      {
+        "sha": "b6dfac600353a94a8dfec1f5558f2bfcd0e8dd7e",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:54:24-06:00",
+        "subject": "Merge PR #12: workflow GitHub e identidad documental compartida",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/b6dfac600353a94a8dfec1f5558f2bfcd0e8dd7e"
+      },
+      {
+        "sha": "f97ca694d9395ac08d1cf81492a11a127afc5f2e",
+        "author": "Ángel de Jesús Baños Telles",
+        "role": "Coordinación y arquitectura · móvil y PWA",
+        "date": "2026-11-16T10:53:33-06:00",
+        "subject": "test(portal): registrar consistencia visual y actualizar fuentes",
+        "url": "https://github.com/AngelJdev/Quantify-Core/commit/f97ca694d9395ac08d1cf81492a11a127afc5f2e"
+      }
+    ]
+  }
+}

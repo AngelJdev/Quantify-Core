@@ -2,6 +2,8 @@
 
 # Documentación del proyecto · Quantify Core
 
+**Explorar en el sitio:** [Centro del proyecto](../index.html) · [Workflow conectado a GitHub](../index.html#workflow) · [Biblioteca con buscador](../index.html#biblioteca) · [EDT interactiva](../index.html#edt) · [Flujo de hábitos](../index.html#flujo) · [Diseño y prototipos](../index.html#diseno). La lectura conserva sus fuentes en este índice; [mantenimiento del portal](portal/README.md).
+
 **Empezar el prototipo:** [base técnica para el equipo](guias/base-tecnica.md), con API NestJS, contratos, Keycloak y monitoreo local verificados. [Estado de tareas y bloqueos](gestion/estado-base-tecnica.md); integración mediante PR y aceptación del equipo según su registro efectivo.
 
 Mapa de referencia para que el equipo y sus agentes implementen el mismo producto con contratos, reglas y diseño coherentes. Empezar por [incorporación](guias/incorporacion.md), [contribución](../CONTRIBUTING.md) y el README del componente que se modificará.
@@ -14,7 +16,7 @@ Mapa de referencia para que el equipo y sus agentes implementen el mismo product
 
 ## Documentación por área
 
-Este índice reúne producto, planificación, ingeniería, diseño, calidad y operación sin mover sus fuentes canónicas. **Corte de revisión: 09/11/2026**, asociado a [QUANCORE-13](https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-13), consultado en estado Por hacer. Versionar documentos no acredita implementación ni aprobación.
+Este índice reúne producto, planificación, ingeniería, diseño, calidad y operación sin mover sus fuentes canónicas. **Revisión documental: 16/11/2026**, asociada a [QUANCORE-13](https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-13). La documentación final sigue En curso según el [corte de base técnica](gestion/estado-base-tecnica.md); el estado actual se consulta en Jira. Versionar documentos no acredita implementación ni aprobación.
 
 ### Producto y requisitos
 
@@ -38,7 +40,7 @@ Este índice reúne producto, planificación, ingeniería, diseño, calidad y op
 | Propósito | Fuente y estado |
 |---|---|
 | Límites, componentes e integraciones | [Arquitectura](arquitectura/README.md), [componentes](arquitectura/componentes.md) y [flujos](arquitectura/flujos.md). La integración general sigue pendiente. |
-| Decisiones y alternativas | [Registro ADR](arquitectura/adr/README.md) y [decisiones abiertas](arquitectura/decisiones-pendientes.md). ADR-0001..0004 están en esta base; ADR-0005/0006 se revisan en la rama frontend como propuestas, sin copiar ni renumerar. |
+| Decisiones y alternativas | [Registro ADR](arquitectura/adr/README.md) y [decisiones abiertas](arquitectura/decisiones-pendientes.md). ADR-0001..0008 están integrados en esta base; cada registro conserva su alcance, estado y decisiones pendientes. |
 | Contratos y datos | [OpenAPI y eventos](../packages/contracts/README.md), [referencia API](api/README.md) y [modelo de datos](datos-ia/modelo-datos.md); los consumidores deben verificar compatibilidad antes de integrar. |
 | Seguridad y configuración | [Seguridad](seguridad/README.md), [Keycloak](../infrastructure/keycloak/README.md), [configuración compartida](../packages/config/README.md) e [instalación](Installation/README.md). La sesión OIDC real de clientes sigue pendiente. |
 
@@ -47,7 +49,7 @@ Este índice reúne producto, planificación, ingeniería, diseño, calidad y op
 | Propósito | Fuente y estado |
 |---|---|
 | Identidad y estilos | [GUI](GUI/README.md), [sistema de diseño](diseno/sistema-diseno.md) y [tokens](../packages/design-tokens/README.md); recursos existentes verificados por pruebas GUI, sin otra paleta ni definición paralela. |
-| Pantallas y fidelidades | [Catálogo móvil](GUI/prototipos/movil/README.md), [mockups](GUI/prototipos/movil/mockups/README.md) y [autenticación](GUI/prototipos/movil/autenticacion/README.md): 20 pantallas en 40 PNG claro/oscuro, más seis vistas de autenticación en 24 SVG entre fidelidades. No equivalen a producto conectado. |
+| Pantallas y fidelidades | [33 sketches vigentes por formato](GUI/practica-07.html), [catálogo móvil](GUI/prototipos/movil/README.md), [mockups](GUI/prototipos/movil/mockups/README.md) y [autenticación](GUI/prototipos/movil/autenticacion/README.md). Wireframes y mockups conservan 20 vistas originales más seis de autenticación; su alineación con los 33 sketches sigue pendiente. No equivalen a producto conectado. |
 | Prototipo y navegación | [Figma oficial](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3), [entradas y validación estructural](GUI/README.md#prototipo-interactivo-en-figma) y [recorridos](diseno/recorridos.md). Wireframes y mockups tienen conexiones existentes; el prototipo HTML histórico es una referencia distinta. |
 | Accesibilidad | [Criterios de diseño](diseno/README.md) y [plan de verificación](../tests/plan-pruebas.md); una comprobación estructural o automatizada no acredita por sí sola toda la experiencia. |
 
@@ -168,6 +170,6 @@ Un documento aceptado define una decisión; no demuestra por sí mismo que la im
 - [Práctica 05 — Roles y funcionalidades](Practica05/README.md).
 - [Examen de arquitectura — plano y memoria técnica](examen/README.md).
 - [Práctica 07 — Prototipo y navegación](practica-07/README.md).
-- [Portal académico](index.html).
+- [Centro del proyecto](index.html).
 
 Las prácticas conservan su contexto. Paletas, cuentas demo, modelos de almacenamiento local y umbrales ilustrativos se interpretan según su alcance; la implementación sigue los contratos y decisiones de esta base. Consultar la [validación de la documentación](guias/validacion-documental.md) para conocer las comprobaciones realizadas y sus límites.

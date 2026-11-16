@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "name": "Carriles de móvil/PWA/servicios, animación efectiva y pausa",
+      "status": "passed"
+    },
+    {
+      "name": "Cliente, velocidad, reproducción, escenarios y teclado",
+      "status": "passed"
+    },
+    {
+      "name": "Movimiento reducido, contraste y adaptación a 1600/1440/390",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "scope": "Diagrama ilustrativo de Quantify. Movimiento real de paquetes SVG, pausa, cliente, velocidad, escenarios, teclado y movimiento reducido; GitHub bloqueado deliberadamente durante la prueba de respaldo.",
+  "date": "2026-11-16",
+  "axe_reviews": 6,
+  "viewports": [
+    1600,
+    1440,
+    390
+  ],
+  "independent_pages": true
+}

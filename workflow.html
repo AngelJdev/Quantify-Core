@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es" data-mode="dark" data-page-entry="workflow">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Explora Quantify Core: producto, arquitectura, planificación, diseño, prototipos y evidencias en un mismo lugar."
+    />
+    <meta name="theme-color" content="#0B0F17" />
+    <title>Workflow de Quantify · Quantify Core</title>
+    <script>
+      try {
+        const t = JSON.parse(localStorage.getItem("qc-theme"));
+        document.documentElement.dataset.mode =
+          t?.mode === "light" ? "light" : "dark";
+      } catch {}
+    </script>
+    <link rel="stylesheet" href="assets/portal/tokens.css" />
+    <link rel="stylesheet" href="assets/portal/portal.css" />
+    <link rel="stylesheet" href="assets/portal/work.css" />
+    <link rel="stylesheet" href="assets/portal/workflow.css" />
+    <link rel="stylesheet" href="assets/portal/edt.css" />
+    <link
+      rel="stylesheet"
+      href="assets/portal/site.css?v=20261116-blue-motion"
+    />
+    <script src="assets/portal/site.js?v=20261116-blue-motion" defer></script>
+    <script type="module" src="assets/portal/portal.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#content">Saltar al contenido</a>
+    <aside class="sidebar" aria-label="Navegación principal">
+      <a class="brand" href="#inicio"
+        ><img
+          id="product-logo"
+          src="assets/images/brand/product-dark.png"
+          width="150"
+          height="66"
+          alt="Quantify Core"
+      /></a>
+      <span class="eyebrow">CENTRO DEL PROYECTO</span>
+      <nav id="navigation">
+        <a href="#inicio">Vista general</a>
+        <a href="workflow.html" data-section="workflow">Workflow de Quantify</a>
+        <a href="edt.html" data-section="edt">EDT · Estructura del trabajo</a
+        ><a href="#biblioteca">Biblioteca documental</a
+        ><a href="#flujo">Flujo de hábitos</a>
+        <a href="#diseno">Diseño y prototipos</a
+        ><a href="#ingenieria">Ingeniería y validación</a>
+      </nav>
+      <div class="sidebar-footer">
+        <p>Desarrollado por</p>
+        <img
+          id="enterprise-logo"
+          src="assets/images/brand/enterprise-dark.png"
+          alt="Nexus Core"
+          width="130"
+          height="56"
+        /><a href="https://github.com/AngelJdev/Quantify-Core"
+          >Repositorio del proyecto ↗</a
+        >
+      </div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <a class="mobile-brand" href="#inicio">Quantify Core</a
+        ><span id="breadcrumb">Centro del proyecto / Vista general</span>
+        <div class="header-actions">
+          <a class="search-link" href="#biblioteca">Buscar documentos</a
+          ><button id="theme" type="button" aria-label="Cambiar a modo claro">
+            Modo claro
+          </button>
+        </div>
+      </header>
+      <main id="content" tabindex="-1">
+        <p class="loading">Cargando el centro del proyecto…</p>
+      </main>
+      <footer class="page-footer">
+        Quantify Core · Nexus Core
+        <span>Documentación, diseño e ingeniería en un mismo lugar.</span>
+      </footer>
+    </div>
+    <noscript
+      ><p>
+        Activa JavaScript para explorar el portal. También puedes consultar
+        <a href="docs/README.md">el índice documental</a>.
+      </p></noscript
+    >
+  </body>
+</html>

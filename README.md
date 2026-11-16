@@ -22,6 +22,8 @@
 
 ## Sitio del proyecto
 
+El **[Centro del proyecto](https://angeljdev.github.io/Quantify-Core/)** reúne [biblioteca documental](https://angeljdev.github.io/Quantify-Core/#biblioteca), [EDT interactiva](https://angeljdev.github.io/Quantify-Core/#edt), [flujo de hábitos](https://angeljdev.github.io/Quantify-Core/#flujo), [diseño y prototipos](https://angeljdev.github.io/Quantify-Core/#diseno) e [ingeniería y validación](https://angeljdev.github.io/Quantify-Core/#ingenieria). Los enlaces históricos que siguen conservan sus fuentes.
+
 <p align="center">
   <a href="https://angeljdev.github.io/Quantify-Core/">
     <img src="https://img.shields.io/badge/Ver%20sitio%20del%20proyecto-1E54C9?style=for-the-badge&logo=github&logoColor=white" alt="Abrir sitio del proyecto" />

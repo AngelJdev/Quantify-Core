@@ -81,7 +81,7 @@ const root=path.resolve(__dirname,'..'),base=process.env.P07_URL||'http://127.0.
       }
     });
     assert.deepEqual(errors,[]);
-    const report={date:'2026-11-12',browser:await browser.version(),playwright:require('playwright/package.json').version,baseURL:base,results,pageErrors:errors,scope:'Explorador y organización; no acredita una nueva ejecución de Archify ni publicación remota.'};
+    const report={date:new Date().toISOString().slice(0,10),browser:await browser.version(),playwright:require('playwright/package.json').version,baseURL:base,results,pageErrors:errors,scope:'Explorador y organización; no acredita una nueva ejecución de Archify ni publicación remota.'};
     fs.writeFileSync(path.join(root,'evidencias','resultados-explorador.json'),JSON.stringify(report,null,2)+'\n');
     console.log(`${results.length} escenarios aprobados.`);
   }finally{await browser.close();}

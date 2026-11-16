@@ -1,0 +1,165 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "execution_status": "prepared-not-executed",
+  "meta": {
+    "title": "Quantify Core · Flujo de hábitos",
+    "sources": [
+      "docs/arquitectura/flujos.md",
+      "docs/requerimientos/reglas-negocio.md",
+      "packages/contracts/openapi.json"
+    ]
+  },
+  "lanes": [
+    { "id": "cliente", "label": "Cliente · React / Flutter" },
+    { "id": "servicios", "label": "Identidad / API · Keycloak / NestJS" },
+    { "id": "datos", "label": "Persistencia · PostgreSQL" }
+  ],
+  "steps": [
+    {
+      "id": "acceso",
+      "title": "Iniciar sesión",
+      "active": [0, 1],
+      "cards": [
+        ["Acceso al producto", "Redirección al proveedor de identidad."],
+        ["Keycloak · OIDC", "Authorization Code + PKCE S256."],
+        [
+          "Sin acceso a hábitos",
+          "La identidad aún no autoriza una operación de negocio."
+        ]
+      ],
+      "exchange": "Cliente → Keycloak → callback del cliente",
+      "description": "La persona se identifica en Keycloak. El cliente valida state y nonce antes de usar la sesión.",
+      "rule": "No guardar contraseñas en clientes ni crear autenticación paralela."
+    },
+    {
+      "id": "rutina",
+      "title": "Consultar rutina",
+      "active": [0, 1, 2],
+      "cards": [
+        ["Rutina personal", "Solicitar hábitos de la cuenta activa."],
+        ["API NestJS", "Validar JWT, issuer, audience y propiedad."],
+        ["Hábitos propios", "Consulta limitada al dueño de los recursos."]
+      ],
+      "exchange": "Cliente → API autorizada → consulta propia",
+      "description": "La rutina corresponde a la cuenta autenticada. El servidor determina al dueño desde la sesión.",
+      "rule": "Ser administrador no concede acceso general a hábitos ni biometría privados."
+    },
+    {
+      "id": "habito",
+      "title": "Elegir hábito",
+      "active": [0],
+      "cards": [
+        ["Detalle del hábito", "Consultar meta, unidad y agenda aplicables."],
+        ["Contrato compartido", "Misma semántica para móvil y web."],
+        ["Reglas históricas", "Se conserva la versión efectiva del hábito."]
+      ],
+      "exchange": "Rutina → detalle → configuración vigente para la fecha",
+      "description": "El detalle muestra el hábito y su progreso en la fecha de negocio correspondiente.",
+      "rule": "Pausar o archivar conserva el historial. Una nueva meta no reescribe los días anteriores."
+    },
+    {
+      "id": "valor",
+      "title": "Preparar check-in",
+      "active": [0],
+      "cards": [
+        ["Valor acumulado", "Preparar value, fecha, zona y versión esperada."],
+        [
+          "Sin confirmación todavía",
+          "La edición local aún no modifica el servidor."
+        ],
+        ["Sin escritura", "Esperar una operación autorizada."]
+      ],
+      "exchange": "Edición local → operación identificada",
+      "description": "Se prepara clientEventId, businessDate, occurredAt, timeZone, value y expectedVersion según el contrato.",
+      "rule": "value expresa el total acumulado del día, nunca un incremento ciego. Offline de producto sigue pendiente."
+    },
+    {
+      "id": "validar",
+      "title": "Validar operación",
+      "active": [1],
+      "cards": [
+        [
+          "Enviar check-in",
+          "Conservar identificador y contenido para posibles reintentos."
+        ],
+        ["API NestJS", "Validar sesión, dueño, agenda, fecha y versión."],
+        ["Buscar operación previa", "Comprobar deduplicación durable."]
+      ],
+      "exchange": "Cliente → API → validaciones y búsqueda idempotente",
+      "description": "El backend verifica la operación antes de cambiar el consolidado. El cliente no puede elegir arbitrariamente un propietario.",
+      "rule": "Una fecha o zona inválida, un acceso ajeno o un JWT no válido deben rechazarse."
+    },
+    {
+      "id": "transaccion",
+      "title": "Confirmar o resolver",
+      "active": [1, 2],
+      "cards": [
+        [
+          "Esperar resultado",
+          "No presentar el registro como sincronizado antes de confirmar."
+        ],
+        [
+          "Control de concurrencia",
+          "Resolver operación nueva, replay o conflicto."
+        ],
+        [
+          "Transacción atómica",
+          "Restricciones, revisión e historial del check-in."
+        ]
+      ],
+      "exchange": "API ↔ PostgreSQL · confirmación, replay o conflicto",
+      "description": "La operación nueva se confirma de forma atómica. Un reintento idéntico recupera el resultado anterior; una versión obsoleta exige resolución.",
+      "rule": "Reutilizar la clave con contenido distinto causa conflicto. El reintento no suma progreso otra vez."
+    },
+    {
+      "id": "historial",
+      "title": "Actualizar historial",
+      "active": [0, 1, 2],
+      "cards": [
+        ["Estado confirmado", "Actualizar el hábito con la revisión recibida."],
+        ["Respuesta canónica", "Propagar resultado o conflicto explícito."],
+        ["Historia preservada", "La corrección genera una revisión trazable."]
+      ],
+      "exchange": "Resultado persistido → cliente → historial propio",
+      "description": "El cliente diferencia confirmado, pendiente, rechazado y conflicto; no oculta el fallo de sincronización.",
+      "rule": "No generar automáticamente otra operación para eludir un conflicto de versión."
+    },
+    {
+      "id": "metricas",
+      "title": "Consultar métricas",
+      "active": [0, 1, 2],
+      "cards": [
+        [
+          "Dashboard personal",
+          "Periodo, calendario y tendencias con fecha de actualización."
+        ],
+        ["API de métricas", "Consultar el periodo autorizado."],
+        [
+          "Estadísticas SQL",
+          "Derivadas compatibles con la historia del hábito."
+        ]
+      ],
+      "exchange": "Consulta autorizada → estadísticas → visualización",
+      "description": "El dashboard consulta estadísticas propias. Los workers y consumidores de outbox del flujo de referencia siguen sujetos a su implementación.",
+      "rule": "No recalcular el pasado usando solo la meta actual ni presentar telemetría sintética como progreso real."
+    }
+  ],
+  "scenarios": {
+    "confirmado": {
+      "title": "Operación nueva",
+      "description": "Identificador nuevo y versión válida: confirmar la transacción y devolver el resultado persistido.",
+      "outcome": "Una operación confirmada"
+    },
+    "reintento": {
+      "title": "Reintento idéntico",
+      "description": "La respuesta se perdió: reenviar el mismo identificador y contenido recupera el resultado original.",
+      "outcome": "Mismo resultado · sin doble conteo"
+    },
+    "conflicto": {
+      "title": "Versión obsoleta",
+      "description": "Otra operación cambió la revisión. Devolver conflicto sin mutación parcial; consultar el estado confirmado y resolver explícitamente.",
+      "outcome": "Conflicto · no se sobrescribe"
+    }
+  }
+}

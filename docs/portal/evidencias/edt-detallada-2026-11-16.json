@@ -1,0 +1,28 @@
+{
+  "results": [
+    {
+      "name": "Fuentes completas, claves expandidas, tareas únicas y datos públicos mínimos",
+      "status": "passed"
+    },
+    {
+      "name": "Seis ramas, dieciocho entregables, avatares locales y resumen deduplicado",
+      "status": "passed"
+    },
+    {
+      "name": "Asignados, fechas, dependencias y commits/PR con relación explícita",
+      "status": "passed"
+    },
+    {
+      "name": "Filtros combinados sobre la misma tarea, vacío, lista y persistencia",
+      "status": "passed"
+    },
+    {
+      "name": "Navegación por teclado, temas, contraste y móvil sin desbordamiento",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "jiraAsOf": "2026-11-16T18:21:31.444Z",
+  "githubRevision": "3067cc428886c420630507b8abeb6e8daa3411c1",
+  "scope": "Corte Jira completo y GitHub versionado; consultas directas de GitHub bloqueadas para verificar respaldo. Seis revisiones axe."
+}
