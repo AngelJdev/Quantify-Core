@@ -4,9 +4,14 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
+    "check": "node build.mjs --check",
     "test": "node tests/browser.mjs"
   },
   "dependencies": {
-    "markdown-it": "15.0.3"
+    "markdown-it": "15.0.3",
+    "sanitize-html": "2.18.2"
+  },
+  "devDependencies": {
+    "prettier": "3.10.1"
   }
 }

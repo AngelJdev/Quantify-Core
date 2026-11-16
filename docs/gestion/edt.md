@@ -45,6 +45,8 @@ Diseño, documentación y pruebas aisladas pueden avanzar antes de completar esa
 
 ## Línea base y control
 
-Esta EDT parte de `origin/develop` en `0272ed8`. La consolidación frontend y ADR-0005/0006 están en `feature/QUANCORE-42-consolidacion-frontend`, fuera de esta rama documental. No se incluyen mediante copia o merge. Los estados actuales se consultan en Jira y se contrastan con Git; el índice de documentación del proyecto señala dónde la evidencia todavía es parcial.
+La estructura documental se definió inicialmente sobre `0272ed8`. La integración posterior de la base técnica, frontend y documentación quedó en [PR #10](https://github.com/AngelJdev/Quantify-Core/pull/10), merge `08a3875e`, el 16/11/2026. El [estado de la base técnica](estado-base-tecnica.md) precisa evidencia local y dependencias restantes. Esta integración no acredita todos los criterios de salida de la EDT. Los estados actuales se consultan en Jira y se contrastan con Git.
+
+La [EDT interactiva](../../index.html#edt) deriva sus seis paquetes y dieciocho entregables de esta tabla. Al modificarla, reconstruir el [portal](../portal/README.md); no mantener una segunda EDT manual ni deducir porcentajes desde commits.
 
 Cambiar un paquete exige actualizar alcance, criterio de salida, dependencia, RACI y presupuesto cuando afecte costo/plazo. Los vencimientos se mantienen en Jira; no se inventa un segundo cronograma ni porcentajes de avance a partir de commits.
