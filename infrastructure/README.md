@@ -2,9 +2,11 @@
 
 # Infraestructura de Quantify Core
 
+**Base local (16/11/2026):** [Compose](docker/compose.yaml) PostgreSQL/Keycloak y [guía del equipo](../docs/guias/base-tecnica.md). Esta rama ya tiene entorno de dependencias. Imágenes de API, despliegue público y monitoreo siguen pendientes; se preserva el laboratorio Keycloak anterior.
+
 Esta carpeta establece cómo se preparará, ejecutará, observará y publicará la plataforma. Su objetivo es que desarrolladores y agentes compartan las mismas reglas y puedan reproducir un entorno sin depender de instrucciones particulares de otro integrante.
 
-**Estado actual:** base documental y [export local de Keycloak auditado](keycloak/README.md) para QUANCORE-17, con importación aislada verificada. Todavía no hay Dockerfiles, archivos de Compose, manifiestos de despliegue ni tableros operativos. La [guía de Keycloak](keycloak/README.md) detalla comandos, cuentas y límites; no acredita integración final del producto. Las tecnologías del [README principal](../README.md) siguen siendo propuestas hasta que se validen y registren sus decisiones. Los requisitos siguientes guían la implementación futura; no acreditan que ya exista.
+**Estado actual:** [Compose local](docker/compose.yaml) verificado y [export de Keycloak auditado](keycloak/README.md). No hay Dockerfiles propios, despliegue público ni tableros operativos. La guía técnica distingue pruebas locales de la integración final del producto; aceptación del equipo y decisiones productivas siguen pendientes.
 
 ## Responsabilidad de cada carpeta
 

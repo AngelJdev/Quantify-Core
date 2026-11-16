@@ -2,6 +2,8 @@
 
 # Keycloak para QUANTIFY CORE
 
+**Actualización (16/11/2026):** el export restringe callback web a `http://localhost:5173/auth/callback`, logout a `http://localhost:5173/` y añade audiencia `quantify-api` en access tokens web/móvil. El [laboratorio nuevo](../../docs/guias/base-tecnica.md) usa 8180, separado del histórico 8080, y verifica protocolo real con Chrome/API/SQL. Sesión React/Flutter pendiente. Importar al iniciar omite realms existentes: no actualiza instalaciones previas automáticamente. Los apartados y capturas originales conservan su contexto histórico; para parámetros actuales prevalecen export, validador y ADR-0007.
+
 Guía única de configuración y evidencia del laboratorio **QUANCORE-17**, relacionado con [RF-01](../../docs/requerimientos/catalogo.md) y las [reglas de seguridad](../../docs/seguridad/README.md). Revisión original: 25 de octubre de 2026.
 
 ## Contenido

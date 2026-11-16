@@ -1,5 +1,7 @@
 # ADR-0006: Integración de API NestJS, identidad y HTTP del frontend
 
+**Actualización 16/11/2026:** se conserva la auditoría/propuesta del 09/11. La implementación posterior del núcleo, salud y topología OIDC se documenta en [ADR-0007](0007-base-tecnica-prototipo.md) y la [guía del equipo](../../guias/base-tecnica.md). Las tablas históricas siguientes no describen el estado de la rama nueva. Aceptación del equipo pendiente.
+
 - Estado: **propuesto para revisión; no aceptado ni implementado como API unificada**.
 - Fecha: 2026-11-09.
 - Tarea: QUANCORE-43; dependencias QUANCORE-17/19/21/22/23/24/25/35/42.

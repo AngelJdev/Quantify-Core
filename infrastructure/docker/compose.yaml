@@ -1,0 +1,32 @@
+name: quantify-core-dev
+services:
+  postgres:
+    image: postgres:18.6
+    environment:
+      POSTGRES_DB: quantify_core_dev
+      POSTGRES_USER: quantify_owner
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run node scripts/dev-base.mjs init}
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U quantify_owner -d quantify_core_dev"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.8.1
+    command: [start-dev, --import-realm]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME:?Run init}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD:?Run init}
+      KC_HOSTNAME: http://localhost:8180
+    ports:
+      - "127.0.0.1:8180:8080"
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+      - ../keycloak/realm-export.json:/opt/keycloak/data/import/quantify-realm.json:ro
+volumes:
+  postgres-data:
+  keycloak-data:

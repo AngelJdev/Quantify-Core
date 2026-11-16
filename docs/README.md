@@ -2,6 +2,8 @@
 
 # Documentación para desarrollar Quantify Core
 
+**Empezar el prototipo:** [base técnica para el equipo](guias/base-tecnica.md), con arranque local, API NestJS, contratos, verificación real de Keycloak y dependencias Jira. Implementado en rama de revisión; aceptación del equipo y publicación pendientes.
+
 Mapa de referencia para que el equipo y sus agentes implementen el mismo producto con contratos, reglas y diseño coherentes. Empezar por [incorporación](guias/incorporacion.md), [contribución](../CONTRIBUTING.md) y el README del componente que se modificará.
 
 **Estado:** base de desarrollo y contratos propuestos. La [base frontend web](../apps/web/README.md) es ejecutable con fixtures explícitos; su integración de identidad, servicios, persistencia y PWA sigue pendiente. El prototipo académico y la [simulación sintética QUANCORE-35](datos-ia/telemetria-simulada.md), ampliada por [QUANCORE-22](datos-ia/eventos-mongodb.md) y el [lector de estadísticas QUANCORE-25](datos-ia/estadisticas-dashboard.md), conservan sus alcances independientes. Los servicios generales del producto siguen pendientes de integración. Cada módulo debe identificar evidencia y límites de lo que implementa.

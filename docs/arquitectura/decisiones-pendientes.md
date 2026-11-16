@@ -1,5 +1,7 @@
 # Decisiones pendientes
 
+**Avance del prototipo (16/11/2026):** [ADR-0007](adr/0007-base-tecnica-prototipo.md) fija una base operativa local: NestJS, PostgreSQL, lockfiles API/web y SPA pública Code+PKCE. El harness real está verificado; sesión React/Flutter y aceptación del equipo pendientes. D-01/02 avanzan en ese alcance; D-08 solo cuenta con destino local. Se conservan las decisiones de producto pendientes; esta configuración no habilita un entorno público.
+
 Este registro evita que desarrolladores o agentes conviertan una suposición en una decisión aceptada. La selección base del [README](../../README.md) se mantiene mientras se valida; alternativas históricas como Next.js, MySQL o Express directo no se adoptan por aparecer en una práctica.
 
 **Estado de todas las filas:** pendiente. Los responsables indicados son funciones sugeridas, no asignaciones personales confirmadas. Una decisión se cierra mediante evidencia y revisión registrada en un [ADR](adr/README.md); agregar fecha, autores, PR y consecuencias.

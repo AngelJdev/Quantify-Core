@@ -36,8 +36,14 @@ for (const id of ['quantify-web', 'quantify-mobile']) {
   for (const setting of ['directAccessGrantsEnabled', 'implicitFlowEnabled', 'serviceAccountsEnabled']) assert.equal(client[setting], false, id + ': ' + setting);
   assert.equal(client.attributes['pkce.code.challenge.method'], 'S256');
   assert.ok(client.defaultClientScopes.includes('roles'));
-  assert.deepEqual(client.redirectUris, id === 'quantify-web' ? ['http://localhost:5173/*'] : ['com.quantify.app:/oauth2redirect']);
+  assert.deepEqual(client.redirectUris, id === 'quantify-web' ? ['http://localhost:5173/auth/callback'] : ['com.quantify.app:/oauth2redirect']);
   assert.deepEqual(client.webOrigins, id === 'quantify-web' ? ['http://localhost:5173'] : []);
+  const audience = client.protocolMappers?.find(m => m.name === 'quantify-api-audience');
+  assert.equal(audience?.protocolMapper, 'oidc-audience-mapper');
+  assert.equal(audience?.config['included.custom.audience'], 'quantify-api');
+  assert.equal(audience?.config['access.token.claim'], 'true');
+  assert.equal(audience?.config['id.token.claim'], 'false');
+  if (id === 'quantify-web') assert.equal(client.attributes['post.logout.redirect.uris'], 'http://localhost:5173/');
 }
 const mapper = realm.clientScopes.find(s => s.name === 'roles')?.protocolMappers.find(m => m.protocolMapper === 'oidc-usermodel-realm-role-mapper');
 assert.equal(mapper?.config['claim.name'], 'realm_access.roles');

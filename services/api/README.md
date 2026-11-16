@@ -1,5 +1,7 @@
 # API principal · NestJS + TypeScript
 
+**Base técnica (16/11/2026):** [guía del equipo](../../docs/guias/base-tecnica.md) y [ADR-0007](../../docs/arquitectura/adr/0007-base-tecnica-prototipo.md). El harness real verifica Keycloak y API con rol SQL runtime separado. Sesión de clientes, revisión del equipo y despliegue público siguen pendientes.
+
 > **Estado: núcleo NestJS ejecutable localmente en QUANCORE-43, pendiente de revisión e integración.** Perfiles, hábitos, check-ins, métricas y dashboard usan PostgreSQL real. Las escrituras requieren opt-in de la política provisional D-03/04. [OpenAPI](../../packages/contracts/openapi.json) sigue como borrador; no hay despliegue productivo ni sesión React/Flutter acreditados.
 
 **Host separado QUANCORE-35:** [telemetry/README.md](telemetry/README.md) conserva el módulo NestJS **solo de simulación sintética**, con contrato y pruebas HTTP/PostgreSQL reales. Ese host no implementa los módulos generales del núcleo descrito aquí. QUANCORE-22 añade una [proyección MongoDB y auditoría](../../docs/datos-ia/eventos-mongodb.md), solo para la simulación y con activación explícita; no se hace obligatoria para el núcleo.
@@ -28,7 +30,7 @@ node --env-file=.env.local build/src/main.js
 |---|---|
 | `DATABASE_URL` | Solo servidor; conexión PostgreSQL. No mostrarla en logs ni poner secretos en Git. |
 | `KEYCLOAK_ISSUER` | Emisor exacto. Desarrollo: `http://localhost:8080/realms/quantify`; HTTP solo loopback. |
-| `KEYCLOAK_AUDIENCE` | Audiencia exigida; propuesta `quantify-api`. El export actual no garantiza emitirla: configurar y revisar el mapper antes del login integrado. No aceptar otra audiencia para eludir esa dependencia. |
+| `KEYCLOAK_AUDIENCE` | Audiencia exigida `quantify-api`. El export actualizado incorpora el mapper web/móvil, verificado en laboratorio nuevo. Revisar y aplicar explícitamente el cambio en realms existentes; no aceptar otra audiencia para eludirlo. |
 | `HOST`, `PORT` | Por defecto `127.0.0.1:3000`. Prefijo único `/api/v1`. |
 | `CORS_ALLOWED_ORIGINS` | Orígenes exactos separados por coma; ejemplo `http://localhost:5173`. Sin comodines ni credenciales CORS. |
 | `CORE_REVIEW_WRITES_ENABLED` | `0` por defecto. `1` activa explícitamente las escrituras de revisión con datos de prueba; no equivale a aprobar D-03/04/09 para datos personales reales. |
@@ -167,4 +169,4 @@ Desde `services/api`: `npm test`, `npm run typecheck` y `npm run validate:openap
 
 Validación local del 09/11/2026 en Windows, Node 24.14.1/npm 11.11.0: instalación desde lockfile, typecheck y build aprobados; 35 pruebas del núcleo y 64 regresiones del host sintético aprobadas, estas últimas también con MongoDB 8.2.6 real. OpenAPI general, telemetría y dashboard: 19/9/3 rutas válidas con referencias resueltas. Los casos reproducibles están en `tests/` y `telemetry/tests/`; los resultados no acreditan operación en Linux ni un ambiente productivo.
 
-Pendientes: revisión D-01..04/09, mapper de audiencia y login real, roles mínimos de migración/runtime/lector, recuperación, destino de despliegue, outbox worker, PWA/offline y conexión React/Flutter. Para React, proponer base `http://localhost:3000/api/v1` y ruta `health/ready` solo después de revisar origen, sesión y despliegue. No cambiar sus fixtures por este diagnóstico.
+Pendientes: aceptación de equipo y políticas D-01..04/09, sesión real de React/Flutter, recuperación, destino público, outbox worker y PWA/offline. El laboratorio de la base técnica ya verifica mapper de audiencia, protocolo OIDC y rol runtime separado. Para React local se configura base `http://localhost:3000/api/v1` y ruta `health/ready`; el diagnóstico no reemplaza fixtures ni conecta hábitos automáticamente.
