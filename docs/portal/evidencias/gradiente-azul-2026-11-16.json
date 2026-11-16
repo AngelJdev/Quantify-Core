@@ -1,0 +1,27 @@
+{
+  "results": [
+    {
+      "name": "Dos capas azules visibles con movimiento efectivo, sin bloquear controles",
+      "status": "passed"
+    },
+    {
+      "name": "Cobertura de páginas con capa compartida",
+      "documents": 18,
+      "status": "passed"
+    },
+    {
+      "name": "Todas las superficies documentales comparten gradiente en claro y oscuro",
+      "status": "passed"
+    },
+    {
+      "name": "Contenido y contraste de portada, EDT, workflow y bocetos en ambos temas y móvil",
+      "status": "passed"
+    },
+    {
+      "name": "Visor incrustado transparente y láminas conservadas",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "scope": "Gradiente compartido, movimiento real y 16 revisiones axe; fuentes GitHub bloqueadas para verificar respaldo."
+}
