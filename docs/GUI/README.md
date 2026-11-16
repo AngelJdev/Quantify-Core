@@ -4,6 +4,8 @@ Documentación del sistema de diseño, guía de estilos visuales y prototipos de
 
 **Para revisar ahora:** [sketches con medidas, uno por uno](practica-07.html). Las 33 vistas corregidas son la referencia activa de Práctica 07. Los 20 bocetos históricos y las seis vistas complementarias se conservan como referencias previas; no son una segunda entrega vigente. Wireframes y mockups siguen en avance y se alinearán después con el orden, navegación y estructura de los sketches revisados.
 
+El visor documental ajusta la lámina a la ventana de escritorio y ofrece ampliación y pantalla completa. Comparte navegación, gradiente de fondo y controles con el [centro del proyecto](../../index.html); la presentación se mantiene en [el módulo del portal](../portal/README.md). Las láminas aprobadas se conservan sin regenerarlas.
+
 ## Práctica 07 · Navegación y sketches
 
 La entrega tiene **un único [README de Práctica 07](../practica-07/README.md)** con los quince puntos y enlaces a fichas, proceso y evidencias. El prototipo y los mapas están en `docs/practica-07/`; los bocetos a lápiz están en sus carpetas de GUI: [`movil/sketches/practica-07/`](prototipos/movil/sketches/practica-07/) y [`pwa/sketches/practica-07/`](prototipos/pwa/sketches/practica-07/). Incluyen **Login U02** y **Register U03** como pantallas completas.

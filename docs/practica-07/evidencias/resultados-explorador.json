@@ -1,6 +1,6 @@
 {
-  "date": "2026-11-12",
-  "browser": "157.0.4341.46",
+  "date": "2026-11-16",
+  "browser": "157.0.4341.60",
   "playwright": "1.65.0",
   "baseURL": "http://127.0.0.1:8765/docs/practica-07/",
   "results": [
