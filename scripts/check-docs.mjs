@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { checkJsonReferences } from './lib/check-json-refs.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ignoredDirectories = new Set(['.git', 'node_modules', 'dist', 'build', '.venv']);
@@ -101,37 +102,9 @@ const specPath = path.join(root, 'packages', 'contracts', 'openapi.json');
 if (fs.existsSync(specPath)) {
   const spec = JSON.parse(fs.readFileSync(specPath, 'utf8'));
   if (spec.openapi !== '3.1.1') issues.push('packages/contracts/openapi.json: versión OpenAPI inesperada');
-  const seen = new Set();
-  const documents = new Map([[specPath, spec]]);
-  const contractsRoot = path.dirname(specPath);
-  function inspectRefs(value, documentPath = specPath) {
-    if (!value || typeof value !== 'object') return;
-    if (value.$ref) {
-      const reference = value.$ref;
-      const identity = documentPath + '#' + reference;
-      if (!seen.has(identity)) {
-        seen.add(identity);
-        const [file, fragment = ''] = reference.split('#');
-        const target = path.resolve(path.dirname(documentPath), file || path.basename(documentPath));
-        if (/^[a-z][\w+.-]*:/i.test(file) || !target.startsWith(contractsRoot + path.sep) || !fs.existsSync(target)) {
-          issues.push(`Referencia fuera de contratos o inexistente: ${reference}`);
-        } else if (fragment && !fragment.startsWith('/')) {
-          issues.push(`Fragmento OpenAPI no soportado: ${reference}`);
-        } else {
-          if (!documents.has(target)) documents.set(target, JSON.parse(fs.readFileSync(target, 'utf8')));
-          let current = documents.get(target);
-          for (const segment of fragment ? fragment.slice(1).split('/') : []) {
-            current = current?.[segment.replaceAll('~1', '/').replaceAll('~0', '~')];
-          }
-          if (current === undefined) issues.push(`Referencia OpenAPI no resuelta: ${reference}`);
-          else inspectRefs(current, target);
-        }
-      }
-    }
-    for (const nested of Object.values(value)) inspectRefs(nested, documentPath);
-  }
-  inspectRefs(spec);
-  console.log(`Contrato OpenAPI: JSON válido, ${Object.keys(spec.paths ?? {}).length} rutas, ${seen.size} referencias distintas`);
+  const refs = checkJsonReferences(specPath, path.dirname(specPath));
+  issues.push(...refs.issues);
+  console.log(`Contrato OpenAPI: JSON válido, ${Object.keys(spec.paths ?? {}).length} rutas, ${refs.documentCount} documentos JSON, ${refs.referenceCount} referencias locales distintas`);
 }
 
 console.log(`${markdownFiles.length} archivos Markdown; ${checkedLinks} enlaces locales; ${checkedDiagrams} bloques Mermaid`);
