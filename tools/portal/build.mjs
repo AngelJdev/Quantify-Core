@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import MarkdownIt from "markdown-it";
 import sanitizeHtml from "sanitize-html";
 import { syncPages } from "./sync-pages.mjs";
+import { buildEdtData } from "./edt-data.mjs";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
 const out = path.join(root, "assets/portal");
@@ -37,6 +38,7 @@ async function writeGenerated(file, text) {
     stale.push(path.relative(root, file));
 }
 const md = new MarkdownIt({ html: true, linkify: false });
+await writeGenerated(path.join(out, 'edt-data.json'), JSON.stringify(await buildEdtData(), null, 2) + '\n');
 const tokens = JSON.parse(
   await fs.readFile(
     path.join(root, "packages/design-tokens/preview.json"),
