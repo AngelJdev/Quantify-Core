@@ -29,7 +29,7 @@ export async function syncPages(checkOnly = false) {
           path.posix.dirname(source),
           "assets/portal",
         );
-        const tags = `<!-- qc-shared-start --><link rel="stylesheet" href="${prefix}/site.css"><script src="${prefix}/site.js" defer></script><!-- qc-shared-end -->`;
+        const tags = `<!-- qc-shared-start --><link rel="stylesheet" href="${prefix}/site.css?v=20261116-blue-motion"><script src="${prefix}/site.js?v=20261116-blue-motion" defer></script><!-- qc-shared-end -->`;
         const clean = raw.replace(
           /<!-- qc-shared-start -->[\s\S]*?<!-- qc-shared-end -->/g,
           "",
