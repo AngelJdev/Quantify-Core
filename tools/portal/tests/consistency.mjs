@@ -63,6 +63,7 @@ try {
         .click();
       await page.locator("[data-dev-step]").first().waitFor();
       assert.equal(await page.locator("[data-dev-step]").count(), 8);
+      await page.locator(".wf-github summary").click();
       await page.locator("#workflow-evidence .commit-list").waitFor();
       assert.match(
         await page.locator("#workflow-evidence").textContent(),
@@ -76,7 +77,7 @@ try {
       await page.locator('[data-dev-step="6"]').click();
       assert.match(
         await page.locator("#development-detail").textContent(),
-        /merge commit/,
+        /estado confirmado/,
       );
       await page.reload();
       await page.locator('[data-dev-step="6"][aria-pressed=true]').waitFor();

@@ -10,7 +10,7 @@
   if (embedded) html.classList.add("qc-embedded");
   const links = [
     ["inicio", "Vista general"],
-    ["workflow", "Workflow de desarrollo"],
+    ["workflow", "Workflow de Quantify"],
     ["edt", "EDT · Estructura del trabajo"],
     ["biblioteca", "Biblioteca documental"],
     ["flujo", "Flujo de hábitos"],
