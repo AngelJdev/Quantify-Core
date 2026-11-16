@@ -1,0 +1,29 @@
+groups:
+  - name: local-core-availability
+    rules:
+      - alert: CoreApiUnavailable
+        expr: up{job="core-api"} == 0
+        for: 15s
+        labels:
+          severity: warning
+          owner: project-coordination
+          environment: local-review
+        annotations:
+          summary: API metrics target unavailable in isolated review environment
+          runbook: docs/despliegue/runbook-observabilidad.md
+      - alert: CoreApiErrorRate
+        expr: sum(rate(quantify_http_requests_total{status_class="5xx"}[2m])) / sum(rate(quantify_http_requests_total[2m])) > 0.05
+        for: 1m
+        labels:
+          severity: warning
+          environment: local-review
+        annotations:
+          summary: Proposed local error threshold exceeded; review traffic volume
+      - alert: CoreSqlNotReady
+        expr: quantify_core_ready{job="core-api"} == 0
+        for: 15s
+        labels:
+          severity: warning
+          environment: local-review
+        annotations:
+          summary: Last SQL readiness probe unsuccessful

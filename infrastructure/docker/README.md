@@ -1,10 +1,10 @@
 # Contenedores y entorno local
 
-**Implementación local (16/11/2026):** [compose.yaml](compose.yaml) y [.env.example](.env.example) preparan PostgreSQL 18.6 y Keycloak 26.8.1, volúmenes aislados y puertos loopback. [Arranque, pruebas y recuperación](../../docs/guias/base-tecnica.md). API/web se ejecutan en el host; Dockerfiles propios y despliegue público pendientes. Los requisitos siguientes orientan la evolución, no describen servicios ya terminados.
+**Implementación local (16/11/2026):** [compose.yaml](compose.yaml), [.env.example](.env.example) y [api.Dockerfile](api.Dockerfile) preparan PostgreSQL 18.6, Keycloak 26.8.1 y API NestJS, con volúmenes aislados y puertos loopback. [Arranque, pruebas y recuperación](../../docs/guias/base-tecnica.md). API puede ejecutarse en host o en perfil `app`; web se ejecuta en el host. Despliegue público pendiente.
 
 Esta carpeta definirá cómo construir imágenes y levantar las dependencias de Quantify Core para desarrollo y pruebas. El resultado esperado es que un integrante nuevo pueda preparar el entorno siguiendo una única guía y obtener los mismos componentes y versiones que el resto del equipo.
 
-**Estado actual:** Compose local probado; no hay Dockerfiles propios. Leer las [convenciones de infraestructura](../README.md) y la guía enlazada arriba. Los artefactos adicionales descritos a continuación son requisitos de evolución y despliegue.
+**Estado actual:** Compose local probado y [api.Dockerfile](api.Dockerfile) multietapa disponible para el perfil `app`, sin root ni secretos incorporados. El [runbook de monitoreo](../../docs/despliegue/runbook-observabilidad.md) construye y prueba ese perfil con las fuentes operativas. Leer las [convenciones de infraestructura](../README.md); despliegue público y recuperación de datos siguen pendientes.
 
 ## Alcance
 

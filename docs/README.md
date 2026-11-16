@@ -2,7 +2,7 @@
 
 # Documentación del proyecto · Quantify Core
 
-**Empezar el prototipo:** [base técnica para el equipo](guias/base-tecnica.md), con arranque local, API NestJS, contratos, verificación real de Keycloak y dependencias Jira. Implementado en rama de revisión; aceptación del equipo y publicación pendientes.
+**Empezar el prototipo:** [base técnica para el equipo](guias/base-tecnica.md), con API NestJS, contratos, Keycloak y monitoreo local verificados. [Estado de tareas y bloqueos](gestion/estado-base-tecnica.md); integración mediante PR y aceptación del equipo según su registro efectivo.
 
 Mapa de referencia para que el equipo y sus agentes implementen el mismo producto con contratos, reglas y diseño coherentes. Empezar por [incorporación](guias/incorporacion.md), [contribución](../CONTRIBUTING.md) y el README del componente que se modificará.
 

@@ -3,6 +3,7 @@ export interface TelemetryConfig {
   databaseUrl: string;
   issuer: string;
   audience: string;
+  jwksUrl?: string;
   mongo?: {url:string;database:string};
   dashboardEnabled?: boolean;
 }

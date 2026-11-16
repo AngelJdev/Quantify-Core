@@ -11,6 +11,7 @@ Un ADR conserva el motivo de una decisión que afecta arquitectura, datos, segur
 | [0005](0005-consolidacion-frontend.md) | Base única, versiones, router y fixtures del frontend | Propuesto; implementado en rama de consolidación |
 | [0006](0006-integracion-api-identidad-http.md) | Integración NestJS, identidad, HTTP, salud y autoridad de datos | Propuesto; revisión QUANCORE-43 pendiente |
 | [0007](0007-base-tecnica-prototipo.md) | Base ejecutable, topología OIDC y entorno del equipo | Implementado y verificado localmente; revisión del equipo pendiente |
+| [0008](0008-observabilidad-local.md) | API contenerizada, señales operativas y observabilidad local | Implementado; ensayo aislado, sin SLA ni operación pública |
 
 Copiar la [plantilla](plantilla.md), usar el siguiente número libre y abrir PR hacia `develop` desde la rama correspondiente al cambio. Una propuesta puramente documental usa `docs/<tema>`; una decisión incluida en una funcionalidad puede acompañar su rama y PR.
 

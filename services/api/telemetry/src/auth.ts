@@ -9,7 +9,7 @@ export interface TelemetryRequest extends Request { telemetryOwner: string; core
 export class TelemetryIdentity implements CanActivate {
   private readonly jwks: ReturnType<typeof createRemoteJWKSet>;
   constructor(@Inject(CONFIG) private readonly config: TelemetryConfig, private readonly db: TelemetryDatabase) {
-    this.jwks = createRemoteJWKSet(new URL(config.issuer.replace(/\/$/, '') + '/protocol/openid-connect/certs'), { timeoutDuration: 3000 });
+    this.jwks = createRemoteJWKSet(new URL(config.jwksUrl ?? config.issuer.replace(/\/$/, '') + '/protocol/openid-connect/certs'), { timeoutDuration: 3000 });
   }
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<TelemetryRequest>();
