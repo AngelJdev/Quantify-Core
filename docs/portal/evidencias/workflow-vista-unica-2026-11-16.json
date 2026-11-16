@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "name": "Carriles de móvil/PWA/servicios, animación efectiva y pausa",
+      "status": "passed"
+    },
+    {
+      "name": "Cliente, velocidad, reproducción, escenarios y teclado",
+      "status": "passed"
+    },
+    {
+      "name": "Un clic en PWA ejecuta los ocho pasos y se detiene en el resultado",
+      "status": "passed"
+    },
+    {
+      "name": "Diagrama completo sin scroll ni contenido recortado en escritorio",
+      "status": "passed"
+    },
+    {
+      "name": "Movimiento reducido, contraste y adaptación a 1600/1440/390",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "scope": "Simulación visual; red GitHub bloqueada deliberadamente para verificar respaldo."
+}
