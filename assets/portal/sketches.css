@@ -1,0 +1,292 @@
+.qc-document body[data-page="gallery"] {
+  height: 100dvh;
+  overflow: hidden;
+}
+body[data-page="gallery"] .sketch-workspace {
+  width: 100%;
+  height: calc(100dvh - var(--qc-shell-header));
+  max-width: none !important;
+  padding: 16px 24px !important;
+  margin: 0 !important;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 14px;
+}
+.sketch-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.sketch-heading h1 {
+  font-size: 24px;
+  margin: 0;
+  line-height: 1.3;
+}
+.sketch-kicker {
+  font-size: 10px;
+  letter-spacing: 1.3px;
+  color: var(--qc-shell-muted);
+  font-weight: 650;
+}
+.sketch-heading p {
+  font-size: 12px;
+  margin: 0;
+}
+.sketch-toolbar {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.sketch-toolbar label {
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--qc-shell-muted);
+}
+.sketch-toolbar select {
+  font-size: 12px;
+  padding: 8px 10px;
+  min-height: 42px;
+  background: var(--qc-surface);
+  color: var(--qc-text);
+  max-width: 100%;
+}
+.sketch-toolbar .sketch-stepper {
+  display: flex;
+  align-items: end;
+  justify-content: start;
+  gap: 8px;
+  flex-wrap: nowrap;
+  flex: 1;
+  margin: 0;
+}
+.sketch-stepper label {
+  flex: 1;
+  min-width: 0;
+}
+.sketch-toolbar .sketch-stepper select {
+  max-width: none;
+  width: 100%;
+}
+.sketch-toolbar .sketch-stepper button {
+  width: 44px;
+  min-height: 44px;
+  flex: none;
+  padding: 8px;
+}
+.sketch-view-controls {
+  display: flex;
+  gap: 6px;
+  align-items: end;
+}
+.sketch-view-controls button {
+  font-size: 11px;
+  padding: 8px 12px;
+}
+.sketch-view-controls button[aria-pressed="true"] {
+  color: var(--qc-text);
+  background: var(--qc-shell-wash);
+  border-color: var(--qc-focus);
+}
+body[data-page="gallery"] #catalog {
+  max-width: none;
+  margin: 0 !important;
+  min-height: 0;
+  display: block;
+  height: 100%;
+}
+body[data-page="gallery"] #catalog .card:not([hidden]) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 270px;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 12px 20px;
+  height: 100%;
+  padding: 18px;
+  margin: 0;
+  border: 1px solid var(--qc-shell-border);
+  background: color-mix(in srgb, var(--qc-surface) 88%, transparent);
+  overflow: hidden;
+}
+body[data-page="gallery"] #catalog .card .badge {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  justify-self: start;
+  font-size: 10px;
+  margin: 0;
+  background: var(--qc-shell-wash);
+  color: var(--qc-text);
+  border-color: var(--qc-shell-border);
+}
+body[data-page="gallery"] #catalog .card h2 {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 18px !important;
+  line-height: 1.3;
+  margin: 0;
+  align-self: center;
+}
+body[data-page="gallery"] #catalog .card > a:first-of-type {
+  grid-column: 1;
+  grid-row: 2 / 5;
+  min-height: 0;
+  min-width: 0;
+  height: 100%;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--qc-shell-border);
+  border-radius: 10px;
+  background: var(--qc-canvas);
+  padding: 10px;
+}
+body[data-page="gallery"] #catalog .card img {
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  max-height: none !important;
+  object-fit: contain;
+  display: block;
+  border: 0 !important;
+  border-radius: 0;
+}
+body[data-page="gallery"] #catalog .card > p {
+  grid-column: 2;
+  grid-row: 2;
+  overflow: auto;
+  font-size: 12px;
+  margin: 0;
+  max-height: 100%;
+}
+body[data-page="gallery"] #catalog .card > details {
+  grid-column: 2;
+  grid-row: 3;
+  max-height: 180px;
+  overflow: auto;
+  font-size: 11px;
+}
+body[data-page="gallery"] #catalog .card > .links {
+  grid-column: 2;
+  grid-row: 4;
+  font-size: 11px;
+  margin: 0;
+}
+body[data-page="gallery"] #catalog .card > .links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--qc-surface);
+  color: var(--qc-text);
+  border: 1px solid var(--qc-shell-border);
+  border-radius: 10px;
+  text-decoration: none;
+}
+body[data-page="gallery"].sketch-zoom #catalog .card > a:first-of-type {
+  overflow: auto;
+  display: block;
+}
+body[data-page="gallery"].sketch-zoom #catalog .card img {
+  width: auto;
+  height: auto;
+  max-width: none !important;
+  max-height: none !important;
+}
+.qc-embedded body[data-page="gallery"] .sketch-workspace {
+  height: 100dvh;
+}
+.sketch-workspace:fullscreen {
+  height: 100dvh !important;
+  background: var(--qc-canvas);
+  padding: 20px !important;
+}
+@media (max-width: 1150px) {
+  .sketch-toolbar .sketch-stepper {
+    flex-basis: 50%;
+  }
+  .sketch-view-controls {
+    margin-left: auto;
+  }
+  body[data-page="gallery"] #catalog .card:not([hidden]) {
+    grid-template-columns: minmax(0, 1fr) 220px;
+  }
+}
+@media (max-width: 720px) {
+  .qc-document body[data-page="gallery"] {
+    height: auto;
+    overflow: auto;
+  }
+  .sketch-heading {
+    align-items: start;
+  }
+  .sketch-heading h1 {
+    font-size: 20px;
+  }
+  .sketch-heading p {
+    font-size: 10px;
+    max-width: 85px;
+    text-align: right;
+  }
+  .sketch-toolbar {
+    gap: 8px;
+  }
+  .sketch-toolbar > label {
+    flex: 1;
+    min-width: 0;
+  }
+  .sketch-toolbar .sketch-stepper {
+    flex-basis: 100%;
+  }
+  .sketch-view-controls {
+    margin: 0;
+    width: 100%;
+  }
+  .sketch-view-controls button {
+    flex: 1;
+    padding: 8px 4px;
+    font-size: 10px;
+  }
+  body[data-page="gallery"] .sketch-workspace {
+    height: auto;
+    min-height: 0;
+    padding: 16px !important;
+    gap: 12px;
+  }
+  body[data-page="gallery"] #catalog {
+    height: auto;
+  }
+  body[data-page="gallery"] #catalog .card:not([hidden]) {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 12px;
+    gap: 12px;
+  }
+  body[data-page="gallery"] #catalog .card > a:first-of-type {
+    height: min(65dvh, 620px);
+    flex: none;
+    min-height: 260px;
+  }
+  body[data-page="gallery"] #catalog .card h2 {
+    font-size: 17px !important;
+  }
+  body[data-page="gallery"] #catalog .card > p {
+    max-height: none;
+    overflow: visible;
+  }
+  .qc-embedded body[data-page="gallery"] .sketch-workspace {
+    height: auto;
+  }
+  .sketch-heading > div {
+    min-width: 0;
+  }
+}

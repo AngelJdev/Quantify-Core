@@ -3,10 +3,17 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import MarkdownIt from "markdown-it";
 import sanitizeHtml from "sanitize-html";
+import { syncPages } from "./sync-pages.mjs";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
 const out = path.join(root, "assets/portal");
 const checkOnly = process.argv.includes("--check");
+if (!checkOnly)
+  await fs.copyFile(
+    new URL("sketches.html", import.meta.url),
+    path.join(root, "docs/GUI/practica-07.html"),
+  );
+await syncPages(checkOnly);
 const stale = [];
 async function writeGenerated(file, text) {
   if (!checkOnly) return fs.writeFile(file, text);

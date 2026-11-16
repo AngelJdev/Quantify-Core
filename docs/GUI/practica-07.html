@@ -1,1 +1,61 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Práctica 07 · Galería de sketches</title><script src="../practica-07/marca.js"></script><link rel="stylesheet" href="../practica-07/entrega.css"><script src="../practica-07/data.js" defer></script><script src="../practica-07/entrega.js" defer></script></head><body data-page="gallery" data-base="../practica-07/"><header><p>QUANTIFY CORE · PRÁCTICA 07</p><h1>Sketches · revisión paso a paso</h1><p>Empieza por Splash y avanza en orden. Cada lámina tiene medidas externas: móvil 390 × 844 px y PWA 1280 × 900 px. Las hojas blancas son papel de boceto; el sitio conserva el tema seleccionado.</p></header><main><label>Filtrar por rol <select id="role-filter"><option value="all">Todos</option><option value="usuario">Usuario / visitante</option><option value="admin">Administrador</option></select></label> <label>Formato <select id="format-filter"><option value="movil">Móvil · 390 × 844 px</option><option value="pwa">PWA · 1280 × 900 px</option></select></label><div class="sketch-stepper"><button id="previous-sketch" type="button">← Anterior</button><label>Pantalla <select id="screen-picker"></select></label><button id="next-sketch" type="button">Siguiente →</button></div><p id="count" role="status"></p><div class="grid" id="catalog"></div></main><footer>Prototipo académico HTML/CSS/JS. Los clientes React/Vite y Flutter son las plataformas de destino del diseño.</footer></body></html>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sketches · Quantify Core</title>
+    <link rel="stylesheet" href="../practica-07/entrega.css" />
+    <link rel="stylesheet" href="../../assets/portal/sketches.css" />
+    <script src="../practica-07/data.js" defer></script>
+    <script src="../practica-07/entrega.js" defer></script>
+    <script src="../../assets/portal/sketches.js" defer></script>
+  <!-- qc-shared-start --><link rel="stylesheet" href="../../assets/portal/site.css"><script src="../../assets/portal/site.js" defer></script><!-- qc-shared-end --></head>
+  <body data-page="gallery" data-base="../practica-07/">
+    <main class="sketch-workspace" id="sketch-workspace">
+      <div class="sketch-heading">
+        <div>
+          <span class="sketch-kicker">DISEÑO / SKETCHES</span>
+          <h1>Bocetos de Quantify Core</h1>
+        </div>
+        <p id="count" role="status"></p>
+      </div>
+      <div class="sketch-toolbar">
+        <label
+          >Rol<select id="role-filter">
+            <option value="all">Todos</option>
+            <option value="usuario">Usuario / visitante</option>
+            <option value="admin">Administrador</option>
+          </select></label
+        >
+        <label
+          >Formato<select id="format-filter">
+            <option value="movil">Móvil · 390 × 844</option>
+            <option value="pwa">PWA · 1280 × 900</option>
+          </select></label
+        >
+        <div class="sketch-stepper">
+          <button
+            id="previous-sketch"
+            type="button"
+            aria-label="Boceto anterior"
+          >
+            ←</button
+          ><label>Pantalla<select id="screen-picker"></select></label
+          ><button id="next-sketch" type="button" aria-label="Boceto siguiente">
+            →
+          </button>
+        </div>
+        <div class="sketch-view-controls" aria-label="Tamaño del boceto">
+          <button id="fit-sketch" type="button" aria-pressed="true">
+            Ajustar</button
+          ><button id="zoom-sketch" type="button" aria-pressed="false">
+            Ampliar</button
+          ><button id="fullscreen-sketch" type="button">
+            Pantalla completa
+          </button>
+        </div>
+      </div>
+      <div class="grid" id="catalog"></div>
+    </main>
+  </body>
+</html>
