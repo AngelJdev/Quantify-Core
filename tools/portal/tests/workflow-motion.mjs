@@ -44,6 +44,11 @@ try {
       await page.locator(".wf-packet").first().waitFor();
       assert.equal(await page.locator(".wf-system").count(), 3);
       assert.equal(await page.locator(".wf-system img").count(), 0);
+      assert.equal(
+        await page.locator(".orchestrator").getAttribute("data-playing"),
+        "false",
+      );
+      await page.locator('[data-wf-run="mobile"]').click();
       const a = await point();
       await page.waitForFunction(
         ([x, y]) => {
@@ -119,6 +124,87 @@ try {
         path: fileURLToPath(new URL("workflow-1600.png", output)),
         fullPage: true,
       });
+    },
+  );
+  await check(
+    "Un clic en PWA ejecuta los ocho pasos y se detiene en el resultado",
+    async () => {
+      await page.locator("#wf-speed").selectOption("2");
+      await page.locator('[data-wf-run="pwa"]').click();
+      await page
+        .locator('.orchestrator[data-run-state="complete"]')
+        .waitFor({ timeout: 15000 });
+      assert.equal(
+        await page.locator('[data-dev-step="7"]').getAttribute("aria-pressed"),
+        "true",
+      );
+      assert.equal(
+        await page.locator(".orchestrator").getAttribute("data-playing"),
+        "false",
+      );
+      await page.waitForTimeout(1600);
+      assert.equal(
+        await page.locator('[data-dev-step="7"]').getAttribute("aria-pressed"),
+        "true",
+      );
+      await page.locator("#wf-reset").click();
+      assert.equal(
+        await page.locator('[data-dev-step="0"]').getAttribute("aria-pressed"),
+        "true",
+      );
+    },
+  );
+  await check(
+    "Diagrama completo sin scroll ni contenido recortado en escritorio",
+    async () => {
+      for (const [width, height] of [
+        [1920, 970],
+        [1440, 900],
+        [1366, 768],
+      ]) {
+        await page.setViewportSize({ width, height });
+        for (let step = 0; step < 8; step++) {
+          await page.locator(`[data-dev-step="${step}"]`).click();
+          const layout = await page.evaluate(() => ({
+            height: innerHeight,
+            scroll: document.documentElement.scrollHeight,
+            outside: [
+              ...document.querySelectorAll(
+                ".wf-system > *, .wf-inspector > *, .wf-timeline, .wf-boundary, .wf-evidence-slot",
+              ),
+            ]
+              .filter((e) => getComputedStyle(e).display !== "none")
+              .filter((e) => {
+                const b = e.getBoundingClientRect(),
+                  p = e.parentElement.getBoundingClientRect();
+                return (
+                  b.bottom > innerHeight + 1 ||
+                  b.top < 0 ||
+                  (e.parentElement.matches(".wf-system, .wf-inspector") &&
+                    b.bottom > p.bottom + 1)
+                );
+              })
+              .map((e) => e.className),
+          }));
+          assert.ok(
+            layout.scroll <= height + 1,
+            JSON.stringify({ width, step, layout }),
+          );
+          assert.deepEqual(
+            layout.outside,
+            [],
+            JSON.stringify({ width, step, layout }),
+          );
+        }
+        await page.screenshot({
+          path: fileURLToPath(new URL(`workflow-fit-${width}.png`, output)),
+          fullPage: true,
+        });
+      }
+      await page.locator(".wf-github summary").click();
+      assert.ok(await page.locator("#workflow-team").isVisible());
+      await page.keyboard.press("Escape");
+      assert.equal(await page.locator(".wf-github").getAttribute("open"), null);
     },
   );
   await check(

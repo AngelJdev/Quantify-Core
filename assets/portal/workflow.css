@@ -129,7 +129,6 @@
   gap: 26px;
   position: relative;
   z-index: 1;
-  pointer-events: none;
 }
 .wf-system {
   display: flex;
@@ -304,6 +303,10 @@
   padding: 9px;
   border-radius: 6px;
   margin-top: 10px;
+  width: 100%;
+  border: 1px solid var(--primary);
+  text-align: left;
+  gap: 8px;
 }
 .wf-mobile-state {
   font-size: 8px;
@@ -1059,5 +1062,366 @@
   .orchestrator * {
     animation: none !important;
     transition: none !important;
+  }
+}
+/* A complete desktop diagram. Secondary repository evidence opens above it. */
+.wf-evidence-slot {
+  min-height: 44px;
+}
+.wf-github[open] {
+  position: fixed;
+  inset: 88px 24px 24px 272px;
+  z-index: 60;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow:
+    0 0 0 100vmax #0009,
+    0 20px 70px #0006;
+}
+.wf-github[open] > summary {
+  position: sticky;
+  top: -20px;
+  background: var(--surface);
+  z-index: 1;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.wf-github[open] > summary > span:before {
+  content: "×";
+}
+.orchestrator[data-run-state="complete"] .wf-board {
+  border-color: var(--qc-emerald);
+}
+.orchestrator[data-run-state="complete"][data-scenario="conflict"] .wf-board {
+  border-color: var(--qc-amber);
+}
+.orchestrator:is([data-step="0"], [data-step="4"]) .wf-api-node:first-child,
+.orchestrator:is([data-step="3"], [data-step="4"]) .wf-write-node,
+.orchestrator[data-step="5"] .wf-database {
+  border-color: var(--qc-skyLaser);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--qc-skyLaser) 18%, transparent);
+}
+.orchestrator:is([data-step="6"], [data-step="7"]) .wf-chart i {
+  background: var(--qc-emerald);
+}
+.orchestrator[data-scenario="conflict"]:is([data-step="6"], [data-step="7"])
+  .wf-chart
+  i {
+  background: var(--qc-amber);
+}
+@media (min-width: 1366px) and (min-height: 768px) {
+  .workspace:has(.orchestrator) .topbar {
+    height: 68px;
+    min-height: 68px;
+  }
+  .workspace:has(.orchestrator) main {
+    max-width: none;
+    height: calc(100dvh - 68px);
+    min-height: 0;
+    padding: 16px 24px 10px;
+  }
+  .workspace:has(.orchestrator) .page-footer {
+    display: none;
+  }
+  .orchestrator {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr) auto 44px;
+    gap: 10px;
+  }
+  .wf-heading,
+  .wf-toolbar {
+    margin: 0;
+  }
+  .wf-heading h1 {
+    font-size: 27px;
+    margin: 3px 0 5px;
+  }
+  .wf-heading p {
+    font-size: 12px;
+  }
+  .wf-heading .eyebrow {
+    font-size: 9px;
+  }
+  .wf-client-switch {
+    padding: 2px;
+  }
+  .wf-layout {
+    min-height: 0;
+    align-items: stretch;
+    gap: 14px;
+    grid-template-columns: minmax(0, 1fr) 260px;
+  }
+  .wf-board {
+    min-height: 0;
+    padding: 12px;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+  }
+  .wf-board-top {
+    padding-bottom: 6px;
+  }
+  .wf-canvas {
+    min-height: 0;
+    padding: 12px 2px 62px;
+  }
+  .wf-systems {
+    height: 100%;
+    gap: 20px;
+  }
+  .wf-system {
+    min-height: 0;
+    padding: 10px;
+  }
+  .wf-system-header {
+    padding-bottom: 8px;
+    min-height: 40px;
+    flex: none;
+  }
+  .wf-system h2 {
+    font-size: 13px;
+  }
+  .wf-device {
+    max-width: 205px;
+    padding: 8px;
+    margin: auto;
+  }
+  .wf-phone-top {
+    margin-bottom: 6px;
+  }
+  .wf-phone-greeting {
+    font-size: 11px;
+    margin-bottom: 6px;
+    max-width: none;
+  }
+  .wf-habit {
+    padding: 7px;
+  }
+  .wf-habit > strong {
+    margin: 4px 0 7px;
+  }
+  .wf-meter {
+    margin: 7px 0;
+  }
+  .wf-command {
+    margin-top: 6px;
+    min-height: 44px;
+    padding: 7px;
+  }
+  .wf-mobile-state {
+    min-height: 20px;
+  }
+  .wf-phone-nav {
+    padding-top: 5px;
+  }
+  .wf-system-foot {
+    padding-top: 7px;
+    min-height: 18px;
+    flex: none;
+  }
+  .wf-browser {
+    margin: auto 0 0;
+  }
+  .wf-web-layout {
+    min-height: 0;
+  }
+  .wf-web-body {
+    padding: 8px 6px;
+  }
+  .wf-mini-stats {
+    margin: 7px 0;
+  }
+  .wf-chart {
+    height: clamp(35px, 6vh, 70px);
+  }
+  .wf-web-result {
+    margin-top: 7px;
+    min-height: 18px;
+  }
+  .wf-pwa-command {
+    font-size: 9px;
+  }
+  .wf-sync-note {
+    padding: 7px 0 0;
+    margin: 0 0 auto;
+  }
+  .wf-api-stack {
+    padding-top: 0;
+  }
+  .wf-api-node {
+    min-height: 0;
+    padding: 8px;
+  }
+  .wf-api-node > strong {
+    font-size: 11px;
+    margin: 3px 0;
+  }
+  .wf-request-bar {
+    min-height: 36px;
+    padding: 6px 9px;
+    gap: 8px;
+  }
+  .wf-request-bar code {
+    font-size: 9px;
+  }
+  .wf-timeline {
+    margin-top: 8px;
+    gap: 4px;
+  }
+  .wf-timeline button {
+    min-height: 48px;
+    padding: 5px 4px 8px;
+    font-size: 8px;
+  }
+  .wf-timeline button > span {
+    margin-bottom: 2px;
+  }
+  .wf-inspector {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+  }
+  .wf-inspector h2 {
+    font-size: 18px;
+    margin: 8px 0;
+  }
+  .wf-inspector p {
+    font-size: 11px;
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+  .wf-inspector h3 {
+    font-size: 9px;
+    margin: 12px 0 6px;
+  }
+  .wf-inspector .eyebrow {
+    font-size: 10px;
+  }
+  .wf-outcome {
+    padding: 9px;
+    margin: 10px 0;
+  }
+  .wf-outcome .tag {
+    margin-bottom: 5px;
+  }
+  .wf-outcome p {
+    margin: 0;
+  }
+  .wf-step-controls {
+    margin-top: auto;
+    padding-top: 10px;
+  }
+  .wf-scenarios {
+    margin-top: 10px;
+  }
+  .wf-scenarios button {
+    min-height: 56px;
+    padding: 6px;
+  }
+  .wf-boundary {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.4;
+  }
+  .wf-github {
+    padding-top: 0;
+  }
+  .wf-github > summary > span {
+    font-size: 13px;
+  }
+}
+@media (min-width: 1366px) and (min-height: 768px) and (max-height: 820px) {
+  .wf-heading p {
+    display: none;
+  }
+  .wf-phone-greeting,
+  .wf-phone-nav,
+  .wf-mini-row,
+  .wf-phone-top,
+  .wf-mini-stats,
+  .wf-api-node > small {
+    display: none;
+  }
+  .wf-system-header {
+    min-height: 34px;
+    padding-bottom: 6px;
+  }
+  .wf-browser {
+    flex-shrink: 0;
+  }
+  .wf-mini-nav {
+    gap: 7px;
+    padding: 6px 5px;
+  }
+  .wf-web-body {
+    padding: 6px;
+  }
+  .wf-web-body > strong {
+    font-size: 8px;
+    line-height: 1.3;
+  }
+  .wf-web-result {
+    margin-top: 4px;
+  }
+  .wf-sync-note {
+    display: none;
+  }
+  .wf-chart {
+    height: 28px;
+    margin-top: 4px;
+  }
+  .wf-device {
+    padding: 7px;
+  }
+  .wf-example-value {
+    font-size: 19px;
+  }
+  .wf-api-node {
+    padding: 6px;
+  }
+  .wf-stack-link {
+    line-height: 1.2;
+  }
+  .wf-inspector h2 {
+    font-size: 16px;
+  }
+  .wf-inspector p {
+    font-size: 10px;
+    line-height: 1.45;
+    margin-bottom: 7px;
+  }
+  .wf-outcome {
+    margin: 7px 0;
+    padding: 7px;
+  }
+  .wf-inspector h3 {
+    margin-top: 8px;
+  }
+  .wf-scenarios h3 {
+    margin-top: 6px;
+  }
+  .wf-scenarios button {
+    min-height: 48px;
+    font-size: 8px;
+  }
+}
+@media (max-width: 1199px) {
+  .wf-github[open] {
+    inset: 80px 16px 16px 230px;
+  }
+}
+@media (max-width: 720px) {
+  .wf-github[open] {
+    inset: 16px;
+  }
+  .wf-github > summary {
+    gap: 8px;
+  }
+  .wf-github > summary > small {
+    max-width: 100px;
   }
 }
