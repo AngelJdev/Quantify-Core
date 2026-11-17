@@ -10,7 +10,7 @@
 | Identidad | Guard JWT/JWKS, issuer/audiencia, perfil activo y propiedad; export con PKCE y audiencia API | Implementar sesión de React/Flutter, renovación única, estados de error y cierre |
 | PostgreSQL | Dos migraciones con ledger/checksum; rol runtime separado | Restauración, retención y capacidad del destino; QUANCORE-44 |
 | Web | React/TS/Vite modular, tipos derivados y fixtures rotulados | Adaptadores de API y sesión; diseño después de aprobar sketches |
-| Flutter | En esta rama solo especificación; existen ramas del equipo que deben revisarse | Recuperar su implementación selectivamente, alinear DTO/OIDC y compilar Android; iOS requiere entorno Apple |
+| Flutter | Demo local QUANCORE-29/31 incorporada; fuentes, plataformas y pruebas, sin sesión ni REST reales | Alinear DTO/OIDC y diseño final; compilar Android y validar integración; iOS requiere entorno Apple |
 | Analítica | Especificación FastAPI, sin servicio integrado | Jesús: QUANCORE-33, contrato interno y minimización; no bloquea hábitos manuales |
 | Telemetría | Host sintético aislado y proyección MongoDB opcional existentes | Mantener opt-in; no copiar señales ni cuentas de demostración al producto |
 | Observabilidad y entrega | API instrumentada, Prometheus/Grafana/Loki/Alertmanager y ensayo aislado | Pipeline/restauración y FastAPI del equipo; destino público, carga y acuerdos pendientes |

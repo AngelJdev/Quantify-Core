@@ -59,6 +59,8 @@ La [carpeta de Práctica 07](docs/practica-07/) reúne la guía de los quince pu
 
 ## Documentación para desarrollar
 
+**Integración de colaboradores:** [corte y validación del 16/11/2026](docs/gestion/integracion-colaboradores-2026-11-16.md), con demo Flutter QUANCORE-29/31 y utilidades de observabilidad QUANCORE-46. Sesión y REST del cliente móvil siguen pendientes; la demo recibida conserva su alcance independiente del diseño final.
+
 **Base técnica del prototipo:** [arranque, contratos, pruebas y entrega al equipo](docs/guias/base-tecnica.md). La entrega QUANCORE-43 reúne API NestJS, React, PostgreSQL/Keycloak y observabilidad local verificada; su integración se registra mediante PR hacia `develop`. Sesión de clientes, Flutter y despliegue público siguen pendientes.
 
 La base de trabajo del equipo está en el **[mapa de documentación](docs/README.md)**. Incluye requisitos, arquitectura, contratos de API, datos, seguridad, diseño, guías por componente y criterios de pruebas y operación.

@@ -1,8 +1,8 @@
 # Aplicación móvil
 
-**Base de integración (16/11/2026):** [guía técnica compartida](../../docs/guias/base-tecnica.md), API NestJS e identidad verificadas en el host. Las ramas Flutter del equipo requieren revisión separada. El issuer loopback no sirve automáticamente para un teléfono: definir HTTPS y emisor alcanzable antes de conectar. El responsable del proyecto continuará con frontend móvil/PWA después de estabilizar diseño.
+**Base de integración (16/11/2026):** [guía técnica compartida](../../docs/guias/base-tecnica.md), API NestJS e identidad verificadas en el host. Se incorporó la demo QUANCORE-29/31 del equipo; su conexión real sigue pendiente. El issuer loopback no sirve automáticamente para un teléfono: definir HTTPS y emisor alcanzable antes de conectar. El responsable del proyecto continuará con frontend móvil/PWA después de estabilizar diseño.
 
-**Estado: especificación, sin proyecto Flutter generado.** Stack base: **Flutter + Dart**, Android e iOS. Esta carpeta aún no contiene `pubspec.yaml`, plataformas generadas ni binarios. Las versiones mínimas del sistema operativo se decidirán al validar dispositivos, permisos y dependencias.
+**Estado: demo Flutter integrada desde QUANCORE-29/31.** Contiene fuentes, `pubspec.yaml` y plataformas Android/iOS; no hay sesión OIDC ni peticiones REST implementadas en este cliente. Registros, métricas y medallas son simulaciones locales. [Guía de la demo del colaborador](GUIA-DEMO.md). La guía técnica que sigue orienta la integración pendiente con el producto.
 
 ## Responsabilidad y límites
 

@@ -1,5 +1,7 @@
 # Cómo vigilamos que el sistema funcione bien sin espiar tus datos privados
 
+> **Integración del 16/11/2026:** utilidades independientes de QUANCORE-46, con pruebas unitarias; no están conectadas al middleware NestJS ni sustituyen `OperationalSignals`. Las garantías absolutas de la guía original que sigue no acreditan privacidad integral. La normalización actual solo cubre UUID y segmentos numéricos; no pasar rutas arbitrarias, textos privados ni transportes sin timeout. Su conexión a producción requiere revisión de cardinalidad, límites y redacción.
+
 Esta guía explica, con palabras sencillas y sin términos complicados, cómo sabemos si el programa está funcionando rápido o si tuvo algún tropiezo, **cuidando siempre que tus contraseñas, tus correos, tus hábitos y tus datos de salud nunca aparezcan en los registros de revisión.**
 
 En pocas palabras: **este módulo es como el tablero de un automóvil que te dice a qué velocidad vas y si el motor está bien, pero sin grabar quién va sentado adentro ni de qué van platicando.**

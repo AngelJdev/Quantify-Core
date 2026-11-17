@@ -1,4 +1,4 @@
-> **Alcance de integraci?n:** esta gu?a procede de QUANCORE-29/31 y describe una demo local. No hay sesi?n institucional, petici?n HTTP ni idempotencia de servidor implementadas en el cliente. Las afirmaciones de seguridad o registro confirmado se limitan al comportamiento simulado; consultar el README vigente.
+> **Alcance de integración:** esta guía procede de QUANCORE-29/31 y describe una demo local. No hay sesión institucional, petición HTTP ni idempotencia de servidor implementadas en el cliente. Las afirmaciones de seguridad o registro confirmado se limitan al comportamiento simulado; consultar el README vigente.
 
 # Guía sencilla de la aplicación para celular — Quantify Core
 
