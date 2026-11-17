@@ -102,7 +102,7 @@ window.QC = (() => {
     screen.platforms=['PWA · React/Vite (destino)','Móvil · Flutter (destino)'];
     screen.requirements=details[screen.id][0].split(', ');
     screen.elements=details[screen.id][1];
-    screen.sketch=`../GUI/prototipos/movil/sketches/practica-07/${screen.id}.png`;
+    screen.sketch=`../GUI/prototipos/movil/sketches/islas/${screen.id}.svg`;
   }
   const order=['U16','U17','U01','U02','U03','U05','U04','U15','U18','U19','U06','U07','U08','U09','U10','U11','U14','U12','U13','U22','U20','U21'];
   user.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));

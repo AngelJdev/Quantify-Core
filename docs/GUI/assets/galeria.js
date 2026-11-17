@@ -6,12 +6,12 @@
   const authScreens=await response.json();
   const screens=baseScreens.concat(authScreens.map((s,i)=>({id:'auth-'+s.id,number:21+i,title:s.name,rf:'RF-01 · '+s.ref,intent:s.intent,note:'Vista complementaria de autenticación; diseño sin sesión real.',assets:s.assets})));
 
-  const sketches=Object.values(window.QC.screens).flat().map(s=>({id:s.id,number:s.reviewOrder,title:s.title,rf:s.requirements.join(', '),intent:s.description,note:s.elements,assets:{'sketch:none':`prototipos/${'movil'}/sketches/practica-07/${s.id}.png`}}));
+  const sketches=Object.values(window.QC.screens).flat().map(s=>({id:s.id,number:s.reviewOrder,title:s.title,rf:s.requirements.join(', '),intent:s.description,note:s.elements,assets:{'sketch:none':`prototipos/movil/sketches/islas/${s.id}.svg`}}));
   const grid=document.getElementById('prototype-grid'),format=document.getElementById('format');
   const dialog=document.getElementById('viewer'),full=document.getElementById('full-image');
   const requestedFidelity=new URLSearchParams(location.search).get('fidelity');
   let fidelity=['sketch','wireframe','mockup'].includes(requestedFidelity)?requestedFidelity:'sketch',theme=new URLSearchParams(location.search).get('theme')==='dark'?'dark':'light',activeCards=[],current=0,opener;
-  const notes={sketch:'33 sketches por formato · Islas, márgenes de 24 px y cotas exteriores; móvil 390 × 844 px, PWA 1280 × 900 px provisional. El archivo original de Práctica 07 se conserva.',wireframe:'33 wireframes por formato · Misma geometría y recorrido que los sketches; navegación móvil flotante en píldora. Grises e Inter; PWA provisional con referencias de video revisadas.',mockup:'26 vistas anteriores, pendientes de alinear con las islas. Claro y oscuro conservan el mismo conteo. Cada imagen indica sus dimensiones nativas; no acredita producto conectado.'};
+  const notes={sketch:'33 sketches por formato · Islas, márgenes de 24 px y cotas exteriores; móvil 390 × 844 px, PWA 1280 × 900 px provisional. Práctica 07 utiliza este mismo conjunto a lápiz.',wireframe:'33 wireframes por formato · Misma geometría y recorrido que los sketches; navegación móvil flotante en píldora. Grises e Inter; PWA provisional con referencias de video revisadas.',mockup:'26 vistas anteriores, pendientes de alinear con las islas. Claro y oscuro conservan el mismo conteo. Cada imagen indica sus dimensiones nativas; no acredita producto conectado.'};
   function showImage(index){
     current=(index+activeCards.length)%activeCards.length;
     const card=activeCards[current];full.src=card.dataset.image;full.alt=card.dataset.title;

@@ -2,7 +2,7 @@
 
 ## Revisión de bocetos · 13 de noviembre de 2026
 
-La revisión vigente reemplaza las 66 láminas de Práctica 07: viewport móvil 390 × 844 y PWA 1280 × 900, con cotas exteriores y sus SVG editables. Los tamaños totales de archivo incluyen el papel reservado para anotaciones; se registran en `sketch-medidas.json`. Las referencias de tamaño y capturas anteriores de este documento son históricas.
+La revisión vigente reemplaza las 66 láminas de Práctica 07: viewport móvil 390 × 844 y PWA 1280 × 900, con cotas exteriores y sus SVG editables. Los tamaños totales de archivo incluyen el papel reservado para anotaciones; se registran en [manifiesto compartido](../GUI/islas-medidas.json). Las referencias de tamaño y capturas anteriores de este documento son históricas.
 
 Splash es la primera vista de revisión (conserva el identificador U16), con solo el logotipo centrado; el prototipo avanza automáticamente a Loading sin botón dentro del splash. Login muestra correo, contraseña enmascarada, acceso principal, recuperación, registro y tres alternativas sociales; Registro incluye confirmación de contraseña. Los controles son trazos y cajas; solo las cotas y el nombre exterior se rotulan. El logotipo es la excepción solicitada para Splash.
 
@@ -56,7 +56,7 @@ Las fichas relacionan las funciones con [RF-01 a RF-10](../requerimientos/catalo
 
 Plataformas de destino: **PWA React/Vite** y **Flutter**. El visor académico se ejecuta con HTML/CSS/JavaScript y simula la distribución móvil y web. No incorpora instalación PWA, service worker, ejecución Flutter, backend, autenticación real, envío de correo, notificaciones del dispositivo ni inferencia de IA.
 
-Los bocetos de GUI son **muy sencillos, a lápiz**: fondo blanco, líneas finas e irregulares de grafito, recuadros, textos breves y botones sin acabado visual. Cada pantalla tiene SVG editable y PNG. El prototipo conserva sus interacciones y `sketch.css` simplifica también su presentación. Esto no sustituye los [tokens del producto](../../packages/design-tokens/README.md) ni la identidad de [GUI](../GUI/README.md).
+Los bocetos de GUI son **muy sencillos, a lápiz**: fondo blanco, líneas finas e irregulares de grafito, recuadros, textos breves y botones sin acabado visual. Cada pantalla tiene SVG compartido editable. El prototipo conserva sus interacciones y `sketch.css` simplifica también su presentación. Esto no sustituye los [tokens del producto](../../packages/design-tokens/README.md) ni la identidad de [GUI](../GUI/README.md).
 
 <a id="cómo-recorrerlo"></a>
 <a id="punto-3"></a>
@@ -93,15 +93,15 @@ En móvil se emplean controles apilados y navegación inferior; en PWA, menú la
 
 | Pantalla solicitada | ID | Boceto móvil | Recorrido |
 |---|---|---|---|
-| Splash Screen | U16 | [PNG](../GUI/prototipos/movil/sketches/practica-07/U16.png) | [Abrir](index.html#usuario/U16) |
-| Loading Screen | U17 | [PNG](../GUI/prototipos/movil/sketches/practica-07/U17.png) | [Abrir](index.html#usuario/U17) |
-| Login Screen | U02 | [PNG](../GUI/prototipos/movil/sketches/practica-07/U02.png) | [Abrir](index.html#usuario/U02) |
-| Recovery Account or Password | U04 | [PNG](../GUI/prototipos/movil/sketches/practica-07/U04.png) | [Abrir](index.html#usuario/U04) |
-| Lock Account | U18 | [PNG](../GUI/prototipos/movil/sketches/practica-07/U18.png) | [Abrir](index.html#usuario/U18) |
-| Unlock Account Code | U19 | [PNG](../GUI/prototipos/movil/sketches/practica-07/U19.png) | [Abrir](index.html#usuario/U19) |
-| About Software | U20 | [PNG](../GUI/prototipos/movil/sketches/practica-07/U20.png) | [Abrir](index.html#usuario/U20) |
-| About Team / Enterprise | U21 | [PNG](../GUI/prototipos/movil/sketches/practica-07/U21.png) | [Abrir](index.html#usuario/U21) |
-| Home | U06 | [PNG](../GUI/prototipos/movil/sketches/practica-07/U06.png) | [Abrir](index.html#usuario/U06) |
+| Splash Screen | U16 | [SVG](../GUI/prototipos/movil/sketches/islas/U16.svg) | [Abrir](index.html#usuario/U16) |
+| Loading Screen | U17 | [SVG](../GUI/prototipos/movil/sketches/islas/U17.svg) | [Abrir](index.html#usuario/U17) |
+| Login Screen | U02 | [SVG](../GUI/prototipos/movil/sketches/islas/U02.svg) | [Abrir](index.html#usuario/U02) |
+| Recovery Account or Password | U04 | [SVG](../GUI/prototipos/movil/sketches/islas/U04.svg) | [Abrir](index.html#usuario/U04) |
+| Lock Account | U18 | [SVG](../GUI/prototipos/movil/sketches/islas/U18.svg) | [Abrir](index.html#usuario/U18) |
+| Unlock Account Code | U19 | [SVG](../GUI/prototipos/movil/sketches/islas/U19.svg) | [Abrir](index.html#usuario/U19) |
+| About Software | U20 | [SVG](../GUI/prototipos/movil/sketches/islas/U20.svg) | [Abrir](index.html#usuario/U20) |
+| About Team / Enterprise | U21 | [SVG](../GUI/prototipos/movil/sketches/islas/U21.svg) | [Abrir](index.html#usuario/U21) |
+| Home | U06 | [SVG](../GUI/prototipos/movil/sketches/islas/U06.svg) | [Abrir](index.html#usuario/U06) |
 
 Las 24 vistas restantes incluyen registro, verificación, hábitos, recordatorios, análisis, IA, ajustes, archivo, avisos, recuperación, acceso denegado y administración. No se cuentan los formatos móvil y PWA como pantallas funcionales diferentes. [Inventario y fichas de todas las pantallas](README.md#fichas).
 
@@ -131,7 +131,7 @@ Hay 24 pantallas adicionales a las nueve generales. Estas once operaciones permi
 
 Los dibujos representan la distribución y los componentes con líneas de grafito sobre blanco, sin acabado visual definitivo. Encabezados, formularios, botones, iconos, tarjetas, listas y mensajes se dibujan según cada operación. Los textos breves identifican controles; las descripciones extensas, permisos y condiciones se mantienen en las fichas. La consigna no exige eliminar todo texto del boceto.
 
-Cada pantalla tiene un PNG consultable y un SVG editable en GUI para móvil y PWA. Los dos formatos no cuentan como dos pantallas funcionales distintas. El explorador usa estas mismas imágenes, permite ampliarlas y enlaza sus fuentes; no almacena una segunda copia de los sketches.
+Cada pantalla tiene un SVG compartido, consultable y editable en GUI para móvil y PWA. Los dos formatos no cuentan como dos pantallas funcionales distintas. El explorador usa estas mismas imágenes, permite ampliarlas y enlaza sus fuentes; no almacena una segunda copia de los sketches.
 
 <a id="punto-12"></a>
 
@@ -191,8 +191,8 @@ La fecha fija de los registros de hábitos es el **14 de octubre de 2026**. La a
 ```text
 docs/
   GUI/prototipos/
-    movil/sketches/practica-07/   33 bocetos completos: PNG + SVG
-    pwa/sketches/practica-07/     33 bocetos completos: PNG + SVG
+    movil/sketches/islas/   33 bocetos completos: SVG compartido
+    pwa/sketches/islas/     33 bocetos completos: SVG compartido
   practica-07/
     README.md                    Guía de revisión de los quince puntos
     fichas.md                    Fichas completas de las 33 pantallas
@@ -222,7 +222,7 @@ node docs/practica-07/scripts/documentar.cjs
 node docs/practica-07/scripts/validar-entrega.cjs
 ```
 
-Para las pruebas de navegador y regeneración de los 66 PNG en Windows, con Edge instalado y el servidor HTTP anterior activo, usar una carpeta temporal externa al repositorio:
+Para las pruebas de navegador y capturas de evidencia en Windows (fuera del catálogo de sketches), con Edge instalado y el servidor HTTP anterior activo, usar una carpeta temporal externa al repositorio:
 
 ```powershell
 $taskTools = Join-Path $env:TEMP 'quantify-practica07-tools'
@@ -259,15 +259,15 @@ Consigna: «Diagrama de Secuencia o Navegación de Sketches del Proyecto Integra
 | 3. Estructura general de navegación y diferencias web/móvil | Entrada U16 → U17 → U01, recorridos del README y [mapa completo](mapa-completo.html); navegación inferior móvil y lateral PWA | Cubierto |
 | 4. Nueve sketches generales obligatorios | [Tabla de correspondencia](README.md#nueve-pantallas-generales-obligatorias): U16, U17, U02, U04, U18, U19, U20, U21 y U06 | Nueve diseños independientes disponibles en ambos formatos |
 | 5. Once sketches adicionales de funciones por rol | 24 vistas adicionales a las nueve generales; hábitos, registros, avisos, análisis, IA, perfil, archivo, catálogo, auditoría y gestión operativa | Supera el mínimo de once |
-| 6. Componentes comprensibles y apariencia a lápiz | [Galería](galeria.html), 66 PNG exportados del visor y `sketch.css`: gris, tipografía manuscrita, contornos, recuadros e hachurado | Bocetos de baja fidelidad disponibles en PNG y SVG |
+| 6. Componentes comprensibles y apariencia a lápiz | [Galería](galeria.html), 66 SVG del catálogo compartido y `sketch.css`: gris, tipografía manuscrita, contornos, recuadros e hachurado | Bocetos de baja fidelidad disponibles en SVG compartidos |
 | 7. Documentar individualmente los veinte sketches | [33 fichas](README.md#fichas): ID, nombre, descripción, plataforma, rol, componentes, acciones, relaciones y requisitos del catálogo e historias de UHs | Supera el mínimo de veinte |
 | 8. Transiciones y condiciones de acceso, error, recuperación, bloqueo, desbloqueo, salida, denegación y funciones | `data.js`, [mapa completo](mapa-completo.html), pruebas de lógica y escenarios de navegador | Cubierto en la simulación; sin autenticación productiva |
 | 9. Diagrama general con nodos, direcciones, roles y condiciones | [Mapa completo interactivo](mapa-completo.html), [diagrama textual editable](navegacion-completa.mmd) e inventario del visor | 33 nodos con miniatura; salidas y entradas por pantalla, ocho escenarios guiados y 131 transiciones consultables |
 | 10. Generar diagrama interactivo con Archify | [HTML original de Archify](archify/navegacion-original.html), [especificación original](navegacion.archify.json), recibo en [README.md#validacion](README.md#validacion) | Parcial: original de doce pantallas disponible; ampliación de 33 preparada en `navegacion-completa.archify.json`, pendiente de ejecutar con Archify |
-| 11. Integrar referencias visuales y organizar los recorridos | Pestañas de boceto, conexiones, reglas y trazabilidad; PNG/SVG originales en GUI, ampliación, búsqueda y filtros de rol/formato | Cubierto mediante enlaces complementarios; el Archify original se conserva como antecedente |
+| 11. Integrar referencias visuales y organizar los recorridos | Pestañas de boceto, conexiones, reglas y trazabilidad; SVG compartidos en GUI, ampliación, búsqueda y filtros de rol/formato | Cubierto mediante enlaces complementarios; el Archify original se conserva como antecedente |
 | 12. Validar escenarios por rol, alternativas y retornos | [Pruebas y resultados](README.md#validacion), `tests/prototipo.test.cjs`, `tests/entrega-browser.cjs`, `tests/explorador-browser.cjs` e informes en `evidencias/` | Comprobación automática de lógica y navegador; ver sus límites |
 | 13. Documentar agente, herramientas, prompts, decisiones, relaciones, observaciones y correcciones | [README.md#proceso](README.md#proceso), fichas y [README.md#validacion](README.md#validacion) | Parcial: proceso actual registrado; falta recuperar el prompt histórico original o ejecutar y registrar la nueva generación de Archify |
-| 14. Integrar archivos organizados en una rama y explicar consulta en README | Rama actual `docs/practica-07-requisitos`; README, prototipo y mapas en `docs/practica-07/`; bocetos en `docs/GUI/prototipos/{movil,pwa}/sketches/practica-07/` | Organización local cubierta; publicación de la rama pendiente |
+| 14. Integrar archivos organizados en una rama y explicar consulta en README | Rama actual `docs/practica-07-requisitos`; README, prototipo y mapas en `docs/practica-07/`; bocetos en `docs/GUI/prototipos/{movil,pwa}/sketches/islas/` | Organización local cubierta; publicación de la rama pendiente |
 | 15. Revisión final, commits descriptivos, integración revisada y enlace de entrega en GitHub | Validadores, bocetos, fichas y [Git Flow](../guias/git-flow.md); Pages configurado desde `develop` y `/ (root)` por el responsable | Pendiente de revisión e integración a `develop` y despliegue; una release posterior a `main` es independiente |
 
 ### Lista de cierre

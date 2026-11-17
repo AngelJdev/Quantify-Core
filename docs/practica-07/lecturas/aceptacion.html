@@ -144,6 +144,120 @@
 </tr>
 </tbody>
 </table>
+<h2 id="preparación-y-pasos-de-los-casos-de-producto">Preparación y pasos de los casos de producto</h2>
+<p>El resultado esperado sigue siendo la fila CA original, sin una segunda definición. El <a href="../../../tests/plan-pruebas.md">plan de pruebas</a> fija entorno, datos, registro y criterios de salida. Los procedimientos siguientes son para el producto integrado: no se declaran ejecutados por pruebas del prototipo o del host sintético.</p>
+<table>
+<thead>
+<tr>
+<th>Caso</th>
+<th>Precondición / datos mínimos</th>
+<th>Pasos de ejecución previstos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CA-01</td>
+<td>Cuentas sintéticas A/B y administrador; hábito privado de B</td>
+<td>Autenticar A y administrador por separado; consultar y modificar el identificador de B; comparar respuestas y datos persistidos</td>
+</tr>
+<tr>
+<td>CA-02</td>
+<td>Sesión válida y política de expiración/suspensión D-02 aprobada</td>
+<td>Preparar una intención, vencer sesión o suspender perfil, intentar mutación, recuperar acceso conforme a política y comprobar intención/clave e historia</td>
+</tr>
+<tr>
+<td>CA-03</td>
+<td>Hábito con zona IANA y reloj controlado cerca de medianoche</td>
+<td>Enviar instantes antes/después del límite local, consultar fecha de negocio y repetir en una zona con cambio horario</td>
+</tr>
+<tr>
+<td>CA-04</td>
+<td>Comando base válido y una variación inválida por ejecución</td>
+<td>Enviar meta no positiva y frecuencia vacía por API/formulario; consultar almacenamiento y estado del formulario después del rechazo</td>
+</tr>
+<tr>
+<td>CA-05</td>
+<td>Progreso confirmado 10 y comando absoluto 15 con clave estable</td>
+<td>Confirmar el comando y simular pérdida de respuesta; reenviar igual clave/cuerpo; leer consolidado, revisiones y auditoría</td>
+</tr>
+<tr>
+<td>CA-06</td>
+<td>Clave ya aplicada y estado persistido conocido</td>
+<td>Reutilizar clave con cuerpo distinto; comprobar conflicto y que estado/auditoría no incorporen otra aplicación</td>
+</tr>
+<tr>
+<td>CA-07</td>
+<td>Dos clientes conocen la misma revisión</td>
+<td>Enviar correcciones concurrentes con intenciones distintas; observar conflicto, recargar y resolver sin sobrescritura silenciosa</td>
+</tr>
+<tr>
+<td>CA-08</td>
+<td>Meta histórica 20 y cambio futuro a 30 con fechas efectivas</td>
+<td>Registrar ambos días y consultar historia/agregados; corregir uno sin cambiar la meta usada por el otro</td>
+</tr>
+<tr>
+<td>CA-09</td>
+<td>Programación lunes/miércoles y pausa con vigencia explícita</td>
+<td>Consultar racha en día no programado, pausa y día abierto/cerrado; comparar con la regla RN-P17 dentro de la ventana</td>
+</tr>
+<tr>
+<td>CA-10</td>
+<td>Periodo sin oportunidades elegibles</td>
+<td>Solicitar métricas y abrir gráfico/tabla; verificar causa de ausencia y presentación sin cero de fracaso</td>
+</tr>
+<tr>
+<td>CA-11</td>
+<td>Hábito con historial y aviso programado</td>
+<td>Archivar, consultar rutina/historia e intentar nuevo progreso; verificar cancelación del aviso cuando exista el worker</td>
+</tr>
+<tr>
+<td>CA-12</td>
+<td>Almacenamiento/cola offline aprobados y respuesta de servidor controlable</td>
+<td>Cortar red, registrar intención, recuperar red y perder una respuesta; observar estados de sincronización y consolidado</td>
+</tr>
+<tr>
+<td>CA-13</td>
+<td>Contrato de IA y trabajo pendiente con consentimiento vigente</td>
+<td>Revocar antes de ejecutar; procesar trabajo y consultar resultados; verificar autorización tanto al ejecutar como al leer</td>
+</tr>
+<tr>
+<td>CA-14</td>
+<td>Recomendación válida y aceptación transaccional implementada</td>
+<td>Abrir y cancelar personalización; luego guardar y repetir la misma intención; consultar hábito y enlace a sugerencia</td>
+</tr>
+<tr>
+<td>CA-15</td>
+<td>Plantilla y hábitos personales creados desde su versión</td>
+<td>Pausar plantilla con actor/motivo autorizados; consultar plantilla, hábitos previos y auditoría</td>
+</tr>
+<tr>
+<td>CA-16</td>
+<td>Contrato de exportación, artefacto de A y expiración controlada</td>
+<td>Solicitar con A, intentar descarga con B y repetir después de vencer; verificar acceso y caducidad</td>
+</tr>
+<tr>
+<td>CA-17</td>
+<td>Política aprobada, entorno desechable y respaldo identificado</td>
+<td>Solicitar eliminación, observar estado por almacén, restaurar aislado y reaplicar política; comprobar que no reaparezcan datos accesibles</td>
+</tr>
+<tr>
+<td>CA-18</td>
+<td>Fuente/dispositivo de A, permiso vigente y lote pendiente</td>
+<td>Revocar y reenviar lote pendiente/nuevo; verificar rechazo, conteos e historial. Separar ejecución sintética de hardware real</td>
+</tr>
+<tr>
+<td>CA-19</td>
+<td>Canal de avisos y adaptador con respuesta incierta controlables</td>
+<td>Enviar una ocurrencia, perder respuesta y reintentar; consultar evidencia de proveedor/entrega sin atribuir garantías que el canal no ofrece</td>
+</tr>
+<tr>
+<td>CA-20</td>
+<td>Modelo/regla habilitada y casos sin datos o calidad suficiente</td>
+<td>Solicitar sugerencia con entradas elegibles y no elegibles; revisar abstención, motivo, versión y ausencia de evidencia inventada</td>
+</tr>
+</tbody>
+</table>
+<p>Estado de estos CA a 09/11/2026: <strong>pendientes de ejecución integrada</strong>. Hay suites parciales/sintéticas relacionadas; el <a href="../../../tests/informe-ejecucion-2026-11-09.md">informe</a> distingue su alcance. Conservar una corrida por caso/entorno/SHA con resultado y evidencia; no rellenar una columna Aprobado sin ejecutarlo.</p>
 <h2 id="plantilla-de-historia-implementable">Plantilla de historia implementable</h2>
 <pre><code class="language-text">RF y AC:
 Como [actor] quiero [acción] para [resultado].

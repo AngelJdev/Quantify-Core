@@ -953,7 +953,7 @@
       "dot": "cyan",
       "title": "Consulta de bocetos",
       "items": [
-        "Abrir galeria.html para consultar las 33 fichas y los 66 PNG.",
+        "Abrir galeria.html para consultar las 33 fichas y los 66 SVG compartidos.",
         "El mapa completo enlaza cada nodo con el prototipo y su boceto."
       ]
     },

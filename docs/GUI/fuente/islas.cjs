@@ -3,6 +3,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 const layouts = require("./pantallas.cjs");
+const createPencil = require("./lapiz.cjs");
 const root = path.resolve(__dirname, "../../..");
 const tokens = JSON.parse(
   fs.readFileSync(path.join(root, "packages/design-tokens/preview.json")),
@@ -51,19 +52,25 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
           dimensions = [];
         let drawing = "";
         const sketch = fidelity === "sketch";
+        const pencil = createPencil(screen.id + format + navigationState);
         const compact = navigationState === "compact";
         const railWidth = compact
           ? geometry.compactRailWidth
           : geometry.railWidth;
         function rect(x, y, width, height, r = 16, fill = "#ffffff") {
-          drawing += `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="${r}" fill="${fill}" stroke="#737373" stroke-width="${sketch ? 1.2 : 1}"/>`;
           if (sketch)
-            drawing += `<rect x="${x + 1.5}" y="${y + 1}" width="${width - 3}" height="${height - 2}" rx="${r}" fill="none" stroke="#999999" stroke-width="0.5"/>`;
+            drawing += pencil.box(x, y, width, height, r, fill !== "#ffffff");
+          else
+            drawing += `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="${r}" fill="${fill}" stroke="#737373" stroke-width="1"/>`;
         }
         function text(value, x, y, size = 14, anchor = "start") {
           if (sketch) {
             const length = Math.min(value.length * 5, 190);
-            drawing += `<path d="M${anchor === "middle" ? x - length / 2 : x} ${y - 4}h${length}" stroke="#777777"/>`;
+            drawing += pencil.mark(
+              anchor === "middle" ? x - length / 2 : x,
+              y - 4,
+              length,
+            );
             return;
           }
           drawing += `<text x="${x}" y="${y}" font-size="${size}" text-anchor="${anchor}" fill="#333333">${esc(value)}</text>`;
@@ -92,7 +99,9 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
             `<g data-dimension="${esc(label)}"><path d="M${x1} ${y1}L${x2} ${y2}" stroke="#888888"/><path d="M${x1 - 3} ${y1 - 3}l6 6M${x2 - 3} ${y2 - 3}l6 6" stroke="#888888"/><text x="${(x1 + x2) / 2 + 8}" y="${(y1 + y2) / 2 - 7}" font-size="11" fill="#444444">${esc(label)}</text></g>`,
           );
         }
-        drawing += `<rect width="${w}" height="${h}" fill="#f2f2f2" stroke="#737373"/>`;
+        if (sketch) rect(0, 0, w, h, 0);
+        else
+          drawing += `<rect width="${w}" height="${h}" fill="#f2f2f2" stroke="#737373"/>`;
         let navBox = null;
         if (splash) {
           ui("logo", w / 2 - 105, h / 2 - 40, 210, 80, () => {
