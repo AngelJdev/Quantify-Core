@@ -162,7 +162,7 @@ try {
   );
   await page.waitForFunction(
     () =>
-      document.querySelectorAll("#prototype-grid .image-card").length === 33,
+      document.querySelectorAll("#prototype-grid .image-card").length === 22,
   );
   assert.match(
     await page.locator("#prototype-grid img").first().getAttribute("src"),
@@ -174,7 +174,9 @@ try {
     /islas\/light/,
   );
   await page.selectOption("#format", "desktop");
-  assert.equal(await page.locator("#prototype-grid .image-card").count(), 33);
+  assert.equal(await page.locator("#prototype-grid .image-card").count(), 22);
+  await page.selectOption('#prototype-role', 'admin');
+  assert.equal(await page.locator('#prototype-grid .image-card').count(), 11);
   await fs.writeFile(
     new URL("report.json", out),
     JSON.stringify(

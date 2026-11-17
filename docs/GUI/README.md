@@ -1,5 +1,7 @@
 # Quantify Core · GUI
 
+**Vistas separadas e IA personal:** [usuario: hábitos y asistente de IA](practica-07.html?fidelity=mockup&role=usuario#U11) · [administración: operación y supervisión](practica-07.html?fidelity=mockup&role=admin#A02). El asistente personal permite crear un hábito desde una propuesta; Control IA es una herramienta administrativa distinta. [Regla y recorrido](NAVEGACION.md).
+
 **Corrección de navegación:** [cuatro destinos por rol y acceso a todos los módulos](NAVEGACION.md). Gestión reúne cuentas, auditoría y configuración; las pestañas se pueden recorrer directamente sobre las láminas del prototipo navegacional.
 
 **Revisión general:** [distribución y contenido útil en las 33 pantallas](COMPOSICION-GENERAL.md). Login con imagen editorial, columnas PWA y paneles específicos para cada tarea; mismos cambios en las tres fidelidades y el recorrido.

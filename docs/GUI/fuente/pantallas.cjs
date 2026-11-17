@@ -82,9 +82,9 @@ module.exports = {
     ["link", "Abrir detalle de hábito"],
   ],
   U11: [
-    ["text", "Sugerencias con consentimiento"],
-    ["box", "Sugerencia: hábito y motivo"],
-    ["button", "Personalizar"],
+    ["text", "Crea hábitos con tu asistente de IA"],
+    ["box", "Propuesta IA: lectura breve"],
+    ["button", "Crear hábito con IA"],
     ["button", "Descartar"],
     ["link", "Ajustar consentimiento"],
     ["text", "[ Sin datos / sin sugerencias ]"],

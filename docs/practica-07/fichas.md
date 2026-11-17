@@ -358,7 +358,7 @@ Visualizar el progreso y los hábitos programados para el día de ejemplo.
 | Completar o deshacer | [U06](#u06) | Permanece en el sketch; muestra estado o validación |
 | Ver avisos | [U14](#u14) | Transición al sketch indicado |
 | Análisis | [U10](#u10) | Transición al sketch indicado |
-| IA Coach | [U11](#u11) | Transición al sketch indicado |
+| IA hábitos | [U11](#u11) | Transición al sketch indicado |
 | Ajustes | [U12](#u12) | Transición al sketch indicado |
 
 </details>
@@ -487,7 +487,7 @@ Consultar resultados calculados con los registros locales de ejemplo.
 | Cambiar periodo | [U10](#u10) | Permanece en el sketch; muestra estado o validación |
 | Ver hábito | [U08](#u08) | Transición al sketch indicado |
 | Hoy | [U06](#u06) | Transición al sketch indicado |
-| IA Coach | [U11](#u11) | Transición al sketch indicado |
+| IA hábitos | [U11](#u11) | Transición al sketch indicado |
 | Ajustes | [U12](#u12) | Transición al sketch indicado |
 
 </details>
@@ -495,11 +495,11 @@ Consultar resultados calculados con los registros locales de ejemplo.
 <a id="u11"></a>
 
 <details>
-<summary><strong>U11 · IA Coach</strong> — ficha individual</summary>
+<summary><strong>U11 · IA para crear hábitos</strong> — ficha individual</summary>
 
 <img src="../GUI/prototipos/movil/sketches/islas/U11.svg" alt="Sketch U11" width="180">
 
-Recomendaciones explicables con consentimiento, umbral y control de duplicados.
+Asistente personal de IA: revisar una propuesta, personalizar meta y frecuencia y crear el hábito al confirmar el formulario. Requiere consentimiento y datos suficientes.
 
 | Campo | Especificación |
 |---|---|
@@ -517,8 +517,8 @@ Recomendaciones explicables con consentimiento, umbral y control de duplicados.
 
 | Acción o condición | Destino | Resultado |
 |---|---|---|
-| Personalizar sugerencia | [U07](#u07) | Transición al sketch indicado |
-| Descartar por 21 días | [U11](#u11) | Permanece en el sketch; muestra estado o validación |
+| Crear hábito con IA · personalizar propuesta | [U07](#u07) | Transición al sketch indicado |
+| IA hábitos | [U11](#u11) | Permanece en el sketch; muestra estado o validación |
 | Cambiar consentimiento | [U12](#u12) | Transición al sketch indicado |
 | Hoy | [U06](#u06) | Transición al sketch indicado |
 | Análisis | [U10](#u10) | Transición al sketch indicado |
@@ -588,7 +588,7 @@ Preferencias de privacidad y avisos. Solo se conservan datos de demostración.
 | Cerrar sesión | [U02](#u02) | Transición al sketch indicado |
 | Hoy | [U06](#u06) | Transición al sketch indicado |
 | Análisis | [U10](#u10) | Transición al sketch indicado |
-| IA Coach | [U11](#u11) | Transición al sketch indicado |
+| IA hábitos | [U11](#u11) | Transición al sketch indicado |
 | Acerca del software | [U20](#u20) | Transición al sketch indicado |
 | Intentar módulo administrativo | [U22](#u22) | Transición al sketch indicado |
 
@@ -776,7 +776,7 @@ Indicadores agregados ilustrativos, estado de servicios y accesos a los módulos
 | Acción o condición | Destino | Resultado |
 |---|---|---|
 | Ver catálogo | [A03](#a03) | Transición al sketch indicado |
-| Supervisar IA | [A05](#a05) | Transición al sketch indicado |
+| Supervisión de IA | [A05](#a05) | Transición al sketch indicado |
 | Auditoría | [A06](#a06) | Transición al sketch indicado |
 | Cuentas | [A07](#a07) | Transición al sketch indicado |
 | Configuración | [A08](#a08) | Transición al sketch indicado |
@@ -811,7 +811,7 @@ Gestionar plantillas sin modificar las rutinas personales existentes.
 | Crear o editar plantilla | [A04](#a04) | Transición al sketch indicado |
 | Confirmar pausa o reactivación | [A03](#a03) | Permanece en el sketch; muestra estado o validación |
 | Resumen | [A02](#a02) | Transición al sketch indicado |
-| IA | [A05](#a05) | Transición al sketch indicado |
+| Supervisión de IA | [A05](#a05) | Transición al sketch indicado |
 | Auditoría | [A06](#a06) | Transición al sketch indicado |
 | Cuentas | [A07](#a07) | Transición al sketch indicado |
 | Configuración | [A08](#a08) | Transición al sketch indicado |
@@ -845,7 +845,7 @@ Validar nombre, categoría y meta antes de guardar y auditar la modificación.
 |---|---|---|
 | Guardar o cancelar | [A03](#a03) | Transición al sketch indicado |
 | Corregir datos | [A04](#a04) | Permanece en el sketch; muestra estado o validación |
-| Abrir IA | [A05](#a05) | Transición al sketch indicado |
+| Supervisión de IA | [A05](#a05) | Transición al sketch indicado |
 
 </details>
 
@@ -874,7 +874,7 @@ Revisar tasas de aceptación ilustrativas y pausar propuestas con un motivo.
 
 | Acción o condición | Destino | Resultado |
 |---|---|---|
-| Confirmar pausa o reactivación | [A05](#a05) | Permanece en el sketch; muestra estado o validación |
+| Supervisión de IA | [A05](#a05) | Permanece en el sketch; muestra estado o validación |
 | Resumen | [A02](#a02) | Transición al sketch indicado |
 | Catálogo | [A03](#a03) | Transición al sketch indicado |
 | Ver auditoría | [A06](#a06) | Transición al sketch indicado |
@@ -911,7 +911,7 @@ Consultar cambios administrativos registrados en esta demostración.
 | Filtrar eventos | [A06](#a06) | Permanece en el sketch; muestra estado o validación |
 | Resumen | [A02](#a02) | Transición al sketch indicado |
 | Catálogo | [A03](#a03) | Transición al sketch indicado |
-| IA | [A05](#a05) | Transición al sketch indicado |
+| Supervisión de IA | [A05](#a05) | Transición al sketch indicado |
 | Cuentas | [A07](#a07) | Transición al sketch indicado |
 | Configuración | [A08](#a08) | Transición al sketch indicado |
 
@@ -945,7 +945,7 @@ Reunir cuentas de ejemplo, auditoría y configuración. Los cambios de acceso us
 | Cambiar estado de cuenta | [A09](#a09) | Transición al sketch indicado |
 | Resumen | [A02](#a02) | Transición al sketch indicado |
 | Catálogo | [A03](#a03) | Transición al sketch indicado |
-| IA | [A05](#a05) | Transición al sketch indicado |
+| Supervisión de IA | [A05](#a05) | Transición al sketch indicado |
 | Auditoría | [A06](#a06) | Transición al sketch indicado |
 | Configuración | [A08](#a08) | Transición al sketch indicado |
 
@@ -979,7 +979,7 @@ Ajustar límites de sugerencias respetando el mínimo de confianza y auditar cam
 | Validar y guardar | [A08](#a08) | Permanece en el sketch; muestra estado o validación |
 | Resumen | [A02](#a02) | Transición al sketch indicado |
 | Catálogo | [A03](#a03) | Transición al sketch indicado |
-| IA | [A05](#a05) | Transición al sketch indicado |
+| Supervisión de IA | [A05](#a05) | Transición al sketch indicado |
 | Auditoría | [A06](#a06) | Transición al sketch indicado |
 | Cuentas | [A07](#a07) | Transición al sketch indicado |
 | Cerrar sesión | [A01](#a01) | Transición al sketch indicado |

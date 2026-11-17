@@ -1,5 +1,7 @@
 # Práctica 07 · Navegación de sketches
 
+**IA personal y vistas separadas:** [usuario](../GUI/practica-07.html?role=usuario&fidelity=mockup#U11) · [administración](../GUI/practica-07.html?role=admin&fidelity=mockup#A02). La pestaña IA hábitos del usuario permite personalizar una propuesta y crear el hábito al confirmar. Control IA administrativo supervisa propuestas y estados operativos. Cada catálogo y selector de pantalla permanece en un único rol.
+
 **Corrección de navegación:** [cuatro destinos fijos por rol](../GUI/NAVEGACION.md), disponibles al revisar el acceso válido. Las pestañas de las láminas son interactivas en el recorrido vigente; Gestión reúne cuentas, auditoría y configuración administrativa. La simulación histórica conserva su composición anterior.
 
 **Revisión del 17/11/2026:** el [prototipo navegacional vigente](index.html) recorre las mismas 33 pantallas de sketches, wireframes y mockups, en móvil/PWA. El isotipo oficial de Figma sustituye las firmas distintas. [Hallazgos y correspondencia](../GUI/REVISION-PROTOTIPOS.md). La [simulación funcional anterior](demo.html) conserva su alcance histórico; las pruebas funcionales y capturas previas de este README corresponden a esa simulación.

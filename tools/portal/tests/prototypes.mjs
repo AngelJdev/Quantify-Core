@@ -170,6 +170,14 @@ try {
         assert.equal(await page.locator('#screen').inputValue(), to);
         navigationChecks++;
       }
+      if (role === 'usuario') {
+        await page.getByRole('link', {name:'IA hábitos', exact:true}).click();
+        await page.getByRole('button', {name:/Crear hábito con IA/}).click();
+        assert.equal(await page.locator('#screen').inputValue(), 'U07');
+        await page.locator('#routes [data-edge="0"]').click();
+        assert.equal(await page.locator('#screen').inputValue(), 'U08');
+        await page.locator('#session-navigation [data-nav-to="U12"]').click();
+      }
       if (role === 'admin') {
         for (const to of ['A06','A08']) {
           await page.locator(`#routes button`).filter({ has: page.locator('small', { hasText:to }) }).click();
@@ -207,6 +215,21 @@ try {
   await page.selectOption('#role', 'admin');
   assert.equal(await page.locator('#screen').inputValue(), 'A01');
   assert.equal(await page.locator('#screen option').count(), 11);
+  assert.ok(await page.locator('#back').isDisabled(), 'cambiar de vista no permite volver al otro rol');
+  for (const fidelity of ['sketch','wireframe','mockup']) {
+    await page.goto(`${base}docs/GUI/practica-07.html?fidelity=${fidelity}&role=usuario#U11`);
+    assert.equal(await page.locator('#screen-picker option').count(), 22);
+    assert.equal(await page.locator('#role-filter option[value="all"]').count(), 0);
+    assert.ok((await page.locator('#screen-picker option').evaluateAll(items=>items.map(item=>item.value))).every(id=>id.startsWith('U')));
+    await page.selectOption('#role-filter','admin');
+    assert.equal(await page.locator('#screen-picker option').count(), 11);
+    assert.ok((await page.locator('#screen-picker option').evaluateAll(items=>items.map(item=>item.value))).every(id=>id.startsWith('A')));
+    await page.locator('#next-sketch').click();
+    await page.locator('#previous-sketch').click();
+    assert.ok((await page.locator('#screen-picker').inputValue()).startsWith('A'));
+    await page.reload();
+    assert.equal(await page.locator('#role-filter').inputValue(),'admin');
+  }
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto(`${base}docs/practica-07/index.html#usuario/U16`);

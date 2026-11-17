@@ -1,11 +1,24 @@
 # Navegación de sesión · Corrección del 17/11/2026
 
+## IA personal y vistas separadas
+
+La IA también pertenece al usuario. La pestaña **IA hábitos U11** permite revisar una propuesta y elegir **Crear hábito con IA** → personalizar meta y frecuencia en U07 → confirmar y consultar el hábito en U08. Descartar o cancelar no crea un hábito. Se reutiliza el icono de sugerencias de la guía oficial; no se crean recursos gráficos. Este recorrido académico presenta propuestas ilustrativas, sin un generador de IA conectado.
+
+La pestaña administrativa **Control IA A05** sirve para supervisar propuestas y su estado operativo; no es el asistente personal ni permite crear hábitos privados de otras personas.
+
+Los dos catálogos y el recorrido muestran vistas separadas: **22 pantallas de usuario** o **11 administrativas**, sin la opción de mezclarlas. Los botones anterior/siguiente y las fichas permanecen en el rol elegido; cambiar de rol en el recorrido reinicia su historial de pasos. Los enlaces `?role=usuario` y `?role=admin` conservan la selección al recargar el catálogo.
+
+- [Catálogo de usuario](practica-07.html?fidelity=mockup&role=usuario#U11) · [Recorrido de usuario](../practica-07/index.html#usuario/U02).
+- [Catálogo administrativo](practica-07.html?fidelity=mockup&role=admin#A02) · [Recorrido administrativo](../practica-07/index.html#admin/A01).
+
+Comprobación de esta corrección: el recorrido acceso → IA hábitos → U07 → U08 pasa en las tres fidelidades y ambos formatos. Se comprueba también la separación de opciones y pantallas, recarga del rol elegido y reinicio del historial al cambiar de vista. Pasan las 344 variantes, 131 condiciones, 140 comprobaciones de navegación, límites visuales de 172 sketches/wireframes y 172 mockups, siete escenarios del portal y 25 pruebas funcionales históricas.
+
 La píldora móvil y el lateral PWA mantienen **cuatro destinos por rol**, con el mismo orden en todas sus pantallas de sesión. Se corrige la versión administrativa que comprimía seis destinos y reducía sus etiquetas a 9 px. Cada destino móvil ocupa ahora 79,5 × 48 px de diseño; las etiquetas son de 11 px en ambos roles.
 
 | Rol | Destinos primarios | Pantallas internas de cada sección |
 |---|---|---|
-| Usuario | Hoy U06 · Progreso U10 · Ideas U11 · Perfil U12 | Crear, detalle, recordatorio y archivo permanecen en Hoy. Avisos, información y acceso denegado pertenecen a Perfil. |
-| Administrador | Panel A02 · Catálogo A03 · IA A05 · Gestión A07 | Editar plantilla permanece en Catálogo. Cuentas, confirmación de acceso A09, auditoría A06 y configuración A08 pertenecen a Gestión. |
+| Usuario | Hoy U06 · Progreso U10 · IA hábitos U11 · Perfil U12 | Crear, detalle, recordatorio y archivo permanecen en Hoy. Avisos, información y acceso denegado pertenecen a Perfil. |
+| Administrador | Panel A02 · Catálogo A03 · Control IA A05 · Gestión A07 | Editar plantilla permanece en Catálogo. Cuentas, confirmación de acceso A09, auditoría A06 y configuración A08 pertenecen a Gestión. |
 
 **Gestión A07** conserva los controles de cuentas y añade accesos visibles a auditoría, configuración y regreso al panel. No se elimina ningún módulo ni se agrega una pantalla. Auditoría y configuración conservan sus accesos directos contextuales desde el panel y otras vistas administrativas.
 

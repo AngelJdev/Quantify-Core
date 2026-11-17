@@ -101,12 +101,12 @@ const info = {
     "La racha y el porcentaje describen cosas distintas. Revisa el periodo.",
   ],
   U11: [
-    "Tú decides qué probar",
+    "Tu hábito, con ayuda de IA",
     "sugerencias",
-    "Una idea necesita tu contexto",
+    "De la propuesta a tu rutina",
     [
       "Revisa la propuesta y su motivo",
-      "Personaliza antes de guardar",
+      "Define tu meta y frecuencia",
       "Descarta lo que no encaje contigo",
     ],
     "Una sugerencia no crea un hábito hasta que confirmes el formulario.",

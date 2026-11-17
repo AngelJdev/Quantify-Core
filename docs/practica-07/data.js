@@ -5,13 +5,13 @@ window.QC = (() => {
     usuario: [
       { to:'U06', label:'Hoy', icon:'hoy', screens:['U06','U07','U08','U09','U13'] },
       { to:'U10', label:'Progreso', icon:'analisis', screens:['U10'] },
-      { to:'U11', label:'Ideas', icon:'informacion', screens:['U11'] },
+      { to:'U11', label:'IA hábitos', icon:'sugerencias', screens:['U11'] },
       { to:'U12', label:'Perfil', icon:'perfil', screens:['U12','U14','U20','U21','U22'] }
     ],
     admin: [
       { to:'A02', label:'Panel', icon:'analisis', screens:['A02'] },
       { to:'A03', label:'Catálogo', icon:'habitos', screens:['A03','A04'] },
-      { to:'A05', label:'IA', icon:'informacion', screens:['A05'] },
+      { to:'A05', label:'Control IA', icon:'informacion', screens:['A05'] },
       { to:'A07', label:'Gestión', icon:'ajustes', screens:['A06','A07','A08','A09'] }
     ]
   };
@@ -43,7 +43,7 @@ window.QC = (() => {
     s('U08','Detalle del hábito','Rutina','Registrar avances parciales, completar el día o revisar la racha.',['RN04','RN05','RN06'],[['U07','Editar'],['U09','Recordatorio'],['U13','Archivar'],['U08','Guardar avance o deshacer','state'],['U10','Ver análisis'],['U06','Volver a Hoy']]),
     s('U09','Recordatorio','Rutina','Definir días y horario de un aviso simulado para el hábito seleccionado.',['RN07'],[['U08','Guardar o cancelar'],['U09','Corregir horario o días','state']]),
     s('U10','Análisis y rachas','Seguimiento','Consultar resultados calculados con los registros locales de ejemplo.',['RN05','RN06'],[['U10','Cambiar periodo','state'],['U08','Ver hábito'],['U06','Hoy'],['U11','IA Coach'],['U12','Ajustes']]),
-    s('U11','IA Coach','Seguimiento','Recomendaciones explicables con consentimiento, umbral y control de duplicados.',['RN08','RN09','RN10'],[['U07','Personalizar sugerencia'],['U11','Descartar por 21 días','state'],['U12','Cambiar consentimiento'],['U06','Hoy'],['U10','Análisis'],['U12','Ajustes']]),
+    s('U11','IA para crear hábitos','Seguimiento','Asistente personal de IA: revisar una propuesta, personalizar meta y frecuencia y crear el hábito al confirmar el formulario. Requiere consentimiento y datos suficientes.',['RN08','RN09','RN10'],[['U07','Crear hábito con IA · personalizar propuesta'],['U11','Descartar por 21 días','state'],['U12','Cambiar consentimiento'],['U06','Hoy'],['U10','Análisis'],['U12','Ajustes']]),
     s('U12','Perfil y ajustes','Cuenta','Preferencias de privacidad y avisos. Solo se conservan datos de demostración.',['RN02','RN07','RN08'],[['U12','Guardar preferencias','state'],['U14','Ver avisos'],['U02','Cerrar sesión'],['U06','Hoy'],['U10','Análisis'],['U11','IA Coach']]),
     s('U13','Archivar hábito','Rutina','Confirmar una acción que conserva los registros históricos.',['RN06'],[['U06','Confirmar archivo'],['U08','Cancelar']]),
     s('U14','Centro de avisos','Cuenta','Avisos locales de ejemplo con estado leído y acceso al hábito asociado.',['RN07'],[['U08','Abrir hábito asociado'],['U14','Marcar como leído','state'],['U12','Preferencias'],['U06','Volver']]),
@@ -77,6 +77,8 @@ window.QC = (() => {
   user.find(s=>s.id==='U12').edges.push({to:'U20',label:'Acerca del software',kind:'navigate'},{to:'U22',label:'Intentar módulo administrativo',kind:'navigate'});
   user.find(s=>s.id==='U02').edges.push({to:'U18',label:'Tercer intento fallido o acceso bloqueado',kind:'navigate'});
   admin.find(s=>s.id==='A01').edges.push({to:'A10',label:'Tercer intento fallido o acceso bloqueado',kind:'navigate'});
+  for (const screen of user) for (const edge of screen.edges) if (edge.to === 'U11') edge.label = 'IA hábitos';
+  for (const screen of admin) for (const edge of screen.edges) if (edge.to === 'A05') edge.label = 'Supervisión de IA';
   const details={
     U01:['RF-01','Presentación, imagen de referencia, beneficios, acceso, registro y enlace informativo'],
     U02:['RF-01','Correo, contraseña, error, contador de intentos, recuperación y registro'],

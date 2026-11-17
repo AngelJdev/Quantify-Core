@@ -151,7 +151,7 @@
       "lane": "usuario",
       "col": 15,
       "type": "frontend",
-      "label": "U11 · IA Coach",
+      "label": "U11 · IA para crear hábitos",
       "width": 230
     },
     {
@@ -470,7 +470,7 @@
     {
       "from": "U06",
       "to": "U11",
-      "label": "IA Coach"
+      "label": "IA hábitos"
     },
     {
       "from": "U06",
@@ -555,7 +555,7 @@
     {
       "from": "U10",
       "to": "U11",
-      "label": "IA Coach"
+      "label": "IA hábitos"
     },
     {
       "from": "U10",
@@ -565,12 +565,12 @@
     {
       "from": "U11",
       "to": "U07",
-      "label": "Personalizar sugerencia"
+      "label": "Crear hábito con IA · personalizar propuesta"
     },
     {
       "from": "U11",
       "to": "U11",
-      "label": "Descartar por 21 días"
+      "label": "IA hábitos"
     },
     {
       "from": "U11",
@@ -640,7 +640,7 @@
     {
       "from": "U12",
       "to": "U11",
-      "label": "IA Coach"
+      "label": "IA hábitos"
     },
     {
       "from": "U12",
@@ -720,7 +720,7 @@
     {
       "from": "A02",
       "to": "A05",
-      "label": "Supervisar IA"
+      "label": "Supervisión de IA"
     },
     {
       "from": "A02",
@@ -755,7 +755,7 @@
     {
       "from": "A03",
       "to": "A05",
-      "label": "IA"
+      "label": "Supervisión de IA"
     },
     {
       "from": "A03",
@@ -785,12 +785,12 @@
     {
       "from": "A04",
       "to": "A05",
-      "label": "Abrir IA"
+      "label": "Supervisión de IA"
     },
     {
       "from": "A05",
       "to": "A05",
-      "label": "Confirmar pausa o reactivación"
+      "label": "Supervisión de IA"
     },
     {
       "from": "A05",
@@ -835,7 +835,7 @@
     {
       "from": "A06",
       "to": "A05",
-      "label": "IA"
+      "label": "Supervisión de IA"
     },
     {
       "from": "A06",
@@ -865,7 +865,7 @@
     {
       "from": "A07",
       "to": "A05",
-      "label": "IA"
+      "label": "Supervisión de IA"
     },
     {
       "from": "A07",
@@ -895,7 +895,7 @@
     {
       "from": "A08",
       "to": "A05",
-      "label": "IA"
+      "label": "Supervisión de IA"
     },
     {
       "from": "A08",

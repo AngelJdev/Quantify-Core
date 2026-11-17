@@ -26,6 +26,9 @@
   function render() {
     current = route();
     const role = current.id.startsWith('A') ? 'admin' : 'usuario';
+    $('audience').textContent = role === 'admin'
+      ? 'Vista administrativa · catálogo, supervisión de IA y gestión operativa.'
+      : 'Vista de usuario · hábitos personales, progreso e IA para crear hábitos.';
     $('role').value = role;
     $('screen').replaceChildren(...screens[role].map(s => option(s.id, `${s.id} · ${s.title}`)));
     $('screen').value = current.id;
@@ -100,8 +103,9 @@
   }
   function navigate(id) {
     if (!all.some(screen => screen.id === id)) return;
-    trail.push(current.id);
     const role = id.startsWith('A') ? 'admin' : 'usuario';
+    if (current.id[0] !== id[0]) trail.length = 0;
+    else trail.push(current.id);
     history.pushState(null, '', `#${role}/${id}`);
     render();
     $('step-status').textContent = '';

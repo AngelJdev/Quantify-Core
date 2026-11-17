@@ -4,7 +4,7 @@
 
 ## Flujo visual de identidad
 
-La [navegación académica vigente](../GUI/NAVEGACION.md) mantiene cuatro destinos por rol. Usuario: Hoy, Progreso, Ideas y Perfil. Administración: Panel, Catálogo, IA y Gestión; esta última reúne cuentas, auditoría y configuración. Las vistas hijas conservan activa su sección. Acceso y recuperación no muestran navegación de sesión. Esta organización visual no concede permisos de negocio.
+La [navegación académica vigente](../GUI/NAVEGACION.md) mantiene cuatro destinos por rol. Usuario: Hoy, Progreso, IA hábitos y Perfil. Administración: Panel, Catálogo, Control IA y Gestión; esta última reúne cuentas, auditoría y configuración. IA hábitos permite crear un hábito desde una propuesta personal, personalizarlo en U07 y confirmarlo; Control IA supervisa la operación administrativa. Los catálogos separan las 22 vistas de usuario de las 11 administrativas. Las vistas hijas conservan activa su sección. Acceso y recuperación no muestran navegación de sesión. Esta organización visual no concede permisos de negocio.
 
 Las vistas U02/U03/U04/U05/U15 están en la [matriz de autenticación complementaria](../GUI/prototipos/movil/autenticacion/README.md); el OTP de seis dígitos es propuesta y requiere una extensión de Keycloak, no prueba de correo operativo.
 
