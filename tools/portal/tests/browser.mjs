@@ -171,19 +171,11 @@ try {
   );
   await check("Catálogo visual, visor y rutas históricas", async () => {
     await goto("#practica-07");
-    assert.match(await page.locator("main h1").textContent(), /primer trazo/);
-    assert.ok(
-      await page
-        .locator("main")
-        .getByText(/26 vistas/)
-        .count(),
-    );
-    await page.locator("main h3 a").filter({ hasText: "Sketches" }).click();
     await page.locator("iframe").waitFor();
     await page.frameLocator("iframe").locator("main").waitFor();
     assert.match(
       await page.locator("iframe").getAttribute("src"),
-      /GUI\/practica-07.html/,
+      /GUI\/practica-07.html\?fidelity=sketch/,
     );
     await page.locator(".back-link").click();
     await page

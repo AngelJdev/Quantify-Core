@@ -1,5 +1,7 @@
 # Centro del proyecto
 
+La [revisión de islas](../GUI/ISLAS.md) incorpora 33 wireframes y 33 sketches por formato con medidas compartidas, navegación móvil en píldora y PWA provisional con referencias de video revisadas. Práctica 07 enlaza el mismo conjunto de sketches a lápiz, sin duplicados. La galería muestra medidas de los mockups vigentes; los nuevos mockups comparten geometría y cotas con los wireframes.
+
 El [portal de Quantify Core](../../index.html) organiza producto, planificación, arquitectura, diseño y validación. Sirve archivos estáticos en GitHub Pages, sin backend ni credenciales. Conserva las fuentes Markdown en sus ubicaciones originales y los prototipos con sus límites documentados.
 
 Pages publica la raíz de `develop`. `.nojekyll` evita que Liquid/Jekyll interprete código o JSON de las fuentes; el sitio se sirve como archivos estáticos. Publicar mediante PR hacia `develop` y merge commit, conservando la revisión de cambios y sus comprobaciones.

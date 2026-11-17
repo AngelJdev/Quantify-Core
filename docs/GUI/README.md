@@ -2,13 +2,13 @@
 
 Documentación del sistema de diseño, guía de estilos visuales y prototipos de interfaz de usuario de **Quantify Core**. Este módulo centraliza las especificaciones visuales, los componentes de interfaz, las variables de diseño y los prototipos interactivos del producto.
 
-**Para revisar ahora:** [sketches con medidas, uno por uno](practica-07.html). Las 33 vistas corregidas son la referencia activa de Práctica 07. Los 20 bocetos históricos y las seis vistas complementarias se conservan como referencias previas; no son una segunda entrega vigente. Wireframes y mockups siguen en avance y se alinearán después con el orden, navegación y estructura de los sketches revisados.
+**Para revisar ahora:** [33 mockups con islas e identidad](practica-07.html?fidelity=mockup), en claro y oscuro para móvil y PWA, alineados con los [wireframes](practica-07.html?fidelity=wireframe) y [sketches](practica-07.html?fidelity=sketch). [Especificación de mockups](MOCKUPS.md) · [Medidas compartidas](ISLAS.md). Práctica 07 apunta a los mismos sketches. Esta revisión web no está sincronizada con los frames anteriores de Figma.
 
-El visor documental ajusta la lámina a la ventana de escritorio y ofrece ampliación y pantalla completa. Comparte navegación, gradiente de fondo y controles con el [centro del proyecto](../../index.html); la presentación se mantiene en [el módulo del portal](../portal/README.md). Las láminas aprobadas se conservan sin regenerarlas.
+El visor documental ajusta la lámina a la ventana de escritorio y ofrece ampliación y pantalla completa. Comparte navegación, gradiente de fondo y controles con el [centro del proyecto](../../index.html); la presentación se mantiene en [el módulo del portal](../portal/README.md). La revisión del dibujo a lápiz conserva la geometría compartida y el acabado de los wireframes.
 
 ## Práctica 07 · Navegación y sketches
 
-La entrega tiene **un único [README de Práctica 07](../practica-07/README.md)** con los quince puntos y enlaces a fichas, proceso y evidencias. El prototipo y los mapas están en `docs/practica-07/`; los bocetos a lápiz están en sus carpetas de GUI: [`movil/sketches/practica-07/`](prototipos/movil/sketches/practica-07/) y [`pwa/sketches/practica-07/`](prototipos/pwa/sketches/practica-07/). Incluyen **Login U02** y **Register U03** como pantallas completas.
+La entrega tiene **un único [README de Práctica 07](../practica-07/README.md)** con los quince puntos y enlaces a fichas, proceso y evidencias. El prototipo y los mapas están en `docs/practica-07/`; los bocetos a lápiz están en sus carpetas de GUI: [`movil/sketches/islas/`](prototipos/movil/sketches/islas/) y [`pwa/sketches/islas/`](prototipos/pwa/sketches/islas/). Incluyen **Login U02** y **Register U03** como pantallas completas.
 
 | Consultar | Acceso |
 |---|---|
@@ -25,9 +25,9 @@ Los HTML se exploran mediante el servidor local indicado en el README de la prá
 |---|---|---|
 | Identidad visual  | Cuatro lienzos de referencia conservados; claro y oscuro | [README de identidad visual](identidad/README.md) |
 | Autenticación · 6 vistas adicionales | Login/Register y recuperación en las tres fidelidades; acceso social visual Google/Facebook/Apple, sin autenticación real | [Matriz y flujo](prototipos/movil/autenticacion/README.md) · [Galería](prototipos/movil/autenticacion/index.html) |
-| Móvil · Sketches | 33 vistas de Práctica 07 corregidas, acotadas y ordenadas | [README de sketches](prototipos/movil/sketches/README.md) |
-| Móvil · Wireframes | 20 originales + 6 vistas de autenticación | [README de wireframes](prototipos/movil/wireframes/README.md) |
-| Móvil · Mockups | 20 originales (40 PNG) + 6 de autenticación (12 SVG de mockup) | [README de mockups](prototipos/movil/mockups/README.md) |
+| Móvil · Sketches | 33 vistas a lápiz, compartidas con Práctica 07; sin copia adicional | [README de sketches](prototipos/movil/sketches/README.md) |
+| Móvil · Wireframes | 33 vistas con islas y medidas, alineadas con los sketches | [README de wireframes](prototipos/movil/wireframes/README.md) |
+| Móvil y PWA · Mockups | 33 pantallas por formato y tema; 172 SVG contando variantes compactas | [Especificación](MOCKUPS.md) · [Catálogo móvil](prototipos/movil/mockups/README.md) |
 | Matriz móvil | Correspondencia y condiciones de las veinte pantallas | [Índice y matriz móvil](prototipos/movil/README.md#matriz-por-áreas-funcionales) |
 | Galería pública | Configuración indicada por el responsable: `develop` y `/ (root)` | [Abrir galería](https://angeljdev.github.io/Quantify-Core/docs/GUI/) |
 | Archivo editable propio | Diez lienzos: seis de guía, sketches, wireframes, mockups y recursos en Figma | [Figma · Proyecto Integrador](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3?node-id=2-59) |
@@ -89,7 +89,7 @@ Para revisar y validar estos entregables visuales se disponen las siguientes opc
 Además de la Guía de Estilos, el módulo de diseño incluye la progresión de las 20 pantallas de la aplicación móvil de Quantify Core, documentadas en tres niveles de fidelidad:
 - **[Sketches](prototipos/movil/sketches/README.md):** 20 bocetos iniciales a mano alzada para definir la estructura de contenido de cada pantalla.
 - **[Wireframes](prototipos/movil/wireframes/README.md):** 20 esquemas estructurales en escala de grises con tipografía neutra y jerarquía funcional.
-- **[Mockups](prototipos/movil/mockups/README.md):** 20 pantallas finales de alta fidelidad, diseñadas en versión de tema claro y tema oscuro (40 vistas en total).
+- **[Mockups](prototipos/movil/mockups/README.md):** 33 pantallas por formato en claro y oscuro, con geometría compartida y recursos de identidad. Los frames Figma anteriores conservan su inventario histórico.
 - Para consultar la matriz completa de correspondencia entre pantallas y requerimientos funcionales, consulte el [Índice de Prototipos Móviles](prototipos/movil/README.md).
 
 ## Prototipo interactivo en Figma

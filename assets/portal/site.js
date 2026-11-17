@@ -80,7 +80,7 @@
     sidebar.className = "qc-doc-sidebar";
     sidebar.setAttribute("aria-label", "Navegación principal del proyecto");
     sidebar.innerHTML = `<a class="qc-shell-brand" href="${url("index.html#inicio")}" target="_top"><img data-qc-logo="product" alt="Quantify Core" width="150" height="66"></a><span class="qc-shell-label">CENTRO DEL PROYECTO</span><nav>${links.map(([id, label]) => `<a href="${sectionUrl(id)}" target="_top"${id === active ? ' aria-current="page"' : ""}>${label}</a>`).join("")}</nav><div class="qc-shell-company">Desarrollado por<img data-qc-logo="enterprise" alt="Nexus Core" width="130" height="56"><a href="https://github.com/AngelJdev/Quantify-Core">Repositorio del proyecto ↗</a></div>`;
-    const header = document.createElement("div");
+    const header = document.createElement("header");
     header.className = "qc-doc-topbar";
     header.innerHTML = `<a href="${url("index.html#diseno")}" target="_top">Quantify Core / Explorar proyecto</a><button id="qc-shell-theme" type="button">Modo claro</button>`;
     document.body.prepend(sidebar, header);

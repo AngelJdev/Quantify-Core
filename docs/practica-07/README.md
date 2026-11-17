@@ -4,9 +4,9 @@ Esta guía sigue los **15 puntos solicitados**, en el mismo orden. En cada punto
 
 **[Consultar esta guía dentro del sitio](https://angeljdev.github.io/Quantify-Core/docs/practica-07/revision.html)**
 
-**Revisión de sketches:** [abrir una pantalla a la vez](../GUI/practica-07.html). El orden comienza en Splash (solo logo) → Loading → Bienvenida → Login. Las 33 vistas conservan sus identificadores para no romper referencias; el número de revisión indica el orden de presentación. Cada PNG/SVG incluye cotas fuera de la interfaz: móvil **390 × 844 px**, PWA **1280 × 900 px**, margen de 24 px, separación de 16 px, cabecera de 64 px y navegación de 70 px en móvil o 224 px de lateral en PWA cuando corresponde. No hay navegación de sesión en las pantallas de acceso.
+**Revisión de sketches:** [abrir una pantalla a la vez](../GUI/practica-07.html?fidelity=sketch). Práctica 07 enlaza el catálogo único de sketches; no mantiene una copia adicional. El orden comienza en Splash (solo logo) → Loading → Bienvenida → Login. Las 33 vistas conservan sus identificadores. Cada SVG incluye cotas: móvil **390 × 844 px**, PWA **1280 × 900 px**, margen de 24 px, separación de 12 px, cabecera de 64 px y navegación de 72 px en móvil o lateral de 208/72 px en PWA. Los trazos irregulares y el rayado representan dibujo a lápiz. No hay navegación de sesión en acceso. [Medidas y fuentes compartidas](../GUI/ISLAS.md).
 
-Wireframes y mockups conservan su avance anterior y **están pendientes de alinear** con estos sketches. No se presentan todavía como tres niveles equivalentes. La página usa un tema común; el blanco dentro de las imágenes representa el papel de dibujo.
+Los wireframes comparten la geometría de estos sketches; los mockups aplican la identidad en ambos temas. La página usa un tema común; el blanco dentro de los sketches representa el papel de dibujo.
 
 ## Índice
 
@@ -82,7 +82,7 @@ Dos ejemplos del dibujo a lápiz:
 
 | Login · U02 | Home · U06 |
 |---|---|
-| <img src="../GUI/prototipos/movil/sketches/practica-07/U02.png" alt="Sketch a lápiz de Login" width="220"> | <img src="../GUI/prototipos/movil/sketches/practica-07/U06.png" alt="Sketch a lápiz de Home" width="220"> |
+| <img src="../GUI/prototipos/movil/sketches/islas/U02.svg" alt="Sketch a lápiz de Login" width="220"> | <img src="../GUI/prototipos/movil/sketches/islas/U06.svg" alt="Sketch a lápiz de Home" width="220"> |
 
 **[Ver todos los sketches en la galería de GUI →](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html)**
 

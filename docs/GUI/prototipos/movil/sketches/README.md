@@ -1,10 +1,10 @@
 # Móvil · Sketches
 
-**Referencia activa:** [33 sketches acotados y ordenados de Práctica 07](../../../practica-07.html). Splash aparece primero y contiene solo logo. Los 20 PNG y seis SVG descritos a continuación son referencias históricas conservadas; la galería del sitio muestra el conjunto corregido de Práctica 07.
+**Revisión vigente:** [33 sketches con islas y cotas](../../../practica-07.html?fidelity=sketch), con wireframes correspondientes. [Medidas y alcance](../../../ISLAS.md). Práctica 07 utiliza este mismo conjunto; Splash aparece primero y contiene solo logo. Los 20 PNG y seis SVG descritos a continuación son referencias históricas conservadas.
 
 El inventario histórico reúne las 20 vistas originales y las [6 vistas complementarias de autenticación](../autenticacion/README.md). Estas últimas incluyen Login y Registro con espacios para Google, Facebook y Apple, representados únicamente con geometría a lápiz.
 
-**Práctica 07 · Bocetos sencillos a lápiz:** [único README y 33 fichas](../../../../practica-07/README.md#fichas) · [galería](../../../../practica-07/galeria.html) · [Login completo](practica-07/U02.png) · [Register completo](practica-07/U03.png). Los archivos de esta entrega están en `practica-07/`; las veinte referencias históricas siguientes se conservan por separado.
+**Práctica 07 · Bocetos sencillos a lápiz:** [único README y 33 fichas](../../../../practica-07/README.md#fichas) · [galería](../../../../practica-07/galeria.html) · [Login completo](islas/U02.svg) · [Register completo](islas/U03.svg). Práctica 07 utiliza los mismos SVG de `islas/`, sin otra copia de sus 33 vistas. Las veinte referencias históricas siguientes quedan fuera del catálogo vigente.
 
 20 PNG. Solo cuadros y líneas en blanco/gris; sin texto, logos, fotos, color ni temas. El número y el nombre se identifican fuera del dibujo. Miniaturas de 210 px, hasta tres por fila; pulsa una imagen para abrir el PNG completo a 390 × 844. Son documentación estática.
 

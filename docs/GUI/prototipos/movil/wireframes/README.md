@@ -1,5 +1,7 @@
 # Móvil · Wireframes
 
+**Revisión vigente:** [33 wireframes con islas y cotas](../../../practica-07.html?fidelity=wireframe), alineados con los sketches y disponibles también en PWA provisional. [Medidas, fuentes y alcance](../../../ISLAS.md). El catálogo de 26 vistas descrito debajo se conserva como referencia anterior.
+
 La galería unificada incorpora además las [seis vistas de autenticación](../autenticacion/README.md): Login, Register, verificación, recuperación, nueva contraseña y confirmación. Son **26 vistas en total**; esta página conserva el catálogo original de 20. [Abrir galería completa](https://angeljdev.github.io/Quantify-Core/docs/GUI/index.html?fidelity=wireframe#prototipos).
 20 PNG. Misma estructura e intención del sketch, con grises, Arial y marcadores de imagen/logo; sin identidad visual final. Miniaturas de 210 px, hasta tres por fila; pulsa una imagen para abrir el PNG completo a 390 × 844. Son documentación estática.
 
