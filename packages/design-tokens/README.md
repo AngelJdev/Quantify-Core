@@ -42,7 +42,7 @@ flowchart LR
 
 ## Capas y nombres propuestos
 
-`preview.json.prototypeIslands` conserva la geometría de la [revisión documental de islas](../../docs/GUI/ISLAS.md): márgenes, separación, viewports, cabecera y navegación. Su estado `revision-documental-no-productiva` limita el alcance a sketches y wireframes; PWA sigue provisional hasta revisar videos. El generador de láminas consume esta fuente. No cambia los radios de control del producto ni acredita adaptadores React/Flutter.
+`preview.json.prototypeIslands` conserva la geometría de la [revisión documental de islas](../../docs/GUI/ISLAS.md): márgenes, separación, viewports, cabecera y navegación. Su estado `revision-documental-no-productiva` limita el alcance a sketches y wireframes; PWA sigue provisional con referencias de video revisadas. El generador de láminas consume esta fuente. No cambia los radios de control del producto ni acredita adaptadores React/Flutter.
 
 | Capa | Ejemplo de nombre | Regla |
 |---|---|---|

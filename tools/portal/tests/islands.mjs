@@ -9,7 +9,7 @@ const { default: AxeBuilder } = require("@axe-core/playwright");
 const root = new URL("../../../", import.meta.url),
   out = new URL("../.artifacts/islands/", import.meta.url);
 await fs.mkdir(out, { recursive: true });
-const { sheets } = JSON.parse(
+const { sheets, navigationVariants = [] } = JSON.parse(
   await fs.readFile(new URL("docs/GUI/islas-medidas.json", root)),
 );
 const base = process.env.PORTAL_URL || "http://127.0.0.1:8765/";
@@ -26,10 +26,15 @@ const page = await context.newPage(),
 page.on("pageerror", (e) => errors.push(e.message));
 try {
   assert.equal(sheets.length, 132);
-  for (const s of sheets) {
-    const match = sheets.find(
+  const allSheets = [...sheets, ...navigationVariants];
+  assert.equal(navigationVariants.length, 40);
+  for (const s of allSheets) {
+    const match = allSheets.find(
       (x) =>
-        x.id === s.id && x.format === s.format && x.fidelity !== s.fidelity,
+        x.id === s.id &&
+        x.format === s.format &&
+        x.fidelity !== s.fidelity &&
+        x.navigationState === s.navigationState,
     );
     assert.deepEqual(
       s.elements,
@@ -46,9 +51,15 @@ try {
         if (x < 0 || y < 0 || x + bw > w || y + bh > h)
           bad.push(el.dataset.ui + " fuera del viewport");
         if (
-          ["button", "link", "check", "social", "nav-target"].includes(
-            el.dataset.ui,
-          ) &&
+          [
+            "button",
+            "link",
+            "check",
+            "social",
+            "nav-target",
+            "nav-toggle",
+            "code-slot",
+          ].includes(el.dataset.ui) &&
           bh < 44
         )
           bad.push("objetivo pequeño");
@@ -76,6 +87,13 @@ try {
       return bad;
     });
     assert.deepEqual(issues, [], s.file);
+    if (s.navigationState === "compact") assert.equal(s.navigation.width, 72);
+    if (s.format === "pwa" && ["U06", "U10", "A02"].includes(s.id)) {
+      assert.equal(await page.locator("[data-ui=kpi]").count(), 4);
+      assert.equal(await page.locator("[data-ui=side-panel]").count(), 1);
+    }
+    if (["U05", "U19", "A11"].includes(s.id))
+      assert.equal(await page.locator("[data-ui=code-slot]").count(), 6);
     assert.equal(
       await page.locator("[data-ui=navigation]").count(),
       s.navigation ? 1 : 0,
@@ -91,19 +109,17 @@ try {
     }
     if (
       s.fidelity === "wireframe" &&
-      ["U06", "U03", "A02", "U10"].includes(s.id)
+      ["U06", "U03", "U05", "A02", "U10"].includes(s.id)
     )
-      await page
-        .locator("svg")
-        .screenshot({
-          path: new URL(`${s.id}-${s.format}.png`, out).pathname.replace(
-            /^\/(\w:)/,
-            "$1",
-          ),
-        });
+      await page.locator("svg").screenshot({
+        path: new URL(
+          `${s.id}-${s.format}${s.navigationState === "compact" ? "-compact" : ""}.png`,
+          out,
+        ).pathname.replace(/^\/(\w:)/, "$1"),
+      });
   }
   checks.push(
-    "132 láminas: límites, texto, cotas, objetivos y geometría compartida",
+    "132 láminas base y 40 variantes: límites, texto, cotas, objetivos y geometría compartida",
   );
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });
@@ -114,6 +130,19 @@ try {
     for (const format of ["pwa", "movil"]) {
       await page.selectOption("#format-filter", format);
       await image.evaluate((e) => e.decode());
+      if (format === "pwa") {
+        await page.selectOption("#navigation-filter", "compact");
+        await image.evaluate((e) => e.decode());
+        assert.match(await image.getAttribute("src"), /U06-compact.svg/);
+        await page.selectOption("#screen-picker", "U05");
+        assert.equal(
+          await page.locator("#navigation-filter").isDisabled(),
+          true,
+        );
+        assert.match(await image.getAttribute("src"), /U05.svg/);
+        await page.selectOption("#screen-picker", "U06");
+        await page.selectOption("#navigation-filter", "expanded");
+      }
       assert.ok(
         await page.evaluate(
           () => document.documentElement.scrollWidth <= innerWidth,
@@ -148,7 +177,9 @@ try {
       ),
       fullPage: true,
     });
-    checks.push(`Visor ${width}px: etapas, formatos, roles, overflow y axe`);
+    checks.push(
+      `Visor ${width}px: etapas, formatos, navegación expandida/compacta, acceso sin rail, roles, overflow y axe`,
+    );
   }
   await page.goto(base + "docs/GUI/index.html?fidelity=wireframe#prototipos");
   await page.waitForFunction(
@@ -181,7 +212,12 @@ try {
   await fs.writeFile(
     new URL("report.json", out),
     JSON.stringify(
-      { status: "passed", sheets: sheets.length, checks },
+      {
+        status: "passed",
+        sheets: sheets.length,
+        navigationVariants: navigationVariants.length,
+        checks,
+      },
       null,
       2,
     ) + "\n",

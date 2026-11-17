@@ -2,7 +2,7 @@
 
 Revisión documental solicitada el 16/11/2026. [Revisar wireframes](practica-07.html?fidelity=wireframe#U06) · [Revisar sketches](practica-07.html?fidelity=sketch#U06) · [Galería](index.html?fidelity=wireframe#prototipos).
 
-Las 33 pantallas del inventario de Práctica 07 tienen ahora un sketch y un wireframe por formato: **132 SVG** con cotas exteriores. Comparten estructura, orden, referencias a requisitos, roles y conexiones. Son láminas estáticas de revisión; no autentican, guardan hábitos ni ejecutan servicios. Splash conserva únicamente el logo y las pantallas de acceso no muestran navegación de sesión.
+Las 33 pantallas del inventario de Práctica 07 tienen ahora un sketch y un wireframe por formato: **132 SVG base**, más **40 variantes de navegación PWA compacta**, todos con cotas exteriores. Las variantes son estados de las mismas veinte pantallas PWA con navegación; no aumentan el inventario de pantallas. Comparten estructura, orden, referencias a requisitos, roles y conexiones. Son láminas estáticas de revisión; no autentican, guardan hábitos ni ejecutan servicios. Splash conserva únicamente el logo y las pantallas de acceso no muestran navegación de sesión.
 
 | Geometría de revisión | Medida en px de diseño |
 |---|---|
@@ -16,10 +16,24 @@ Las 33 pantallas del inventario de Práctica 07 tienen ahora un sketch y un wire
 | Separación inferior de la píldora | 24; reservar además el área segura al implementar |
 | Destinos de navegación | 4 de usuario; 6 administrativos; altura táctil 48 |
 | Navegación PWA como isla lateral | x 24, y 112; 208 × 764 |
+| Navegación PWA compacta | x 24, y 112; 72 × 764 |
+| Indicadores del dashboard | 4 tarjetas; alto 104; separación 16; ancho 238 expandido / 272 compacto |
+| Panel principal del dashboard | alto 300; ancho 680 expandido / 816 compacto |
+| Panel contextual del dashboard | 296 × 300 |
+| Verificación por código | tarjeta 342 × 480 móvil / 440 × 480 PWA; posiciones 44 × 48 |
 | Controles | 48 de alto; campo con etiqueta: 72 |
 | Radios | Isla 16; cabecera 16; rail 24; botón 24 |
 
-Móvil presenta una columna. PWA usa dos columnas en Inicio, Progreso y Panel administrativo y centra los formularios. **La distribución PWA es provisional hasta recibir los videos del dashboard y la navegación.** No se considera aprobada ni implementada en React o Flutter. Los tamaños de la lámina incluyen 100 px exteriores por lado para las anotaciones; no deben confundirse con el viewport.
+Móvil presenta una columna. PWA organiza Inicio, Progreso y Panel administrativo en cabecera, filtros de periodo, fila de cuatro indicadores, panel principal, contexto lateral y tres bloques inferiores; centra los formularios. El selector **Navegación PWA** del visor muestra el rail expandido o compacto y el espacio de contenido se redistribuye. En móvil, archivo histórico y acceso sin sesión se deshabilita ese selector. **La distribución PWA incorpora las referencias de video revisadas y permanece pendiente de revisión visual.** No se considera aprobada ni implementada en React o Flutter. Los tamaños de la lámina incluyen 100 px exteriores por lado para las anotaciones; no deben confundirse con el viewport.
+
+## Ideas tomadas de los videos
+
+Se revisaron los dos MP4 locales facilitados el 16/11/2026: `videoFrontendidea.mp4` (13,19 s) y `WhatsApp Video 2026-11-16 at 12.29.06 PM.mp4` (12,31 s). Sus secuencias muestran una tarjeta de verificación con estados y dashboards con barra lateral flotante, indicadores, panel contextual y cambios de sección. Los archivos se retiraron del repositorio después de revisarlos y sus nombres quedaron excluidos en `.gitignore`; no son recursos ni dependencias del sitio. Los fotogramas de revisión permanecen fuera del repositorio.
+
+- **Dashboard:** jerarquía y redistribución al compactar el rail. U06 conserva hábitos propios, U10 muestra el periodo personal y A02 solo operación administrativa. Las tarjetas usan marcadores sin datos conectados; la referencia médica/comercial de los videos no define métricas de Quantify.
+- **Navegación:** isla lateral con control de contraer y estado activo; el formato móvil mantiene la píldora inferior. El visor permite comparar ambos estados PWA, sin simular enlaces dentro de los SVG.
+- **Código:** U05, U19 y A11 concentran instrucciones, posiciones del código, acción, reenvío, cancelación y error en una isla. La secuencia de referencia es entrada → comprobando → confirmación. Las seis posiciones son una referencia del prototipo académico existente; no fijan el protocolo ni la longitud del código del producto. Keycloak/OIDC conserva la autoridad sobre la sesión; una animación no confirma autenticación.
+- **Movimiento propuesto:** transición breve al redistribuir el contenido y feedback de verificación basado en resultado real. Duración inicial de revisión: 180 ms; con movimiento reducido, cambio directo de estado. Las láminas actuales son estáticas y no implementan estas animaciones.
 
 Inter procede del recurso local existente; se incrusta un subconjunto Latin en los SVG para conservar la fuente al descargar o usar las láminas como imágenes. `fuente/subconjunto_islas.py` genera ese derivado con fonttools y brotli, conservando la licencia en `assets/inter-license.txt`. Los wireframes usan grises para mostrar jerarquía sin modificar la paleta del producto. La geometría reside en `packages/design-tokens/preview.json.prototypeIslands`, con alcance documental, y se define aquí y en el sistema de diseño; no son nuevos tokens productivos aprobados. Los mockups previos siguen disponibles con sus dimensiones nativas visibles en la galería; quedan pendientes de rediseñar con las islas y acotar sus componentes una vez revisados los wireframes.
 
@@ -47,4 +61,4 @@ git diff --check
 
 Los tests usan Playwright y axe ya declarados en `apps/web`, con Microsoft Edge. Capturas e informe de revisión se guardan en `tools/portal/.artifacts/islands/`. La publicación en GitHub Pages requiere integrar y publicar según el Git Flow; generar los archivos localmente no actualiza el sitio público.
 
-Validación local del 16/11/2026: las 132 láminas pasaron límites de viewport, texto, cotas, objetivos táctiles y correspondencia geométrica entre fidelidades. El visor pasó filtros, etapas, descarga enlazada, formatos y axe en 1440 y 390 px; la galería pasó 33 vistas, PWA, ampliación y dimensiones de los 26 mockups. También aprobaron los nueve escenarios generales del portal y los siete de consistencia. Estas pruebas no acreditan accesibilidad integral de producto ni navegación funcional dentro de las láminas estáticas.
+Validación local del 16/11/2026: las 132 láminas base y las 40 variantes compactas pasaron límites de viewport, texto, cotas, objetivos táctiles y correspondencia geométrica entre fidelidades. Se comprobaron los cuatro indicadores y panel contextual de cada dashboard, así como las seis posiciones de las vistas de código. El visor pasó filtros, etapas, cambio expandido/compacto, ausencia de rail en acceso, formatos y axe en 1440 y 390 px; la galería pasó 33 vistas, PWA, ampliación y dimensiones de los 26 mockups. También aprobaron los nueve escenarios generales del portal y los siete de consistencia. Estas pruebas no acreditan accesibilidad integral de producto ni navegación funcional dentro de las láminas estáticas.
