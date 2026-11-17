@@ -3,7 +3,7 @@
 <body><header><p class="eyebrow">PRÁCTICA 07</p><nav aria-label="Sección Práctica 07"><a href="../../index.html#practica-07">Volver al portal</a><a href="./revision.html">Los 15 puntos</a><a href="./navegacion.html">Diagrama conectado</a><a href="../GUI/practica-07.html">Galería de sketches</a><a href="./index.html">Prototipo</a></nav></header>
 <main class="reading"><h1 id="referencia-técnica-de-práctica-07">Referencia técnica de Práctica 07</h1>
 <h2 id="revisión-de-bocetos-13-de-noviembre-de-2026">Revisión de bocetos · 13 de noviembre de 2026</h2>
-<p>La revisión vigente reemplaza las 66 láminas de Práctica 07: viewport móvil 390 × 844 y PWA 1280 × 900, con cotas exteriores y sus SVG editables. Los tamaños totales de archivo incluyen el papel reservado para anotaciones; se registran en <code>sketch-medidas.json</code>. Las referencias de tamaño y capturas anteriores de este documento son históricas.</p>
+<p>La revisión vigente reemplaza las 66 láminas de Práctica 07: viewport móvil 390 × 844 y PWA 1280 × 900, con cotas exteriores y sus SVG editables. Los tamaños totales de archivo incluyen el papel reservado para anotaciones; se registran en <a href="../GUI/islas-medidas.json">manifiesto compartido</a>. Las referencias de tamaño y capturas anteriores de este documento son históricas.</p>
 <p>Splash es la primera vista de revisión (conserva el identificador U16), con solo el logotipo centrado; el prototipo avanza automáticamente a Loading sin botón dentro del splash. Login muestra correo, contraseña enmascarada, acceso principal, recuperación, registro y tres alternativas sociales; Registro incluye confirmación de contraseña. Los controles son trazos y cajas; solo las cotas y el nombre exterior se rotulan. El logotipo es la excepción solicitada para Splash.</p>
 <p>Las pantallas de acceso no llevan navegación de sesión. Las demás reservan la misma zona de navegación por rol: cuatro destinos de usuario y seis de administrador; barra inferior móvil o lateral PWA. La estructura revisada queda en el SVG mediante grupos con tipo y coordenadas para alinear después las otras fidelidades. Wireframes/mockups todavía conservan su avance previo.</p>
 <p>La galería permite avanzar una vista a la vez. Las fichas se despliegan a petición; el portal agrupa los enlaces secundarios bajo «Documentación y recursos adicionales». El tema claro/oscuro del sitio se propaga a las galerías, independientemente del tema de cada mockup. El blanco del papel no cambia.</p>
@@ -133,7 +133,7 @@
 <p>La matriz productiva de permisos se define en <a href="../seguridad/README.md">seguridad</a>. Aquí se documenta su selección para navegación: el selector de roles del visor permite revisar pantallas y no implementa autorización. La API debe comprobar rol y pertenencia en cada operación. La administración móvil del producto está por confirmar en <a href="../../apps/mobile/README.md">móvil</a>.</p>
 <p>Las fichas relacionan las funciones con <a href="lecturas/requisitos.html">RF-01 a RF-10</a> y sus <a href="lecturas/historias.html">historias HU</a>, <a href="lecturas/requisitos.html#no-funcionales">RNF</a> y las <a href="lecturas/reglas.html">reglas de producto</a>. Las vistas informativas y de inicialización apoyan el recorrido RF-01; no se presentan como requisitos nuevos del catálogo.</p>
 <p>Plataformas de destino: <strong>PWA React/Vite</strong> y <strong>Flutter</strong>. El visor académico se ejecuta con HTML/CSS/JavaScript y simula la distribución móvil y web. No incorpora instalación PWA, service worker, ejecución Flutter, backend, autenticación real, envío de correo, notificaciones del dispositivo ni inferencia de IA.</p>
-<p>Los bocetos de GUI son <strong>muy sencillos, a lápiz</strong>: fondo blanco, líneas finas e irregulares de grafito, recuadros, textos breves y botones sin acabado visual. Cada pantalla tiene SVG editable y PNG. El prototipo conserva sus interacciones y <code>sketch.css</code> simplifica también su presentación. Esto no sustituye los <a href="../../packages/design-tokens/README.md">tokens del producto</a> ni la identidad de <a href="../GUI/README.md">GUI</a>.</p>
+<p>Los bocetos de GUI son <strong>muy sencillos, a lápiz</strong>: fondo blanco, líneas finas e irregulares de grafito, recuadros, textos breves y botones sin acabado visual. Cada pantalla tiene SVG compartido editable. El prototipo conserva sus interacciones y <code>sketch.css</code> simplifica también su presentación. Esto no sustituye los <a href="../../packages/design-tokens/README.md">tokens del producto</a> ni la identidad de <a href="../GUI/README.md">GUI</a>.</p>
 <p><a id="cómo-recorrerlo"></a>
 <a id="punto-3"></a></p>
 <h2 id="estructura-y-recorridos-de-navegación">Estructura y recorridos de navegación</h2>
@@ -220,55 +220,55 @@
 <tr>
 <td>Splash Screen</td>
 <td>U16</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U16.png">PNG</a></td>
+<td><a href="../GUI/prototipos/movil/sketches/islas/U16.svg">SVG</a></td>
 <td><a href="index.html#usuario/U16">Abrir</a></td>
 </tr>
 <tr>
 <td>Loading Screen</td>
 <td>U17</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U17.png">PNG</a></td>
+<td><a href="../GUI/prototipos/movil/sketches/islas/U17.svg">SVG</a></td>
 <td><a href="index.html#usuario/U17">Abrir</a></td>
 </tr>
 <tr>
 <td>Login Screen</td>
 <td>U02</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U02.png">PNG</a></td>
+<td><a href="../GUI/prototipos/movil/sketches/islas/U02.svg">SVG</a></td>
 <td><a href="index.html#usuario/U02">Abrir</a></td>
 </tr>
 <tr>
 <td>Recovery Account or Password</td>
 <td>U04</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U04.png">PNG</a></td>
+<td><a href="../GUI/prototipos/movil/sketches/islas/U04.svg">SVG</a></td>
 <td><a href="index.html#usuario/U04">Abrir</a></td>
 </tr>
 <tr>
 <td>Lock Account</td>
 <td>U18</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U18.png">PNG</a></td>
+<td><a href="../GUI/prototipos/movil/sketches/islas/U18.svg">SVG</a></td>
 <td><a href="index.html#usuario/U18">Abrir</a></td>
 </tr>
 <tr>
 <td>Unlock Account Code</td>
 <td>U19</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U19.png">PNG</a></td>
+<td><a href="../GUI/prototipos/movil/sketches/islas/U19.svg">SVG</a></td>
 <td><a href="index.html#usuario/U19">Abrir</a></td>
 </tr>
 <tr>
 <td>About Software</td>
 <td>U20</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U20.png">PNG</a></td>
+<td><a href="../GUI/prototipos/movil/sketches/islas/U20.svg">SVG</a></td>
 <td><a href="index.html#usuario/U20">Abrir</a></td>
 </tr>
 <tr>
 <td>About Team / Enterprise</td>
 <td>U21</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U21.png">PNG</a></td>
+<td><a href="../GUI/prototipos/movil/sketches/islas/U21.svg">SVG</a></td>
 <td><a href="index.html#usuario/U21">Abrir</a></td>
 </tr>
 <tr>
 <td>Home</td>
 <td>U06</td>
-<td><a href="../GUI/prototipos/movil/sketches/practica-07/U06.png">PNG</a></td>
+<td><a href="../GUI/prototipos/movil/sketches/islas/U06.svg">SVG</a></td>
 <td><a href="index.html#usuario/U06">Abrir</a></td>
 </tr>
 </tbody>
@@ -358,7 +358,7 @@
 <p><a id="punto-6"></a></p>
 <h2 id="representación-de-los-sketches">Representación de los sketches</h2>
 <p>Los dibujos representan la distribución y los componentes con líneas de grafito sobre blanco, sin acabado visual definitivo. Encabezados, formularios, botones, iconos, tarjetas, listas y mensajes se dibujan según cada operación. Los textos breves identifican controles; las descripciones extensas, permisos y condiciones se mantienen en las fichas. La consigna no exige eliminar todo texto del boceto.</p>
-<p>Cada pantalla tiene un PNG consultable y un SVG editable en GUI para móvil y PWA. Los dos formatos no cuentan como dos pantallas funcionales distintas. El explorador usa estas mismas imágenes, permite ampliarlas y enlaza sus fuentes; no almacena una segunda copia de los sketches.</p>
+<p>Cada pantalla tiene un SVG compartido, consultable y editable en GUI para móvil y PWA. Los dos formatos no cuentan como dos pantallas funcionales distintas. El explorador usa estas mismas imágenes, permite ampliarlas y enlaza sus fuentes; no almacena una segunda copia de los sketches.</p>
 <p><a id="punto-12"></a></p>
 <h2 id="escenarios-para-revisar-el-recorrido">Escenarios para revisar el recorrido</h2>
 <table>
@@ -524,8 +524,8 @@
 <h2 id="organización-y-reproducción">Organización y reproducción</h2>
 <pre><code class="language-text">docs/
   GUI/prototipos/
-    movil/sketches/practica-07/   33 bocetos completos: PNG + SVG
-    pwa/sketches/practica-07/     33 bocetos completos: PNG + SVG
+    movil/sketches/islas/   33 bocetos completos: SVG compartido
+    pwa/sketches/islas/     33 bocetos completos: SVG compartido
   practica-07/
     README.md                    Guía de revisión de los quince puntos
     fichas.md                    Fichas completas de las 33 pantallas
@@ -551,7 +551,7 @@ node docs/practica-07/scripts/dibujar-sketches.cjs
 node docs/practica-07/scripts/documentar.cjs
 node docs/practica-07/scripts/validar-entrega.cjs
 </code></pre>
-<p>Para las pruebas de navegador y regeneración de los 66 PNG en Windows, con Edge instalado y el servidor HTTP anterior activo, usar una carpeta temporal externa al repositorio:</p>
+<p>Para las pruebas de navegador y capturas de evidencia en Windows (fuera del catálogo de sketches), con Edge instalado y el servidor HTTP anterior activo, usar una carpeta temporal externa al repositorio:</p>
 <pre><code class="language-powershell">$taskTools = Join-Path $env:TEMP 'quantify-practica07-tools'
 npm.cmd install --prefix $taskTools playwright@1.65.0 --no-audit --no-fund
 $env:NODE_PATH = Join-Path $taskTools 'node_modules'
@@ -603,8 +603,8 @@ node docs/practica-07/tests/explorador-browser.cjs
 </tr>
 <tr>
 <td>6. Componentes comprensibles y apariencia a lápiz</td>
-<td><a href="galeria.html">Galería</a>, 66 PNG exportados del visor y <code>sketch.css</code>: gris, tipografía manuscrita, contornos, recuadros e hachurado</td>
-<td>Bocetos de baja fidelidad disponibles en PNG y SVG</td>
+<td><a href="galeria.html">Galería</a>, 66 SVG del catálogo compartido y <code>sketch.css</code>: gris, tipografía manuscrita, contornos, recuadros e hachurado</td>
+<td>Bocetos de baja fidelidad disponibles en SVG compartidos</td>
 </tr>
 <tr>
 <td>7. Documentar individualmente los veinte sketches</td>
@@ -628,7 +628,7 @@ node docs/practica-07/tests/explorador-browser.cjs
 </tr>
 <tr>
 <td>11. Integrar referencias visuales y organizar los recorridos</td>
-<td>Pestañas de boceto, conexiones, reglas y trazabilidad; PNG/SVG originales en GUI, ampliación, búsqueda y filtros de rol/formato</td>
+<td>Pestañas de boceto, conexiones, reglas y trazabilidad; SVG compartidos en GUI, ampliación, búsqueda y filtros de rol/formato</td>
 <td>Cubierto mediante enlaces complementarios; el Archify original se conserva como antecedente</td>
 </tr>
 <tr>
@@ -643,7 +643,7 @@ node docs/practica-07/tests/explorador-browser.cjs
 </tr>
 <tr>
 <td>14. Integrar archivos organizados en una rama y explicar consulta en README</td>
-<td>Rama actual <code>docs/practica-07-requisitos</code>; README, prototipo y mapas en <code>docs/practica-07/</code>; bocetos en <code>docs/GUI/prototipos/{movil,pwa}/sketches/practica-07/</code></td>
+<td>Rama actual <code>docs/practica-07-requisitos</code>; README, prototipo y mapas en <code>docs/practica-07/</code>; bocetos en <code>docs/GUI/prototipos/{movil,pwa}/sketches/islas/</code></td>
 <td>Organización local cubierta; publicación de la rama pendiente</td>
 </tr>
 <tr>

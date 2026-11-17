@@ -20,7 +20,7 @@
     A06:{purpose:'Reconstruir qué cambió, quién lo hizo y por qué, sin ofrecer edición del historial.',before:['Acceso administrativo autorizado al módulo de control.','Disponer de acciones locales registradas o reconocer un estado sin eventos.'],steps:['Consultar fecha, actor, entidad, acción y motivo del evento.','Filtrar por tipo de operación para localizar una modificación.','Volver al módulo implicado para revisar su estado, sin alterar el evento.'],checks:[['Filtrar eventos','Actualizar la lista, permaneciendo en A06.'],['No hay coincidencias','Mostrar un estado vacío y permitir cambiar el filtro.'],['Intentar modificar historial','No ofrecer controles de edición o borrado.']],result:'Un historial local consultable que explica las acciones administrativas confirmadas; no constituye auditoría productiva centralizada.'}
   };
   let selected='U01',format='movil',activeTab='pantalla',trail=[],returnNode=null;
-  const image=id=>`../GUI/prototipos/${format}/sketches/practica-07/${id}.png`;
+  const image=id=>`../GUI/prototipos/${format}/sketches/islas/${id}.svg`;
   function render(id){
     const s=get(id);if(!s)return;selected=id;if(trail.at(-1)!==id)trail.push(id);
     const n=notes[id],incoming=all.flatMap(from=>from.edges.filter(e=>e.to===id&&from.id!==id).map(e=>({...e,from:from.id})));

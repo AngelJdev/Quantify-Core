@@ -70,7 +70,7 @@ const root=path.resolve(__dirname,'..'),base=process.env.P07_URL||'http://127.0.
   const screens=await page.evaluate(()=>Object.entries(window.QC.screens).flatMap(([role,list])=>list.map(s=>({role,id:s.id}))));
   await check('33 pantallas en móvil y PWA: contenido, desbordamiento y exportación',async()=>{
     for(const format of ['movil','pwa']){
-      const output=path.resolve(root,`../GUI/prototipos/${format==='movil'?'movil':'pwa'}/sketches/practica-07`);
+      const output=path.resolve(root,`../../tools/portal/.artifacts/practica-07/${format}`);
       fs.mkdirSync(output,{recursive:true});
       for(const {role,id}of screens){
         await open(`#${role}/${id}`);
@@ -84,7 +84,7 @@ const root=path.resolve(__dirname,'..'),base=process.env.P07_URL||'http://127.0.
         await page.locator('#app').evaluate(el=>{el.style.height='auto';el.style.flex='none';});
         await page.locator('#screen-content').evaluate(el=>{el.style.height='auto';el.style.flex='none';el.style.maxHeight='none';});
         }
-        await page.goto(new URL(`../GUI/prototipos/${format==='movil'?'movil':'pwa'}/sketches/practica-07/${id}.svg`,base).href);
+        await page.goto(new URL(`../GUI/prototipos/${format==='movil'?'movil':'pwa'}/sketches/islas/${id}.svg`,base).href);
         await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(50);
         await page.locator('svg').screenshot({path:path.join(output,`${id}.png`),animations:'disabled'});
       }
@@ -104,7 +104,7 @@ const root=path.resolve(__dirname,'..'),base=process.env.P07_URL||'http://127.0.
   fs.mkdirSync(path.join(root,'evidencias'),{recursive:true});
   for(const format of ['movil','pwa']){
     await page.setViewportSize({width:1320,height:1800});
-    await page.setContent(`<html><head><style>body{font:16px system-ui;background:#eee}.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.card{background:white;padding:8px}img{width:100%;height:280px;object-fit:contain;object-position:top}</style></head><body><h1>Quantify Core · 33 sketches · ${format}</h1><div class="grid">${screens.map(s=>`<div class="card"><strong>${s.id}</strong><img src="${new URL(`../GUI/prototipos/${format==='movil'?'movil':'pwa'}/sketches/practica-07/${s.id}.png`,base).href}"></div>`).join('')}</div></body></html>`);
+    await page.setContent(`<html><head><style>body{font:16px system-ui;background:#eee}.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.card{background:white;padding:8px}img{width:100%;height:280px;object-fit:contain;object-position:top}</style></head><body><h1>Quantify Core · 33 sketches · ${format}</h1><div class="grid">${screens.map(s=>`<div class="card"><strong>${s.id}</strong><img src="${new URL(`../GUI/prototipos/${format==='movil'?'movil':'pwa'}/sketches/islas/${s.id}.svg`,base).href}"></div>`).join('')}</div></body></html>`);
     await page.evaluate(()=>Promise.all([...document.images].map(img=>img.decode())));
     await page.screenshot({path:path.join(root,'evidencias',`contacto-${format}.png`),fullPage:true});
   }

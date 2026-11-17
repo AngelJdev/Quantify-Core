@@ -34,7 +34,7 @@ const artifacts = {
   sketches: {
     title: "Sketches · Móvil y PWA",
     url: "docs/GUI/practica-07.html?fidelity=sketch",
-    text: "33 vistas por formato con islas y medidas; archivo original de Práctica 07 disponible.",
+    text: "Práctica 07 · 33 vistas por formato a lápiz, con islas y medidas compartidas.",
     type: "Sketch",
   },
   wireframes: {
@@ -357,7 +357,7 @@ async function route({ initial = false } = {}) {
     "practica-04": "vista?id=canvas",
     "practica-05": "vista?id=roles",
     examen: "vista?id=architecture",
-    "practica-07": "diseno",
+    "practica-07": "vista?id=sketches",
     "practica-08": "vista?id=wireframes",
     "practica-09": "vista?id=mockups",
     practicas: "diseno",

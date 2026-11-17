@@ -25,6 +25,13 @@ const page = await context.newPage(),
   checks = [];
 page.on("pageerror", (e) => errors.push(e.message));
 try {
+  for (const format of ["movil", "pwa"]) {
+    await assert.rejects(
+      fs.access(
+        new URL(`docs/GUI/prototipos/${format}/sketches/practica-07/`, root),
+      ),
+    );
+  }
   assert.equal(sheets.length, 132);
   const allSheets = [...sheets, ...navigationVariants];
   assert.equal(navigationVariants.length, 40);
@@ -87,6 +94,10 @@ try {
       return bad;
     });
     assert.deepEqual(issues, [], s.file);
+    if (s.fidelity === "sketch") {
+      assert.ok(await page.locator("#interface [data-pencil=outline]").count());
+      assert.equal(await page.locator("#interface rect").count(), 0);
+    }
     if (s.navigationState === "compact") assert.equal(s.navigation.width, 72);
     if (s.format === "pwa" && ["U06", "U10", "A02"].includes(s.id)) {
       assert.equal(await page.locator("[data-ui=kpi]").count(), 4);
@@ -108,18 +119,31 @@ try {
         assert.ok(e.y + e.height <= 732);
     }
     if (
-      s.fidelity === "wireframe" &&
+      (s.fidelity === "wireframe" ||
+        (s.fidelity === "sketch" && s.id === "U06")) &&
       ["U06", "U03", "U05", "A02", "U10"].includes(s.id)
     )
       await page.locator("svg").screenshot({
         path: new URL(
-          `${s.id}-${s.format}${s.navigationState === "compact" ? "-compact" : ""}.png`,
+          `${s.fidelity === "sketch" ? "sketch-" : ""}${s.id}-${s.format}${s.navigationState === "compact" ? "-compact" : ""}.png`,
           out,
         ).pathname.replace(/^\/(\w:)/, "$1"),
       });
   }
   checks.push(
     "132 láminas base y 40 variantes: límites, texto, cotas, objetivos y geometría compartida",
+  );
+  await page.goto(base + "docs/practica-07/galeria.html#U06");
+  await page.waitForURL("**/docs/GUI/practica-07.html?fidelity=sketch#U06");
+  assert.equal(await page.locator("#fidelity-filter").inputValue(), "sketch");
+  assert.match(
+    await page.locator("#catalog .card:not([hidden]) img").getAttribute("src"),
+    /sketches\/islas\/U06.svg/,
+  );
+  await page.goto(base + "docs/GUI/practica-07.html?fidelity=historico#U06");
+  assert.equal(await page.locator("#fidelity-filter").inputValue(), "sketch");
+  checks.push(
+    "Práctica 07 y enlaces anteriores apuntan al catálogo único; carpetas duplicadas ausentes",
   );
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });
@@ -151,11 +175,7 @@ try {
     }
     await page.selectOption("#fidelity-filter", "sketch");
     assert.match(await image.getAttribute("src"), /sketches\/islas/);
-    await page.selectOption("#fidelity-filter", "historico");
-    assert.match(
-      await image.getAttribute("src"),
-      /sketches\/practica-07\/U06.png/,
-    );
+    assert.equal(await page.locator("#fidelity-filter option").count(), 2);
     await page.selectOption("#fidelity-filter", "wireframe");
     await page.selectOption("#role-filter", "admin");
     assert.equal(await page.locator("#screen-picker option").count(), 11);

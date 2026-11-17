@@ -8,4 +8,4 @@ La [corrección Tarea 03](../GUI/identidad/README.md#tarea-03--guía-de-estilos)
 
 Las guías funcionales existentes conservan su propósito: [sistema de diseño](sistema-diseno.md), [recorridos y estados](recorridos.md), [tokens](../../packages/design-tokens/README.md), [requisitos](../requerimientos/catalogo.md) y [contratos](../../packages/contracts/README.md).
 
-La Práctica 07 permanece como referencia histórica intacta. Los clientes de producto requieren implementación y pruebas propias; una lámina no demuestra servicios operativos.
+Práctica 07 enlaza el catálogo compartido de sketches a lápiz. Los clientes de producto requieren implementación y pruebas propias; una lámina no demuestra servicios operativos.
