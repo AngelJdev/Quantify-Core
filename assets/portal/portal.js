@@ -45,8 +45,8 @@ const artifacts = {
   },
   mockups: {
     title: "Mockups",
-    url: "docs/GUI/index.html?fidelity=mockup#prototipos",
-    text: "Avance claro y oscuro. Se actualizará después de aprobar sketches y wireframes.",
+    url: "docs/GUI/practica-07.html?fidelity=mockup",
+    text: "33 vistas por formato en claro y oscuro, con islas, medidas e identidad definida.",
     type: "Mockup",
   },
   navigation: {
@@ -268,7 +268,7 @@ function design() {
     '">03 · Refinar mockups</a><a href="' +
     view("prototype") +
     '">04 · Validar recorridos</a></div>' +
-    `<div class="notice">33 sketches y 33 wireframes por formato, con islas y medidas compartidas. PWA provisional con referencias de video revisadas. Mockups anteriores pendientes de alinear.</div><div class="grid">${["sketches", "wireframes", "mockups", "navigation", "prototype", "identity", "sheets", "archify"].map((id) => card(artifacts[id].title, artifacts[id].text, view(id), "Abrir visor", artifacts[id].type)).join("")}${card("Fuente editable en Figma", "Diseños editables; el acceso depende de los permisos del archivo.", "https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3", "Abrir Figma", "Fuente editable")}</div><div class="section-heading"><h2>Reglas compartidas</h2></div><div class="grid two">${card("Sistema de diseño", "Comportamiento, accesibilidad, componentes y movimiento.", read("docs/diseno/sistema-diseno.md"))}${card("Tokens e iconografía", "Una identidad compartida entre móvil, web y documentación.", read("packages/design-tokens/README.md"))}</div>`;
+    `<div class="notice">33 sketches y 33 wireframes por formato, con islas y medidas compartidas. PWA provisional con referencias de video revisadas. Mockups alineados, en claro y oscuro.</div><div class="grid">${["sketches", "wireframes", "mockups", "navigation", "prototype", "identity", "sheets", "archify"].map((id) => card(artifacts[id].title, artifacts[id].text, view(id), "Abrir visor", artifacts[id].type)).join("")}${card("Fuente editable en Figma", "Diseños editables; el acceso depende de los permisos del archivo.", "https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3", "Abrir Figma", "Fuente editable")}</div><div class="section-heading"><h2>Reglas compartidas</h2></div><div class="grid two">${card("Sistema de diseño", "Comportamiento, accesibilidad, componentes y movimiento.", read("docs/diseno/sistema-diseno.md"))}${card("Tokens e iconografía", "Una identidad compartida entre móvil, web y documentación.", read("packages/design-tokens/README.md"))}</div>`;
 }
 function engineering() {
   main.innerHTML =
