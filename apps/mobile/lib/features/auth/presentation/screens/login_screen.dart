@@ -32,13 +32,12 @@ class _LoginScreenState extends State<LoginScreen> {
       const SnackBar(
         backgroundColor: AppColors.midnightNavy,
         content: Text(
-          'Vista previa OIDC Authorization Code + PKCE lista para conectar con Keycloak',
+          'El acceso institucional aún no está conectado. Puedes abrir la demostración.',
           style: TextStyle(color: AppColors.opticalWhite),
         ),
       ),
     );
 
-    Navigator.of(context).pushReplacementNamed(AppRoutes.main);
   }
 
   @override

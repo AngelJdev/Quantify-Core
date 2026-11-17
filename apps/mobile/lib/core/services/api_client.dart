@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import '../constants/api_constants.dart';
 
 /// Resultado genérico de operaciones con la API
@@ -61,7 +60,6 @@ class ApiClient {
         'timezone': 'America/Mexico_City',
       });
     } catch (e) {
-      debugPrint('Error en getProfile: $e');
       return ApiResponse.error('No se pudo obtener el perfil');
     }
   }
@@ -75,8 +73,7 @@ class ApiClient {
     required String idempotencyKey,
   }) async {
     try {
-      final headers = buildHeaders(idempotencyKey: idempotencyKey);
-      debugPrint('Enviando check-in idempotente ($idempotencyKey) con headers $headers');
+      // Demo local: no enviar ni registrar cabeceras de autorización.
       await Future.delayed(const Duration(milliseconds: 400));
       return ApiResponse.success({
         'id': 'chk-${DateTime.now().millisecondsSinceEpoch}',

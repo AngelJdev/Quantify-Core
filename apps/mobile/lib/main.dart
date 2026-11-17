@@ -16,6 +16,11 @@ class QuantifyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Quantify Core',
       debugShowCheckedModeBanner: false,
+      builder: (context, child) => Banner(
+        message: 'DEMO LOCAL',
+        location: BannerLocation.topEnd,
+        child: child ?? const SizedBox.shrink(),
+      ),
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark, // Modo oscuro por defecto alineado a la marca
