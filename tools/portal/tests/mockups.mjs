@@ -106,9 +106,12 @@ try {
       await page.locator("[data-ui=navigation]").count(),
       s.navigation ? 1 : 0,
     );
-    if (s.id === "U16")
+    if (s.id === "U16") {
       assert.equal(await page.locator("#interface > [data-ui]").count(), 1);
-    if (["U06", "U02", "A02", "U10", "U05"].includes(s.id))
+      assert.equal(await page.locator('[data-splash="brand-islands"]').count(), 1);
+      assert.deepEqual(await page.locator('#interface text').allTextContents(), ["Quantify", "CORE"]);
+    }
+    if (["U16", "U07", "U11", "U12", "U06", "U02", "A02", "U10", "U05"].includes(s.id))
       await page
         .locator("svg")
         .first()

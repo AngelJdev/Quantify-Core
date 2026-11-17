@@ -21,6 +21,12 @@ Esta revisión aplica la identidad definida a las 33 pantallas del inventario ac
 
 Los valores se leen de `packages/design-tokens/preview.json`. Los caminos vectoriales y la Q se leen de `identidad/guia/modelo.json`; su copia antigua de tokens no reemplaza la fuente vigente. Las superficies usan una sombra sutil derivada de Obsidian, sin añadir colores.
 
+### Revisión de acabado · 16/11/2026
+
+Splash U16 presenta el imagotipo en una isla central de 210 × 80 px, con la Q sin deformar, dos órbitas discretas e islas ambientales recortadas al viewport. Conserva una sola pieza de identidad, sin botones ni mensajes de carga. Formularios incorporan iconos y ejemplos por campo; programación presenta chips de días; preferencias y recordatorios usan interruptores con estado visible. Las tarjetas de ideas, equipo, avisos y administración incorporan icono, título y contexto. Bienvenida diferencia la acción principal del acceso existente. Se mantienen cotas, temas, paleta y navegación; los dashboards ya resueltos conservan su composición.
+
+Esta revisión queda pendiente de aprobación visual del responsable antes de crear un tag documental. La publicación para revisar no implica dicha aprobación.
+
 ## Contenido y alcance
 
 Las láminas contienen **datos ilustrativos**, indicados en el pie. Inicio muestra dos hábitos, uno completo y otro parcial: 1/2 = 50 %. El análisis de ejemplo conserva cinco días completos de siete (71,4 %) y racha de cero al cierre. El día abierto se distingue del periodo cerrado. Las cifras administrativas son ejemplos operativos y no muestran hábitos ni biometría privados. Una idea de ejemplo no se presenta como salida de un modelo de IA.
