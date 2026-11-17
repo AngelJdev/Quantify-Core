@@ -32,6 +32,10 @@ Las propuestas no autorizan librerías, fuentes ni dependencias externas. La sel
 
 ## Catálogo de componentes
 
+### Revisión documental de islas · 16/11/2026
+
+Por solicitud del proyecto, sketches y wireframes presentan bloques separados, cabecera como isla y navegación móvil flotante en píldora. La [especificación de revisión](../GUI/ISLAS.md) reúne cotas y fuentes: viewport móvil 390 × 844 px, margen de 24 px, separación de 12 px y píldora 342 × 72 px con radio de 36 px. Su fuente compartida es `packages/design-tokens/preview.json.prototypeIslands`, con estado documental. La implementación deberá sumar el área segura inferior y reservar espacio de contenido para impedir que la navegación tape acciones, además de comprobar teclado y texto ampliado. La PWA de 1280 × 900 px es provisional hasta revisar los videos de referencia. Estos valores son geometría de prototipo en revisión; los adaptadores y tokens de producto siguen pendientes.
+
 | Componente | Contrato visual y de interacción | Estados necesarios |
 |---|---|---|
 | Navegación de aplicación | Sección actual, enlaces con nombre, retorno coherente, acceso a sesión | Activo, foco, acceso restringido, espacio compacto |

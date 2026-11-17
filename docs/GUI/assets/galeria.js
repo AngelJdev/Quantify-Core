@@ -11,7 +11,7 @@
   const dialog=document.getElementById('viewer'),full=document.getElementById('full-image');
   const requestedFidelity=new URLSearchParams(location.search).get('fidelity');
   let fidelity=['sketch','wireframe','mockup'].includes(requestedFidelity)?requestedFidelity:'sketch',theme=new URLSearchParams(location.search).get('theme')==='dark'?'dark':'light',activeCards=[],current=0,opener;
-  const notes={sketch:'33 sketches acotados · Splash primero, móvil 390 × 844 px. Las cotas están fuera de la interfaz; cabecera y navegación se conservan según el rol. Wireframes y mockups pendientes de alinear.',wireframe:'26 vistas: 20 originales y 6 de autenticación · Estructura en grises, fuente genérica Arial y marcadores de imagen/logo. La numeración conserva la correspondencia con cada sketch.',mockup:'26 vistas: 20 originales y 6 de autenticación · Inter, paleta, iconos y logos existentes. Claro y oscuro son variantes de cada pantalla; no aumentan el conteo. Imágenes estáticas, con datos de ejemplo.'};
+  const notes={sketch:'33 sketches por formato · Islas, márgenes de 24 px y cotas exteriores; móvil 390 × 844 px, PWA 1280 × 900 px provisional. El archivo original de Práctica 07 se conserva.',wireframe:'33 wireframes por formato · Misma geometría y recorrido que los sketches; navegación móvil flotante en píldora. Grises e Inter; PWA provisional hasta revisar los videos.',mockup:'26 vistas anteriores, pendientes de alinear con las islas. Claro y oscuro conservan el mismo conteo. Cada imagen indica sus dimensiones nativas; no acredita producto conectado.'};
   function showImage(index){
     current=(index+activeCards.length)%activeCards.length;
     const card=activeCards[current];full.src=card.dataset.image;full.alt=card.dataset.title;
@@ -36,17 +36,20 @@
     document.getElementById('fidelity-note').textContent=notes[fidelity];
     document.querySelectorAll('[data-theme]').forEach(b=>{b.disabled=fidelity!=='mockup';b.setAttribute('aria-pressed',String(b.dataset.theme===theme));});
     document.querySelector('[aria-label="Tema"]').hidden=fidelity!=='mockup';
-    if(fidelity!=='mockup'&&desktop){format.value='mobile';return render();}
-    format.disabled=fidelity!=='mockup';
-    const visible=fidelity==='sketch'?sketches:desktop?screens.filter(s=>['hoy','administracion'].includes(s.id)):screens.filter(s=>!s.legacyDesktop);
+    format.disabled=false;
+    const visible=fidelity!=='mockup'?sketches:desktop?screens.filter(s=>['hoy','administracion'].includes(s.id)):screens.filter(s=>!s.legacyDesktop);
     for(const s of visible){
       const folder={sketch:'sketches',wireframe:'wireframes',mockup:'mockups'}[fidelity];
       const name=s.id==='hoy'&&desktop?'hoy-escritorio':s.id;
-      const file=desktop?`prototipos/${folder}/${name}-${theme}.png`:s.assets[`${fidelity}:${fidelity==='mockup'?theme:'none'}`];
+      const file=fidelity!=='mockup'?`prototipos/${desktop?'pwa':'movil'}/${folder}/islas/${s.id}.svg`:desktop?`prototipos/${folder}/${name}-${theme}.png`:s.assets[`${fidelity}:${fidelity==='mockup'?theme:'none'}`];
       const card=document.createElement('button');card.className='image-card';card.dataset.image=file;card.dataset.title=(desktop?'':String(s.number).padStart(2,'0')+' / ')+s.title;card.dataset.description=`${s.rf} · ${s.intent||s.note} ${desktop?'':s.note}`;
-      const img=document.createElement('img');img.src=file;img.alt=`${fidelity}: ${s.title}${fidelity==='mockup'?', '+theme:''}`;img.width=desktop?1440:390;img.height=desktop?900:844;
-      const caption=document.createElement('span'),title=document.createElement('b'),sub=document.createElement('small');title.textContent=card.dataset.title;sub.textContent=`${s.rf} · ${desktop?'Escritorio anterior':'Móvil · '+s.intent}`;
-      caption.append(title,sub);card.append(img,caption);grid.append(card);
+      const img=document.createElement('img');img.src=file;img.alt=`${fidelity}: ${s.title}${fidelity==='mockup'?', '+theme:''}`;img.width=desktop?1480:590;img.height=desktop?1100:1044;
+      if(fidelity==='mockup'){img.width=desktop?1440:390;img.height=desktop?900:844;}
+      const caption=document.createElement('span'),title=document.createElement('b'),sub=document.createElement('small');title.textContent=card.dataset.title;sub.textContent=`${s.rf} · ${desktop?(fidelity==='mockup'?'Escritorio anterior':'PWA provisional'):'Móvil · '+s.intent}`;
+      const measures=document.createElement('small');measures.className='asset-measures';
+      if(fidelity!=='mockup')measures.textContent=`Viewport ${desktop?'1280 × 900':'390 × 844'} px · cotas exteriores · ${desktop?'PWA provisional':'móvil'}`;
+      else {img.addEventListener('load',()=>{measures.textContent=`Imagen ${img.naturalWidth} × ${img.naturalHeight} px · referencia previa`;card.dataset.description+=` · Imagen ${img.naturalWidth} × ${img.naturalHeight} px`;});}
+      caption.append(title,sub,measures);card.append(img,caption);grid.append(card);
     }
     bindCards();
   }

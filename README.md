@@ -41,13 +41,13 @@ El **[Centro del proyecto](https://angeljdev.github.io/Quantify-Core/)** reúne 
 
 ## Práctica 07
 
-**[Revisar sketches uno por uno](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html):** Splash primero y solo logo; 33 vistas con cotas exteriores, móvil 390 × 844 px y PWA 1280 × 900 px. Wireframes y mockups se alinearán en la siguiente etapa.
+**[Revisar sketches uno por uno](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html?fidelity=sketch):** Splash primero y solo logo; 33 vistas con cotas exteriores, móvil 390 × 844 px y PWA 1280 × 900 px. La [revisión de islas](docs/GUI/ISLAS.md) incorpora 33 wireframes correspondientes por formato y conserva el archivo original de Práctica 07. PWA provisional hasta revisar videos; mockups pendientes de alinear.
 
 La [carpeta de Práctica 07](docs/practica-07/) reúne la guía de los quince puntos, 33 fichas, galería, prototipo, explorador de navegación y evidencias. Su README enlaza las fuentes de requisitos e historias y los bocetos originales en GUI. [Abrir el explorador](docs/practica-07/navegacion.html).
 
 ## Práctica 08
 
-**Diagrama de Visualización de Wireframes del Proyecto Integrador.** Los [wireframes móviles disponibles](docs/GUI/prototipos/movil/wireframes/README.md) y su [matriz de pantallas](docs/GUI/prototipos/movil/README.md) se conservan en GUI. También pueden consultarse en la [galería visual del sitio](https://angeljdev.github.io/Quantify-Core/docs/GUI/index.html?fidelity=wireframe#prototipos), con **Wireframe** seleccionado automáticamente.
+**Diagrama de Visualización de Wireframes del Proyecto Integrador.** La [revisión de wireframes](docs/GUI/prototipos/movil/wireframes/README.md) incluye 33 vistas por formato, islas, navegación móvil en píldora y medidas. También pueden consultarse en la [galería visual del sitio](https://angeljdev.github.io/Quantify-Core/docs/GUI/index.html?fidelity=wireframe#prototipos), con **Wireframe** seleccionado automáticamente. El catálogo anterior se conserva.
 
 **Estado:** material visual disponible; el diagrama específico de Práctica 08 está pendiente de integrar. La publicación de los wireframes no acredita por sí sola la entrega completa de la práctica.
 
