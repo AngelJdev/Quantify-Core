@@ -34,7 +34,7 @@ try {
   }
   assert.equal(sheets.length, 132);
   const allSheets = [...sheets, ...navigationVariants];
-  assert.equal(navigationVariants.length, 40);
+  assert.equal(navigationVariants.length, 36);
   for (const s of allSheets) {
     const match = allSheets.find(
       (x) =>
@@ -131,7 +131,7 @@ try {
       });
   }
   checks.push(
-    "132 láminas base y 40 variantes: límites, texto, cotas, objetivos y geometría compartida",
+    "132 láminas base y 36 variantes: límites, texto, cotas, objetivos y geometría compartida",
   );
   await page.goto(base + "docs/practica-07/galeria.html#U06");
   await page.waitForURL(url => url.pathname.endsWith('/docs/GUI/practica-07.html') && url.searchParams.get('fidelity') === 'sketch' && url.hash === '#U06');

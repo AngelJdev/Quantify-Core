@@ -9,6 +9,7 @@ const entrada = require("./entrada.cjs");
 const orientacion = require("./orientacion.cjs");
 const acceso = require("./acceso.cjs");
 const paneles = require("./paneles.cjs");
+const asistente = require("./asistente.cjs");
 const root = path.resolve(__dirname, "../../..");
 const tokens = JSON.parse(
   fs.readFileSync(path.join(root, "packages/design-tokens/preview.json")),
@@ -37,16 +38,14 @@ const navigationVariants = [];
 for (const screen of Object.values(ctx.window.QC.screens).flat()) {
   for (const format of ["movil", "pwa"])
     for (const fidelity of ["sketch", "wireframe"])
-      for (const navigationState of format === "pwa" &&
-      screen.group !== "Acceso" &&
-      screen.id !== "U16"
+      for (const navigationState of format === "pwa" && screen.session
         ? ["expanded", "compact"]
         : ["expanded"]) {
         const mobile = format === "movil",
           viewport = mobile ? geometry.mobile : geometry.pwa,
           w = viewport.width,
           h = viewport.height;
-        const auth = screen.group === "Acceso",
+        const auth = !screen.session,
           splash = screen.id === "U16",
           admin = screen.id.startsWith("A");
         const pad = 100,
@@ -288,7 +287,14 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
             });
             y += 152;
           }
-          if (overview) {
+          if (screen.id === "U11") {
+            for (const e of asistente.elements(bx, bw)) {
+              ui(e.kind, e.x, e.y, e.width, e.height, () => {
+                drawing += asistente.render(e, fidelity);
+              });
+            }
+            y = 728;
+          } else if (overview) {
             const dg = geometry.dashboardGap,
               kpiW = (availableW - dg * 3) / 4;
             const title =

@@ -3858,32 +3858,39 @@
           "height": 72
         },
         {
-          "kind": "text",
+          "kind": "input",
           "x": 24,
           "y": 364,
+          "width": 342,
+          "height": 72
+        },
+        {
+          "kind": "text",
+          "x": 24,
+          "y": 448,
           "width": 342,
           "height": 44
         },
         {
           "kind": "button",
           "x": 24,
-          "y": 420,
+          "y": 504,
           "width": 342,
           "height": 48
         },
         {
           "kind": "link",
           "x": 24,
-          "y": 480,
+          "y": 564,
           "width": 342,
           "height": 44
         },
         {
           "kind": "support-panel",
           "x": 24,
-          "y": 544,
+          "y": 628,
           "width": 342,
-          "height": 188
+          "height": 104
         }
       ],
       "file": "docs/GUI/prototipos/movil/sketches/islas/U07.svg"
@@ -3974,32 +3981,39 @@
           "height": 72
         },
         {
-          "kind": "text",
+          "kind": "input",
           "x": 24,
           "y": 364,
+          "width": 342,
+          "height": 72
+        },
+        {
+          "kind": "text",
+          "x": 24,
+          "y": 448,
           "width": 342,
           "height": 44
         },
         {
           "kind": "button",
           "x": 24,
-          "y": 420,
+          "y": 504,
           "width": 342,
           "height": 48
         },
         {
           "kind": "link",
           "x": 24,
-          "y": 480,
+          "y": 564,
           "width": 342,
           "height": 44
         },
         {
           "kind": "support-panel",
           "x": 24,
-          "y": 544,
+          "y": 628,
           "width": 342,
-          "height": 188
+          "height": 104
         }
       ],
       "file": "docs/GUI/prototipos/movil/wireframes/islas/U07.svg"
@@ -4104,23 +4118,30 @@
           "height": 72
         },
         {
-          "kind": "text",
+          "kind": "input",
           "x": 256,
           "y": 364,
+          "width": 513,
+          "height": 72
+        },
+        {
+          "kind": "text",
+          "x": 256,
+          "y": 448,
           "width": 513,
           "height": 44
         },
         {
           "kind": "button",
           "x": 256,
-          "y": 420,
+          "y": 504,
           "width": 513,
           "height": 48
         },
         {
           "kind": "link",
           "x": 256,
-          "y": 480,
+          "y": 564,
           "width": 513,
           "height": 44
         },
@@ -4134,9 +4155,9 @@
         {
           "kind": "support-brief",
           "x": 256,
-          "y": 548,
+          "y": 632,
           "width": 513,
-          "height": 328
+          "height": 244
         }
       ],
       "file": "docs/GUI/prototipos/pwa/sketches/islas/U07.svg"
@@ -4241,23 +4262,30 @@
           "height": 72
         },
         {
-          "kind": "text",
+          "kind": "input",
           "x": 256,
           "y": 364,
+          "width": 513,
+          "height": 72
+        },
+        {
+          "kind": "text",
+          "x": 256,
+          "y": 448,
           "width": 513,
           "height": 44
         },
         {
           "kind": "button",
           "x": 256,
-          "y": 420,
+          "y": 504,
           "width": 513,
           "height": 48
         },
         {
           "kind": "link",
           "x": 256,
-          "y": 480,
+          "y": 564,
           "width": 513,
           "height": 44
         },
@@ -4271,9 +4299,9 @@
         {
           "kind": "support-brief",
           "x": 256,
-          "y": 548,
+          "y": 632,
           "width": 513,
-          "height": 328
+          "height": 244
         }
       ],
       "file": "docs/GUI/prototipos/pwa/wireframes/islas/U07.svg"
@@ -4385,11 +4413,25 @@
           "height": 44
         },
         {
+          "kind": "link",
+          "x": 24,
+          "y": 516,
+          "width": 342,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 24,
+          "y": 572,
+          "width": 342,
+          "height": 44
+        },
+        {
           "kind": "support-panel",
           "x": 24,
-          "y": 524,
+          "y": 636,
           "width": 342,
-          "height": 208
+          "height": 96
         }
       ],
       "file": "docs/GUI/prototipos/movil/sketches/islas/U08.svg"
@@ -4501,11 +4543,25 @@
           "height": 44
         },
         {
+          "kind": "link",
+          "x": 24,
+          "y": 516,
+          "width": 342,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 24,
+          "y": 572,
+          "width": 342,
+          "height": 44
+        },
+        {
           "kind": "support-panel",
           "x": 24,
-          "y": 524,
+          "y": 636,
           "width": 342,
-          "height": 208
+          "height": 96
         }
       ],
       "file": "docs/GUI/prototipos/movil/wireframes/islas/U08.svg"
@@ -4631,6 +4687,20 @@
           "height": 44
         },
         {
+          "kind": "link",
+          "x": 256,
+          "y": 516,
+          "width": 513,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 256,
+          "y": 572,
+          "width": 513,
+          "height": 44
+        },
+        {
           "kind": "companion-panel",
           "x": 801,
           "y": 112,
@@ -4640,9 +4710,9 @@
         {
           "kind": "support-brief",
           "x": 256,
-          "y": 528,
+          "y": 640,
           "width": 513,
-          "height": 348
+          "height": 236
         }
       ],
       "file": "docs/GUI/prototipos/pwa/sketches/islas/U08.svg"
@@ -4768,6 +4838,20 @@
           "height": 44
         },
         {
+          "kind": "link",
+          "x": 256,
+          "y": 516,
+          "width": 513,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 256,
+          "y": 572,
+          "width": 513,
+          "height": 44
+        },
+        {
           "kind": "companion-panel",
           "x": 801,
           "y": 112,
@@ -4777,9 +4861,9 @@
         {
           "kind": "support-brief",
           "x": 256,
-          "y": 528,
+          "y": 640,
           "width": 513,
-          "height": 348
+          "height": 236
         }
       ],
       "file": "docs/GUI/prototipos/pwa/wireframes/islas/U08.svg"
@@ -5931,46 +6015,53 @@
           "height": 48
         },
         {
-          "kind": "text",
+          "kind": "assistant-intro",
           "x": 24,
           "y": 112,
           "width": 342,
-          "height": 44
+          "height": 56
         },
         {
-          "kind": "box",
+          "kind": "assistant-user",
           "x": 24,
-          "y": 168,
+          "y": 180,
           "width": 342,
-          "height": 80
+          "height": 72
         },
         {
-          "kind": "button",
+          "kind": "assistant-reply",
           "x": 24,
-          "y": 260,
+          "y": 264,
+          "width": 342,
+          "height": 88
+        },
+        {
+          "kind": "assistant-proposal",
+          "x": 24,
+          "y": 364,
+          "width": 342,
+          "height": 100
+        },
+        {
+          "kind": "assistant-create",
+          "x": 24,
+          "y": 476,
           "width": 342,
           "height": 48
         },
         {
-          "kind": "button",
+          "kind": "assistant-composer",
           "x": 24,
-          "y": 320,
+          "y": 536,
+          "width": 342,
+          "height": 120
+        },
+        {
+          "kind": "assistant-manual",
+          "x": 24,
+          "y": 668,
           "width": 342,
           "height": 48
-        },
-        {
-          "kind": "link",
-          "x": 24,
-          "y": 380,
-          "width": 342,
-          "height": 44
-        },
-        {
-          "kind": "support-panel",
-          "x": 24,
-          "y": 444,
-          "width": 342,
-          "height": 288
         }
       ],
       "file": "docs/GUI/prototipos/movil/sketches/islas/U11.svg"
@@ -6040,46 +6131,53 @@
           "height": 48
         },
         {
-          "kind": "text",
+          "kind": "assistant-intro",
           "x": 24,
           "y": 112,
           "width": 342,
-          "height": 44
+          "height": 56
         },
         {
-          "kind": "box",
+          "kind": "assistant-user",
           "x": 24,
-          "y": 168,
+          "y": 180,
           "width": 342,
-          "height": 80
+          "height": 72
         },
         {
-          "kind": "button",
+          "kind": "assistant-reply",
           "x": 24,
-          "y": 260,
+          "y": 264,
+          "width": 342,
+          "height": 88
+        },
+        {
+          "kind": "assistant-proposal",
+          "x": 24,
+          "y": 364,
+          "width": 342,
+          "height": 100
+        },
+        {
+          "kind": "assistant-create",
+          "x": 24,
+          "y": 476,
           "width": 342,
           "height": 48
         },
         {
-          "kind": "button",
+          "kind": "assistant-composer",
           "x": 24,
-          "y": 320,
+          "y": 536,
+          "width": 342,
+          "height": 120
+        },
+        {
+          "kind": "assistant-manual",
+          "x": 24,
+          "y": 668,
           "width": 342,
           "height": 48
-        },
-        {
-          "kind": "link",
-          "x": 24,
-          "y": 380,
-          "width": 342,
-          "height": 44
-        },
-        {
-          "kind": "support-panel",
-          "x": 24,
-          "y": 444,
-          "width": 342,
-          "height": 288
         }
       ],
       "file": "docs/GUI/prototipos/movil/wireframes/islas/U11.svg"
@@ -6163,39 +6261,53 @@
           "height": 88
         },
         {
-          "kind": "text",
+          "kind": "assistant-intro",
           "x": 256,
           "y": 112,
           "width": 513,
-          "height": 44
+          "height": 56
         },
         {
-          "kind": "box",
+          "kind": "assistant-user",
           "x": 256,
-          "y": 168,
+          "y": 180,
           "width": 513,
-          "height": 80
+          "height": 72
         },
         {
-          "kind": "button",
+          "kind": "assistant-reply",
           "x": 256,
-          "y": 260,
+          "y": 264,
+          "width": 513,
+          "height": 88
+        },
+        {
+          "kind": "assistant-proposal",
+          "x": 256,
+          "y": 364,
+          "width": 513,
+          "height": 100
+        },
+        {
+          "kind": "assistant-create",
+          "x": 256,
+          "y": 476,
           "width": 513,
           "height": 48
         },
         {
-          "kind": "button",
+          "kind": "assistant-composer",
           "x": 256,
-          "y": 320,
+          "y": 536,
           "width": 513,
-          "height": 48
+          "height": 120
         },
         {
-          "kind": "link",
+          "kind": "assistant-manual",
           "x": 256,
-          "y": 380,
+          "y": 668,
           "width": 513,
-          "height": 44
+          "height": 48
         },
         {
           "kind": "companion-panel",
@@ -6207,9 +6319,9 @@
         {
           "kind": "support-brief",
           "x": 256,
-          "y": 448,
+          "y": 740,
           "width": 513,
-          "height": 428
+          "height": 136
         }
       ],
       "file": "docs/GUI/prototipos/pwa/sketches/islas/U11.svg"
@@ -6293,39 +6405,53 @@
           "height": 88
         },
         {
-          "kind": "text",
+          "kind": "assistant-intro",
           "x": 256,
           "y": 112,
           "width": 513,
-          "height": 44
+          "height": 56
         },
         {
-          "kind": "box",
+          "kind": "assistant-user",
           "x": 256,
-          "y": 168,
+          "y": 180,
           "width": 513,
-          "height": 80
+          "height": 72
         },
         {
-          "kind": "button",
+          "kind": "assistant-reply",
           "x": 256,
-          "y": 260,
+          "y": 264,
+          "width": 513,
+          "height": 88
+        },
+        {
+          "kind": "assistant-proposal",
+          "x": 256,
+          "y": 364,
+          "width": 513,
+          "height": 100
+        },
+        {
+          "kind": "assistant-create",
+          "x": 256,
+          "y": 476,
           "width": 513,
           "height": 48
         },
         {
-          "kind": "button",
+          "kind": "assistant-composer",
           "x": 256,
-          "y": 320,
+          "y": 536,
           "width": 513,
-          "height": 48
+          "height": 120
         },
         {
-          "kind": "link",
+          "kind": "assistant-manual",
           "x": 256,
-          "y": 380,
+          "y": 668,
           "width": 513,
-          "height": 44
+          "height": 48
         },
         {
           "kind": "companion-panel",
@@ -6337,9 +6463,9 @@
         {
           "kind": "support-brief",
           "x": 256,
-          "y": 448,
+          "y": 740,
           "width": 513,
-          "height": 428
+          "height": 136
         }
       ],
       "file": "docs/GUI/prototipos/pwa/wireframes/islas/U11.svg"
@@ -8325,12 +8451,7 @@
         "width": 590,
         "height": 1044
       },
-      "navigation": {
-        "x": 24,
-        "y": 748,
-        "width": 342,
-        "height": 72
-      },
+      "navigation": null,
       "navigationState": "expanded",
       "provisional": false,
       "elements": [
@@ -8340,41 +8461,6 @@
           "y": 24,
           "width": 342,
           "height": 64
-        },
-        {
-          "kind": "navigation",
-          "x": 24,
-          "y": 748,
-          "width": 342,
-          "height": 72
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 115.5,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 195,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 274.5,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
         },
         {
           "kind": "text",
@@ -8423,7 +8509,7 @@
           "x": 24,
           "y": 496,
           "width": 342,
-          "height": 236
+          "height": 324
         }
       ],
       "file": "docs/GUI/prototipos/movil/sketches/islas/U20.svg"
@@ -8441,12 +8527,7 @@
         "width": 590,
         "height": 1044
       },
-      "navigation": {
-        "x": 24,
-        "y": 748,
-        "width": 342,
-        "height": 72
-      },
+      "navigation": null,
       "navigationState": "expanded",
       "provisional": false,
       "elements": [
@@ -8456,41 +8537,6 @@
           "y": 24,
           "width": 342,
           "height": 64
-        },
-        {
-          "kind": "navigation",
-          "x": 24,
-          "y": 748,
-          "width": 342,
-          "height": 72
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 115.5,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 195,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 274.5,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
         },
         {
           "kind": "text",
@@ -8539,7 +8585,7 @@
           "x": 24,
           "y": 496,
           "width": 342,
-          "height": 236
+          "height": 324
         }
       ],
       "file": "docs/GUI/prototipos/movil/wireframes/islas/U20.svg"
@@ -8557,12 +8603,7 @@
         "width": 1480,
         "height": 1100
       },
-      "navigation": {
-        "x": 24,
-        "y": 112,
-        "width": 208,
-        "height": 764
-      },
+      "navigation": null,
       "navigationState": "expanded",
       "provisional": true,
       "elements": [
@@ -8574,108 +8615,59 @@
           "height": 64
         },
         {
-          "kind": "navigation",
-          "x": 24,
-          "y": 112,
-          "width": 208,
-          "height": 764
-        },
-        {
-          "kind": "nav-toggle",
-          "x": 36,
-          "y": 128,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 192,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 252,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 312,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 372,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-context",
-          "x": 36,
-          "y": 764,
-          "width": 184,
-          "height": 88
-        },
-        {
           "kind": "text",
-          "x": 256,
+          "x": 64,
           "y": 112,
-          "width": 513,
+          "width": 520,
           "height": 44
         },
         {
           "kind": "box",
-          "x": 256,
+          "x": 64,
           "y": 168,
-          "width": 513,
+          "width": 520,
           "height": 80
         },
         {
           "kind": "text",
-          "x": 256,
+          "x": 64,
           "y": 260,
-          "width": 513,
+          "width": 520,
           "height": 44
         },
         {
           "kind": "text",
-          "x": 256,
+          "x": 64,
           "y": 316,
-          "width": 513,
+          "width": 520,
           "height": 44
         },
         {
           "kind": "button",
-          "x": 256,
+          "x": 64,
           "y": 372,
-          "width": 513,
+          "width": 520,
           "height": 48
         },
         {
           "kind": "link",
-          "x": 256,
+          "x": 64,
           "y": 432,
-          "width": 513,
+          "width": 520,
           "height": 44
         },
         {
           "kind": "companion-panel",
-          "x": 801,
+          "x": 616,
           "y": 112,
-          "width": 455,
+          "width": 600,
           "height": 764
         },
         {
           "kind": "support-brief",
-          "x": 256,
+          "x": 64,
           "y": 500,
-          "width": 513,
+          "width": 520,
           "height": 376
         }
       ],
@@ -8694,12 +8686,7 @@
         "width": 1480,
         "height": 1100
       },
-      "navigation": {
-        "x": 24,
-        "y": 112,
-        "width": 208,
-        "height": 764
-      },
+      "navigation": null,
       "navigationState": "expanded",
       "provisional": true,
       "elements": [
@@ -8711,108 +8698,59 @@
           "height": 64
         },
         {
-          "kind": "navigation",
-          "x": 24,
-          "y": 112,
-          "width": 208,
-          "height": 764
-        },
-        {
-          "kind": "nav-toggle",
-          "x": 36,
-          "y": 128,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 192,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 252,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 312,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 372,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-context",
-          "x": 36,
-          "y": 764,
-          "width": 184,
-          "height": 88
-        },
-        {
           "kind": "text",
-          "x": 256,
+          "x": 64,
           "y": 112,
-          "width": 513,
+          "width": 520,
           "height": 44
         },
         {
           "kind": "box",
-          "x": 256,
+          "x": 64,
           "y": 168,
-          "width": 513,
+          "width": 520,
           "height": 80
         },
         {
           "kind": "text",
-          "x": 256,
+          "x": 64,
           "y": 260,
-          "width": 513,
+          "width": 520,
           "height": 44
         },
         {
           "kind": "text",
-          "x": 256,
+          "x": 64,
           "y": 316,
-          "width": 513,
+          "width": 520,
           "height": 44
         },
         {
           "kind": "button",
-          "x": 256,
+          "x": 64,
           "y": 372,
-          "width": 513,
+          "width": 520,
           "height": 48
         },
         {
           "kind": "link",
-          "x": 256,
+          "x": 64,
           "y": 432,
-          "width": 513,
+          "width": 520,
           "height": 44
         },
         {
           "kind": "companion-panel",
-          "x": 801,
+          "x": 616,
           "y": 112,
-          "width": 455,
+          "width": 600,
           "height": 764
         },
         {
           "kind": "support-brief",
-          "x": 256,
+          "x": 64,
           "y": 500,
-          "width": 513,
+          "width": 520,
           "height": 376
         }
       ],
@@ -8831,12 +8769,7 @@
         "width": 590,
         "height": 1044
       },
-      "navigation": {
-        "x": 24,
-        "y": 748,
-        "width": 342,
-        "height": 72
-      },
+      "navigation": null,
       "navigationState": "expanded",
       "provisional": false,
       "elements": [
@@ -8846,41 +8779,6 @@
           "y": 24,
           "width": 342,
           "height": 64
-        },
-        {
-          "kind": "navigation",
-          "x": 24,
-          "y": 748,
-          "width": 342,
-          "height": 72
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 115.5,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 195,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 274.5,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
         },
         {
           "kind": "box",
@@ -8929,7 +8827,7 @@
           "x": 24,
           "y": 600,
           "width": 342,
-          "height": 132
+          "height": 220
         }
       ],
       "file": "docs/GUI/prototipos/movil/sketches/islas/U21.svg"
@@ -8947,12 +8845,7 @@
         "width": 590,
         "height": 1044
       },
-      "navigation": {
-        "x": 24,
-        "y": 748,
-        "width": 342,
-        "height": 72
-      },
+      "navigation": null,
       "navigationState": "expanded",
       "provisional": false,
       "elements": [
@@ -8962,41 +8855,6 @@
           "y": 24,
           "width": 342,
           "height": 64
-        },
-        {
-          "kind": "navigation",
-          "x": 24,
-          "y": 748,
-          "width": 342,
-          "height": 72
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 115.5,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 195,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 274.5,
-          "y": 760,
-          "width": 79.5,
-          "height": 48
         },
         {
           "kind": "box",
@@ -9045,7 +8903,7 @@
           "x": 24,
           "y": 600,
           "width": 342,
-          "height": 132
+          "height": 220
         }
       ],
       "file": "docs/GUI/prototipos/movil/wireframes/islas/U21.svg"
@@ -9063,12 +8921,7 @@
         "width": 1480,
         "height": 1100
       },
-      "navigation": {
-        "x": 24,
-        "y": 112,
-        "width": 208,
-        "height": 764
-      },
+      "navigation": null,
       "navigationState": "expanded",
       "provisional": true,
       "elements": [
@@ -9080,108 +8933,59 @@
           "height": 64
         },
         {
-          "kind": "navigation",
-          "x": 24,
-          "y": 112,
-          "width": 208,
-          "height": 764
-        },
-        {
-          "kind": "nav-toggle",
-          "x": 36,
-          "y": 128,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 192,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 252,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 312,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 372,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-context",
-          "x": 36,
-          "y": 764,
-          "width": 184,
-          "height": 88
-        },
-        {
           "kind": "box",
-          "x": 256,
+          "x": 64,
           "y": 112,
-          "width": 513,
+          "width": 520,
           "height": 80
         },
         {
           "kind": "box",
-          "x": 256,
+          "x": 64,
           "y": 204,
-          "width": 513,
+          "width": 520,
           "height": 80
         },
         {
           "kind": "box",
-          "x": 256,
+          "x": 64,
           "y": 296,
-          "width": 513,
+          "width": 520,
           "height": 80
         },
         {
           "kind": "box",
-          "x": 256,
+          "x": 64,
           "y": 388,
-          "width": 513,
+          "width": 520,
           "height": 80
         },
         {
           "kind": "text",
-          "x": 256,
+          "x": 64,
           "y": 480,
-          "width": 513,
+          "width": 520,
           "height": 44
         },
         {
           "kind": "link",
-          "x": 256,
+          "x": 64,
           "y": 536,
-          "width": 513,
+          "width": 520,
           "height": 44
         },
         {
           "kind": "companion-panel",
-          "x": 801,
+          "x": 616,
           "y": 112,
-          "width": 455,
+          "width": 600,
           "height": 764
         },
         {
           "kind": "support-brief",
-          "x": 256,
+          "x": 64,
           "y": 604,
-          "width": 513,
+          "width": 520,
           "height": 272
         }
       ],
@@ -9200,12 +9004,7 @@
         "width": 1480,
         "height": 1100
       },
-      "navigation": {
-        "x": 24,
-        "y": 112,
-        "width": 208,
-        "height": 764
-      },
+      "navigation": null,
       "navigationState": "expanded",
       "provisional": true,
       "elements": [
@@ -9217,108 +9016,59 @@
           "height": 64
         },
         {
-          "kind": "navigation",
-          "x": 24,
-          "y": 112,
-          "width": 208,
-          "height": 764
-        },
-        {
-          "kind": "nav-toggle",
-          "x": 36,
-          "y": 128,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 192,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 252,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 312,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 372,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-context",
-          "x": 36,
-          "y": 764,
-          "width": 184,
-          "height": 88
-        },
-        {
           "kind": "box",
-          "x": 256,
+          "x": 64,
           "y": 112,
-          "width": 513,
+          "width": 520,
           "height": 80
         },
         {
           "kind": "box",
-          "x": 256,
+          "x": 64,
           "y": 204,
-          "width": 513,
+          "width": 520,
           "height": 80
         },
         {
           "kind": "box",
-          "x": 256,
+          "x": 64,
           "y": 296,
-          "width": 513,
+          "width": 520,
           "height": 80
         },
         {
           "kind": "box",
-          "x": 256,
+          "x": 64,
           "y": 388,
-          "width": 513,
+          "width": 520,
           "height": 80
         },
         {
           "kind": "text",
-          "x": 256,
+          "x": 64,
           "y": 480,
-          "width": 513,
+          "width": 520,
           "height": 44
         },
         {
           "kind": "link",
-          "x": 256,
+          "x": 64,
           "y": 536,
-          "width": 513,
+          "width": 520,
           "height": 44
         },
         {
           "kind": "companion-panel",
-          "x": 801,
+          "x": 616,
           "y": 112,
-          "width": 455,
+          "width": 600,
           "height": 764
         },
         {
           "kind": "support-brief",
-          "x": 256,
+          "x": 64,
           "y": 604,
-          "width": 513,
+          "width": 520,
           "height": 272
         }
       ],
@@ -14786,23 +14536,30 @@
           "height": 72
         },
         {
-          "kind": "text",
+          "kind": "input",
           "x": 120,
           "y": 364,
+          "width": 560,
+          "height": 72
+        },
+        {
+          "kind": "text",
+          "x": 120,
+          "y": 448,
           "width": 560,
           "height": 44
         },
         {
           "kind": "button",
           "x": 120,
-          "y": 420,
+          "y": 504,
           "width": 560,
           "height": 48
         },
         {
           "kind": "link",
           "x": 120,
-          "y": 480,
+          "y": 564,
           "width": 560,
           "height": 44
         },
@@ -14816,9 +14573,9 @@
         {
           "kind": "support-brief",
           "x": 120,
-          "y": 548,
+          "y": 632,
           "width": 560,
-          "height": 328
+          "height": 244
         }
       ],
       "file": "docs/GUI/prototipos/pwa/sketches/islas/U07-compact.svg"
@@ -14923,23 +14680,30 @@
           "height": 72
         },
         {
-          "kind": "text",
+          "kind": "input",
           "x": 120,
           "y": 364,
+          "width": 560,
+          "height": 72
+        },
+        {
+          "kind": "text",
+          "x": 120,
+          "y": 448,
           "width": 560,
           "height": 44
         },
         {
           "kind": "button",
           "x": 120,
-          "y": 420,
+          "y": 504,
           "width": 560,
           "height": 48
         },
         {
           "kind": "link",
           "x": 120,
-          "y": 480,
+          "y": 564,
           "width": 560,
           "height": 44
         },
@@ -14953,9 +14717,9 @@
         {
           "kind": "support-brief",
           "x": 120,
-          "y": 548,
+          "y": 632,
           "width": 560,
-          "height": 328
+          "height": 244
         }
       ],
       "file": "docs/GUI/prototipos/pwa/wireframes/islas/U07-compact.svg"
@@ -15081,6 +14845,20 @@
           "height": 44
         },
         {
+          "kind": "link",
+          "x": 120,
+          "y": 516,
+          "width": 560,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 120,
+          "y": 572,
+          "width": 560,
+          "height": 44
+        },
+        {
           "kind": "companion-panel",
           "x": 712,
           "y": 112,
@@ -15090,9 +14868,9 @@
         {
           "kind": "support-brief",
           "x": 120,
-          "y": 528,
+          "y": 640,
           "width": 560,
-          "height": 348
+          "height": 236
         }
       ],
       "file": "docs/GUI/prototipos/pwa/sketches/islas/U08-compact.svg"
@@ -15218,6 +14996,20 @@
           "height": 44
         },
         {
+          "kind": "link",
+          "x": 120,
+          "y": 516,
+          "width": 560,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 120,
+          "y": 572,
+          "width": 560,
+          "height": 44
+        },
+        {
           "kind": "companion-panel",
           "x": 712,
           "y": 112,
@@ -15227,9 +15019,9 @@
         {
           "kind": "support-brief",
           "x": 120,
-          "y": 528,
+          "y": 640,
           "width": 560,
-          "height": 348
+          "height": 236
         }
       ],
       "file": "docs/GUI/prototipos/pwa/wireframes/islas/U08-compact.svg"
@@ -15959,39 +15751,53 @@
           "height": 88
         },
         {
-          "kind": "text",
+          "kind": "assistant-intro",
           "x": 120,
           "y": 112,
           "width": 560,
-          "height": 44
+          "height": 56
         },
         {
-          "kind": "box",
+          "kind": "assistant-user",
           "x": 120,
-          "y": 168,
+          "y": 180,
           "width": 560,
-          "height": 80
+          "height": 72
         },
         {
-          "kind": "button",
+          "kind": "assistant-reply",
           "x": 120,
-          "y": 260,
+          "y": 264,
+          "width": 560,
+          "height": 88
+        },
+        {
+          "kind": "assistant-proposal",
+          "x": 120,
+          "y": 364,
+          "width": 560,
+          "height": 100
+        },
+        {
+          "kind": "assistant-create",
+          "x": 120,
+          "y": 476,
           "width": 560,
           "height": 48
         },
         {
-          "kind": "button",
+          "kind": "assistant-composer",
           "x": 120,
-          "y": 320,
+          "y": 536,
           "width": 560,
-          "height": 48
+          "height": 120
         },
         {
-          "kind": "link",
+          "kind": "assistant-manual",
           "x": 120,
-          "y": 380,
+          "y": 668,
           "width": 560,
-          "height": 44
+          "height": 48
         },
         {
           "kind": "companion-panel",
@@ -16003,9 +15809,9 @@
         {
           "kind": "support-brief",
           "x": 120,
-          "y": 448,
+          "y": 740,
           "width": 560,
-          "height": 428
+          "height": 136
         }
       ],
       "file": "docs/GUI/prototipos/pwa/sketches/islas/U11-compact.svg"
@@ -16089,39 +15895,53 @@
           "height": 88
         },
         {
-          "kind": "text",
+          "kind": "assistant-intro",
           "x": 120,
           "y": 112,
           "width": 560,
-          "height": 44
+          "height": 56
         },
         {
-          "kind": "box",
+          "kind": "assistant-user",
           "x": 120,
-          "y": 168,
+          "y": 180,
           "width": 560,
-          "height": 80
+          "height": 72
         },
         {
-          "kind": "button",
+          "kind": "assistant-reply",
           "x": 120,
-          "y": 260,
+          "y": 264,
+          "width": 560,
+          "height": 88
+        },
+        {
+          "kind": "assistant-proposal",
+          "x": 120,
+          "y": 364,
+          "width": 560,
+          "height": 100
+        },
+        {
+          "kind": "assistant-create",
+          "x": 120,
+          "y": 476,
           "width": 560,
           "height": 48
         },
         {
-          "kind": "button",
+          "kind": "assistant-composer",
           "x": 120,
-          "y": 320,
+          "y": 536,
           "width": 560,
-          "height": 48
+          "height": 120
         },
         {
-          "kind": "link",
+          "kind": "assistant-manual",
           "x": 120,
-          "y": 380,
+          "y": 668,
           "width": 560,
-          "height": 44
+          "height": 48
         },
         {
           "kind": "companion-panel",
@@ -16133,9 +15953,9 @@
         {
           "kind": "support-brief",
           "x": 120,
-          "y": 448,
+          "y": 740,
           "width": 560,
-          "height": 428
+          "height": 136
         }
       ],
       "file": "docs/GUI/prototipos/pwa/wireframes/islas/U11-compact.svg"
@@ -17207,554 +17027,6 @@
         }
       ],
       "file": "docs/GUI/prototipos/pwa/wireframes/islas/U22-compact.svg"
-    },
-    {
-      "id": "U20",
-      "format": "pwa",
-      "fidelity": "sketch",
-      "reviewOrder": 21,
-      "viewport": {
-        "width": 1280,
-        "height": 900
-      },
-      "sheet": {
-        "width": 1480,
-        "height": 1100
-      },
-      "navigation": {
-        "x": 24,
-        "y": 112,
-        "width": 72,
-        "height": 764
-      },
-      "navigationState": "compact",
-      "provisional": true,
-      "elements": [
-        {
-          "kind": "header",
-          "x": 24,
-          "y": 24,
-          "width": 1232,
-          "height": 64
-        },
-        {
-          "kind": "navigation",
-          "x": 24,
-          "y": 112,
-          "width": 72,
-          "height": 764
-        },
-        {
-          "kind": "nav-toggle",
-          "x": 36,
-          "y": 128,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 192,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 252,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 312,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 372,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-context",
-          "x": 36,
-          "y": 764,
-          "width": 48,
-          "height": 88
-        },
-        {
-          "kind": "text",
-          "x": 120,
-          "y": 112,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "box",
-          "x": 120,
-          "y": 168,
-          "width": 560,
-          "height": 80
-        },
-        {
-          "kind": "text",
-          "x": 120,
-          "y": 260,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "text",
-          "x": 120,
-          "y": 316,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "button",
-          "x": 120,
-          "y": 372,
-          "width": 560,
-          "height": 48
-        },
-        {
-          "kind": "link",
-          "x": 120,
-          "y": 432,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "companion-panel",
-          "x": 712,
-          "y": 112,
-          "width": 544,
-          "height": 764
-        },
-        {
-          "kind": "support-brief",
-          "x": 120,
-          "y": 500,
-          "width": 560,
-          "height": 376
-        }
-      ],
-      "file": "docs/GUI/prototipos/pwa/sketches/islas/U20-compact.svg"
-    },
-    {
-      "id": "U20",
-      "format": "pwa",
-      "fidelity": "wireframe",
-      "reviewOrder": 21,
-      "viewport": {
-        "width": 1280,
-        "height": 900
-      },
-      "sheet": {
-        "width": 1480,
-        "height": 1100
-      },
-      "navigation": {
-        "x": 24,
-        "y": 112,
-        "width": 72,
-        "height": 764
-      },
-      "navigationState": "compact",
-      "provisional": true,
-      "elements": [
-        {
-          "kind": "header",
-          "x": 24,
-          "y": 24,
-          "width": 1232,
-          "height": 64
-        },
-        {
-          "kind": "navigation",
-          "x": 24,
-          "y": 112,
-          "width": 72,
-          "height": 764
-        },
-        {
-          "kind": "nav-toggle",
-          "x": 36,
-          "y": 128,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 192,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 252,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 312,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 372,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-context",
-          "x": 36,
-          "y": 764,
-          "width": 48,
-          "height": 88
-        },
-        {
-          "kind": "text",
-          "x": 120,
-          "y": 112,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "box",
-          "x": 120,
-          "y": 168,
-          "width": 560,
-          "height": 80
-        },
-        {
-          "kind": "text",
-          "x": 120,
-          "y": 260,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "text",
-          "x": 120,
-          "y": 316,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "button",
-          "x": 120,
-          "y": 372,
-          "width": 560,
-          "height": 48
-        },
-        {
-          "kind": "link",
-          "x": 120,
-          "y": 432,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "companion-panel",
-          "x": 712,
-          "y": 112,
-          "width": 544,
-          "height": 764
-        },
-        {
-          "kind": "support-brief",
-          "x": 120,
-          "y": 500,
-          "width": 560,
-          "height": 376
-        }
-      ],
-      "file": "docs/GUI/prototipos/pwa/wireframes/islas/U20-compact.svg"
-    },
-    {
-      "id": "U21",
-      "format": "pwa",
-      "fidelity": "sketch",
-      "reviewOrder": 22,
-      "viewport": {
-        "width": 1280,
-        "height": 900
-      },
-      "sheet": {
-        "width": 1480,
-        "height": 1100
-      },
-      "navigation": {
-        "x": 24,
-        "y": 112,
-        "width": 72,
-        "height": 764
-      },
-      "navigationState": "compact",
-      "provisional": true,
-      "elements": [
-        {
-          "kind": "header",
-          "x": 24,
-          "y": 24,
-          "width": 1232,
-          "height": 64
-        },
-        {
-          "kind": "navigation",
-          "x": 24,
-          "y": 112,
-          "width": 72,
-          "height": 764
-        },
-        {
-          "kind": "nav-toggle",
-          "x": 36,
-          "y": 128,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 192,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 252,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 312,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 372,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-context",
-          "x": 36,
-          "y": 764,
-          "width": 48,
-          "height": 88
-        },
-        {
-          "kind": "box",
-          "x": 120,
-          "y": 112,
-          "width": 560,
-          "height": 80
-        },
-        {
-          "kind": "box",
-          "x": 120,
-          "y": 204,
-          "width": 560,
-          "height": 80
-        },
-        {
-          "kind": "box",
-          "x": 120,
-          "y": 296,
-          "width": 560,
-          "height": 80
-        },
-        {
-          "kind": "box",
-          "x": 120,
-          "y": 388,
-          "width": 560,
-          "height": 80
-        },
-        {
-          "kind": "text",
-          "x": 120,
-          "y": 480,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "link",
-          "x": 120,
-          "y": 536,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "companion-panel",
-          "x": 712,
-          "y": 112,
-          "width": 544,
-          "height": 764
-        },
-        {
-          "kind": "support-brief",
-          "x": 120,
-          "y": 604,
-          "width": 560,
-          "height": 272
-        }
-      ],
-      "file": "docs/GUI/prototipos/pwa/sketches/islas/U21-compact.svg"
-    },
-    {
-      "id": "U21",
-      "format": "pwa",
-      "fidelity": "wireframe",
-      "reviewOrder": 22,
-      "viewport": {
-        "width": 1280,
-        "height": 900
-      },
-      "sheet": {
-        "width": 1480,
-        "height": 1100
-      },
-      "navigation": {
-        "x": 24,
-        "y": 112,
-        "width": 72,
-        "height": 764
-      },
-      "navigationState": "compact",
-      "provisional": true,
-      "elements": [
-        {
-          "kind": "header",
-          "x": 24,
-          "y": 24,
-          "width": 1232,
-          "height": 64
-        },
-        {
-          "kind": "navigation",
-          "x": 24,
-          "y": 112,
-          "width": 72,
-          "height": 764
-        },
-        {
-          "kind": "nav-toggle",
-          "x": 36,
-          "y": 128,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 192,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 252,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 312,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 372,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-context",
-          "x": 36,
-          "y": 764,
-          "width": 48,
-          "height": 88
-        },
-        {
-          "kind": "box",
-          "x": 120,
-          "y": 112,
-          "width": 560,
-          "height": 80
-        },
-        {
-          "kind": "box",
-          "x": 120,
-          "y": 204,
-          "width": 560,
-          "height": 80
-        },
-        {
-          "kind": "box",
-          "x": 120,
-          "y": 296,
-          "width": 560,
-          "height": 80
-        },
-        {
-          "kind": "box",
-          "x": 120,
-          "y": 388,
-          "width": 560,
-          "height": 80
-        },
-        {
-          "kind": "text",
-          "x": 120,
-          "y": 480,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "link",
-          "x": 120,
-          "y": 536,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "companion-panel",
-          "x": 712,
-          "y": 112,
-          "width": 544,
-          "height": 764
-        },
-        {
-          "kind": "support-brief",
-          "x": 120,
-          "y": 604,
-          "width": 560,
-          "height": 272
-        }
-      ],
-      "file": "docs/GUI/prototipos/pwa/wireframes/islas/U21-compact.svg"
     },
     {
       "id": "A02",

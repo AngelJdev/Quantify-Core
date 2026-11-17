@@ -52,7 +52,8 @@ module.exports = {
   U07: [
     ["input", "Nombre del hábito"],
     ["input", "Categoría"],
-    ["input", "Meta y unidad"],
+    ["input", "Meta diaria"],
+    ["input", "Unidad"],
     ["text", "Días: L  M  X  J  V  S  D"],
     ["button", "Guardar hábito"],
     ["link", "Cancelar"],
@@ -63,8 +64,10 @@ module.exports = {
     ["box", "Meta: __     Racha: __"],
     ["input", "Cantidad de avance"],
     ["button", "Guardar avance"],
-    ["link", "Editar / Recordatorio"],
-    ["link", "Archivar / Volver a Home"],
+    ["link", "Editar hábito"],
+    ["link", "Configurar recordatorio"],
+    ["link", "Archivar hábito"],
+    ["link", "Volver a Hoy"],
   ],
   U09: [
     ["check", "Activar recordatorio"],
@@ -213,8 +216,8 @@ module.exports = {
     ["link", "Volver al panel"],
   ],
   A08: [
-    ["input", "Confianza mínima de IA"],
-    ["input", "Máximo de sugerencias"],
+    ["input", "Alcance del asistente"],
+    ["input", "Contexto autorizado"],
     ["input", "Motivo del ajuste"],
     ["button", "Guardar y auditar"],
     ["link", "Cerrar sesión"],

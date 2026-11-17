@@ -47,7 +47,7 @@ try {
       contrast(tokens.colors[theme.icon], tokens.colors[theme.surface]) >= 3,
     );
   }
-  assert.equal(sheets.length, 172);
+  assert.equal(sheets.length, 168);
   for (const s of sheets) {
     const other = sheets.find(
       (x) =>
@@ -59,6 +59,12 @@ try {
     assert.deepEqual(s.elements, other.elements);
     await page.goto(base + s.file);
     await page.evaluate(() => document.fonts.ready);
+    const overlappingDimensions=await page.evaluate(()=>{
+      const width=Number(document.documentElement.dataset.viewport.split('x')[0]);
+      const labels=[...document.querySelectorAll('#dimensions text')].filter(t=>t.x.baseVal[0]?.value>width).map(t=>({text:t.textContent,box:t.getBBox()}));
+      return labels.flatMap((a,i)=>labels.slice(i+1).filter(b=>a.box.x<b.box.x+b.box.width&&a.box.x+a.box.width>b.box.x&&a.box.y<b.box.y+b.box.height&&a.box.y+a.box.height>b.box.y).map(b=>[a.text,b.text]));
+    });
+    assert.deepEqual(overlappingDimensions,[],s.file+' cotas de altura sin etiquetas superpuestas');
     assert.ok(await page.evaluate(() => document.fonts.check("16px Inter")));
     const issues = await page.evaluate(() => {
       const [w, h] = document.documentElement.dataset.viewport
@@ -195,7 +201,7 @@ try {
     ),
   );
   console.log(
-    "172 mockups aprobados: geometría, límites, texto, colores, temas y navegación.",
+    "168 mockups aprobados: geometría, límites, texto, colores, temas y navegación.",
   );
 } finally {
   await browser.close();

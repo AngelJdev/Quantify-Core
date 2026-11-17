@@ -1,4 +1,5 @@
 import { mountEvidence, teamMarkup } from "./github.js";
+import { mountGantt } from "./gantt.js";
 const escape = (value) =>
   String(value ?? "").replace(
     /[&<>"']/g,
@@ -149,6 +150,55 @@ export function serviceWorkflow(main, params) {
     canvas = host.querySelector(".wf-canvas"),
     svg = host.querySelector("svg");
   const q = (selector) => host.querySelector(selector);
+  const gantt = document.createElement("section");
+  gantt.className = "gantt-panel";
+  gantt.hidden = true;
+  gantt.setAttribute("aria-label", "Gantt de Jira");
+  host.append(gantt);
+  const views = document.createElement("div");
+  views.className = "wf-view-tabs";
+  views.setAttribute("role", "group");
+  views.setAttribute("aria-label", "Vista del workflow");
+  views.innerHTML =
+    '<button type="button" data-wf-view="flow" aria-pressed="true">Recorrido técnico</button><button type="button" data-wf-view="gantt" aria-pressed="false">Gantt de Jira</button>';
+  q(".wf-demo-label").replaceWith(views);
+  let ganttLoaded = false;
+  const setView = (showGantt) => {
+    if (showGantt) {
+      playing = false;
+      clearInterval(timer);
+      render();
+    }
+    host.classList.toggle("is-gantt", showGantt);
+    gantt.hidden = !showGantt;
+    q("#workflow-title").textContent = showGantt
+      ? "Cronograma de Quantify."
+      : "Así se conecta tu progreso.";
+    q(".wf-heading p").textContent = showGantt
+      ? "Fechas, responsables y dependencias registradas en Jira."
+      : "De una acción en el cliente a un resultado confirmado en tus métricas.";
+    for (const button of views.querySelectorAll("button"))
+      button.setAttribute(
+        "aria-pressed",
+        String((button.dataset.wfView === "gantt") === showGantt),
+      );
+    if (showGantt && !ganttLoaded) {
+      ganttLoaded = true;
+      mountGantt(gantt);
+    }
+    const url = new URL(location);
+    const options = new URLSearchParams(url.hash.split("?")[1]);
+    options.set("vista", showGantt ? "gantt" : "flow");
+    url.hash = "workflow?" + options;
+    history.replaceState(null, "", url);
+  };
+  views
+    .querySelectorAll("button")
+    .forEach((button) =>
+      button.addEventListener("click", () =>
+        setView(button.dataset.wfView === "gantt"),
+      ),
+    );
   q(".wf-github").open = false;
   host.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && q(".wf-github").open) {
@@ -368,6 +418,7 @@ export function serviceWorkflow(main, params) {
   }
   render();
   schedule();
+  if (params.get("vista") === "gantt") setView(true);
   const team = q("#workflow-team");
   teamMarkup()
     .then((html) => {

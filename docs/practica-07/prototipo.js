@@ -33,7 +33,7 @@
     $('screen').replaceChildren(...screens[role].map(s => option(s.id, `${s.id} · ${s.title}`)));
     $('screen').value = current.id;
     for (const [key, value] of Object.entries(presentation)) $(key).value = value;
-    const compactAvailable = presentation.format === 'pwa' && current.group !== 'Acceso' && current.id !== 'U16';
+    const compactAvailable = presentation.format === 'pwa' && current.session;
     $('navigation').disabled = !compactAvailable;
     if (!compactAvailable) $('navigation').value = 'expanded';
     $('theme').disabled = presentation.fidelity !== 'mockup';

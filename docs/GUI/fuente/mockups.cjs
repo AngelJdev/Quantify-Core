@@ -12,6 +12,7 @@ const entrada = require("./entrada.cjs");
 const orientacion = require("./orientacion.cjs");
 const acceso = require("./acceso.cjs");
 const paneles = require("./paneles.cjs");
+const asistente = require("./asistente.cjs");
 const context = { window: {} };
 require("node:vm").runInNewContext(
   fs.readFileSync(path.join(root, "docs/practica-07/data.js"), "utf8"),
@@ -171,7 +172,7 @@ for (const source of [
       "Plantilla 1: estado / editar": "Lectura · Plantilla activa",
       "Plantilla 2: estado / editar": "Caminata · Plantilla activa",
       "Pausar / Reactivar": "Revisar estado",
-      "Propuesta IA: estado y resumen": "Sin propuestas disponibles",
+      "Propuesta IA: estado y resumen": "Lectura breve · Plantilla activa",
       "Fecha / actor / entidad": "Fecha, acción y recurso",
       "Acción / resultado / motivo": "Sin eventos para este filtro",
       "Cuenta 1: activa / suspender": "Cuenta de ejemplo A · Activa",
@@ -196,25 +197,34 @@ for (const source of [
       if (kind === "input") {
         text(title, x + 2, y + 16, 13, p.muted, 500);
         rect(x, y + 24, bw, 48, p.surface, 12, p.controlBorder);
-        const value = /contraseña/i.test(title)
-          ? "••••••••"
-          : /correo/i.test(title)
-            ? "correo@ejemplo.com"
-            : /Nombre del hábito/i.test(title)
-              ? "Leer con calma"
-              : /Periodo/i.test(title)
-                ? "19–25 octubre 2026"
-                : /Categoría/i.test(title)
-                  ? "Bienestar"
-                  : /Meta y unidad/i.test(title)
-                    ? "20 minutos al día"
-                    : /Horario/i.test(title)
-                      ? "18:00"
-                      : /Cantidad/i.test(title)
-                        ? "12 minutos"
-                        : /Nombre/i.test(title)
-                          ? "Escribe un nombre"
-                          : "Seleccionar o escribir";
+        const value =
+          title === "Meta diaria"
+            ? "10"
+            : title === "Unidad"
+              ? "minutos"
+              : title === "Alcance del asistente"
+                ? "Hábitos y uso de Quantify"
+                : title === "Contexto autorizado"
+                  ? "Solo información autorizada"
+                  : /contraseña/i.test(title)
+                    ? "••••••••"
+                    : /correo/i.test(title)
+                      ? "correo@ejemplo.com"
+                      : /Nombre del hábito/i.test(title)
+                        ? "Leer con calma"
+                        : /Periodo/i.test(title)
+                          ? "19–25 octubre 2026"
+                          : /Categoría/i.test(title)
+                            ? "Bienestar"
+                            : /Meta y unidad/i.test(title)
+                              ? "20 minutos al día"
+                              : /Horario/i.test(title)
+                                ? "18:00"
+                                : /Cantidad/i.test(title)
+                                  ? "12 minutos"
+                                  : /Nombre/i.test(title)
+                                    ? "Escribe un nombre"
+                                    : "Seleccionar o escribir";
         const fieldIcon = /correo/i.test(title)
           ? "perfil"
           : /Horario|Periodo/i.test(title)
@@ -288,7 +298,8 @@ for (const source of [
             22,
           );
           wrap(title, x + 52, y + 28, bw - 136, 13, p.text, 500);
-          const enabled = !/IA/.test(title);
+          const enabled = true;
+          s += `<g data-control-state="on">`;
           rect(
             x + bw - 64,
             y + 16,
@@ -307,6 +318,7 @@ for (const source of [
             10,
             c.white,
           );
+          s += "</g>";
           return;
         }
         const completed = id === "U06" && /Hábito 1/.test(title);
@@ -400,11 +412,13 @@ for (const source of [
                           ? "Comprueba el estado y el motivo"
                           : id === "U22"
                             ? "Tu rutina sigue disponible en Hoy"
-                            : /activa|suspendida/i.test(title)
-                              ? "Gestionar estado y permisos"
-                              : /Sin propuestas/.test(title)
-                                ? "Las novedades aparecerán aquí"
-                                : "Consulta el detalle y su contexto";
+                            : id === "A05"
+                              ? "Plantilla global · Sin datos privados"
+                              : /activa|suspendida/i.test(title)
+                                ? "Gestionar estado y permisos"
+                                : /Sin propuestas/.test(title)
+                                  ? "Las novedades aparecerán aquí"
+                                  : "Consulta el detalle y su contexto";
           if (bh >= 72) text(detail, x + 60, y + bh - 15, 11, p.muted);
         } else if (id === "U06" && kind === "text") {
           text("Tu rutina de hoy", x + 16, y + 28, 18, p.text, 700);
@@ -460,7 +474,9 @@ for (const source of [
       for (const e of source.elements) {
         const { kind, x, y, width: bw, height: bh } = e;
         s += `<g data-ui="${kind}" data-box="${x},${y},${bw},${bh}">`;
-        if (
+        if (kind.startsWith("assistant-")) {
+          s += asistente.render(e, "mockup", p);
+        } else if (
           ["support-panel", "support-brief", "companion-panel"].includes(kind)
         ) {
           s += paneles.render({
@@ -824,9 +840,32 @@ for (const source of [
     const pad = 100,
       body = s;
     let dimensions = `<g fill="none" stroke="${p.muted}"><path d="M0 -20H${w}M-48 0V${h}"/>`;
-    for (const e of source.elements.filter(
-      (e) => !["nav-target", "nav-toggle", "code-slot"].includes(e.kind),
-    )) {
+    const dimensionCandidates = source.elements.filter(
+      (e) =>
+        ![
+          "nav-target",
+          "nav-toggle",
+          "nav-context",
+          "code-slot",
+          "companion-panel",
+        ].includes(e.kind) && !(e.kind === "navigation" && !mobile),
+    );
+    const dimensionBoxes = dimensionCandidates.filter(
+      (e) =>
+        !dimensionCandidates.some(
+          (other) =>
+            other !== e &&
+            ((other.x <= e.x &&
+              other.y <= e.y &&
+              other.x + other.width >= e.x + e.width &&
+              other.y + other.height >= e.y + e.height &&
+              other.width * other.height > e.width * e.height) ||
+              (other.x < e.x &&
+                e.y < other.y + other.height &&
+                e.y + e.height > other.y)),
+        ),
+    );
+    for (const e of dimensionBoxes) {
       const x = w + 20;
       dimensions += `<path d="M${x} ${e.y}v${e.height}"/>`;
     }
@@ -835,7 +874,7 @@ for (const source of [
     text(`${w} px`, w / 2, -28, 11, p.muted, 500, "middle");
     text(`${h} px`, -60, h / 2, 11, p.muted, 500, "middle");
     // Cotas de altura visibles para los bloques principales; coordenadas completas en el manifiesto.
-    for (const e of source.elements.filter((e) =>
+    for (const e of dimensionBoxes.filter((e) =>
       overview
         ? ["header", "navigation", "kpi", "main-panel"].includes(e.kind)
         : verification

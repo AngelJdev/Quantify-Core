@@ -1,5 +1,7 @@
 # Mockups · Islas e identidad de Quantify
 
+**Base vigente para implementar:** [revisión final web/móvil](BASE-IMPLEMENTACION.md), con conversación en U11, información pública sin navegación de sesión y estados ilustrativos coherentes con consentimiento y supervisión.
+
 **Navegación corregida:** [cuatro destinos estables por rol](NAVEGACION.md), con Gestión para cuentas, auditoría y configuración. Misma estructura y sección activa en sketches, wireframes y el prototipo navegacional.
 
 **Revisión general del 17/11/2026:** [login editorial y distribución de las 33 pantallas](COMPOSICION-GENERAL.md). La composición de dos columnas PWA y las ayudas móviles sustituyen el espacio inferior desocupado, con geometría compartida por sketches y wireframes.
@@ -12,7 +14,7 @@
 
 Esta revisión aplica la identidad definida a las 33 pantallas del inventario académico, tanto en móvil como en PWA. Cada pantalla conserva su estructura y sus cotas de wireframe; el acabado añade color semántico, jerarquía tipográfica, iconos, marca y profundidad suave.
 
-**172 SVG:** 132 vistas base (33 pantallas × 2 formatos × 2 temas) y 40 variantes de navegación PWA compacta. Los temas y los estados de navegación son variantes de la misma pantalla. El visor permite cambiar etapa, rol, formato, tema y navegación; la galería muestra el mismo catálogo, sin un segundo conjunto activo de mockups.
+**168 SVG:** 132 vistas base (33 pantallas × 2 formatos × 2 temas) y 36 variantes de navegación PWA compacta. Los temas y los estados de navegación son variantes de la misma pantalla. El visor permite cambiar etapa, rol, formato, tema y navegación; la galería muestra el mismo catálogo, sin un segundo conjunto activo de mockups. Las cifras de validación del 16/11 que siguen se conservan como antecedentes.
 
 | Aspecto | Aplicación |
 |---|---|

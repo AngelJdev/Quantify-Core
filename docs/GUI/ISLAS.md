@@ -1,5 +1,7 @@
 # Wireframes y sketches · Revisión de islas
 
+**Base vigente para implementar:** [revisión final web/móvil](BASE-IMPLEMENTACION.md). Incluye conversación en U11 e información pública U20/U21 sin navegación de sesión.
+
 **Navegación corregida:** [cuatro destinos estables por rol](NAVEGACION.md), con Gestión administrativa como acceso a cuentas, auditoría y configuración. La píldora y el lateral mantienen orden y sección activa en las tres fidelidades; los destinos son interactivos en el recorrido vigente.
 
 **Revisión general del 17/11/2026:** [distribución y contenido útil](COMPOSICION-GENERAL.md). Los formularios PWA, el login y la posición de los paneles se actualizan en las tres fidelidades. Las medidas históricas de tarjetas de verificación y formularios que siguen se conservan como antecedentes; la geometría vigente está en `islas-medidas.json`.
@@ -10,7 +12,7 @@
 
 Revisión documental solicitada el 16/11/2026. [Revisar wireframes](practica-07.html?fidelity=wireframe#U06) · [Revisar sketches](practica-07.html?fidelity=sketch#U06) · [Galería](index.html?fidelity=wireframe#prototipos).
 
-Las 33 pantallas del inventario de Práctica 07 tienen ahora un sketch y un wireframe por formato: **132 SVG base**, más **40 variantes de navegación PWA compacta**, todos con cotas exteriores. Las variantes son estados de las mismas veinte pantallas PWA con navegación; no aumentan el inventario de pantallas. Comparten estructura, orden, referencias a requisitos, roles y conexiones. Son láminas estáticas de revisión; no autentican, guardan hábitos ni ejecutan servicios. Splash conserva únicamente el logo y las pantallas de acceso no muestran navegación de sesión.
+Las 33 pantallas del inventario de Práctica 07 tienen un sketch y un wireframe por formato: **132 SVG base**, más **36 variantes de navegación PWA compacta**, todos con cotas exteriores. Las variantes son estados de las mismas dieciocho pantallas PWA con navegación; no aumentan el inventario de pantallas. Comparten estructura, orden, referencias a requisitos, roles y conexiones. Son láminas estáticas de revisión; no autentican, guardan hábitos ni ejecutan servicios. Splash conserva únicamente el logo; las pantallas de acceso e información pública no muestran navegación de sesión. Las cifras de validación del 16/11 que siguen se conservan como antecedentes.
 
 | Geometría de revisión | Medida en px de diseño |
 |---|---|

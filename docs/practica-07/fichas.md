@@ -370,14 +370,14 @@ Visualizar el progreso y los hábitos programados para el día de ejemplo.
 
 <img src="../GUI/prototipos/movil/sketches/islas/U07.svg" alt="Sketch U07" width="180">
 
-Personalizar la meta, la frecuencia y el color, con validación antes de guardar.
+Personalizar nombre, categoría, meta, unidad y frecuencia, con validación antes de guardar.
 
 | Campo | Especificación |
 |---|---|
 | Plataforma de destino | PWA con React/Vite y aplicación Flutter |
 | Rol autorizado | Usuario / visitante según el recorrido |
 | Módulo | Rutina |
-| Elementos principales | Nombre, categoría, frecuencia, meta, unidad, color, guardar y cancelar |
+| Elementos principales | Nombre, categoría, frecuencia, meta y unidad separados, guardar y cancelar |
 | Requisitos / historias | [RF-03](../requerimientos/catalogo.md#rf-03); [HU-03](../UHs/README.md#hu-03) |
 | Reglas de navegación / demo | RN03, RN09; [definición](referencia-tecnica.md#reglas-y-condiciones) |
 | Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U07.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U07.svg) |
@@ -499,14 +499,14 @@ Consultar resultados calculados con los registros locales de ejemplo.
 
 <img src="../GUI/prototipos/movil/sketches/islas/U11.svg" alt="Sketch U11" width="180">
 
-Asistente personal de IA: revisar una propuesta, personalizar meta y frecuencia y crear el hábito al confirmar el formulario. Requiere consentimiento y datos suficientes.
+Asistente conversacional personal: escribir una solicitud, aclarar datos, revisar un borrador y crear el hábito solo al confirmar el formulario. Con alternativa manual si el asistente falla.
 
 | Campo | Especificación |
 |---|---|
 | Plataforma de destino | PWA con React/Vite y aplicación Flutter |
 | Rol autorizado | Usuario / visitante según el recorrido |
 | Módulo | Seguimiento |
-| Elementos principales | Consentimiento, tarjetas de sugerencias, explicación, personalizar y descartar |
+| Elementos principales | Solicitud conversacional, respuesta, borrador revisable, mensaje, envío, consentimiento y alternativa manual |
 | Requisitos / historias | [RF-07](../requerimientos/catalogo.md#rf-07); [HU-07](../UHs/README.md#hu-07) |
 | Reglas de navegación / demo | RN08, RN09, RN10; [definición](referencia-tecnica.md#reglas-y-condiciones) |
 | Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U11.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U11.svg) |
@@ -523,6 +523,7 @@ Asistente personal de IA: revisar una propuesta, personalizar meta y frecuencia 
 | Hoy | [U06](#u06) | Transición al sketch indicado |
 | Análisis | [U10](#u10) | Transición al sketch indicado |
 | Ajustes | [U12](#u12) | Transición al sketch indicado |
+| Crear hábito manualmente | [U07](#u07) | Transición al sketch indicado |
 
 </details>
 
@@ -683,7 +684,7 @@ Presentar propósito, plataformas previstas, versión y límites del prototipo.
 |---|---|---|
 | Conocer al equipo | [U21](#u21) | Transición al sketch indicado |
 | Volver a bienvenida | [U01](#u01) | Transición al sketch indicado |
-| Volver a ajustes | [U12](#u12) | Transición al sketch indicado |
+| Volver a Perfil · sesión vigente | [U12](#u12) | Transición al sketch indicado |
 
 </details>
 
@@ -958,14 +959,14 @@ Reunir cuentas de ejemplo, auditoría y configuración. Los cambios de acceso us
 
 <img src="../GUI/prototipos/movil/sketches/islas/A08.svg" alt="Sketch A08" width="180">
 
-Ajustar límites de sugerencias respetando el mínimo de confianza y auditar cambios.
+Revisar el alcance del asistente y el contexto permitido; cualquier cambio autorizado requiere motivo y auditoría. Política y contrato pendientes de formalizar.
 
 | Campo | Especificación |
 |---|---|
 | Plataforma de destino | PWA con React/Vite y aplicación Flutter |
 | Rol autorizado | Administrador |
 | Módulo | Control |
-| Elementos principales | Límites académicos de IA, motivo, guardar y cierre de sesión |
+| Elementos principales | Alcance del asistente, contexto autorizado, motivo, guardar y cierre de sesión |
 | Requisitos / historias | [RF-09](../requerimientos/catalogo.md#rf-09); [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN08, RN11; [definición](referencia-tecnica.md#reglas-y-condiciones) |
 | Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A08.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A08.svg) |

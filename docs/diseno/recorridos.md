@@ -88,6 +88,8 @@ Mostrar por separado el avance local pendiente y la racha confirmada. No permiti
 
 ## Recomendaciones y consentimiento
 
+El [alcance conversacional vigente](../datos-ia/asistente-conversacional.md) permite escribir una solicitud sencilla y aclarar meta, unidad o frecuencia antes de preparar un borrador. La ayuda general no requiere historial biométrico ni los siete días de la demo. La [composición de U11](../GUI/BASE-IMPLEMENTACION.md) representa esos pasos y ofrece creación manual si el asistente falla. Enviar el mensaje no guarda el hábito; el cliente espera el resultado real mediante el contrato que se formalice.
+
 1. Consultar elegibilidad y recomendaciones disponibles; la UI no ejecuta inferencias ni inventa una recomendación mientras espera.
 2. Si no hay consentimiento, presentar su finalidad y opción voluntaria; si faltan datos, explicar esa situación sin una cifra inventada.
 3. Mostrar fundamento, periodo/fuentes permitidas y límite informativo del resultado. No convertir el puntaje de un modelo en probabilidad clínica ni en certeza personal.

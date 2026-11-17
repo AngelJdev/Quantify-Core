@@ -24,7 +24,7 @@ for (const [role, items] of Object.entries(navigation)) {
 }
 assert.equal(screens.length, 33);
 const sheets = [...geometry.sheets, ...geometry.navigationVariants, ...mockups];
-assert.equal(sheets.length, 344);
+assert.equal(sheets.length, 336);
 const brands = new Map();
 for (const s of sheets) {
   const svg = await read(s.file);
@@ -32,7 +32,15 @@ for (const s of sheets) {
   const role = s.id.startsWith('A') ? 'admin' : 'usuario';
   const targets = s.elements.filter(element => element.kind === 'nav-target');
   const metadata = [...svg.matchAll(/data-nav-to="([^"]+)" data-nav-active="([^"]+)"/g)];
-  if (screen.group === 'Acceso') {
+  if(s.id==='U07')assert.equal(s.elements.filter(e=>e.kind==='input').length,4,'nombre, categoría, meta y unidad separados');
+  if(s.id==='U08')assert.equal(s.elements.filter(e=>e.kind==='link').length,4,'editar, recordatorio, archivar y volver son destinos distintos');
+  if(s.id==='U11') {
+    assert.equal(s.elements.filter(e=>e.kind.startsWith('assistant-')).length,7,'conversación, borrador, mensaje y alternativa manual');
+    for(const kind of ['assistant-create','assistant-manual'])assert.ok(s.elements.find(e=>e.kind===kind).height>=44);
+    if(s.fidelity!=='sketch')assert.match(svg,/Aún no se ha creado el hábito/);
+  }
+  if(s.id==='U12'&&s.fidelity==='mockup')assert.equal((svg.match(/data-control-state="on"/g)||[]).length,2,'consentimiento y avisos activos en la escena ilustrativa');
+  if (!screen.session) {
     assert.equal(targets.length, 0, s.file + ' acceso sin navegación de sesión');
     assert.equal(metadata.length, 0);
   } else {
@@ -101,7 +109,7 @@ for (const screen of screens) for (const edge of screen.edges) {
   assert.ok(screens.find(other => other.id === edge.to));
   assert.equal(edge.to[0], screen.id[0], 'destino del mismo rol');
 }
-console.log('PASS inventario, geometría y vector de marca de las 344 láminas.');
+console.log('PASS inventario, geometría y vector de marca de las 336 láminas.');
 await fs.mkdir(out, { recursive: true });
 const base = process.env.PORTAL_URL || 'http://127.0.0.1:8773/';
 const browser = await chromium.launch({ channel: 'msedge', headless: true });
@@ -121,7 +129,7 @@ try {
     assert.equal(await page.locator('#sheet').getAttribute('src'), '../' + s.file.replace(/^docs\//, ''));
     assert.equal(await page.locator('#screen').inputValue(), s.id);
     const links = page.locator('#session-navigation a');
-    const access = screens.find(screen => screen.id === s.id).group === 'Acceso';
+    const access = !screens.find(screen => screen.id === s.id).session;
     assert.equal(await links.count(), access ? 0 : 4);
     if (!access) {
       assert.deepEqual(await links.evaluateAll(items => items.map(item => item.dataset.navTo)), expectedTabs[role]);
@@ -145,11 +153,21 @@ try {
     }
     transitions++;
   }
-  assert.equal(transitions, 131);
-  console.log('PASS 344 variantes del recorrido, 131 condiciones y retornos.');
+  assert.equal(transitions, 132);
+  for(const format of ['movil','pwa']) {
+    await page.goto(`${base}docs/practica-07/index.html?format=${format}#usuario/U01`);
+    await page.locator('#routes button').filter({hasText:'Acerca del software'}).click();
+    assert.equal(await page.locator('#screen').inputValue(),'U20');
+    assert.equal(await page.locator('#session-navigation a').count(),0,'información pública sin destinos de sesión');
+    assert.ok(await page.locator('#navigation').isDisabled());
+    await page.locator('#routes [data-edge="0"]').click();
+    assert.equal(await page.locator('#screen').inputValue(),'U21');
+    assert.equal(await page.locator('#session-navigation a').count(),0);
+  }
+  console.log('PASS 336 variantes del recorrido, 132 condiciones y retornos.');
   let navigationChecks = 0;
   // Cada pantalla de sesión permite llegar a las cuatro secciones, sin cambiar de rol.
-  for (const screen of screens.filter(screen => screen.group !== 'Acceso')) {
+  for (const screen of screens.filter(screen => screen.session)) {
     const role = screen.id.startsWith('A') ? 'admin' : 'usuario';
     for (const to of expectedTabs[role]) {
       await page.goto(`${base}docs/practica-07/index.html#${role}/${screen.id}`);

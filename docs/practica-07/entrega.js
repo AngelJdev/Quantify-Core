@@ -19,7 +19,7 @@
     const fidelity=fidelityFilter?.value||'sketch';
     const kind={sketch:'sketches',wireframe:'wireframes',mockup:'mockups'}[fidelity];
     if(themeFilter)themeFilter.disabled=fidelity!=='mockup';
-    const hasRail=s=>format==='pwa'&&s.group!=='Acceso'&&s.id!=='U16';
+    const hasRail=s=>format==='pwa'&&s.session;
     const asset=s=>`../GUI/prototipos/${format==='movil'?'movil':'pwa'}/${kind}/islas/${fidelity==='mockup'?(themeFilter?.value||'light')+'/':''}${s.id}${hasRail(s)&&navigationFilter?.value==='compact'?'-compact':''}.svg`;
     if(fidelityFilter){document.querySelector('h1').textContent=`${fidelity==='mockup'?'Mockups':fidelity==='wireframe'?'Wireframes':'Sketches'} · ${role==='admin'?'Administración':'Usuario'}`;document.querySelector('.sketch-kicker').textContent='DISEÑO / '+fidelity.toUpperCase();}
     const list=screens[role].map(s=>({...s,key:role}));

@@ -10,6 +10,7 @@
     "test:islands": "node tests/islands.mjs",
     "test:mockups": "node tests/mockups.mjs",
     "test:prototypes": "node tests/prototypes.mjs",
+    "test:gantt": "node tests/gantt.mjs",
     "test:edt": "node tests/edt-details.mjs",
     "test:ambient": "node tests/ambient.mjs"
   },

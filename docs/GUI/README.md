@@ -1,5 +1,7 @@
 # Quantify Core · GUI
 
+**Base para web y móvil:** [fuentes vigentes, estados, correcciones y límites de implementación](BASE-IMPLEMENTACION.md). Inventario de 33 pantallas, 336 láminas y 132 condiciones; U11 conversacional y U20/U21 públicas sin navegación de sesión. Las cifras de revisiones anteriores son antecedentes.
+
 **Vistas separadas e IA personal:** [usuario: hábitos y asistente de IA](practica-07.html?fidelity=mockup&role=usuario#U11) · [administración: operación y supervisión](practica-07.html?fidelity=mockup&role=admin#A02). El asistente personal permite crear un hábito desde una propuesta; Control IA es una herramienta administrativa distinta. [Regla y recorrido](NAVEGACION.md).
 
 **Corrección de navegación:** [cuatro destinos por rol y acceso a todos los módulos](NAVEGACION.md). Gestión reúne cuentas, auditoría y configuración; las pestañas se pueden recorrer directamente sobre las láminas del prototipo navegacional.

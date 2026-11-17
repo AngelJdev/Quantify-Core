@@ -593,6 +593,11 @@
       "label": "Ajustes"
     },
     {
+      "from": "U11",
+      "to": "U07",
+      "label": "Crear hábito manualmente"
+    },
+    {
       "from": "U14",
       "to": "U08",
       "label": "Abrir hábito asociado"
@@ -685,7 +690,7 @@
     {
       "from": "U20",
       "to": "U12",
-      "label": "Volver a ajustes"
+      "label": "Volver a Perfil · sesión vigente"
     },
     {
       "from": "U21",

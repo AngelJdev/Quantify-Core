@@ -103,13 +103,13 @@ const info = {
   U11: [
     "Tu hábito, con ayuda de IA",
     "sugerencias",
-    "De la propuesta a tu rutina",
+    "Conversa y prepara tu rutina",
     [
-      "Revisa la propuesta y su motivo",
+      "Escribe qué hábito quieres crear",
       "Define tu meta y frecuencia",
       "Descarta lo que no encaje contigo",
     ],
-    "Una sugerencia no crea un hábito hasta que confirmes el formulario.",
+    "Enviar un mensaje no guarda el hábito. Revisa el borrador y confirma el formulario.",
   ],
   U12: [
     "Preferencias con propósito",
@@ -296,7 +296,7 @@ const info = {
       "Explica por qué cambia la regla",
       "Guarda el ajuste y su auditoría",
     ],
-    "Los umbrales de esta demo son ilustrativos, no políticas de producto.",
+    "El alcance y el contexto necesitan una política aprobada antes de conectarlos al asistente.",
   ],
   A09: [
     "Antes de confirmar el acceso",
