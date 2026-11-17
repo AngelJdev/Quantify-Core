@@ -19,6 +19,7 @@ Describir cambios de esquema, configuración, permisos, migración o recuperaci�
 ## Revisión
 
 - [ ] El alcance coincide con el requisito y la rama de destino.
+- [ ] La actividad apunta a `develop` y se integrará con `Create a merge commit` (sin fast-forward, squash ni rebase).
 - [ ] Contratos y documentación reflejan el cambio.
 - [ ] La validación relevante tiene evidencia.
 - [ ] Los pendientes y decisiones nuevas están identificados.

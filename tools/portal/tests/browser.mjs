@@ -175,7 +175,7 @@ try {
     assert.ok(
       await page
         .locator("main")
-        .getByText(/26 vistas/)
+        .getByText(/33 sketches y 33 wireframes/)
         .count(),
     );
     await page.locator("main h3 a").filter({ hasText: "Sketches" }).click();

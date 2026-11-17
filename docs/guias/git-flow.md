@@ -24,7 +24,15 @@ git push -u origin feature/<tema>
 
 Abrir un pull request de la rama de trabajo hacia `develop`. Revisar y fusionar el cambio antes de iniciar el siguiente trabajo que dependa de él. Para documentación o correcciones normales se usa el mismo procedimiento con los prefijos `docs/` o `fix/`.
 
-Para la entrega de base técnica QUANCORE-43 se solicitó conservar los commits mediante **merge commit sin fast-forward**: en GitHub usar `Create a merge commit` (`merge_method=merge`), sin squash ni rebase. Al integrar localmente, el equivalente es `git merge --no-ff <rama>`. No empujar una fusión local a una rama compartida saltándose el PR; conservar las comprobaciones y reglas de protección aplicables.
+Todas las ramas de actividad (`feature/`, `feat/`, `fix/` y `docs/`) se integran hacia **`develop` mediante merge commit sin fast-forward**. En GitHub usar `Create a merge commit` (`merge_method=merge`), sin squash ni rebase. El primer padre del merge debe ser el estado anterior de `develop`; el segundo, la rama de actividad. La entrega QUANCORE-43 sigue la misma regla. No integrar una actividad fusionando `develop` dentro de su rama como sustituto del PR hacia `develop`.
+
+Al integrar localmente, el equivalente es situarse en `develop` y ejecutar `git merge --no-ff <rama>`. No empujar una fusión local a una rama compartida saltándose el PR; conservar las comprobaciones y reglas de protección aplicables. Para prevenir fast-forward en merges locales de integración, configurar este clon:
+
+```bash
+git config --local branch.develop.mergeOptions --no-ff
+```
+
+Las curvas laterales del grafo son normales con `--no-ff`: conservan la rama y sus commits. Para revisar la secuencia de integraciones de `develop` en una sola línea, usar `git log --first-parent --oneline develop`. No reescribir ni forzar el historial compartido para cambiar su apariencia. Usar una rama por actividad coherente y commits por unidades revisables; evitar ramas o merges por cada ajuste menor.
 
 ## Preparar una versión
 

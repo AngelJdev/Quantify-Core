@@ -1,6 +1,6 @@
 # Móvil · Sketches
 
-**Referencia activa:** [33 sketches acotados y ordenados de Práctica 07](../../../practica-07.html). Splash aparece primero y contiene solo logo. Los 20 PNG y seis SVG descritos a continuación son referencias históricas conservadas; la galería del sitio muestra el conjunto corregido de Práctica 07.
+**Revisión vigente:** [33 sketches con islas y cotas](../../../practica-07.html?fidelity=sketch), con wireframes correspondientes. [Medidas y alcance](../../../ISLAS.md). El selector Etapa conserva los 33 sketches originales de Práctica 07; Splash aparece primero y contiene solo logo. Los 20 PNG y seis SVG descritos a continuación son referencias históricas conservadas.
 
 El inventario histórico reúne las 20 vistas originales y las [6 vistas complementarias de autenticación](../autenticacion/README.md). Estas últimas incluyen Login y Registro con espacios para Google, Facebook y Apple, representados únicamente con geometría a lápiz.
 

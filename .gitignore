@@ -18,3 +18,7 @@ services/api/build/
 # Herramientas del portal documental
 tools/portal/node_modules/
 tools/portal/.artifacts/
+
+# Referencias de video locales: revisar y retirar antes de publicar
+/videoFrontendidea.mp4
+/WhatsApp Video 2026-11-16 at 12.29.06 PM.mp4
