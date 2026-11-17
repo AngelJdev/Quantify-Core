@@ -49,7 +49,7 @@ Este índice reúne producto, planificación, ingeniería, diseño, calidad y op
 | Propósito | Fuente y estado |
 |---|---|
 | Identidad y estilos | [GUI](GUI/README.md), [sistema de diseño](diseno/sistema-diseno.md) y [tokens](../packages/design-tokens/README.md); recursos existentes verificados por pruebas GUI, sin otra paleta ni definición paralela. |
-| Pantallas y fidelidades | [33 sketches vigentes por formato](GUI/practica-07.html), [catálogo móvil](GUI/prototipos/movil/README.md), [mockups](GUI/prototipos/movil/mockups/README.md) y [autenticación](GUI/prototipos/movil/autenticacion/README.md). Wireframes y mockups conservan 20 vistas originales más seis de autenticación; su alineación con los 33 sketches sigue pendiente. No equivalen a producto conectado. |
+| Pantallas y fidelidades | [33 wireframes por formato](GUI/practica-07.html?fidelity=wireframe) y [sketches correspondientes](GUI/practica-07.html?fidelity=sketch) con islas y medidas; [especificación](GUI/ISLAS.md). PWA provisional hasta revisar videos; los [26 mockups previos](GUI/prototipos/movil/mockups/README.md) siguen pendientes de alinear. No equivalen a producto conectado. |
 | Prototipo y navegación | [Figma oficial](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3), [entradas y validación estructural](GUI/README.md#prototipo-interactivo-en-figma) y [recorridos](diseno/recorridos.md). Wireframes y mockups tienen conexiones existentes; el prototipo HTML histórico es una referencia distinta. |
 | Accesibilidad | [Criterios de diseño](diseno/README.md) y [plan de verificación](../tests/plan-pruebas.md); una comprobación estructural o automatizada no acredita por sí sola toda la experiencia. |
 

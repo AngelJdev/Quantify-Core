@@ -1,6 +1,19 @@
 {
   "status": "identidad-visual-definida-para-gui",
   "version": "0.4.0",
+  "prototypeIslands": {
+    "status": "revision-documental-no-productiva",
+    "mobile": { "width": 390, "height": 844 },
+    "pwa": { "width": 1280, "height": 900, "status": "provisional-videos-pendientes" },
+    "margin": 24,
+    "gap": 12,
+    "columnGap": 24,
+    "headerHeight": 64,
+    "navigationHeight": 72,
+    "navigationRadius": 36,
+    "railWidth": 208,
+    "targetHeight": 48
+  },
   "font": "Inter",
   "colors": {
     "laserBlue": "#275BC0",
