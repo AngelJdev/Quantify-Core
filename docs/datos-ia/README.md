@@ -1,5 +1,7 @@
 # Datos e inteligencia artificial
 
+**Alcance vigente de IA:** [asistente conversacional dentro de Quantify](asistente-conversacional.md), para preparar hábitos y recomendaciones simples. Las propuestas predictivas de los documentos anteriores quedan fuera de esta entrega. Datos, métricas deterministas y telemetría conservan sus responsabilidades propias.
+
 Esta sección establece qué datos necesita Quantify Core, quién puede cambiarlos y cómo se documentarán los indicadores y recomendaciones. **Estado:** diseño de desarrollo; los pipelines y modelos de producto no están implementados. QUANCORE-35 añade un esquema físico y una API de simulación solo sintética, separados de la integración productiva pendiente.
 
 ```mermaid

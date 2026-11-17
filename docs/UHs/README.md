@@ -86,6 +86,8 @@ Como usuario quiero configurar recordatorios y consultar avisos asociados a mis 
 
 ## HU-07 · Recomendaciones comprensibles
 
+**Alcance vigente:** conversar con el [asistente de Quantify](../datos-ia/asistente-conversacional.md) para pedir ayuda sencilla, preparar hábitos y recibir recomendaciones. Los indicadores predictivos y arquetipos citados en la cobertura histórica quedan fuera de esta entrega.
+
 Como usuario quiero conocer la evidencia y los límites de una recomendación, personalizarla, aceptarla o descartarla para decidir sobre mi rutina sin cambios automáticos.
 
 | Referencia | Ubicación |
