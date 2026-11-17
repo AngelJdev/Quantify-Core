@@ -1,5 +1,7 @@
 # Práctica 07 · Navegación de sketches
 
+**Revisión del 17/11/2026:** el [prototipo navegacional vigente](index.html) recorre las mismas 33 pantallas de sketches, wireframes y mockups, en móvil/PWA. El isotipo oficial de Figma sustituye las firmas distintas. [Hallazgos y correspondencia](../GUI/REVISION-PROTOTIPOS.md). La [simulación funcional anterior](demo.html) conserva su alcance histórico; las pruebas funcionales y capturas previas de este README corresponden a esa simulación.
+
 Esta guía sigue los **15 puntos solicitados**, en el mismo orden. En cada punto encontrarás qué se hizo y un enlace para revisarlo. Los sketches se consultan en GUI; los documentos completos permanecen en sus carpetas.
 
 **[Consultar esta guía dentro del sitio](https://angeljdev.github.io/Quantify-Core/docs/practica-07/revision.html)**

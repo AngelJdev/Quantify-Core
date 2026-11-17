@@ -119,9 +119,6 @@ module.exports = {
   ],
   U16: [
     ["image", "Logo del producto"],
-    ["text", "Quantify Core"],
-    ["text", "Inicializando..."],
-    ["button", "Continuar"],
   ],
   U17: [
     ["text", "Preparando la aplicación..."],

@@ -1,5 +1,7 @@
 # Móvil · Mockups con islas
 
+**Revisión del 17/11/2026:** [isotipo de Figma y correspondencia entre las tres fidelidades y el recorrido navegacional](../../../REVISION-PROTOTIPOS.md).
+
 **Catálogo vigente: 33 pantallas, en claro y oscuro.** Misma geometría que los wireframes, con Inter, Q, iconos y paleta existentes.
 
 [Revisar en el visor](../../../practica-07.html?fidelity=mockup) · [Especificación y medidas](../../../MOCKUPS.md) · [Galería](../../../index.html?fidelity=mockup#prototipos).

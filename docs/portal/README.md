@@ -1,5 +1,7 @@
 # Centro del proyecto
 
+**Revisión del 17/11/2026:** el [prototipo navegacional vigente](../practica-07/index.html) muestra los mismos SVG del catálogo en las tres fidelidades. [Procedencia del isotipo de Figma, correspondencia y validación](../GUI/REVISION-PROTOTIPOS.md). Se comprueba con `node tools/portal/tests/prototypes.mjs` desde la raíz o `npm run test:prototypes` desde `tools/portal`, con el servidor local indicado en ese registro.
+
 La [revisión de islas](../GUI/ISLAS.md) incorpora 33 wireframes y 33 sketches por formato con medidas compartidas, navegación móvil en píldora y PWA provisional con referencias de video revisadas. Práctica 07 enlaza el mismo conjunto de sketches a lápiz, sin duplicados. La galería muestra medidas de los mockups vigentes; los nuevos mockups comparten geometría y cotas con los wireframes.
 
 El [portal de Quantify Core](../../index.html) organiza producto, planificación, arquitectura, diseño y validación. Sirve archivos estáticos en GitHub Pages, sin backend ni credenciales. Conserva las fuentes Markdown en sus ubicaciones originales y los prototipos con sus límites documentados.

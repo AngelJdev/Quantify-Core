@@ -4,6 +4,7 @@ const path = require("node:path");
 const vm = require("node:vm");
 const layouts = require("./pantallas.cjs");
 const createPencil = require("./lapiz.cjs");
+const marca = require("./marca.cjs");
 const root = path.resolve(__dirname, "../../..");
 const tokens = JSON.parse(
   fs.readFileSync(path.join(root, "packages/design-tokens/preview.json")),
@@ -105,12 +106,12 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
         let navBox = null;
         if (splash) {
           ui("logo", w / 2 - 105, h / 2 - 40, 210, 80, () => {
-            drawing += `<text x="${w / 2}" y="${h / 2 - 4}" text-anchor="middle" font-size="27" font-weight="700" fill="#555555">QUANTIFY</text><text x="${w / 2}" y="${h / 2 + 27}" text-anchor="middle" font-size="27" font-weight="700" fill="#555555">CORE</text>`;
+            drawing += marca(w / 2 - 24, h / 2 - 24, 48, "#333333");
           });
         } else {
           ui("header", margin, margin, w - margin * 2, headerHeight, () => {
             rect(margin, margin, w - margin * 2, headerHeight);
-            rect(40, 40, 32, 32, 8, "#e5e5e5");
+            drawing += marca(40, 40, 32, "#333333");
             text(mobile ? "Quantify Core" : screen.title, 84, 62, 16);
             if (!mobile && !auth) {
               rect(w - 420, 36, 272, 40, 20, "#f2f2f2");
@@ -481,8 +482,12 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                     kind === "button" ? "#dddddd" : "#ffffff",
                   );
                   if (kind === "image") {
-                    drawing += `<path d="M${x + 16} ${y + 16}l${bw - 32} ${height - 32}M${x + bw - 16} ${y + 16}l${32 - bw} ${height - 32}" stroke="#aaaaaa"/>`;
-                    text("Gráfico / imagen", x + 16, y + height / 2);
+                    if (screen.id === "U01")
+                      drawing += marca(x + (bw - 48) / 2, y + (height - 48) / 2, 48, "#333333");
+                    else {
+                      drawing += `<path d="M${x + 16} ${y + 16}l${bw - 32} ${height - 32}M${x + bw - 16} ${y + 16}l${32 - bw} ${height - 32}" stroke="#aaaaaa"/>`;
+                      text("Gráfico / imagen", x + 16, y + height / 2);
+                    }
                   } else if (kind === "check") {
                     rect(x + 16, y + 16, 24, 24, 6);
                     wrap(title, x + 52, y + 25, Math.floor((bw - 68) / 7), 13);

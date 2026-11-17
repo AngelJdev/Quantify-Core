@@ -1,5 +1,7 @@
 # Mockups · Islas e identidad de Quantify
 
+**Corrección del 17/11/2026:** isotipo oficial de Figma compartido por las tres fidelidades y el [recorrido vigente](../practica-07/index.html). Splash muestra solo la Q, sin recomponer «Quantify / CORE». [Procedencia y revisión](REVISION-PROTOTIPOS.md). La descripción del acabado del 16/11 conserva su fecha; su imagotipo fue sustituido por el isotipo.
+
 [Abrir visor](practica-07.html?fidelity=mockup#U06) · [Galería de 33 pantallas](index.html?fidelity=mockup#prototipos) · [Geometría compartida](ISLAS.md).
 
 Esta revisión aplica la identidad definida a las 33 pantallas del inventario académico, tanto en móvil como en PWA. Cada pantalla conserva su estructura y sus cotas de wireframe; el acabado añade color semántico, jerarquía tipográfica, iconos, marca y profundidad suave.

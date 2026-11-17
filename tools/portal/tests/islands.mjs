@@ -123,7 +123,7 @@ try {
         (s.fidelity === "sketch" && s.id === "U06")) &&
       ["U06", "U03", "U05", "A02", "U10"].includes(s.id)
     )
-      await page.locator("svg").screenshot({
+      await page.locator("svg").first().screenshot({
         path: new URL(
           `${s.fidelity === "sketch" ? "sketch-" : ""}${s.id}-${s.format}${s.navigationState === "compact" ? "-compact" : ""}.png`,
           out,

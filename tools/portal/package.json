@@ -9,6 +9,7 @@
     "test:consistency": "node tests/consistency.mjs",
     "test:islands": "node tests/islands.mjs",
     "test:mockups": "node tests/mockups.mjs",
+    "test:prototypes": "node tests/prototypes.mjs",
     "test:edt": "node tests/edt-details.mjs",
     "test:ambient": "node tests/ambient.mjs"
   },

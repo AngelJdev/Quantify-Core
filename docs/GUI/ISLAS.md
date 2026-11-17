@@ -1,5 +1,7 @@
 # Wireframes y sketches · Revisión de islas
 
+**Corrección del 17/11/2026:** cabecera, bienvenida y Splash reutilizan el isotipo de Figma en monocromático, en las mismas posiciones de mockup. El [prototipo navegacional](../practica-07/index.html) usa los mismos SVG del catálogo. [Registro de correspondencia](REVISION-PROTOTIPOS.md).
+
 Revisión documental solicitada el 16/11/2026. [Revisar wireframes](practica-07.html?fidelity=wireframe#U06) · [Revisar sketches](practica-07.html?fidelity=sketch#U06) · [Galería](index.html?fidelity=wireframe#prototipos).
 
 Las 33 pantallas del inventario de Práctica 07 tienen ahora un sketch y un wireframe por formato: **132 SVG base**, más **40 variantes de navegación PWA compacta**, todos con cotas exteriores. Las variantes son estados de las mismas veinte pantallas PWA con navegación; no aumentan el inventario de pantallas. Comparten estructura, orden, referencias a requisitos, roles y conexiones. Son láminas estáticas de revisión; no autentican, guardan hábitos ni ejecutan servicios. Splash conserva únicamente el logo y las pantallas de acceso no muestran navegación de sesión.

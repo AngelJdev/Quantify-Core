@@ -109,7 +109,8 @@ try {
     if (s.id === "U16") {
       assert.equal(await page.locator("#interface > [data-ui]").count(), 1);
       assert.equal(await page.locator('[data-splash="brand-islands"]').count(), 1);
-      assert.deepEqual(await page.locator('#interface text').allTextContents(), ["Quantify", "CORE"]);
+      assert.deepEqual(await page.locator('#interface text').allTextContents(), []);
+      assert.equal(await page.locator('[data-brand-source="figma:2:174"]').count(), 1);
     }
     if (["U16", "U07", "U11", "U12", "U06", "U02", "A02", "U10", "U05"].includes(s.id))
       await page

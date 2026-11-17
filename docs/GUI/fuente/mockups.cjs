@@ -7,6 +7,7 @@ const tokens = read("packages/design-tokens/preview.json");
 const geometry = read("docs/GUI/islas-medidas.json");
 const guide = read("docs/GUI/identidad/guia/modelo.json");
 const layouts = require("./pantallas.cjs");
+const marca = require("./marca.cjs");
 const font = fs
   .readFileSync(path.join(root, "docs/GUI/assets/inter-islas.woff2"))
   .toString("base64");
@@ -97,7 +98,7 @@ for (const source of [
       s += `<svg x="${x}" y="${y}" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true"><path d="${esc(guide.icons[key] || guide.icons.informacion)}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     }
     function brand(x, y, size = 32) {
-      s += `<svg data-brand="Q" x="${x}" y="${y}" width="${size}" height="${size}" viewBox="0 0 100 100"><path d="${guide.symbol}" fill="none" stroke="${p.icon}" stroke-width="12" stroke-linecap="round"/></svg>`;
+      s += marca(x, y, size, p.icon);
     }
     function button(label, e, primary = true) {
       rect(
@@ -237,8 +238,7 @@ for (const source of [
       } else if (kind === "image") {
         rect(x, y, bw, bh, p.surface, 16, p.line, true);
         if (id === "U01") {
-          brand(x + (bw - 64) / 2, y + 8, 64);
-          text("Quantify Core", x + bw / 2, y + 94, 20, p.text, 700, "middle");
+          brand(x + (bw - 48) / 2, y + (bh - 48) / 2, 48);
         } else if (id === "U10") {
           text("5 de 7 días con meta cumplida", x + 16, y + 23, 13, p.muted);
           chart(x + 16, y + 38, bw - 32, bh - 62);
@@ -347,9 +347,7 @@ for (const source of [
       s += `<g data-ui="${kind}" data-box="${x},${y},${bw},${bh}">`;
       if (kind === "logo") {
         rect(x, y, bw, bh, p.surface, 24, p.line, true);
-        brand(x + 16, y + 12, 56);
-        text("Quantify", x + 88, y + 36, 22, p.text, 700);
-        text("CORE", x + 89, y + 56, 11, p.icon, 600);
+        brand(x + (bw - 48) / 2, y + (bh - 48) / 2, 48);
       } else if (kind === "header") {
         rect(x, y, bw, bh, p.surface, 16, p.line, true);
         brand(x + 16, y + 16, 32);
