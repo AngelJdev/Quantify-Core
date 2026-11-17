@@ -108,7 +108,9 @@ Historia: [HU-06](../UHs/README.md#hu-06). Procedencia: [recorridos](../diseno/r
 
 <a id="rf-07"></a>
 
-### RF-07 · Analítica y recomendaciones
+### RF-07 · Asistente conversacional y recomendaciones
+
+**Delimitación vigente:** [asistente dentro de Quantify](../datos-ia/asistente-conversacional.md), para solicitudes sencillas y preparación de hábitos con confirmación explícita. RF-07.05 queda fuera de esta entrega; las condiciones de población, entrenamiento y suficiencia de historial del planteamiento anterior no bloquean recomendaciones conversacionales generales. Consentimiento, contexto autorizado, límites y aceptación idempotente se mantienen. Contrato y criterios específicos de conversación están pendientes de formalizar.
 
 Historia: [HU-07](../UHs/README.md#hu-07). Procedencia: [visión del producto](../../README.md#módulos-funcionales), [analítica e IA](../datos-ia/analitica-ia.md) y [D-07](../arquitectura/decisiones-pendientes.md).
 
