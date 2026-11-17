@@ -41,7 +41,7 @@ El **[Centro del proyecto](https://angeljdev.github.io/Quantify-Core/)** reúne 
 
 ## Práctica 07
 
-**[Revisar sketches uno por uno](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html?fidelity=sketch):** Splash primero y solo logo; 33 vistas con cotas exteriores, móvil 390 × 844 px y PWA 1280 × 900 px. La [revisión de islas](docs/GUI/ISLAS.md) incorpora 33 wireframes correspondientes por formato y utiliza ese mismo conjunto para Práctica 07. PWA provisional con referencias de video revisadas; mockups pendientes de alinear.
+**[Revisar sketches uno por uno](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html?fidelity=sketch):** Splash primero y solo logo; 33 vistas con cotas exteriores, móvil 390 × 844 px y PWA 1280 × 900 px. La [revisión de islas](docs/GUI/ISLAS.md) incorpora 33 wireframes correspondientes por formato y utiliza ese mismo conjunto para Práctica 07. PWA provisional con referencias de video revisadas; mockups alineados en claro y oscuro.
 
 La [carpeta de Práctica 07](docs/practica-07/) reúne la guía de los quince puntos, 33 fichas, galería, prototipo, explorador de navegación y evidencias. Su README enlaza las fuentes de requisitos e historias y los bocetos originales en GUI. [Abrir el explorador](docs/practica-07/navegacion.html).
 
@@ -53,7 +53,7 @@ La [carpeta de Práctica 07](docs/practica-07/) reúne la guía de los quince pu
 
 ## Práctica 09
 
-**Avance de mockups.** La [galería del sitio](https://angeljdev.github.io/Quantify-Core/docs/GUI/index.html?fidelity=mockup#prototipos) reúne las 20 pantallas originales y seis vistas complementarias de autenticación: Login, Register, verificación, recuperación, nueva contraseña y confirmación. Las variantes clara y oscura conservan las mismas 26 vistas; las imágenes originales siguen en [GUI](docs/GUI/prototipos/movil/mockups/README.md).
+**Mockups con identidad e islas.** El [visor del sitio](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html?fidelity=mockup) reúne las 33 pantallas para móvil y PWA, en claro y oscuro. Conservan geometría y cotas del wireframe, navegación móvil en píldora y barra lateral expandida/compacta. Usan la paleta, Inter, la Q y los iconos definidos. [Especificación y alcance](docs/GUI/MOCKUPS.md) · [Catálogo móvil](docs/GUI/prototipos/movil/mockups/README.md).
 
 **Estado:** avance visual, no entrega terminada. Login y Register incluyen Google, Facebook y Apple solo como opciones de prototipo. El [flujo de autenticación](docs/GUI/prototipos/movil/autenticacion/README.md) distingue el diseño de la conexión real con Keycloak y proveedores sociales.
 

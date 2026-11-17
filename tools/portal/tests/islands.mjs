@@ -175,7 +175,7 @@ try {
     }
     await page.selectOption("#fidelity-filter", "sketch");
     assert.match(await image.getAttribute("src"), /sketches\/islas/);
-    assert.equal(await page.locator("#fidelity-filter option").count(), 2);
+    assert.equal(await page.locator("#fidelity-filter option").count(), 3);
     await page.selectOption("#fidelity-filter", "wireframe");
     await page.selectOption("#role-filter", "admin");
     assert.equal(await page.locator("#screen-picker option").count(), 11);
@@ -216,7 +216,7 @@ try {
   await page.keyboard.press("Escape");
   await page.locator("[data-fidelity=mockup]").click();
   await page.selectOption("#format", "mobile");
-  assert.equal(await page.locator("#prototype-grid .image-card").count(), 26);
+  assert.equal(await page.locator("#prototype-grid .image-card").count(), 33);
   await page
     .locator("#prototype-grid img")
     .first()
@@ -226,7 +226,7 @@ try {
     /390 × 844/,
   );
   checks.push(
-    "Galería: 33 wireframes, PWA, lightbox y 26 mockups con dimensiones nativas",
+    "Galería: 33 wireframes y mockups, PWA, lightbox y dimensiones",
   );
   assert.deepEqual(errors, []);
   await fs.writeFile(

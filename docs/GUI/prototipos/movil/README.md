@@ -1,6 +1,6 @@
 # Móvil · Índice y correspondencia
 
-**Revisión vigente de sketches y wireframes:** [33 vistas con islas por etapa](../../ISLAS.md), con cotas y correspondencia compartidas. El índice de veinte pantallas que sigue y los mockups pertenecen al catálogo anterior conservado.
+**Revisión vigente de sketches y wireframes:** [33 vistas con islas por etapa](../../ISLAS.md), con cotas y correspondencia compartidas. Los mockups vigentes aplican la identidad a las 33 vistas; el índice de veinte pantallas que sigue pertenece al catálogo anterior conservado.
 
 Las veinte pantallas se desarrollan en tres etapas: **20 sketches, 20 wireframes y 40 PNG de mockups** (claro/oscuro). Todos miden 390 × 844. Los temas no son pantallas adicionales. Este índice no incrusta imágenes: cada etapa tiene su propio README visual.
 
