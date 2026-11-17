@@ -41,7 +41,7 @@ El **[Centro del proyecto](https://angeljdev.github.io/Quantify-Core/)** reúne 
 
 ## Práctica 07
 
-**[Revisar sketches uno por uno](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html?fidelity=sketch):** Splash primero y solo logo; 33 vistas con cotas exteriores, móvil 390 × 844 px y PWA 1280 × 900 px. La [revisión de islas](docs/GUI/ISLAS.md) incorpora 33 wireframes correspondientes por formato y conserva el archivo original de Práctica 07. PWA provisional con referencias de video revisadas; mockups pendientes de alinear.
+**[Revisar sketches uno por uno](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html?fidelity=sketch):** Splash primero y solo logo; 33 vistas con cotas exteriores, móvil 390 × 844 px y PWA 1280 × 900 px. La [revisión de islas](docs/GUI/ISLAS.md) incorpora 33 wireframes correspondientes por formato y utiliza ese mismo conjunto para Práctica 07. PWA provisional con referencias de video revisadas; mockups pendientes de alinear.
 
 La [carpeta de Práctica 07](docs/practica-07/) reúne la guía de los quince puntos, 33 fichas, galería, prototipo, explorador de navegación y evidencias. Su README enlaza las fuentes de requisitos e historias y los bocetos originales en GUI. [Abrir el explorador](docs/practica-07/navegacion.html).
 

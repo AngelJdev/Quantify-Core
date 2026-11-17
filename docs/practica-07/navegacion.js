@@ -20,7 +20,7 @@
   let selected = byId.has(location.hash.slice(1)) ? location.hash.slice(1) : 'U16';
   let format = 'movil', zoom = 1, tab = 'sketch', scenario = null, step = 0;
   const trail = [selected];
-  const image = id => `../GUI/prototipos/${format}/sketches/practica-07/${id}.png`;
+  const image = id => `../GUI/prototipos/${format}/sketches/islas/${id}.svg`;
   const roleLabel = role => role === 'all' ? 'Todos los roles' : role === 'admin' ? 'Administrador' : 'Usuario / visitante';
   const routeButton = (id, label) => `<button class="route-button" data-node="${id}"><img src="${image(id)}" alt="" loading="lazy"><span><strong>${esc(label)}</strong>${id} · ${esc(byId.get(id).title)}</span></button>`;
   function setTab(next, focus=false) {
@@ -41,7 +41,7 @@
     $('#panel-connections').innerHTML = `<h3>Salidas y condiciones (${current.edges.length})</h3>${current.edges.map(e => routeButton(e.to, e.label + (e.kind === 'state' ? ' · Permanece ↻' : ''))).join('')}<h3>Entradas (${incoming.length})</h3>${incoming.length ? incoming.map(e => routeButton(e.from, e.label)).join('') : '<p>Punto de entrada del recorrido; no tiene otra pantalla de origen en el inventario.</p>'}`;
     $('#panel-rules').innerHTML = `<img src="${image(selected)}" class="rule-preview" alt="Referencia visual de ${selected}"><h3>Condiciones de esta simulación</h3><ul class="rules-list">${current.rules.map(id => {const rule=rules.find(r=>r.id===id);return `<li><strong>${id} · ${esc(rule.title)}</strong><br>${esc(rule.text)}</li>`;}).join('')}</ul><p>Las reglas RN son propias del visor. Consulta las <a href="lecturas/reglas.html">reglas RN-P del producto</a> antes de implementar.</p>`;
     $('#panel-trace').innerHTML = `<img src="${image(selected)}" alt="Pantalla ${selected} relacionada con los requisitos"><h3>Requisitos e historias</h3><ul>${current.requirements.map(id => `<li><a href="lecturas/requisitos.html#${id.toLowerCase()}">${id} · Operaciones y aceptación</a><br><a href="lecturas/historias.html#${id.replace('RF-', 'hu-')}">${id.replace('RF-', 'HU-')} · Historia de usuario</a></li>`).join('')}</ul><p><a href="fichas.html#${selected.toLowerCase()}">Ficha individual: descripción, componentes, acciones y pantallas relacionadas</a>.</p><p><a href="revision.html#punto-1">Selección funcional y límites del prototipo</a> · <a href="revision.html#cumplimiento">Los 15 puntos de la consigna</a>.</p>`;
-    $('#selected-links').innerHTML = `<a href="index.html#${current.roleKey}/${selected}">Probar pantalla ↗</a><a href="galeria.html#${selected}">Ver en galería</a><a href="${image(selected)}" download>Descargar PNG</a><a href="${image(selected).replace('.png','.svg')}" download>SVG editable</a>`;
+    $('#selected-links').innerHTML = `<a href="index.html#${current.roleKey}/${selected}">Probar pantalla ↗</a><a href="galeria.html#${selected}">Ver en galería</a><a href="${image(selected)}" download>SVG editable</a>`;
     setTab(tab);
   }
   function renderMap() {

@@ -2,14 +2,14 @@
 
 [Galería visual](galeria.html) · [Explorador de navegación](navegacion.html)
 
-Cada ficha reúne descripción, componentes, plataformas, rol, requisitos, historias, reglas, acciones y pantallas relacionadas. Los PNG y SVG permanecen en GUI. [Volver a los 15 puntos de la práctica](README.md).
+Cada ficha reúne descripción, componentes, plataformas, rol, requisitos, historias, reglas, acciones y pantallas relacionadas. Los SVG compartidos permanecen en GUI. [Volver a los 15 puntos de la práctica](README.md).
 
 <a id="u16"></a>
 
 <details>
 <summary><strong>U16 · Splash Screen</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U16.png" alt="Sketch U16" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U16.svg" alt="Sketch U16" width="180">
 
 **Pantalla general obligatoria:** Splash Screen.
 
@@ -23,8 +23,8 @@ Identificar el producto al iniciar la aplicación.
 | Elementos principales | Solo logotipo centrado; transición automática a carga, sin botones ni navegación |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01); [HU-01](../UHs/README.md#hu-01) |
 | Reglas de navegación / demo | RN13; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U16.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U16.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U16.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U16.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U16.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U16.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U16.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U16.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U16) · [Ver nodo](mapa-completo.html#U16) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -40,7 +40,7 @@ Identificar el producto al iniciar la aplicación.
 <details>
 <summary><strong>U17 · Loading Screen</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U17.png" alt="Sketch U17" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U17.svg" alt="Sketch U17" width="180">
 
 **Pantalla general obligatoria:** Loading Screen.
 
@@ -54,8 +54,8 @@ Mostrar la carga inicial, reintento y salida ante un fallo.
 | Elementos principales | Indicador de carga, mensaje de error, completar, reintentar y cancelar |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01); [HU-01](../UHs/README.md#hu-01) |
 | Reglas de navegación / demo | RN13; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U17.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U17.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U17.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U17.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U17.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U17.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U17.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U17.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U17) · [Ver nodo](mapa-completo.html#U17) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -73,7 +73,7 @@ Mostrar la carga inicial, reintento y salida ante un fallo.
 <details>
 <summary><strong>U01 · Bienvenida</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U01.png" alt="Sketch U01" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U01.svg" alt="Sketch U01" width="180">
 
 Presentación del seguimiento de hábitos y acceso a una rutina más consciente.
 
@@ -85,8 +85,8 @@ Presentación del seguimiento de hábitos y acceso a una rutina más consciente.
 | Elementos principales | Presentación, imagen de referencia, beneficios, acceso, registro y enlace informativo |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01); [HU-01](../UHs/README.md#hu-01) |
 | Reglas de navegación / demo | RN02, RN13; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U01.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U01.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U01.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U01.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U01.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U01.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U01.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U01.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U01) · [Ver nodo](mapa-completo.html#U01) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -104,7 +104,7 @@ Presentación del seguimiento de hábitos y acceso a una rutina más consciente.
 <details>
 <summary><strong>U02 · Login / Iniciar sesión</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U02.png" alt="Sketch U02" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U02.svg" alt="Sketch U02" width="180">
 
 **Pantalla general obligatoria:** Login Screen.
 
@@ -118,8 +118,8 @@ Validar las credenciales de ejemplo y continuar a la rutina.
 | Elementos principales | Correo, contraseña, error, contador de intentos, recuperación y registro |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01); [HU-01](../UHs/README.md#hu-01) |
 | Reglas de navegación / demo | RN02; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U02.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U02.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U02.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U02.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U02.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U02.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U02.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U02.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U02) · [Ver nodo](mapa-completo.html#U02) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -141,7 +141,7 @@ Validar las credenciales de ejemplo y continuar a la rutina.
 <details>
 <summary><strong>U03 · Register / Crear cuenta</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U03.png" alt="Sketch U03" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U03.svg" alt="Sketch U03" width="180">
 
 Capturar los datos y aceptar las condiciones antes de verificar la cuenta.
 
@@ -153,8 +153,8 @@ Capturar los datos y aceptar las condiciones antes de verificar la cuenta.
 | Elementos principales | Nombre ficticio, correo demo, contraseña de prueba, aceptación y validación |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01); [HU-01](../UHs/README.md#hu-01) |
 | Reglas de navegación / demo | RN02; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U03.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U03.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U03.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U03.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U03.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U03.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U03.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U03.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U03) · [Ver nodo](mapa-completo.html#U03) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -172,7 +172,7 @@ Capturar los datos y aceptar las condiciones antes de verificar la cuenta.
 <details>
 <summary><strong>U05 · Verificar código</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U05.png" alt="Sketch U05" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U05.svg" alt="Sketch U05" width="180">
 
 Verificación demostrativa del registro o de una recuperación.
 
@@ -184,8 +184,8 @@ Verificación demostrativa del registro o de una recuperación.
 | Elementos principales | Código de seis dígitos, contexto registro/recuperación, error y reenvío |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01); [HU-01](../UHs/README.md#hu-01) |
 | Reglas de navegación / demo | RN02; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U05.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U05.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U05.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U05.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U05.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U05.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U05.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U05.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U05) · [Ver nodo](mapa-completo.html#U05) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -204,7 +204,7 @@ Verificación demostrativa del registro o de una recuperación.
 <details>
 <summary><strong>U04 · Recuperar acceso</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U04.png" alt="Sketch U04" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U04.svg" alt="Sketch U04" width="180">
 
 **Pantalla general obligatoria:** Recovery Account or Password.
 
@@ -218,8 +218,8 @@ Iniciar una recuperación simulada sin enviar correos.
 | Elementos principales | Correo demo, solicitud de código, aviso de simulación y cancelar |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01); [HU-01](../UHs/README.md#hu-01) |
 | Reglas de navegación / demo | RN02; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U04.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U04.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U04.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U04.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U04.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U04.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U04.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U04.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U04) · [Ver nodo](mapa-completo.html#U04) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -236,7 +236,7 @@ Iniciar una recuperación simulada sin enviar correos.
 <details>
 <summary><strong>U15 · Nueva contraseña</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U15.png" alt="Sketch U15" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U15.svg" alt="Sketch U15" width="180">
 
 Completar la recuperación simulada. La nueva clave vive solo en memoria.
 
@@ -248,8 +248,8 @@ Completar la recuperación simulada. La nueva clave vive solo en memoria.
 | Elementos principales | Nueva contraseña de prueba, confirmación, error y guardar |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01); [HU-01](../UHs/README.md#hu-01) |
 | Reglas de navegación / demo | RN02; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U15.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U15.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U15.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U15.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U15.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U15.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U15.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U15.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U15) · [Ver nodo](mapa-completo.html#U15) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -266,7 +266,7 @@ Completar la recuperación simulada. La nueva clave vive solo en memoria.
 <details>
 <summary><strong>U18 · Lock Account</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U18.png" alt="Sketch U18" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U18.svg" alt="Sketch U18" width="180">
 
 **Pantalla general obligatoria:** Lock Account.
 
@@ -280,8 +280,8 @@ Informar el bloqueo temporal después de tres intentos fallidos de demostración
 | Elementos principales | Candado, explicación del bloqueo, solicitar código y volver |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01); [HU-01](../UHs/README.md#hu-01) |
 | Reglas de navegación / demo | RN02; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U18.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U18.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U18.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U18.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U18.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U18.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U18.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U18.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U18) · [Ver nodo](mapa-completo.html#U18) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -298,7 +298,7 @@ Informar el bloqueo temporal después de tres intentos fallidos de demostración
 <details>
 <summary><strong>U19 · Unlock Account Code</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U19.png" alt="Sketch U19" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U19.svg" alt="Sketch U19" width="180">
 
 **Pantalla general obligatoria:** Unlock Account Code.
 
@@ -312,8 +312,8 @@ Validar un código exclusivo del recorrido de desbloqueo.
 | Elementos principales | Código de desbloqueo, error, validación, reenvío y cancelar |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01); [HU-01](../UHs/README.md#hu-01) |
 | Reglas de navegación / demo | RN02; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U19.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U19.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U19.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U19.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U19.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U19.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U19.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U19.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U19) · [Ver nodo](mapa-completo.html#U19) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -331,7 +331,7 @@ Validar un código exclusivo del recorrido de desbloqueo.
 <details>
 <summary><strong>U06 · Hoy / Mis hábitos</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U06.png" alt="Sketch U06" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U06.svg" alt="Sketch U06" width="180">
 
 **Pantalla general obligatoria:** Home.
 
@@ -345,8 +345,8 @@ Visualizar el progreso y los hábitos programados para el día de ejemplo.
 | Elementos principales | Resumen diario, progreso, filtros, lista de hábitos y navegación principal |
 | Requisitos / historias | [RF-03](../requerimientos/catalogo.md#rf-03), [RF-04](../requerimientos/catalogo.md#rf-04), [RF-05](../requerimientos/catalogo.md#rf-05); [HU-03](../UHs/README.md#hu-03), [HU-04](../UHs/README.md#hu-04), [HU-05](../UHs/README.md#hu-05) |
 | Reglas de navegación / demo | RN04, RN05; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U06.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U06.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U06.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U06.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U06.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U06.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U06.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U06.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U06) · [Ver nodo](mapa-completo.html#U06) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -368,7 +368,7 @@ Visualizar el progreso y los hábitos programados para el día de ejemplo.
 <details>
 <summary><strong>U07 · Crear / editar hábito</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U07.png" alt="Sketch U07" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U07.svg" alt="Sketch U07" width="180">
 
 Personalizar la meta, la frecuencia y el color, con validación antes de guardar.
 
@@ -380,8 +380,8 @@ Personalizar la meta, la frecuencia y el color, con validación antes de guardar
 | Elementos principales | Nombre, categoría, frecuencia, meta, unidad, color, guardar y cancelar |
 | Requisitos / historias | [RF-03](../requerimientos/catalogo.md#rf-03); [HU-03](../UHs/README.md#hu-03) |
 | Reglas de navegación / demo | RN03, RN09; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U07.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U07.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U07.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U07.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U07.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U07.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U07.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U07.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U07) · [Ver nodo](mapa-completo.html#U07) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -400,7 +400,7 @@ Personalizar la meta, la frecuencia y el color, con validación antes de guardar
 <details>
 <summary><strong>U08 · Detalle del hábito</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U08.png" alt="Sketch U08" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U08.svg" alt="Sketch U08" width="180">
 
 Registrar avances parciales, completar el día o revisar la racha.
 
@@ -412,8 +412,8 @@ Registrar avances parciales, completar el día o revisar la racha.
 | Elementos principales | Meta, avance parcial, racha, historial, edición, recordatorio y archivo |
 | Requisitos / historias | [RF-04](../requerimientos/catalogo.md#rf-04), [RF-05](../requerimientos/catalogo.md#rf-05); [HU-04](../UHs/README.md#hu-04), [HU-05](../UHs/README.md#hu-05) |
 | Reglas de navegación / demo | RN04, RN05, RN06; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U08.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U08.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U08.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U08.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U08.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U08.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U08.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U08.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U08) · [Ver nodo](mapa-completo.html#U08) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -434,7 +434,7 @@ Registrar avances parciales, completar el día o revisar la racha.
 <details>
 <summary><strong>U09 · Recordatorio</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U09.png" alt="Sketch U09" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U09.svg" alt="Sketch U09" width="180">
 
 Definir días y horario de un aviso simulado para el hábito seleccionado.
 
@@ -446,8 +446,8 @@ Definir días y horario de un aviso simulado para el hábito seleccionado.
 | Elementos principales | Días compatibles, horario, aviso voluntario, guardar y cancelar |
 | Requisitos / historias | [RF-06](../requerimientos/catalogo.md#rf-06); [HU-06](../UHs/README.md#hu-06) |
 | Reglas de navegación / demo | RN07; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U09.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U09.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U09.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U09.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U09.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U09.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U09.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U09.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U09) · [Ver nodo](mapa-completo.html#U09) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -464,7 +464,7 @@ Definir días y horario de un aviso simulado para el hábito seleccionado.
 <details>
 <summary><strong>U10 · Análisis y rachas</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U10.png" alt="Sketch U10" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U10.svg" alt="Sketch U10" width="180">
 
 Consultar resultados calculados con los registros locales de ejemplo.
 
@@ -476,8 +476,8 @@ Consultar resultados calculados con los registros locales de ejemplo.
 | Elementos principales | Periodo, métricas, referencia de gráfico e historial por hábito |
 | Requisitos / historias | [RF-05](../requerimientos/catalogo.md#rf-05); [HU-05](../UHs/README.md#hu-05) |
 | Reglas de navegación / demo | RN05, RN06; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U10.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U10.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U10.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U10.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U10.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U10.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U10.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U10.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U10) · [Ver nodo](mapa-completo.html#U10) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -497,7 +497,7 @@ Consultar resultados calculados con los registros locales de ejemplo.
 <details>
 <summary><strong>U11 · IA Coach</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U11.png" alt="Sketch U11" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U11.svg" alt="Sketch U11" width="180">
 
 Recomendaciones explicables con consentimiento, umbral y control de duplicados.
 
@@ -509,8 +509,8 @@ Recomendaciones explicables con consentimiento, umbral y control de duplicados.
 | Elementos principales | Consentimiento, tarjetas de sugerencias, explicación, personalizar y descartar |
 | Requisitos / historias | [RF-07](../requerimientos/catalogo.md#rf-07); [HU-07](../UHs/README.md#hu-07) |
 | Reglas de navegación / demo | RN08, RN09, RN10; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U11.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U11.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U11.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U11.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U11.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U11.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U11.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U11.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U11) · [Ver nodo](mapa-completo.html#U11) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -531,7 +531,7 @@ Recomendaciones explicables con consentimiento, umbral y control de duplicados.
 <details>
 <summary><strong>U14 · Centro de avisos</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U14.png" alt="Sketch U14" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U14.svg" alt="Sketch U14" width="180">
 
 Avisos locales de ejemplo con estado leído y acceso al hábito asociado.
 
@@ -543,8 +543,8 @@ Avisos locales de ejemplo con estado leído y acceso al hábito asociado.
 | Elementos principales | Lista de avisos, horario, estado leído y enlace al hábito asociado |
 | Requisitos / historias | [RF-06](../requerimientos/catalogo.md#rf-06); [HU-06](../UHs/README.md#hu-06) |
 | Reglas de navegación / demo | RN07; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U14.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U14.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U14.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U14.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U14.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U14.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U14.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U14.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U14) · [Ver nodo](mapa-completo.html#U14) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -563,7 +563,7 @@ Avisos locales de ejemplo con estado leído y acceso al hábito asociado.
 <details>
 <summary><strong>U12 · Perfil y ajustes</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U12.png" alt="Sketch U12" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U12.svg" alt="Sketch U12" width="180">
 
 Preferencias de privacidad y avisos. Solo se conservan datos de demostración.
 
@@ -575,8 +575,8 @@ Preferencias de privacidad y avisos. Solo se conservan datos de demostración.
 | Elementos principales | Nombre de ejemplo, consentimiento, preferencias, información y cierre de sesión |
 | Requisitos / historias | [RF-02](../requerimientos/catalogo.md#rf-02); [HU-02](../UHs/README.md#hu-02) |
 | Reglas de navegación / demo | RN02, RN07, RN08; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U12.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U12.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U12.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U12.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U12.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U12.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U12.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U12.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U12) · [Ver nodo](mapa-completo.html#U12) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -599,7 +599,7 @@ Preferencias de privacidad y avisos. Solo se conservan datos de demostración.
 <details>
 <summary><strong>U13 · Archivar hábito</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U13.png" alt="Sketch U13" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U13.svg" alt="Sketch U13" width="180">
 
 Confirmar una acción que conserva los registros históricos.
 
@@ -611,8 +611,8 @@ Confirmar una acción que conserva los registros históricos.
 | Elementos principales | Resumen del hábito, advertencia de conservación del historial y confirmación |
 | Requisitos / historias | [RF-03](../requerimientos/catalogo.md#rf-03); [HU-03](../UHs/README.md#hu-03) |
 | Reglas de navegación / demo | RN06; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U13.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U13.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U13.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U13.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U13.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U13.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U13.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U13.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U13) · [Ver nodo](mapa-completo.html#U13) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -629,7 +629,7 @@ Confirmar una acción que conserva los registros históricos.
 <details>
 <summary><strong>U22 · Acceso denegado</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U22.png" alt="Sketch U22" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U22.svg" alt="Sketch U22" width="180">
 
 Explicar por qué el rol Usuario no puede operar módulos administrativos.
 
@@ -641,8 +641,8 @@ Explicar por qué el rol Usuario no puede operar módulos administrativos.
 | Elementos principales | Mensaje de acceso denegado, alcance del rol, Home y cierre de sesión |
 | Requisitos / historias | [RF-09](../requerimientos/catalogo.md#rf-09); [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN01; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U22.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U22.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U22.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U22.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U22.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U22.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U22.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U22.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U22) · [Ver nodo](mapa-completo.html#U22) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -659,7 +659,7 @@ Explicar por qué el rol Usuario no puede operar módulos administrativos.
 <details>
 <summary><strong>U20 · About Software</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U20.png" alt="Sketch U20" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U20.svg" alt="Sketch U20" width="180">
 
 **Pantalla general obligatoria:** About Software.
 
@@ -673,8 +673,8 @@ Presentar propósito, plataformas previstas, versión y límites del prototipo.
 | Elementos principales | Propósito, versión académica, plataformas, límites y enlaces informativos |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01); [HU-01](../UHs/README.md#hu-01) |
 | Reglas de navegación / demo | RN13; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U20.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U20.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U20.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U20.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U20.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U20.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U20.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U20.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U20) · [Ver nodo](mapa-completo.html#U20) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -692,7 +692,7 @@ Presentar propósito, plataformas previstas, versión y límites del prototipo.
 <details>
 <summary><strong>U21 · About Team / Enterprise</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/U21.png" alt="Sketch U21" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/U21.svg" alt="Sketch U21" width="180">
 
 **Pantalla general obligatoria:** About Team / Enterprise.
 
@@ -706,8 +706,8 @@ Presentar al equipo académico y responsabilidades del proyecto.
 | Elementos principales | Equipo, responsabilidades, institución y enlaces de retorno |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01); [HU-01](../UHs/README.md#hu-01) |
 | Reglas de navegación / demo | RN13; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/U21.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/U21.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/U21.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/U21.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U21.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U21.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/U21.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/U21.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#usuario/U21) · [Ver nodo](mapa-completo.html#U21) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -724,7 +724,7 @@ Presentar al equipo académico y responsabilidades del proyecto.
 <details>
 <summary><strong>A01 · Acceso administrador</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/A01.png" alt="Sketch A01" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/A01.svg" alt="Sketch A01" width="180">
 
 Entrada de demostración para personal autorizado; sin registro público.
 
@@ -736,8 +736,8 @@ Entrada de demostración para personal autorizado; sin registro público.
 | Elementos principales | Correo administrativo demo, contraseña de prueba, error y contador |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01), [RF-09](../requerimientos/catalogo.md#rf-09); [HU-01](../UHs/README.md#hu-01), [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN01, RN02; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/A01.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/A01.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/A01.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/A01.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A01.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A01.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/A01.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/A01.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#admin/A01) · [Ver nodo](mapa-completo.html#A01) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -755,7 +755,7 @@ Entrada de demostración para personal autorizado; sin registro público.
 <details>
 <summary><strong>A02 · Resumen operativo</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/A02.png" alt="Sketch A02" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/A02.svg" alt="Sketch A02" width="180">
 
 Indicadores agregados ilustrativos, estado de servicios y accesos a los módulos.
 
@@ -767,8 +767,8 @@ Indicadores agregados ilustrativos, estado de servicios y accesos a los módulos
 | Elementos principales | Métricas agregadas ilustrativas y accesos a los módulos de operación |
 | Requisitos / historias | [RF-09](../requerimientos/catalogo.md#rf-09); [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN01; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/A02.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/A02.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/A02.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/A02.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A02.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A02.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/A02.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/A02.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#admin/A02) · [Ver nodo](mapa-completo.html#A02) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -788,7 +788,7 @@ Indicadores agregados ilustrativos, estado de servicios y accesos a los módulos
 <details>
 <summary><strong>A03 · Catálogo de hábitos</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/A03.png" alt="Sketch A03" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/A03.svg" alt="Sketch A03" width="180">
 
 Gestionar plantillas sin modificar las rutinas personales existentes.
 
@@ -800,8 +800,8 @@ Gestionar plantillas sin modificar las rutinas personales existentes.
 | Elementos principales | Lista de plantillas, estado, crear, editar, pausar y reactivar |
 | Requisitos / historias | [RF-09](../requerimientos/catalogo.md#rf-09); [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN10, RN11; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/A03.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/A03.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/A03.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/A03.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A03.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A03.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/A03.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/A03.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#admin/A03) · [Ver nodo](mapa-completo.html#A03) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -823,7 +823,7 @@ Gestionar plantillas sin modificar las rutinas personales existentes.
 <details>
 <summary><strong>A04 · Editar plantilla</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/A04.png" alt="Sketch A04" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/A04.svg" alt="Sketch A04" width="180">
 
 Validar nombre, categoría y meta antes de guardar y auditar la modificación.
 
@@ -835,8 +835,8 @@ Validar nombre, categoría y meta antes de guardar y auditar la modificación.
 | Elementos principales | Nombre, categoría, meta, unidad, motivo obligatorio y guardar/cancelar |
 | Requisitos / historias | [RF-09](../requerimientos/catalogo.md#rf-09); [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN03, RN10, RN11; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/A04.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/A04.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/A04.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/A04.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A04.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A04.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/A04.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/A04.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#admin/A04) · [Ver nodo](mapa-completo.html#A04) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -854,7 +854,7 @@ Validar nombre, categoría y meta antes de guardar y auditar la modificación.
 <details>
 <summary><strong>A05 · Supervisión de IA</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/A05.png" alt="Sketch A05" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/A05.svg" alt="Sketch A05" width="180">
 
 Revisar tasas de aceptación ilustrativas y pausar propuestas con un motivo.
 
@@ -866,8 +866,8 @@ Revisar tasas de aceptación ilustrativas y pausar propuestas con un motivo.
 | Elementos principales | Propuestas de IA agregadas, estado, motivo y confirmación |
 | Requisitos / historias | [RF-07](../requerimientos/catalogo.md#rf-07), [RF-09](../requerimientos/catalogo.md#rf-09); [HU-07](../UHs/README.md#hu-07), [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN08, RN10, RN11; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/A05.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/A05.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/A05.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/A05.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A05.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A05.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/A05.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/A05.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#admin/A05) · [Ver nodo](mapa-completo.html#A05) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -888,7 +888,7 @@ Revisar tasas de aceptación ilustrativas y pausar propuestas con un motivo.
 <details>
 <summary><strong>A06 · Auditoría</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/A06.png" alt="Sketch A06" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/A06.svg" alt="Sketch A06" width="180">
 
 Consultar cambios administrativos registrados en esta demostración.
 
@@ -900,8 +900,8 @@ Consultar cambios administrativos registrados en esta demostración.
 | Elementos principales | Filtro de acciones, fecha, actor, entidad y motivo; sin editar ni borrar |
 | Requisitos / historias | [RF-10](../requerimientos/catalogo.md#rf-10); [HU-10](../UHs/README.md#hu-10) |
 | Reglas de navegación / demo | RN11; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/A06.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/A06.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/A06.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/A06.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A06.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A06.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/A06.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/A06.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#admin/A06) · [Ver nodo](mapa-completo.html#A06) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -922,7 +922,7 @@ Consultar cambios administrativos registrados en esta demostración.
 <details>
 <summary><strong>A07 · Control de accesos</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/A07.png" alt="Sketch A07" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/A07.svg" alt="Sketch A07" width="180">
 
 Administrar el estado de cuentas ficticias identificadas por códigos.
 
@@ -934,8 +934,8 @@ Administrar el estado de cuentas ficticias identificadas por códigos.
 | Elementos principales | Códigos de cuentas ficticias, estado, suspensión/reactivación y cuenta protegida |
 | Requisitos / historias | [RF-09](../requerimientos/catalogo.md#rf-09); [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN01, RN12; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/A07.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/A07.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/A07.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/A07.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A07.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A07.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/A07.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/A07.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#admin/A07) · [Ver nodo](mapa-completo.html#A07) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -956,7 +956,7 @@ Administrar el estado de cuentas ficticias identificadas por códigos.
 <details>
 <summary><strong>A08 · Configuración global</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/A08.png" alt="Sketch A08" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/A08.svg" alt="Sketch A08" width="180">
 
 Ajustar límites de sugerencias respetando el mínimo de confianza y auditar cambios.
 
@@ -968,8 +968,8 @@ Ajustar límites de sugerencias respetando el mínimo de confianza y auditar cam
 | Elementos principales | Límites académicos de IA, motivo, guardar y cierre de sesión |
 | Requisitos / historias | [RF-09](../requerimientos/catalogo.md#rf-09); [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN08, RN11; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/A08.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/A08.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/A08.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/A08.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A08.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A08.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/A08.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/A08.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#admin/A08) · [Ver nodo](mapa-completo.html#A08) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -991,7 +991,7 @@ Ajustar límites de sugerencias respetando el mínimo de confianza y auditar cam
 <details>
 <summary><strong>A09 · Confirmar cambio de acceso</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/A09.png" alt="Sketch A09" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/A09.svg" alt="Sketch A09" width="180">
 
 Confirmar suspensión o reactivación con un motivo obligatorio.
 
@@ -1003,8 +1003,8 @@ Confirmar suspensión o reactivación con un motivo obligatorio.
 | Elementos principales | Código de cuenta, conservación de datos, motivo y confirmación/cancelación |
 | Requisitos / historias | [RF-09](../requerimientos/catalogo.md#rf-09); [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN11, RN12; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/A09.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/A09.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/A09.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/A09.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A09.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A09.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/A09.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/A09.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#admin/A09) · [Ver nodo](mapa-completo.html#A09) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -1021,7 +1021,7 @@ Confirmar suspensión o reactivación con un motivo obligatorio.
 <details>
 <summary><strong>A10 · Lock Account · Administrador</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/A10.png" alt="Sketch A10" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/A10.svg" alt="Sketch A10" width="180">
 
 Bloqueo de ejemplo tras tres accesos administrativos fallidos.
 
@@ -1033,8 +1033,8 @@ Bloqueo de ejemplo tras tres accesos administrativos fallidos.
 | Elementos principales | Candado, explicación de bloqueo administrativo y solicitud de código |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01), [RF-09](../requerimientos/catalogo.md#rf-09); [HU-01](../UHs/README.md#hu-01), [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN02; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/A10.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/A10.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/A10.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/A10.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A10.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A10.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/A10.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/A10.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#admin/A10) · [Ver nodo](mapa-completo.html#A10) |
 
 **Acciones, condiciones y pantallas relacionadas**
@@ -1051,7 +1051,7 @@ Bloqueo de ejemplo tras tres accesos administrativos fallidos.
 <details>
 <summary><strong>A11 · Unlock Account Code · Administrador</strong> — ficha individual</summary>
 
-<img src="../GUI/prototipos/movil/sketches/practica-07/A11.png" alt="Sketch A11" width="180">
+<img src="../GUI/prototipos/movil/sketches/islas/A11.svg" alt="Sketch A11" width="180">
 
 Desbloquear el acceso de ejemplo sin conceder una sesión.
 
@@ -1063,8 +1063,8 @@ Desbloquear el acceso de ejemplo sin conceder una sesión.
 | Elementos principales | Código de desbloqueo administrativo, error, reenvío y cancelar |
 | Requisitos / historias | [RF-01](../requerimientos/catalogo.md#rf-01), [RF-09](../requerimientos/catalogo.md#rf-09); [HU-01](../UHs/README.md#hu-01), [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN02; [definición](referencia-tecnica.md#reglas-y-condiciones) |
-| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/practica-07/A11.png) · [Sketch PWA](../GUI/prototipos/pwa/sketches/practica-07/A11.png) |
-| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/practica-07/A11.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/practica-07/A11.svg) |
+| Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A11.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A11.svg) |
+| Fuente editable | [SVG móvil](../GUI/prototipos/movil/sketches/islas/A11.svg) · [SVG PWA](../GUI/prototipos/pwa/sketches/islas/A11.svg) |
 | Recorrido interactivo | [Abrir pantalla](index.html#admin/A11) · [Ver nodo](mapa-completo.html#A11) |
 
 **Acciones, condiciones y pantallas relacionadas**

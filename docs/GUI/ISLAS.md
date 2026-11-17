@@ -24,7 +24,7 @@ Las 33 pantallas del inventario de Práctica 07 tienen ahora un sketch y un wire
 | Controles | 48 de alto; campo con etiqueta: 72 |
 | Radios | Isla 16; cabecera 16; rail 24; botón 24 |
 
-Móvil presenta una columna. PWA organiza Inicio, Progreso y Panel administrativo en cabecera, filtros de periodo, fila de cuatro indicadores, panel principal, contexto lateral y tres bloques inferiores; centra los formularios. El selector **Navegación PWA** del visor muestra el rail expandido o compacto y el espacio de contenido se redistribuye. En móvil, archivo histórico y acceso sin sesión se deshabilita ese selector. **La distribución PWA incorpora las referencias de video revisadas y permanece pendiente de revisión visual.** No se considera aprobada ni implementada en React o Flutter. Los tamaños de la lámina incluyen 100 px exteriores por lado para las anotaciones; no deben confundirse con el viewport.
+Móvil presenta una columna. PWA organiza Inicio, Progreso y Panel administrativo en cabecera, filtros de periodo, fila de cuatro indicadores, panel principal, contexto lateral y tres bloques inferiores; centra los formularios. El selector **Navegación PWA** del visor muestra el rail expandido o compacto y el espacio de contenido se redistribuye. En móvil y acceso sin sesión se deshabilita ese selector. **La distribución PWA incorpora las referencias de video revisadas y permanece pendiente de revisión visual.** No se considera aprobada ni implementada en React o Flutter. Los tamaños de la lámina incluyen 100 px exteriores por lado para las anotaciones; no deben confundirse con el viewport.
 
 ## Ideas tomadas de los videos
 
@@ -37,13 +37,14 @@ Se revisaron los dos MP4 locales facilitados el 16/11/2026: `videoFrontendidea.m
 
 Inter procede del recurso local existente; se incrusta un subconjunto Latin en los SVG para conservar la fuente al descargar o usar las láminas como imágenes. `fuente/subconjunto_islas.py` genera ese derivado con fonttools y brotli, conservando la licencia en `assets/inter-license.txt`. Los wireframes usan grises para mostrar jerarquía sin modificar la paleta del producto. La geometría reside en `packages/design-tokens/preview.json.prototypeIslands`, con alcance documental, y se define aquí y en el sistema de diseño; no son nuevos tokens productivos aprobados. Los mockups previos siguen disponibles con sus dimensiones nativas visibles en la galería; quedan pendientes de rediseñar con las islas y acotar sus componentes una vez revisados los wireframes.
 
-El archivo de Práctica 07 y los PNG/SVG originales se conservan. El selector **Etapa** permite consultar ese archivo. El prototipo histórico y el Figma existente no se modificaron ni se consideran sincronizados con esta revisión.
+Práctica 07 utiliza el mismo catálogo de sketches de `sketches/islas/`: se eliminaron sus 66 PNG y 66 SVG duplicados, su manifiesto anterior y la opción separada del visor. Las fichas, los mapas y la galería apuntan al conjunto único. El generador de compatibilidad de Práctica 07 invoca el generador compartido y no vuelve a crear otra carpeta. Los sketches usan contornos irregulares de grafito, repasos y rayado sobre papel blanco; las cotas permanecen legibles y los wireframes conservan su acabado digital. El prototipo histórico y el Figma existente no se consideran sincronizados con esta revisión.
 
 ## Fuentes y reproducción
 
 - `../practica-07/data.js`: inventario, requisitos y conexiones académicas existentes; sus parámetros de demo no pasan al producto.
 - `fuente/pantallas.cjs`: estructura compartida por el generador histórico y esta revisión.
 - `fuente/islas.cjs`: geometría única para sketches y wireframes.
+- `fuente/lapiz.cjs`: trazos reproducibles de grafito, contornos repasados y sombreado por rayado; se aplica solo a sketches.
 - `islas-medidas.json`: viewport, lámina y coordenadas de cada componente; PWA marcada como provisional.
 
 Desde la raíz del repositorio:

@@ -36,7 +36,7 @@ class Relocate(HTMLParser):
     def address(self, value):
         url = urlsplit(value)
         if url.netloc == 'angeljdev.github.io' and url.path.startswith('/Quantify-Core/'):
-            return relative(ROOT / unquote(url.path.removeprefix('/Quantify-Core/')), self.output) + ('#' + url.fragment if url.fragment else '')
+            return relative(ROOT / unquote(url.path.removeprefix('/Quantify-Core/')), self.output) + ('?' + url.query if url.query else '') + ('#' + url.fragment if url.fragment else '')
         if url.scheme or url.netloc or not url.path:
             return value
         target = (self.source.parent / unquote(url.path)).resolve()
