@@ -6,6 +6,7 @@ const layouts = require("./pantallas.cjs");
 const createPencil = require("./lapiz.cjs");
 const marca = require("./marca.cjs");
 const entrada = require("./entrada.cjs");
+const orientacion = require("./orientacion.cjs");
 const root = path.resolve(__dirname, "../../..");
 const tokens = JSON.parse(
   fs.readFileSync(path.join(root, "packages/design-tokens/preview.json")),
@@ -231,6 +232,15 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
             text: 44,
             link: 44,
           };
+          const context = orientacion[screen.id];
+          if (context) {
+            ui("context-intro", bx, y, bw, 132, () => {
+              rect(bx + 16, y + 8, 24, 24, 8);
+              text(context.title, bx + 16, y + 62, 20);
+              context.intro.forEach((line, i) => text(line, bx + 16, y + 92 + i * 24, 13));
+            });
+            y += 152;
+          }
           if (overview) {
             const dg = geometry.dashboardGap,
               kpiW = (availableW - dg * 3) / 4;
@@ -506,6 +516,15 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                 dim(w + 20, y, w + 20, y + height, `${height} px`);
               y += height + gap;
             });
+          if (context) {
+            y += 16;
+            ui("context-note", bx, y, bw, 140, () => {
+              rect(bx, y, bw, 140, 24);
+              text(context.noteTitle, bx + 20, y + 34, 15);
+              context.note.forEach((line, i) => text(line, bx + 20, y + 66 + i * 24, 12));
+            });
+            y += 140;
+          }
           if (y > (navBox && mobile ? navBox.y - 16 : h - 24))
             throw new Error(
               `Contenido fuera de área: ${screen.id}/${format}: ${y}`,

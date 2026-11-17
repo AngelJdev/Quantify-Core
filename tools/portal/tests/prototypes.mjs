@@ -21,6 +21,17 @@ assert.equal(sheets.length, 344);
 const brands = new Map();
 for (const s of sheets) {
   const svg = await read(s.file);
+  if (['U01', 'U17'].includes(s.id)) {
+    const extent = Math.max(...s.elements.map(e => e.y + e.height));
+    assert.ok(extent >= s.viewport.height - 32, s.file + ' composición aprovecha la altura');
+    if (s.id === 'U01') {
+      assert.ok(s.elements.some(e => e.kind === 'welcome-preview'));
+      assert.equal(s.elements.filter(e => e.kind === 'welcome-feature').length, s.format === 'pwa' ? 3 : 0);
+    } else {
+      assert.ok(s.elements.some(e => e.kind === 'loading-stages'));
+      assert.ok(s.elements.some(e => e.kind === 'loading-skeleton'));
+    }
+  }
   const match = sheets.find(other => other.id === s.id && other.format === s.format && other.navigationState === s.navigationState && other.fidelity !== s.fidelity);
   assert.deepEqual(s.elements, match.elements, s.file + ' geometría entre fidelidades');
   const actual = [...svg.matchAll(/<svg data-brand="Q"[^>]*>[\s\S]*?<\/svg>/g)].map(([tag]) => {
@@ -81,6 +92,12 @@ try {
   }
   assert.equal(transitions, 131);
   console.log('PASS 344 variantes del recorrido, 131 condiciones y retornos.');
+  await page.goto(base + 'docs/GUI/prototipos/movil/mockups/islas/light/U17.svg');
+  assert.equal(await page.locator('.entry-orbit').evaluate(el => getComputedStyle(el).animationName), 'none');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  assert.equal(await page.locator('.entry-orbit').evaluate(el => getComputedStyle(el).animationName), 'entry-orbit');
+  assert.equal(await page.locator('.entry-pulse').evaluate(el => getComputedStyle(el).animationName), 'entry-pulse');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto(`${base}docs/practica-07/index.html#usuario/U06`);
   await page.selectOption('#format', 'pwa');
   await page.selectOption('#navigation', 'compact');

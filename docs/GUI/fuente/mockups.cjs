@@ -9,6 +9,7 @@ const guide = read("docs/GUI/identidad/guia/modelo.json");
 const layouts = require("./pantallas.cjs");
 const marca = require("./marca.cjs");
 const entrada = require("./entrada.cjs");
+const orientacion = require("./orientacion.cjs");
 const font = fs
   .readFileSync(path.join(root, "docs/GUI/assets/inter-islas.woff2"))
   .toString("base64");
@@ -155,7 +156,7 @@ for (const source of [
       "About Software / Team": "Acerca de Quantify y del equipo",
       "Aviso 1: hora y hábito": "18:00 · Tu momento de lectura",
       "Volver a Home": "Volver a Hoy",
-      "Guardar y volver a Login": "Guardar e iniciar sesión",
+      "Guardar y volver a Login": "Guardar contraseña",
       "Preparando la aplicación...": "Preparando tu espacio…",
       "Cargando:  / / / / / /": "Estamos preparando tus hábitos",
       "Carga completada": "Continuar",
@@ -209,7 +210,7 @@ for (const source of [
         icon(fieldIcon, x + 14, y + 38, 20, p.iconMuted);
         text(value, x + 46, y + 54, 14, p.muted);
         if (/contraseña/i.test(title))
-          icon("privacidad", x + bw - 38, y + 38, 20, p.iconMuted);
+          icon("ver", x + bw - 38, y + 38, 20, p.iconMuted);
       } else if (kind === "button")
         button(title, e, !/Descartar|Pausar|Reintentar|Marcar como leído/.test(title) && !(id === "U01" && /Iniciar/.test(title)));
       else if (kind === "link") {
@@ -348,7 +349,17 @@ for (const source of [
     else for (const e of source.elements) {
       const { kind, x, y, width: bw, height: bh } = e;
       s += `<g data-ui="${kind}" data-box="${x},${y},${bw},${bh}">`;
-      if (kind === "logo") {
+      if (kind === "context-intro") {
+        const context = orientacion[id];
+        icon(context.icon, x + 16, y + 8, 24);
+        text(context.title, x + 16, y + 62, 20, p.text, 700);
+        context.intro.forEach((line, i) => text(line, x + 16, y + 92 + i * 24, 13, p.muted));
+      } else if (kind === "context-note") {
+        const context = orientacion[id];
+        rect(x, y, bw, bh, p.surface, 24, p.line, true);
+        text(context.noteTitle, x + 20, y + 34, 15, p.text, 600);
+        context.note.forEach((line, i) => text(line, x + 20, y + 66 + i * 24, 12, p.muted));
+      } else if (kind === "logo") {
         rect(x, y, bw, bh, p.surface, 24, p.line, true);
         brand(x + (bw - 48) / 2, y + (bh - 48) / 2, 48);
       } else if (kind === "header") {

@@ -2,11 +2,13 @@
 const guide = require('../identidad/guia/modelo.json');
 const marca = require('./marca.cjs');
 const createPencil = require('./lapiz.cjs');
+const { prototypeEntry } = require('../../../packages/design-tokens/preview.json');
 const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 module.exports = function entrada({ id, mobile, fidelity, palette, colors }) {
   if (!['U01', 'U17'].includes(id)) return null;
   const mockup = fidelity === 'mockup', sketch = fidelity === 'sketch';
+  const heading = prototypeEntry.typography[id === 'U01' ? 'welcome' : 'loading'][mobile ? 'movil' : 'pwa'];
   const p = mockup ? palette : {
     canvas:'#f2f2f2', surface:'#ffffff', text:'#333333', muted:'#555555',
     line:'#aaaaaa', action:'#dddddd', onAction:'#333333', icon:'#333333', controlBorder:'#737373',
@@ -27,7 +29,8 @@ module.exports = function entrada({ id, mobile, fidelity, palette, colors }) {
     else svg += `<text x="${x}" y="${y}" font-size="${size}" fill="${color}" font-weight="${weight}" text-anchor="${anchor}">${escape(value)}</text>`;
   }
   function icon(key,x,y,size=24,color=accent) {
-    svg += `<svg x="${x}" y="${y}" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true"><path d="${guide.icons[key]||guide.icons.informacion}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    if (!guide.icons[key]) throw new Error(`Icono de entrada no definido: ${key}`);
+    svg += `<svg x="${x}" y="${y}" width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true"><path d="${guide.icons[key]}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   }
   function block(kind,x,y,width,height,draw) {
     elements.push({kind,x,y,width,height});
@@ -111,7 +114,7 @@ module.exports = function entrada({ id, mobile, fidelity, palette, colors }) {
     }
     svg += '</g>';
   }
-  if(mockup && id==='U17') svg += '<style>@keyframes entry-orbit{to{transform:rotate(360deg)}}@keyframes entry-pulse{50%{opacity:.4}}.entry-orbit{animation:entry-orbit 3s linear infinite}.entry-pulse{animation:entry-pulse 2.4s ease-in-out infinite}@media(prefers-reduced-motion:reduce){.entry-orbit,.entry-pulse{animation:none}}</style>';
+  if(mockup && id==='U17') svg += `<style>@keyframes entry-orbit{to{transform:rotate(360deg)}}@keyframes entry-pulse{50%{opacity:.4}}.entry-orbit{animation:entry-orbit ${prototypeEntry.motion.orbitDurationMs}ms linear infinite}.entry-pulse{animation:entry-pulse ${prototypeEntry.motion.skeletonDurationMs}ms ease-in-out infinite}@media(prefers-reduced-motion:reduce){.entry-orbit,.entry-pulse{animation:none}}</style>`;
   block('header',mobile?24:48,24,mobile?342:1184,64,({x,y,width})=>{
     svg += marca(x+16,y+16,32,accent);
     text('Quantify Core',x+60,y+39,16,p.text,700);
@@ -120,7 +123,7 @@ module.exports = function entrada({ id, mobile, fidelity, palette, colors }) {
   if(id==='U01') {
     block('welcome-hero',mobile?24:64,mobile?108:156,mobile?342:520,mobile?176:252,({x,y})=>{
       text('DALE ESPACIO A LO QUE IMPORTA',x,y+14,11,accent,600);
-      lines(['Pequeños hábitos.','Grandes cambios.'],x,y+(mobile?59:86),mobile?34:52,p.text,700,mobile?43:64);
+      lines(['Pequeños hábitos.','Grandes cambios.'],x,y+(mobile?59:86),heading.size,p.text,700,heading.lineHeight);
       lines(mobile?['Planea tu día, registra tus avances','y encuentra tu propio ritmo.']:['Planea tu día. Celebra cada avance.','Construye una rutina que se sienta tuya.'],x,y+(mobile?143:212),mobile?15:17,p.muted,400,23);
     });
     block('welcome-preview',mobile?24:648,mobile?304:136,mobile?342:568,mobile?264:432,({x,y,width,height})=>preview(x,y,width,height));
@@ -157,7 +160,7 @@ module.exports = function entrada({ id, mobile, fidelity, palette, colors }) {
   } else {
     block('loading-hero',mobile?24:80,mobile?126:174,mobile?342:440,mobile?114:252,({x,y})=>{
       text('UN MOMENTO PARA EMPEZAR',x,y+14,11,accent,600);
-      lines(mobile?['Preparando','tu espacio.']:['Tu rutina empieza','con un momento.'],x,y+(mobile?58:87),mobile?32:42,p.text,700,mobile?40:54);
+      lines(mobile?['Preparando','tu espacio.']:['Tu rutina empieza','con un momento.'],x,y+(mobile?58:87),heading.size,p.text,700,heading.lineHeight);
       if(!mobile) lines(['Estamos preparando tu vista','para que tu próximo paso sea sencillo.'],x,y+205,16,p.muted,400,24);
     });
     block('loading-stages',mobile?24:80,mobile?272:470,mobile?342:440,mobile?176:188,({x,y,width,height})=>stageList(x,y,width,height));

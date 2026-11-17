@@ -1,5 +1,7 @@
 # Sistema de diseño
 
+**Composición de entrada · 17/11/2026:** [bienvenida, carga y vistas breves](../GUI/ENTRADA.md). La extensión de titulares y movimiento del prototipo está centralizada en `packages/design-tokens/preview.json.prototypeEntry`; no redefine la paleta ni los ocho estilos base de la guía. La actualización del archivo remoto de Figma sigue pendiente.
+
 **Estado: guía de implementación propuesta para V2.0.** Los colores base proceden de la identidad del proyecto; los componentes descritos todavía no son una biblioteca instalada. Las decisiones abiertas se indican para que desarrolladores y agentes no generen estilos incompatibles.
 
 ## Principios de experiencia

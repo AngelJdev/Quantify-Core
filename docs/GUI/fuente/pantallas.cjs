@@ -1,11 +1,11 @@
 /* Estructura compartida de las 33 vistas académicas; no implementa servicios. */
 module.exports = {
   U01: [
-    ["image", "Logo"],
-    ["text", "Seguimiento de hábitos"],
-    ["button", "Crear cuenta"],
-    ["button", "Iniciar sesión"],
-    ["link", "Acerca del software"],
+    ["hero", "Pequeños hábitos. Grandes cambios."],
+    ["preview", "Rutina de ejemplo y progreso"],
+    ["button", "Crear mi cuenta"],
+    ["link", "Ya tengo cuenta"],
+    ["link", "Conoce Quantify"],
   ],
   U02: [
     ["input", "Correo electrónico"],
@@ -121,12 +121,10 @@ module.exports = {
     ["image", "Logo del producto"],
   ],
   U17: [
-    ["text", "Preparando la aplicación..."],
-    ["box", "Cargando:  / / / / / /"],
-    ["button", "Carga completada"],
-    ["link", "Simular error"],
-    ["button", "Reintentar"],
-    ["link", "Cancelar"],
+    ["text", "Preparando tu espacio"],
+    ["progress", "Etapa 2 de 3"],
+    ["skeleton", "Vista previa en preparación"],
+    ["link", "Volver al inicio"],
   ],
   U18: [
     ["image", "Candado"],

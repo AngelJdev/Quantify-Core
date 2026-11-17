@@ -1,5 +1,7 @@
 # Quantify Core · GUI
 
+**Rediseño de entrada:** [bienvenida PWA/móvil, carga por etapas y vistas breves](ENTRADA.md), con una sola marca por pantalla y las nuevas composiciones compartidas por las tres fidelidades.
+
 **Revisión del 17/11/2026:** [identidad y correspondencia](REVISION-PROTOTIPOS.md). El [recorrido navegacional vigente](../practica-07/index.html) reutiliza las mismas láminas de las tres fidelidades. La [simulación funcional anterior](../practica-07/demo.html) se conserva como antecedente; su composición no define el prototipo final.
 
 Documentación del sistema de diseño, guía de estilos visuales y prototipos de interfaz de usuario de **Quantify Core**. Este módulo centraliza las especificaciones visuales, los componentes de interfaz, las variables de diseño y los prototipos interactivos del producto.

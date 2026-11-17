@@ -1,5 +1,7 @@
 # Mockups · Islas e identidad de Quantify
 
+**Rediseño de entrada del 17/11/2026:** [bienvenida web/móvil, carga por etapas y orientación de vistas breves](ENTRADA.md). Sustituye la columna genérica y aprovecha la zona inferior, con geometría compartida entre fidelidades.
+
 **Corrección del 17/11/2026:** isotipo oficial de Figma compartido por las tres fidelidades y el [recorrido vigente](../practica-07/index.html). Splash muestra solo la Q, sin recomponer «Quantify / CORE». [Procedencia y revisión](REVISION-PROTOTIPOS.md). La descripción del acabado del 16/11 conserva su fecha; su imagotipo fue sustituido por el isotipo.
 
 [Abrir visor](practica-07.html?fidelity=mockup#U06) · [Galería de 33 pantallas](index.html?fidelity=mockup#prototipos) · [Geometría compartida](ISLAS.md).

@@ -1,5 +1,7 @@
 # Revisión de identidad y correspondencia · 17/11/2026
 
+**Revisión posterior del mismo día:** [nueva composición de bienvenida y carga](ENTRADA.md). U01 sustituye el segundo isotipo por una vista previa de rutina y amplía su estructura; U17 añade etapas y esqueleto. Se conserva una sola marca por pantalla. Las descripciones de U01 en el registro inicial que sigue son antecedentes de esa corrección.
+
 Esta corrección afecta al prototipado académico del repositorio: **33 pantallas**, móvil/PWA, tres fidelidades y recorrido navegacional. [Catálogo](practica-07.html?fidelity=mockup) · [Recorrido vigente](../practica-07/index.html) · [Identidad](identidad/README.md).
 
 ## Marca elegida y procedencia

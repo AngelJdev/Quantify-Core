@@ -1,5 +1,7 @@
 # Wireframes y sketches · Revisión de islas
 
+**Composición de entrada del 17/11/2026:** [U01, U17 y siete vistas breves](ENTRADA.md) comparten las nuevas secciones y coordenadas con mockups. El isotipo aparece una vez por pantalla; Splash U16 conserva su composición.
+
 **Corrección del 17/11/2026:** cabecera, bienvenida y Splash reutilizan el isotipo de Figma en monocromático, en las mismas posiciones de mockup. El [prototipo navegacional](../practica-07/index.html) usa los mismos SVG del catálogo. [Registro de correspondencia](REVISION-PROTOTIPOS.md).
 
 Revisión documental solicitada el 16/11/2026. [Revisar wireframes](practica-07.html?fidelity=wireframe#U06) · [Revisar sketches](practica-07.html?fidelity=sketch#U06) · [Galería](index.html?fidelity=wireframe#prototipos).

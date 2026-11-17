@@ -1,6 +1,14 @@
 {
   "status": "identidad-visual-definida-para-gui",
-  "version": "0.4.0",
+  "version": "0.4.1",
+  "prototypeEntry": {
+    "status": "revision-documental-no-productiva",
+    "typography": {
+      "welcome": { "movil": { "size": 34, "lineHeight": 43 }, "pwa": { "size": 52, "lineHeight": 64 } },
+      "loading": { "movil": { "size": 32, "lineHeight": 40 }, "pwa": { "size": 42, "lineHeight": 54 } }
+    },
+    "motion": { "orbitDurationMs": 3000, "skeletonDurationMs": 2400 }
+  },
   "prototypeIslands": {
     "status": "revision-documental-no-productiva",
     "mobile": { "width": 390, "height": 844 },
