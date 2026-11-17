@@ -5,6 +5,7 @@ const vm = require("node:vm");
 const layouts = require("./pantallas.cjs");
 const createPencil = require("./lapiz.cjs");
 const marca = require("./marca.cjs");
+const entrada = require("./entrada.cjs");
 const root = path.resolve(__dirname, "../../..");
 const tokens = JSON.parse(
   fs.readFileSync(path.join(root, "packages/design-tokens/preview.json")),
@@ -104,7 +105,13 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
         else
           drawing += `<rect width="${w}" height="${h}" fill="#f2f2f2" stroke="#737373"/>`;
         let navBox = null;
-        if (splash) {
+        const entry = entrada({ id: screen.id, mobile, fidelity });
+        if (entry) {
+          elements.push(...entry.elements);
+          drawing += entry.svg;
+          for (const e of entry.elements)
+            dim(w + 20, e.y, w + 20, e.y + e.height, `${e.height} px`);
+        } else if (splash) {
           ui("logo", w / 2 - 105, h / 2 - 40, 210, 80, () => {
             drawing += marca(w / 2 - 24, h / 2 - 24, 48, "#333333");
           });

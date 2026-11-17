@@ -37,7 +37,7 @@ for (const s of sheets) {
     }
     return values;
   });
-  assert.equal(actual.length, s.id === 'U01' ? 2 : 1, s.file + ' marca en posiciones previstas');
+  assert.equal(actual.length, 1, s.file + ' marca en posiciones previstas, sin repetición');
   const key = `${s.id}/${s.format}/${s.navigationState}`;
   if (brands.has(key)) assert.deepEqual(actual, brands.get(key), s.file + ' marca en la misma posición');
   else brands.set(key, actual);

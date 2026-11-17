@@ -8,6 +8,7 @@ const geometry = read("docs/GUI/islas-medidas.json");
 const guide = read("docs/GUI/identidad/guia/modelo.json");
 const layouts = require("./pantallas.cjs");
 const marca = require("./marca.cjs");
+const entrada = require("./entrada.cjs");
 const font = fs
   .readFileSync(path.join(root, "docs/GUI/assets/inter-islas.woff2"))
   .toString("base64");
@@ -342,7 +343,9 @@ for (const source of [
       s += `<circle cx="${w / 2}" cy="${h / 2}" r="${mobile ? 146 : 210}" fill="none" stroke="${p.line}"/><circle cx="${w / 2}" cy="${h / 2}" r="${mobile ? 166 : 230}" fill="none" stroke="${p.line}" stroke-dasharray="2 12"/>`;
       s += `</svg>`;
     }
-    for (const e of source.elements) {
+    const entry = entrada({ id, mobile, fidelity: "mockup", palette: p, colors: c });
+    if (entry) s += entry.svg;
+    else for (const e of source.elements) {
       const { kind, x, y, width: bw, height: bh } = e;
       s += `<g data-ui="${kind}" data-box="${x},${y},${bw},${bh}">`;
       if (kind === "logo") {

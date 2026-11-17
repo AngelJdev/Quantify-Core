@@ -147,46 +147,39 @@
           "height": 64
         },
         {
-          "kind": "text",
+          "kind": "loading-hero",
           "x": 24,
-          "y": 112,
+          "y": 126,
           "width": 342,
-          "height": 44
+          "height": 114
         },
         {
-          "kind": "box",
+          "kind": "loading-stages",
           "x": 24,
-          "y": 168,
+          "y": 272,
           "width": 342,
-          "height": 80
+          "height": 176
         },
         {
-          "kind": "button",
+          "kind": "loading-skeleton",
           "x": 24,
-          "y": 260,
+          "y": 480,
           "width": 342,
-          "height": 48
+          "height": 204
         },
         {
-          "kind": "link",
+          "kind": "loading-status",
           "x": 24,
-          "y": 320,
+          "y": 708,
           "width": 342,
-          "height": 44
-        },
-        {
-          "kind": "button",
-          "x": 24,
-          "y": 376,
-          "width": 342,
-          "height": 48
+          "height": 40
         },
         {
           "kind": "link",
           "x": 24,
-          "y": 436,
+          "y": 768,
           "width": 342,
-          "height": 44
+          "height": 52
         }
       ],
       "file": "docs/GUI/prototipos/movil/mockups/islas/light/U17.svg",
@@ -219,46 +212,39 @@
           "height": 64
         },
         {
-          "kind": "text",
+          "kind": "loading-hero",
           "x": 24,
-          "y": 112,
+          "y": 126,
           "width": 342,
-          "height": 44
+          "height": 114
         },
         {
-          "kind": "box",
+          "kind": "loading-stages",
           "x": 24,
-          "y": 168,
+          "y": 272,
           "width": 342,
-          "height": 80
+          "height": 176
         },
         {
-          "kind": "button",
+          "kind": "loading-skeleton",
           "x": 24,
-          "y": 260,
+          "y": 480,
           "width": 342,
-          "height": 48
+          "height": 204
         },
         {
-          "kind": "link",
+          "kind": "loading-status",
           "x": 24,
-          "y": 320,
+          "y": 708,
           "width": 342,
-          "height": 44
-        },
-        {
-          "kind": "button",
-          "x": 24,
-          "y": 376,
-          "width": 342,
-          "height": 48
+          "height": 40
         },
         {
           "kind": "link",
           "x": 24,
-          "y": 436,
+          "y": 768,
           "width": 342,
-          "height": 44
+          "height": 52
         }
       ],
       "file": "docs/GUI/prototipos/movil/mockups/islas/dark/U17.svg",
@@ -285,52 +271,45 @@
       "elements": [
         {
           "kind": "header",
-          "x": 24,
+          "x": 48,
           "y": 24,
-          "width": 1232,
+          "width": 1184,
           "height": 64
         },
         {
-          "kind": "text",
-          "x": 360,
-          "y": 112,
-          "width": 560,
-          "height": 44
+          "kind": "loading-hero",
+          "x": 80,
+          "y": 174,
+          "width": 440,
+          "height": 252
         },
         {
-          "kind": "box",
-          "x": 360,
-          "y": 168,
-          "width": 560,
-          "height": 80
+          "kind": "loading-stages",
+          "x": 80,
+          "y": 470,
+          "width": 440,
+          "height": 188
         },
         {
-          "kind": "button",
-          "x": 360,
-          "y": 260,
-          "width": 560,
-          "height": 48
+          "kind": "loading-skeleton",
+          "x": 600,
+          "y": 156,
+          "width": 600,
+          "height": 512
         },
         {
-          "kind": "link",
-          "x": 360,
-          "y": 320,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "button",
-          "x": 360,
-          "y": 376,
-          "width": 560,
-          "height": 48
+          "kind": "loading-status",
+          "x": 80,
+          "y": 732,
+          "width": 1120,
+          "height": 64
         },
         {
           "kind": "link",
-          "x": 360,
-          "y": 436,
-          "width": 560,
-          "height": 44
+          "x": 992,
+          "y": 824,
+          "width": 208,
+          "height": 52
         }
       ],
       "file": "docs/GUI/prototipos/pwa/mockups/islas/light/U17.svg",
@@ -357,52 +336,45 @@
       "elements": [
         {
           "kind": "header",
-          "x": 24,
+          "x": 48,
           "y": 24,
-          "width": 1232,
+          "width": 1184,
           "height": 64
         },
         {
-          "kind": "text",
-          "x": 360,
-          "y": 112,
-          "width": 560,
-          "height": 44
+          "kind": "loading-hero",
+          "x": 80,
+          "y": 174,
+          "width": 440,
+          "height": 252
         },
         {
-          "kind": "box",
-          "x": 360,
-          "y": 168,
-          "width": 560,
-          "height": 80
+          "kind": "loading-stages",
+          "x": 80,
+          "y": 470,
+          "width": 440,
+          "height": 188
         },
         {
-          "kind": "button",
-          "x": 360,
-          "y": 260,
-          "width": 560,
-          "height": 48
+          "kind": "loading-skeleton",
+          "x": 600,
+          "y": 156,
+          "width": 600,
+          "height": 512
         },
         {
-          "kind": "link",
-          "x": 360,
-          "y": 320,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "button",
-          "x": 360,
-          "y": 376,
-          "width": 560,
-          "height": 48
+          "kind": "loading-status",
+          "x": 80,
+          "y": 732,
+          "width": 1120,
+          "height": 64
         },
         {
           "kind": "link",
-          "x": 360,
-          "y": 436,
-          "width": 560,
-          "height": 44
+          "x": 992,
+          "y": 824,
+          "width": 208,
+          "height": 52
         }
       ],
       "file": "docs/GUI/prototipos/pwa/mockups/islas/dark/U17.svg",
@@ -435,37 +407,44 @@
           "height": 64
         },
         {
-          "kind": "image",
+          "kind": "welcome-hero",
           "x": 24,
-          "y": 112,
+          "y": 108,
           "width": 342,
-          "height": 112
+          "height": 176
         },
         {
-          "kind": "text",
+          "kind": "welcome-preview",
           "x": 24,
-          "y": 236,
+          "y": 304,
           "width": 342,
-          "height": 44
+          "height": 264
+        },
+        {
+          "kind": "welcome-value",
+          "x": 24,
+          "y": 588,
+          "width": 342,
+          "height": 68
         },
         {
           "kind": "button",
           "x": 24,
-          "y": 292,
+          "y": 680,
           "width": 342,
-          "height": 48
-        },
-        {
-          "kind": "button",
-          "x": 24,
-          "y": 352,
-          "width": 342,
-          "height": 48
+          "height": 52
         },
         {
           "kind": "link",
           "x": 24,
-          "y": 412,
+          "y": 744,
+          "width": 342,
+          "height": 52
+        },
+        {
+          "kind": "link",
+          "x": 24,
+          "y": 800,
           "width": 342,
           "height": 44
         }
@@ -500,37 +479,44 @@
           "height": 64
         },
         {
-          "kind": "image",
+          "kind": "welcome-hero",
           "x": 24,
-          "y": 112,
+          "y": 108,
           "width": 342,
-          "height": 112
+          "height": 176
         },
         {
-          "kind": "text",
+          "kind": "welcome-preview",
           "x": 24,
-          "y": 236,
+          "y": 304,
           "width": 342,
-          "height": 44
+          "height": 264
+        },
+        {
+          "kind": "welcome-value",
+          "x": 24,
+          "y": 588,
+          "width": 342,
+          "height": 68
         },
         {
           "kind": "button",
           "x": 24,
-          "y": 292,
+          "y": 680,
           "width": 342,
-          "height": 48
-        },
-        {
-          "kind": "button",
-          "x": 24,
-          "y": 352,
-          "width": 342,
-          "height": 48
+          "height": 52
         },
         {
           "kind": "link",
           "x": 24,
-          "y": 412,
+          "y": 744,
+          "width": 342,
+          "height": 52
+        },
+        {
+          "kind": "link",
+          "x": 24,
+          "y": 800,
           "width": 342,
           "height": 44
         }
@@ -559,45 +545,80 @@
       "elements": [
         {
           "kind": "header",
-          "x": 24,
+          "x": 48,
           "y": 24,
-          "width": 1232,
+          "width": 1184,
           "height": 64
         },
         {
-          "kind": "image",
-          "x": 360,
-          "y": 112,
-          "width": 560,
-          "height": 112
+          "kind": "welcome-hero",
+          "x": 64,
+          "y": 156,
+          "width": 520,
+          "height": 252
         },
         {
-          "kind": "text",
-          "x": 360,
-          "y": 236,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "button",
-          "x": 360,
-          "y": 292,
-          "width": 560,
-          "height": 48
+          "kind": "welcome-preview",
+          "x": 648,
+          "y": 136,
+          "width": 568,
+          "height": 432
         },
         {
           "kind": "button",
-          "x": 360,
-          "y": 352,
-          "width": 560,
-          "height": 48
+          "x": 64,
+          "y": 440,
+          "width": 208,
+          "height": 52
         },
         {
           "kind": "link",
-          "x": 360,
-          "y": 412,
-          "width": 560,
-          "height": 44
+          "x": 288,
+          "y": 440,
+          "width": 184,
+          "height": 52
+        },
+        {
+          "kind": "welcome-note",
+          "x": 64,
+          "y": 512,
+          "width": 520,
+          "height": 48
+        },
+        {
+          "kind": "welcome-section",
+          "x": 64,
+          "y": 620,
+          "width": 1152,
+          "height": 32
+        },
+        {
+          "kind": "welcome-feature",
+          "x": 64,
+          "y": 668,
+          "width": 368,
+          "height": 144
+        },
+        {
+          "kind": "welcome-feature",
+          "x": 456,
+          "y": 668,
+          "width": 368,
+          "height": 144
+        },
+        {
+          "kind": "welcome-feature",
+          "x": 848,
+          "y": 668,
+          "width": 368,
+          "height": 144
+        },
+        {
+          "kind": "welcome-footer",
+          "x": 64,
+          "y": 840,
+          "width": 1152,
+          "height": 36
         }
       ],
       "file": "docs/GUI/prototipos/pwa/mockups/islas/light/U01.svg",
@@ -624,45 +645,80 @@
       "elements": [
         {
           "kind": "header",
-          "x": 24,
+          "x": 48,
           "y": 24,
-          "width": 1232,
+          "width": 1184,
           "height": 64
         },
         {
-          "kind": "image",
-          "x": 360,
-          "y": 112,
-          "width": 560,
-          "height": 112
+          "kind": "welcome-hero",
+          "x": 64,
+          "y": 156,
+          "width": 520,
+          "height": 252
         },
         {
-          "kind": "text",
-          "x": 360,
-          "y": 236,
-          "width": 560,
-          "height": 44
-        },
-        {
-          "kind": "button",
-          "x": 360,
-          "y": 292,
-          "width": 560,
-          "height": 48
+          "kind": "welcome-preview",
+          "x": 648,
+          "y": 136,
+          "width": 568,
+          "height": 432
         },
         {
           "kind": "button",
-          "x": 360,
-          "y": 352,
-          "width": 560,
-          "height": 48
+          "x": 64,
+          "y": 440,
+          "width": 208,
+          "height": 52
         },
         {
           "kind": "link",
-          "x": 360,
-          "y": 412,
-          "width": 560,
-          "height": 44
+          "x": 288,
+          "y": 440,
+          "width": 184,
+          "height": 52
+        },
+        {
+          "kind": "welcome-note",
+          "x": 64,
+          "y": 512,
+          "width": 520,
+          "height": 48
+        },
+        {
+          "kind": "welcome-section",
+          "x": 64,
+          "y": 620,
+          "width": 1152,
+          "height": 32
+        },
+        {
+          "kind": "welcome-feature",
+          "x": 64,
+          "y": 668,
+          "width": 368,
+          "height": 144
+        },
+        {
+          "kind": "welcome-feature",
+          "x": 456,
+          "y": 668,
+          "width": 368,
+          "height": 144
+        },
+        {
+          "kind": "welcome-feature",
+          "x": 848,
+          "y": 668,
+          "width": 368,
+          "height": 144
+        },
+        {
+          "kind": "welcome-footer",
+          "x": 64,
+          "y": 840,
+          "width": 1152,
+          "height": 36
         }
       ],
       "file": "docs/GUI/prototipos/pwa/mockups/islas/dark/U01.svg",
