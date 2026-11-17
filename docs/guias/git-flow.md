@@ -24,16 +24,17 @@ git push -u origin feature/<tema>
 
 Abrir un pull request de la rama de trabajo hacia `develop`. Revisar y fusionar el cambio antes de iniciar el siguiente trabajo que dependa de él. Para documentación o correcciones normales se usa el mismo procedimiento con los prefijos `docs/` o `fix/`.
 
-Por indicación del responsable del proyecto el 16/11/2026, las actualizaciones de `develop` y `main` se realizan por **fast-forward**, conservando los commits originales. Esta regla reemplaza la preferencia anterior por `--no-ff`.
+Por indicación del responsable del proyecto el **17/11/2026**, las ramas de trabajo se integran en `develop` mediante **`git merge --no-ff`**. `main` recibe la integración de una versión preparada desde `develop`, también conservando un commit de merge. Esta instrucción reemplaza la preferencia por fast-forward del 16/11/2026.
 
-Abrir y revisar el PR antes de actualizar la rama compartida. GitHub no ofrece fast-forward mediante el botón `Create a merge commit`: para esta modalidad, comprobar localmente la ascendencia, ejecutar `git merge --ff-only <rama>` en el destino y publicar con un push normal, sin force. Respetar las protecciones y comprobaciones del repositorio; si exigen otro mecanismo, detener la publicación y resolver esa incompatibilidad sin saltarlas.
+**El responsable del proyecto realiza todos los merges.** El agente puede crear la rama adecuada desde `develop`, editar, validar y preparar commits por actividad; no integra ramas, no actualiza `develop` ni `main` y no publica sin el alcance solicitado. Abrir y revisar el PR antes de integrar; respetar las protecciones y comprobaciones del repositorio.
 
 ```bash
-git config --local branch.develop.mergeOptions --ff-only
-git config --local branch.main.mergeOptions --ff-only
+# Integración a cargo del responsable, después de revisar y validar:
+git switch develop
+git merge --no-ff fix/<tema>
 ```
 
-Si las ramas divergieron, un fast-forward directo es imposible. Conciliar sus cambios en una rama de integración revisable usando un merge normal (`--ff`, sin forzar `--no-ff`), resolver conflictos y validar. El resultado debe contener ambas historias como ancestros; solo entonces avanzar el destino con `--ff-only`. No reescribir ni forzar historial compartido para cambiar la apariencia del grafo. Utilizar una rama por actividad coherente y commits por unidades revisables.
+Si hay conflictos, el responsable concilia los cambios y valida antes de publicar. No reescribir ni forzar historial compartido para cambiar la apariencia del grafo ni cambiar identidad o configuración Git durante una edición documental. Las opciones `--ff-only` configuradas anteriormente no sustituyen la nueva instrucción explícita de `--no-ff`. Utilizar una rama por actividad coherente y commits por unidades revisables.
 
 ## Preparar una versión
 
