@@ -1,8 +1,12 @@
 /* Las vistas son los mismos SVG del catálogo; el recorrido usa el grafo de data.js. */
-(() => {
+(async () => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const { screens, rules } = window.QC;
+  const { screens, rules, navigation } = window.QC;
+  const geometry = await fetch('../GUI/islas-medidas.json').then(response => {
+    if (!response.ok) throw new Error('No se pudo cargar la geometría de navegación');
+    return response.json();
+  });
   const all = Object.values(screens).flat();
   const params = new URLSearchParams(location.search);
   const valid = (key, options, fallback) => options.includes(params.get(key)) ? params.get(key) : fallback;
@@ -38,6 +42,39 @@
     $('sheet').alt = `${current.id} · ${current.title} · ${presentation.fidelity} · ${presentation.format}`;
     $('sheet-link').href = file;
     $('sheet-link').setAttribute('aria-label', 'Abrir lámina completa de ' + current.title);
+    const layout = [...geometry.sheets, ...geometry.navigationVariants].find(sheet =>
+      sheet.id === current.id && sheet.format === presentation.format && sheet.fidelity === 'wireframe'
+      && sheet.navigationState === (compactAvailable ? presentation.navigation : 'expanded'));
+    const nav = $('session-navigation');
+    nav.hidden = !layout.navigation;
+    nav.replaceChildren();
+    // Los puntos interactivos usan las coordenadas de la misma lámina, incluidas sus cotas.
+    $('sheet-frame').style.maxWidth = `${1000 * layout.sheet.width / layout.sheet.height}px`;
+    if (layout.navigation) {
+      const boxes = layout.elements.filter(element => element.kind === 'nav-target');
+      navigation[role].forEach((item, index) => {
+        const box = boxes[index];
+        const link = document.createElement('a');
+        link.href = `#${role}/${item.to}`;
+        link.dataset.navTo = item.to;
+        link.setAttribute('aria-label', item.label);
+        link.title = item.label;
+        if (item.screens.includes(current.id)) link.setAttribute('aria-current', 'page');
+        Object.assign(link.style, {
+          left: `${100 * (box.x + 100) / layout.sheet.width}%`,
+          top: `${100 * (box.y + 100) / layout.sheet.height}%`,
+          width: `${100 * box.width / layout.sheet.width}%`,
+          height: `${100 * box.height / layout.sheet.height}%`,
+        });
+        link.addEventListener('click', event => {
+          event.preventDefault();
+          if (item.to !== current.id) navigate(item.to);
+          $('step-status').textContent = `${item.label} → ${item.to}. Navegación del rol ${role === 'admin' ? 'Administrador' : 'Usuario'}.`;
+          $('session-navigation').querySelector(`[data-nav-to="${item.to}"]`)?.focus({ preventScroll:true });
+        });
+        nav.append(link);
+      });
+    }
     $('screen-title').textContent = `${current.id} · ${current.title}`;
     $('description').textContent = current.description;
     $('routes').replaceChildren(...current.edges.map((edge, index) => {

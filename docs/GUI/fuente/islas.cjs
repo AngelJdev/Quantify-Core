@@ -133,21 +133,12 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
               text("Perfil", w - 108, 61, 12);
             }
           });
-          let names = admin
-            ? ["Panel", "Catálogo", "IA", "Auditoría", "Cuentas", "Ajustes"]
-            : ["Hoy", "Progreso", "Ideas", "Perfil"];
-          const active = admin
-            ? ({
-                A02: 0,
-                A03: 1,
-                A04: 1,
-                A05: 2,
-                A06: 3,
-                A07: 4,
-                A08: 5,
-                A09: 4,
-              }[screen.id] ?? 0)
-            : ({ U10: 1, U11: 2, U12: 3 }[screen.id] ?? 0);
+          const destinations =
+            ctx.window.QC.navigation[admin ? "admin" : "usuario"];
+          const names = destinations.map((item) => item.label);
+          const active = destinations.findIndex((item) =>
+            item.screens.includes(screen.id),
+          );
           if (!auth) {
             navBox = mobile
               ? {
@@ -188,12 +179,13 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                   : b.width - 24;
                 const x = mobile ? b.x + 12 + i * width : b.x + 12,
                   y = mobile ? b.y + 12 : b.y + 80 + i * 60;
+                drawing += `<g data-nav-to="${destinations[i].to}" data-nav-active="${i === active}">`;
                 ui("nav-target", x, y, width, targetHeight, () => {
                   if (i === active)
                     rect(x, y, width, targetHeight, 24, "#dddddd");
                   if (mobile) {
                     rect(x + width / 2 - 7, y + 6, 14, 14, 4);
-                    text(name, x + width / 2, y + 36, admin ? 9 : 11, "middle");
+                    text(name, x + width / 2, y + 36, 11, "middle");
                   } else if (compact)
                     text(
                       name.slice(0, 2).toUpperCase(),
@@ -204,6 +196,7 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                     );
                   else text(name, x + 16, y + 30);
                 });
+                drawing += "</g>";
               });
               if (!mobile)
                 ui(

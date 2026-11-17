@@ -15,12 +15,35 @@ const context = { window: {} };
 vm.createContext(context);
 vm.runInContext(await read('docs/practica-07/data.js'), context);
 const screens = Object.values(context.window.QC.screens).flat();
+const navigation = context.window.QC.navigation;
+const expectedTabs = { usuario:['U06','U10','U11','U12'], admin:['A02','A03','A05','A07'] };
+const expectedOwners = { U06:'U06', U07:'U06', U08:'U06', U09:'U06', U13:'U06', U10:'U10', U11:'U11', U12:'U12', U14:'U12', U20:'U12', U21:'U12', U22:'U12', A02:'A02', A03:'A03', A04:'A03', A05:'A05', A06:'A07', A07:'A07', A08:'A07', A09:'A07' };
+for (const [role, items] of Object.entries(navigation)) {
+  assert.deepEqual(Array.from(items, item => item.to), expectedTabs[role]);
+  for (const item of items) for (const id of item.screens) assert.equal(id[0], item.to[0], 'sin destinos de otro rol');
+}
 assert.equal(screens.length, 33);
 const sheets = [...geometry.sheets, ...geometry.navigationVariants, ...mockups];
 assert.equal(sheets.length, 344);
 const brands = new Map();
 for (const s of sheets) {
   const svg = await read(s.file);
+  const screen = screens.find(screen => screen.id === s.id);
+  const role = s.id.startsWith('A') ? 'admin' : 'usuario';
+  const targets = s.elements.filter(element => element.kind === 'nav-target');
+  const metadata = [...svg.matchAll(/data-nav-to="([^"]+)" data-nav-active="([^"]+)"/g)];
+  if (screen.group === 'Acceso') {
+    assert.equal(targets.length, 0, s.file + ' acceso sin navegación de sesión');
+    assert.equal(metadata.length, 0);
+  } else {
+    assert.equal(targets.length, 4, s.file + ' cuatro destinos estables');
+    assert.deepEqual(metadata.map(match => match[1]), expectedTabs[role], s.file + ' orden por rol');
+    assert.deepEqual(metadata.filter(match => match[2] === 'true').map(match => match[1]), [expectedOwners[s.id]], s.file + ' sección activa correcta');
+    if (s.format === 'movil') for (const target of targets) {
+      assert.equal(target.width, 79.5);
+      assert.equal(target.height, 48);
+    }
+  }
   if (s.id==='U02') {
     const photo=svg.match(/href="data:image\/png;base64,([A-Za-z0-9+/=]+)"/);
     if(s.fidelity==='mockup') {
@@ -97,6 +120,18 @@ try {
     await page.locator('#sheet').evaluate(image => image.decode());
     assert.equal(await page.locator('#sheet').getAttribute('src'), '../' + s.file.replace(/^docs\//, ''));
     assert.equal(await page.locator('#screen').inputValue(), s.id);
+    const links = page.locator('#session-navigation a');
+    const access = screens.find(screen => screen.id === s.id).group === 'Acceso';
+    assert.equal(await links.count(), access ? 0 : 4);
+    if (!access) {
+      assert.deepEqual(await links.evaluateAll(items => items.map(item => item.dataset.navTo)), expectedTabs[role]);
+      assert.equal(await page.locator('#session-navigation [aria-current="page"]').getAttribute('data-nav-to'), expectedOwners[s.id]);
+      const target = s.elements.find(element => element.kind === 'nav-target');
+      const frame = await page.locator('#sheet-frame').boundingBox();
+      const box = await links.first().boundingBox();
+      assert.ok(Math.abs(box.x - frame.x - frame.width * (target.x + 100) / s.sheet.width) < 1, 'punto interactivo alineado con la lámina');
+      assert.ok(Math.abs(box.y - frame.y - frame.height * (target.y + 100) / s.sheet.height) < 1, 'posición vertical del destino');
+    }
   }
   for (const screen of screens) for (const [index, edge] of screen.edges.entries()) {
     const role = screen.id.startsWith('A') ? 'admin' : 'usuario';
@@ -112,6 +147,45 @@ try {
   }
   assert.equal(transitions, 131);
   console.log('PASS 344 variantes del recorrido, 131 condiciones y retornos.');
+  let navigationChecks = 0;
+  // Cada pantalla de sesión permite llegar a las cuatro secciones, sin cambiar de rol.
+  for (const screen of screens.filter(screen => screen.group !== 'Acceso')) {
+    const role = screen.id.startsWith('A') ? 'admin' : 'usuario';
+    for (const to of expectedTabs[role]) {
+      await page.goto(`${base}docs/practica-07/index.html#${role}/${screen.id}`);
+      await page.locator(`#session-navigation [data-nav-to="${to}"]`).click();
+      assert.equal(await page.locator('#screen').inputValue(), to);
+      assert.equal(await page.locator('#role').inputValue(), role);
+      navigationChecks++;
+    }
+  }
+  for (const fidelity of ['sketch','wireframe','mockup']) for (const format of ['movil','pwa']) {
+    for (const [role, login, home] of [['usuario','U02','U06'],['admin','A01','A02']]) {
+      await page.goto(`${base}docs/practica-07/index.html?fidelity=${fidelity}&format=${format}#${role}/${login}`);
+      assert.equal(await page.locator('#session-navigation a').count(), 0);
+      await page.locator('#routes [data-edge="0"]').click();
+      assert.equal(await page.locator('#screen').inputValue(), home);
+      for (const to of expectedTabs[role]) {
+        await page.locator(`#session-navigation [data-nav-to="${to}"]`).click();
+        assert.equal(await page.locator('#screen').inputValue(), to);
+        navigationChecks++;
+      }
+      if (role === 'admin') {
+        for (const to of ['A06','A08']) {
+          await page.locator(`#routes button`).filter({ has: page.locator('small', { hasText:to }) }).click();
+          assert.equal(await page.locator('#screen').inputValue(), to);
+          assert.equal(await page.locator('#session-navigation [aria-current="page"]').getAttribute('data-nav-to'), 'A07');
+          await page.locator('#session-navigation [data-nav-to="A07"]').click();
+          navigationChecks++;
+        }
+        await page.locator('#routes button').filter({has:page.locator('small',{hasText:'A08'})}).click();
+      }
+      await page.locator('#routes button').filter({hasText:'Cerrar sesión'}).click();
+      assert.equal(await page.locator('#screen').inputValue(), login);
+      assert.equal(await page.locator('#session-navigation a').count(), 0);
+    }
+  }
+  console.log(`PASS ${navigationChecks} accesos de navegación, entradas y salidas por rol en tres fidelidades y dos formatos.`);
   await page.goto(base + 'docs/GUI/prototipos/movil/mockups/islas/light/U17.svg');
   assert.equal(await page.locator('.entry-orbit').evaluate(el => getComputedStyle(el).animationName), 'none');
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -143,9 +217,10 @@ try {
     await page.screenshot({ path: new URL(`splash-${width}.png`, out).pathname.replace(/^\/(\w:)/, '$1'), fullPage: true });
     await page.selectOption('#screen', 'U06');
     await page.locator('#sheet').evaluate(image => image.decode());
+    assert.deepEqual((await new AxeBuilder({page}).analyze()).violations.map(v => v.id), []);
     await page.screenshot({ path: new URL(`hoy-${width}.png`, out).pathname.replace(/^\/(\w:)/, '$1'), fullPage: true });
   }
   assert.deepEqual(errors, []);
-  await fs.writeFile(new URL('report.json', out), JSON.stringify({ status: 'passed', screens: 33, sheets: sheets.length, transitions, checks: ['geometría entre tres fidelidades', 'vector y posición de marca', 'reserva y tamaño mínimo de isotipo', 'mismo SVG en catálogo y recorrido', 'condiciones y retornos', 'selectores conservan pantalla', 'axe y sin desbordamiento a 1440/390'], pageErrors: errors }, null, 2) + '\n');
+  await fs.writeFile(new URL('report.json', out), JSON.stringify({ status: 'passed', screens: 33, sheets: sheets.length, transitions, navigationChecks, checks: ['geometría entre tres fidelidades', 'cuatro destinos estables por rol', 'sección activa y coordenadas de enlaces', 'entrada, módulos de Gestión y salida por rol', 'vector y posición de marca', 'reserva y tamaño mínimo de isotipo', 'mismo SVG en catálogo y recorrido', 'condiciones y retornos', 'selectores conservan pantalla', 'axe y sin desbordamiento a 1440/390'], pageErrors: errors }, null, 2) + '\n');
   console.log(`PASS ${sheets.length} láminas, ${screens.length} pantallas, ${transitions} transiciones, marca y accesibilidad del visor.`);
 } finally { await browser.close(); }

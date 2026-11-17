@@ -9626,42 +9626,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -9749,42 +9735,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -9900,20 +9872,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 184,
           "height": 48
         },
@@ -10111,20 +10069,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 184,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -10286,42 +10230,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -10409,42 +10339,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -10560,20 +10476,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 184,
           "height": 48
         },
@@ -10708,20 +10610,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 184,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -10820,42 +10708,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -10950,42 +10824,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -11108,20 +10968,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 184,
           "height": 48
         },
@@ -11263,20 +11109,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 184,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -11382,42 +11214,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -11505,42 +11323,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -11656,20 +11460,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 184,
           "height": 48
         },
@@ -11804,20 +11594,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 184,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -11916,42 +11692,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -12032,42 +11794,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -12176,20 +11924,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 184,
           "height": 48
         },
@@ -12317,20 +12051,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 184,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -12422,42 +12142,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -12496,11 +12202,25 @@
           "height": 48
         },
         {
-          "kind": "support-panel",
+          "kind": "link",
           "x": 24,
-          "y": 572,
+          "y": 564,
           "width": 342,
-          "height": 160
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 24,
+          "y": 620,
+          "width": 342,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 24,
+          "y": 676,
+          "width": 342,
+          "height": 44
         }
       ],
       "file": "docs/GUI/prototipos/movil/sketches/islas/A07.svg"
@@ -12545,42 +12265,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -12619,11 +12325,25 @@
           "height": 48
         },
         {
-          "kind": "support-panel",
+          "kind": "link",
           "x": 24,
-          "y": 572,
+          "y": 564,
           "width": 342,
-          "height": 160
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 24,
+          "y": 620,
+          "width": 342,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 24,
+          "y": 676,
+          "width": 342,
+          "height": 44
         }
       ],
       "file": "docs/GUI/prototipos/movil/wireframes/islas/A07.svg"
@@ -12700,20 +12420,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 184,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -12756,6 +12462,27 @@
           "height": 48
         },
         {
+          "kind": "link",
+          "x": 256,
+          "y": 564,
+          "width": 513,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 256,
+          "y": 620,
+          "width": 513,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 256,
+          "y": 676,
+          "width": 513,
+          "height": 44
+        },
+        {
           "kind": "companion-panel",
           "x": 801,
           "y": 112,
@@ -12765,9 +12492,9 @@
         {
           "kind": "support-brief",
           "x": 256,
-          "y": 576,
+          "y": 744,
           "width": 513,
-          "height": 300
+          "height": 132
         }
       ],
       "file": "docs/GUI/prototipos/pwa/sketches/islas/A07.svg"
@@ -12844,20 +12571,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 184,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -12900,6 +12613,27 @@
           "height": 48
         },
         {
+          "kind": "link",
+          "x": 256,
+          "y": 564,
+          "width": 513,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 256,
+          "y": 620,
+          "width": 513,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 256,
+          "y": 676,
+          "width": 513,
+          "height": 44
+        },
+        {
           "kind": "companion-panel",
           "x": 801,
           "y": 112,
@@ -12909,9 +12643,9 @@
         {
           "kind": "support-brief",
           "x": 256,
-          "y": 576,
+          "y": 744,
           "width": 513,
-          "height": 300
+          "height": 132
         }
       ],
       "file": "docs/GUI/prototipos/pwa/wireframes/islas/A07.svg"
@@ -12956,42 +12690,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -13079,42 +12799,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -13230,20 +12936,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 184,
           "height": 48
         },
@@ -13378,20 +13070,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 184,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -13490,42 +13168,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -13613,42 +13277,28 @@
           "kind": "nav-target",
           "x": 36,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 89,
+          "x": 115.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 142,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
           "x": 195,
           "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
           "kind": "nav-target",
-          "x": 248,
+          "x": 274.5,
           "y": 760,
-          "width": 53,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 301,
-          "y": 760,
-          "width": 53,
+          "width": 79.5,
           "height": 48
         },
         {
@@ -13764,20 +13414,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 184,
           "height": 48
         },
@@ -13908,20 +13544,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 184,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 184,
           "height": 48
         },
@@ -18206,20 +17828,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 48,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -18409,20 +18017,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 48,
           "height": 48
         },
@@ -18620,20 +18214,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 48,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -18764,20 +18344,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 48,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -18904,20 +18470,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 48,
           "height": 48
         },
@@ -19059,20 +18611,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 48,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -19210,20 +18748,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 48,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -19350,20 +18874,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 48,
           "height": 48
         },
@@ -19498,20 +19008,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 48,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -19631,20 +19127,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 48,
           "height": 48
         },
@@ -19772,20 +19254,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 48,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -19828,6 +19296,27 @@
           "height": 48
         },
         {
+          "kind": "link",
+          "x": 120,
+          "y": 564,
+          "width": 560,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 120,
+          "y": 620,
+          "width": 560,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 120,
+          "y": 676,
+          "width": 560,
+          "height": 44
+        },
+        {
           "kind": "companion-panel",
           "x": 712,
           "y": 112,
@@ -19837,9 +19326,9 @@
         {
           "kind": "support-brief",
           "x": 120,
-          "y": 576,
+          "y": 744,
           "width": 560,
-          "height": 300
+          "height": 132
         }
       ],
       "file": "docs/GUI/prototipos/pwa/sketches/islas/A07-compact.svg"
@@ -19916,20 +19405,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 48,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -19972,6 +19447,27 @@
           "height": 48
         },
         {
+          "kind": "link",
+          "x": 120,
+          "y": 564,
+          "width": 560,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 120,
+          "y": 620,
+          "width": 560,
+          "height": 44
+        },
+        {
+          "kind": "link",
+          "x": 120,
+          "y": 676,
+          "width": 560,
+          "height": 44
+        },
+        {
           "kind": "companion-panel",
           "x": 712,
           "y": 112,
@@ -19981,9 +19477,9 @@
         {
           "kind": "support-brief",
           "x": 120,
-          "y": 576,
+          "y": 744,
           "width": 560,
-          "height": 300
+          "height": 132
         }
       ],
       "file": "docs/GUI/prototipos/pwa/wireframes/islas/A07-compact.svg"
@@ -20056,20 +19552,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 48,
           "height": 48
         },
@@ -20204,20 +19686,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 48,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -20348,20 +19816,6 @@
           "height": 48
         },
         {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
-          "width": 48,
-          "height": 48
-        },
-        {
           "kind": "nav-context",
           "x": 36,
           "y": 764,
@@ -20488,20 +19942,6 @@
           "kind": "nav-target",
           "x": 36,
           "y": 372,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 432,
-          "width": 48,
-          "height": 48
-        },
-        {
-          "kind": "nav-target",
-          "x": 36,
-          "y": 492,
           "width": 48,
           "height": 48
         },

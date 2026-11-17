@@ -173,7 +173,7 @@ module.exports = {
     ["link", "Catálogo de hábitos"],
     ["link", "Supervisión de IA"],
     ["link", "Auditoría"],
-    ["link", "Cuentas / Configuración"],
+    ["link", "Gestión administrativa"],
   ],
   A03: [
     ["box", "Plantilla 1: estado / editar"],
@@ -208,6 +208,9 @@ module.exports = {
     ["box", "Cuenta 2: suspendida / reactivar"],
     ["text", "Administrador actual protegido"],
     ["button", "Cambiar estado de cuenta"],
+    ["link", "Consultar auditoría"],
+    ["link", "Configuración global"],
+    ["link", "Volver al panel"],
   ],
   A08: [
     ["input", "Confianza mínima de IA"],

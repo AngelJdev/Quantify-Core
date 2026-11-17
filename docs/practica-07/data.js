@@ -1,5 +1,20 @@
 /* Inventario, conexiones y reglas: compartidos por el visor, el mapa y el inspector. */
 window.QC = (() => {
+  // Cuatro destinos estables por rol; también define la sección de las vistas hijas.
+  const navigation = {
+    usuario: [
+      { to:'U06', label:'Hoy', icon:'hoy', screens:['U06','U07','U08','U09','U13'] },
+      { to:'U10', label:'Progreso', icon:'analisis', screens:['U10'] },
+      { to:'U11', label:'Ideas', icon:'informacion', screens:['U11'] },
+      { to:'U12', label:'Perfil', icon:'perfil', screens:['U12','U14','U20','U21','U22'] }
+    ],
+    admin: [
+      { to:'A02', label:'Panel', icon:'analisis', screens:['A02'] },
+      { to:'A03', label:'Catálogo', icon:'habitos', screens:['A03','A04'] },
+      { to:'A05', label:'IA', icon:'informacion', screens:['A05'] },
+      { to:'A07', label:'Gestión', icon:'ajustes', screens:['A06','A07','A08','A09'] }
+    ]
+  };
   const rule = (id, title, text) => ({ id, title, text });
   const rules = [
     rule('RN01', 'Un rol, un alcance', 'El usuario gestiona su rutina. Administración opera catálogos, accesos y métricas agregadas; no consulta registros personales.'),
@@ -41,7 +56,7 @@ window.QC = (() => {
     s('A04','Editar plantilla','Operación','Validar nombre, categoría y meta antes de guardar y auditar la modificación.',['RN03','RN10','RN11'],[['A03','Guardar o cancelar'],['A04','Corregir datos','state'],['A05','Abrir IA']]),
     s('A05','Supervisión de IA','Operación','Revisar tasas de aceptación ilustrativas y pausar propuestas con un motivo.',['RN08','RN10','RN11'],[['A05','Confirmar pausa o reactivación','state'],['A02','Resumen'],['A03','Catálogo'],['A06','Ver auditoría'],['A07','Cuentas'],['A08','Configuración']]),
     s('A06','Auditoría','Control','Consultar cambios administrativos registrados en esta demostración.',['RN11'],[['A06','Filtrar eventos','state'],['A02','Resumen'],['A03','Catálogo'],['A05','IA'],['A07','Cuentas'],['A08','Configuración']]),
-    s('A07','Control de accesos','Control','Administrar el estado de cuentas ficticias identificadas por códigos.',['RN01','RN12'],[['A09','Cambiar estado de cuenta'],['A02','Resumen'],['A03','Catálogo'],['A05','IA'],['A06','Auditoría'],['A08','Configuración']]),
+    s('A07','Gestión administrativa','Control','Reunir cuentas de ejemplo, auditoría y configuración. Los cambios de acceso usan códigos y conservan el historial.',['RN01','RN12'],[['A09','Cambiar estado de cuenta'],['A02','Resumen'],['A03','Catálogo'],['A05','IA'],['A06','Auditoría'],['A08','Configuración']]),
     s('A08','Configuración global','Control','Ajustar límites de sugerencias respetando el mínimo de confianza y auditar cambios.',['RN08','RN11'],[['A08','Validar y guardar','state'],['A02','Resumen'],['A03','Catálogo'],['A05','IA'],['A06','Auditoría'],['A07','Cuentas'],['A01','Cerrar sesión']]),
     s('A09','Confirmar cambio de acceso','Control','Confirmar suspensión o reactivación con un motivo obligatorio.',['RN11','RN12'],[['A07','Confirmar o cancelar'],['A09','Motivo incompleto','state']])
   ];
@@ -91,7 +106,7 @@ window.QC = (() => {
     A04:['RF-09','Nombre, categoría, meta, unidad, motivo obligatorio y guardar/cancelar'],
     A05:['RF-07, RF-09','Propuestas de IA agregadas, estado, motivo y confirmación'],
     A06:['RF-10','Filtro de acciones, fecha, actor, entidad y motivo; sin editar ni borrar'],
-    A07:['RF-09','Códigos de cuentas ficticias, estado, suspensión/reactivación y cuenta protegida'],
+    A07:['RF-09','Códigos de cuentas ficticias, estado, suspensión/reactivación, cuenta protegida y accesos a auditoría y configuración'],
     A08:['RF-09','Límites académicos de IA, motivo, guardar y cierre de sesión'],
     A09:['RF-09','Código de cuenta, conservación de datos, motivo y confirmación/cancelación'],
     A10:['RF-01, RF-09','Candado, explicación de bloqueo administrativo y solicitud de código'],
@@ -107,5 +122,5 @@ window.QC = (() => {
   const order=['U16','U17','U01','U02','U03','U05','U04','U15','U18','U19','U06','U07','U08','U09','U10','U11','U14','U12','U13','U22','U20','U21'];
   user.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));
   for(const [i,screen]of [...user,...admin].entries())screen.reviewOrder=i+1;
-  return {rules,screens:{usuario:user,admin},date:'2026-10-14'};
+  return {rules,screens:{usuario:user,admin},navigation,date:'2026-10-14'};
 })();

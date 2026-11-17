@@ -920,18 +920,18 @@ Consultar cambios administrativos registrados en esta demostración.
 <a id="a07"></a>
 
 <details>
-<summary><strong>A07 · Control de accesos</strong> — ficha individual</summary>
+<summary><strong>A07 · Gestión administrativa</strong> — ficha individual</summary>
 
 <img src="../GUI/prototipos/movil/sketches/islas/A07.svg" alt="Sketch A07" width="180">
 
-Administrar el estado de cuentas ficticias identificadas por códigos.
+Reunir cuentas de ejemplo, auditoría y configuración. Los cambios de acceso usan códigos y conservan el historial.
 
 | Campo | Especificación |
 |---|---|
 | Plataforma de destino | PWA con React/Vite y aplicación Flutter |
 | Rol autorizado | Administrador |
 | Módulo | Control |
-| Elementos principales | Códigos de cuentas ficticias, estado, suspensión/reactivación y cuenta protegida |
+| Elementos principales | Códigos de cuentas ficticias, estado, suspensión/reactivación, cuenta protegida y accesos a auditoría y configuración |
 | Requisitos / historias | [RF-09](../requerimientos/catalogo.md#rf-09); [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN01, RN12; [definición](referencia-tecnica.md#reglas-y-condiciones) |
 | Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A07.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A07.svg) |

@@ -1,5 +1,7 @@
 # Quantify Core · GUI
 
+**Corrección de navegación:** [cuatro destinos por rol y acceso a todos los módulos](NAVEGACION.md). Gestión reúne cuentas, auditoría y configuración; las pestañas se pueden recorrer directamente sobre las láminas del prototipo navegacional.
+
 **Revisión general:** [distribución y contenido útil en las 33 pantallas](COMPOSICION-GENERAL.md). Login con imagen editorial, columnas PWA y paneles específicos para cada tarea; mismos cambios en las tres fidelidades y el recorrido.
 
 **Rediseño de entrada:** [bienvenida PWA/móvil, carga por etapas y vistas breves](ENTRADA.md), con una sola marca por pantalla y las nuevas composiciones compartidas por las tres fidelidades.

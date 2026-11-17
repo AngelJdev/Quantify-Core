@@ -4,6 +4,8 @@
 
 ## Flujo visual de identidad
 
+La [navegación académica vigente](../GUI/NAVEGACION.md) mantiene cuatro destinos por rol. Usuario: Hoy, Progreso, Ideas y Perfil. Administración: Panel, Catálogo, IA y Gestión; esta última reúne cuentas, auditoría y configuración. Las vistas hijas conservan activa su sección. Acceso y recuperación no muestran navegación de sesión. Esta organización visual no concede permisos de negocio.
+
 Las vistas U02/U03/U04/U05/U15 están en la [matriz de autenticación complementaria](../GUI/prototipos/movil/autenticacion/README.md); el OTP de seis dígitos es propuesta y requiere una extensión de Keycloak, no prueba de correo operativo.
 
 ## Mapa del usuario

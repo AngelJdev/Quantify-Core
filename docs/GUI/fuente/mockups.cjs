@@ -12,6 +12,11 @@ const entrada = require("./entrada.cjs");
 const orientacion = require("./orientacion.cjs");
 const acceso = require("./acceso.cjs");
 const paneles = require("./paneles.cjs");
+const context = { window: {} };
+require("node:vm").runInNewContext(
+  fs.readFileSync(path.join(root, "docs/practica-07/data.js"), "utf8"),
+  context,
+);
 const font = fs
   .readFileSync(path.join(root, "docs/GUI/assets/inter-islas.woff2"))
   .toString("base64");
@@ -42,17 +47,11 @@ for (const source of [
       id = source.id;
     const overview = !mobile && ["U06", "U10", "A02"].includes(id),
       verification = ["U05", "U19", "A11"].includes(id);
-    const active = admin
-      ? ({ A02: 0, A03: 1, A04: 1, A05: 2, A06: 3, A07: 4, A08: 5, A09: 4 }[
-          id
-        ] ?? 0)
-      : ({ U10: 1, U11: 2, U12: 3 }[id] ?? 0);
-    const names = admin
-      ? ["Panel", "Catálogo", "IA", "Auditoría", "Cuentas", "Ajustes"]
-      : ["Hoy", "Progreso", "Ideas", "Perfil"];
-    const navIcons = admin
-      ? ["analisis", "habitos", "informacion", "historial", "perfil", "ajustes"]
-      : ["hoy", "analisis", "informacion", "perfil"];
+    const destinations =
+      context.window.QC.navigation[admin ? "admin" : "usuario"];
+    const active = destinations.findIndex((item) => item.screens.includes(id));
+    const names = destinations.map((item) => item.label);
+    const navIcons = destinations.map((item) => item.icon);
     const items = layouts[id].filter(([, title]) => !title.startsWith("["));
     if (["U02", "U03"].includes(id)) items.push(["social", "Otras opciones"]);
     let s = "",
@@ -558,6 +557,7 @@ for (const source of [
           const i = navIndex++,
             selected = i === active,
             ink = selected ? p.onAction : p.iconMuted;
+          s += `<g data-nav-to="${destinations[i].to}" data-nav-active="${selected}">`;
           if (selected) rect(x, y, bw, bh, p.action, 24, p.action);
           if (mobile) {
             icon(navIcons[i], x + bw / 2 - 10, y + 5, 20, ink);
@@ -565,7 +565,7 @@ for (const source of [
               names[i],
               x + bw / 2,
               y + 38,
-              admin ? 9 : 11,
+              11,
               selected ? p.onAction : p.muted,
               600,
               "middle",
@@ -583,6 +583,7 @@ for (const source of [
               500,
             );
           }
+          s += "</g>";
         } else if (kind === "dashboard-title") {
           text(
             id === "U06"
