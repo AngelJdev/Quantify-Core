@@ -1,5 +1,7 @@
 # Analítica e inteligencia artificial
 
+**Revisión de alcance · 16/11/2026:** para esta entrega rige el [asistente conversacional](asistente-conversacional.md). El plan de modelos predictivos que sigue es una propuesta anterior fuera del alcance actual, no un requisito para habilitar ayuda conversacional. RF-05 sigue usando métricas deterministas de la API.
+
 **Estado:** plan de desarrollo. No hay modelo entrenado, métricas de desempeño, población validada ni servicio productivo de IA. FastAPI es la base tecnológica propuesta para ejecutar análisis separados de la API de negocio.
 
 ## Del dato a una recomendación

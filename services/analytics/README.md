@@ -1,5 +1,7 @@
 # Analítica e inteligencia artificial · Python + FastAPI
 
+**Alcance vigente de IA · 16/11/2026:** [asistente conversacional dentro de Quantify](../../docs/datos-ia/asistente-conversacional.md). El plan predictivo descrito a continuación queda fuera de esta entrega. FastAPI sigue siendo la base tecnológica; su responsabilidad concreta en el asistente requiere revisión, sin inferir un servicio o contrato ya implementado.
+
 > **Estado: diseño.** No existe un modelo entrenado, endpoint operativo ni precisión validada. El servicio procesará datos autorizados para RF-07 y apoyará el análisis de RF-05/RF-08. Las métricas transaccionales de cumplimiento siguen siendo responsabilidad de la API.
 
 ## Responsabilidad

@@ -105,6 +105,8 @@ Los diagramas y secciones desplegables de los README ayudan a recorrer estas gu�
 
 ## Descripción
 
+**Aclaración de alcance de IA · 16/11/2026:** la IA de esta entrega es un [asistente conversacional dentro de Quantify](docs/datos-ia/asistente-conversacional.md), para ayudar a crear hábitos y ofrecer recomendaciones sencillas. Las menciones posteriores a indicadores predictivos, desgaste y arquetipos conservan la visión anterior y quedan fuera de esta entrega. El asistente está pendiente de implementar.
+
 **Quantify Core V2.0** es una plataforma multiplataforma de seguimiento de hábitos personales orientada a convertir registros cotidianos en información verificable y útil. Su visión combina una experiencia web, una aplicación móvil y la integración gradual con dispositivos Wear OS para relacionar el cumplimiento declarado por el usuario con señales contextuales y biométricas autorizadas.
 
 La plataforma busca ir más allá de un contador de rachas. Su propósito es analizar consistencia, descanso, estrés y carga acumulada para generar indicadores preventivos —por ejemplo, una estimación de riesgo de desgaste o un arquetipo de productividad— y recomendaciones comprensibles. Estos resultados son apoyo informativo y **no constituyen diagnóstico médico**.

@@ -29,6 +29,8 @@ Esta revisión queda pendiente de aprobación visual del responsable antes de cr
 
 ## Contenido y alcance
 
+**IA aclarada el 16/11/2026:** la experiencia objetivo de U11 es el [asistente conversacional de Quantify](../datos-ia/asistente-conversacional.md), con solicitudes sencillas, recomendaciones y borradores confirmados por el usuario. La tarjeta de recomendación actual aún no representa el chat; su rediseño conversacional queda pendiente. Esta precisión no altera las medidas de las láminas ya publicadas ni acredita un servicio implementado.
+
 Las láminas contienen **datos ilustrativos**, indicados en el pie. Inicio muestra dos hábitos, uno completo y otro parcial: 1/2 = 50 %. El análisis de ejemplo conserva cinco días completos de siete (71,4 %) y racha de cero al cierre. El día abierto se distingue del periodo cerrado. Las cifras administrativas son ejemplos operativos y no muestran hábitos ni biometría privados. Una idea de ejemplo no se presenta como salida de un modelo de IA.
 
 El estado de acceso, los códigos y los botones son diseño estático. No acreditan autenticación, biometría, guardado, inferencia ni servicios conectados. La autoridad de identidad sigue siendo Keycloak/OIDC y las reglas de producto siguen en requisitos y contratos. Los seis espacios de código son referencia visual y no fijan el protocolo pendiente.
