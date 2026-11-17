@@ -197,12 +197,19 @@ for (const source of [
               ? "Leer con calma"
               : /Periodo/i.test(title)
                 ? "19–25 octubre 2026"
-                : "Seleccionar o escribir";
-        text(value, x + 16, y + 54, 14, p.muted);
+                : /Categoría/i.test(title) ? "Bienestar"
+                  : /Meta y unidad/i.test(title) ? "20 minutos al día"
+                    : /Horario/i.test(title) ? "18:00"
+                      : /Cantidad/i.test(title) ? "12 minutos"
+                        : /Nombre/i.test(title) ? "Escribe un nombre"
+                          : "Seleccionar o escribir";
+        const fieldIcon = /correo/i.test(title) ? "perfil" : /Horario|Periodo/i.test(title) ? "calendario" : /contraseña/i.test(title) ? "privacidad" : "editar";
+        icon(fieldIcon, x + 14, y + 38, 20, p.iconMuted);
+        text(value, x + 46, y + 54, 14, p.muted);
         if (/contraseña/i.test(title))
           icon("privacidad", x + bw - 38, y + 38, 20, p.iconMuted);
       } else if (kind === "button")
-        button(title, e, !/Descartar|Pausar|Reintentar/.test(title));
+        button(title, e, !/Descartar|Pausar|Reintentar|Marcar como leído/.test(title) && !(id === "U01" && /Iniciar/.test(title)));
       else if (kind === "link") {
         button(title, e, false);
       } else if (kind === "social") {
@@ -251,6 +258,14 @@ for (const source of [
         }
       } else if (kind === "check") {
         rect(x, y, bw, bh, p.surface, 16, p.line, true);
+        if (["U09", "U12"].includes(id)) {
+          icon(/IA/.test(title) ? "privacidad" : "recordatorio", x + 16, y + 18, 22);
+          wrap(title, x + 52, y + 28, bw - 136, 13, p.text, 500);
+          const enabled = !/IA/.test(title);
+          rect(x + bw - 64, y + 16, 48, 28, enabled ? p.action : p.controlBorder, 14, enabled ? p.action : p.controlBorder);
+          rect(x + bw - (enabled ? 40 : 60), y + 20, 20, 20, c.white, 10, c.white);
+          return;
+        }
         const completed = id === "U06" && /Hábito 1/.test(title);
         rect(
           x + 16,
@@ -277,7 +292,27 @@ for (const source of [
         );
       } else {
         rect(x, y, bw, bh, p.surface, 16, p.line, true);
-        if (id === "U06" && kind === "text") {
+        if (/^Días:/.test(title)) {
+          ["L", "M", "X", "J", "V", "S", "D"].forEach((day, i) => {
+            const size = Math.min(32, (bw - 44) / 7), left = x + 12 + i * ((bw - 24) / 7), selected = i < 5;
+            rect(left, y + (bh - size) / 2, size, size, selected ? p.action : p.canvas, size / 2, selected ? p.action : p.line);
+            text(day, left + size / 2, y + bh / 2 + 4, 12, selected ? p.onAction : p.muted, 600, "middle");
+          });
+        } else if (kind === "box" && !["U06", "U10"].includes(id)) {
+          const key = id === "U21" || /Cuenta/.test(title) ? "perfil" : /Aviso/.test(title) ? "recordatorio" : /IA|Idea|propuesta/i.test(title) ? "informacion" : /historial|Fecha|Acción/i.test(title) ? "historial" : /propósito|Hábitos con/.test(title) ? "analisis" : "habitos";
+          rect(x + 12, y + 14, 36, 36, p.canvas, 12, p.line);
+          icon(key, x + 20, y + 22, 20);
+          wrap(title, x + 60, y + 28, bw - 76, 14, p.text, 600);
+          const detail = id === "U11" ? "Empieza con 10 minutos a tu ritmo."
+            : id === "U13" ? "Lectura · El historial se conserva"
+              : id === "U14" ? "Recordatorio de ejemplo · Sin leer"
+                : id === "U21" ? "Equipo Quantify Core"
+                  : id === "U20" ? "Rutinas pequeñas, pasos constantes"
+                    : /activa|suspendida/i.test(title) ? "Gestionar estado y permisos"
+                      : /Sin propuestas/.test(title) ? "Las novedades aparecerán aquí"
+                        : "Consulta el detalle y su contexto";
+          if (bh >= 72) text(detail, x + 60, y + bh - 15, 11, p.muted);
+        } else if (id === "U06" && kind === "text") {
           text("Tu rutina de hoy", x + 16, y + 28, 18, p.text, 700);
         } else if (id === "U06" && kind === "box") {
           text("1 de 2 metas completas", x + 16, y + 29, 16, p.text, 600);
@@ -300,11 +335,21 @@ for (const source of [
       }
     }
     s += `<rect width="${w}" height="${h}" fill="${p.canvas}"/>`;
+    // Islas ambientales: fondo de marca, sin acciones ni datos en el splash.
+    if (id === "U16") {
+      s += `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" overflow="hidden" aria-hidden="true">`;
+      s += `<g data-splash="brand-islands" fill="${p.icon}" opacity=".06"><rect x="${-w * .24}" y="${h * .09}" width="${w * .88}" height="${h * .24}" rx="${h * .12}"/><rect x="${w * .5}" y="${h * .7}" width="${w * .7}" height="${h * .2}" rx="${h * .1}"/></g>`;
+      s += `<circle cx="${w / 2}" cy="${h / 2}" r="${mobile ? 146 : 210}" fill="none" stroke="${p.line}"/><circle cx="${w / 2}" cy="${h / 2}" r="${mobile ? 166 : 230}" fill="none" stroke="${p.line}" stroke-dasharray="2 12"/>`;
+      s += `</svg>`;
+    }
     for (const e of source.elements) {
       const { kind, x, y, width: bw, height: bh } = e;
       s += `<g data-ui="${kind}" data-box="${x},${y},${bw},${bh}">`;
       if (kind === "logo") {
-        brand(x + bw / 2 - 40, y, 80);
+        rect(x, y, bw, bh, p.surface, 24, p.line, true);
+        brand(x + 16, y + 12, 56);
+        text("Quantify", x + 88, y + 36, 22, p.text, 700);
+        text("CORE", x + 89, y + 56, 11, p.icon, 600);
       } else if (kind === "header") {
         rect(x, y, bw, bh, p.surface, 16, p.line, true);
         brand(x + 16, y + 16, 32);
