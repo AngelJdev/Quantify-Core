@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1E54C9">
+  <meta name="description" content="Práctica 07 de Quantify Core: sketches interactivos y navegación para Usuario y Administrador, en móvil y PWA.">
+  <title>Quantify Core · Simulación funcional histórica</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="sketch.css">
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+<!-- qc-shared-start --><link rel="stylesheet" href="../../assets/portal/site.css?v=20261116-blue-motion"><script src="../../assets/portal/site.js?v=20261116-blue-motion" defer></script><!-- qc-shared-end --></head>
+<body>
+  <a class="skip" href="#screen-content">Saltar al sketch</a>
+  <nav class="review-links" aria-label="Práctica 07"><a href="index.html">Prototipo navegacional vigente</a><span>Simulación funcional histórica · composición y datos anteriores</span><a href="entrega.html">Práctica 07</a><a href="navegacion.html">Explorador de navegación</a></nav>
+  <header class="workbench-header">
+    <a class="brand" href="#usuario/U01" aria-label="Quantify Core, bienvenida"><span class="logo-crop"><img src="../quantifyLogo.jpeg" alt="Quantify Core"></span></a>
+    <div class="project-label"><span class="eyebrow">PRÁCTICA 07</span><strong>Sketches de navegación</strong></div>
+    <div class="segmented" aria-label="Rol del prototipo">
+      <button type="button" data-role="usuario" aria-pressed="true">Usuario</button>
+      <button type="button" data-role="admin" aria-pressed="false">Administrador</button>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="quiet" id="hotspots" aria-pressed="false">Zonas clicables</button>
+      <button type="button" class="primary" id="open-map">Ver navegación <span aria-hidden="true">↗</span></button>
+    </div>
+  </header>
+  <div class="workbench">
+    <aside class="inventory" aria-label="Inventario de sketches">
+      <div class="inventory-title"><span class="eyebrow">EXPLORAR EL PROTOTIPO</span><h1>Pantallas del rol<span id="screen-count"></span></h1><p>Cada pantalla cuenta una parte del recorrido.</p></div>
+      <nav id="screen-list" aria-label="Seleccionar sketch"></nav>
+      <div class="inventory-footer"><span class="status-dot"></span><span>Prototipo local · datos de ejemplo</span><button type="button" id="reset-demo">Restablecer demo</button></div>
+    </aside>
+    <main class="stage">
+      <div class="stage-toolbar">
+        <div><span class="eyebrow" id="screen-code">U01 / USUARIO</span><h2 id="screen-title">Bienvenida</h2></div>
+        <div class="segmented small" aria-label="Formato de visualización"><button type="button" data-platform="mobile" aria-pressed="true">Móvil</button><button type="button" data-platform="pwa" aria-pressed="false">PWA</button></div>
+      </div>
+      <div class="preview-canvas"><section class="device mobile" id="device" aria-label="Vista previa del sketch"><div class="device-chrome" aria-hidden="true"><span>9:41</span><span class="camera"></span><span>● ▰</span></div><div id="app" class="app"></div><div class="home-indicator" aria-hidden="true"></div></section></div>
+      <div class="stage-footer"><button type="button" id="go-back" class="quiet">← Volver</button><span id="journey">Inicio del recorrido</span><span class="demo-tag">SIMULACIÓN INTERACTIVA</span></div>
+    </main>
+    <aside class="inspector" aria-label="Descripción y conexiones del sketch"><div id="inspector-content"></div><details class="rules-reference"><summary>Consultar reglas de negocio</summary><div id="all-rules"></div></details><a class="source-link" href="revision.html" target="_blank" rel="noopener">Documentación de la práctica ↗</a></aside>
+  </div>
+  <dialog id="map-dialog" class="map-dialog" aria-labelledby="map-title"><header class="dialog-head"><div><span class="eyebrow">MAPA DE NAVEGACIÓN</span><h2 id="map-title">Recorrido del usuario</h2></div><button type="button" class="quiet" data-close="map-dialog" aria-label="Cerrar mapa">Cerrar ×</button></header><p class="map-help">Selecciona un sketch para abrirlo. Las tarjetas enumeran sus transiciones, incluidos retornos y acciones que permanecen en la pantalla.</p><div class="map-actions"><button type="button" id="map-other-role" class="secondary">Cambiar de rol</button><a href="navegacion.html" target="_blank" rel="noopener" class="text-link">Explorador de navegación ↗</a></div><div id="map-visual"></div><div id="map-cards" class="map-cards"></div></dialog>
+  <dialog id="confirm-dialog" class="confirm-dialog" aria-labelledby="confirm-title"><div id="confirm-content"></div></dialog>
+  <div id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <noscript><p>Activa JavaScript para recorrer los sketches. Puedes consultar la <a href="revision.html">documentación</a> sin JavaScript.</p></noscript>
+</body>
+</html>

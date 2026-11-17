@@ -6,6 +6,8 @@
   const {screens}=window.QC;
   const base=document.body.dataset.base||'';
   let selected=location.hash.slice(1)||'U16';
+  const requestedRole=new URLSearchParams(location.search).get('role');
+  $('#role-filter').value=selected.startsWith('A')?'admin':requestedRole==='admin'?'admin':'usuario';
   const fidelityFilter=$('#fidelity-filter');
   const navigationFilter=$('#navigation-filter');
   const themeFilter=$('#mockup-theme-filter');
@@ -17,11 +19,12 @@
     const fidelity=fidelityFilter?.value||'sketch';
     const kind={sketch:'sketches',wireframe:'wireframes',mockup:'mockups'}[fidelity];
     if(themeFilter)themeFilter.disabled=fidelity!=='mockup';
-    const hasRail=s=>format==='pwa'&&s.group!=='Acceso'&&s.id!=='U16';
+    const hasRail=s=>format==='pwa'&&s.session;
     const asset=s=>`../GUI/prototipos/${format==='movil'?'movil':'pwa'}/${kind}/islas/${fidelity==='mockup'?(themeFilter?.value||'light')+'/':''}${s.id}${hasRail(s)&&navigationFilter?.value==='compact'?'-compact':''}.svg`;
-    if(fidelityFilter){document.querySelector('h1').textContent=fidelity==='mockup'?'Mockups de Quantify Core':fidelity==='wireframe'?'Wireframes de Quantify Core · Islas':'Sketches de Quantify Core · Práctica 07';document.querySelector('.sketch-kicker').textContent='DISEÑO / '+fidelity.toUpperCase();}
-    const list=Object.entries(screens).filter(([r])=>role==='all'||r===role).flatMap(([r,items])=>items.map(s=>({...s,key:r})));
+    if(fidelityFilter){document.querySelector('h1').textContent=`${fidelity==='mockup'?'Mockups':fidelity==='wireframe'?'Wireframes':'Sketches'} · ${role==='admin'?'Administración':'Usuario'}`;document.querySelector('.sketch-kicker').textContent='DISEÑO / '+fidelity.toUpperCase();}
+    const list=screens[role].map(s=>({...s,key:role}));
     if(!list.some(s=>s.id===selected))selected=list[0].id;
+    const url=new URL(location);url.searchParams.set('role',role);url.hash=selected;history.replaceState(null,'',url);
     if(navigationFilter)navigationFilter.disabled=!hasRail(list.find(s=>s.id===selected));
     $('#screen-picker').innerHTML=list.map(s=>`<option value="${s.id}" ${selected===s.id?'selected':''}>${String(s.reviewOrder).padStart(2,'0')} · ${esc(s.title)} (${s.id})</option>`).join('');
     $('#count').textContent=`${list.length} pantallas · ${format==='movil'?'Móvil · 390 × 844 px':'PWA · 1280 × 900 px'+' · provisional'}`;
@@ -29,7 +32,7 @@
   }
   $('#screen-picker').addEventListener('change',e=>{selected=e.target.value;history.replaceState(null,'','#'+selected);gallery();});
   for(const [id,step]of [['previous-sketch',-1],['next-sketch',1]])$('#'+id).addEventListener('click',()=>{const opts=[...$('#screen-picker').options],i=opts.findIndex(o=>o.value===selected);selected=opts[(i+step+opts.length)%opts.length].value;history.replaceState(null,'','#'+selected);gallery();});
-  $('#catalog').addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(a){e.preventDefault();selected=a.hash.slice(1);$('#role-filter').value='all';history.replaceState(null,'','#'+selected);gallery();}});
+  $('#catalog').addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(a){e.preventDefault();const id=a.hash.slice(1);if(!screens[$('#role-filter').value].some(s=>s.id===id))return;selected=id;history.replaceState(null,'','#'+selected);gallery();}});
   $('#role-filter').addEventListener('change',gallery);
   $('#format-filter').addEventListener('change',gallery);
   navigationFilter?.addEventListener('change',gallery);

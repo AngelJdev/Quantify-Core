@@ -1,0 +1,941 @@
+{
+  "project": "QUANCORE",
+  "site": "https://utxicotepec-team-q5ufett6.atlassian.net",
+  "asOf": "2026-11-17T22:34:44Z",
+  "jql": "project = QUANCORE ORDER BY key ASC",
+  "complete": true,
+  "source": "Jira · consulta autenticada de solo lectura",
+  "startField": {
+    "id": "customfield_10015",
+    "name": "Fecha de inicio"
+  },
+  "dueField": "duedate",
+  "issues": [
+    {
+      "key": "QUANCORE-1",
+      "title": "DOC-01",
+      "type": "Epic",
+      "status": "Por hacer",
+      "assignee": null,
+      "start": "2026-10-17",
+      "due": "2026-11-13",
+      "parent": null,
+      "updated": "2026-10-17T19:16:41.625-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-1",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-2",
+      "title": "ARC-01 | Arquitectura, DevOps e infraestructura",
+      "type": "Epic",
+      "status": "Por hacer",
+      "assignee": null,
+      "start": "2026-10-17",
+      "due": "2026-11-13",
+      "parent": null,
+      "updated": "2026-10-17T19:16:10.451-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-2",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-3",
+      "title": "IAM-01 | Identidad y seguridad",
+      "type": "Epic",
+      "status": "Por hacer",
+      "assignee": null,
+      "start": "2026-10-17",
+      "due": "2026-11-13",
+      "parent": null,
+      "updated": "2026-10-17T19:16:43.939-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-3",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-4",
+      "title": "DAT-01 | Persistencia híbrida y trazabilidad",
+      "type": "Epic",
+      "status": "Por hacer",
+      "assignee": null,
+      "start": "2026-10-17",
+      "due": "2026-11-13",
+      "parent": null,
+      "updated": "2026-10-17T19:16:46.527-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-4",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-5",
+      "title": "API-01 | Backend y lógica de hábitos",
+      "type": "Epic",
+      "status": "Por hacer",
+      "assignee": null,
+      "start": "2026-10-17",
+      "due": "2026-11-13",
+      "parent": null,
+      "updated": "2026-10-17T19:19:32.472-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-5",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-6",
+      "title": "WEB-01 | PWA y dashboards web",
+      "type": "Epic",
+      "status": "Por hacer",
+      "assignee": null,
+      "start": "2026-10-17",
+      "due": "2026-11-13",
+      "parent": null,
+      "updated": "2026-10-17T19:19:35.132-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-6",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-7",
+      "title": "MOB-01 | Aplicación móvil Flutter",
+      "type": "Epic",
+      "status": "Por hacer",
+      "assignee": null,
+      "start": "2026-10-20",
+      "due": "2026-11-13",
+      "parent": null,
+      "updated": "2026-10-17T19:19:38.022-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-7",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-8",
+      "title": "AI-01 | Analítica preventiva y gamificación",
+      "type": "Epic",
+      "status": "Por hacer",
+      "assignee": null,
+      "start": "2026-10-26",
+      "due": "2026-11-13",
+      "parent": null,
+      "updated": "2026-10-17T19:19:40.681-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-8",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-9",
+      "title": "WEA-01 | Telemetría y Wear OS",
+      "type": "Epic",
+      "status": "Por hacer",
+      "assignee": null,
+      "start": "2026-10-31",
+      "due": "2026-11-13",
+      "parent": null,
+      "updated": "2026-10-17T19:19:43.429-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-9",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-10",
+      "title": "QA-01 | Pruebas, integración y entrega",
+      "type": "Epic",
+      "status": "Por hacer",
+      "assignee": null,
+      "start": "2026-10-24",
+      "due": "2026-11-13",
+      "parent": null,
+      "updated": "2026-10-17T19:19:45.972-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-10",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-11",
+      "title": "Definir requisitos P0/P1/P2 y criterios de demo",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": "2026-10-17",
+      "due": "2026-10-20",
+      "parent": "QUANCORE-1",
+      "updated": "2026-10-21T22:48:41.463-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-11",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-12",
+      "title": "Actualizar README V2, arquitectura y decisiones técnicas",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": "2026-10-17",
+      "due": "2026-10-23",
+      "parent": "QUANCORE-1",
+      "updated": "2026-10-21T22:48:46.225-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-12",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-13",
+      "title": "Documentar API, pruebas, evidencias y presentación final",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": "2026-10-17",
+      "due": "2026-11-12",
+      "parent": "QUANCORE-1",
+      "updated": "2026-11-16T10:04:37.899-0600",
+      "links": [
+        {
+          "key": "QUANCORE-44",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-49",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-48",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-40",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        }
+      ],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-13",
+      "statusCategory": "indeterminate"
+    },
+    {
+      "key": "QUANCORE-14",
+      "title": "Organizar estructura de repositorios, ramas y entornos",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": "2026-10-17",
+      "due": "2026-10-20",
+      "parent": "QUANCORE-2",
+      "updated": "2026-10-21T22:49:04.383-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-14",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-15",
+      "title": "Crear Docker Compose de API, Keycloak y bases de datos",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": "2026-10-17",
+      "due": "2026-10-24",
+      "parent": "QUANCORE-2",
+      "updated": "2026-10-27T10:09:27.390-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-15",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-16",
+      "title": "Publicar entornos web y API de demostración",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": "2026-10-17",
+      "due": "2026-11-08",
+      "parent": "QUANCORE-2",
+      "updated": "2026-11-16T10:04:38.969-0600",
+      "links": [
+        {
+          "key": "QUANCORE-45",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-48",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-37",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        }
+      ],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-16",
+      "statusCategory": "indeterminate"
+    },
+    {
+      "key": "QUANCORE-17",
+      "title": "Configurar Keycloak, realm, cliente web/móvil y roles",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": "2026-10-17",
+      "due": "2026-10-23",
+      "parent": "QUANCORE-3",
+      "updated": "2026-10-25T16:17:47.265-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-17",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-18",
+      "title": "Proteger endpoints y validar JWT/JWKS en backend",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "franciscogarciagarcia",
+      "start": "2026-10-17",
+      "due": "2026-10-26",
+      "parent": "QUANCORE-3",
+      "updated": "2026-10-27T10:07:17.143-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-18",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-19",
+      "title": "Integrar inicio/cierre de sesión en React y Flutter",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "franciscogarciagarcia",
+      "start": "2026-10-17",
+      "due": "2026-11-03",
+      "parent": "QUANCORE-3",
+      "updated": "2026-11-08T13:46:03.551-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-19",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-20",
+      "title": "Diseñar modelo relacional de usuarios, hábitos y registros",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Jesus Alejandro Artiaga Morales",
+      "start": "2026-10-17",
+      "due": "2026-10-21",
+      "parent": "QUANCORE-4",
+      "updated": "2026-10-22T00:38:21.176-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-20",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-21",
+      "title": "Implementar migraciones, persistencia y semillas de prueba",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": "2026-10-17",
+      "due": "2026-10-26",
+      "parent": "QUANCORE-4",
+      "updated": "2026-11-02T18:09:31.634-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-21",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-22",
+      "title": "Crear esquema de eventos/telemetría MongoDB y auditoría",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Al Farias",
+      "start": "2026-10-17",
+      "due": "2026-11-02",
+      "parent": "QUANCORE-4",
+      "updated": "2026-11-08T23:13:17.278-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-22",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-23",
+      "title": "Implementar endpoints de hábitos y categorías con validación",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": "2026-10-17",
+      "due": "2026-10-28",
+      "parent": "QUANCORE-5",
+      "updated": "2026-11-02T18:09:34.220-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-23",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-24",
+      "title": "Implementar cumplimiento diario, metas y cálculo de rachas",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "franciscogarciagarcia",
+      "start": "2026-10-17",
+      "due": "2026-10-31",
+      "parent": "QUANCORE-5",
+      "updated": "2026-11-01T20:40:05.719-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-24",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-25",
+      "title": "Exponer estadísticas y dashboard desde datos reales",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Al Farias",
+      "start": "2026-10-17",
+      "due": "2026-11-04",
+      "parent": "QUANCORE-5",
+      "updated": "2026-11-08T23:35:51.305-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-25",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-26",
+      "title": "Diseñar interfaz Quantify, navegación y componentes reutilizables",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Al Farias",
+      "start": "2026-10-17",
+      "due": "2026-10-26",
+      "parent": "QUANCORE-6",
+      "updated": "2026-10-27T13:20:47.042-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-26",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-27",
+      "title": "Conectar CRUD y seguimiento diario a la API",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "franciscogarciagarcia",
+      "start": "2026-10-17",
+      "due": "2026-11-02",
+      "parent": "QUANCORE-6",
+      "updated": "2026-11-08T13:46:14.405-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-27",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-28",
+      "title": "Construir dashboard, gráficas y experiencia PWA",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "franciscogarciagarcia",
+      "start": "2026-10-17",
+      "due": "2026-11-07",
+      "parent": "QUANCORE-6",
+      "updated": "2026-11-02T14:47:36.142-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-28",
+      "statusCategory": "indeterminate"
+    },
+    {
+      "key": "QUANCORE-29",
+      "title": "Crear app Flutter con rutas, diseño y configuración de API",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "franciscogarciagarcia",
+      "start": "2026-10-17",
+      "due": "2026-10-28",
+      "parent": "QUANCORE-7",
+      "updated": "2026-10-27T10:51:50.837-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-29",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-30",
+      "title": "Implementar autenticación y gestión de hábitos desde Flutter",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "franciscogarciagarcia",
+      "start": "2026-10-17",
+      "due": "2026-11-04",
+      "parent": "QUANCORE-7",
+      "updated": "2026-11-08T13:46:09.121-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-30",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-31",
+      "title": "Implementar check-in diario, historial y estadísticas móviles",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "franciscogarciagarcia",
+      "start": "2026-10-17",
+      "due": "2026-11-08",
+      "parent": "QUANCORE-7",
+      "updated": "2026-11-09T22:43:12.490-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-31",
+      "statusCategory": "indeterminate"
+    },
+    {
+      "key": "QUANCORE-32",
+      "title": "Implementar gamificación basada en rachas y reglas verificables",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "franciscogarciagarcia",
+      "start": "2026-10-17",
+      "due": "2026-11-05",
+      "parent": "QUANCORE-8",
+      "updated": "2026-11-08T13:46:11.394-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-32",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-33",
+      "title": "Crear servicio FastAPI de analítica con indicador orientativo",
+      "type": "Tarea",
+      "status": "Por hacer",
+      "assignee": "Jesus Alejandro Artiaga Morales",
+      "start": "2026-10-17",
+      "due": "2026-11-08",
+      "parent": "QUANCORE-8",
+      "updated": "2026-11-02T14:48:34.109-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-33",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-34",
+      "title": "Evaluar modelo ML/LLM opcional y documentar límites",
+      "type": "Tarea",
+      "status": "Por hacer",
+      "assignee": null,
+      "start": "2026-10-17",
+      "due": "2026-11-12",
+      "parent": "QUANCORE-8",
+      "updated": "2026-10-17T19:21:37.367-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-34",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-35",
+      "title": "Definir formato seguro de telemetría y simular ingestión",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Al Farias",
+      "start": "2026-10-17",
+      "due": "2026-11-06",
+      "parent": "QUANCORE-9",
+      "updated": "2026-11-08T22:27:53.344-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-35",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-36",
+      "title": "Integrar lectura Wear OS real si existen reloj y permisos",
+      "type": "Tarea",
+      "status": "Por hacer",
+      "assignee": null,
+      "start": "2026-10-17",
+      "due": "2026-11-11",
+      "parent": "QUANCORE-9",
+      "updated": "2026-10-17T19:21:47.981-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-36",
+      "statusCategory": "new"
+    },
+    {
+      "key": "QUANCORE-37",
+      "title": "Ejecutar pruebas unitarias y de API sobre rutas críticas",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "franciscogarciagarcia",
+      "start": "2026-10-17",
+      "due": "2026-11-07",
+      "parent": "QUANCORE-10",
+      "updated": "2026-11-09T22:43:14.477-0600",
+      "links": [
+        {
+          "key": "QUANCORE-16",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-38",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        }
+      ],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-37",
+      "statusCategory": "indeterminate"
+    },
+    {
+      "key": "QUANCORE-38",
+      "title": "Ejecutar pruebas end-to-end web, móvil y backend",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": "2026-10-17",
+      "due": "2026-11-10",
+      "parent": "QUANCORE-10",
+      "updated": "2026-11-16T10:04:23.468-0600",
+      "links": [
+        {
+          "key": "QUANCORE-37",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-40",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        }
+      ],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-38",
+      "statusCategory": "indeterminate"
+    },
+    {
+      "key": "QUANCORE-39",
+      "title": "Corregir errores bloqueantes y validar despliegue final",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": "2026-10-17",
+      "due": "2026-11-12",
+      "parent": "QUANCORE-10",
+      "updated": "2026-11-16T10:04:25.078-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-39",
+      "statusCategory": "indeterminate"
+    },
+    {
+      "key": "QUANCORE-40",
+      "title": "Realizar demo y cierre académico V2",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": "2026-10-17",
+      "due": "2026-11-13",
+      "parent": "QUANCORE-10",
+      "updated": "2026-11-16T10:04:26.114-0600",
+      "links": [
+        {
+          "key": "QUANCORE-13",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-38",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        }
+      ],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-40",
+      "statusCategory": "indeterminate"
+    },
+    {
+      "key": "QUANCORE-41",
+      "title": "Inicializar API Node.js/Express con healthcheck y OpenAPI",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "franciscogarciagarcia",
+      "start": "2026-10-17",
+      "due": "2026-10-23",
+      "parent": "QUANCORE-5",
+      "updated": "2026-10-22T21:35:06.294-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-41",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-42",
+      "title": "Inicializar proyecto React/Vite y conexión HTTP configurable",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "franciscogarciagarcia",
+      "start": "2026-10-17",
+      "due": "2026-10-23",
+      "parent": "QUANCORE-6",
+      "updated": "2026-11-02T14:47:08.698-0600",
+      "links": [],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-42",
+      "statusCategory": "indeterminate"
+    },
+    {
+      "key": "QUANCORE-43",
+      "title": "Conciliar arquitectura de Quantify sin Unity y decidir entorno de entrega",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": null,
+      "due": null,
+      "parent": "QUANCORE-2",
+      "updated": "2026-11-16T10:04:34.146-0600",
+      "links": [
+        {
+          "key": "QUANCORE-44",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-45",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-47",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        }
+      ],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-43",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-44",
+      "title": "Versionar scripts del entorno de liberación y ensayar restauración de datos",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "Al Farias",
+      "start": null,
+      "due": null,
+      "parent": "QUANCORE-4",
+      "updated": "2026-11-08T21:17:54.906-0600",
+      "links": [
+        {
+          "key": "QUANCORE-43",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-45",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-13",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        }
+      ],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-44",
+      "statusCategory": "indeterminate"
+    },
+    {
+      "key": "QUANCORE-45",
+      "title": "Configurar pipeline de liberación con build y scripts de pruebas reproducibles",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "franciscogarciagarcia",
+      "start": null,
+      "due": null,
+      "parent": "QUANCORE-2",
+      "updated": "2026-11-01T20:39:58.316-0600",
+      "links": [
+        {
+          "key": "QUANCORE-43",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-44",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-16",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        }
+      ],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-45",
+      "statusCategory": "indeterminate"
+    },
+    {
+      "key": "QUANCORE-46",
+      "title": "Instrumentar API y analítica con métricas, logs seguros y correlación",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "franciscogarciagarcia",
+      "start": null,
+      "due": null,
+      "parent": "QUANCORE-5",
+      "updated": "2026-11-01T20:39:59.653-0600",
+      "links": [
+        {
+          "key": "QUANCORE-47",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-48",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        }
+      ],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-46",
+      "statusCategory": "indeterminate"
+    },
+    {
+      "key": "QUANCORE-47",
+      "title": "Definir niveles de servicio, métricas y protocolo de evaluación del rendimiento",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": null,
+      "due": null,
+      "parent": "QUANCORE-10",
+      "updated": "2026-11-16T10:04:35.444-0600",
+      "links": [
+        {
+          "key": "QUANCORE-43",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-46",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-48",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-49",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        }
+      ],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-47",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-48",
+      "title": "Configurar Prometheus, Grafana, Loki y probar alertas de disponibilidad",
+      "type": "Tarea",
+      "status": "Listo",
+      "assignee": "Angel De Jesus Ba�os Tellez",
+      "start": null,
+      "due": null,
+      "parent": "QUANCORE-2",
+      "updated": "2026-11-16T10:04:36.712-0600",
+      "links": [
+        {
+          "key": "QUANCORE-46",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-47",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-16",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-49",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-13",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        }
+      ],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-48",
+      "statusCategory": "done"
+    },
+    {
+      "key": "QUANCORE-49",
+      "title": "Medir rendimiento del entorno de entrega y ejecutar plan de mejora basado en resultados",
+      "type": "Tarea",
+      "status": "En curso",
+      "assignee": "franciscogarciagarcia",
+      "start": null,
+      "due": null,
+      "parent": "QUANCORE-10",
+      "updated": "2026-11-09T22:43:15.958-0600",
+      "links": [
+        {
+          "key": "QUANCORE-47",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-48",
+          "relation": "is blocked by",
+          "direction": "inward",
+          "type": "Blocks"
+        },
+        {
+          "key": "QUANCORE-13",
+          "relation": "blocks",
+          "direction": "outward",
+          "type": "Blocks"
+        }
+      ],
+      "url": "https://utxicotepec-team-q5ufett6.atlassian.net/browse/QUANCORE-49",
+      "statusCategory": "indeterminate"
+    }
+  ],
+  "fields": [
+    "summary",
+    "status",
+    "assignee",
+    "issuetype",
+    "parent",
+    "updated",
+    "duedate",
+    "issuelinks",
+    "customfield_10015"
+  ],
+  "linksComplete": true
+}

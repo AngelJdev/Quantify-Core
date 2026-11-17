@@ -1,5 +1,17 @@
 # Centro del proyecto
 
+## Gantt de Jira dentro de Workflow
+
+El botón **Gantt de Jira** de [Workflow](../../workflow.html#workflow?vista=gantt) abre el cronograma en la misma página; **Recorrido técnico** vuelve a la animación. Incluye búsqueda, filtros por estado, responsable y épica, escala diaria/semanal y detalle de fechas y dependencias. La selección de esta vista se conserva al recargar.
+
+La fuente es un corte autenticado de solo lectura de **QUANCORE del 17/11/2026**, con paginación completa: **49 incidencias, 42 intervalos y 7 sin fechas**. Usa exclusivamente `customfield_10015` (Fecha de inicio) y `duedate` de Jira. No sustituye fechas ausentes por creación, actualización, fechas de la épica ni estimaciones. Los vencimientos registrados llegan al 13/11/2026; se conservan sin reprogramar. La marca de corte permite ver esa diferencia. El estado de Jira no prueba que una tarea haya pasado CI o esté integrada.
+
+[`tools/portal/data/jira-gantt-snapshot.json`](../../tools/portal/data/jira-gantt-snapshot.json) conserva claves, títulos, estado, responsable público, inicio, vencimiento, padre y relaciones de Jira. No incluye credenciales, correos ni identificadores de cuenta. `build.mjs` valida integridad y copia el corte a `assets/portal/gantt-data.json`; `gantt.js` lo presenta sin llamadas autenticadas desde el navegador. La actualización del corte requiere volver a consultar Jira y verificar paginación, campos y relaciones; no es una sincronización en vivo. El detalle enlaza la incidencia original para consultar cambios posteriores.
+
+Validar con `node tools/portal/tests/gantt.mjs`, usando el servidor local de este módulo. Contrasta las 49 incidencias con la fuente y prueba filtros, escala, siete ausencias de fechas, dependencias, retorno al recorrido, recarga y accesibilidad en ambos temas a 1440/390 px.
+
+**Revisión del 17/11/2026:** el [prototipo navegacional vigente](../practica-07/index.html) muestra los mismos SVG del catálogo en las tres fidelidades. [Procedencia del isotipo de Figma, correspondencia y validación](../GUI/REVISION-PROTOTIPOS.md). Se comprueba con `node tools/portal/tests/prototypes.mjs` desde la raíz o `npm run test:prototypes` desde `tools/portal`, con el servidor local indicado en ese registro.
+
 La [revisión de islas](../GUI/ISLAS.md) incorpora 33 wireframes y 33 sketches por formato con medidas compartidas, navegación móvil en píldora y PWA provisional con referencias de video revisadas. Práctica 07 enlaza el mismo conjunto de sketches a lápiz, sin duplicados. La galería muestra medidas de los mockups vigentes; los nuevos mockups comparten geometría y cotas con los wireframes.
 
 El [portal de Quantify Core](../../index.html) organiza producto, planificación, arquitectura, diseño y validación. Sirve archivos estáticos en GitHub Pages, sin backend ni credenciales. Conserva las fuentes Markdown en sus ubicaciones originales y los prototipos con sus límites documentados.

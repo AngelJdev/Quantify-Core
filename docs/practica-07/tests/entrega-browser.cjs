@@ -9,7 +9,7 @@ const root=path.resolve(__dirname,'..'),base=process.env.P07_URL||'http://127.0.
   page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
   const results=[];
   async function check(name,fn){await fn();results.push({name,status:'passed'});console.log('PASS',name);}
-  const open=async hash=>{await page.goto(base+(hash||''));await page.reload();await page.waitForSelector(!hash||hash.endsWith('/U16')?'.splash-only':'#screen-content');await page.evaluate(()=>document.fonts.ready);};
+  const open=async hash=>{await page.goto(base+'demo.html'+(hash||''));await page.reload();await page.waitForSelector(!hash||hash.endsWith('/U16')?'.splash-only':'#screen-content');await page.evaluate(()=>document.fonts.ready);};
   await check('Inicialización, error de carga y reintento',async()=>{
     await open();assert.equal(await page.locator('#screen-title').textContent(),'Splash Screen');
     assert.equal(await page.locator('#app button,#app a').count(),0);await page.waitForSelector('#screen-content');await page.locator('[data-action="loading-error"]').click();

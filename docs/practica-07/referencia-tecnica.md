@@ -1,5 +1,7 @@
 # Referencia técnica de Práctica 07
 
+**Entrada vigente del 17/11/2026:** [recorrido con láminas compartidas](index.html) y [registro de revisión](../GUI/REVISION-PROTOTIPOS.md). Los procedimientos de formularios, contraseñas ficticias y cálculos locales de las revisiones anteriores se conservan en [demo.html](demo.html). Sus resultados históricos no acreditan la nueva interfaz de revisión.
+
 ## Revisión de bocetos · 13 de noviembre de 2026
 
 La revisión vigente reemplaza las 66 láminas de Práctica 07: viewport móvil 390 × 844 y PWA 1280 × 900, con cotas exteriores y sus SVG editables. Los tamaños totales de archivo incluyen el papel reservado para anotaciones; se registran en [manifiesto compartido](../GUI/islas-medidas.json). Las referencias de tamaño y capturas anteriores de este documento son históricas.

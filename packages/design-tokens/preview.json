@@ -1,6 +1,15 @@
 {
   "status": "identidad-visual-definida-para-gui",
-  "version": "0.4.0",
+  "version": "0.4.2",
+  "prototypeEntry": {
+    "status": "revision-documental-no-productiva",
+    "typography": {
+      "access": { "movil": { "size": 25, "lineHeight": 32 }, "pwa": { "size": 28, "lineHeight": 36 } },
+      "welcome": { "movil": { "size": 34, "lineHeight": 43 }, "pwa": { "size": 52, "lineHeight": 64 } },
+      "loading": { "movil": { "size": 32, "lineHeight": 40 }, "pwa": { "size": 42, "lineHeight": 54 } }
+    },
+    "motion": { "orbitDurationMs": 3000, "skeletonDurationMs": 2400 }
+  },
   "prototypeIslands": {
     "status": "revision-documental-no-productiva",
     "mobile": { "width": 390, "height": 844 },
@@ -15,7 +24,16 @@
     "compactRailWidth": 72,
     "dashboardGap": 16,
     "dashboardKpiHeight": 104,
-    "targetHeight": 48
+    "targetHeight": 48,
+    "support": {
+      "gap": 20,
+      "minimumHeight": 96,
+      "pwaColumnGap": 32,
+      "pwaAuthInset": 64,
+      "pwaAuthFormWidth": 520,
+      "pwaContentFormRatio": 0.53,
+      "pwaContentFormMaxWidth": 560
+    }
   },
   "font": "Inter",
   "colors": {

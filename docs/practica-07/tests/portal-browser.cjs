@@ -26,7 +26,7 @@ const base=process.env.P07_SITE_URL||'http://127.0.0.1:8765/';
    assert.equal(await page.locator('main img').count(),2);
    await page.locator('main a[href="#punto-9"]').click();assert.ok(await page.locator('#punto-9').count());
    await page.locator('main a').filter({hasText:'Abrir el diagrama interactivo'}).click();
-   assert.equal(await page.locator('svg .map-node').count(),33);assert.equal(await page.locator('svg .map-edge').count(),131);
+   assert.equal(await page.locator('svg .map-node').count(),33);assert.equal(await page.locator('svg .map-edge').count(),132);
   });
   await check('Fichas: 33 documentos desplegables con tablas y dibujos',async()=>{
    await page.goto(base+'docs/practica-07/fichas.html');assert.equal(await page.locator('main details').count(),33);

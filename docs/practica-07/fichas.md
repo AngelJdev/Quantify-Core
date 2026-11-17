@@ -358,7 +358,7 @@ Visualizar el progreso y los hábitos programados para el día de ejemplo.
 | Completar o deshacer | [U06](#u06) | Permanece en el sketch; muestra estado o validación |
 | Ver avisos | [U14](#u14) | Transición al sketch indicado |
 | Análisis | [U10](#u10) | Transición al sketch indicado |
-| IA Coach | [U11](#u11) | Transición al sketch indicado |
+| IA hábitos | [U11](#u11) | Transición al sketch indicado |
 | Ajustes | [U12](#u12) | Transición al sketch indicado |
 
 </details>
@@ -370,14 +370,14 @@ Visualizar el progreso y los hábitos programados para el día de ejemplo.
 
 <img src="../GUI/prototipos/movil/sketches/islas/U07.svg" alt="Sketch U07" width="180">
 
-Personalizar la meta, la frecuencia y el color, con validación antes de guardar.
+Personalizar nombre, categoría, meta, unidad y frecuencia, con validación antes de guardar.
 
 | Campo | Especificación |
 |---|---|
 | Plataforma de destino | PWA con React/Vite y aplicación Flutter |
 | Rol autorizado | Usuario / visitante según el recorrido |
 | Módulo | Rutina |
-| Elementos principales | Nombre, categoría, frecuencia, meta, unidad, color, guardar y cancelar |
+| Elementos principales | Nombre, categoría, frecuencia, meta y unidad separados, guardar y cancelar |
 | Requisitos / historias | [RF-03](../requerimientos/catalogo.md#rf-03); [HU-03](../UHs/README.md#hu-03) |
 | Reglas de navegación / demo | RN03, RN09; [definición](referencia-tecnica.md#reglas-y-condiciones) |
 | Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U07.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U07.svg) |
@@ -487,7 +487,7 @@ Consultar resultados calculados con los registros locales de ejemplo.
 | Cambiar periodo | [U10](#u10) | Permanece en el sketch; muestra estado o validación |
 | Ver hábito | [U08](#u08) | Transición al sketch indicado |
 | Hoy | [U06](#u06) | Transición al sketch indicado |
-| IA Coach | [U11](#u11) | Transición al sketch indicado |
+| IA hábitos | [U11](#u11) | Transición al sketch indicado |
 | Ajustes | [U12](#u12) | Transición al sketch indicado |
 
 </details>
@@ -495,18 +495,18 @@ Consultar resultados calculados con los registros locales de ejemplo.
 <a id="u11"></a>
 
 <details>
-<summary><strong>U11 · IA Coach</strong> — ficha individual</summary>
+<summary><strong>U11 · IA para crear hábitos</strong> — ficha individual</summary>
 
 <img src="../GUI/prototipos/movil/sketches/islas/U11.svg" alt="Sketch U11" width="180">
 
-Recomendaciones explicables con consentimiento, umbral y control de duplicados.
+Asistente conversacional personal: escribir una solicitud, aclarar datos, revisar un borrador y crear el hábito solo al confirmar el formulario. Con alternativa manual si el asistente falla.
 
 | Campo | Especificación |
 |---|---|
 | Plataforma de destino | PWA con React/Vite y aplicación Flutter |
 | Rol autorizado | Usuario / visitante según el recorrido |
 | Módulo | Seguimiento |
-| Elementos principales | Consentimiento, tarjetas de sugerencias, explicación, personalizar y descartar |
+| Elementos principales | Solicitud conversacional, respuesta, borrador revisable, mensaje, envío, consentimiento y alternativa manual |
 | Requisitos / historias | [RF-07](../requerimientos/catalogo.md#rf-07); [HU-07](../UHs/README.md#hu-07) |
 | Reglas de navegación / demo | RN08, RN09, RN10; [definición](referencia-tecnica.md#reglas-y-condiciones) |
 | Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/U11.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/U11.svg) |
@@ -517,12 +517,13 @@ Recomendaciones explicables con consentimiento, umbral y control de duplicados.
 
 | Acción o condición | Destino | Resultado |
 |---|---|---|
-| Personalizar sugerencia | [U07](#u07) | Transición al sketch indicado |
-| Descartar por 21 días | [U11](#u11) | Permanece en el sketch; muestra estado o validación |
+| Crear hábito con IA · personalizar propuesta | [U07](#u07) | Transición al sketch indicado |
+| IA hábitos | [U11](#u11) | Permanece en el sketch; muestra estado o validación |
 | Cambiar consentimiento | [U12](#u12) | Transición al sketch indicado |
 | Hoy | [U06](#u06) | Transición al sketch indicado |
 | Análisis | [U10](#u10) | Transición al sketch indicado |
 | Ajustes | [U12](#u12) | Transición al sketch indicado |
+| Crear hábito manualmente | [U07](#u07) | Transición al sketch indicado |
 
 </details>
 
@@ -588,7 +589,7 @@ Preferencias de privacidad y avisos. Solo se conservan datos de demostración.
 | Cerrar sesión | [U02](#u02) | Transición al sketch indicado |
 | Hoy | [U06](#u06) | Transición al sketch indicado |
 | Análisis | [U10](#u10) | Transición al sketch indicado |
-| IA Coach | [U11](#u11) | Transición al sketch indicado |
+| IA hábitos | [U11](#u11) | Transición al sketch indicado |
 | Acerca del software | [U20](#u20) | Transición al sketch indicado |
 | Intentar módulo administrativo | [U22](#u22) | Transición al sketch indicado |
 
@@ -683,7 +684,7 @@ Presentar propósito, plataformas previstas, versión y límites del prototipo.
 |---|---|---|
 | Conocer al equipo | [U21](#u21) | Transición al sketch indicado |
 | Volver a bienvenida | [U01](#u01) | Transición al sketch indicado |
-| Volver a ajustes | [U12](#u12) | Transición al sketch indicado |
+| Volver a Perfil · sesión vigente | [U12](#u12) | Transición al sketch indicado |
 
 </details>
 
@@ -776,7 +777,7 @@ Indicadores agregados ilustrativos, estado de servicios y accesos a los módulos
 | Acción o condición | Destino | Resultado |
 |---|---|---|
 | Ver catálogo | [A03](#a03) | Transición al sketch indicado |
-| Supervisar IA | [A05](#a05) | Transición al sketch indicado |
+| Supervisión de IA | [A05](#a05) | Transición al sketch indicado |
 | Auditoría | [A06](#a06) | Transición al sketch indicado |
 | Cuentas | [A07](#a07) | Transición al sketch indicado |
 | Configuración | [A08](#a08) | Transición al sketch indicado |
@@ -811,7 +812,7 @@ Gestionar plantillas sin modificar las rutinas personales existentes.
 | Crear o editar plantilla | [A04](#a04) | Transición al sketch indicado |
 | Confirmar pausa o reactivación | [A03](#a03) | Permanece en el sketch; muestra estado o validación |
 | Resumen | [A02](#a02) | Transición al sketch indicado |
-| IA | [A05](#a05) | Transición al sketch indicado |
+| Supervisión de IA | [A05](#a05) | Transición al sketch indicado |
 | Auditoría | [A06](#a06) | Transición al sketch indicado |
 | Cuentas | [A07](#a07) | Transición al sketch indicado |
 | Configuración | [A08](#a08) | Transición al sketch indicado |
@@ -845,7 +846,7 @@ Validar nombre, categoría y meta antes de guardar y auditar la modificación.
 |---|---|---|
 | Guardar o cancelar | [A03](#a03) | Transición al sketch indicado |
 | Corregir datos | [A04](#a04) | Permanece en el sketch; muestra estado o validación |
-| Abrir IA | [A05](#a05) | Transición al sketch indicado |
+| Supervisión de IA | [A05](#a05) | Transición al sketch indicado |
 
 </details>
 
@@ -874,7 +875,7 @@ Revisar tasas de aceptación ilustrativas y pausar propuestas con un motivo.
 
 | Acción o condición | Destino | Resultado |
 |---|---|---|
-| Confirmar pausa o reactivación | [A05](#a05) | Permanece en el sketch; muestra estado o validación |
+| Supervisión de IA | [A05](#a05) | Permanece en el sketch; muestra estado o validación |
 | Resumen | [A02](#a02) | Transición al sketch indicado |
 | Catálogo | [A03](#a03) | Transición al sketch indicado |
 | Ver auditoría | [A06](#a06) | Transición al sketch indicado |
@@ -911,7 +912,7 @@ Consultar cambios administrativos registrados en esta demostración.
 | Filtrar eventos | [A06](#a06) | Permanece en el sketch; muestra estado o validación |
 | Resumen | [A02](#a02) | Transición al sketch indicado |
 | Catálogo | [A03](#a03) | Transición al sketch indicado |
-| IA | [A05](#a05) | Transición al sketch indicado |
+| Supervisión de IA | [A05](#a05) | Transición al sketch indicado |
 | Cuentas | [A07](#a07) | Transición al sketch indicado |
 | Configuración | [A08](#a08) | Transición al sketch indicado |
 
@@ -920,18 +921,18 @@ Consultar cambios administrativos registrados en esta demostración.
 <a id="a07"></a>
 
 <details>
-<summary><strong>A07 · Control de accesos</strong> — ficha individual</summary>
+<summary><strong>A07 · Gestión administrativa</strong> — ficha individual</summary>
 
 <img src="../GUI/prototipos/movil/sketches/islas/A07.svg" alt="Sketch A07" width="180">
 
-Administrar el estado de cuentas ficticias identificadas por códigos.
+Reunir cuentas de ejemplo, auditoría y configuración. Los cambios de acceso usan códigos y conservan el historial.
 
 | Campo | Especificación |
 |---|---|
 | Plataforma de destino | PWA con React/Vite y aplicación Flutter |
 | Rol autorizado | Administrador |
 | Módulo | Control |
-| Elementos principales | Códigos de cuentas ficticias, estado, suspensión/reactivación y cuenta protegida |
+| Elementos principales | Códigos de cuentas ficticias, estado, suspensión/reactivación, cuenta protegida y accesos a auditoría y configuración |
 | Requisitos / historias | [RF-09](../requerimientos/catalogo.md#rf-09); [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN01, RN12; [definición](referencia-tecnica.md#reglas-y-condiciones) |
 | Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A07.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A07.svg) |
@@ -945,7 +946,7 @@ Administrar el estado de cuentas ficticias identificadas por códigos.
 | Cambiar estado de cuenta | [A09](#a09) | Transición al sketch indicado |
 | Resumen | [A02](#a02) | Transición al sketch indicado |
 | Catálogo | [A03](#a03) | Transición al sketch indicado |
-| IA | [A05](#a05) | Transición al sketch indicado |
+| Supervisión de IA | [A05](#a05) | Transición al sketch indicado |
 | Auditoría | [A06](#a06) | Transición al sketch indicado |
 | Configuración | [A08](#a08) | Transición al sketch indicado |
 
@@ -958,14 +959,14 @@ Administrar el estado de cuentas ficticias identificadas por códigos.
 
 <img src="../GUI/prototipos/movil/sketches/islas/A08.svg" alt="Sketch A08" width="180">
 
-Ajustar límites de sugerencias respetando el mínimo de confianza y auditar cambios.
+Revisar el alcance del asistente y el contexto permitido; cualquier cambio autorizado requiere motivo y auditoría. Política y contrato pendientes de formalizar.
 
 | Campo | Especificación |
 |---|---|
 | Plataforma de destino | PWA con React/Vite y aplicación Flutter |
 | Rol autorizado | Administrador |
 | Módulo | Control |
-| Elementos principales | Límites académicos de IA, motivo, guardar y cierre de sesión |
+| Elementos principales | Alcance del asistente, contexto autorizado, motivo, guardar y cierre de sesión |
 | Requisitos / historias | [RF-09](../requerimientos/catalogo.md#rf-09); [HU-09](../UHs/README.md#hu-09) |
 | Reglas de navegación / demo | RN08, RN11; [definición](referencia-tecnica.md#reglas-y-condiciones) |
 | Referencia visual | [Sketch móvil](../GUI/prototipos/movil/sketches/islas/A08.svg) · [Sketch PWA](../GUI/prototipos/pwa/sketches/islas/A08.svg) |
@@ -979,7 +980,7 @@ Ajustar límites de sugerencias respetando el mínimo de confianza y auditar cam
 | Validar y guardar | [A08](#a08) | Permanece en el sketch; muestra estado o validación |
 | Resumen | [A02](#a02) | Transición al sketch indicado |
 | Catálogo | [A03](#a03) | Transición al sketch indicado |
-| IA | [A05](#a05) | Transición al sketch indicado |
+| Supervisión de IA | [A05](#a05) | Transición al sketch indicado |
 | Auditoría | [A06](#a06) | Transición al sketch indicado |
 | Cuentas | [A07](#a07) | Transición al sketch indicado |
 | Cerrar sesión | [A01](#a01) | Transición al sketch indicado |

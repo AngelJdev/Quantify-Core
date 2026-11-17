@@ -1,5 +1,13 @@
 # Práctica 07 · Navegación de sketches
 
+**Base vigente para web y móvil:** [revisión final de bocetos](../GUI/BASE-IMPLEMENTACION.md). Son 33 pantallas, 336 láminas y 132 condiciones. La información pública no tiene navegación de sesión; U11 incluye solicitud conversacional, borrador y alternativa manual. Las evidencias anteriores mantienen su fecha.
+
+**IA personal y vistas separadas:** [usuario](../GUI/practica-07.html?role=usuario&fidelity=mockup#U11) · [administración](../GUI/practica-07.html?role=admin&fidelity=mockup#A02). La pestaña IA hábitos del usuario permite personalizar una propuesta y crear el hábito al confirmar. Control IA administrativo supervisa propuestas y estados operativos. Cada catálogo y selector de pantalla permanece en un único rol.
+
+**Corrección de navegación:** [cuatro destinos fijos por rol](../GUI/NAVEGACION.md), disponibles al revisar el acceso válido. Las pestañas de las láminas son interactivas en el recorrido vigente; Gestión reúne cuentas, auditoría y configuración administrativa. La simulación histórica conserva su composición anterior.
+
+**Revisión del 17/11/2026:** el [prototipo navegacional vigente](index.html) recorre las mismas 33 pantallas de sketches, wireframes y mockups, en móvil/PWA. El isotipo oficial de Figma sustituye las firmas distintas. [Hallazgos y correspondencia](../GUI/REVISION-PROTOTIPOS.md). La [simulación funcional anterior](demo.html) conserva su alcance histórico; las pruebas funcionales y capturas previas de este README corresponden a esa simulación.
+
 Esta guía sigue los **15 puntos solicitados**, en el mismo orden. En cada punto encontrarás qué se hizo y un enlace para revisarlo. Los sketches se consultan en GUI; los documentos completos permanecen en sus carpetas.
 
 **[Consultar esta guía dentro del sitio](https://angeljdev.github.io/Quantify-Core/docs/practica-07/revision.html)**
@@ -124,7 +132,7 @@ Se documentan los casos de acceso correcto e incorrecto, recuperación, bloqueo,
 
 ## 9. Diagrama general de navegación
 
-El mapa muestra las **33 pantallas y sus 131 conexiones**. Se pueden filtrar por rol; al seleccionar una pantalla se resaltan sus salidas y aparecen el boceto, las condiciones, las reglas y las funciones relacionadas.
+El mapa muestra las **33 pantallas y sus 132 conexiones**. Se pueden filtrar por rol; al seleccionar una pantalla se resaltan sus salidas y aparecen el boceto, las condiciones, las reglas y las funciones relacionadas.
 
 **[Abrir el diagrama interactivo →](https://angeljdev.github.io/Quantify-Core/docs/practica-07/navegacion.html)**
 

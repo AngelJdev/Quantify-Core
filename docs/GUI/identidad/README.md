@@ -1,5 +1,7 @@
 # Identidad visual de Quantify Core
 
+**Aplicación vigente al 17/11/2026:** el responsable eligió el isotipo de Figma para el catálogo académico y su recorrido. Se reutiliza la Q del nodo `2:174`, sin crear otra marca ni recomponer el imagotipo. [Procedencia, correcciones y límites](../REVISION-PROTOTIPOS.md).
+
 Este README reúne **identidad, paleta, tipografía, iconografía y aplicación de estilos**. La corrección de Tarea 03 organiza seis frames con sus nombres obligatorios, uno por lienzo de Figma. Conserva la paleta, Inter y los archivos originales, y añade una extensión vectorial Q para presentar imagotipo e isotipo independientes. Los cuatro lienzos anteriores se conservan como antecedentes de QUANCORE-26.
 
 [Índice GUI](../README.md) · [Galería](../index.html#identidad) · [Móvil](../prototipos/movil/README.md)

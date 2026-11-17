@@ -4,11 +4,18 @@ const path = require("node:path");
 const vm = require("node:vm");
 const layouts = require("./pantallas.cjs");
 const createPencil = require("./lapiz.cjs");
+const marca = require("./marca.cjs");
+const entrada = require("./entrada.cjs");
+const orientacion = require("./orientacion.cjs");
+const acceso = require("./acceso.cjs");
+const paneles = require("./paneles.cjs");
+const asistente = require("./asistente.cjs");
 const root = path.resolve(__dirname, "../../..");
 const tokens = JSON.parse(
   fs.readFileSync(path.join(root, "packages/design-tokens/preview.json")),
 );
 const geometry = tokens.prototypeIslands;
+const supportGeometry = geometry.support;
 const fontData = fs
   .readFileSync(path.join(root, "docs/GUI/assets/inter-islas.woff2"))
   .toString("base64");
@@ -31,16 +38,14 @@ const navigationVariants = [];
 for (const screen of Object.values(ctx.window.QC.screens).flat()) {
   for (const format of ["movil", "pwa"])
     for (const fidelity of ["sketch", "wireframe"])
-      for (const navigationState of format === "pwa" &&
-      screen.group !== "Acceso" &&
-      screen.id !== "U16"
+      for (const navigationState of format === "pwa" && screen.session
         ? ["expanded", "compact"]
         : ["expanded"]) {
         const mobile = format === "movil",
           viewport = mobile ? geometry.mobile : geometry.pwa,
           w = viewport.width,
           h = viewport.height;
-        const auth = screen.group === "Acceso",
+        const auth = !screen.session,
           splash = screen.id === "U16",
           admin = screen.id.startsWith("A");
         const pad = 100,
@@ -103,14 +108,22 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
         else
           drawing += `<rect width="${w}" height="${h}" fill="#f2f2f2" stroke="#737373"/>`;
         let navBox = null;
-        if (splash) {
+        const entry =
+          entrada({ id: screen.id, mobile, fidelity }) ||
+          acceso({ id: screen.id, mobile, fidelity });
+        if (entry) {
+          elements.push(...entry.elements);
+          drawing += entry.svg;
+          for (const e of entry.elements)
+            dim(w + 20, e.y, w + 20, e.y + e.height, `${e.height} px`);
+        } else if (splash) {
           ui("logo", w / 2 - 105, h / 2 - 40, 210, 80, () => {
-            drawing += `<text x="${w / 2}" y="${h / 2 - 4}" text-anchor="middle" font-size="27" font-weight="700" fill="#555555">QUANTIFY</text><text x="${w / 2}" y="${h / 2 + 27}" text-anchor="middle" font-size="27" font-weight="700" fill="#555555">CORE</text>`;
+            drawing += marca(w / 2 - 24, h / 2 - 24, 48, "#333333");
           });
         } else {
           ui("header", margin, margin, w - margin * 2, headerHeight, () => {
             rect(margin, margin, w - margin * 2, headerHeight);
-            rect(40, 40, 32, 32, 8, "#e5e5e5");
+            drawing += marca(40, 40, 32, "#333333");
             text(mobile ? "Quantify Core" : screen.title, 84, 62, 16);
             if (!mobile && !auth) {
               rect(w - 420, 36, 272, 40, 20, "#f2f2f2");
@@ -119,21 +132,12 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
               text("Perfil", w - 108, 61, 12);
             }
           });
-          let names = admin
-            ? ["Panel", "Catálogo", "IA", "Auditoría", "Cuentas", "Ajustes"]
-            : ["Hoy", "Progreso", "Ideas", "Perfil"];
-          const active = admin
-            ? ({
-                A02: 0,
-                A03: 1,
-                A04: 1,
-                A05: 2,
-                A06: 3,
-                A07: 4,
-                A08: 5,
-                A09: 4,
-              }[screen.id] ?? 0)
-            : ({ U10: 1, U11: 2, U12: 3 }[screen.id] ?? 0);
+          const destinations =
+            ctx.window.QC.navigation[admin ? "admin" : "usuario"];
+          const names = destinations.map((item) => item.label);
+          const active = destinations.findIndex((item) =>
+            item.screens.includes(screen.id),
+          );
           if (!auth) {
             navBox = mobile
               ? {
@@ -174,12 +178,13 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                   : b.width - 24;
                 const x = mobile ? b.x + 12 + i * width : b.x + 12,
                   y = mobile ? b.y + 12 : b.y + 80 + i * 60;
+                drawing += `<g data-nav-to="${destinations[i].to}" data-nav-active="${i === active}">`;
                 ui("nav-target", x, y, width, targetHeight, () => {
                   if (i === active)
                     rect(x, y, width, targetHeight, 24, "#dddddd");
                   if (mobile) {
                     rect(x + width / 2 - 7, y + 6, 14, 14, 4);
-                    text(name, x + width / 2, y + 36, admin ? 9 : 11, "middle");
+                    text(name, x + width / 2, y + 36, 11, "middle");
                   } else if (compact)
                     text(
                       name.slice(0, 2).toUpperCase(),
@@ -190,7 +195,45 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                     );
                   else text(name, x + 16, y + 30);
                 });
+                drawing += "</g>";
               });
+              if (!mobile)
+                ui(
+                  "nav-context",
+                  b.x + 12,
+                  b.y + b.height - 112,
+                  b.width - 24,
+                  88,
+                  () => {
+                    const sx = b.x + 12,
+                      sy = b.y + b.height - 112,
+                      sw = b.width - 24;
+                    rect(sx, sy, sw, 88, 16, "#eeeeee");
+                    rect(
+                      compact ? sx + (sw - 24) / 2 : sx + 16,
+                      sy + 16,
+                      24,
+                      24,
+                      8,
+                    );
+                    if (!compact) {
+                      text(
+                        admin ? "Operación" : "Tu espacio",
+                        sx + 16,
+                        sy + 57,
+                        13,
+                      );
+                      text(
+                        admin
+                          ? "Alcance según tu rol"
+                          : "Tus registros son privados",
+                        sx + 16,
+                        sy + 77,
+                        11,
+                      );
+                    }
+                  },
+                );
             });
           }
           let items = layouts[screen.id].filter(
@@ -205,12 +248,22 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
             ? w - margin * 2
             : overview
               ? (availableW - geometry.columnGap) / 2
-              : Math.min(560, availableW);
+              : auth
+                ? supportGeometry.pwaAuthFormWidth
+                : Math.min(
+                    supportGeometry.pwaContentFormMaxWidth,
+                    Math.floor(
+                      (availableW - supportGeometry.pwaColumnGap) *
+                        supportGeometry.pwaContentFormRatio,
+                    ),
+                  );
           const bx = mobile
             ? margin
             : overview
               ? left
-              : left + (availableW - bw) / 2;
+              : auth
+                ? supportGeometry.pwaAuthInset
+                : left;
           let y = 112,
             column = 0;
           const heights = {
@@ -223,7 +276,25 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
             text: 44,
             link: 44,
           };
-          if (overview) {
+          const context = orientacion[screen.id];
+          if (context) {
+            ui("context-intro", bx, y, bw, 132, () => {
+              rect(bx + 16, y + 8, 24, 24, 8);
+              text(context.title, bx + 16, y + 62, 20);
+              context.intro.forEach((line, i) =>
+                text(line, bx + 16, y + 92 + i * 24, 13),
+              );
+            });
+            y += 152;
+          }
+          if (screen.id === "U11") {
+            for (const e of asistente.elements(bx, bw)) {
+              ui(e.kind, e.x, e.y, e.width, e.height, () => {
+                drawing += asistente.render(e, fidelity);
+              });
+            }
+            y = 728;
+          } else if (overview) {
             const dg = geometry.dashboardGap,
               kpiW = (availableW - dg * 3) / 4;
             const title =
@@ -375,7 +446,7 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                 rect(x, 692, lowerW, 184);
                 text(label, x + 16, 723, 15);
                 wrap(
-                  "Consulta el detalle desde su sección.",
+                  paneles.details[admin ? "admin" : "usuario"][i],
                   x + 16,
                   755,
                   Math.floor((lowerW - 32) / 7),
@@ -387,8 +458,8 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
             dim(w + 20, 240, w + 20, 344, `${geometry.dashboardKpiHeight} px`);
             dim(w + 20, 368, w + 20, 668, "300 px");
           } else if (["U05", "U19", "A11"].includes(screen.id)) {
-            const cardW = mobile ? 342 : 440,
-              cardX = (w - cardW) / 2,
+            const cardW = mobile ? 342 : bw,
+              cardX = mobile ? margin : bx,
               cardY = 148;
             ui("verification-card", cardX, cardY, cardW, 480, () => {
               rect(cardX, cardY, cardW, 480, 24);
@@ -401,7 +472,7 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                 13,
               );
               const slotsW = 6 * 44 + 5 * 6,
-                start = (w - slotsW) / 2;
+                start = cardX + (cardW - slotsW) / 2;
               for (let i = 0; i < 6; i++)
                 ui("code-slot", start + i * 50, cardY + 124, 44, 48, () => {
                   rect(start + i * 50, cardY + 124, 44, 48, 12);
@@ -481,8 +552,17 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                     kind === "button" ? "#dddddd" : "#ffffff",
                   );
                   if (kind === "image") {
-                    drawing += `<path d="M${x + 16} ${y + 16}l${bw - 32} ${height - 32}M${x + bw - 16} ${y + 16}l${32 - bw} ${height - 32}" stroke="#aaaaaa"/>`;
-                    text("Gráfico / imagen", x + 16, y + height / 2);
+                    if (screen.id === "U01")
+                      drawing += marca(
+                        x + (bw - 48) / 2,
+                        y + (height - 48) / 2,
+                        48,
+                        "#333333",
+                      );
+                    else {
+                      drawing += `<path d="M${x + 16} ${y + 16}l${bw - 32} ${height - 32}M${x + bw - 16} ${y + 16}l${32 - bw} ${height - 32}" stroke="#aaaaaa"/>`;
+                      text("Gráfico / imagen", x + 16, y + height / 2);
+                    }
                   } else if (kind === "check") {
                     rect(x + 16, y + 16, 24, 24, 6);
                     wrap(title, x + 52, y + 25, Math.floor((bw - 68) / 7), 13);
@@ -498,6 +578,66 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
             throw new Error(
               `Contenido fuera de área: ${screen.id}/${format}: ${y}`,
             );
+          const content = elements.filter(
+            (e) =>
+              ![
+                "header",
+                "navigation",
+                "nav-target",
+                "nav-toggle",
+                "nav-context",
+              ].includes(e.kind),
+          );
+          const bottom = Math.max(...content.map((e) => e.y + e.height));
+          const limit = mobile
+            ? navBox
+              ? navBox.y - 16
+              : h - margin
+            : h - margin;
+          function support(kind, x, sy, width, height, mode) {
+            ui(kind, x, sy, width, height, () => {
+              drawing += paneles.render({
+                id: screen.id,
+                box: { x, y: sy, width, height },
+                fidelity,
+                mode,
+              });
+            });
+          }
+          if (
+            mobile &&
+            limit - bottom - supportGeometry.gap >=
+              supportGeometry.minimumHeight
+          )
+            support(
+              "support-panel",
+              margin,
+              bottom + supportGeometry.gap,
+              w - margin * 2,
+              limit - bottom - supportGeometry.gap,
+              "mobile",
+            );
+          if (!mobile && !overview) {
+            const sx = bx + bw + supportGeometry.pwaColumnGap,
+              edge = auth ? w - supportGeometry.pwaAuthInset : w - margin;
+            support(
+              "companion-panel",
+              sx,
+              112,
+              edge - sx,
+              h - 136,
+              "companion",
+            );
+            if (limit - bottom - 24 >= 120)
+              support(
+                "support-brief",
+                bx,
+                bottom + 24,
+                bw,
+                limit - bottom - 24,
+                "brief",
+              );
+          }
           dim(0, h + 24, 24, h + 24, "24 px");
           if (!overview && !["U05", "U19", "A11"].includes(screen.id))
             dim(bx, h + 40, bx + bw, h + 40, `${bw} px`);
