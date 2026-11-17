@@ -4,7 +4,7 @@
   "prototypeIslands": {
     "status": "revision-documental-no-productiva",
     "mobile": { "width": 390, "height": 844 },
-    "pwa": { "width": 1280, "height": 900, "status": "provisional-videos-pendientes" },
+    "pwa": { "width": 1280, "height": 900, "status": "revision-visual-pendiente" },
     "margin": 24,
     "gap": 12,
     "columnGap": 24,
@@ -12,6 +12,9 @@
     "navigationHeight": 72,
     "navigationRadius": 36,
     "railWidth": 208,
+    "compactRailWidth": 72,
+    "dashboardGap": 16,
+    "dashboardKpiHeight": 104,
     "targetHeight": 48
   },
   "font": "Inter",

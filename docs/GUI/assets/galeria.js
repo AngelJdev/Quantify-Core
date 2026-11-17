@@ -11,7 +11,7 @@
   const dialog=document.getElementById('viewer'),full=document.getElementById('full-image');
   const requestedFidelity=new URLSearchParams(location.search).get('fidelity');
   let fidelity=['sketch','wireframe','mockup'].includes(requestedFidelity)?requestedFidelity:'sketch',theme=new URLSearchParams(location.search).get('theme')==='dark'?'dark':'light',activeCards=[],current=0,opener;
-  const notes={sketch:'33 sketches por formato · Islas, márgenes de 24 px y cotas exteriores; móvil 390 × 844 px, PWA 1280 × 900 px provisional. El archivo original de Práctica 07 se conserva.',wireframe:'33 wireframes por formato · Misma geometría y recorrido que los sketches; navegación móvil flotante en píldora. Grises e Inter; PWA provisional hasta revisar los videos.',mockup:'26 vistas anteriores, pendientes de alinear con las islas. Claro y oscuro conservan el mismo conteo. Cada imagen indica sus dimensiones nativas; no acredita producto conectado.'};
+  const notes={sketch:'33 sketches por formato · Islas, márgenes de 24 px y cotas exteriores; móvil 390 × 844 px, PWA 1280 × 900 px provisional. El archivo original de Práctica 07 se conserva.',wireframe:'33 wireframes por formato · Misma geometría y recorrido que los sketches; navegación móvil flotante en píldora. Grises e Inter; PWA provisional con referencias de video revisadas.',mockup:'26 vistas anteriores, pendientes de alinear con las islas. Claro y oscuro conservan el mismo conteo. Cada imagen indica sus dimensiones nativas; no acredita producto conectado.'};
   function showImage(index){
     current=(index+activeCards.length)%activeCards.length;
     const card=activeCards[current];full.src=card.dataset.image;full.alt=card.dataset.title;

@@ -2,7 +2,7 @@
 
 Documentación del sistema de diseño, guía de estilos visuales y prototipos de interfaz de usuario de **Quantify Core**. Este módulo centraliza las especificaciones visuales, los componentes de interfaz, las variables de diseño y los prototipos interactivos del producto.
 
-**Para revisar ahora:** [33 wireframes con islas y medidas](practica-07.html?fidelity=wireframe) y [33 sketches correspondientes](practica-07.html?fidelity=sketch), por formato. [Especificación y alcance](ISLAS.md). La PWA es provisional hasta revisar los videos. El selector Etapa conserva los sketches originales de Práctica 07; los mockups previos siguen pendientes de rediseñar y acotar por componente.
+**Para revisar ahora:** [33 wireframes con islas y medidas](practica-07.html?fidelity=wireframe) y [33 sketches correspondientes](practica-07.html?fidelity=sketch), por formato. [Especificación y alcance](ISLAS.md). La PWA es provisional con referencias de video revisadas. El selector Etapa conserva los sketches originales de Práctica 07; los mockups previos siguen pendientes de rediseñar y acotar por componente.
 
 El visor documental ajusta la lámina a la ventana de escritorio y ofrece ampliación y pantalla completa. Comparte navegación, gradiente de fondo y controles con el [centro del proyecto](../../index.html); la presentación se mantiene en [el módulo del portal](../portal/README.md). Las láminas aprobadas se conservan sin regenerarlas.
 
