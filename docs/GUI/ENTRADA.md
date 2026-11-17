@@ -1,5 +1,7 @@
 # Bienvenida y carga · Revisión de composición
 
+**Ampliación posterior:** [revisión general de distribución y contenido](COMPOSICION-GENERAL.md), con login editorial y las restantes vistas. Conserva la bienvenida y la carga aquí documentadas; sustituye los paneles breves iniciales por contenido específico para cada tarea.
+
 **17/11/2026 · Prototipo académico, pendiente de aprobación visual.** [Bienvenida PWA](../practica-07/index.html?format=pwa&fidelity=mockup#usuario/U01) · [Bienvenida móvil](../practica-07/index.html?format=movil&fidelity=mockup#usuario/U01) · [Carga](../practica-07/index.html?fidelity=mockup#usuario/U17).
 
 La revisión sustituye la columna genérica de logo y botones de U01 y los controles simultáneos de carga de U17. Mantiene el inventario, los destinos, el isotipo oficial de Figma, Inter y la paleta. No modifica el archivo remoto de Figma ni la simulación funcional histórica.

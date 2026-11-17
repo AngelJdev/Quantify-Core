@@ -1,5 +1,7 @@
 # Wireframes y sketches · Revisión de islas
 
+**Revisión general del 17/11/2026:** [distribución y contenido útil](COMPOSICION-GENERAL.md). Los formularios PWA, el login y la posición de los paneles se actualizan en las tres fidelidades. Las medidas históricas de tarjetas de verificación y formularios que siguen se conservan como antecedentes; la geometría vigente está en `islas-medidas.json`.
+
 **Composición de entrada del 17/11/2026:** [U01, U17 y siete vistas breves](ENTRADA.md) comparten las nuevas secciones y coordenadas con mockups. El isotipo aparece una vez por pantalla; Splash U16 conserva su composición.
 
 **Corrección del 17/11/2026:** cabecera, bienvenida y Splash reutilizan el isotipo de Figma en monocromático, en las mismas posiciones de mockup. El [prototipo navegacional](../practica-07/index.html) usa los mismos SVG del catálogo. [Registro de correspondencia](REVISION-PROTOTIPOS.md).

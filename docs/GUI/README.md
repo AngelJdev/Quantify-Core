@@ -1,5 +1,7 @@
 # Quantify Core · GUI
 
+**Revisión general:** [distribución y contenido útil en las 33 pantallas](COMPOSICION-GENERAL.md). Login con imagen editorial, columnas PWA y paneles específicos para cada tarea; mismos cambios en las tres fidelidades y el recorrido.
+
 **Rediseño de entrada:** [bienvenida PWA/móvil, carga por etapas y vistas breves](ENTRADA.md), con una sola marca por pantalla y las nuevas composiciones compartidas por las tres fidelidades.
 
 **Revisión del 17/11/2026:** [identidad y correspondencia](REVISION-PROTOTIPOS.md). El [recorrido navegacional vigente](../practica-07/index.html) reutiliza las mismas láminas de las tres fidelidades. La [simulación funcional anterior](../practica-07/demo.html) se conserva como antecedente; su composición no define el prototipo final.

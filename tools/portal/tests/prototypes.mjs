@@ -21,6 +21,26 @@ assert.equal(sheets.length, 344);
 const brands = new Map();
 for (const s of sheets) {
   const svg = await read(s.file);
+  if (s.id==='U02') {
+    const photo=svg.match(/href="data:image\/png;base64,([A-Za-z0-9+/=]+)"/);
+    if(s.fidelity==='mockup') {
+      assert.ok(photo,'fotografía editorial presente');
+      assert.deepEqual(Buffer.from(photo[1],'base64'),await fs.readFile(new URL('docs/GUI/assets/ritual-cotidiano.png',root)),'reutiliza el recurso existente');
+      assert.match(svg,/preserveAspectRatio="xMidYMid slice"/);
+    }else assert.equal(photo,null,'imagen representada estructuralmente en baja fidelidad');
+  }
+  if (s.id !== 'U16') {
+    const body=s.elements.filter(e=>!['header','navigation','nav-target','nav-toggle','nav-context'].includes(e.kind));
+    const bottom=Math.max(...body.map(e=>e.y+e.height));
+    const target=s.format==='movil'&&s.navigation?s.navigation.y-32:s.viewport.height-32;
+    assert.ok(bottom>=target,s.file+' contenido distribuido hasta la zona inferior');
+    for(const panel of body.filter(e=>['support-panel','support-brief','companion-panel'].includes(e.kind))) {
+      for(const other of body.filter(e=>e!==panel)) {
+        const overlap=panel.x<other.x+other.width&&panel.x+panel.width>other.x&&panel.y<other.y+other.height&&panel.y+panel.height>other.y;
+        assert.ok(!overlap,s.file+' panel contextual sin superponer controles');
+      }
+    }
+  }
   if (['U01', 'U17'].includes(s.id)) {
     const extent = Math.max(...s.elements.map(e => e.y + e.height));
     assert.ok(extent >= s.viewport.height - 32, s.file + ' composición aprovecha la altura');

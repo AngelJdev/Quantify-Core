@@ -7,11 +7,14 @@ const createPencil = require("./lapiz.cjs");
 const marca = require("./marca.cjs");
 const entrada = require("./entrada.cjs");
 const orientacion = require("./orientacion.cjs");
+const acceso = require("./acceso.cjs");
+const paneles = require("./paneles.cjs");
 const root = path.resolve(__dirname, "../../..");
 const tokens = JSON.parse(
   fs.readFileSync(path.join(root, "packages/design-tokens/preview.json")),
 );
 const geometry = tokens.prototypeIslands;
+const supportGeometry = geometry.support;
 const fontData = fs
   .readFileSync(path.join(root, "docs/GUI/assets/inter-islas.woff2"))
   .toString("base64");
@@ -106,7 +109,9 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
         else
           drawing += `<rect width="${w}" height="${h}" fill="#f2f2f2" stroke="#737373"/>`;
         let navBox = null;
-        const entry = entrada({ id: screen.id, mobile, fidelity });
+        const entry =
+          entrada({ id: screen.id, mobile, fidelity }) ||
+          acceso({ id: screen.id, mobile, fidelity });
         if (entry) {
           elements.push(...entry.elements);
           drawing += entry.svg;
@@ -200,6 +205,43 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                   else text(name, x + 16, y + 30);
                 });
               });
+              if (!mobile)
+                ui(
+                  "nav-context",
+                  b.x + 12,
+                  b.y + b.height - 112,
+                  b.width - 24,
+                  88,
+                  () => {
+                    const sx = b.x + 12,
+                      sy = b.y + b.height - 112,
+                      sw = b.width - 24;
+                    rect(sx, sy, sw, 88, 16, "#eeeeee");
+                    rect(
+                      compact ? sx + (sw - 24) / 2 : sx + 16,
+                      sy + 16,
+                      24,
+                      24,
+                      8,
+                    );
+                    if (!compact) {
+                      text(
+                        admin ? "Operación" : "Tu espacio",
+                        sx + 16,
+                        sy + 57,
+                        13,
+                      );
+                      text(
+                        admin
+                          ? "Alcance según tu rol"
+                          : "Tus registros son privados",
+                        sx + 16,
+                        sy + 77,
+                        11,
+                      );
+                    }
+                  },
+                );
             });
           }
           let items = layouts[screen.id].filter(
@@ -214,12 +256,22 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
             ? w - margin * 2
             : overview
               ? (availableW - geometry.columnGap) / 2
-              : Math.min(560, availableW);
+              : auth
+                ? supportGeometry.pwaAuthFormWidth
+                : Math.min(
+                    supportGeometry.pwaContentFormMaxWidth,
+                    Math.floor(
+                      (availableW - supportGeometry.pwaColumnGap) *
+                        supportGeometry.pwaContentFormRatio,
+                    ),
+                  );
           const bx = mobile
             ? margin
             : overview
               ? left
-              : left + (availableW - bw) / 2;
+              : auth
+                ? supportGeometry.pwaAuthInset
+                : left;
           let y = 112,
             column = 0;
           const heights = {
@@ -237,7 +289,9 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
             ui("context-intro", bx, y, bw, 132, () => {
               rect(bx + 16, y + 8, 24, 24, 8);
               text(context.title, bx + 16, y + 62, 20);
-              context.intro.forEach((line, i) => text(line, bx + 16, y + 92 + i * 24, 13));
+              context.intro.forEach((line, i) =>
+                text(line, bx + 16, y + 92 + i * 24, 13),
+              );
             });
             y += 152;
           }
@@ -393,7 +447,7 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                 rect(x, 692, lowerW, 184);
                 text(label, x + 16, 723, 15);
                 wrap(
-                  "Consulta el detalle desde su sección.",
+                  paneles.details[admin ? "admin" : "usuario"][i],
                   x + 16,
                   755,
                   Math.floor((lowerW - 32) / 7),
@@ -405,8 +459,8 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
             dim(w + 20, 240, w + 20, 344, `${geometry.dashboardKpiHeight} px`);
             dim(w + 20, 368, w + 20, 668, "300 px");
           } else if (["U05", "U19", "A11"].includes(screen.id)) {
-            const cardW = mobile ? 342 : 440,
-              cardX = (w - cardW) / 2,
+            const cardW = mobile ? 342 : bw,
+              cardX = mobile ? margin : bx,
               cardY = 148;
             ui("verification-card", cardX, cardY, cardW, 480, () => {
               rect(cardX, cardY, cardW, 480, 24);
@@ -419,7 +473,7 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                 13,
               );
               const slotsW = 6 * 44 + 5 * 6,
-                start = (w - slotsW) / 2;
+                start = cardX + (cardW - slotsW) / 2;
               for (let i = 0; i < 6; i++)
                 ui("code-slot", start + i * 50, cardY + 124, 44, 48, () => {
                   rect(start + i * 50, cardY + 124, 44, 48, 12);
@@ -500,7 +554,12 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                   );
                   if (kind === "image") {
                     if (screen.id === "U01")
-                      drawing += marca(x + (bw - 48) / 2, y + (height - 48) / 2, 48, "#333333");
+                      drawing += marca(
+                        x + (bw - 48) / 2,
+                        y + (height - 48) / 2,
+                        48,
+                        "#333333",
+                      );
                     else {
                       drawing += `<path d="M${x + 16} ${y + 16}l${bw - 32} ${height - 32}M${x + bw - 16} ${y + 16}l${32 - bw} ${height - 32}" stroke="#aaaaaa"/>`;
                       text("Gráfico / imagen", x + 16, y + height / 2);
@@ -516,19 +575,70 @@ for (const screen of Object.values(ctx.window.QC.screens).flat()) {
                 dim(w + 20, y, w + 20, y + height, `${height} px`);
               y += height + gap;
             });
-          if (context) {
-            y += 16;
-            ui("context-note", bx, y, bw, 140, () => {
-              rect(bx, y, bw, 140, 24);
-              text(context.noteTitle, bx + 20, y + 34, 15);
-              context.note.forEach((line, i) => text(line, bx + 20, y + 66 + i * 24, 12));
-            });
-            y += 140;
-          }
           if (y > (navBox && mobile ? navBox.y - 16 : h - 24))
             throw new Error(
               `Contenido fuera de área: ${screen.id}/${format}: ${y}`,
             );
+          const content = elements.filter(
+            (e) =>
+              ![
+                "header",
+                "navigation",
+                "nav-target",
+                "nav-toggle",
+                "nav-context",
+              ].includes(e.kind),
+          );
+          const bottom = Math.max(...content.map((e) => e.y + e.height));
+          const limit = mobile
+            ? navBox
+              ? navBox.y - 16
+              : h - margin
+            : h - margin;
+          function support(kind, x, sy, width, height, mode) {
+            ui(kind, x, sy, width, height, () => {
+              drawing += paneles.render({
+                id: screen.id,
+                box: { x, y: sy, width, height },
+                fidelity,
+                mode,
+              });
+            });
+          }
+          if (
+            mobile &&
+            limit - bottom - supportGeometry.gap >=
+              supportGeometry.minimumHeight
+          )
+            support(
+              "support-panel",
+              margin,
+              bottom + supportGeometry.gap,
+              w - margin * 2,
+              limit - bottom - supportGeometry.gap,
+              "mobile",
+            );
+          if (!mobile && !overview) {
+            const sx = bx + bw + supportGeometry.pwaColumnGap,
+              edge = auth ? w - supportGeometry.pwaAuthInset : w - margin;
+            support(
+              "companion-panel",
+              sx,
+              112,
+              edge - sx,
+              h - 136,
+              "companion",
+            );
+            if (limit - bottom - 24 >= 120)
+              support(
+                "support-brief",
+                bx,
+                bottom + 24,
+                bw,
+                limit - bottom - 24,
+                "brief",
+              );
+          }
           dim(0, h + 24, 24, h + 24, "24 px");
           if (!overview && !["U05", "U19", "A11"].includes(screen.id))
             dim(bx, h + 40, bx + bw, h + 40, `${bw} px`);
