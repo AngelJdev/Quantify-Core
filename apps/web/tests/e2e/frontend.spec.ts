@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { mkdirSync, writeFileSync } from "node:fs";
 const fixtureId = "22222222-2222-4222-8222-222222222222";
-const out = "qa/evidencias";
+const out = "test-results/frontend-evidence";
 test("rutas, temas, reflujo, fuentes y accesibilidad básica", async ({
   page,
 }) => {
@@ -16,7 +16,15 @@ test("rutas, temas, reflujo, fuentes y accesibilidad básica", async ({
   });
   const routes = [
     "/",
+    "/instalar",
     "/auth",
+    "/login",
+    "/registro",
+    "/recuperar",
+    "/conoce",
+    "/equipo",
+    "/dashboard",
+    "/conexion",
     "/auth/callback",
     "/sesion/pendiente",
     "/sesion/sin-sesion",
@@ -65,6 +73,12 @@ test("rutas, temas, reflujo, fuentes y accesibilidad básica", async ({
             "/hoy",
             "/nuevo",
             "/auth",
+            "/",
+            "/registro",
+            "/recuperar",
+            "/conoce",
+            "/instalar",
+            "/conexion",
             `/check-ins/${fixtureId}`,
             "/ajustes?seccion=Privacidad",
           ].includes(route)
@@ -107,9 +121,9 @@ test("rutas, temas, reflujo, fuentes y accesibilidad básica", async ({
   expect(fonts.some((f) => f.familyName.startsWith("Inter"))).toBe(true);
   expect(
     await page.evaluate(
-      async () => (await navigator.serviceWorker.getRegistrations()).length,
+      async () => { await navigator.serviceWorker.ready; return (await navigator.serviceWorker.getRegistrations()).length; },
     ),
-  ).toBe(0);
+  ).toBe(1);
   expect(errors).toEqual([]);
   expect(requests).toEqual([]);
   writeFileSync(
@@ -120,7 +134,7 @@ test("rutas, temas, reflujo, fuentes y accesibilidad básica", async ({
         fonts,
         errors,
         apiOrOidcRequests: requests,
-        serviceWorkers: 0,
+        serviceWorkers: 1,
       },
       null,
       2,
@@ -222,10 +236,11 @@ test("errores, navegación móvil y teclado", async ({ page }) => {
     "true",
   );
   await page.goto("/auth");
-  await expect(page.locator("input[type=password]")).toHaveCount(0);
+  await expect(page.getByLabel("Contraseña", { exact: true })).toBeDisabled();
   await expect(
-    page.getByRole("button", { name: "Iniciar sesión con Keycloak" }),
+    page.getByRole("button", { name: "Iniciar sesión", exact: true }),
   ).toBeDisabled();
+  await expect(page.getByRole("link", { name: "Explorar dashboard de ejemplo" })).toBeVisible();
   await page.goto("/sesion/vencida");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Tu sesión terminó",

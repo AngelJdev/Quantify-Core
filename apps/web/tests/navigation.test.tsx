@@ -4,6 +4,13 @@ import { beforeAll, describe, expect, it, vi } from "vitest";
 import { routes } from "@/app/router";
 import { DemoProvider } from "@/app/DemoProvider";
 import { ThemeProvider } from "@/app/ThemeProvider";
+import { PwaProvider } from "@/app/pwa/PwaProvider";
+vi.mock("virtual:pwa-register/react", () => ({
+  useRegisterSW: () => ({
+    offlineReady: [false, () => {}], needRefresh: [false, () => {}],
+    updateServiceWorker: async () => {},
+  }),
+}));
 beforeAll(() => {
   window.matchMedia = vi.fn().mockReturnValue({ matches: false });
   window.scrollTo = vi.fn();
@@ -18,18 +25,26 @@ function open(path: string) {
   return render(
     <ThemeProvider>
       <DemoProvider>
-        <RouterProvider
-          router={createMemoryRouter(routes, { initialEntries: [path] })}
-        />
+        <PwaProvider>
+          <RouterProvider
+            router={createMemoryRouter(routes, { initialEntries: [path] })}
+          />
+        </PwaProvider>
       </DemoProvider>
     </ThemeProvider>,
   );
 }
 describe("Recorridos frontend desconectados", () => {
+  it("permite llegar a la instalación desde bienvenida sin pasar por identidad", async () => {
+    open("/");
+    fireEvent.click(screen.getByRole("link", { name: "Instalar app" }));
+    expect(await screen.findByRole("heading", { level: 1 })).toHaveTextContent("Tu espacio, a un toque");
+    expect(screen.getByRole("link", { name: "Explorar pantallas de ejemplo" })).toHaveAttribute("href", "/hoy");
+  });
   it("comunica el alcance de la demostración desde bienvenida", async () => {
     open("/");
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Cada avance cuenta",
+      "Pequeños hábitos",
     );
     fireEvent.click(
       screen.getByRole("link", { name: "Explorar demostración" }),
@@ -41,11 +56,33 @@ describe("Recorridos frontend desconectados", () => {
       screen.getByText(/Sin autenticación, persistencia ni métricas reales/),
     ).toBeInTheDocument();
   });
-  it("no tiene formularios de contraseña ni concede sesión desde callback", () => {
+  it("recorre bienvenida, login, registro y recuperación sin recoger credenciales", async () => {
+    open("/");
+    fireEvent.click(screen.getByRole("link", { name: "Crear mi cuenta" }));
+    expect(await screen.findByRole("heading", { level: 1 })).toHaveTextContent("Crea un espacio para ti");
+    expect(screen.getByLabelText("Nombre")).toBeDisabled();
+    expect(screen.getByLabelText("Confirmar contraseña")).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Crear cuenta" })).toBeDisabled();
+    fireEvent.click(screen.getByRole("link", { name: "Ya tengo cuenta" }));
+    expect(await screen.findByRole("heading", { level: 1 })).toHaveTextContent("Qué bueno verte de nuevo");
+    expect(screen.getByLabelText("Contraseña", { exact: true })).toBeDisabled();
+    fireEvent.click(screen.getByRole("link", { name: "¿Olvidaste tu contraseña?" }));
+    expect(await screen.findByRole("heading", { level: 1 })).toHaveTextContent("Volvamos a tu rutina");
+    expect(screen.getByRole("button", { name: "Enviar enlace de recuperación" })).toBeDisabled();
+  });
+  it("conserva cuatro destinos y la sección activa en vistas hijas", () => {
+    open("/detalle/22222222-2222-4222-8222-222222222222");
+    const nav = screen.getByRole("navigation", { name: "Navegación principal" });
+    expect([...nav.querySelectorAll("a")].map(a => a.textContent)).toEqual(["Hoy", "Progreso", "IA hábitos", "Perfil"]);
+    expect(nav.querySelector('[aria-current="page"]')).toHaveAttribute("href", "/hoy");
+    const toggle = screen.getByRole("button", { name: "Contraer navegación" });
+    fireEvent.click(toggle);
+    expect(screen.getByRole("button", { name: "Expandir navegación" })).toHaveAttribute("aria-expanded", "false");
+  });
+  it("no tiene formularios de contraseña ni concede sesión desde callback sin configuración", async () => {
     const { container } = open("/auth/callback?code=no-procesar");
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Retorno OIDC no configurado",
-    );
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Hábitos de tu cuenta");
+    expect(await screen.findByRole("status")).toHaveTextContent("Falta configurar");
     expect(container.querySelector("input[type=password]")).toBeNull();
     expect(screen.queryByText("no-procesar")).toBeNull();
   });

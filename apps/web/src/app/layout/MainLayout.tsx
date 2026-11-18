@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import { Brand } from "@/shared/ui/Brand";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { Icon, type IconName } from "@/shared/ui/Icon";
-import { useTheme } from "../ThemeProvider";
-import { useDemo } from "../DemoProvider";
+import { Wordmark, ThemeButton, islandStyle } from "@/shared/ui/Prototype";
 const navigation: [string, string, IconName][] = [
   ["hoy", "Hoy", "hoy"],
+  ["analisis", "Progreso", "analisis"],
+  ["sugerencias", "IA hábitos", "sugerencias"],
+  ["ajustes", "Perfil", "perfil"],
+];
+const shortcuts: [string, string, IconName][] = [
   ["habitos", "Mis hábitos", "habitos"],
-  ["analisis", "Análisis", "analisis"],
   ["historial", "Historial", "historial"],
-  ["sugerencias", "Sugerencias", "sugerencias"],
   ["avisos", "Avisos", "recordatorio"],
-  ["ajustes", "Ajustes", "ajustes"],
 ];
 const titles: Record<string, [string, string]> = {
   hoy: [
@@ -62,15 +62,21 @@ const titles: Record<string, [string, string]> = {
 export function MainLayout() {
   const { pathname } = useLocation(),
     page = pathname.split("/")[1];
-  const [title, description] = titles[page] || [
+  const [title, description] = titles[page === "dashboard" ? "hoy" : page] || [
     "Esta página no está aquí",
     "El enlace no corresponde a una vista disponible.",
   ];
-  const { dark, setDark } = useTheme(),
-    { state } = useDemo();
+  const section = ["analisis", "historial"].includes(page)
+    ? "analisis"
+    : page === "sugerencias"
+      ? "sugerencias"
+      : ["ajustes", "avisos"].includes(page)
+        ? "ajustes"
+        : "hoy";
   const heading = useRef<HTMLHeadingElement>(null),
     menu = useRef<HTMLDialogElement>(null);
-  const [online, setOnline] = useState(navigator.onLine);
+  const [compact, setCompact] = useState(false),
+    [online, setOnline] = useState(navigator.onLine);
   useEffect(() => {
     const change = () => setOnline(navigator.onLine);
     window.addEventListener("online", change);
@@ -81,22 +87,43 @@ export function MainLayout() {
     };
   }, []);
   useEffect(() => {
-    document.title = `${title} · Quantify Core`;
+    document.title = title + " · Quantify Core";
     heading.current?.focus();
     menu.current?.close();
     window.scrollTo(0, 0);
   }, [pathname, title]);
-  function navigationLinks() {
+  function primaryLinks() {
     return navigation.map(([path, label, icon]) => (
-      <NavLink to={`/${path}`} key={path} onClick={() => menu.current?.close()}>
+      <Link
+        to={"/" + path}
+        key={path}
+        aria-current={section === path ? "page" : undefined}
+        title={label}
+        onClick={() => menu.current?.close()}
+      >
         <Icon name={icon} />
-        <span>{label}</span>
-        {path === "avisos" && !state.read && <b className="nav-count">2</b>}
-      </NavLink>
+        <span className="rail-label">{label}</span>
+      </Link>
+    ));
+  }
+  function shortcutLinks() {
+    return shortcuts.map(([path, label, icon]) => (
+      <Link
+        to={"/" + path}
+        key={path}
+        title={label}
+        onClick={() => menu.current?.close()}
+      >
+        <Icon name={icon} />
+        <span className="rail-label">{label}</span>
+      </Link>
     ));
   }
   return (
-    <div className="app-shell">
+    <div
+      className={"island-app " + (compact ? "rail-compact" : "")}
+      style={islandStyle}
+    >
       <a
         href="#content"
         className="skip-link"
@@ -107,107 +134,87 @@ export function MainLayout() {
       >
         Saltar al contenido
       </a>
-      <aside
-        className="sidebar desktop-sidebar"
-        aria-label="Navegación de escritorio"
-      >
-        <Link className="brand-link" to="/hoy">
-          <Brand dark={dark} />
-        </Link>
-        <div className="workspace-label">
-          MI ESPACIO <span>DEMO</span>
-        </div>
-        <nav aria-label="Navegación principal">{navigationLinks()}</nav>
-        <div className="sidebar-bottom">
-          <div className="local-label">
-            <span />
-            Fixtures temporales
-          </div>
-          <p>
-            Pequeños hábitos.
-            <br />
-            Un cambio que permanece.
-          </p>
-          <Brand dark={dark} enterprise />
-          <Link className="text-link" to="/auth">
-            Identidad y acceso
-          </Link>
-        </div>
-      </aside>
-      <dialog
-        ref={menu}
-        className="navigation-dialog"
-        aria-labelledby="menu-title"
-      >
-        <div className="section-heading">
-          <h2 id="menu-title">Tu espacio</h2>
-          <button
-            className="icon-button"
-            onClick={() => menu.current?.close()}
-            aria-label="Cerrar menú"
-          >
-            <Icon name="cancelar" />
-          </button>
-        </div>
-        <Brand dark={dark} />
-        <nav aria-label="Menú móvil">{navigationLinks()}</nav>
+      <header className="island-header app-header">
         <Link
-          className="button secondary"
-          to="/auth"
-          onClick={() => menu.current?.close()}
+          to="/hoy"
+          className="personal-mark"
+          aria-label="Tu espacio personal"
         >
-          Identidad y acceso
+          <Wordmark personal />
         </Link>
-      </dialog>
-      <div className="workspace">
-        <header className="topbar">
+        <div className="top-actions">
+          <span className="island-demo-label">VISTA PREVIA</span>
+          <span className="connection">
+            <i className={online ? "" : "offline"} />
+            {online ? "En línea" : "Sin conexión"}
+          </span>
+          <ThemeButton />
+          <Link className="icon-button" to="/avisos" aria-label="Ver avisos">
+            <Icon name="recordatorio" />
+          </Link>
+          <Link
+            className="island-profile"
+            to="/ajustes"
+            aria-label="Perfil de ejemplo"
+          >
+            <Icon name="perfil" />
+          </Link>
           <button
-            className="icon-button menu-button"
+            className="icon-button mobile-menu-trigger"
             onClick={() => menu.current?.showModal()}
             aria-label="Abrir menú"
             aria-haspopup="dialog"
           >
             <Icon name="menu" />
           </button>
-          <div className="breadcrumb">
-            Mi espacio <span>/</span>{" "}
-            <strong>
-              {navigation.find((n) => n[0] === page)?.[1] || "Hábitos"}
-            </strong>
+        </div>
+      </header>
+      <div className="island-body">
+        <aside className="island-rail" aria-label="Navegación de escritorio">
+          <button
+            className="rail-toggle"
+            aria-label={compact ? "Expandir navegación" : "Contraer navegación"}
+            aria-expanded={!compact}
+            aria-controls="primary-navigation"
+            onClick={() => setCompact(!compact)}
+          >
+            <Icon name="menu" />
+            <span className="rail-label">Contraer</span>
+          </button>
+          <nav id="primary-navigation" aria-label="Navegación principal">
+            {primaryLinks()}
+          </nav>
+          <div className="rail-shortcuts">
+            <p className="rail-label">EN TU ESPACIO</p>
+            <nav aria-label="Accesos rápidos">{shortcutLinks()}</nav>
           </div>
-          <div className="top-actions">
-            <span className="connection">
-              <i className={online ? "" : "offline"} />
-              {online ? "En línea" : "Sin conexión"}
-            </span>
-            <button
-              className="icon-button"
-              onClick={() => setDark(!dark)}
-              aria-label={`Cambiar a tema ${dark ? "claro" : "oscuro"}`}
-            >
-              <Icon name="descanso" />
-            </button>
-            <Link className="icon-button" to="/avisos" aria-label="Ver avisos">
-              <Icon name="recordatorio" />
-            </Link>
-            <Link className="profile-link" to="/ajustes">
-              <span className="avatar">A</span>
-              <span>
-                Alex<small>Perfil de ejemplo</small>
-              </span>
-            </Link>
+          <div className="rail-privacy">
+            <Icon name="privacidad" />
+            <div className="rail-label">
+              <strong>Tu espacio</strong>
+              <p>
+                Datos de ejemplo.
+                <br />
+                Solo durante esta visita.
+              </p>
+              <Link to="/instalar">Instalar app ↗</Link>
+            </div>
           </div>
-        </header>
-        <main id="content">
+        </aside>
+        <main id="content" className="island-content">
           <div className="page-heading">
             <div>
-              <div className="eyebrow">QUANTIFY CORE · TU ESPACIO PERSONAL</div>
+              <div className="eyebrow">
+                {page === "hoy" || page === "dashboard"
+                  ? "UN MOMENTO PARA TI"
+                  : "QUANTIFY CORE · TU ESPACIO"}
+              </div>
               <h1 ref={heading} tabIndex={-1}>
                 {title}
               </h1>
               <p>{description}</p>
             </div>
-            {["hoy", "habitos"].includes(page) && (
+            {["hoy", "habitos", "dashboard"].includes(page) && (
               <Link className="button primary" to="/nuevo">
                 <Icon name="crear" />
                 Crear hábito
@@ -229,20 +236,35 @@ export function MainLayout() {
           <footer className="page-footer">
             <span>Quantify Core · A tu ritmo.</span>
             <Link to="/ajustes?seccion=Privacidad">Tu privacidad</Link>
+            <Link to="/">Volver a bienvenida</Link>
           </footer>
         </main>
       </div>
-      <nav className="mobile-nav" aria-label="Navegación móvil">
-        {navigation
-          .filter((n) =>
-            ["hoy", "habitos", "analisis", "avisos", "ajustes"].includes(n[0]),
-          )
-          .map(([path, label, icon]) => (
-            <NavLink key={path} to={`/${path}`}>
-              <Icon name={icon} />
-              <span>{label === "Mis hábitos" ? "Hábitos" : label}</span>
-            </NavLink>
-          ))}
+      <dialog
+        ref={menu}
+        className="navigation-dialog"
+        aria-labelledby="menu-title"
+      >
+        <div className="section-heading">
+          <h2 id="menu-title">Tu espacio</h2>
+          <button
+            className="icon-button"
+            onClick={() => menu.current?.close()}
+            aria-label="Cerrar menú"
+          >
+            <Icon name="cancelar" />
+          </button>
+        </div>
+        <nav aria-label="Menú móvil">
+          {primaryLinks()}
+          {shortcutLinks()}
+          <Link to="/instalar">Instalar app</Link>
+          <Link to="/login">Ver inicio de sesión</Link>
+          <Link to="/">Bienvenida</Link>
+        </nav>
+      </dialog>
+      <nav className="island-mobile-nav" aria-label="Navegación móvil">
+        {primaryLinks()}
       </nav>
     </div>
   );
