@@ -1,0 +1,13 @@
+{
+  "verifiedAt": "2026-11-20T18:18:28.057Z",
+  "base": "http://localhost:5173",
+  "checks": [
+    "Nginx, deep links, manifest/icons, Chrome installability, service worker",
+    "offline static shell; no API/identity/token URLs in cache",
+    "Compose profile task succeeds and is idempotent",
+    "real React Code+PKCE, profile/habits 200, callback cleaned, no persisted JWT, logout",
+    "real React missing profile 403, visible error, logout"
+  ],
+  "syntheticUsersRemoved": 2,
+  "limits": "Local Docker/Chrome only; no production deployment or manual OS installation. No authenticated screenshots."
+}

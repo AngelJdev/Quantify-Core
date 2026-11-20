@@ -52,6 +52,8 @@ El harness crea dos cuentas IdP sintéticas y sus perfiles; conserva historial S
 
 ## Ejecutar API y web
 
+**Todo el entorno base en Docker:** seguir el [README principal](../../README.md#instalación-y-ejecución), que incluye inicialización sin Node en el host, migraciones, API, frontend compilado/PWA, perfiles y capturas. Con Node disponible, `node scripts/dev-base.mjs docker-migrate` ejecuta las migraciones en Docker y `node scripts/dev-base.mjs docker-up` inicia/reconstruye PostgreSQL, Keycloak, API y web estática. Preparar las migraciones antes del primer `docker-up`; ese comando no las ejecuta automáticamente.
+
 La web también puede ejecutarse en Docker, conservando `http://localhost:5173` y actualización al guardar:
 
 ```powershell

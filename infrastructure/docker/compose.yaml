@@ -1,5 +1,43 @@
 name: quantify-core-dev
 services:
+  web-static:
+    profiles: [web-static]
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/web.Dockerfile
+    ports:
+      - "127.0.0.1:5173:8080"
+    healthcheck:
+      test: [CMD, wget, -q, --spider, http://127.0.0.1:8080/]
+      interval: 5s
+      timeout: 4s
+      retries: 12
+  migrate:
+    profiles: [tools]
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/api.Dockerfile
+      target: migration
+    environment:
+      DATABASE_URL: postgresql://quantify_owner:${POSTGRES_PASSWORD:?Run init}@postgres:5432/quantify_core_dev
+      CORE_RUNTIME_PASSWORD: ${CORE_RUNTIME_PASSWORD:?Run init}
+    depends_on:
+      postgres:
+        condition: service_healthy
+  profile:
+    profiles: [tools]
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/api.Dockerfile
+      target: migration
+    command: [node, db/provision-profile.cjs]
+    environment:
+      DATABASE_URL: postgresql://quantify_api:${CORE_RUNTIME_PASSWORD:?Run init}@postgres:5432/quantify_core_dev
+      KEYCLOAK_ISSUER: http://localhost:8180/realms/quantify
+      KEYCLOAK_AUDIENCE: quantify-api
+    depends_on:
+      postgres:
+        condition: service_healthy
   web:
     profiles: [web]
     build:

@@ -35,7 +35,7 @@ Compose proporciona exclusivamente las cuatro variables públicas de API/Keycloa
 node scripts/dev-base.mjs web-stop
 ```
 
-Esta modalidad ejecuta Vite de desarrollo; la PWA instalable se revisa con `pwa:preview` en el host según la guía anterior. No es una imagen de producción ni habilita escrituras o sincronización offline.
+Esta modalidad ejecuta Vite de desarrollo. Para revisar el frontend compilado/PWA en Docker, ejecutar desde la raíz `node scripts/dev-base.mjs web-static`: detiene la alternativa de desarrollo y sirve el build con Nginx en el mismo puerto 5173. `web-docker` permite volver a Vite; `web-stop` detiene ambas alternativas. El build estático no monta fuentes y debe reconstruirse después de cambios. Las variables públicas OIDC/API se fijan con argumentos de build de `web.Dockerfile`; no se leen secretos ni `.env.local`. No habilita escrituras ni sincronización offline. [Arranque completo, instalación, acceso real y capturas](../../README.md#instalación-y-ejecución).
 
 Node.js 24.x (validado con 24.14.1) y npm 11.x (validado con 11.11.0). Desde `apps/web`:
 
