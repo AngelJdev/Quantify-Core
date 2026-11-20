@@ -4,6 +4,8 @@
 
 ## Tokens materializados para los prototipos
 
+La extensión [experience.css](experience.css) del 20/11/2026 centraliza curvas, tiempos y material óptico opcional para la PWA. Todos sus colores derivan de los roles de `themes.css`; no cambia el catálogo de identidad. [Preferencias, accesibilidad y alcance](../../docs/diseno/materiales-movimiento.md).
+
 La revisión **0.4.2 del 17/11/2026** añade `prototypeIslands.support` para columnas y paneles de contexto, y `prototypeEntry.typography.access` para el login editorial (Inter 700, 25/32 móvil y 28/36 PWA). La [revisión general de pantallas](../../docs/GUI/COMPOSICION-GENERAL.md) registra medidas, imagen reutilizada y comprobaciones. Se conservan los colores y ocho estilos base.
 
 La revisión **0.4.1 del 17/11/2026** añade `prototypeEntry` para las composiciones académicas de bienvenida y carga: titulares de bienvenida de 34/43 px en móvil y 52/64 en PWA; carga de 32/40 y 42/54, todos Inter 700. Centraliza también órbita de 3000 ms y pulso de 2400 ms; ambas animaciones se desactivan con movimiento reducido. Es una extensión de presentación de estas dos vistas, sin cambiar los ocho estilos base ni la paleta. [Composición, procedencia y alcance](../../docs/GUI/ENTRADA.md).

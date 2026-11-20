@@ -9,6 +9,7 @@ import { session } from "@/features/identity/data/session";
 import "./styles.css";
 import "./consolidation.css";
 import "./islands.css";
+import "./appearance/experience.css";
 
 // The adapter consumes/removes protocol parameters before constructing the router.
 if (location.pathname === "/auth/callback") await session.initialize();

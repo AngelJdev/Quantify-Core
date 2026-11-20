@@ -1,5 +1,7 @@
 # Sistema de diseño
 
+**Movimiento y material opcional · 20/11/2026:** [Liquid Glass configurable, presentación sólida y preferencias de accesibilidad](materiales-movimiento.md). La PWA mantiene la estructura y colores canónicos; los tokens de experiencia se centralizan junto a los de identidad.
+
 **Distribución general del 17/11/2026:** [composición de las 33 pantallas](../GUI/COMPOSICION-GENERAL.md), con login editorial, columnas adaptadas al rail y paneles de contexto por tarea. Los valores nuevos de geometría y titular de acceso se centralizan en tokens 0.4.2.
 
 **Composición de entrada · 17/11/2026:** [bienvenida, carga y vistas breves](../GUI/ENTRADA.md). La extensión de titulares y movimiento del prototipo está centralizada en `packages/design-tokens/preview.json.prototypeEntry`; no redefine la paleta ni los ocho estilos base de la guía. La actualización del archivo remoto de Figma sigue pendiente.

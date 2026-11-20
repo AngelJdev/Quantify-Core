@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useDemo } from "@/app/DemoProvider";
 import { useTheme } from "@/app/ThemeProvider";
 import { Icon } from "@/shared/ui/Icon";
+import { AppearanceControls } from "@/app/appearance/AppearanceControls";
 export function ProfilePage() {
   const { state, dispatch } = useDemo(),
     { dark, setDark } = useTheme(),
@@ -104,7 +105,7 @@ export function ProfilePage() {
         </div>
       )}
       {tab === "Apariencia" && (
-        <section className="card form-card">
+        <section className="card form-card appearance-settings">
           <h2>Una luz para cada momento</h2>
           <div className="theme-options">
             {[false, true].map((d) => (
@@ -124,6 +125,7 @@ export function ProfilePage() {
               </button>
             ))}
           </div>
+          <AppearanceControls />
         </section>
       )}
       {tab === "Privacidad" && (
