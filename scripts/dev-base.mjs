@@ -31,9 +31,12 @@ try {
     ];
     files.forEach((f, i) => writeFileSync(resolve(root, f), contents[i], { flag: 'wx', mode: 0o600 }));
     console.log('Private configuration created; values omitted. Writes are disabled by default.');
-  } else if (['up', 'stop', 'status', 'config'].includes(command)) {
+  } else if (['up', 'stop', 'status', 'config', 'web-docker', 'web-stop'].includes(command)) {
     localEnv(files[0]);
-    const args = { up: ['up', '-d'], stop: ['stop'], status: ['ps'], config: ['config', '--quiet'] }[command];
+    const args = { up: ['up', '-d'], stop: ['--profile', 'web', 'stop'], status: ['ps'],
+      config: ['--profile', 'web', 'config', '--quiet'],
+      'web-docker': ['--profile', 'web', 'up', '-d', '--build', 'web'],
+      'web-stop': ['--profile', 'web', 'stop', 'web'] }[command];
     run('docker', ['compose', '--env-file', resolve(root, files[0]), '-f', resolve(root, 'infrastructure/docker/compose.yaml'), ...args]);
   } else if (command === 'migrate') {
     localEnv(files[2]);
@@ -56,7 +59,7 @@ try {
   } else if (command === 'web') {
     run(process.execPath, ['node_modules/vite/bin/vite.js', '--host', 'localhost', '--port', '5173', '--strictPort'], resolve(root, 'apps/web'));
   } else {
-    throw new Error('Usage: node scripts/dev-base.mjs init|config|up|migrate|api|web|status|stop');
+    throw new Error('Usage: node scripts/dev-base.mjs init|config|up|migrate|api|web|web-docker|web-stop|status|stop');
   }
 } catch (error) {
   // Do not print nested driver errors, DSNs or command environment.

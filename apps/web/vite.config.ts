@@ -91,6 +91,7 @@ self.addEventListener("activate", event => event.waitUntil((async () => {
   resolve: { alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) } },
   server: {
     host: "localhost",
+    watch: process.env.QC_DOCKER_POLLING === "1" ? { usePolling: true, interval: 500 } : undefined,
     headers: { "Cache-Control": "no-store" },
     fs: { allow: [".", "../../docs/GUI/assets", "../../docs/GUI/identidad/guia/modelo.json", "../../packages/design-tokens", "../../assets/images"] },
   },

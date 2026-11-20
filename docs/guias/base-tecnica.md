@@ -52,6 +52,14 @@ El harness crea dos cuentas IdP sintéticas y sus perfiles; conserva historial S
 
 ## Ejecutar API y web
 
+La web también puede ejecutarse en Docker, conservando `http://localhost:5173` y actualización al guardar:
+
+```powershell
+node scripts/dev-base.mjs web-docker
+```
+
+Este comando construye/inicia solo el frontend y puede acompañar a la API del host o al perfil `app`/monitoreo ya activo. No ejecutar a la vez `web` del host en el mismo puerto. No requiere instalar dependencias web en Windows para servir la demo. `web-stop` detiene solo ese contenedor; `stop` incluye el frontend y conserva datos. [Configuración, dependencias y límites](../../apps/web/README.md#desarrollo-con-docker).
+
 En terminales separadas:
 
 ```powershell

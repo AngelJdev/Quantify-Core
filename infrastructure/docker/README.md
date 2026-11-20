@@ -1,6 +1,20 @@
 # Contenedores y entorno local
 
-**Implementación local (16/11/2026):** [compose.yaml](compose.yaml), [.env.example](.env.example) y [api.Dockerfile](api.Dockerfile) preparan PostgreSQL 18.6, Keycloak 26.8.1 y API NestJS, con volúmenes aislados y puertos loopback. [Arranque, pruebas y recuperación](../../docs/guias/base-tecnica.md). API puede ejecutarse en host o en perfil `app`; web se ejecuta en el host. Despliegue público pendiente.
+## Frontend de desarrollo en Docker · 20/11/2026
+
+El perfil opcional `web` añade React/Vite a la misma red y proyecto Compose, en `http://localhost:5173`. Desde la raíz:
+
+```powershell
+node scripts/dev-base.mjs config
+node scripts/dev-base.mjs web-docker
+node scripts/dev-base.mjs status
+```
+
+Requiere Docker activo y `infrastructure/docker/.env.local` existente. En una instalación nueva, preparar la base con `init`, `up` y `migrate` según la [guía base](../../docs/guias/base-tecnica.md). `web-docker` solo construye/inicia el frontend, sin recrear API ni monitoreo. Detener Vite del host si ocupa 5173. La imagen `web.dev.Dockerfile` instala con lockfile en Node 24.14.1, ejecuta como `node` y recibe fuentes/recursos mediante montajes de solo lectura. No incorpora secretos ni dependencias Windows. Usa polling para actualización al guardar.
+
+`web-stop` detiene solo web; `stop` incluye web y conserva los volúmenes de datos. Repetir `web-docker` tras cambiar dependencias. La configuración pública del navegador está explícita en `environment` de Compose; los `.env.local` no se montan. API/Keycloak siguen en `localhost:3000/8180` porque las peticiones salen del navegador. El frontend no depende del arranque de API para mostrar la demo. La lectura `/conexion` exige servicios, cuenta y perfil habilitados. No es una imagen para producción ni una prueba de PWA instalable; ver [web](../../apps/web/README.md#desarrollo-con-docker).
+
+**Implementación local (16/11/2026, ampliada el 20/11):** [compose.yaml](compose.yaml), [.env.example](.env.example) y [api.Dockerfile](api.Dockerfile) preparan PostgreSQL 18.6, Keycloak 26.8.1 y API NestJS, con volúmenes aislados y puertos loopback. [Arranque, pruebas y recuperación](../../docs/guias/base-tecnica.md). API puede ejecutarse en host o en perfil `app`; web puede ejecutarse en host o en perfil `web`. Despliegue público pendiente.
 
 Esta carpeta definirá cómo construir imágenes y levantar las dependencias de Quantify Core para desarrollo y pruebas. El resultado esperado es que un integrante nuevo pueda preparar el entorno siguiendo una única guía y obtener los mismos componentes y versiones que el resto del equipo.
 

@@ -18,6 +18,25 @@ Para revisar la PWA instalable sin depender de API o Keycloak, desde `apps/web`:
 
 ## Ejecutar y verificar
 
+### Desarrollo con Docker
+
+Desde la raíz del repositorio, con Docker Desktop iniciado y la configuración local base preparada:
+
+```powershell
+node scripts/dev-base.mjs web-docker
+node scripts/dev-base.mjs status
+```
+
+Abrir **http://localhost:5173/**. `web-docker` construye la imagen e inicia solo `web`; se puede usar junto al entorno API/monitoreo ya iniciado. Detener antes cualquier Vite del host que ocupe 5173. Node y las dependencias web se ejecutan en el contenedor como usuario sin privilegios. Los fuentes y recursos canónicos se montan en solo lectura; las dependencias Linux quedan en la imagen, separadas de `node_modules` de Windows. Polling de 500 ms permite detectar cambios al guardar en Windows/OneDrive. Después de cambiar `package.json` o el lockfile, repetir `web-docker` para reconstruir.
+
+Compose proporciona exclusivamente las cuatro variables públicas de API/Keycloak de la topología local; no monta los `.env.local`. Las solicitudes parten del navegador hacia `localhost:3000` y `localhost:8180`, conservando callback y CORS de 5173. `/conexion` sigue requiriendo servicios activos y cuenta/perfil habilitados. Para modificar esos valores en esta modalidad, editar `environment` de `web` y repetir `web-docker`.
+
+```powershell
+node scripts/dev-base.mjs web-stop
+```
+
+Esta modalidad ejecuta Vite de desarrollo; la PWA instalable se revisa con `pwa:preview` en el host según la guía anterior. No es una imagen de producción ni habilita escrituras o sincronización offline.
+
 Node.js 24.x (validado con 24.14.1) y npm 11.x (validado con 11.11.0). Desde `apps/web`:
 
 ```powershell
