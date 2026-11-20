@@ -14,7 +14,7 @@ test("bienvenida, acceso visual y dashboard conservan la composición en islas",
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Pequeños hábitos.Grandes cambios.",
+    "Lo que haces.También cuenta.",
   );
   await expect(
     page.getByRole("img", {
@@ -38,9 +38,23 @@ test("bienvenida, acceso visual y dashboard conservan la composición en islas",
   await page.getByRole("link", { name: "Ya tengo cuenta" }).click();
   await expect(page).toHaveURL(/\/login$/);
   await page
-    .getByRole("link", { name: "Explorar dashboard de ejemplo" })
+    .getByRole("link", { name: "Explorar demostración" })
     .click();
   await expect(page.locator(".dashboard-kpi")).toHaveCount(4);
+  expect(
+    await page
+      .locator(".dashboard-kpi")
+      .first()
+      .evaluate((element) => getComputedStyle(element).animationName),
+  ).toBe("none");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  expect(
+    await page
+      .locator(".dashboard-kpi")
+      .first()
+      .evaluate((element) => getComputedStyle(element).animationName),
+  ).toBe("dashboard-island-enter");
+  await page.emulateMedia({ reducedMotion: "reduce" });
   const rail = page.locator(".island-rail");
   expect((await rail.boundingBox())!.width).toBe(208);
   const contentBefore = (await page.locator(".island-content").boundingBox())!
@@ -94,4 +108,26 @@ test("bienvenida, acceso visual y dashboard conservan la composición en islas",
   }
   expect(errors).toEqual([]);
   expect(privateRequests).toEqual([]);
+});
+
+test("login y registro caben en un viewport de escritorio habitual", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  for (const route of ["/login", "/registro"]) {
+    await page.goto(route);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    const dimensions = await page.evaluate(() => ({
+      viewportHeight: window.innerHeight,
+      pageHeight: document.documentElement.scrollHeight,
+      viewportWidth: window.innerWidth,
+      pageWidth: document.documentElement.scrollWidth,
+    }));
+    expect(dimensions.pageHeight, route).toBeLessThanOrEqual(
+      dimensions.viewportHeight,
+    );
+    expect(dimensions.pageWidth, route).toBeLessThanOrEqual(
+      dimensions.viewportWidth,
+    );
+  }
 });

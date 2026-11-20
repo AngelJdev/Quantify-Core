@@ -99,20 +99,19 @@ export function WelcomePage() {
       <section className="welcome-hero">
         <div className="welcome-copy">
           <p className="welcome-label">
-            <span /> TU RUTINA. TU PROPIO RITMO.
+            <span /> TU RUTINA, CON CONTEXTO
           </p>
           <h1 tabIndex={-1}>
-            Pequeños hábitos.
+            Lo que haces.
             <br />
-            <span>Grandes cambios.</span>
+            <span>También cuenta.</span>
           </h1>
           <p className="welcome-lead">
-            Dale intención a tu día.
-            <br />Y perspectiva a cada pequeño avance.
+            Organiza tus hábitos y mira tus avances con perspectiva.
           </p>
           <p className="welcome-description">
-            Un espacio para organizar tus hábitos, reconocer tu constancia y
-            construir una rutina que se sienta tuya.
+            Un espacio para construir una rutina que se sienta tuya y se adapte
+            a tu día.
           </p>
           <div className="welcome-actions">
             <Link className="button primary" to="/registro">

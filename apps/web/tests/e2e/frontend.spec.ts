@@ -240,7 +240,7 @@ test("errores, navegación móvil y teclado", async ({ page }) => {
   await expect(
     page.getByRole("button", { name: "Iniciar sesión", exact: true }),
   ).toBeDisabled();
-  await expect(page.getByRole("link", { name: "Explorar dashboard de ejemplo" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Explorar demostración" })).toBeVisible();
   await page.goto("/sesion/vencida");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Tu sesión terminó",

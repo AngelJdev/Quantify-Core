@@ -11,6 +11,8 @@ test("manifiesto, shell offline y exclusión de identidad/API", async ({ page, c
       await new Promise<void>((resolve) => navigator.serviceWorker.addEventListener("controllerchange", () => resolve(), { once: true }));
     }
   });
+  await expect(page.locator("#pwa-notice")).toBeVisible();
+  await expect(page.locator("#pwa-notice")).toHaveCSS("position", "fixed");
   const manifest = await (await page.request.get("/manifest.webmanifest")).json();
   expect(manifest.display).toBe("standalone");
   expect(manifest.lang).toBe("es-MX");
