@@ -1,5 +1,5 @@
 {
-  "verifiedAt": "2026-11-20T18:18:28.057Z",
+  "verifiedAt": "2026-11-20T18:22:58.633Z",
   "base": "http://localhost:5173",
   "checks": [
     "Nginx, deep links, manifest/icons, Chrome installability, service worker",

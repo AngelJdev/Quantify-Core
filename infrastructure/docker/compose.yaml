@@ -86,7 +86,7 @@ services:
       CORE_REVIEW_WRITES_ENABLED: ${CORE_REVIEW_WRITES_ENABLED:-0}
       OBSERVABILITY_ENABLED: "1"
       METRICS_HOST: 0.0.0.0
-      LOKI_PUSH_URL: http://loki:3100/loki/api/v1/push
+      LOKI_PUSH_URL: ""
     ports:
       - "127.0.0.1:3000:3000"
     depends_on:

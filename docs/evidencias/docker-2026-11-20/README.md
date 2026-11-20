@@ -2,7 +2,9 @@
 
 Verificación local del 20/11/2026 en Windows/Docker Desktop con Chrome. [Resultado saneado](verification.json). El [README principal](../../../README.md#instalación-y-ejecución) contiene los comandos de arranque.
 
-Se construyeron las imágenes de API, migraciones y web estática. API y Nginx quedaron saludables; repetir la migración sobre el laboratorio existente produjo `0 new migrations`. Esta ejecución no demuestra preparación en otra máquina ni una instalación SQL desde cero.
+Se construyeron las imágenes de API, migraciones y web estática. API y Nginx quedaron saludables; repetir la migración sobre el laboratorio existente produjo `0 new migrations`.
+
+La revisión de cierre añadió `node scripts/verify-docker-cold-start.mjs`: validó Compose base sin envío a Loki y la composición con monitoreo que lo activa; inicialización dentro de Docker sin sobrescribir archivos; migraciones sobre un PostgreSQL temporal vacío; segunda ejecución sin nuevas migraciones; y cuenta SQL runtime sin superusuario ni permisos para alterar ledger/historial. La prueba no publica puertos ni monta los `.env.local`; al finalizar elimina solo el contenedor, su volumen temporal y la red etiquetados por esa ejecución. No demuestra preparación en otra máquina.
 
 `node scripts/verify-docker-web.mjs` comprobó:
 

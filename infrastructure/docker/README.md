@@ -26,6 +26,8 @@ Preparar primero la configuración y PostgreSQL/Keycloak según el README princi
 
 Ver [evidencia y límites](../../docs/evidencias/docker-2026-11-20/README.md): imagen estática y API saludables, migraciones repetidas sin cambios, aprovisionamiento idempotente, PWA admitida por Chrome, shell offline y sesión real React/Keycloak/API con 200/403 y logout. HTTP local y `start-dev` siguen siendo de laboratorio; dominio, HTTPS, despliegue público, capacidad y recuperación productiva requieren trabajo del destino.
 
+La API base conserva sus métricas pero no intenta enviar logs a un servicio Loki ausente. El archivo adicional de observabilidad activa ese envío al incluir el colector. `node scripts/verify-docker-cold-start.mjs` verifica ambas configuraciones, inicialización sin sobrescritura y migraciones desde un PostgreSQL temporal vacío, sin publicar puertos ni montar configuración privada. Requiere las imágenes Node/PostgreSQL y la imagen de `migrate` ya construida (`node scripts/dev-base.mjs docker-migrate`); elimina solo los recursos temporales etiquetados por esa ejecución.
+
 ## Frontend de desarrollo en Docker · 20/11/2026
 
 El perfil opcional `web` añade React/Vite a la misma red y proyecto Compose, en `http://localhost:5173`. Desde la raíz:
