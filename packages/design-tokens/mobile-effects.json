@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "scope": "flutter-visual-prototype",
+  "glass": { "minimumSigma": 6, "maximumSigma": 14, "defaultIntensity": 0.6 },
+  "motion": { "navigationMs": 340, "pageMs": 360, "responseMs": 220 },
+  "surfaceRadius": 28
+}

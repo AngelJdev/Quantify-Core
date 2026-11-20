@@ -4,6 +4,8 @@
 
 ## Tokens materializados para los prototipos
 
+La extensión [mobile-effects.json](mobile-effects.json) centraliza límites de cristal, radios y tiempos del prototipo Flutter V2. [Generación de Dart/Inter y alcance móvil](../../apps/mobile/docs/prototipo-v2-2026-11-20.md). No redefine la paleta ni convierte los fixtures en configuración de producto.
+
 La revisión **0.4.2 del 17/11/2026** añade `prototypeIslands.support` para columnas y paneles de contexto, y `prototypeEntry.typography.access` para el login editorial (Inter 700, 25/32 móvil y 28/36 PWA). La [revisión general de pantallas](../../docs/GUI/COMPOSICION-GENERAL.md) registra medidas, imagen reutilizada y comprobaciones. Se conservan los colores y ocho estilos base.
 
 La revisión **0.4.1 del 17/11/2026** añade `prototypeEntry` para las composiciones académicas de bienvenida y carga: titulares de bienvenida de 34/43 px en móvil y 52/64 en PWA; carga de 32/40 y 42/54, todos Inter 700. Centraliza también órbita de 3000 ms y pulso de 2400 ms; ambas animaciones se desactivan con movimiento reducido. Es una extensión de presentación de estas dos vistas, sin cambiar los ocho estilos base ni la paleta. [Composición, procedencia y alcance](../../docs/GUI/ENTRADA.md).

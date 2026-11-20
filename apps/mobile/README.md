@@ -1,5 +1,56 @@
 # Aplicación móvil
 
+## Prototipo visual V2 · Liquid Glass · 20/11/2026
+
+La nueva entrada **`lib/main_prototype.dart`** implementa la revisión de los mockups móviles: Bienvenida → Hoy / Progreso / IA hábitos / Perfil; hábitos, creación/edición, detalle, avance absoluto e historial local. La demo anterior del colaborador permanece en `lib/main.dart`, con sus fuentes y pruebas independientes. [Pantallas, capturas, optimizaciones y límites](docs/prototipo-v2-2026-11-20.md).
+
+Desde la raíz, entrar a `apps/mobile`. Entorno verificado: **Flutter 3.47.8 y Dart 3.13.7**; `pubspec.yaml` requiere Dart compatible con 3.13.3. No se añadieron paquetes de estado, efectos ni autenticación.
+
+```powershell
+cd apps/mobile
+flutter pub get
+flutter devices
+# Con un teléfono/emulador Android ya conectado:
+flutter run -d ID_DEL_DISPOSITIVO --target lib/main_prototype.dart
+```
+
+Para revisar la misma UI Flutter en Chrome sin dispositivo Android:
+
+```powershell
+flutter run -d chrome --target lib/main_prototype.dart
+```
+
+Para generar el APK local de demostración y comprobar el proyecto:
+
+```powershell
+flutter analyze
+flutter test
+flutter build apk --debug --target lib/main_prototype.dart
+```
+
+El APK está en `build/app/outputs/flutter-apk/app-debug.apk`. El proyecto conserva su identificador Android y configuración de firma heredados; esto no constituye una aplicación publicada. No se comprobó instalación ni rendimiento en un teléfono físico. `flutter doctor` todavía señala herramientas Android de línea de comandos/licencias por revisar; pese a ello el SDK disponible permitió compilar el APK. No hay emulador configurado en esta máquina.
+
+**Apariencia:** usar el icono de ajustes de la cabecera o **Perfil → Apariencia y Liquid Glass**. Cristal está activo inicialmente y se puede desactivar; intensidad, claro/oscuro/sistema, efectos ligeros y movimiento reducido son configurables. Alto contraste fuerza material sólido, y la reducción de movimiento del dispositivo tiene prioridad. Las preferencias y los hábitos son solo de esta sesión; no se guardan al reiniciar ni se sincronizan.
+
+Para servir una compilación de revisión autocontenida en el navegador:
+
+```powershell
+flutter build web --target lib/main_prototype.dart --no-web-resources-cdn
+py -m http.server 8788 --bind 127.0.0.1 --directory build/web
+```
+
+Abrir http://127.0.0.1:8788/. Es una vista Flutter Web para revisar el diseño móvil, independiente de la PWA React; no se presenta como prueba nativa Android ni como otra PWA instalable. Detener el servidor con Ctrl+C.
+
+**Tokens y fuente:** se generan desde `packages/design-tokens/preview.json`, `mobile-effects.json`, el isotipo canónico y el Inter local. Los `.ttf` y Dart generados se incluyen para ejecutar Flutter sin Python. Para regenerarlos después de cambiar las fuentes canónicas, desde `apps/mobile`:
+
+```powershell
+python -m pip install -r tool/requirements.txt
+python tool/generate_prototype_assets.py
+python tool/generate_prototype_assets.py --check
+```
+
+La generación no descarga fuentes ni crea otra paleta; conserva la licencia Inter junto al asset. El acceso móvil real exige la topología HTTPS/OIDC alcanzable por el dispositivo descrita abajo. Esta entrada no llama a la API ni recibe contraseñas.
+
 **Base de integración (16/11/2026):** [guía técnica compartida](../../docs/guias/base-tecnica.md), API NestJS e identidad verificadas en el host. Se incorporó la demo QUANCORE-29/31 del equipo; su conexión real sigue pendiente. El issuer loopback no sirve automáticamente para un teléfono: definir HTTPS y emisor alcanzable antes de conectar. El responsable del proyecto continuará con frontend móvil/PWA después de estabilizar diseño.
 
 **Estado: demo Flutter integrada desde QUANCORE-29/31.** Contiene fuentes, `pubspec.yaml` y plataformas Android/iOS; no hay sesión OIDC ni peticiones REST implementadas en este cliente. Registros, métricas y medallas son simulaciones locales. [Guía de la demo del colaborador](GUIA-DEMO.md). La guía técnica que sigue orienta la integración pendiente con el producto.
@@ -42,7 +93,7 @@ Es una estructura prevista, no un inventario de implementación. Evitar capas va
 2. Crear el proyecto en una entrega específica con identificadores de aplicación por ambiente; no reutilizar credenciales de producción para demostraciones.
 3. Definir un ejemplo de configuración pública: `API_BASE_URL` con `/api/v1`, `OIDC_ISSUER`, `OIDC_CLIENT_ID` y `OIDC_REDIRECT_URI`. Estos nombres son propuesta, aún no tienen lector implementado.
 4. Registrar retorno OIDC, enlaces de aplicación y orígenes permitidos por plataforma. Los valores empaquetados en una app, incluso mediante `--dart-define`, no son secretos.
-5. Documentar en esa entrega los comandos reales de dependencias, ejecución y builds por flavor. Con proyecto creado, incorporar `flutter analyze`, `flutter test` y pruebas de integración a sus validaciones; actualmente no hay aplicación sobre la cual ejecutarlos.
+5. Los comandos ejecutables del prototipo están al inicio. `flutter analyze` y `flutter test` cubren las bases locales existentes; flavors, pruebas integradas de servicios y publicación móvil siguen pendientes.
 
 ## Sesión y permisos
 

@@ -110,6 +110,12 @@ En Flutter, probar TalkBack/VoiceOver, escalado de texto, etiquetas y API de pru
 
 ## Entrega y evolución
 
+### Material y movimiento del prototipo Flutter V2
+
+El [prototipo móvil V2](../../apps/mobile/docs/prototipo-v2-2026-11-20.md) conserva los colores y geometría de `preview.json`. [mobile-effects.json](../../packages/design-tokens/mobile-effects.json), versión 1 y alcance `flutter-visual-prototype`, define radio de superficie 28, sigma de desenfoque 6–14 e intensidad inicial 0.6; navegación 340 ms, entrada de página 360 ms y respuesta 220 ms. Son valores de demostración, pendientes de aprobación para producto.
+
+Liquid Glass es opcional: luz, bordes y transparencia, con desenfoque limitado a cabecera y navegación flotantes. El modo de efectos ligeros elimina el desenfoque; alto contraste utiliza material sólido. Movimiento reducido del sistema o manual elimina las transiciones propias. Las preferencias son locales a esta sesión, y no sustituyen pruebas de contraste, accesibilidad ni rendimiento en dispositivos. La generación y sus comprobaciones están documentadas en el [README móvil](../../apps/mobile/README.md).
+
 Un componente se incorpora con descripción, variantes, estados, permisos, ejemplos de contenido y evidencia de accesibilidad. Un cambio compartido actualiza tokens, consumidores y referencias del mismo concepto. Versionar las capturas indicando si son sketch o producto, rol, pantalla, ambiente y commit.
 
 Pendientes: biblioteca de componentes, tipografía, radios, escalas finales, iconografía, temas aprobados, breakpoints y proceso de revisión visual. Registrar la decisión y la evidencia en [arquitectura](../arquitectura/decisiones-pendientes.md).
