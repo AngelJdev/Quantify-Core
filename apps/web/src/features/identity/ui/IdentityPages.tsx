@@ -209,16 +209,6 @@ export function AuthPage({ register = false }: { register?: boolean }) {
               {register ? "Ya tengo cuenta" : "Crear una cuenta"}
             </Link>
           </div>
-          <Link className="text-link preview-entry" to="/hoy">
-            Explorar dashboard de ejemplo <span aria-hidden="true">↗</span>
-          </Link>
-          <div className="island-card access-reassurance">
-            <Icon name="privacidad" />
-            <div>
-              <h2>Tu espacio sigue siendo tuyo</h2>
-              <p>Decide qué registrar y qué compartir.</p>
-            </div>
-          </div>
         </section>
         <AccessSupport register={register} />
       </div>

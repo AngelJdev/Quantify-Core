@@ -32,7 +32,24 @@ Actualizados, dentro de `apps/web`:
 
 No se editaron `services/api`, contratos, migraciones ni datos. No se cambiaron dependencias ni se amplió el flujo conectado.
 
+## Pulido visual posterior
+
+Las referencias de Xtremepush y Quizell sirven como ideas para dar más peso al mensaje y hacer protagonista la vista del producto, sin copiar sus colores, contenido ni métricas. La interfaz mantiene Inter y los roles de color canónicos.
+
+- La bienvenida adopta un hero editorial centrado, con copy más específico y una vista de rutina ampliada. La nueva composición y el titular no aparecen en los bocetos vigentes; quedan pendientes de sincronización visual con ChatGPT Astra.
+- Login y registro reducen contenido redundante para caber en 1280×720; el enlace a la demo permanece en el pie compartido. En ventanas pequeñas o con zoom, el contenido conserva el scroll necesario.
+- Las tarjetas existentes del dashboard incorporan entrada escalonada, elevación y respuesta al foco; el aviso de preparación PWA deja de ocupar espacio en la cabecera y pasa a una tarjeta flotante.
+- Las animaciones se reducen o eliminan con `prefers-reduced-motion`; no se agregan métricas, datos, rutas ni acciones de negocio.
+
 ## Validación
+
+### Cierre del prototipo PWA · 20/11/2026
+
+El cierre de `feature/prototipo-pwa` reúne el pulido visual anterior y [Liquid Glass configurable](apariencia-2026-11-20.md), sin cambios nuevos de Docker, Flutter o portal. Integración local en `develop` mediante merge sin fast-forward solicitado por el responsable; publicación remota fuera de este cierre.
+
+Validación final: lint, tipos canónicos, TypeScript, build y **88 pruebas unitarias** aprobados. En Chrome aprobaron 11 de los 12 E2E en la ejecución general; el recorrido de rutas, temas y accesibilidad agotó su límite de 120 segundos y pasó completo al repetirlo con `npm.cmd run test:e2e -- frontend.spec.ts --grep "rutas, temas" --timeout=300000` (aproximadamente 2,2 minutos). También aprobaron las **2 pruebas de recuperación en desarrollo** con `npm.cmd run test:e2e:dev`. La duración de la revisión general sigue siendo una limitación del límite predeterminado; no se omitieron verificaciones ni se alteraron las pantallas para superarlo. El build conserva el aviso existente de chunk principal superior a 500 kB.
+
+### Validación inicial del 18/11/2026
 
 Desde `apps/web`:
 

@@ -44,7 +44,7 @@ describe("Recorridos frontend desconectados", () => {
   it("comunica el alcance de la demostración desde bienvenida", async () => {
     open("/");
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Pequeños hábitos",
+      "Lo que haces.También cuenta.",
     );
     fireEvent.click(
       screen.getByRole("link", { name: "Explorar demostración" }),

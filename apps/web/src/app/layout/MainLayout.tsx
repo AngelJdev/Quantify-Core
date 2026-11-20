@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Icon, type IconName } from "@/shared/ui/Icon";
 import { Wordmark, ThemeButton, islandStyle } from "@/shared/ui/Prototype";
+import { AppearanceButton } from "@/app/appearance/AppearanceControls";
+import { useSurfaceMotion, useFluidNavigation } from "@/app/appearance/useSurfaceMotion";
 const navigation: [string, string, IconName][] = [
   ["hoy", "Hoy", "hoy"],
   ["analisis", "Progreso", "analisis"],
@@ -77,6 +79,9 @@ export function MainLayout() {
     menu = useRef<HTMLDialogElement>(null);
   const [compact, setCompact] = useState(false),
     [online, setOnline] = useState(navigator.onLine);
+  const surfaceRoot = useRef<HTMLDivElement>(null);
+  useSurfaceMotion(surfaceRoot, pathname);
+  useFluidNavigation(surfaceRoot, pathname, compact);
   useEffect(() => {
     const change = () => setOnline(navigator.onLine);
     window.addEventListener("online", change);
@@ -121,6 +126,7 @@ export function MainLayout() {
   }
   return (
     <div
+      ref={surfaceRoot}
       className={"island-app " + (compact ? "rail-compact" : "")}
       style={islandStyle}
     >
@@ -149,6 +155,7 @@ export function MainLayout() {
             {online ? "En línea" : "Sin conexión"}
           </span>
           <ThemeButton />
+          <AppearanceButton />
           <Link className="icon-button" to="/avisos" aria-label="Ver avisos">
             <Icon name="recordatorio" />
           </Link>
@@ -232,7 +239,7 @@ export function MainLayout() {
               guardan ni sincronizan datos.
             </p>
           )}
-          <Outlet />
+          <div className="island-scene" key={pathname}><Outlet /></div>
           <footer className="page-footer">
             <span>Quantify Core · A tu ritmo.</span>
             <Link to="/ajustes?seccion=Privacidad">Tu privacidad</Link>

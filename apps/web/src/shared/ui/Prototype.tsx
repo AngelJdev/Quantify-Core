@@ -2,6 +2,8 @@ import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/app/ThemeProvider";
 import { Icon } from "./Icon";
+import { AppearanceButton } from "@/app/appearance/AppearanceControls";
+import { useSurfaceMotion } from "@/app/appearance/useSurfaceMotion";
 import {
   prototypeIslands as geometry,
   prototypeEntry,
@@ -56,6 +58,7 @@ export function PublicShell({
   className?: string;
 }) {
   const heading = useRef<HTMLElement>(null);
+  useSurfaceMotion(heading, title);
   useEffect(() => {
     document.title = `${title} · Quantify Core`;
     heading.current?.querySelector<HTMLHeadingElement>("h1")?.focus();
@@ -78,6 +81,7 @@ export function PublicShell({
             Instalar app
           </Link>
           <ThemeButton />
+          <AppearanceButton />
         </nav>
       </header>
       <main id="public-content" className="public-content" ref={heading}>

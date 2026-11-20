@@ -1,8 +1,10 @@
 .pwa-panel {
-  position: relative;
-  margin: 1rem auto;
+  position: fixed;
+  z-index: 80;
+  right: 1.5rem;
+  bottom: 1.5rem;
   width: min(26rem, calc(100% - 2rem));
-  max-height: 65dvh;
+  max-height: min(65dvh, 32rem);
   overflow-y: auto;
   padding: 1rem;
   border: 1px solid var(--qc-line);
@@ -13,6 +15,13 @@
 }
 .pwa-panel p { margin: 0 0 0.75rem; }
 .pwa-panel .button { margin: 0.25rem 0.5rem 0.25rem 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .pwa-panel { animation: pwa-notice-enter 220ms ease-out both; }
+  @keyframes pwa-notice-enter {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
 
 .welcome-page.pwa-page { max-width: 1120px; }
 .pwa-hero {
@@ -67,4 +76,13 @@
   .pwa-hero, .pwa-status-grid { grid-template-columns: minmax(0, 1fr); }
   .pwa-hero { gap: 24px; }
   .pwa-install-card { padding: 24px; }
+}
+@media (max-width: 760px) {
+  .pwa-panel {
+    right: 1rem;
+    bottom: calc(6.5rem + env(safe-area-inset-bottom));
+    left: 1rem;
+    width: auto;
+    max-height: 50dvh;
+  }
 }

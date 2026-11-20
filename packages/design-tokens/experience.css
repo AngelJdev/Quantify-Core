@@ -1,0 +1,19 @@
+/* Optional presentation materials and motion; colors derive from themes.css. */
+:root {
+  --qc-ease-fluid: cubic-bezier(0.16, 1, 0.3, 1);
+  --qc-ease-settle: cubic-bezier(0.22, 1.08, 0.36, 1);
+  --qc-motion-enter: 760ms;
+  --qc-motion-response: 420ms;
+  --qc-glass-strength: 0.6;
+  --qc-glass-fill: color-mix(in srgb, var(--qc-surface) calc(96% - var(--qc-glass-strength) * 20%), transparent);
+  --qc-glass-edge: color-mix(in srgb, var(--qc-on-action) 64%, var(--qc-line));
+  --qc-glass-blur: calc(10px + var(--qc-glass-strength) * 20px);
+  --qc-glass-light: color-mix(in srgb, var(--qc-on-action) 64%, transparent);
+  --qc-surface-shadow: 0 18px 56px color-mix(in srgb, var(--qc-focus) 9%, transparent), 0 3px 9px color-mix(in srgb, var(--qc-text) 3%, transparent);
+}
+[data-qc-theme="dark"] {
+  --qc-glass-fill: color-mix(in srgb, var(--qc-surface) calc(98% - var(--qc-glass-strength) * 12%), transparent);
+  --qc-glass-edge: color-mix(in srgb, var(--qc-line) 32%, transparent);
+  --qc-glass-light: color-mix(in srgb, var(--qc-on-action) 14%, transparent);
+  --qc-surface-shadow: 0 24px 64px color-mix(in srgb, var(--qc-canvas) 55%, transparent), 0 2px 10px color-mix(in srgb, var(--qc-text) 2%, transparent);
+}

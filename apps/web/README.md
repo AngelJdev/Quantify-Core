@@ -1,5 +1,7 @@
 # Frontend de Quantify Core V2
 
+**Apariencia y movimiento · 20/11/2026:** el botón **Apariencia** de la cabecera y **Perfil → Apariencia** permiten activar Liquid Glass, ajustar su intensidad y reducir movimiento. El material predeterminado es sólido. Solo estas preferencias visuales se guardan localmente; los fixtures siguen en memoria. La reducción de movimiento/transparencia del sistema tiene prioridad. [Entrega, revisión y capturas](docs/apariencia-2026-11-20.md) · [Reglas visuales](../../docs/diseno/materiales-movimiento.md).
+
 **Fase actual · 18/11/2026: frontend según el prototipo en islas.** Bienvenida, login, registro, recuperación, información pública y dashboard siguen la [base visual vigente](../../docs/GUI/BASE-IMPLEMENTACION.md), la composición de entrada y la navegación de cuatro destinos. Cabecera independiente, rail de 208/72 px y píldora móvil flotante. Los formularios de acceso son maquetas desactivadas: no reciben credenciales ni crean sesiones. Backend y funcionalidad de negocio se retoman después; se conserva la integración local anterior.
 
 **Revisión visual:** http://localhost:5173/ para edición o http://localhost:4173/ para el build instalable. [Entrega de islas: rutas, archivos y comprobaciones](docs/frontend-islas-2026-11-18.md).

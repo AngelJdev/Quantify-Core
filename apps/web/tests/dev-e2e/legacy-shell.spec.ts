@@ -50,7 +50,7 @@ test("el HTML anterior carga el único entrypoint actual mediante redirección",
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.name));
     await page.goto(origin);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Pequeños hábitos.Grandes cambios.");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Lo que haces.También cuenta.");
     expect(errors).toEqual([]);
   } finally { await server.close(); }
 });
@@ -72,7 +72,7 @@ test("un SW heredado con shell roto se retira y recupera la UI sin borrar almace
     await page.evaluate(() => {
       void navigator.serviceWorker.getRegistration().then((registration) => registration?.update());
     });
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Pequeños hábitos.Grandes cambios.");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Lo que haces.También cuenta.");
     expect(await page.evaluate(() => localStorage.getItem("recovery-test"))).toBe("keep");
     expect(await page.evaluate(() => navigator.serviceWorker.getRegistrations().then((items) => items.length))).toBe(0);
   } finally { await server.close(); }
