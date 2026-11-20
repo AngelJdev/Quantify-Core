@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Icon } from "@/shared/ui/Icon";
-import ritual from "../../../../../../docs/GUI/assets/ritual-cotidiano.png";
 export function SuggestionsPage() {
   return (
     <div className="two-columns">
@@ -25,7 +24,7 @@ export function SuggestionsPage() {
       <div className="stack">
         <div className="photo-card">
           <img
-            src={ritual}
+            src="/ritual-cotidiano.webp"
             alt="Un espacio tranquilo para una pausa cotidiana"
           />
           <div>

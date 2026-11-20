@@ -1,9 +1,12 @@
 import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
+import { useState } from "react";
 import { MainLayout } from "./layout/MainLayout";
 import {
   WelcomePage,
   AuthPage,
   SessionPage,
+  AboutPage,
+  RecoveryPage,
 } from "@/features/identity/ui/IdentityPages";
 import { DashboardPage } from "@/features/dashboard/ui/DashboardPage";
 import { HabitsPage } from "@/features/habits/ui/HabitsPage";
@@ -15,6 +18,8 @@ import { AnalyticsPage } from "@/features/analytics/ui/AnalyticsPage";
 import { SuggestionsPage } from "@/features/suggestions/ui/SuggestionsPage";
 import { NoticesPage } from "@/features/notices/ui/NoticesPage";
 import { ProfilePage } from "@/features/profile/ui/ProfilePage";
+import { ConnectedHabitsPage } from "@/features/habits/ui/ConnectedHabitsPage";
+import { InstallPage } from "./pwa/InstallPage";
 import { StatePanel } from "@/shared/ui/StatePanel";
 function RouteError() {
   return (
@@ -34,10 +39,18 @@ function RouteError() {
 }
 export const routes = [
   { path: "/", element: <WelcomePage />, errorElement: <RouteError /> },
+  { path: "/instalar", element: <InstallPage />, errorElement: <RouteError /> },
   { path: "/auth", element: <AuthPage />, errorElement: <RouteError /> },
+  { path: "/login", element: <AuthPage />, errorElement: <RouteError /> },
+  { path: "/registro", element: <AuthPage register />, errorElement: <RouteError /> },
+  { path: "/register", element: <AuthPage register />, errorElement: <RouteError /> },
+  { path: "/recuperar", element: <RecoveryPage />, errorElement: <RouteError /> },
+  { path: "/conoce", element: <AboutPage />, errorElement: <RouteError /> },
+  { path: "/equipo", element: <AboutPage team />, errorElement: <RouteError /> },
+  { path: "/conexion", element: <ConnectedHabitsPage />, errorElement: <RouteError /> },
   {
     path: "/auth/callback",
-    element: <SessionPage callback />,
+    element: <ConnectedHabitsPage />,
     errorElement: <RouteError />,
   },
   {
@@ -50,6 +63,7 @@ export const routes = [
     errorElement: <RouteError />,
     children: [
       { path: "/hoy", element: <DashboardPage /> },
+      { path: "/dashboard", element: <DashboardPage /> },
       { path: "/habitos", element: <HabitsPage /> },
       { path: "/nuevo", element: <HabitEditorPage /> },
       { path: "/detalle/:habitId", element: <HabitDetailPage /> },
@@ -72,7 +86,7 @@ export const routes = [
     ],
   },
 ];
-const router = createBrowserRouter(routes);
 export function AppRouter() {
+  const [router] = useState(() => createBrowserRouter(routes));
   return <RouterProvider router={router} />;
 }

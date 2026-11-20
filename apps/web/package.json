@@ -11,14 +11,20 @@
     "dev": "vite",
     "build": "npm run typecheck && vite build",
     "preview": "vite preview",
+    "pwa:preview": "npm run build && vite preview --host localhost --port 4173 --strictPort",
     "typecheck": "npm run contracts:check && tsc -b --pretty false",
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:e2e:connected": "playwright test --config playwright.connected.config.ts",
+    "test:e2e:dev": "playwright test --config playwright.dev.config.ts",
     "contracts:generate": "node scripts/generate-contracts.mjs",
     "contracts:check": "node scripts/generate-contracts.mjs --check"
   },
   "dependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "keycloak-js": "26.2.5",
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "react-router-dom": "7.18.5"
@@ -44,6 +50,7 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.72.1",
     "vite": "8.3.6",
+    "vite-plugin-pwa": "2.0.0",
     "vitest": "5.1.0"
   }
 }

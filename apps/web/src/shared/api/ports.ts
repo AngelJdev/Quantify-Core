@@ -6,7 +6,7 @@ import type {
   Metrics,
   Profile,
 } from "./schema";
-// Future integration boundaries only. No transport or identity adapter exists.
+// Proposed full write/metrics boundaries. The first read-only adapter is in reads.ts.
 export interface HabitRepository {
   list(): Promise<Habit[]>;
   create(command: HabitCreate, idempotencyKey: string): Promise<Habit>;

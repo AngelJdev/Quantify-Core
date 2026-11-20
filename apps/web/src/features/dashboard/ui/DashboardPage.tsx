@@ -1,118 +1,145 @@
 import { Link } from "react-router-dom";
 import { useDemo } from "@/app/DemoProvider";
-import { Icon } from "@/shared/ui/Icon";
-import { HabitRow } from "@/features/habits/ui/HabitRow";
-import { Chart } from "@/features/analytics/ui/Chart";
-import { fixtureMetrics } from "@/shared/fixtures/demo";
-import ritual from "../../../../../../docs/GUI/assets/ritual-cotidiano.png";
-export function DashboardPage() {
-  const { habits: all, state } = useDemo();
-  const habits = all.filter((h) => h.status === "active");
+import { Icon, type IconName } from "@/shared/ui/Icon";
+import { clampProgress, type HabitView } from "@/features/habits/data/model";
+import { fixtureMetrics, FIXTURE_DATE } from "@/shared/fixtures/demo";
+import { WeekStrip } from "@/shared/ui/Prototype";
+function DashboardHabit({ habit }: { habit: HabitView }) {
+  const complete = habit.value >= habit.target;
   return (
-    <>
-      <section className="welcome-card">
-        <div>
-          <span className="pill light">
-            <Icon name="hoy" /> TU DÍA EMPIEZA CONTIGO
-          </span>
-          <h2>
-            Hola, {state.profile.displayName}.<br />
-            Hoy también es un buen comienzo.
-          </h2>
-          <p>No necesitas hacerlo todo. Solo dar el siguiente paso.</p>
-          <Link to="/habitos" className="button white">
-            Ver mi rutina <span>↗</span>
-          </Link>
-        </div>
-        <img
-          src={ritual}
-          alt="Un momento de calma para acompañar tu rutina cotidiana"
-        />
+    <Link className="dashboard-habit" to={`/detalle/${habit.id}`}>
+      <span className={`symbol ${habit.color}`}>
+        <Icon name={habit.icon} />
+      </span>
+      <div>
+        <h3>{habit.name}</h3>
+        <p>
+          {habit.value.toLocaleString("es-MX")} /{" "}
+          {habit.target.toLocaleString("es-MX")} {habit.unit}
+        </p>
+      </div>
+      <span className={`dashboard-progress ${complete ? "complete" : ""}`}>
+        {complete
+          ? "Completo"
+          : `${clampProgress(habit.value, habit.target)} %`}
+      </span>
+      <span aria-hidden="true">›</span>
+    </Link>
+  );
+}
+export function DashboardPage() {
+  const { habits: all } = useDemo(),
+    habits = all.filter((h) => h.status === "active");
+  const pending = habits.filter((h) => h.value < h.target).length;
+  const metrics: [string, string | number, string, IconName][] = [
+    ["Hábitos activos", habits.length, "En esta vista previa", "habitos"],
+    [
+      "Cumplimiento semanal",
+      fixtureMetrics.completionRate + " %",
+      "Periodo cerrado · ejemplo",
+      "analisis",
+    ],
+    [
+      "Tiempo para ti",
+      fixtureMetrics.timeMinutes + " min",
+      "Agenda de ejemplo",
+      "calendario",
+    ],
+    ["Por completar", pending, "Día abierto · ejemplo", "recordatorio"],
+  ];
+  return (
+    <div className="dashboard-islands">
+      <nav className="dashboard-tabs" aria-label="Vistas de tu rutina">
+        <Link className="selected" to="/hoy" aria-current="page">
+          Resumen
+        </Link>
+        <Link to="/analisis">Periodo</Link>
+        <Link to="/historial">Actividad</Link>
+        <span>5 nov 2026 · Fecha de ejemplo</span>
+      </nav>
+      <section className="dashboard-kpis" aria-label="Resumen de ejemplo">
+        {metrics.map(([label, value, note, icon]) => (
+          <article className="island-card dashboard-kpi" key={label}>
+            <div className="row-between">
+              <p>{label}</p>
+              <Icon name={icon} />
+            </div>
+            <strong>{value}</strong>
+            <small>{note}</small>
+          </article>
+        ))}
       </section>
-      <section className="stats-grid" aria-label="Resumen de ejemplo">
-        <div className="stat card">
-          <span className="symbol blue">
-            <Icon name="habitos" />
-          </span>
-          <div>
-            <p>Hábitos activos</p>
-            <strong>
-              {habits.length}
-              <small>rutinas que suman</small>
-            </strong>
-          </div>
-        </div>
-        <div className="stat card">
-          <span className="symbol emerald">
-            <Icon name="confirmado" />
-          </span>
-          <div>
-            <p>Última semana</p>
-            <strong>
-              {fixtureMetrics.completionRate}%
-              <small>
-                {fixtureMetrics.completed} de {fixtureMetrics.eligible}{" "}
-                oportunidades
-              </small>
-            </strong>
-          </div>
-        </div>
-        <div className="stat card">
-          <span className="symbol amber">
-            <Icon name="calendario" />
-          </span>
-          <div>
-            <p>Tiempo para ti</p>
-            <strong>
-              {fixtureMetrics.timeMinutes} <em>min</em>
-              <small>en tu agenda de ejemplo</small>
-            </strong>
-          </div>
-        </div>
-      </section>
-      <div className="two-columns">
-        <section className="card">
+      <div className="dashboard-main">
+        <section className="island-card routine-panel">
           <div className="section-heading">
             <div>
-              <h2>Tu agenda de hoy</h2>
-              <p>Un hábito a la vez.</p>
+              <p className="eyebrow">CADA HÁBITO CUENTA</p>
+              <h2>Tus hábitos de hoy</h2>
             </div>
             <Link className="text-link" to="/habitos">
-              Ver todos →
+              Ver todos ↗
             </Link>
           </div>
           <div className="habit-list">
-            {habits.map((h) => (
-              <HabitRow key={h.id} habit={h} />
-            ))}
-          </div>
-        </section>
-        <div className="stack">
-          <section className="card">
-            <div className="section-heading">
-              <div>
-                <h2>Una mirada a tu semana</h2>
-                <p>Ejemplo · {fixtureMetrics.period}</p>
+            {habits.length ? (
+              habits.map((h) => <DashboardHabit key={h.id} habit={h} />)
+            ) : (
+              <div className="dashboard-empty">
+                <Icon name="habitos" />
+                <h3>Tu rutina tiene espacio para algo nuevo</h3>
+                <p>No hay hábitos activos en esta visita.</p>
               </div>
-              <Icon name="analisis" />
-            </div>
-            <Chart />
-            <Link className="text-link" to="/analisis">
-              Explorar mi progreso →
-            </Link>
-          </section>
-          <section className="quiet-card">
-            <Icon name="sugerencias" />
-            <div>
-              <h3>Una pausa también suma</h3>
-              <p>Encuentra ideas para una rutina más consciente.</p>
-              <Link to="/sugerencias" className="text-link">
-                Descubrir sugerencias →
-              </Link>
-            </div>
-          </section>
-        </div>
+            )}
+          </div>
+          <Link className="button primary full" to="/nuevo">
+            <Icon name="crear" />
+            Crear hábito
+          </Link>
+          <small className="routine-date">
+            Agenda ilustrativa · {FIXTURE_DATE} · America/Mexico_City
+          </small>
+        </section>
+        <aside className="island-card rhythm-panel">
+          <p className="eyebrow">SIN PRISA, CON INTENCIÓN</p>
+          <h2>A tu ritmo.</h2>
+          <p>Un paso pequeño también suma. No necesitas hacerlo todo hoy.</p>
+          <div className="rhythm-week">
+            <span>Una semana, paso a paso</span>
+            <WeekStrip />
+            <small>Ejemplo visual · cinco días completos</small>
+          </div>
+          <div className="privacy-note">
+            <Icon name="privacidad" />
+            <p>Tú decides qué compartir.</p>
+          </div>
+          <Link className="button secondary full" to="/ajustes">
+            Revisar preferencias
+          </Link>
+        </aside>
       </div>
-    </>
+      <section className="dashboard-bottom" aria-label="Continúa en tu espacio">
+        <Link className="island-card dashboard-feature" to="/historial">
+          <Icon name="historial" />
+          <h2>Cada avance tiene historia</h2>
+          <p>Vuelve a tus registros y mira el camino que has recorrido.</p>
+          <span>Ver historial ↗</span>
+        </Link>
+        <Link className="island-card dashboard-feature" to="/avisos">
+          <Icon name="recordatorio" />
+          <h2>Tu próximo momento</h2>
+          <p>Revisa los avisos de ejemplo y dale espacio a tu rutina.</p>
+          <span>Revisar avisos ↗</span>
+        </Link>
+        <Link
+          className="island-card dashboard-feature"
+          to="/ajustes?seccion=Privacidad"
+        >
+          <Icon name="privacidad" />
+          <h2>Tu espacio, tus decisiones</h2>
+          <p>Conoce las preferencias y el alcance de esta demostración.</p>
+          <span>Revisar privacidad ↗</span>
+        </Link>
+      </section>
+    </div>
   );
 }
