@@ -18,7 +18,9 @@
 </p>
 
 > [!IMPORTANT]
-> Este documento define la visión y la arquitectura **propuesta** para Quantify Core V2.0. No implica que todos los módulos descritos estén implementados. Las capacidades disponibles deberán identificarse en cada entrega y validarse contra el código, las pruebas y la documentación técnica.
+> Este documento reúne la visión de Quantify Core V2.0 y la guía del entorno local disponible. PostgreSQL, Keycloak, la API NestJS y la web pueden ejecutarse con Docker; las secciones de arquitectura y alcance también incluyen capacidades **propuestas**. Su presencia aquí no implica que estén implementadas.
+
+**Para empezar a desarrollar:** sigue la [guía de instalación local](docs/Installation/README.md). Si necesitas entender dónde quedan los registros, consulta [Base de datos y persistencia local](#base-de-datos-y-persistencia-local). El arranque base usa Docker; no requiere instalar Node/npm ni PostgreSQL en tu equipo.
 
 ## Sitio del proyecto
 
@@ -75,6 +77,7 @@ Los diagramas y secciones desplegables de los README ayudan a recorrer estas gu�
 - [Diagrama de Gantt en Jira](#diagrama-de-gantt-en-jira)
 - [Estructura propuesta del proyecto](#estructura-propuesta-del-proyecto)
 - [Instalación y ejecución](#instalación-y-ejecución)
+- [Base de datos y persistencia local](#base-de-datos-y-persistencia-local)
 - [Documentación y prácticas académicas](#documentación-y-prácticas-académicas)
 - [Diagrama de roles y funcionalidades](#diagrama-de-roles-y-funcionalidades)
 - [Identidad visual](#identidad-visual)
@@ -440,111 +443,17 @@ Esta estructura es una guía. No debe crearse de manera artificial hasta que cad
 
 ## Instalación y ejecución
 
-**Entorno local verificado el 20/11/2026:** PostgreSQL, Keycloak, API NestJS y frontend compilado/PWA en Docker. Requiere Git y Docker Desktop iniciado con contenedores Linux y Compose; estos pasos usan PowerShell desde la raíz del repositorio. No necesitas Node/npm en Windows para este arranque. Flutter, Wear OS y analítica no forman parte de este Compose.
+La **[guía completa para levantar el proyecto en local](docs/Installation/README.md)** es el punto de entrada para compañeros y agentes. Incluye requisitos/versiones, clonación, configuración privada, Docker, migraciones, cuenta Keycloak, salud, desarrollo con Node, Flutter, monitoreo opcional, diagnóstico y apagado.
 
-### 1. Entrar y preparar la configuración
-
-```powershell
-cd "C:\Users\telle\OneDrive\Escritorio\Quantify-Core"
-docker version
-docker compose version
-$qcCompose = @("--env-file", "infrastructure/docker/.env.local", "-f", "infrastructure/docker/compose.yaml")
-```
-
-`docker version` debe mostrar Client y Server. En otra PC, sustituye la ruta por la de tu copia del repositorio. Define `$qcCompose` de nuevo si abres otra terminal.
-
-**Solo en una instalación nueva, sin ninguno de los cuatro `.env.local`:**
-
-```powershell
-docker run --rm --mount "type=bind,source=$($PWD.Path),target=/workspace" --workdir /workspace node:24.14.1-bookworm-slim node scripts/dev-base.mjs init
-```
-
-Genera claves aleatorias sin imprimirlas y crea configuración privada en `infrastructure/docker`, `services/api` y `apps/web`. Si ya existe, omite `init`: no la borres ni regeneres para reutilizar los volúmenes. Los `.env.local` están excluidos de Git y de las imágenes.
-
-### 2. Iniciar datos e identidad y aplicar migraciones
-
-```powershell
-docker compose @qcCompose --profile "*" config --quiet
-docker compose @qcCompose up -d postgres keycloak
-docker compose @qcCompose --profile tools run --rm --build migrate
-```
-
-La tarea `migrate` espera a PostgreSQL saludable, aplica solo migraciones pendientes y configura el rol limitado de la API. Una segunda ejecución no duplica el esquema ni carga hábitos de ejemplo. Continúa únicamente si termina correctamente.
-
-### 3. Iniciar API y frontend compilado
-
-Si tenías Vite en una terminal, detenlo con Ctrl+C. Este comando detiene la alternativa de desarrollo de Docker para liberar 5173:
-
-```powershell
-docker compose @qcCompose --profile web stop web
-docker compose @qcCompose --profile app --profile web-static up -d --build api web-static
-docker compose @qcCompose ps
-Invoke-RestMethod "http://localhost:3000/api/v1/health/ready"
-```
-
-Espera a que API y `web-static` aparezcan `healthy`; `health/ready` debe devolver `status: ok`. La primera construcción descarga e instala dependencias dentro de Docker. Se puede cerrar la terminal: los servicios quedan en segundo plano.
-
-| Componente | Dirección local |
-|---|---|
-| Aplicación | http://localhost:5173/ |
-| Instalación PWA | http://localhost:5173/instalar |
-| Lectura con sesión real | http://localhost:5173/conexion |
-| API / salud | http://localhost:3000/api/v1/health/ready |
-| Administración Keycloak | http://localhost:8180/admin/ |
-| PostgreSQL | `127.0.0.1:55432`, base `quantify_core_dev` |
-
-La imagen web usa Nginx sin privilegios y archivos compilados; no monta fuentes ni ejecuta Vite. API y Keycloak continúan en `localhost:3000/8180` porque las solicitudes salen del navegador. Los valores públicos `VITE_*` se incorporan al compilar; cambiarlos requiere reconstruir la imagen. Este entorno HTTP/loopback y Keycloak `start-dev` es local; publicar requiere dominio, HTTPS y configuración de identidad del destino.
-
-### 4. Volver a iniciar, reconstruir, consultar logs y apagar
-
-```powershell
-# Otro día: reutilizar imágenes y datos existentes.
-docker compose @qcCompose --profile app --profile web-static up -d postgres keycloak api web-static
-
-# Después de cambiar código: reconstruir API y web.
-docker compose @qcCompose --profile app --profile web-static up -d --build api web-static
-
-# Diagnóstico del entorno base.
-docker compose @qcCompose logs --tail 100 web-static api postgres keycloak
-
-# Detener el entorno base conservando los datos.
-docker compose @qcCompose --profile "*" stop
-```
-
-Si ya activaste el monitoreo, su [procedimiento independiente](docs/despliegue/runbook-observabilidad.md) mantiene Grafana/Prometheus/Loki/Alertmanager. No uses borrado de volúmenes para resolver un fallo de arranque o contraseña. Un puerto ocupado requiere detener el proceso que lo usa; conserva 5173 para que coincidan CORS y el callback OIDC. El aviso de realm existente de Keycloak significa que conserva el realm anterior; no actualiza automáticamente su configuración.
+Para web/API necesitas **Git, Docker Desktop con contenedores Linux/Compose y un navegador**. PostgreSQL, Keycloak, Node, NestJS y React/Vite se ejecutan dentro de las imágenes. Flutter requiere su SDK y herramientas de plataforma. La guía distingue las tecnologías opcionales y las que siguen pendientes, como FastAPI, Redis y Wear OS.
 
 ### Desarrollo, PWA y acceso real
 
-Para editar con actualización al guardar, cambia al perfil `web`:
+Consulta [cuenta y perfil de prueba, PWA y modalidades web](docs/Installation/README.md#desarrollo-pwa-y-acceso-real). La bienvenida utiliza datos ilustrativos; `/conexion` permite lecturas con sesión real. La conexión móvil de producto sigue fuera de este arranque.
 
-```powershell
-docker compose @qcCompose --profile web-static stop web-static
-docker compose @qcCompose --profile web up -d --build web
-```
+## Base de datos y persistencia local
 
-Para volver al frontend compilado, repite el paso 3. Solo una de las dos modalidades puede ocupar 5173. La PWA instalable se verifica en `web-static`: abrir `/instalar` con Chrome/Edge normal, aceptar la instalación y volver a abrir sin red después de la primera visita. El soporte offline cubre el shell público; consultas personales y Keycloak requieren conexión. Los cambios en datos de demostración son temporales.
-
-La sesión real se prueba en `/conexion`; los formularios visuales de la portada siguen siendo maquetas. No existen cuentas de producto predeterminadas. Para preparar tu cuenta de prueba:
-
-1. Consulta privadamente el usuario/clave administrativos generados en `infrastructure/docker/.env.local` y accede a Keycloak en 8180.
-2. Selecciona el realm `quantify`, crea un usuario de prueba habilitado, establece su contraseña y asigna el rol de realm `user`. Completa los datos y acciones requeridos por el realm para poder iniciar sesión.
-3. Copia el ID del usuario (su subject OIDC) y aprovisiona su perfil, sustituyendo `ID_DEL_USUARIO`:
-
-```powershell
-docker compose @qcCompose --profile tools run --rm --build -e PROFILE_SUBJECT=ID_DEL_USUARIO -e PROFILE_TIME_ZONE=America/Mexico_City profile
-```
-
-Este comando vincula el subject existente; no crea contraseñas ni reactiva perfiles suspendidos. Después abre `/conexion` e inicia sesión con Keycloak. Si falta el perfil, se muestra `403`, sin sustituirlo por fixtures. [Reglas de aprovisionamiento](docs/guias/base-tecnica.md#ejecutar-api-y-web).
-
-**Validación reproducible:** `node scripts/verify-docker-web.mjs`, con dependencias web/API instaladas y Chrome en el host, verifica la imagen estática, instalación admitida por Chrome, shell offline, exclusión de API/identidad del cache, login real Code+PKCE, lecturas `200`, perfil ausente `403` y logout. Crea dos cuentas sintéticas y un perfil vacío, y los elimina al terminar; no escribe hábitos. Es una comprobación explícita del laboratorio local. Si se interrumpe abruptamente, revisar privadamente las cuentas `qc-docker-*` de esa ejecución. [Resultados y límites](docs/evidencias/docker-2026-11-20/README.md).
-
-![Frontend compilado servido por Docker](docs/evidencias/docker-2026-11-20/web-docker.png)
-
-*Captura de la bienvenida pública servida por Nginx en Docker. La pantalla usa datos ilustrativos; no demuestra escrituras de negocio.*
-
-![PWA con el shell disponible sin conexión](docs/evidencias/docker-2026-11-20/pwa-offline.png)
-
-*Captura después de deshabilitar la red en Chrome y recargar `/instalar`. No se capturaron sesiones, credenciales ni datos personales.*
+El negocio usa PostgreSQL con dos migraciones y volúmenes Docker persistentes; Keycloak guarda la identidad por separado. La guía explica [dónde están los datos, cómo consultar tablas/migraciones y qué conserva los volúmenes](docs/Installation/README.md#base-de-datos-y-persistencia-local), además de los pendientes de respaldo y producción.
 
 ## Documentación y prácticas académicas
 
