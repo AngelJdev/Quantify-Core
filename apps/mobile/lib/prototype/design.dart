@@ -151,30 +151,86 @@ class LiquidSurface extends StatelessWidget {
     final glass = context.glassEnabled;
     final dark = Theme.of(context).brightness == Brightness.dark;
     final surface = context.color('surface');
+    final intensity = settings.intensity.clamp(0.0, 1.0);
+    final opacity =
+        (dark ? MobileTokens.darkOpacity : MobileTokens.lightOpacity) +
+        (1 - intensity) * .18;
     final content = DecoratedBox(
       decoration: BoxDecoration(
-        color: glass ? surface.withValues(alpha: dark ? .93 : .86) : surface,
+        color: glass ? null : surface,
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(
-          color: context.color('line').withValues(alpha: glass ? .38 : 1),
+          color: glass
+              ? MobileTokens.white.withValues(alpha: dark ? .24 : .85)
+              : context.color('line'),
         ),
+        boxShadow: glass
+            ? [
+                BoxShadow(
+                  color: MobileTokens.deepCobalt.withValues(
+                    alpha: dark ? .2 : .1,
+                  ),
+                  blurRadius: 24,
+                  offset: const Offset(0, 10),
+                  spreadRadius: -6,
+                ),
+                BoxShadow(
+                  color: MobileTokens.white.withValues(alpha: dark ? .08 : .7),
+                  blurRadius: 1,
+                  offset: const Offset(-1, -1),
+                ),
+              ]
+            : null,
         gradient: glass
             ? LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color.alphaBlend(
-                    MobileTokens.white.withValues(alpha: dark ? .07 : .44),
-                    surface.withValues(alpha: .86),
-                  ),
-                  surface.withValues(alpha: dark ? .94 : .8),
+                  Color.lerp(
+                    surface,
+                    MobileTokens.white,
+                    dark ? .08 : .2,
+                  )!.withValues(alpha: (opacity + .1).clamp(0.0, 1.0)),
+                  surface.withValues(alpha: opacity),
+                  Color.lerp(
+                    surface,
+                    MobileTokens.skyLaser,
+                    .08,
+                  )!.withValues(alpha: opacity + .06),
                 ],
+                stops: const [0, .45, 1],
               )
             : null,
       ),
       child: Material(
         type: MaterialType.transparency,
-        child: Padding(padding: padding, child: child),
+        child: Stack(
+          children: [
+            if (glass)
+              Positioned(
+                top: 0,
+                left: radius / 2,
+                right: radius / 2,
+                child: IgnorePointer(
+                  child: Container(
+                    height: 1,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          MobileTokens.white.withValues(alpha: 0),
+                          MobileTokens.white.withValues(
+                            alpha: MobileTokens.highlightAlpha * intensity,
+                          ),
+                          MobileTokens.white.withValues(alpha: 0),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            Padding(padding: padding, child: child),
+          ],
+        ),
       ),
     );
     if (!glass || !blur || settings.economy) return content;
@@ -197,25 +253,57 @@ class PrototypeBackdrop extends StatelessWidget {
   const PrototypeBackdrop({super.key, required this.child});
   final Widget child;
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(
-      color: context.color('canvas'),
-      gradient: context.glassEnabled
-          ? RadialGradient(
-              center: const Alignment(.9, -.7),
-              radius: 1.6,
-              colors: [
-                Color.alphaBlend(
-                  MobileTokens.laserBlue.withValues(alpha: .13),
+  Widget build(BuildContext context) {
+    final intensity = PrototypeAppearance.of(context).settings.intensity;
+    final alpha = MobileTokens.backdropAlpha * (.5 + intensity);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: context.color('canvas'),
+        gradient: context.glassEnabled
+            ? RadialGradient(
+                center: const Alignment(.9, -.7),
+                radius: 1.1,
+                colors: [
+                  Color.alphaBlend(
+                    MobileTokens.skyLaser.withValues(alpha: alpha),
+                    context.color('canvas'),
+                  ),
                   context.color('canvas'),
-                ),
-                context.color('canvas'),
-              ],
-            )
-          : null,
-    ),
-    child: child,
-  );
+                ],
+              )
+            : null,
+      ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: context.glassEnabled
+              ? RadialGradient(
+                  center: const Alignment(-1, .25),
+                  radius: .85,
+                  colors: [
+                    MobileTokens.cyan.withValues(alpha: alpha * .55),
+                    MobileTokens.cyan.withValues(alpha: 0),
+                  ],
+                )
+              : null,
+        ),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: context.glassEnabled
+                ? RadialGradient(
+                    center: const Alignment(.9, 1.1),
+                    radius: .9,
+                    colors: [
+                      MobileTokens.laserBlue.withValues(alpha: alpha * .8),
+                      MobileTokens.laserBlue.withValues(alpha: 0),
+                    ],
+                  )
+                : null,
+          ),
+          child: child,
+        ),
+      ),
+    );
+  }
 }
 
 class Eyebrow extends StatelessWidget {

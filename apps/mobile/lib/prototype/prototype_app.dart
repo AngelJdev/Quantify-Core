@@ -11,9 +11,11 @@ class MobilePrototypeApp extends StatefulWidget {
     super.key,
     this.initialSettings = const VisualSettings(),
     this.showWelcome = true,
+    this.showSplash = false,
   });
   final VisualSettings initialSettings;
   final bool showWelcome;
+  final bool showSplash;
   @override
   State<MobilePrototypeApp> createState() => _MobilePrototypeAppState();
 }
@@ -21,6 +23,7 @@ class MobilePrototypeApp extends StatefulWidget {
 class _MobilePrototypeAppState extends State<MobilePrototypeApp> {
   final _model = PrototypeModel();
   late final _appearance = ValueNotifier(widget.initialSettings);
+  late bool _launching = widget.showSplash;
   @override
   void dispose() {
     _model.dispose();
@@ -52,9 +55,93 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp> {
                       .disableAnimations
               ? Duration.zero
               : MobileTokens.responseMs,
-          home: widget.showWelcome
+          home: _launching
+              ? PrototypeLaunch(
+                  onComplete: () {
+                    if (mounted) setState(() => _launching = false);
+                  },
+                )
+              : widget.showWelcome
               ? const PrototypeWelcome()
               : const PrototypeShell(),
+        ),
+      ),
+    ),
+  );
+}
+
+/// One brief brand entrance per process launch; no simulated network progress.
+class PrototypeLaunch extends StatefulWidget {
+  const PrototypeLaunch({super.key, required this.onComplete});
+  final VoidCallback onComplete;
+  @override
+  State<PrototypeLaunch> createState() => _PrototypeLaunchState();
+}
+
+class _PrototypeLaunchState extends State<PrototypeLaunch>
+    with SingleTickerProviderStateMixin {
+  late final _controller =
+      AnimationController(vsync: this, duration: MobileTokens.launchMs)
+        ..addStatusListener((status) {
+          if (status == AnimationStatus.completed) widget.onComplete();
+        });
+  bool _started = false;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (context.reducedMotion) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) widget.onComplete();
+      });
+    } else {
+      _controller.forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    body: PrototypeBackdrop(
+      child: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: FadeTransition(
+              opacity: _controller.drive(
+                CurveTween(curve: const Interval(0, .4, curve: Curves.easeOut)),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const QMark(size: 88),
+                  const SizedBox(height: 28),
+                  const FittedBox(
+                    child: Text(
+                      'QUANTIFY',
+                      style: TextStyle(
+                        fontSize: 32,
+                        letterSpacing: 5,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Un hábito a la vez.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: context.color('muted')),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     ),

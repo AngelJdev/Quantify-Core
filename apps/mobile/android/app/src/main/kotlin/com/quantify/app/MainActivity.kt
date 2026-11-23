@@ -1,4 +1,4 @@
-package com.quantify.quantify_mobile
+package com.quantify.app
 
 import io.flutter.embedding.android.FlutterActivity
 

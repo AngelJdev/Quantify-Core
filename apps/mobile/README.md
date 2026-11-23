@@ -2,6 +2,10 @@
 
 ## Prototipo visual V2 · Liquid Glass · 20/11/2026
 
+**Prueba en teléfono · 23/11/2026:** APK debug del prototipo instalado y abierto mediante USB en OPPO CPH2239, Android 11 (API 30). Se corrigió el paquete de `MainActivity` a `com.quantify.app` para coincidir con el namespace y la actividad declarada en Android; antes la app se cerraba con `ClassNotFoundException`. ADB confirmó la actividad en primer plano y el proceso activo. Revisión visual por el responsable en curso; este arranque no valida todos los recorridos ni el rendimiento. Las limitaciones de dispositivo indicadas más abajo corresponden al corte del 20/11.
+
+**Revisión visual · 23/11/2026:** cristal con mayor transparencia, reflejo superior, borde iluminado y fondo azul/cian más visible; intensidad inicial 75 %. Se mantienen los dos filtros de cabecera/dock, efectos ligeros y alto contraste sólido. El icono Android usa la Q canónica (PNG por densidad e icono adaptativo). El splash nativo claro/oscuro muestra esa misma Q antes del primer frame, y `main_prototype.dart` añade una entrada de marca de un segundo antes de la bienvenida; movimiento reducido omite esa espera. Android 12+ tiene recurso específico para el splash del sistema; su apariencia queda pendiente de probar en esa versión. Las pruebas locales suman 14 aprobadas, con análisis sin incidencias; incluye salida del splash, navegación y movimiento reducido. No se conectaron servicios.
+
 La nueva entrada **`lib/main_prototype.dart`** implementa la revisión de los mockups móviles: Bienvenida → Hoy / Progreso / IA hábitos / Perfil; hábitos, creación/edición, detalle, avance absoluto e historial local. La demo anterior del colaborador permanece en `lib/main.dart`, con sus fuentes y pruebas independientes. [Pantallas, capturas, optimizaciones y límites](docs/prototipo-v2-2026-11-20.md).
 
 Desde la raíz, entrar a `apps/mobile`. Entorno verificado: **Flutter 3.47.8 y Dart 3.13.7**; `pubspec.yaml` requiere Dart compatible con 3.13.3. No se añadieron paquetes de estado, efectos ni autenticación.
@@ -41,7 +45,7 @@ py -m http.server 8788 --bind 127.0.0.1 --directory build/web
 
 Abrir http://127.0.0.1:8788/. Es una vista Flutter Web para revisar el diseño móvil, independiente de la PWA React; no se presenta como prueba nativa Android ni como otra PWA instalable. Detener el servidor con Ctrl+C.
 
-**Tokens y fuente:** se generan desde `packages/design-tokens/preview.json`, `mobile-effects.json`, el isotipo canónico y el Inter local. Los `.ttf` y Dart generados se incluyen para ejecutar Flutter sin Python. Para regenerarlos después de cambiar las fuentes canónicas, desde `apps/mobile`:
+**Tokens, fuente e identidad Android:** se generan desde `packages/design-tokens/preview.json`, `mobile-effects.json`, el isotipo canónico y el Inter local. Los recursos Android, `.ttf` y Dart generados se incluyen para ejecutar Flutter sin Python. Para regenerarlos después de cambiar las fuentes canónicas, desde `apps/mobile`:
 
 ```powershell
 python -m pip install -r tool/requirements.txt

@@ -1,5 +1,7 @@
 # Sistema de diseño
 
+**Revisión Flutter en OPPO · 23/11/2026:** `mobile-effects.json` versión 2 aumenta presencia del cristal mediante opacidades, fondo y reflejos, con intensidad inicial 75 %. Conserva superficies sólidas en alto contraste y solo dos filtros de desenfoque. Icono y splash Android proceden de la Q canónica; una entrada Flutter de un segundo precede a la bienvenida y se omite con movimiento reducido. [Alcance y verificación móvil](../../apps/mobile/README.md). Es una revisión del prototipo, pendiente de feedback visual; no redefine la identidad ni acredita rendimiento nativo.
+
 **Distribución general del 17/11/2026:** [composición de las 33 pantallas](../GUI/COMPOSICION-GENERAL.md), con login editorial, columnas adaptadas al rail y paneles de contexto por tarea. Los valores nuevos de geometría y titular de acceso se centralizan en tokens 0.4.2.
 
 **Composición de entrada · 17/11/2026:** [bienvenida, carga y vistas breves](../GUI/ENTRADA.md). La extensión de titulares y movimiento del prototipo está centralizada en `packages/design-tokens/preview.json.prototypeEntry`; no redefine la paleta ni los ocho estilos base de la guía. La actualización del archivo remoto de Figma sigue pendiente.

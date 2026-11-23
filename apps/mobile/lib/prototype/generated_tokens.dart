@@ -51,10 +51,15 @@ abstract final class MobileTokens {
   static const navigationRadius = 36.0;
   static const targetHeight = 48.0;
   static const surfaceRadius = 28.0;
-  static const minimumSigma = 6.0;
-  static const maximumSigma = 14.0;
-  static const defaultIntensity = 0.6;
+  static const minimumSigma = 8.0;
+  static const maximumSigma = 18.0;
+  static const defaultIntensity = 0.75;
+  static const lightOpacity = 0.58;
+  static const darkOpacity = 0.68;
+  static const highlightAlpha = 0.65;
+  static const backdropAlpha = 0.3;
   static const navigationMs = Duration(milliseconds: 340);
   static const pageMs = Duration(milliseconds: 360);
   static const responseMs = Duration(milliseconds: 220);
+  static const launchMs = Duration(milliseconds: 1000);
 }

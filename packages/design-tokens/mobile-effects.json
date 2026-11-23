@@ -1,7 +1,9 @@
 {
-  "version": 1,
+  "version": 2,
   "scope": "flutter-visual-prototype",
-  "glass": { "minimumSigma": 6, "maximumSigma": 14, "defaultIntensity": 0.6 },
-  "motion": { "navigationMs": 340, "pageMs": 360, "responseMs": 220 },
+  "glass": { "minimumSigma": 8, "maximumSigma": 18, "defaultIntensity": 0.75,
+    "lightOpacity": 0.58, "darkOpacity": 0.68,
+    "highlightAlpha": 0.65, "backdropAlpha": 0.3 },
+  "motion": { "navigationMs": 340, "pageMs": 360, "responseMs": 220, "launchMs": 1000 },
   "surfaceRadius": 28
 }

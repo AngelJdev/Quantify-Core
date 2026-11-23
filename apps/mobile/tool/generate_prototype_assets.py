@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from fontTools.ttLib import TTFont
+from android_brand import generate_android_brand
 
 ROOT = Path(__file__).resolve().parents[3]
 MOBILE = ROOT / "apps/mobile"
@@ -31,6 +32,8 @@ def generate():
               f"  static const minimumSigma = {float(effects['glass']['minimumSigma'])};",
               f"  static const maximumSigma = {float(effects['glass']['maximumSigma'])};",
               f"  static const defaultIntensity = {effects['glass']['defaultIntensity']};"]
+    for name in ["lightOpacity", "darkOpacity", "highlightAlpha", "backdropAlpha"]:
+        lines.append(f"  static const {name} = {effects['glass'][name]};")
     for name, value in effects["motion"].items():
         lines.append(f"  static const {name} = Duration(milliseconds: {value});")
     lines += ["}", ""]
@@ -39,6 +42,7 @@ def generate():
     stream = io.BytesIO()
     font.save(stream)
     return {
+        **generate_android_brand(MOBILE, tokens, symbol),
         MOBILE / "lib/prototype/generated_tokens.dart": "\n".join(lines).encode(),
         MOBILE / "assets/prototype/Inter.ttf": stream.getvalue(),
         MOBILE / "assets/prototype/inter-license.txt": (ROOT / "docs/GUI/assets/inter-license.txt").read_bytes(),
@@ -52,7 +56,7 @@ if __name__ == "__main__":
     for path, expected in generate().items():
         if args.check:
             actual = path.read_bytes() if path.exists() else b""
-            if path.suffix != ".ttf":
+            if path.suffix not in {".ttf", ".png"}:
                 actual, expected = actual.replace(b"\r\n", b"\n"), expected.replace(b"\r\n", b"\n")
             assert actual == expected, f"Regenerate {path.relative_to(ROOT)}"
         else:

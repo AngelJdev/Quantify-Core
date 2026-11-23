@@ -4,6 +4,34 @@ import 'package:quantify_mobile/prototype/prototype_app.dart';
 import 'package:quantify_mobile/prototype/state.dart';
 
 void main() {
+  testWidgets('el splash termina en bienvenida y no vuelve al navegar', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const MobilePrototypeApp(showSplash: true));
+    expect(find.text('QUANTIFY'), findsOneWidget);
+    expect(find.byType(PrototypeWelcome), findsNothing);
+    await tester.pump(const Duration(milliseconds: 1100));
+    await tester.pumpAndSettle();
+    expect(find.byType(PrototypeWelcome), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Explorar demostración'), 300);
+    await tester.tap(find.text('Explorar demostración'));
+    await tester.pumpAndSettle();
+    expect(find.byType(PrototypeShell), findsOneWidget);
+    expect(find.byType(PrototypeLaunch), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('movimiento reducido omite la espera de entrada', (tester) async {
+    tester.platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures(disableAnimations: true);
+    addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
+    await tester.pumpWidget(const MobilePrototypeApp(showSplash: true));
+    await tester.pump();
+    expect(find.byType(PrototypeWelcome), findsOneWidget);
+    expect(find.byType(PrototypeLaunch), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('apariencia cambia el tema y desactiva el desenfoque en vivo', (
     tester,
   ) async {
