@@ -18,7 +18,9 @@
 </p>
 
 > [!IMPORTANT]
-> Este documento define la visión y la arquitectura **propuesta** para Quantify Core V2.0. No implica que todos los módulos descritos estén implementados. Las capacidades disponibles deberán identificarse en cada entrega y validarse contra el código, las pruebas y la documentación técnica.
+> Este documento reúne la visión de Quantify Core V2.0 y la guía del entorno local disponible. PostgreSQL, Keycloak, la API NestJS y la web pueden ejecutarse con Docker; las secciones de arquitectura y alcance también incluyen capacidades **propuestas**. Su presencia aquí no implica que estén implementadas.
+
+**Para empezar a desarrollar:** sigue [Instalación y ejecución](#instalación-y-ejecución). Si necesitas entender dónde quedan los registros, consulta [Base de datos y persistencia local](#base-de-datos-y-persistencia-local). El arranque base usa Docker; no requiere instalar Node/npm ni PostgreSQL en tu equipo.
 
 ## Sitio del proyecto
 
@@ -75,6 +77,7 @@ Los diagramas y secciones desplegables de los README ayudan a recorrer estas gu�
 - [Diagrama de Gantt en Jira](#diagrama-de-gantt-en-jira)
 - [Estructura propuesta del proyecto](#estructura-propuesta-del-proyecto)
 - [Instalación y ejecución](#instalación-y-ejecución)
+- [Base de datos y persistencia local](#base-de-datos-y-persistencia-local)
 - [Documentación y prácticas académicas](#documentación-y-prácticas-académicas)
 - [Diagrama de roles y funcionalidades](#diagrama-de-roles-y-funcionalidades)
 - [Identidad visual](#identidad-visual)
@@ -445,7 +448,7 @@ Esta estructura es una guía. No debe crearse de manera artificial hasta que cad
 ### 1. Entrar y preparar la configuración
 
 ```powershell
-cd "C:\Users\telle\OneDrive\Escritorio\Quantify-Core"
+cd "C:\ruta\a\Quantify-Core"
 docker version
 docker compose version
 $qcCompose = @("--env-file", "infrastructure/docker/.env.local", "-f", "infrastructure/docker/compose.yaml")
@@ -459,7 +462,16 @@ $qcCompose = @("--env-file", "infrastructure/docker/.env.local", "-f", "infrastr
 docker run --rm --mount "type=bind,source=$($PWD.Path),target=/workspace" --workdir /workspace node:24.14.1-bookworm-slim node scripts/dev-base.mjs init
 ```
 
-Genera claves aleatorias sin imprimirlas y crea configuración privada en `infrastructure/docker`, `services/api` y `apps/web`. Si ya existe, omite `init`: no la borres ni regeneres para reutilizar los volúmenes. Los `.env.local` están excluidos de Git y de las imágenes.
+Genera claves aleatorias sin imprimirlas. Los cuatro archivos son privados y están excluidos de Git y de las imágenes:
+
+| Archivo | Consumidor y propósito |
+|---|---|
+| `infrastructure/docker/.env.local` | Compose: claves de PostgreSQL, rol de API y administrador inicial de Keycloak. |
+| `services/api/.env.local` | API ejecutada fuera de Docker: conexión con rol limitado y configuración de identidad. |
+| `services/api/.env.migrate.local` | Migraciones ejecutadas fuera de Docker: conexión con el propietario del esquema. |
+| `apps/web/.env.local` | Vite ejecutado fuera de Docker: URL pública de la API, sin claves de servidor. |
+
+Si ya existen, omite `init`: no los borres ni regeneres para reutilizar los volúmenes. Si la configuración está incompleta, revisa los archivos faltantes con sus ejemplos; `init` se detiene si encuentra cualquiera de los cuatro. Cambiar una clave en un archivo no cambia la de una base ya inicializada.
 
 ### 2. Iniciar datos e identidad y aplicar migraciones
 
@@ -469,7 +481,7 @@ docker compose @qcCompose up -d postgres keycloak
 docker compose @qcCompose --profile tools run --rm --build migrate
 ```
 
-La tarea `migrate` espera a PostgreSQL saludable, aplica solo migraciones pendientes y configura el rol limitado de la API. Una segunda ejecución no duplica el esquema ni carga hábitos de ejemplo. Continúa únicamente si termina correctamente.
+La imagen PostgreSQL crea la base `quantify_core_dev` al inicializar un volumen vacío. Después, la tarea `migrate` espera a PostgreSQL saludable, crea las tablas mediante las migraciones versionadas y configura el rol limitado de la API. Una segunda ejecución no duplica el esquema ni carga hábitos de ejemplo. Continúa únicamente si termina correctamente: arrancar la API no aplica migraciones automáticamente.
 
 ### 3. Iniciar API y frontend compilado
 
@@ -545,6 +557,71 @@ Este comando vincula el subject existente; no crea contraseñas ni reactiva perf
 ![PWA con el shell disponible sin conexión](docs/evidencias/docker-2026-11-20/pwa-offline.png)
 
 *Captura después de deshabilitar la red en Chrome y recargar `/instalar`. No se capturaron sesiones, credenciales ni datos personales.*
+
+### Si el entorno no inicia
+
+| Síntoma | Qué revisar |
+|---|---|
+| `docker version` no muestra Server | Inicia Docker Desktop y selecciona contenedores Linux antes de continuar. |
+| Compose indica que falta configuración | Comprueba `infrastructure/docker/.env.local` y vuelve a definir `$qcCompose` en esa terminal. Usa `config --quiet` para validar sin imprimir claves. |
+| Puerto 5173 ocupado | Detén Vite del host o la otra modalidad web de Docker, según el paso 3. |
+| API no está lista o devuelve 503 | Consulta `ps` y los logs de API/PostgreSQL; comprueba que `migrate` terminó sin errores. Salud SQL no comprueba el login de Keycloak. |
+| Inicio de sesión falla o `/conexion` devuelve 403 | Revisa realm, rol `user` y perfil aprovisionado para el subject correcto. Un realm existente no se actualiza al reimportar. |
+| PostgreSQL rechaza la contraseña | Conserva el volumen y recupera la configuración correspondiente; regenerar `.env.local` no actualiza usuarios existentes. |
+
+## Base de datos y persistencia local
+
+### Qué existe y dónde se guarda
+
+El núcleo de hábitos **sí tiene PostgreSQL y esquema SQL implementados**. El [modelo conceptual](docs/datos-ia/modelo-datos.md) describe además entidades futuras; para conocer las tablas actuales, la fuente ejecutable son las [migraciones de la API](services/api/db/migrations/).
+
+| Datos | Almacén actual | Persistencia en Docker |
+|---|---|---|
+| Perfiles, hábitos, check-ins, historial, recibos de idempotencia y outbox de auditoría | PostgreSQL 18.6, base `quantify_core_dev` | Volumen `quantify-core-dev_postgres-data`, montado en `/var/lib/postgresql`. |
+| Cuentas, credenciales, roles y configuración de identidad | Base de desarrollo integrada de Keycloak 26.8.1 | Volumen `quantify-core-dev_keycloak-data`, montado en `/opt/keycloak/data`. No usa el PostgreSQL de negocio en este Compose. |
+| Datos ilustrativos de las pantallas de demostración | Fixtures/estado del cliente | No se convierten en registros PostgreSQL al editar la demo. `/conexion` consulta datos reales y puede mostrar una lista vacía. |
+
+Los nombres corresponden al proyecto `quantify-core-dev` definido en [compose.yaml](infrastructure/docker/compose.yaml); cambiar el nombre del proyecto crea otro conjunto de volúmenes. Son volúmenes administrados por Docker, no carpetas del repositorio ni archivos sincronizados por Git/OneDrive. En Docker Desktop con contenedores Linux, el almacenamiento pertenece al entorno Linux de Docker. No se necesita buscar ni editar sus archivos internos para consultar SQL.
+
+MongoDB tiene una implementación opcional para la [simulación sintética de telemetría](services/api/telemetry/README.md), separada de este arranque. Redis y FastAPI no son dependencias del núcleo manual ni servicios del Compose base.
+
+### Esquema y migraciones
+
+| Fuente | Qué prepara |
+|---|---|
+| [001_core.sql](services/api/db/migrations/001_core.sql) | `profiles`, `categories`, `habits`, `habit_revisions` y `audit_outbox`, con restricciones y auditoría. La tabla `categories` no implica que exista un endpoint de categorías. |
+| [002_core_integration.sql](services/api/db/migrations/002_core_integration.sql) | Zona del perfil, `check_ins`, `check_in_revisions`, `api_receipts` y vistas `dashboard_read.v1_*`. |
+| [migrate.cjs](services/api/db/migrate.cjs) | Ledger `schema_migrations`, checksums y aplicación transaccional con bloqueo para evitar migraciones concurrentes. |
+| [provision-runtime.cjs](services/api/db/provision-runtime.cjs) | Rol `quantify_api` con permisos limitados; las migraciones usan `quantify_owner`. |
+
+Las migraciones crean estructura, no cuentas Keycloak ni hábitos de ejemplo. El perfil de negocio enlaza `(oidc_issuer, oidc_subject)` con la identidad existente, sin copiar contraseñas. Para crear ese perfil sigue [Desarrollo, PWA y acceso real](#desarrollo-pwa-y-acceso-real).
+
+Después de recibir nuevas migraciones, vuelve a ejecutar la tarea `migrate` del paso 2 antes de reconstruir la API. No edites una migración ya aplicada: un checksum distinto detiene la ejecución. Añade otra migración para evolucionar el esquema y revisa el cambio con el responsable de datos.
+
+### Consultar la base y localizar los volúmenes
+
+Desde la raíz, con `$qcCompose` definido como en el paso 1 y PostgreSQL iniciado, estos comandos inspeccionan estructura y estado sin mostrar registros personales ni claves:
+
+```powershell
+# Tablas de negocio y vistas de lectura.
+docker compose @qcCompose exec postgres psql -U quantify_owner -d quantify_core_dev -c '\dt public.*'
+docker compose @qcCompose exec postgres psql -U quantify_owner -d quantify_core_dev -c '\dv dashboard_read.*'
+
+# Migraciones aplicadas: deben figurar 001_core.sql y 002_core_integration.sql.
+docker compose @qcCompose exec postgres psql -U quantify_owner -d quantify_core_dev -c 'SELECT filename, applied_at FROM schema_migrations ORDER BY filename;'
+
+# Volúmenes del proyecto y ubicación administrada por Docker.
+docker volume ls --filter label=com.docker.compose.project=quantify-core-dev
+docker volume inspect quantify-core-dev_postgres-data quantify-core-dev_keycloak-data --format '{{.Name}} -> {{.Mountpoint}}'
+```
+
+`Mountpoint` es una ruta del motor Docker; en Docker Desktop puede no ser accesible directamente desde el Explorador de Windows. Para una herramienta SQL del host, utiliza `127.0.0.1:55432`, base `quantify_core_dev`, y configura privadamente la credencial local del rol autorizado. La API dentro de Compose se conecta a `postgres:5432` como `quantify_api`; el navegador se comunica con la API, nunca directamente con PostgreSQL.
+
+### Conservar datos y trabajo pendiente
+
+`stop` conserva contenedores y volúmenes. Reconstruir API/web conserva los datos porque están en volúmenes separados. `docker compose down`, sin `--volumes`, elimina contenedores/red y conserva los volúmenes con nombre; `down --volumes`, eliminar estos volúmenes o restablecer el almacenamiento de Docker puede borrar los datos locales. Conservar un volumen **no equivale a tener un respaldo**.
+
+Quedan por cerrar y verificar respaldos/restauración, retención y eliminación, capacidad y configuración de datos del destino productivo. El ORM sigue siendo una decisión pendiente; el núcleo actual usa SQL mediante `pg`. Estas tareas no impiden levantar el laboratorio, pero deben resolverse antes de tratarlo como entorno de producción. Consulta [recuperación](docs/despliegue/recuperacion.md) y [decisiones pendientes](docs/arquitectura/decisiones-pendientes.md).
 
 ## Documentación y prácticas académicas
 
