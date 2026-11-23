@@ -1,6 +1,6 @@
 # Sistema de diseño
 
-**Revisión Flutter en OPPO · 23/11/2026:** `mobile-effects.json` versión 2 aumenta presencia del cristal mediante opacidades, fondo y reflejos, con intensidad inicial 75 %. Conserva superficies sólidas en alto contraste y solo dos filtros de desenfoque. Icono y splash Android proceden de la Q canónica; una entrada Flutter de un segundo precede a la bienvenida y se omite con movimiento reducido. [Alcance y verificación móvil](../../apps/mobile/README.md). Es una revisión del prototipo, pendiente de feedback visual; no redefine la identidad ni acredita rendimiento nativo.
+**Revisión Flutter en OPPO · 23/11/2026:** `mobile-effects.json` versión 3 aumenta presencia del cristal mediante opacidades, fondo y reflejos, con intensidad inicial 75 %. Conserva superficies sólidas en alto contraste y solo dos filtros de desenfoque. Icono y splash Android proceden de la Q canónica; la Q centrada se desplaza y revela UANTIFY para formar QUANTIFY durante dos segundos antes de abrir la bienvenida y se omite con movimiento reducido. [Alcance y verificación móvil](../../apps/mobile/README.md). Es una revisión del prototipo, pendiente de feedback visual; no redefine la identidad ni acredita rendimiento nativo.
 
 **Distribución general del 17/11/2026:** [composición de las 33 pantallas](../GUI/COMPOSICION-GENERAL.md), con login editorial, columnas adaptadas al rail y paneles de contexto por tarea. Los valores nuevos de geometría y titular de acceso se centralizan en tokens 0.4.2.
 

@@ -1,9 +1,11 @@
 {
-  "version": 2,
+  "version": 3,
   "scope": "flutter-visual-prototype",
   "glass": { "minimumSigma": 8, "maximumSigma": 18, "defaultIntensity": 0.75,
     "lightOpacity": 0.58, "darkOpacity": 0.68,
     "highlightAlpha": 0.65, "backdropAlpha": 0.3 },
-  "motion": { "navigationMs": 340, "pageMs": 360, "responseMs": 220, "launchMs": 1000 },
+  "motion": { "navigationMs": 340, "pageMs": 360, "responseMs": 220, "launchMs": 2000 },
+  "launch": { "launchSymbolSize": 112, "launchWordmarkSymbolSize": 48,
+    "launchWordmarkFontSize": 36, "launchWordmarkTracking": 3 },
   "surfaceRadius": 28
 }

@@ -12,10 +12,14 @@ class MobilePrototypeApp extends StatefulWidget {
     this.initialSettings = const VisualSettings(),
     this.showWelcome = true,
     this.showSplash = false,
+    this.firstFrameReady,
   });
   final VisualSettings initialSettings;
   final bool showWelcome;
   final bool showSplash;
+
+  /// Optional raster readiness signal for hosts that render without an engine.
+  final Future<void>? firstFrameReady;
   @override
   State<MobilePrototypeApp> createState() => _MobilePrototypeAppState();
 }
@@ -57,6 +61,7 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp> {
               : MobileTokens.responseMs,
           home: _launching
               ? PrototypeLaunch(
+                  firstFrameReady: widget.firstFrameReady,
                   onComplete: () {
                     if (mounted) setState(() => _launching = false);
                   },
@@ -72,8 +77,13 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp> {
 
 /// One brief brand entrance per process launch; no simulated network progress.
 class PrototypeLaunch extends StatefulWidget {
-  const PrototypeLaunch({super.key, required this.onComplete});
+  const PrototypeLaunch({
+    super.key,
+    required this.onComplete,
+    this.firstFrameReady,
+  });
   final VoidCallback onComplete;
+  final Future<void>? firstFrameReady;
   @override
   State<PrototypeLaunch> createState() => _PrototypeLaunchState();
 }
@@ -96,7 +106,13 @@ class _PrototypeLaunchState extends State<PrototypeLaunch>
         if (mounted) widget.onComplete();
       });
     } else {
-      _controller.forward();
+      // Wait for rasterization, not just widget layout: engine startup must not
+      // consume the reveal while Android is still showing the native splash.
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await (widget.firstFrameReady ??
+            WidgetsBinding.instance.waitUntilFirstFrameRasterized);
+        if (mounted) _controller.forward();
+      });
     }
   }
 
@@ -113,39 +129,102 @@ class _PrototypeLaunchState extends State<PrototypeLaunch>
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(32),
-            child: FadeTransition(
-              opacity: _controller.drive(
-                CurveTween(curve: const Interval(0, .4, curve: Curves.easeOut)),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const QMark(size: 88),
-                  const SizedBox(height: 28),
-                  const FittedBox(
-                    child: Text(
-                      'QUANTIFY',
-                      style: TextStyle(
-                        fontSize: 32,
-                        letterSpacing: 5,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'Un hábito a la vez.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: context.color('muted')),
-                  ),
-                ],
-              ),
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, _) =>
+                  _LaunchWordmark(progress: _controller.value),
             ),
           ),
         ),
       ),
     ),
   );
+}
+
+class _LaunchWordmark extends StatelessWidget {
+  const _LaunchWordmark({required this.progress});
+  final double progress;
+
+  @override
+  Widget build(BuildContext context) {
+    final move = const Interval(
+      .15,
+      .45,
+      curve: Curves.easeInOutCubic,
+    ).transform(progress);
+    final reveal = const Interval(
+      .45,
+      .85,
+      curve: Curves.easeOutCubic,
+    ).transform(progress);
+    final style = TextStyle(
+      fontFamily: 'Inter',
+      fontSize: MobileTokens.launchWordmarkFontSize,
+      letterSpacing: MobileTokens.launchWordmarkTracking,
+      fontWeight: FontWeight.w700,
+      color: context.color('text'),
+    );
+    // The Q is the first letter of the wordmark; never paint a second text Q.
+    // Treat the complete wordmark as a logo and fit it as one unit on small screens.
+    final measure = TextPainter(
+      text: TextSpan(text: 'UANTIFY', style: style),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    final textWidth = measure.width;
+    final textHeight = measure.height;
+    measure.dispose();
+    const startSize = MobileTokens.launchSymbolSize;
+    const endSize = MobileTokens.launchWordmarkSymbolSize;
+    final width = endSize + textWidth;
+    final size = startSize + (endSize - startSize) * move;
+    final left = ((width - startSize) / 2) * (1 - move);
+    return Semantics(
+      label: 'Quantify',
+      image: true,
+      child: ExcludeSemantics(
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: SizedBox(
+            width: width,
+            height: startSize,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  left: left,
+                  top: (startSize - size) / 2,
+                  child: QMark(size: size),
+                ),
+                if (reveal > 0)
+                  Positioned(
+                    left: endSize,
+                    top: (startSize - textHeight) / 2,
+                    child: ClipRect(
+                      key: const ValueKey('splash-name-reveal'),
+                      child: SizedBox(
+                        width: textWidth * reveal,
+                        height: textHeight,
+                        child: OverflowBox(
+                          alignment: Alignment.centerLeft,
+                          minWidth: textWidth,
+                          maxWidth: textWidth,
+                          child: Text(
+                            'UANTIFY',
+                            style: style,
+                            textScaler: TextScaler.noScaling,
+                            textDirection: TextDirection.ltr,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class PrototypeWelcome extends StatelessWidget {

@@ -1,16 +1,44 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:quantify_mobile/prototype/prototype_app.dart';
+import 'package:quantify_mobile/prototype/design.dart';
 import 'package:quantify_mobile/prototype/state.dart';
 
 void main() {
-  testWidgets('el splash termina en bienvenida y no vuelve al navegar', (
+  testWidgets('Q revela el nombre antes de abrir bienvenida y no se repite', (
     tester,
   ) async {
-    await tester.pumpWidget(const MobilePrototypeApp(showSplash: true));
-    expect(find.text('QUANTIFY'), findsOneWidget);
+    final firstFrame = Completer<void>();
+    await tester.pumpWidget(
+      MobilePrototypeApp(showSplash: true, firstFrameReady: firstFrame.future),
+    );
+    // A slow engine must not use up the wordmark animation behind Android's splash.
+    await tester.pump(const Duration(seconds: 3));
+    expect(find.text('UANTIFY'), findsNothing);
     expect(find.byType(PrototypeWelcome), findsNothing);
-    await tester.pump(const Duration(milliseconds: 1100));
+    firstFrame.complete();
+    await tester.pump();
+    await tester.pump();
+    expect(find.byType(QMark), findsOneWidget);
+    expect(find.text('UANTIFY'), findsNothing);
+    final initialCenter = tester.getCenter(find.byType(QMark));
+    expect(find.byType(PrototypeWelcome), findsNothing);
+    await tester.pump(const Duration(milliseconds: 1200));
+    expect(find.text('UANTIFY'), findsOneWidget);
+    final partialWidth = tester
+        .getSize(find.byKey(const ValueKey('splash-name-reveal')))
+        .width;
+    expect(tester.getCenter(find.byType(QMark)).dx, lessThan(initialCenter.dx));
+    expect(find.byType(PrototypeWelcome), findsNothing);
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(
+      tester.getSize(find.byKey(const ValueKey('splash-name-reveal'))).width,
+      greaterThan(partialWidth),
+    );
+    expect(find.byType(PrototypeWelcome), findsNothing);
+    await tester.pump(const Duration(milliseconds: 300));
     await tester.pumpAndSettle();
     expect(find.byType(PrototypeWelcome), findsOneWidget);
     await tester.scrollUntilVisible(find.text('Explorar demostración'), 300);

@@ -36,6 +36,8 @@ def generate():
         lines.append(f"  static const {name} = {effects['glass'][name]};")
     for name, value in effects["motion"].items():
         lines.append(f"  static const {name} = Duration(milliseconds: {value});")
+    for name, value in effects["launch"].items():
+        lines.append(f"  static const {name} = {float(value)};")
     lines += ["}", ""]
     font = TTFont(ROOT / "docs/GUI/assets/inter.woff2", recalcTimestamp=False)
     font.flavor = None

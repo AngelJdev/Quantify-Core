@@ -4,7 +4,7 @@
 
 **Prueba en teléfono · 23/11/2026:** APK debug del prototipo instalado y abierto mediante USB en OPPO CPH2239, Android 11 (API 30). Se corrigió el paquete de `MainActivity` a `com.quantify.app` para coincidir con el namespace y la actividad declarada en Android; antes la app se cerraba con `ClassNotFoundException`. ADB confirmó la actividad en primer plano y el proceso activo. Revisión visual por el responsable en curso; este arranque no valida todos los recorridos ni el rendimiento. Las limitaciones de dispositivo indicadas más abajo corresponden al corte del 20/11.
 
-**Revisión visual · 23/11/2026:** cristal con mayor transparencia, reflejo superior, borde iluminado y fondo azul/cian más visible; intensidad inicial 75 %. Se mantienen los dos filtros de cabecera/dock, efectos ligeros y alto contraste sólido. El icono Android usa la Q canónica (PNG por densidad e icono adaptativo). El splash nativo claro/oscuro muestra esa misma Q antes del primer frame, y `main_prototype.dart` añade una entrada de marca de un segundo antes de la bienvenida; movimiento reducido omite esa espera. Android 12+ tiene recurso específico para el splash del sistema; su apariencia queda pendiente de probar en esa versión. Las pruebas locales suman 14 aprobadas, con análisis sin incidencias; incluye salida del splash, navegación y movimiento reducido. No se conectaron servicios.
+**Revisión visual · 23/11/2026:** cristal con mayor transparencia, reflejo superior, borde iluminado y fondo azul/cian más visible; intensidad inicial 75 %. Se mantienen los dos filtros de cabecera/dock, efectos ligeros y alto contraste sólido. El icono Android usa la Q canónica (PNG por densidad e icono adaptativo). El splash nativo claro/oscuro muestra esa misma Q antes del primer frame, y `main_prototype.dart` anima la Q centrada, la desplaza a la izquierda y revela UANTIFY hasta completar QUANTIFY en dos segundos; al finalizar abre la bienvenida; movimiento reducido omite esa espera. Android 12+ tiene recurso específico para el splash del sistema; su apariencia queda pendiente de probar en esa versión. Las pruebas locales suman 14 aprobadas, con análisis sin incidencias; incluye salida del splash, navegación y movimiento reducido. No se conectaron servicios.
 
 La nueva entrada **`lib/main_prototype.dart`** implementa la revisión de los mockups móviles: Bienvenida → Hoy / Progreso / IA hábitos / Perfil; hábitos, creación/edición, detalle, avance absoluto e historial local. La demo anterior del colaborador permanece en `lib/main.dart`, con sus fuentes y pruebas independientes. [Pantallas, capturas, optimizaciones y límites](docs/prototipo-v2-2026-11-20.md).
 
@@ -33,6 +33,16 @@ flutter build apk --debug --target lib/main_prototype.dart
 ```
 
 El APK está en `build/app/outputs/flutter-apk/app-debug.apk`. El proyecto conserva su identificador Android y configuración de firma heredados; esto no constituye una aplicación publicada. No se comprobó instalación ni rendimiento en un teléfono físico. `flutter doctor` todavía señala herramientas Android de línea de comandos/licencias por revisar; pese a ello el SDK disponible permitió compilar el APK. No hay emulador configurado en esta máquina.
+
+Para revisar la animación en el OPPO ARM64 en modo profile, generar `build/app/outputs/flutter-apk/app-profile.apk`:
+
+```powershell
+flutter build apk --profile --target lib/main_prototype.dart --target-platform android-arm64
+```
+
+La secuencia de entrada mantiene primero la Q, la desplaza y reduce para ocupar la primera letra de QUANTIFY, y revela UANTIFY de izquierda a derecha. El controlador abre la bienvenida al completar la animación de dos segundos; no hay un temporizador adicional. El tiempo de arranque nativo anterior depende del teléfono y del modo de compilación. La prueba de widgets verifica Q sola, revelado parcial, nombre completo y salida, además del acceso sin espera con movimiento reducido.
+
+**Verificación del splash animado · 23/11/2026:** compilación profile ARM64 instalada y abierta en OPPO CPH2239. Se espera la señal del primer cuadro rasterizado antes de empezar el controlador para evitar consumir la animación detrás del splash nativo. Capturas reales: [Q inicial](docs/evidencias/prototipo-v2-2026-11-23/splash-q-oppo.png) y [QUANTIFY completo](docs/evidencias/prototipo-v2-2026-11-23/splash-quantify-oppo.png); la secuencia de captura posterior confirmó la bienvenida. Análisis sin incidencias y 14 pruebas aprobadas, incluyendo arranque de motor demorado. No se midieron tiempos de cuadro ni batería.
 
 **Apariencia:** usar el icono de ajustes de la cabecera o **Perfil → Apariencia y Liquid Glass**. Cristal está activo inicialmente y se puede desactivar; intensidad, claro/oscuro/sistema, efectos ligeros y movimiento reducido son configurables. Alto contraste fuerza material sólido, y la reducción de movimiento del dispositivo tiene prioridad. Las preferencias y los hábitos son solo de esta sesión; no se guardan al reiniciar ni se sincronizan.
 
