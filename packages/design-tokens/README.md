@@ -1,6 +1,6 @@
 # Tokens de diseño
 
-La revisión móvil del 23/11/2026 centraliza en `mobile-effects.json` v3 las opacidades clara/oscura, reflejos, intensidad del fondo y duración de entrada. `apps/mobile/tool/generate_prototype_assets.py` genera el adaptador Dart, la fuente y los recursos de icono/splash Android desde la paleta y el símbolo canónicos; `--check` comprueba su correspondencia. Estos efectos son del prototipo Flutter y mantienen alto contraste sólido y movimiento reducido.
+La revisión móvil del 23/11/2026 centraliza en `mobile-effects.json` v4 las opacidades clara/oscura, reflejos, intensidad del fondo y duración de entrada. `apps/mobile/tool/generate_prototype_assets.py` genera el adaptador Dart, la fuente y los recursos de icono/splash Android desde la paleta y el símbolo canónicos; `--check` comprueba su correspondencia. Estos efectos son del prototipo Flutter y mantienen alto contraste sólido y movimiento reducido.
 
 **Estado: contrato visual documental con JSON y adaptador CSS; todavía no hay paquete distribuido a clientes.** La identidad del [README principal](../../README.md) es la referencia de color para Quantify Core V2.0. Este documento propone nombres semánticos y registra decisiones necesarias antes de distribuir valores a React o Flutter.
 

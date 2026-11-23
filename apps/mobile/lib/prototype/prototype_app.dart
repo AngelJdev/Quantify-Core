@@ -59,16 +59,31 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp> {
                       .disableAnimations
               ? Duration.zero
               : MobileTokens.responseMs,
-          home: _launching
-              ? PrototypeLaunch(
-                  firstFrameReady: widget.firstFrameReady,
-                  onComplete: () {
-                    if (mounted) setState(() => _launching = false);
-                  },
-                )
-              : widget.showWelcome
-              ? const PrototypeWelcome()
-              : const PrototypeShell(),
+          home: Builder(
+            builder: (context) => AnimatedSwitcher(
+              duration: context.motion(MobileTokens.launchExitMs),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              layoutBuilder: (current, previous) => ColoredBox(
+                color: context.color('canvas'),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [...previous, ?current],
+                ),
+              ),
+              child: _launching
+                  ? PrototypeLaunch(
+                      key: const ValueKey('launch'),
+                      firstFrameReady: widget.firstFrameReady,
+                      onComplete: () {
+                        if (mounted) setState(() => _launching = false);
+                      },
+                    )
+                  : widget.showWelcome
+                  ? const PrototypeWelcome(key: ValueKey('welcome'))
+                  : const PrototypeShell(key: ValueKey('shell')),
+            ),
+          ),
         ),
       ),
     ),

@@ -62,6 +62,7 @@ abstract final class MobileTokens {
   static const pageMs = Duration(milliseconds: 360);
   static const responseMs = Duration(milliseconds: 220);
   static const launchMs = Duration(milliseconds: 2000);
+  static const launchExitMs = Duration(milliseconds: 600);
   static const launchSymbolSize = 112.0;
   static const launchWordmarkSymbolSize = 48.0;
   static const launchWordmarkFontSize = 36.0;

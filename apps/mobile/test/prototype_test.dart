@@ -38,8 +38,24 @@ void main() {
       greaterThan(partialWidth),
     );
     expect(find.byType(PrototypeWelcome), findsNothing);
-    await tester.pump(const Duration(milliseconds: 300));
+    await tester.pump(const Duration(milliseconds: 350));
+    await tester.pump();
+    // The completed wordmark stays on screen while welcome fades in.
+    expect(find.byType(PrototypeWelcome), findsOneWidget);
+    expect(find.byType(PrototypeLaunch), findsOneWidget);
+    await tester.pump(const Duration(milliseconds: 250));
+    final exit = tester.widget<FadeTransition>(
+      find
+          .ancestor(
+            of: find.byType(PrototypeLaunch),
+            matching: find.byType(FadeTransition),
+          )
+          .first,
+    );
+    expect(exit.opacity.value, inExclusiveRange(0, 1));
+    expect(find.byType(PrototypeWelcome), findsOneWidget);
     await tester.pumpAndSettle();
+    expect(find.byType(PrototypeLaunch), findsNothing);
     expect(find.byType(PrototypeWelcome), findsOneWidget);
     await tester.scrollUntilVisible(find.text('Explorar demostración'), 300);
     await tester.tap(find.text('Explorar demostración'));
