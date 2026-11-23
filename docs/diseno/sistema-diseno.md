@@ -2,6 +2,8 @@
 
 **Movimiento y material opcional · 20/11/2026:** [Liquid Glass configurable, presentación sólida y preferencias de accesibilidad](materiales-movimiento.md). La PWA mantiene la estructura y colores canónicos; los tokens de experiencia se centralizan junto a los de identidad.
 
+**Revisión Flutter en OPPO · 23/11/2026:** `mobile-effects.json` versión 4 aumenta presencia del cristal mediante opacidades, fondo y reflejos, con intensidad inicial 75 %. Conserva superficies sólidas en alto contraste y solo dos filtros de desenfoque. Icono y splash Android proceden de la Q canónica; la Q centrada se desplaza y revela UANTIFY para formar QUANTIFY durante dos segundos y da paso a la bienvenida con un fundido de 600 ms y se omite con movimiento reducido. [Alcance y verificación móvil](../../apps/mobile/README.md). Es una revisión del prototipo, pendiente de feedback visual; no redefine la identidad ni acredita rendimiento nativo.
+
 **Distribución general del 17/11/2026:** [composición de las 33 pantallas](../GUI/COMPOSICION-GENERAL.md), con login editorial, columnas adaptadas al rail y paneles de contexto por tarea. Los valores nuevos de geometría y titular de acceso se centralizan en tokens 0.4.2.
 
 **Composición de entrada · 17/11/2026:** [bienvenida, carga y vistas breves](../GUI/ENTRADA.md). La extensión de titulares y movimiento del prototipo está centralizada en `packages/design-tokens/preview.json.prototypeEntry`; no redefine la paleta ni los ocho estilos base de la guía. La actualización del archivo remoto de Figma sigue pendiente.
@@ -111,6 +113,12 @@ Objetivo de producto: **WCAG 2.2 nivel AA** en web y criterios equivalentes comp
 En Flutter, probar TalkBack/VoiceOver, escalado de texto, etiquetas y API de pruebas de accesibilidad en dispositivos representativos. [Pruebas de accesibilidad Flutter](https://docs.flutter.dev/ui/accessibility/accessibility-testing).
 
 ## Entrega y evolución
+
+### Material y movimiento del prototipo Flutter V2
+
+El [prototipo móvil V2](../../apps/mobile/docs/prototipo-v2-2026-11-20.md) conserva los colores y geometría de `preview.json`. En la entrega inicial del 20/11, [mobile-effects.json](../../packages/design-tokens/mobile-effects.json), versión 1 y alcance `flutter-visual-prototype`, definía radio de superficie 28, sigma de desenfoque 6–14 e intensidad inicial 0.6; navegación 340 ms, entrada de página 360 ms y respuesta 220 ms. La revisión vigente del 23/11 se describe al inicio de esta guía y en el README móvil. Son valores de demostración, pendientes de aprobación para producto.
+
+Liquid Glass es opcional: luz, bordes y transparencia, con desenfoque limitado a cabecera y navegación flotantes. El modo de efectos ligeros elimina el desenfoque; alto contraste utiliza material sólido. Movimiento reducido del sistema o manual elimina las transiciones propias. Las preferencias son locales a esta sesión, y no sustituyen pruebas de contraste, accesibilidad ni rendimiento en dispositivos. La generación y sus comprobaciones están documentadas en el [README móvil](../../apps/mobile/README.md).
 
 Un componente se incorpora con descripción, variantes, estados, permisos, ejemplos de contenido y evidencia de accesibilidad. Un cambio compartido actualiza tokens, consumidores y referencias del mismo concepto. Versionar las capturas indicando si son sketch o producto, rol, pantalla, ambiente y commit.
 
