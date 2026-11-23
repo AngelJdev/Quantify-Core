@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../identity/mobile_session.dart';
+
 import 'design.dart';
 import 'generated_tokens.dart';
 import 'pages.dart';
@@ -13,10 +15,12 @@ class MobilePrototypeApp extends StatefulWidget {
     this.showWelcome = true,
     this.showSplash = false,
     this.firstFrameReady,
+    this.session,
   });
   final VisualSettings initialSettings;
   final bool showWelcome;
   final bool showSplash;
+  final MobileSession? session;
 
   /// Optional raster readiness signal for hosts that render without an engine.
   final Future<void>? firstFrameReady;
@@ -25,63 +29,91 @@ class MobilePrototypeApp extends StatefulWidget {
 }
 
 class _MobilePrototypeAppState extends State<MobilePrototypeApp> {
-  final _model = PrototypeModel();
+  var _model = PrototypeModel();
+  final _navigator = GlobalKey<NavigatorState>();
+  late final _session = widget.session ?? MobileSession();
+  bool _wasAuthenticated = false;
   late final _appearance = ValueNotifier(widget.initialSettings);
   late bool _launching = widget.showSplash;
   @override
+  void initState() {
+    super.initState();
+    _wasAuthenticated = _session.authenticated;
+    _session.addListener(_sessionChanged);
+  }
+
+  void _sessionChanged() {
+    final ended = _wasAuthenticated && !_session.authenticated;
+    _wasAuthenticated = _session.authenticated;
+    if (ended) {
+      _navigator.currentState?.popUntil((route) => route.isFirst);
+      final previous = _model;
+      _model = PrototypeModel();
+      WidgetsBinding.instance.addPostFrameCallback((_) => previous.dispose());
+    }
+    setState(() {});
+  }
+
+  @override
   void dispose() {
+    _session.removeListener(_sessionChanged);
+    if (widget.session == null) _session.dispose();
     _model.dispose();
     _appearance.dispose();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => PrototypeScope(
-    model: _model,
-    child: ValueListenableBuilder<VisualSettings>(
-      valueListenable: _appearance,
-      builder: (context, settings, child) => PrototypeAppearance(
-        settings: settings,
-        onChanged: (value) => _appearance.value = value,
-        child: MaterialApp(
-          title: 'Quantify · Prototipo móvil',
-          debugShowCheckedModeBanner: false,
-          theme: prototypeTheme(Brightness.light),
-          darkTheme: prototypeTheme(Brightness.dark),
-          themeMode: settings.theme,
-          themeAnimationDuration:
-              settings.reducedMotion ||
-                  settings.economy ||
-                  WidgetsBinding
-                      .instance
-                      .platformDispatcher
-                      .accessibilityFeatures
-                      .disableAnimations
-              ? Duration.zero
-              : MobileTokens.responseMs,
-          home: Builder(
-            builder: (context) => AnimatedSwitcher(
-              duration: context.motion(MobileTokens.launchExitMs),
-              switchInCurve: Curves.easeOutCubic,
-              switchOutCurve: Curves.easeInCubic,
-              layoutBuilder: (current, previous) => ColoredBox(
-                color: context.color('canvas'),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [...previous, ?current],
+  Widget build(BuildContext context) => MobileSessionScope(
+    session: _session,
+    child: PrototypeScope(
+      model: _model,
+      child: ValueListenableBuilder<VisualSettings>(
+        valueListenable: _appearance,
+        builder: (context, settings, child) => PrototypeAppearance(
+          settings: settings,
+          onChanged: (value) => _appearance.value = value,
+          child: MaterialApp(
+            navigatorKey: _navigator,
+            title: 'Quantify · Prototipo móvil',
+            debugShowCheckedModeBanner: false,
+            theme: prototypeTheme(Brightness.light),
+            darkTheme: prototypeTheme(Brightness.dark),
+            themeMode: settings.theme,
+            themeAnimationDuration:
+                settings.reducedMotion ||
+                    settings.economy ||
+                    WidgetsBinding
+                        .instance
+                        .platformDispatcher
+                        .accessibilityFeatures
+                        .disableAnimations
+                ? Duration.zero
+                : MobileTokens.responseMs,
+            home: Builder(
+              builder: (context) => AnimatedSwitcher(
+                duration: context.motion(MobileTokens.launchExitMs),
+                switchInCurve: Curves.easeOutCubic,
+                switchOutCurve: Curves.easeInCubic,
+                layoutBuilder: (current, previous) => ColoredBox(
+                  color: context.color('canvas'),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [...previous, ?current],
+                  ),
                 ),
+                child: _launching
+                    ? PrototypeLaunch(
+                        key: const ValueKey('launch'),
+                        firstFrameReady: widget.firstFrameReady,
+                        onComplete: () {
+                          if (mounted) setState(() => _launching = false);
+                        },
+                      )
+                    : widget.showWelcome && !_session.authenticated
+                    ? const PrototypeWelcome(key: ValueKey('welcome'))
+                    : const PrototypeShell(key: ValueKey('shell')),
               ),
-              child: _launching
-                  ? PrototypeLaunch(
-                      key: const ValueKey('launch'),
-                      firstFrameReady: widget.firstFrameReady,
-                      onComplete: () {
-                        if (mounted) setState(() => _launching = false);
-                      },
-                    )
-                  : widget.showWelcome
-                  ? const PrototypeWelcome(key: ValueKey('welcome'))
-                  : const PrototypeShell(key: ValueKey('shell')),
             ),
           ),
         ),
@@ -339,7 +371,7 @@ class PrototypeWelcome extends StatelessWidget {
                 OutlinedButton(
                   onPressed: () =>
                       showPrototypePage(context, const AccessPreview()),
-                  child: const Text('Conocer el acceso'),
+                  child: const Text('Iniciar sesión o crear cuenta'),
                 ),
                 const SizedBox(height: 18),
                 const DemoNote(),

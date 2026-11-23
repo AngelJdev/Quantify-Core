@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../identity/mobile_session.dart';
+
 import 'appearance_sheet.dart';
 import 'design.dart';
 import 'generated_tokens.dart';
@@ -820,16 +822,24 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 14),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Perfil de ejemplo\nSin cuenta conectada',
-                style: TextStyle(height: 1.6),
+                MobileSessionScope.of(context).authenticated
+                    ? 'Sesión Keycloak activa\nDashboard de ejemplo'
+                    : 'Perfil de ejemplo\nSin cuenta conectada',
+                style: const TextStyle(height: 1.6),
               ),
             ),
           ],
         ),
       ),
       const SizedBox(height: 16),
+      if (MobileSessionScope.of(context).authenticated)
+        _ProfileAction(
+          icon: Icons.logout_rounded,
+          title: 'Cerrar sesión',
+          onTap: () => MobileSessionScope.of(context).signOut(),
+        ),
       _ProfileAction(
         icon: Icons.tune_rounded,
         title: 'Apariencia y Liquid Glass',
@@ -855,7 +865,7 @@ class ProfilePage extends StatelessWidget {
             children: [
               LiquidSurface(
                 child: Text(
-                  'Solo datos sintéticos en memoria. No se recogen credenciales, biometría ni conversaciones.\n\nConsentimiento, dispositivos y sesión real siguen pendientes de integración.',
+                  'Los hábitos y métricas son datos sintéticos en memoria. Keycloak gestiona las credenciales y la sesión; los tokens no se guardan en el dispositivo.\n\nConsentimiento, dispositivos y datos de negocio conectados siguen pendientes.',
                   style: TextStyle(height: 1.8),
                 ),
               ),
@@ -926,32 +936,88 @@ class NoticesPage extends StatelessWidget {
 class AccessPreview extends StatelessWidget {
   const AccessPreview({super.key});
   @override
-  Widget build(BuildContext context) => const DetailPage(
-    title: 'Un espacio seguro para ti',
-    children: [
-      LiquidSurface(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(Icons.shield_outlined, size: 36),
-            SizedBox(height: 20),
-            Text(
-              'Tu identidad, con Keycloak.',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-            ),
-            SizedBox(height: 18),
-            Text(
-              'El acceso OIDC del cliente móvil está pendiente. Esta vista no recibe contraseñas ni crea una sesión.',
-              style: TextStyle(height: 1.8),
-            ),
-            SizedBox(height: 24),
-            FilledButton(
-              onPressed: null,
-              child: Text('Acceso institucional pendiente'),
-            ),
-          ],
+  Widget build(BuildContext context) {
+    final session = MobileSessionScope.of(context);
+    Future<void> access(bool register) async {
+      await session.signIn(register: register);
+      if (context.mounted && session.authenticated) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    }
+
+    return DetailPage(
+      title: 'Un espacio seguro para ti',
+      children: [
+        LiquidSurface(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.shield_outlined, size: 36),
+              const SizedBox(height: 20),
+              const Text(
+                'Tu identidad, con Keycloak.',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 18),
+              const Text(
+                'Inicia sesión o crea tu cuenta en Keycloak. Al terminar volverás a Quantify con tu sesión y el dashboard de ejemplo.',
+                style: TextStyle(height: 1.8),
+              ),
+              const SizedBox(height: 24),
+              if (!session.available)
+                Text(
+                  session.supported
+                      ? 'Falta configurar Keycloak para este dispositivo.'
+                      : 'Abre la app Android o iOS para iniciar sesión.',
+                ),
+              if (session.busy) const LinearProgressIndicator(),
+              if (session.message != null)
+                Semantics(liveRegion: true, child: Text(session.message!)),
+              FilledButton(
+                onPressed: session.available && !session.busy
+                    ? () => access(false)
+                    : null,
+                child: const Text('Continuar con Keycloak'),
+              ),
+              OutlinedButton(
+                onPressed: session.available && !session.busy
+                    ? () => access(true)
+                    : null,
+                child: const Text('Crear cuenta'),
+              ),
+              const SizedBox(height: 24),
+              const Divider(),
+              const SizedBox(height: 16),
+              const Text(
+                'Otras formas de entrar',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Próximamente',
+                style: TextStyle(color: context.color('muted')),
+              ),
+              const SizedBox(height: 16),
+              for (final provider in const [
+                (label: 'Google', icon: Icons.g_mobiledata_rounded),
+                (label: 'Facebook', icon: Icons.facebook_rounded),
+                (label: 'Apple ID', icon: Icons.apple_rounded),
+              ])
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: null,
+                      icon: Icon(provider.icon, size: 24),
+                      label: Text('Continuar con ${provider.label}'),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }

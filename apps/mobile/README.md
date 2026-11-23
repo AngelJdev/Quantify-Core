@@ -1,5 +1,11 @@
 # Aplicación móvil
 
+## Acceso Keycloak · 23/11/2026
+
+La pantalla distingue **Continuar con Keycloak** (funcional) y botones de **Google, Facebook y Apple ID** deshabilitados con el estado «Próximamente». Estos tres proveedores son solo diseño; su federación e integración quedan pendientes.
+
+`lib/main_prototype.dart` incorpora login y registro en navegador del sistema con `flutter_appauth` 13.0.0, retorno al dashboard de ejemplo y cierre desde Perfil. Tokens en memoria; vencimiento exige volver a entrar. Android mínimo 24. [Configuración USB/HTTPS, pruebas y límites](docs/sesion-keycloak.md) · [ADR-0009](../../docs/arquitectura/adr/0009-sesion-movil-prototipo.md). Esta actualización sustituye las menciones posteriores a sesión pendiente para la entrada del prototipo; `lib/main.dart`, REST y métricas de negocio conservan su alcance independiente sin conexión. iOS requiere validación en macOS.
+
 ## Prototipo visual V2 · Liquid Glass · 20/11/2026
 
 **Prueba en teléfono · 23/11/2026:** APK debug del prototipo instalado y abierto mediante USB en OPPO CPH2239, Android 11 (API 30). Se corrigió el paquete de `MainActivity` a `com.quantify.app` para coincidir con el namespace y la actividad declarada en Android; antes la app se cerraba con `ClassNotFoundException`. ADB confirmó la actividad en primer plano y el proceso activo. Revisión visual por el responsable en curso; este arranque no valida todos los recorridos ni el rendimiento. Las limitaciones de dispositivo indicadas más abajo corresponden al corte del 20/11.

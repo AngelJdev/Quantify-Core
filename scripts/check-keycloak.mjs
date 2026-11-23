@@ -25,6 +25,7 @@ inspect(realm);
 assert.equal(problems.length, 0, problems.join('\n'));
 assert.equal(realm.realm, 'quantify');
 assert.equal(realm.enabled, true);
+assert.equal(realm.registrationAllowed, true);
 assert.equal(realm.keycloakVersion, '26.8.1');
 assert.equal(realm.users?.length ?? 0, 0, 'Las cuentas se aprovisionan fuera de Git');
 for (const role of ['user', 'admin']) assert.ok(realm.roles.realm.some(r => r.name === role && r.composite === false));
@@ -44,6 +45,7 @@ for (const id of ['quantify-web', 'quantify-mobile']) {
   assert.equal(audience?.config['access.token.claim'], 'true');
   assert.equal(audience?.config['id.token.claim'], 'false');
   if (id === 'quantify-web') assert.equal(client.attributes['post.logout.redirect.uris'], 'http://localhost:5173/');
+  if (id === 'quantify-mobile') assert.equal(client.attributes['post.logout.redirect.uris'], 'com.quantify.app:/oauth2redirect');
 }
 const mapper = realm.clientScopes.find(s => s.name === 'roles')?.protocolMappers.find(m => m.protocolMapper === 'oidc-usermodel-realm-role-mapper');
 assert.equal(mapper?.config['claim.name'], 'realm_access.roles');

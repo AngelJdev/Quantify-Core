@@ -27,7 +27,7 @@
   "oauth2DevicePollingInterval": 5,
   "enabled": true,
   "sslRequired": "external",
-  "registrationAllowed": false,
+  "registrationAllowed": true,
   "registrationEmailAsUsername": false,
   "rememberMe": false,
   "verifyEmail": false,
@@ -754,6 +754,7 @@
       "frontchannelLogout": true,
       "protocol": "openid-connect",
       "attributes": {
+        "post.logout.redirect.uris": "com.quantify.app:/oauth2redirect",
         "logout.confirmation.enabled": "false",
         "realm_client": "false",
         "oidc.ciba.grant.enabled": "false",
