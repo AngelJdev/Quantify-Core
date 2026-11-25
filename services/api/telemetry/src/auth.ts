@@ -26,6 +26,14 @@ export class TelemetryIdentity implements CanActivate {
       const realm = payload.realm_access as { roles?: unknown } | undefined;
       if (Array.isArray(realm?.roles)) roles = [...new Set(realm.roles.filter((r): r is 'user'|'admin' => r === 'user' || r === 'admin'))];
     } catch { throw new TelemetryError(401, 'INVALID_ACCESS_TOKEN'); }
+    if (this.config.autoProvisionProfiles) {
+      await this.db.query(
+        `INSERT INTO public.profiles(oidc_issuer, oidc_subject, time_zone)
+         VALUES ($1, $2, 'America/Mexico_City')
+         ON CONFLICT (oidc_issuer, oidc_subject) DO NOTHING`,
+        [this.config.issuer, subject]
+      );
+    }
     const result = await this.db.query<{ id: string; status: string }>(
       'SELECT id,status FROM public.profiles WHERE oidc_issuer=$1 AND oidc_subject=$2', [this.config.issuer, subject]);
     if (result.rows[0]?.status !== 'active') throw new TelemetryError(403, 'PROFILE_NOT_ACTIVE');
