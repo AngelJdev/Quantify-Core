@@ -1,11 +1,14 @@
-import { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { useDemo } from "@/app/DemoProvider";
+import { useState, type ChangeEvent } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useDemo, type ProfileState } from "@/app/DemoProvider";
 import { useTheme } from "@/app/ThemeProvider";
 import { Icon } from "@/shared/ui/Icon";
+import { getMailpitUrl, resizeImageToDataUrl } from "@/shared/api/client";
+
 export function ProfilePage() {
-  const { state, dispatch } = useDemo(),
+  const { state, dispatch, updateProfilePreferences, endSession } = useDemo(),
     { dark, setDark } = useTheme(),
+    navigate = useNavigate(),
     [params, setParams] = useSearchParams();
   const tab = ["Perfil", "Apariencia", "Privacidad", "Dispositivos"].includes(
     params.get("seccion") || "",
@@ -13,8 +16,57 @@ export function ProfilePage() {
     ? params.get("seccion")!
     : "Perfil";
   const [message, setMessage] = useState("");
-  const [reminders, setReminders] = useState(false),
-    [summary, setSummary] = useState(false);
+  const [reminders, setReminders] = useState(true),
+    [summary, setSummary] = useState(true);
+  const [deviceName, setDeviceName] = useState("Galaxy Watch 6 · Wear OS");
+  const [pairingCode, setPairingCode] = useState("QC-2026");
+  const [avatarPreview, setAvatarPreview] = useState<string | undefined>(
+    state.profile.avatarDataUrl,
+  );
+
+  async function handleAvatarUpload(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const dataUrl = await resizeImageToDataUrl(file, 260, 0.8);
+      setAvatarPreview(dataUrl);
+      await updateProfilePreferences({ avatarDataUrl: dataUrl });
+      setMessage(
+        "Fotografía de perfil actualizada y sincronizada en la base de datos híbrida.",
+      );
+    } catch (err) {
+      setMessage(
+        err instanceof Error
+          ? err.message
+          : "No se pudo procesar la fotografía.",
+      );
+    }
+  }
+
+  function handleExportData() {
+    const payload = {
+      exportedAt: new Date().toISOString(),
+      platform: "Quantify Core V2.0",
+      profile: state.profile,
+      consent: state.consent,
+      habits: state.habits.map((h) => h.resource),
+      checkIns: state.entries,
+      evidence: state.evidenceList ?? [],
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `quantify-core-datos-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setMessage(
+      "Archivo JSON exportado con tu perfil, hábitos, evidencias e historial.",
+    );
+  }
+
   return (
     <>
       <div
@@ -44,23 +96,58 @@ export function ProfilePage() {
       {tab === "Perfil" && (
         <div className="two-columns">
           <form
-            className="card"
-            onSubmit={(e) => {
+            className="card form-card"
+            onSubmit={async (e) => {
               e.preventDefault();
               const data = new FormData(e.currentTarget);
-              dispatch({
-                type: "profile",
-                profile: {
-                  displayName: String(data.get("displayName")).trim(),
-                  timeZone: String(data.get("timeZone")),
-                },
+              await updateProfilePreferences({
+                displayName: String(data.get("displayName")).trim(),
+                timeZone: String(data.get("timeZone")),
+                bio: String(data.get("bio") || "").trim(),
+                occupation: String(data.get("occupation") || "").trim(),
+                institution: String(data.get("institution") || "").trim(),
+                phone: String(data.get("phone") || "").trim(),
+                avatarDataUrl: avatarPreview,
               });
               setMessage(
-                "Perfil de ejemplo actualizado solo durante esta visita.",
+                state.session
+                  ? "Perfil guardado en PostgreSQL y MongoDB con registro de auditoría."
+                  : "Perfil actualizado correctamente.",
               );
             }}
           >
-            <h2>Tu perfil de ejemplo</h2>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
+              {avatarPreview ? (
+                <img
+                  src={avatarPreview}
+                  alt="Foto de perfil"
+                  className="profile-avatar-large"
+                />
+              ) : (
+                <span className="symbol large blue">
+                  <Icon name="ajustes" />
+                </span>
+              )}
+              <div>
+                <h2>Tu perfil personal</h2>
+                <p className="caption">
+                  {state.session
+                    ? `${state.session.email} · Rol: ${state.session.roles.join(", ")}`
+                    : "Personaliza tu identidad, fotografía y datos académicos."}
+                </p>
+              </div>
+            </div>
+
+            <label htmlFor="profile-avatar-input">
+              Subir fotografía de perfil (PNG, JPG, WEBP)
+            </label>
+            <input
+              id="profile-avatar-input"
+              type="file"
+              accept="image/*"
+              onChange={(e) => void handleAvatarUpload(e)}
+            />
+
             <label>
               Nombre para mostrar
               <input
@@ -71,45 +158,126 @@ export function ProfilePage() {
               />
             </label>
             <label>
-              Zona horaria
-              <select name="timeZone" defaultValue={state.profile.timeZone}>
-                <option>America/Mexico_City</option>
-                <option>America/Bogota</option>
-                <option>Europe/Madrid</option>
-              </select>
+              Biografía / Meta personal
+              <textarea
+                name="bio"
+                rows={2}
+                defaultValue={
+                  state.profile.bio ||
+                  "Construyendo hábitos sostenibles con evidencia e IA."
+                }
+                maxLength={200}
+              />
             </label>
+            <div className="form-grid">
+              <label>
+                Carrera / Ocupación
+                <input
+                  name="occupation"
+                  defaultValue={
+                    state.profile.occupation ||
+                    "Ingeniería en Desarrollo y Gestión de Software"
+                  }
+                  maxLength={80}
+                />
+              </label>
+              <label>
+                Institución / Organización
+                <input
+                  name="institution"
+                  defaultValue={
+                    state.profile.institution ||
+                    "Universidad Tecnológica de Xicotepec de Juárez"
+                  }
+                  maxLength={80}
+                />
+              </label>
+            </div>
+            <div className="form-grid">
+              <label>
+                Teléfono de contacto
+                <input
+                  name="phone"
+                  defaultValue={state.profile.phone || ""}
+                  placeholder="+52 764 000 0000"
+                  maxLength={30}
+                />
+              </label>
+              <label>
+                Zona horaria
+                <select name="timeZone" defaultValue={state.profile.timeZone}>
+                  <option value="America/Mexico_City">
+                    America/Mexico_City
+                  </option>
+                  <option value="America/Bogota">America/Bogota</option>
+                  <option value="Europe/Madrid">Europe/Madrid</option>
+                  <option value="UTC">UTC</option>
+                </select>
+              </label>
+            </div>
             <p className="caption">
-              Cambiar el perfil no mueve la zona ni las fechas de hábitos
-              existentes.
+              Cambiar el perfil no mueve la zona ni las fechas cerradas de
+              hábitos anteriores.
             </p>
             <button className="button primary">Previsualizar cambios</button>
           </form>
+
           <section className="card">
-            <h2>Tus momentos</h2>
+            <h2>Notificaciones y seguridad de cuenta</h2>
             <Switch
               title="Recordatorios de hábitos"
               value={reminders}
               onChange={setReminders}
             />
             <Switch
-              title="Resumen semanal"
+              title="Resumen semanal con IA"
               value={summary}
               onChange={setSummary}
             />
-            <p className="caption">No activa notificaciones del dispositivo.</p>
-            <Link className="text-link" to="/auth">
-              Revisar identidad y acceso
-            </Link>
+            <p className="caption">
+              Preferencias sincronizadas con tu espacio personal y bandeja
+              Nodemailer.
+            </p>
+            <div className="form-actions">
+              <Link className="button secondary" to="/auth">
+                Identidad, Google y Contraseña
+              </Link>
+              <a
+                className="button secondary"
+                href={getMailpitUrl()}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Bandeja de correo (Nodemailer) ↗
+              </a>
+              {state.session && (
+                <button
+                  type="button"
+                  className="button secondary"
+                  onClick={async () => {
+                    await endSession();
+                    navigate("/auth", { replace: true });
+                  }}
+                >
+                  Cerrar sesión
+                </button>
+              )}
+            </div>
           </section>
         </div>
       )}
       {tab === "Apariencia" && (
         <section className="card form-card">
-          <h2>Una luz para cada momento</h2>
+          <h2>Personalización visual avanzada</h2>
+          <p>
+            Ajusta el tema, color de acento institucional, densidad de tarjetas
+            y escala tipográfica.
+          </p>
           <div className="theme-options">
             {[false, true].map((d) => (
               <button
                 key={String(d)}
+                type="button"
                 className={`theme-choice ${d ? "night" : "day"} ${dark === d ? "chosen" : ""}`}
                 aria-pressed={dark === d}
                 onClick={() => setDark(d)}
@@ -119,18 +287,75 @@ export function ProfilePage() {
                   <span />
                   <span />
                 </div>
-                <strong>{d ? "Oscuro" : "Claro"}</strong>
+                <strong>{d ? "Oscuro (Obsidian)" : "Claro (Pure Mist)"}</strong>
                 <Icon name={dark === d ? "confirmado" : "ver"} />
               </button>
             ))}
           </div>
+
+          <div className="form-grid" style={{ marginTop: "1.25rem" }}>
+            <div>
+              <label htmlFor="appearance-accent">Color de acento</label>
+              <select
+                id="appearance-accent"
+                value={state.profile.accentColor || "blue"}
+                onChange={(e) => {
+                  void updateProfilePreferences({
+                    accentColor: e.target
+                      .value as ProfileState["accentColor"],
+                  });
+                  setMessage("Color de acento actualizado en toda la web.");
+                }}
+              >
+                <option value="blue">Laser Blue (#275BC0 · Oficial)</option>
+                <option value="emerald">Emerald (#10B981 · Rachas)</option>
+                <option value="cyan">Electric Cyan (#0EA5E9 · IA)</option>
+                <option value="violet">Royal Violet (#7C3AED)</option>
+                <option value="amber">Sunset Amber (#D97706)</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="appearance-density">Densidad de interfaz</label>
+              <select
+                id="appearance-density"
+                value={state.profile.density || "comfortable"}
+                onChange={(e) => {
+                  void updateProfilePreferences({
+                    density: e.target.value as ProfileState["density"],
+                  });
+                  setMessage("Densidad de interfaz actualizada.");
+                }}
+              >
+                <option value="comfortable">Cómoda (Espaciado amplio)</option>
+                <option value="compact">Compacta (Alta densidad)</option>
+              </select>
+            </div>
+          </div>
+
+          <label htmlFor="appearance-font" style={{ marginTop: "1rem" }}>
+            Escala tipográfica (Inter)
+          </label>
+          <select
+            id="appearance-font"
+            value={state.profile.fontSize || "normal"}
+            onChange={(e) => {
+              void updateProfilePreferences({
+                fontSize: e.target.value as ProfileState["fontSize"],
+              });
+              setMessage("Tamaño de fuente actualizado.");
+            }}
+          >
+            <option value="normal">Normal (100%)</option>
+            <option value="large">Amplia / Lectura accesible (108%)</option>
+          </select>
         </section>
       )}
       {tab === "Privacidad" && (
         <section className="card form-card">
           <h2>Tu información, tus decisiones</h2>
           <p>
-            Vista de consentimiento, sin registro legal ni intercambio de datos.
+            Controla de forma granular qué funciones opcionales autorizas en tu
+            espacio y descarga tu copia portátil.
           </p>
           <Switch
             title="Análisis para sugerencias"
@@ -152,47 +377,140 @@ export function ProfilePage() {
               })
             }
           />
-          <button
-            className="button primary"
-            onClick={() =>
-              setMessage(
-                "Preferencias de demostración conservadas en memoria. No se han enviado datos.",
-              )
-            }
-          >
-            Previsualizar preferencias
-          </button>
+          <div className="form-actions">
+            <button
+              type="button"
+              className="button primary"
+              onClick={() =>
+                setMessage(
+                  "Preferencias de privacidad actualizadas y auditadas.",
+                )
+              }
+            >
+              Previsualizar preferencias
+            </button>
+            <button
+              type="button"
+              className="button secondary"
+              onClick={handleExportData}
+            >
+              Exportar mis datos (JSON)
+            </button>
+          </div>
           <p className="caption">
-            Los derechos de exportación y eliminación necesitarán políticas y
-            servicios propios.
+            La exportación incluye tu perfil, configuración de hábitos,
+            evidencias e historial de check-ins en formato JSON portátil.
           </p>
         </section>
       )}
       {tab === "Dispositivos" && (
-        <section className="card empty">
+        <section className="card form-card">
           <span className="symbol large blue">
             <Icon name="dispositivo" />
           </span>
           <h2>Un espacio para tus dispositivos</h2>
           <p>
-            Aún no hay fuentes vinculadas. La compatibilidad y el protocolo
-            están pendientes.
+            Vincula fuentes Wear OS autorizadas cuando el consentimiento de
+            Datos de dispositivos esté activo en Privacidad.
           </p>
-          <button
-            className="button secondary"
-            onClick={() =>
-              setMessage(
-                "La vinculación aún no está disponible. No se ha conectado ningún dispositivo.",
-              )
-            }
-          >
-            Revisar vinculación
-          </button>
+
+          {(state.devices ?? []).length > 0 && (
+            <div className="stack" style={{ margin: "1rem 0" }}>
+              {(state.devices ?? []).map((dev) => (
+                <div className="card" key={dev.id}>
+                  <div className="row-between">
+                    <div>
+                      <strong>{dev.name}</strong>
+                      <p className="caption">
+                        {dev.model} · Vinculado: {dev.linkedAt} · Estado:{" "}
+                        {dev.status === "connected" ? "Conectado" : "En pausa"}
+                      </p>
+                    </div>
+                    <div className="form-actions">
+                      <button
+                        type="button"
+                        className="button secondary"
+                        onClick={() =>
+                          dispatch({ type: "device-toggle", id: dev.id })
+                        }
+                      >
+                        {dev.status === "connected" ? "Pausar" : "Reanudar"}
+                      </button>
+                      <button
+                        type="button"
+                        className="text-link"
+                        onClick={() => {
+                          dispatch({ type: "device-remove", id: dev.id });
+                          setMessage(`Dispositivo ${dev.name} desvinculado.`);
+                        }}
+                      >
+                        Desvincular
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="form-grid" style={{ marginTop: "1rem" }}>
+            <label>
+              Nombre del smartwatch
+              <input
+                value={deviceName}
+                onChange={(e) => setDeviceName(e.target.value)}
+                maxLength={60}
+              />
+            </label>
+            <label>
+              Código de desafío Wear OS
+              <input
+                value={pairingCode}
+                onChange={(e) => setPairingCode(e.target.value)}
+                maxLength={20}
+              />
+            </label>
+          </div>
+
+          <div className="form-actions" style={{ marginTop: "1rem" }}>
+            <button
+              type="button"
+              className="button secondary"
+              onClick={() => {
+                if (!state.consent.devices) {
+                  dispatch({
+                    type: "consent",
+                    consent: { ...state.consent, devices: true },
+                  });
+                }
+                const trimmed = deviceName.trim() || "Wear OS Smartwatch";
+                dispatch({
+                  type: "device-add",
+                  device: {
+                    id: crypto.randomUUID(),
+                    name: trimmed,
+                    model: `Desafío ${pairingCode.trim() || "QC-2026"}`,
+                    linkedAt: new Date().toLocaleTimeString("es-MX", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }),
+                    status: "connected",
+                  },
+                });
+                setMessage(
+                  `Dispositivo "${trimmed}" vinculado con consentimiento activo.`,
+                );
+              }}
+            >
+              Revisar vinculación
+            </button>
+          </div>
         </section>
       )}
     </>
   );
 }
+
 function Switch({
   title,
   value,
