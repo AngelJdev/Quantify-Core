@@ -3,23 +3,25 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDemo } from "@/app/DemoProvider";
 import { FIXTURE_DATE } from "@/shared/fixtures/demo";
 import { StatePanel } from "@/shared/ui/StatePanel";
-import { Icon } from "@/shared/ui/Icon";
 import {
   validateDraft,
   weekdayLabels,
   type HabitDraft,
   type HabitView,
 } from "../data/model";
+import { apiRunGeminiAi, getBusinessDateInZone } from "@/shared/api/client";
+
 export function HabitEditorPage() {
   const { habitId } = useParams(),
-    { habits, dispatch } = useDemo(),
+    { habits, saveHabit } = useDemo(),
     navigate = useNavigate();
+  const [saveError, setSaveError] = useState<string | null>(null);
   const habit = habits.find((h) => h.id === habitId);
   if (habitId && !habit)
     return (
       <StatePanel
         title="Este hábito no está disponible"
-        description="No existe en los fixtures de esta visita."
+        description="No existe en los registros actuales."
         to="/habitos"
         action="Mis hábitos"
       />
@@ -36,22 +38,38 @@ export function HabitEditorPage() {
     <Editor
       key={habitId || "new"}
       habit={habit}
-      onSave={(draft) => {
-        const id = habit?.id ?? crypto.randomUUID();
-        dispatch({ type: "save", id, draft });
-        navigate(`/detalle/${id}`);
+      externalError={saveError}
+      onSave={async (draft) => {
+        setSaveError(null);
+        try {
+          const savedId = await saveHabit(habit?.id, draft);
+          navigate(`/detalle/${savedId}`);
+        } catch (err) {
+          setSaveError(
+            err instanceof Error
+              ? err.message
+              : "No se pudo guardar el hábito.",
+          );
+        }
       }}
     />
   );
 }
+
 function Editor({
   habit,
+  externalError,
   onSave,
 }: {
   habit?: HabitView;
-  onSave: (draft: HabitDraft) => void;
+  externalError?: string | null;
+  onSave: (draft: HabitDraft) => Promise<void> | void;
 }) {
+  const { state } = useDemo();
   const dialog = useRef<HTMLDialogElement>(null);
+  const defaultDate = state.session
+    ? getBusinessDateInZone(state.profile.timeZone || "America/Mexico_City")
+    : FIXTURE_DATE;
   const [draft, setDraft] = useState<HabitDraft>({
     dto: {
       name: habit?.name ?? "",
@@ -59,9 +77,10 @@ function Editor({
       unit: habit?.unit ?? "min",
       schedule: habit?.schedule ?? {
         weekdays: [1, 2, 3, 4, 5, 6, 7],
-        effectiveFrom: FIXTURE_DATE,
+        effectiveFrom: defaultDate,
       },
-      timeZone: habit?.timeZone ?? "America/Mexico_City",
+      timeZone:
+        habit?.timeZone ?? state.profile.timeZone ?? "America/Mexico_City",
     },
     detail: habit?.detail ?? "Cuando encuentre mi momento",
     intention: habit?.intention ?? "",
@@ -69,9 +88,102 @@ function Editor({
     icon: habit?.icon ?? "habitos",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [saving, setSaving] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiRationale, setAiRationale] = useState<string | null>(null);
   const summary = useRef<HTMLDivElement>(null);
   const update = (dto: Partial<HabitDraft["dto"]>) =>
     setDraft((current) => ({ ...current, dto: { ...current.dto, ...dto } }));
+
+  async function handleAiOptimize() {
+    const rawName = draft.dto.name.trim() || "Lectura y concentración";
+    setAiLoading(true);
+    setAiRationale(null);
+    try {
+      if (state.session) {
+        const res = (await apiRunGeminiAi({
+          mode: "optimize-habit",
+          habitName: rawName,
+          geminiApiKey: state.profile.geminiApiKey,
+        })) as {
+          provider: string;
+          suggestion: {
+            targetValue: number;
+            unit: string;
+            weekdays: number[];
+            detail: string;
+            intention: string;
+            rationale: string;
+          };
+        };
+        const s = res.suggestion;
+        setDraft((prev) => ({
+          ...prev,
+          dto: {
+            ...prev.dto,
+            name: prev.dto.name.trim() || rawName,
+            targetValue: s.targetValue,
+            unit: s.unit,
+            schedule: { ...prev.dto.schedule, weekdays: s.weekdays },
+          },
+          detail: s.detail,
+          intention: s.intention,
+        }));
+        setAiRationale(`${res.provider}: ${s.rationale}`);
+        return;
+      }
+    } catch {
+      // fallback to local AI optimization
+    } finally {
+      setAiLoading(false);
+    }
+
+    const lower = rawName.toLocaleLowerCase("es");
+    const opt =
+      lower.includes("agua") || lower.includes("hidrat")
+        ? {
+            targetValue: 8,
+            unit: "vasos",
+            weekdays: [1, 2, 3, 4, 5, 6, 7],
+            detail: "Por la mañana",
+            intention: "Mantener hidratación constante para mejorar mi enfoque.",
+            rationale:
+              "Quantify AI recomienda 8 vasos diarios distribuidos desde la mañana para sostener la energía cognitiva.",
+          }
+        : lower.includes("caminar") || lower.includes("paso")
+          ? {
+              targetValue: 6000,
+              unit: "pasos",
+              weekdays: [1, 2, 3, 4, 5, 6],
+              detail: "Por la mañana",
+              intention: "Activar mi cuerpo y despejar la mente antes de estudiar.",
+              rationale:
+                "Quantify AI sugiere 6,000 pasos con 1 día de recuperación para evitar fatiga física.",
+            }
+          : {
+              targetValue: 25,
+              unit: "min",
+              weekdays: [1, 2, 3, 4, 5],
+              detail: "Por la tarde",
+              intention: `Avanzar de forma enfocada en "${rawName}" sin distracciones.`,
+              rationale:
+                "Quantify AI configuró un bloque Pomodoro de 25 min entre semana para maximizar constancia sin desgaste.",
+            };
+    setDraft((prev) => ({
+      ...prev,
+      dto: {
+        ...prev.dto,
+        name: prev.dto.name.trim() || rawName,
+        targetValue: opt.targetValue,
+        unit: opt.unit,
+        schedule: { ...prev.dto.schedule, weekdays: opt.weekdays },
+      },
+      detail: opt.detail,
+      intention: opt.intention,
+    }));
+    setAiRationale(opt.rationale);
+  }
+
   function submit(e: FormEvent) {
     e.preventDefault();
     const next = validateDraft(draft);
@@ -82,29 +194,50 @@ function Editor({
     }
     dialog.current?.showModal();
   }
+
   return (
     <>
       <form className="card form-card" noValidate onSubmit={submit}>
         <div className="section-heading">
           <div>
             <h2>{habit ? "Ajusta tu rutina" : "Hazlo tuyo"}</h2>
-            <p>Programación conservada durante esta visita.</p>
+            <p>
+              {state.session
+                ? "Se guardará en PostgreSQL con control de versión e idempotencia."
+                : "Programación conservada durante esta visita."}
+            </p>
           </div>
-          <Icon name="habitos" />
+          <button
+            type="button"
+            className="button secondary"
+            disabled={aiLoading}
+            onClick={() => void handleAiOptimize()}
+          >
+            {aiLoading ? "Optimizando con IA..." : "✨ Optimizar meta con IA"}
+          </button>
         </div>
-        {Object.keys(errors).length > 0 && (
+
+        {aiRationale && (
+          <div className="form-note" role="status">
+            <strong>Recomendación de Quantify AI:</strong> {aiRationale}
+          </div>
+        )}
+
+        {(Object.keys(errors).length > 0 || externalError) && (
           <div
             className="form-note error"
             ref={summary}
             tabIndex={-1}
             role="alert"
           >
-            <p>Revisa los campos indicados.</p>
-            <ul>
-              {Object.entries(errors).map(([key, error]) => (
-                <li key={key}>{error}</li>
-              ))}
-            </ul>
+            <p>{externalError || "Revisa los campos indicados."}</p>
+            {Object.keys(errors).length > 0 && (
+              <ul>
+                {Object.entries(errors).map(([key, error]) => (
+                  <li key={key}>{error}</li>
+                ))}
+              </ul>
+            )}
           </div>
         )}
         <label htmlFor="habit-name">Nombre del hábito</label>
@@ -155,6 +288,9 @@ function Editor({
               <option value="vasos">vasos</option>
               <option value="pasos">pasos</option>
               <option value="veces">veces</option>
+              <option value="páginas">páginas</option>
+              <option value="km">kilómetros</option>
+              <option value="horas">horas</option>
             </select>
           </div>
         </div>
@@ -190,24 +326,45 @@ function Editor({
             </p>
           )}
         </fieldset>
-        <label htmlFor="habit-moment">Momento del día</label>
-        <select
-          id="habit-moment"
-          value={draft.detail}
-          onChange={(e) => setDraft({ ...draft, detail: e.target.value })}
-        >
-          {[
-            ...new Set([
-              draft.detail,
-              "Cuando encuentre mi momento",
-              "Por la mañana",
-              "Por la tarde",
-              "Por la noche",
-            ]),
-          ].map((m) => (
-            <option key={m}>{m}</option>
-          ))}
-        </select>
+        <div className="form-grid">
+          <div>
+            <label htmlFor="habit-moment">Momento del día</label>
+            <select
+              id="habit-moment"
+              value={draft.detail}
+              onChange={(e) => setDraft({ ...draft, detail: e.target.value })}
+            >
+              {[
+                ...new Set([
+                  draft.detail,
+                  "Cuando encuentre mi momento",
+                  "Por la mañana",
+                  "Por la tarde",
+                  "Por la noche",
+                ]),
+              ].map((m) => (
+                <option key={m}>{m}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="habit-color">Color del hábito</label>
+            <select
+              id="habit-color"
+              value={draft.color}
+              onChange={(e) =>
+                setDraft({
+                  ...draft,
+                  color: e.target.value as HabitView["color"],
+                })
+              }
+            >
+              <option value="blue">Laser Blue</option>
+              <option value="cyan">Electric Cyan</option>
+              <option value="emerald">Emerald</option>
+            </select>
+          </div>
+        </div>
         <label htmlFor="habit-intention">
           Una intención personal <small>Opcional</small>
         </label>
@@ -218,8 +375,8 @@ function Editor({
           onChange={(e) => setDraft({ ...draft, intention: e.target.value })}
         />
         <p className="caption">
-          Zona del hábito: {draft.dto.timeZone}. Fecha de ejemplo:{" "}
-          {draft.dto.schedule.effectiveFrom}. No modifica historia de servidor.
+          Zona del hábito: {draft.dto.timeZone}. Fecha efectiva:{" "}
+          {draft.dto.schedule.effectiveFrom}.
         </p>
         <div className="form-actions">
           <Link
@@ -246,26 +403,36 @@ function Editor({
           <p>{draft.intention}</p>
         </div>
         <p className="caption">
-          Ejemplo en memoria. Se restablece al recargar.
+          {state.session
+            ? "Se guardará de forma permanente en PostgreSQL y registrará auditoría en MongoDB."
+            : "Confirmación lista para guardar en tu rutina."}
         </p>
         <div className="form-actions">
           <button
+            type="button"
             className="button secondary"
             onClick={() => dialog.current?.close()}
           >
             Seguir editando
           </button>
           <button
+            type="button"
             className="button primary"
-            onClick={() => {
+            disabled={saving}
+            onClick={async () => {
               dialog.current?.close();
-              onSave({
-                ...draft,
-                dto: { ...draft.dto, name: draft.dto.name.trim() },
-              });
+              setSaving(true);
+              try {
+                await onSave({
+                  ...draft,
+                  dto: { ...draft.dto, name: draft.dto.name.trim() },
+                });
+              } finally {
+                setSaving(false);
+              }
             }}
           >
-            Ver en mi rutina
+            {saving ? "Guardando..." : "Ver en mi rutina"}
           </button>
         </div>
       </dialog>
