@@ -2,7 +2,7 @@
 
 **Base técnica (16/11/2026):** [guía del equipo](../../docs/guias/base-tecnica.md) para API NestJS, PostgreSQL y Keycloak. La aplicación sigue desconectada; el harness externo verifica IdP/API sin implementar sesión o adaptadores en las pantallas. La topología del prototipo es SPA pública Code+PKCE según [ADR-0007](../../docs/arquitectura/adr/0007-base-tecnica-prototipo.md).
 
-**Estado: base React ejecutable, modular y desconectada, con fixtures explícitos.** No autentica, persiste, sincroniza ni calcula métricas oficiales. Los datos se conservan entre rutas durante la visita y se restablecen al recargar. Las capacidades de PWA quedan como [referencia pendiente de activación](docs/pwa-referencia.md).
+**Estado: aplicación React ejecutable, modular y conectada con Keycloak OIDC (`Code + PKCE S256`) y la API NestJS (`/api/v1`), manteniendo también el modo demostración con fixtures explícitos.** Al iniciar sesión con Keycloak, los hábitos, avances, historial, métricas y perfil se sincronizan con PostgreSQL. Las capacidades de PWA quedan como [referencia pendiente de activación](docs/pwa-referencia.md).
 
 ## Ejecutar y verificar
 
