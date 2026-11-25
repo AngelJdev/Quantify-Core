@@ -1,9 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { Brand } from "@/shared/ui/Brand";
 import { Icon, type IconName } from "@/shared/ui/Icon";
 import { useTheme } from "../ThemeProvider";
 import { useDemo } from "../DemoProvider";
+
 const navigation: [string, string, IconName][] = [
   ["hoy", "Hoy", "hoy"],
   ["habitos", "Mis hábitos", "habitos"],
@@ -13,64 +20,68 @@ const navigation: [string, string, IconName][] = [
   ["avisos", "Avisos", "recordatorio"],
   ["ajustes", "Ajustes", "ajustes"],
 ];
+
 const titles: Record<string, [string, string]> = {
   hoy: [
     "Tu rutina, a tu ritmo",
-    "Cada pequeño paso cuenta. Haz espacio para lo que te hace bien.",
+    "Panel inteligente con métricas en vivo, evidencia y asistencia de IA.",
   ],
   habitos: [
     "Hábitos con intención",
-    "Organiza tus rutinas y encuentra un ritmo que puedas sostener.",
+    "Organiza tus rutinas y encuentra un ritmo sostenible respaldado por IA.",
   ],
   nuevo: [
     "Diseña tu próximo hábito",
-    "Una intención clara es un buen punto de partida.",
+    "Optimiza tu meta y horario con Inteligencia Artificial.",
   ],
   detalle: [
     "Un paso más cerca",
-    "El progreso también está en volver a intentarlo.",
+    "Métricas confirmadas, evidencias fotográficas y evolución del hábito.",
   ],
   editar: [
     "Dale un nuevo ritmo",
-    "Conserva los días y la intención de tu hábito.",
+    "Actualiza tu programación conservando el historial versionado.",
   ],
   "check-ins": [
     "Cada avance cuenta",
-    "Valor acumulado absoluto · edición temporal de fixtures.",
+    "Registra tu progreso con evidencia fotográfica, nota y control de versión.",
   ],
   analisis: [
     "Observa tu constancia",
-    "Una mirada a tus avances, más allá de una racha.",
+    "Gráficas reales de cumplimiento, rachas e interpretación ejecutiva con IA.",
   ],
   historial: [
     "Cada avance tiene historia",
-    "Registros de esta demostración, sin persistencia.",
+    "Registros confirmados, galería de evidencias y auditoría híbrida PostgreSQL + MongoDB.",
   ],
   sugerencias: [
     "Ideas con contexto",
-    "Las sugerencias necesitan datos y consentimiento reales.",
+    "Centro de Inteligencia Artificial Google Gemini y hábitos recomendados.",
   ],
   avisos: [
     "Todo en su momento",
-    "Tus recordatorios y novedades, reunidos en un solo lugar.",
+    "Alertas inteligentes, recordatorios de rutina y estado del sistema.",
   ],
   ajustes: [
     "Tu espacio, tus decisiones",
-    "Perfil y preferencias de demostración.",
+    "Personalización de perfil con fotografía, apariencia avanzada y privacidad.",
   ],
 };
+
 export function MainLayout() {
   const { pathname } = useLocation(),
+    navigate = useNavigate(),
     page = pathname.split("/")[1];
   const [title, description] = titles[page] || [
     "Esta página no está aquí",
     "El enlace no corresponde a una vista disponible.",
   ];
   const { dark, setDark } = useTheme(),
-    { state } = useDemo();
+    { state, endSession } = useDemo();
   const heading = useRef<HTMLHeadingElement>(null),
     menu = useRef<HTMLDialogElement>(null);
   const [online, setOnline] = useState(navigator.onLine);
+
   useEffect(() => {
     const change = () => setOnline(navigator.onLine);
     window.addEventListener("online", change);
@@ -80,12 +91,29 @@ export function MainLayout() {
       window.removeEventListener("offline", change);
     };
   }, []);
+
   useEffect(() => {
     document.title = `${title} · Quantify Core`;
     heading.current?.focus();
     menu.current?.close();
     window.scrollTo(0, 0);
   }, [pathname, title]);
+
+  const displayName = state.session
+    ? state.profile.displayName
+    : "Invitado (Sin sesión)";
+  const shortName = state.session
+    ? displayName.split("·")[0].trim()
+    : "Iniciar sesión";
+  const avatarInitial = state.session
+    ? shortName.charAt(0).toUpperCase() || "U"
+    : "→";
+
+  async function handleLogoutClick() {
+    await endSession();
+    navigate("/auth", { replace: true });
+  }
+
   function navigationLinks() {
     return navigation.map(([path, label, icon]) => (
       <NavLink to={`/${path}`} key={path} onClick={() => menu.current?.close()}>
@@ -95,6 +123,7 @@ export function MainLayout() {
       </NavLink>
     ));
   }
+
   return (
     <div className="app-shell">
       <a
@@ -111,17 +140,19 @@ export function MainLayout() {
         className="sidebar desktop-sidebar"
         aria-label="Navegación de escritorio"
       >
-        <Link className="brand-link" to="/hoy">
+        <Link className="brand-link" to="/">
           <Brand dark={dark} />
         </Link>
         <div className="workspace-label">
-          MI ESPACIO <span>DEMO</span>
+          QUANTIFY <span>{state.session ? "PRO V2.0" : "V2.0"}</span>
         </div>
         <nav aria-label="Navegación principal">{navigationLinks()}</nav>
         <div className="sidebar-bottom">
           <div className="local-label">
             <span />
-            Fixtures temporales
+            {state.session
+              ? "PostgreSQL + MongoDB + IA"
+              : "Motor Híbrido Activo"}
           </div>
           <p>
             Pequeños hábitos.
@@ -129,9 +160,19 @@ export function MainLayout() {
             Un cambio que permanece.
           </p>
           <Brand dark={dark} enterprise />
-          <Link className="text-link" to="/auth">
-            Identidad y acceso
-          </Link>
+          {state.session ? (
+            <button
+              type="button"
+              className="text-link"
+              onClick={() => void handleLogoutClick()}
+            >
+              Cerrar sesión ({state.session.email})
+            </button>
+          ) : (
+            <Link className="text-link" to="/auth">
+              Iniciar sesión / Registro
+            </Link>
+          )}
         </div>
       </aside>
       <dialog
@@ -170,7 +211,7 @@ export function MainLayout() {
             <Icon name="menu" />
           </button>
           <div className="breadcrumb">
-            Mi espacio <span>/</span>{" "}
+            Quantify Core <span>/</span>{" "}
             <strong>
               {navigation.find((n) => n[0] === page)?.[1] || "Hábitos"}
             </strong>
@@ -190,18 +231,35 @@ export function MainLayout() {
             <Link className="icon-button" to="/avisos" aria-label="Ver avisos">
               <Icon name="recordatorio" />
             </Link>
-            <Link className="profile-link" to="/ajustes">
-              <span className="avatar">A</span>
-              <span>
-                Alex<small>Perfil de ejemplo</small>
-              </span>
-            </Link>
+            {state.session ? (
+              <Link className="profile-link" to="/ajustes">
+                {state.profile.avatarDataUrl ? (
+                  <img
+                    src={state.profile.avatarDataUrl}
+                    alt={shortName}
+                    className="avatar-img"
+                  />
+                ) : (
+                  <span className="avatar">{avatarInitial}</span>
+                )}
+                <span>
+                  {shortName}
+                  <small>{state.session.email}</small>
+                </span>
+              </Link>
+            ) : (
+              <Link className="button secondary" to="/auth">
+                Iniciar sesión
+              </Link>
+            )}
           </div>
         </header>
         <main id="content">
           <div className="page-heading">
             <div>
-              <div className="eyebrow">QUANTIFY CORE · TU ESPACIO PERSONAL</div>
+              <div className="eyebrow">
+                QUANTIFY CORE V2.0 · PLATAFORMA INTELIGENTE DE HÁBITOS
+              </div>
               <h1 ref={heading} tabIndex={-1}>
                 {title}
               </h1>
@@ -216,19 +274,39 @@ export function MainLayout() {
           </div>
           <div className="preview-caption">
             <Icon name="informacion" />
-            Demostración · Fixtures en memoria. Sin autenticación, persistencia
-            ni métricas reales.
+            {state.session ? (
+              <span>
+                Sesión verificada ({state.session.email}) · Persistencia híbrida
+                PostgreSQL 18.6 + MongoDB 8.2.6 e IA Gemini activa.
+              </span>
+            ) : (
+              <span>
+                Quantify Core V2.0 ·{" "}
+                <Link className="text-link" to="/auth">
+                  Inicia sesión o regístrate
+                </Link>{" "}
+                para persistir en PostgreSQL/MongoDB.{" "}
+                <small>
+                  Modo local: Sin autenticación, persistencia ni métricas reales
+                  de servidor hasta iniciar sesión.
+                </small>
+              </span>
+            )}
           </div>
           {!online && (
             <p className="form-note" role="status">
-              Sin conexión. Puedes explorar los fixtures ya cargados; no se
-              guardan ni sincronizan datos.
+              Sin conexión. Tus datos actuales permanecen visibles en pantalla.
             </p>
           )}
           <Outlet />
           <footer className="page-footer">
-            <span>Quantify Core · A tu ritmo.</span>
-            <Link to="/ajustes?seccion=Privacidad">Tu privacidad</Link>
+            <span>
+              Quantify Core V2.0 · UTXJ · PostgreSQL + MongoDB + Google Gemini AI
+            </span>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <Link to="/">Acerca de Quantify & Contacto</Link>
+              <Link to="/ajustes?seccion=Privacidad">Privacidad y Datos</Link>
+            </div>
           </footer>
         </main>
       </div>

@@ -22,8 +22,198 @@ label {
 }
 input,
 select,
-textarea {
+textarea,
+.button {
   max-width: 100%;
+}
+.button {
+  white-space: normal;
+  text-align: center;
+}
+.masked-secret {
+  -webkit-text-security: disc;
+}
+[data-qc-density="compact"] .card {
+  padding: 16px;
+}
+[data-qc-font="large"] {
+  font-size: 108%;
+}
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--qc-control-border);
+  background: var(--qc-surface);
+  color: var(--qc-text);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.google-btn:hover {
+  border-color: var(--qc-action);
+}
+.google-chooser-dialog {
+  width: min(92vw, 420px);
+  padding: 0;
+  border-radius: 16px;
+  border: 1px solid #3c4043;
+  background: #202124;
+  color: #e8eaed;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+.google-chooser-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #3c4043;
+  font-size: 0.9rem;
+  color: #e8eaed;
+}
+.google-chooser-body {
+  padding: 24px 24px 20px;
+}
+.google-account-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 8px;
+  border: none;
+  border-bottom: 1px solid #3c4043;
+  background: transparent;
+  color: #e8eaed;
+  text-align: left;
+  cursor: pointer;
+}
+.google-account-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.google-account-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #275bc0;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.otp-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin: 16px 0;
+}
+.otp-box {
+  width: 100%;
+  padding: 12px 4px;
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 800;
+  border: 2px solid var(--qc-control-border);
+  border-radius: 10px;
+  background: var(--qc-surface);
+  color: var(--qc-text);
+}
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(14, 165, 233, 0.14);
+  color: var(--qc-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.avatar-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.profile-avatar-large {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--qc-action);
+}
+.evidence-thumb {
+  width: 100%;
+  max-width: 220px;
+  border-radius: 10px;
+  margin-top: 8px;
+  border: 1px solid var(--qc-line);
+}
+.landing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+@keyframes qcBarGrow {
+  from {
+    transform: scaleY(0);
+    opacity: 0.3;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+@keyframes qcProgressGrow {
+  from {
+    width: 0%;
+  }
+}
+.qc-chart-enhanced .bar-track span.qc-bar-fill {
+  transform-origin: bottom;
+  animation: qcBarGrow 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.2s ease;
+  box-shadow: 0 0 14px rgba(14, 165, 233, 0.32);
+}
+.qc-chart-enhanced .bar-track span.tier-complete {
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.45);
+}
+.qc-chart-enhanced .bar-track span.tier-mid {
+  background: linear-gradient(180deg, #0ea5e9 0%, #275bc0 100%);
+}
+.qc-chart-enhanced .bar-track span.tier-low {
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+}
+.qc-chart-enhanced .bar-column:hover .qc-bar-fill {
+  filter: brightness(1.18);
+}
+.qc-chart-enhanced .bar-column.is-today small.today-pill {
+  color: #0ea5e9;
+  font-weight: 800;
+}
+.qc-svg-chart-container {
+  width: 100%;
+  padding: 12px 4px 4px;
+}
+.qc-trend-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.qc-animated-progress-bar {
+  animation: qcProgressGrow 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.qc-habit-breakdown-row {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--qc-line);
 }
 .form-card > input,
 .form-card > select,
