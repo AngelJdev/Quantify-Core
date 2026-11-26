@@ -152,6 +152,8 @@ class PrototypeModel extends ChangeNotifier {
   final _connectedEntries = <PrototypeEntry>[];
   final _apiHabits = <String, ApiHabit>{};
   final _todayCheckIns = <String, ApiCheckIn>{};
+  final _checkInsByHabitAndDate = <String, Map<String, ApiCheckIn>>{};
+  final _habitMetrics = <String, ApiHabitMetrics>{};
   int _sequence = 0;
   bool _disposed = false;
 
@@ -159,14 +161,49 @@ class PrototypeModel extends ChangeNotifier {
   bool saving = false;
   String? errorMessage;
   ApiProfile? profile;
+  String preferredTimeZone = 'America/Mexico_City';
+  String? _overrideNewHabitTimeZone;
+  ApiDashboardProgress? dashboardProgress;
   List<ApiTrendPoint> weeklyTrends = const [];
   List<ApiTrendPoint> monthlyTrends = const [];
 
   bool get isConnected => _api != null;
   bool get isConnectedOrConfigured => isConnected || apiConfigured;
-  String get activeTimeZone => profile?.timeZone ?? 'America/Mexico_City';
+  String get activeTimeZone => profile?.timeZone ?? preferredTimeZone;
+  String get newHabitTimeZone => _overrideNewHabitTimeZone ?? activeTimeZone;
   DateTime get _now => (_clock ?? DateTime.now)();
   String get todayBusinessDate => businessDateForZone(_now, activeTimeZone);
+
+  void setPreferredTimeZone(String timeZone) {
+    if (timeZone.isEmpty) return;
+    preferredTimeZone = timeZone;
+    _overrideNewHabitTimeZone = timeZone;
+    _safeNotify();
+  }
+
+  ApiHabitMetrics? metricsForHabit(String id) => _habitMetrics[id];
+
+  ApiCheckIn? checkInForHabitOnDate(String habitId, String businessDate) =>
+      _checkInsByHabitAndDate[habitId]?[businessDate];
+
+  double valueForHabitOnDate(String habitId, String businessDate) =>
+      _checkInsByHabitAndDate[habitId]?[businessDate]?.value ?? 0;
+
+  List<String> eligibleDatesForHabit(String id, {int maxDays = 7}) {
+    final h = _apiHabits[id];
+    if (h == null) return const [];
+    final hToday = businessDateForZone(_now, h.timeZone);
+    final result = <String>[];
+    for (var offset = 0; offset < maxDays; offset++) {
+      final candidate = addBusinessDays(hToday, -offset);
+      final parsed = DateTime.tryParse(candidate);
+      if (parsed == null) continue;
+      if (h.weekdays.contains(parsed.weekday)) {
+        result.add(candidate);
+      }
+    }
+    return result.isEmpty ? <String>[hToday] : result;
+  }
 
   List<PrototypeHabit> get habits => List.unmodifiable(_habits);
   List<PrototypeEntry> get entries => isConnected
@@ -200,7 +237,7 @@ class PrototypeModel extends ChangeNotifier {
       } on MobileApiException catch (error) {
         if (error.status == 403) {
           resolvedProfile = await api.provisionProfile(
-            timeZone: 'America/Mexico_City',
+            timeZone: preferredTimeZone,
           );
         } else {
           rethrow;
@@ -225,15 +262,20 @@ class PrototypeModel extends ChangeNotifier {
       _habits.clear();
       _apiHabits.clear();
       _todayCheckIns.clear();
+      _checkInsByHabitAndDate.clear();
+      _habitMetrics.clear();
       final collectedEntries = <({String recordedAt, PrototypeEntry entry})>[];
 
       for (var i = 0; i < remoteHabits.length; i++) {
         final h = remoteHabits[i];
         final list = checkInLists[i];
         _apiHabits[h.id] = h;
+        final dateMap = <String, ApiCheckIn>{};
+        _checkInsByHabitAndDate[h.id] = dateMap;
         final hToday = businessDateForZone(now, h.timeZone);
         ApiCheckIn? todayRecord;
         for (final checkIn in list) {
+          dateMap[checkIn.businessDate] = checkIn;
           if (checkIn.businessDate == hToday) {
             todayRecord = checkIn;
           }
@@ -290,6 +332,40 @@ class PrototypeModel extends ChangeNotifier {
       if (_disposed) return;
       weeklyTrends = trends[0];
       monthlyTrends = trends[1];
+
+      try {
+        dashboardProgress = await api.getDashboardProgress(
+          from: addBusinessDays(pToday, -29),
+          to: pToday,
+        );
+      } on MobileApiException catch (error) {
+        if (error.kind == 'session') rethrow;
+        dashboardProgress = null;
+      }
+
+      final metricsList = await Future.wait(
+        remoteHabits.map((h) async {
+          final hToday = businessDateForZone(now, h.timeZone);
+          final hFrom = addBusinessDays(hToday, -29);
+          try {
+            return await api.getHabitMetrics(
+              habitId: h.id,
+              from: hFrom,
+              to: hToday,
+            );
+          } on MobileApiException catch (error) {
+            if (error.kind == 'session') rethrow;
+            return null;
+          }
+        }),
+      );
+      if (_disposed) return;
+      for (var i = 0; i < remoteHabits.length; i++) {
+        final metrics = metricsList[i];
+        if (metrics != null) {
+          _habitMetrics[remoteHabits[i].id] = metrics;
+        }
+      }
     } on MobileApiException catch (error) {
       if (!_disposed) errorMessage = error.userMessage;
     } on Exception {
@@ -327,8 +403,8 @@ class PrototypeModel extends ChangeNotifier {
           targetValue: target,
           unit: unit,
           weekdays: days,
-          timeZone: activeTimeZone,
-          effectiveFrom: todayBusinessDate,
+          timeZone: newHabitTimeZone,
+          effectiveFrom: businessDateForZone(_now, newHabitTimeZone),
         );
       } else {
         final current = _apiHabits[id];
@@ -356,7 +432,11 @@ class PrototypeModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> submitCheckIn(String id, double value) async {
+  Future<bool> submitCheckIn(
+    String id,
+    double value, {
+    String? businessDate,
+  }) async {
     final api = _api;
     if (api == null) {
       setValue(id, value);
@@ -369,10 +449,16 @@ class PrototypeModel extends ChangeNotifier {
     errorMessage = null;
     _safeNotify();
     try {
+      final today = businessDateForZone(_now, current.timeZone);
+      final targetDate = businessDate ?? today;
+      final existing =
+          _checkInsByHabitAndDate[id]?[targetDate] ??
+          (targetDate == today ? _todayCheckIns[id] : null);
       await api.recordCheckIn(
         habit: current,
         value: value,
-        existingToday: _todayCheckIns[id],
+        existingToday: existing,
+        targetBusinessDate: targetDate,
         nowUtc: _now,
       );
       saving = false;

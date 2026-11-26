@@ -9,10 +9,14 @@ import 'package:quantify_mobile/prototype/prototype_app.dart';
 
 class FakeAppAuth extends FlutterAppAuth {
   AuthorizationTokenRequest? request;
+  TokenRequest? tokenRequest;
   Completer<AuthorizationTokenResponse>? pending;
+  TokenResponse? refreshResponse;
   Object? failure;
+  Object? refreshFailure;
   bool failLogout = false;
   int calls = 0;
+  int tokenCalls = 0;
   Duration lifetime = const Duration(minutes: 5);
   @override
   Future<AuthorizationTokenResponse> authorizeAndExchangeCode(
@@ -33,6 +37,23 @@ class FakeAppAuth extends FlutterAppAuth {
             null,
             null,
           ),
+        );
+  }
+
+  @override
+  Future<TokenResponse> token(TokenRequest request) async {
+    tokenCalls++;
+    tokenRequest = request;
+    if (refreshFailure != null) throw refreshFailure!;
+    return refreshResponse ??
+        TokenResponse(
+          'refreshed-access',
+          'refreshed-refresh',
+          DateTime.now().add(lifetime),
+          'refreshed-id',
+          'Bearer',
+          ['openid'],
+          null,
         );
   }
 
@@ -176,7 +197,9 @@ void main() {
   testWidgets('expired session clears dashboard and requires login', (
     tester,
   ) async {
-    final auth = FakeAppAuth()..lifetime = const Duration(seconds: 2);
+    final auth = FakeAppAuth()
+      ..lifetime = const Duration(seconds: 2)
+      ..refreshFailure = StateError('refresh revoked');
     final session = create(auth);
     addTearDown(session.dispose);
     await tester.pumpWidget(MobilePrototypeApp(session: session));
@@ -189,5 +212,92 @@ void main() {
     expect(find.byType(PrototypeWelcome), findsOneWidget);
     expect(session.message, contains('venció'));
     await tester.pumpWidget(const SizedBox.shrink());
+  });
+
+  test(
+    'persists session in secure store across restarts and auto-refreshes expired token',
+    () async {
+      final store = InMemoryMobileTokenStore();
+      final auth1 = FakeAppAuth();
+      final session1 = MobileSession(
+        config: const MobileIdentityConfig(
+          issuer: 'https://identity.example/realms/quantify',
+        ),
+        appAuth: auth1,
+        store: store,
+      );
+      await session1.signIn();
+      expect(session1.authenticated, isTrue);
+      session1.dispose();
+
+      final auth2 = FakeAppAuth();
+      final session2 = MobileSession(
+        config: const MobileIdentityConfig(
+          issuer: 'https://identity.example/realms/quantify',
+        ),
+        appAuth: auth2,
+        store: store,
+      );
+      addTearDown(session2.dispose);
+      final restoredToken = await session2.ensureValidAccessToken();
+      expect(restoredToken, 'synthetic-access');
+      expect(session2.authenticated, isTrue);
+      expect(auth2.tokenCalls, 0);
+
+      // Force stored access token to appear expired; ensureValidAccessToken refreshes using TokenRequest.
+      await store.write(
+        'quantify.mobile.session.v1',
+        '{"issuer":"https://identity.example/realms/quantify","accessToken":"old-access","refreshToken":"stored-refresh","idToken":"stored-id","expiresAt":"2020-01-01T00:00:00.000Z"}',
+      );
+      final auth3 = FakeAppAuth()
+        ..refreshResponse = TokenResponse(
+          'fresh-access',
+          null,
+          DateTime.now().add(const Duration(minutes: 10)),
+          null,
+          'Bearer',
+          const ['openid'],
+          null,
+        );
+      final session3 = MobileSession(
+        config: const MobileIdentityConfig(
+          issuer: 'https://identity.example/realms/quantify',
+        ),
+        appAuth: auth3,
+        store: store,
+      );
+      addTearDown(session3.dispose);
+      final freshToken = await session3.ensureValidAccessToken();
+      expect(freshToken, 'fresh-access');
+      expect(auth3.tokenCalls, 1);
+      expect(auth3.tokenRequest!.refreshToken, 'stored-refresh');
+    },
+  );
+
+  testWidgets('AccessPreview Google button passes kc_idp_hint=google', (
+    tester,
+  ) async {
+    final auth = FakeAppAuth();
+    final session = create(auth);
+    addTearDown(session.dispose);
+    await tester.pumpWidget(MobilePrototypeApp(session: session));
+    await tester.scrollUntilVisible(
+      find.text('Iniciar sesión o crear cuenta'),
+      250,
+    );
+    await tester.ensureVisible(find.text('Iniciar sesión o crear cuenta'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Iniciar sesión o crear cuenta'));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Continuar con Google'), 250);
+    await tester.ensureVisible(find.text('Continuar con Google'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Continuar con Google'));
+    await tester.pumpAndSettle();
+    expect(session.authenticated, isTrue);
+    expect(auth.request!.additionalParameters, {'kc_idp_hint': 'google'});
+    expect(auth.request!.promptValues, isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    session.dispose();
   });
 }

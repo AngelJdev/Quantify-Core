@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../api/mobile_api.dart';
 import '../identity/mobile_session.dart';
 
 import 'appearance_sheet.dart';
@@ -260,6 +261,8 @@ class HabitTile extends StatelessWidget {
   );
 }
 
+enum _HabitFilter { active, paused, archived }
+
 class HabitsPage extends StatefulWidget {
   const HabitsPage({super.key});
   @override
@@ -268,13 +271,17 @@ class HabitsPage extends StatefulWidget {
 
 class _HabitsPageState extends State<HabitsPage> {
   String _query = '';
-  bool _archived = false;
+  _HabitFilter _filter = _HabitFilter.active;
   @override
   Widget build(BuildContext context) {
     final habits = PrototypeScope.of(context).habits
         .where(
           (habit) =>
-              habit.archived == _archived &&
+              switch (_filter) {
+                _HabitFilter.active => !habit.archived && !habit.paused,
+                _HabitFilter.paused => !habit.archived && habit.paused,
+                _HabitFilter.archived => habit.archived,
+              } &&
               habit.name.toLowerCase().contains(_query.toLowerCase()),
         )
         .toList();
@@ -327,13 +334,21 @@ class _HabitsPageState extends State<HabitsPage> {
                   children: [
                     ChoiceChip(
                       label: const Text('En tu rutina'),
-                      selected: !_archived,
-                      onSelected: (_) => setState(() => _archived = false),
+                      selected: _filter == _HabitFilter.active,
+                      onSelected: (_) =>
+                          setState(() => _filter = _HabitFilter.active),
+                    ),
+                    ChoiceChip(
+                      label: const Text('En pausa'),
+                      selected: _filter == _HabitFilter.paused,
+                      onSelected: (_) =>
+                          setState(() => _filter = _HabitFilter.paused),
                     ),
                     ChoiceChip(
                       label: const Text('Archivados'),
-                      selected: _archived,
-                      onSelected: (_) => setState(() => _archived = true),
+                      selected: _filter == _HabitFilter.archived,
+                      onSelected: (_) =>
+                          setState(() => _filter = _HabitFilter.archived),
                     ),
                   ],
                 ),
@@ -410,10 +425,44 @@ class HabitDetail extends StatelessWidget {
               ),
               if (model.isConnected) ...[
                 const SizedBox(height: 6),
-                Text(
-                  'Versión ${habit.version} · Vigente desde ${habit.effectiveFrom}',
-                  style: TextStyle(fontSize: 12, color: context.color('muted')),
+                Builder(
+                  builder: (_) {
+                    final todayForHabit = businessDateForZone(
+                      DateTime.now(),
+                      habit.timeZone,
+                    );
+                    final isFuture =
+                        habit.effectiveFrom.compareTo(todayForHabit) > 0;
+                    return Text(
+                      isFuture
+                          ? 'Versión ${habit.version} · Cambio programado desde ${habit.effectiveFrom}'
+                          : 'Versión ${habit.version} · Vigente desde ${habit.effectiveFrom}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.color('muted'),
+                      ),
+                    );
+                  },
                 ),
+                if (model.metricsForHabit(id) case final metrics?) ...[
+                  const SizedBox(height: 12),
+                  const Divider(),
+                  const SizedBox(height: 10),
+                  Text(
+                    metrics.completionRate != null
+                        ? 'Cumplimiento 30 días: ${metrics.completionRate!.round()}% (${metrics.completedPeriods}/${metrics.eligiblePeriods} periodos)'
+                        : 'Cumplimiento 30 días: sin periodos cerrados aún',
+                    style: const TextStyle(fontSize: 13),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Racha actual: ${metrics.currentStreak} · Mejor racha: ${metrics.longestStreak}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.color('muted'),
+                    ),
+                  ),
+                ],
               ],
             ],
           ),
@@ -614,9 +663,11 @@ class _HabitEditorState extends State<HabitEditor> {
               const SizedBox(height: 20),
               Text(
                 model.isConnected
-                    ? 'Zona activa: ${model.activeTimeZone}'
+                    ? (widget.id == null
+                          ? 'Zona para el hábito: ${model.newHabitTimeZone}'
+                          : 'Zona del hábito: ${model.habitOrNull(widget.id!)?.timeZone ?? model.activeTimeZone}\nLos cambios aplican desde la próxima fecha elegible sin alterar el historial previo.')
                     : 'Zona de ejemplo: America/Mexico_City',
-                style: const TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 12, height: 1.5),
               ),
               const SizedBox(height: 24),
               if (model.saving)
@@ -682,13 +733,23 @@ class _CheckInEditorState extends State<CheckInEditor> {
   final _form = GlobalKey<FormState>();
   final _value = TextEditingController();
   bool _initialized = false;
+  String? _selectedDate;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_initialized) {
       _initialized = true;
-      final habit = PrototypeScope.of(context).habitOrNull(widget.id);
-      _value.text = habit == null ? '0' : amount(habit.value);
+      final model = PrototypeScope.of(context);
+      final habit = model.habitOrNull(widget.id);
+      if (model.isConnected) {
+        final dates = model.eligibleDatesForHabit(widget.id);
+        _selectedDate = dates.isNotEmpty ? dates.first : model.todayBusinessDate;
+        _value.text = amount(
+          model.valueForHabitOnDate(widget.id, _selectedDate!),
+        );
+      } else {
+        _value.text = habit == null ? '0' : amount(habit.value);
+      }
     }
   }
 
@@ -708,6 +769,13 @@ class _CheckInEditorState extends State<CheckInEditor> {
         children: [LiquidSurface(child: Text('Hábito no disponible.'))],
       );
     }
+    final eligibleDates = model.isConnected
+        ? model.eligibleDatesForHabit(widget.id)
+        : const <String>[];
+    final todayForHabit = model.isConnected
+        ? businessDateForZone(DateTime.now(), habit.timeZone)
+        : '2026-11-20';
+    final selectedDate = _selectedDate ?? todayForHabit;
     return DetailPage(
       title: 'Cada avance cuenta',
       children: [
@@ -717,6 +785,30 @@ class _CheckInEditorState extends State<CheckInEditor> {
               'Valor acumulado del día. Corregirlo reemplaza el valor anterior.',
         ),
         const SizedBox(height: 24),
+        if (model.isConnected && eligibleDates.length > 1) ...[
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final date in eligibleDates)
+                ChoiceChip(
+                  label: Text(date == todayForHabit ? 'Hoy ($date)' : date),
+                  selected: selectedDate == date,
+                  onSelected: model.saving
+                      ? null
+                      : (_) {
+                          setState(() {
+                            _selectedDate = date;
+                            _value.text = amount(
+                              model.valueForHabitOnDate(habit.id, date),
+                            );
+                          });
+                        },
+                ),
+            ],
+          ),
+          const SizedBox(height: 18),
+        ],
         Form(
           key: _form,
           child: TextFormField(
@@ -736,7 +828,7 @@ class _CheckInEditorState extends State<CheckInEditor> {
         const SizedBox(height: 20),
         Text(
           model.isConnected
-              ? '${model.todayBusinessDate} · Fecha de negocio\n${habit.timeZone}'
+              ? '$selectedDate · Fecha de negocio\n${habit.timeZone}'
               : '20 nov 2026 · Fecha de ejemplo\nAmerica/Mexico_City',
           style: const TextStyle(height: 1.7),
         ),
@@ -754,6 +846,7 @@ class _CheckInEditorState extends State<CheckInEditor> {
                   final ok = await model.submitCheckIn(
                     habit.id,
                     double.parse(_value.text.replaceAll(',', '.')),
+                    businessDate: model.isConnected ? selectedDate : null,
                   );
                   if (!context.mounted) return;
                   if (ok) {
@@ -915,6 +1008,13 @@ class _ProgressPageState extends State<ProgressPage> {
                   ),
                 ),
               const SizedBox(height: 16),
+              if (connected && model.dashboardProgress != null) ...[
+                Text(
+                  'Resumen 30 días: ${model.dashboardProgress!.closed.completed}/${model.dashboardProgress!.closed.opportunities} cerradas · ${model.dashboardProgress!.open.completed}/${model.dashboardProgress!.open.opportunities} hoy · ${model.dashboardProgress!.futureOpportunities} próximas',
+                  style: const TextStyle(fontSize: 13),
+                ),
+                const SizedBox(height: 8),
+              ],
               Text(
                 connected
                     ? 'Calculado desde PostgreSQL · Zona ${model.activeTimeZone}.'
@@ -1077,6 +1177,11 @@ class ProfilePage extends StatelessWidget {
             onTap: session.signOut,
           ),
         _ProfileAction(
+          icon: Icons.public_rounded,
+          title: 'Zona horaria (${model.newHabitTimeZone})',
+          onTap: () => _showTimeZoneSheet(context, model),
+        ),
+        _ProfileAction(
           icon: Icons.tune_rounded,
           title: 'Apariencia y Liquid Glass',
           onTap: () => showAppearance(context),
@@ -1102,8 +1207,8 @@ class ProfilePage extends StatelessWidget {
                 LiquidSurface(
                   child: Text(
                     model.isConnected
-                        ? 'Keycloak gestiona las credenciales y la sesión; los tokens permanecen solo en memoria. Tus hábitos y check-ins se guardan en PostgreSQL mediante Quantify API con claves de idempotencia.\n\nConsentimiento biométrico y dispositivos siguen pendientes.'
-                        : 'Los hábitos y métricas son datos sintéticos en memoria. Keycloak gestiona las credenciales y la sesión; los tokens no se guardan en el dispositivo.\n\nConsentimiento, dispositivos y datos de negocio conectados siguen pendientes.',
+                        ? 'Keycloak gestiona las credenciales y el acceso con Google mediante Authorization Code + PKCE. La sesión se guarda cifrada en el almacén seguro del dispositivo sin respaldo en la nube; tus hábitos y check-ins se almacenan en PostgreSQL vía Quantify API.\n\nConsentimiento biométrico y dispositivos siguen pendientes.'
+                        : 'Los hábitos y métricas son datos sintéticos en memoria. Cuando conectes la app con Keycloak, la sesión se guardará de forma segura en el dispositivo.\n\nConsentimiento, dispositivos y datos de negocio conectados siguen pendientes.',
                     style: const TextStyle(height: 1.8),
                   ),
                 ),
@@ -1116,6 +1221,38 @@ class ProfilePage extends StatelessWidget {
       ],
     );
   }
+}
+
+void _showTimeZoneSheet(BuildContext context, PrototypeModel model) {
+  showModalBottomSheet<void>(
+    context: context,
+    showDragHandle: true,
+    builder: (sheetContext) => SafeArea(
+      child: ListView(
+        shrinkWrap: true,
+        padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+        children: [
+          const Text(
+            'Zona horaria para nuevos hábitos',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 8),
+          for (final tz in supportedTimeZones)
+            ListTile(
+              title: Text(tz.label),
+              subtitle: Text(tz.id),
+              trailing: model.newHabitTimeZone == tz.id
+                  ? const Icon(Icons.check_rounded)
+                  : null,
+              onTap: () {
+                model.setPreferredTimeZone(tz.id);
+                Navigator.pop(sheetContext);
+              },
+            ),
+        ],
+      ),
+    ),
+  );
 }
 
 class _ProfileAction extends StatelessWidget {
@@ -1187,8 +1324,8 @@ class AccessPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final session = MobileSessionScope.of(context);
-    Future<void> access(bool register) async {
-      await session.signIn(register: register);
+    Future<void> access(bool register, {String? idpHint}) async {
+      await session.signIn(register: register, idpHint: idpHint);
       if (context.mounted && session.authenticated) {
         Navigator.of(context).popUntil((route) => route.isFirst);
       }
@@ -1242,14 +1379,24 @@ class AccessPreview extends StatelessWidget {
                 'Otras formas de entrar',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: session.available && !session.busy
+                      ? () => access(false, idpHint: 'google')
+                      : null,
+                  icon: const Icon(Icons.g_mobiledata_rounded, size: 24),
+                  label: const Text('Continuar con Google'),
+                ),
+              ),
+              const SizedBox(height: 16),
               Text(
                 'Próximamente',
                 style: TextStyle(color: context.color('muted')),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               for (final provider in const [
-                (label: 'Google', icon: Icons.g_mobiledata_rounded),
                 (label: 'Facebook', icon: Icons.facebook_rounded),
                 (label: 'Apple ID', icon: Icons.apple_rounded),
               ])

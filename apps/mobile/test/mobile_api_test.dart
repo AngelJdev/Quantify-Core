@@ -24,6 +24,10 @@ class _FakeAuth extends FlutterAppAuth {
   );
 
   @override
+  Future<TokenResponse> token(TokenRequest request) async =>
+      throw StateError('refresh rejected');
+
+  @override
   Future<EndSessionResponse> endSession(EndSessionRequest request) async =>
       EndSessionResponse('ok');
 }
@@ -193,6 +197,62 @@ class _FakeBackendTransport implements MobileHttpTransport {
       return _json(expectedVersion == 0 ? 201 : 200, record);
     }
 
+    if (method == 'GET' && path.endsWith('/metrics')) {
+      final segments = path.split('/');
+      final habitId = segments[segments.length - 2];
+      return _json(200, {
+        'habitId': habitId,
+        'from': uri.queryParameters['from'],
+        'to': uri.queryParameters['to'],
+        'timeZone': 'America/Mexico_City',
+        'ruleVersion': 'metrics-1.0.0',
+        'calculatedAt': '2026-11-24T18:10:00.000Z',
+        'eligiblePeriods': 4,
+        'completedPeriods': 3,
+        'completionRate': 75,
+        'currentStreak': 2,
+        'longestStreak': 3,
+        'noDataReason': null,
+      });
+    }
+
+    if (method == 'GET' && path == '/api/v1/me/dashboard/progress') {
+      return _json(200, {
+        'window': {
+          'from': uri.queryParameters['from'],
+          'to': uri.queryParameters['to'],
+          'habitId': null,
+          'ruleVersion': 'dashboard-opportunities-1.0.0',
+          'calculatedAt': '2026-11-24T18:10:00.000Z',
+          'timeBasis': 'habit-business-date',
+          'timeZones': ['America/Mexico_City'],
+        },
+        'closed': {
+          'opportunities': 5,
+          'recorded': 4,
+          'completed': 4,
+          'partial': 0,
+          'explicitZero': 0,
+          'missing': 1,
+          'completionRate': 80,
+          'coverageRate': 80,
+          'noDataReason': null,
+        },
+        'open': {
+          'opportunities': 1,
+          'recorded': 1,
+          'completed': 1,
+          'partial': 0,
+          'explicitZero': 0,
+          'missing': 0,
+          'completionRate': 100,
+          'coverageRate': 100,
+          'noDataReason': null,
+        },
+        'futureOpportunities': 2,
+      });
+    }
+
     if (method == 'GET' && path == '/api/v1/me/dashboard/trends') {
       return _json(200, {
         'window': {
@@ -360,4 +420,85 @@ void main() {
       await tester.pumpWidget(const SizedBox.shrink());
     },
   );
+
+  testWidgets(
+    'muestra métricas confirmadas, progreso de 30 días y filtro En pausa',
+    (tester) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final session = MobileSession(
+        config: const MobileIdentityConfig(
+          issuer: 'https://identity.example/realms/quantify',
+        ),
+        appAuth: _FakeAuth(),
+      );
+      addTearDown(session.dispose);
+      final transport = _FakeBackendTransport()
+        ..habits.add({
+          'id': '44444444-4444-4444-8444-444444444444',
+          'name': 'Lectura nocturna',
+          'targetValue': 20,
+          'unit': 'min',
+          'schedule': {
+            'weekdays': [1, 2, 3, 4, 5, 6, 7],
+            'effectiveFrom': '2026-11-20',
+          },
+          'timeZone': 'America/Mexico_City',
+          'status': 'paused',
+          'version': 1,
+        });
+
+      await tester.pumpWidget(
+        MobilePrototypeApp(
+          session: session,
+          apiConfig: const MobileApiConfig(
+            baseUrl: 'https://api.quantify.example/api/v1',
+          ),
+          httpTransport: transport,
+          clock: () => DateTime.utc(2026, 11, 24, 18, 0),
+        ),
+      );
+      await session.signIn();
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Progreso'));
+      await tester.pumpAndSettle();
+      expect(
+        find.text('Resumen 30 días: 4/5 cerradas · 1/1 hoy · 2 próximas'),
+        findsOneWidget,
+      );
+
+      await tester.tap(find.text('Perfil'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Mis hábitos'));
+      await tester.pumpAndSettle();
+      expect(find.text('Lectura nocturna'), findsNothing);
+      await tester.tap(find.text('En pausa'));
+      await tester.pumpAndSettle();
+      expect(find.text('Lectura nocturna'), findsOneWidget);
+
+      await tester.tap(find.text('Lectura nocturna'));
+      await tester.pumpAndSettle();
+      expect(
+        find.text('Cumplimiento 30 días: 75% (3/4 periodos)'),
+        findsOneWidget,
+      );
+      expect(find.text('Racha actual: 2 · Mejor racha: 3'), findsOneWidget);
+      await tester.pumpWidget(const SizedBox.shrink());
+      session.dispose();
+    },
+  );
+
+  test('businessDateForZone aplica offsets y horario de verano reales', () {
+    expect(
+      businessDateForZone(DateTime.utc(2026, 7, 1, 5, 0), 'America/Tijuana'),
+      '2026-06-30',
+    );
+    expect(
+      businessDateForZone(DateTime.utc(2026, 7, 1, 23, 0), 'Europe/Madrid'),
+      '2026-07-02',
+    );
+  });
 }

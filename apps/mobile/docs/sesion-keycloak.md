@@ -1,5 +1,13 @@
 # Sesión móvil y dashboard de ejemplo
 
+## Actualización de sesión persistente y Google · 25/11/2026
+
+El corte inicial del 23/11 conservaba los tokens solo en memoria. A partir del 25/11 ([ADR-0010](../../../docs/arquitectura/adr/0010-persistencia-renovacion-google-movil.md)):
+
+- Los tokens (`accessToken`, `refreshToken`, `idToken` y expiración) se persisten localmente con `flutter_secure_storage` (Keystore en Android, con `android:allowBackup="false"` y `android:fullBackupContent="false"`), y se limpian al cerrar sesión o revocarse el `refreshToken`.
+- `MobileSession` renueva el `accessToken` automáticamente mediante `TokenRequest` antes de vencer, al reanudar la app y ante un primer `401`.
+- **Continuar con Google** queda habilitado enviando `kc_idp_hint=google` a Keycloak. Para activarlo localmente, completa `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` en `infrastructure/docker/.env.local` (ignorado por Git) y ejecuta `node scripts/configure-mobile-identity.mjs --apply-local`. Nunca colocar secretos en `realm-export.json`.
+
 ## Continuación por el equipo
 
 La entrega queda en `feature/prototipo-flutter-backend`, sin fusionar. Keycloak ya permite registro/login y acceso al dashboard de ejemplo en Android local. `AccessPreview` en `lib/prototype/pages.dart` incluye Google, Facebook y Apple ID como botones deshabilitados bajo «Próximamente»; no hay proveedores sociales configurados. El siguiente responsable podrá completar su federación mediante Keycloak, conservando el flujo OIDC de la app, y validar cuentas, callbacks y logout. Las credenciales de los proveedores deben configurarse fuera del repositorio. REST, HTTPS público, iOS y continuidad de sesión conservan los pendientes descritos abajo.

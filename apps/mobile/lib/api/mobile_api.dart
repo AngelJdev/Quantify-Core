@@ -323,15 +323,237 @@ String generateUuidV4([Random? random]) {
       '${h.sublist(10, 16).join()}';
 }
 
+@immutable
+class ApiHabitMetrics {
+  const ApiHabitMetrics({
+    required this.habitId,
+    required this.from,
+    required this.to,
+    required this.timeZone,
+    required this.ruleVersion,
+    required this.eligiblePeriods,
+    required this.completedPeriods,
+    required this.completionRate,
+    required this.currentStreak,
+    required this.longestStreak,
+    required this.noDataReason,
+  });
+
+  factory ApiHabitMetrics.fromJson(Map<String, dynamic> json) {
+    final habitId = json['habitId'];
+    final from = json['from'];
+    final to = json['to'];
+    final timeZone = json['timeZone'];
+    final ruleVersion = json['ruleVersion'];
+    final eligiblePeriods = json['eligiblePeriods'];
+    final completedPeriods = json['completedPeriods'];
+    final completionRate = json['completionRate'];
+    final currentStreak = json['currentStreak'];
+    final longestStreak = json['longestStreak'];
+    final noDataReason = json['noDataReason'];
+    if (habitId is! String ||
+        from is! String ||
+        to is! String ||
+        timeZone is! String ||
+        ruleVersion is! String ||
+        eligiblePeriods is! int ||
+        completedPeriods is! int ||
+        (completionRate != null && completionRate is! num) ||
+        currentStreak is! int ||
+        longestStreak is! int ||
+        (noDataReason != null && noDataReason is! String)) {
+      throw const MobileApiException(kind: 'response');
+    }
+    return ApiHabitMetrics(
+      habitId: habitId,
+      from: from,
+      to: to,
+      timeZone: timeZone,
+      ruleVersion: ruleVersion,
+      eligiblePeriods: eligiblePeriods,
+      completedPeriods: completedPeriods,
+      completionRate: (completionRate as num?)?.toDouble(),
+      currentStreak: currentStreak,
+      longestStreak: longestStreak,
+      noDataReason: noDataReason as String?,
+    );
+  }
+
+  final String habitId;
+  final String from;
+  final String to;
+  final String timeZone;
+  final String ruleVersion;
+  final int eligiblePeriods;
+  final int completedPeriods;
+  final double? completionRate;
+  final int currentStreak;
+  final int longestStreak;
+  final String? noDataReason;
+}
+
+@immutable
+class ApiDashboardSummary {
+  const ApiDashboardSummary({
+    required this.opportunities,
+    required this.recorded,
+    required this.completed,
+    required this.partial,
+    required this.explicitZero,
+    required this.missing,
+    required this.completionRate,
+    required this.coverageRate,
+    required this.noDataReason,
+  });
+
+  factory ApiDashboardSummary.fromJson(Map<String, dynamic> json) {
+    final opportunities = json['opportunities'];
+    final recorded = json['recorded'];
+    final completed = json['completed'];
+    final partial = json['partial'];
+    final explicitZero = json['explicitZero'];
+    final missing = json['missing'];
+    final completionRate = json['completionRate'];
+    final coverageRate = json['coverageRate'];
+    final noDataReason = json['noDataReason'];
+    if (opportunities is! int ||
+        recorded is! int ||
+        completed is! int ||
+        partial is! int ||
+        explicitZero is! int ||
+        missing is! int ||
+        (completionRate != null && completionRate is! num) ||
+        (coverageRate != null && coverageRate is! num) ||
+        (noDataReason != null && noDataReason is! String)) {
+      throw const MobileApiException(kind: 'response');
+    }
+    return ApiDashboardSummary(
+      opportunities: opportunities,
+      recorded: recorded,
+      completed: completed,
+      partial: partial,
+      explicitZero: explicitZero,
+      missing: missing,
+      completionRate: (completionRate as num?)?.toDouble(),
+      coverageRate: (coverageRate as num?)?.toDouble(),
+      noDataReason: noDataReason as String?,
+    );
+  }
+
+  final int opportunities;
+  final int recorded;
+  final int completed;
+  final int partial;
+  final int explicitZero;
+  final int missing;
+  final double? completionRate;
+  final double? coverageRate;
+  final String? noDataReason;
+}
+
+@immutable
+class ApiDashboardProgress {
+  const ApiDashboardProgress({
+    required this.closed,
+    required this.open,
+    required this.futureOpportunities,
+  });
+
+  factory ApiDashboardProgress.fromJson(Map<String, dynamic> json) {
+    final closed = json['closed'];
+    final open = json['open'];
+    final futureOpportunities = json['futureOpportunities'];
+    if (closed is! Map<String, dynamic> ||
+        open is! Map<String, dynamic> ||
+        futureOpportunities is! int) {
+      throw const MobileApiException(kind: 'response');
+    }
+    return ApiDashboardProgress(
+      closed: ApiDashboardSummary.fromJson(closed),
+      open: ApiDashboardSummary.fromJson(open),
+      futureOpportunities: futureOpportunities,
+    );
+  }
+
+  final ApiDashboardSummary closed;
+  final ApiDashboardSummary open;
+  final int futureOpportunities;
+}
+
+const List<({String id, String label})> supportedTimeZones = [
+  (id: 'America/Mexico_City', label: 'Ciudad de México (UTC-6)'),
+  (id: 'America/Monterrey', label: 'Monterrey (UTC-6)'),
+  (id: 'America/Cancun', label: 'Cancún (UTC-5)'),
+  (id: 'America/Tijuana', label: 'Tijuana (UTC-8 / -7)'),
+  (id: 'America/Bogota', label: 'Bogotá / Lima (UTC-5)'),
+  (id: 'America/Argentina/Buenos_Aires', label: 'Buenos Aires (UTC-3)'),
+  (id: 'America/New_York', label: 'Nueva York (UTC-5 / -4)'),
+  (id: 'America/Los_Angeles', label: 'Los Ángeles (UTC-8 / -7)'),
+  (id: 'Europe/Madrid', label: 'Madrid (UTC+1 / +2)'),
+  (id: 'UTC', label: 'UTC'),
+];
+
+DateTime _nthWeekdayUtc(int year, int month, int weekday, int nth) {
+  final first = DateTime.utc(year, month, 1);
+  final delta = (weekday - first.weekday + 7) % 7;
+  return DateTime.utc(year, month, 1 + delta + (nth - 1) * 7);
+}
+
+DateTime _lastWeekdayUtc(int year, int month, int weekday) {
+  final nextMonth = month == 12
+      ? DateTime.utc(year + 1, 1, 1)
+      : DateTime.utc(year, month + 1, 1);
+  final last = nextMonth.subtract(const Duration(days: 1));
+  final delta = (last.weekday - weekday + 7) % 7;
+  return last.subtract(Duration(days: delta));
+}
+
+bool _inUsDst(DateTime utc, int standardOffsetHours) {
+  final startLocal = _nthWeekdayUtc(utc.year, 3, DateTime.sunday, 2)
+      .add(Duration(hours: 2 - standardOffsetHours));
+  final endLocal = _nthWeekdayUtc(utc.year, 11, DateTime.sunday, 1)
+      .add(Duration(hours: 2 - (standardOffsetHours + 1)));
+  return !utc.isBefore(startLocal) && utc.isBefore(endLocal);
+}
+
+bool _inEuDst(DateTime utc) {
+  final start = _lastWeekdayUtc(utc.year, 3, DateTime.sunday)
+      .add(const Duration(hours: 1));
+  final end = _lastWeekdayUtc(utc.year, 10, DateTime.sunday)
+      .add(const Duration(hours: 1));
+  return !utc.isBefore(start) && utc.isBefore(end);
+}
+
 String businessDateForZone(DateTime instant, String timeZone) {
   final utc = instant.toUtc();
   final DateTime zoned;
-  if (timeZone == 'UTC' || timeZone == 'Etc/UTC') {
-    zoned = utc;
-  } else if (timeZone == 'America/Mexico_City') {
-    zoned = utc.subtract(const Duration(hours: 6));
-  } else {
-    zoned = utc.toLocal();
+  switch (timeZone) {
+    case 'UTC':
+    case 'Etc/UTC':
+      zoned = utc;
+    case 'America/Mexico_City':
+    case 'America/Monterrey':
+      zoned = utc.subtract(const Duration(hours: 6));
+    case 'America/Cancun':
+    case 'America/Bogota':
+    case 'America/Lima':
+      zoned = utc.subtract(const Duration(hours: 5));
+    case 'America/Argentina/Buenos_Aires':
+    case 'America/Sao_Paulo':
+      zoned = utc.subtract(const Duration(hours: 3));
+    case 'America/New_York':
+      zoned = utc.add(Duration(hours: _inUsDst(utc, -5) ? -4 : -5));
+    case 'America/Chicago':
+      zoned = utc.add(Duration(hours: _inUsDst(utc, -6) ? -5 : -6));
+    case 'America/Denver':
+      zoned = utc.add(Duration(hours: _inUsDst(utc, -7) ? -6 : -7));
+    case 'America/Tijuana':
+    case 'America/Los_Angeles':
+      zoned = utc.add(Duration(hours: _inUsDst(utc, -8) ? -7 : -8));
+    case 'Europe/Madrid':
+      zoned = utc.add(Duration(hours: _inEuDst(utc) ? 2 : 1));
+    default:
+      zoned = utc.toLocal();
   }
   final y = zoned.year.toString().padLeft(4, '0');
   final m = zoned.month.toString().padLeft(2, '0');
@@ -375,20 +597,14 @@ class MobileApiClient {
 
   void close() => _transport.close();
 
-  Future<Map<String, dynamic>> _requestJson(
-    String method,
-    String path, {
+  Future<MobileHttpResponse> _sendOnce({
+    required String method,
+    required Uri uri,
+    required String token,
     Map<String, Object?>? body,
     String? idempotencyKey,
     String? ifMatch,
   }) async {
-    if (!config.valid) {
-      throw const MobileApiException(kind: 'network');
-    }
-    final token = session.currentAccessToken();
-    if (token == null || token.isEmpty) {
-      throw const MobileApiException(kind: 'session', status: 401);
-    }
     final headers = <String, String>{
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
@@ -396,10 +612,8 @@ class MobileApiClient {
       'Idempotency-Key': ?idempotencyKey,
       'If-Match': ?ifMatch,
     };
-    final uri = Uri.parse('${config.normalizedBaseUrl}/$path');
-    late final MobileHttpResponse response;
     try {
-      response = await _transport.send(
+      return await _transport.send(
         method: method,
         uri: uri,
         headers: headers,
@@ -411,10 +625,49 @@ class MobileApiClient {
       if (error is MobileApiException) rethrow;
       throw const MobileApiException(kind: 'network');
     }
+  }
+
+  Future<Map<String, dynamic>> _requestJson(
+    String method,
+    String path, {
+    Map<String, Object?>? body,
+    String? idempotencyKey,
+    String? ifMatch,
+  }) async {
+    if (!config.valid) {
+      throw const MobileApiException(kind: 'network');
+    }
+    var token = await session.ensureValidAccessToken();
+    if (token == null || token.isEmpty) {
+      throw const MobileApiException(kind: 'session', status: 401);
+    }
+    final uri = Uri.parse('${config.normalizedBaseUrl}/$path');
+    var response = await _sendOnce(
+      method: method,
+      uri: uri,
+      token: token,
+      body: body,
+      idempotencyKey: idempotencyKey,
+      ifMatch: ifMatch,
+    );
 
     if (response.statusCode == 401) {
-      session.handleUnauthorized();
-      throw const MobileApiException(kind: 'session', status: 401);
+      final refreshed = await session.refreshSession();
+      final nextToken = refreshed ? session.currentAccessToken() : null;
+      if (nextToken != null && nextToken.isNotEmpty) {
+        response = await _sendOnce(
+          method: method,
+          uri: uri,
+          token: nextToken,
+          body: body,
+          idempotencyKey: idempotencyKey,
+          ifMatch: ifMatch,
+        );
+      }
+      if (response.statusCode == 401) {
+        session.handleUnauthorized();
+        throw const MobileApiException(kind: 'session', status: 401);
+      }
     }
 
     final contentType = response.headers['content-type'] ?? '';
@@ -589,6 +842,7 @@ class MobileApiClient {
     required ApiHabit habit,
     required double value,
     ApiCheckIn? existingToday,
+    String? targetBusinessDate,
     DateTime? nowUtc,
     String? idempotencyKey,
     String? clientEventId,
@@ -606,7 +860,7 @@ class MobileApiClient {
       idempotencyKey: idempotencyKey ?? generateUuidV4(),
       body: {
         'clientEventId': clientEventId ?? generateUuidV4(),
-        'businessDate': today,
+        'businessDate': targetBusinessDate ?? today,
         'occurredAt': formatUtcTimestamp(safeInstant),
         'timeZone': habit.timeZone,
         'value': value,
@@ -615,6 +869,25 @@ class MobileApiClient {
       },
     );
     return ApiCheckIn.fromJson(json);
+  }
+
+  Future<ApiHabitMetrics> getHabitMetrics({
+    required String habitId,
+    required String from,
+    required String to,
+  }) async {
+    final qs = Uri(queryParameters: {'from': from, 'to': to}).query;
+    final json = await _requestJson('GET', 'habits/$habitId/metrics?$qs');
+    return ApiHabitMetrics.fromJson(json);
+  }
+
+  Future<ApiDashboardProgress> getDashboardProgress({
+    required String from,
+    required String to,
+  }) async {
+    final qs = Uri(queryParameters: {'from': from, 'to': to}).query;
+    final json = await _requestJson('GET', 'me/dashboard/progress?$qs');
+    return ApiDashboardProgress.fromJson(json);
   }
 
   Future<List<ApiTrendPoint>> getTrends({

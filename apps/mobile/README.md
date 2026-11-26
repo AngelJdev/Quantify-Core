@@ -1,15 +1,17 @@
 # Aplicación móvil
 
-## Conexión REST del prototipo · 24/11/2026
+## Conexión REST, sesión persistente y Google · 25/11/2026
 
-Al compilar `lib/main_prototype.dart` con `API_BASE_URL` válido (HTTPS o `http://localhost:3000/api/v1` en debug con `OIDC_USB_DEBUG=true`) e iniciar sesión con Keycloak, la app opera en modo conectado (`lib/api/mobile_api.dart`) contra `services/api` sin mezclar fixtures de demostración:
+Al compilar `lib/main_prototype.dart` con `API_BASE_URL` válido (HTTPS o `http://localhost:3000/api/v1` en debug con `OIDC_USB_DEBUG=true`) e iniciar sesión con Keycloak o Google, la app opera en modo conectado (`lib/api/mobile_api.dart`) contra `services/api` sin mezclar fixtures de demostración:
 
-- **Perfil propio:** consulta `GET /api/v1/me` y, si aún no existe fila en `profiles` (`403`), ejecuta autoprovisión idempotente con `POST /api/v1/me` (`Idempotency-Key` UUIDv4).
-- **Hábitos personales:** lista (`GET /habits`), crea (`POST /habits`) y actualiza/pausa/archiva (`PATCH /habits/:id` con `If-Match` fuerte y vigencia futura `effectiveFrom`).
-- **Avances diarios:** consulta historial reciente (`GET /habits/:id/check-ins`) y envía valores absolutos (`POST /habits/:id/check-ins`, `expectedVersion: 0` en primer registro del día y motivo auditable al corregir el mismo día).
-- **Tendencias y sesión:** muestra series confirmadas (`GET /me/dashboard/trends`) en Progreso y limpia la sesión en memoria ante `401`.
+- **Sesión persistente y Google IdP:** `MobileSession` persiste tokens de forma cifrada mediante `flutter_secure_storage` (Keystore en Android con `allowBackup="false"` en `AndroidManifest.xml`), renueva automáticamente el `accessToken` con `refreshToken` antes de vencer o ante un primer `401`, y soporta **Continuar con Google** mediante `kc_idp_hint=google` en Custom Tab (`ADR-0010`). Facebook y Apple ID permanecen deshabilitados bajo «Próximamente».
+- **Configuración de Google en Keycloak local:** definir `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` en `infrastructure/docker/.env.local` (ignorado por Git) y ejecutar `node scripts/configure-mobile-identity.mjs --apply-local`. El script además garantiza el rol por defecto `user` en el realm `quantify`.
+- **Migración entre PCs sin PostgreSQL local:** Docker levanta `postgres:18.6` automáticamente; usa `node scripts/dev-base.mjs db-export` para generar un respaldo SQL de datos en `infrastructure/docker/backups/` (ignorado por Git) y `node scripts/dev-base.mjs db-import <archivo.sql>` en la máquina destino después de `up` + `docker-migrate`.
+- **Perfil propio:** consulta `GET /api/v1/me` y, si aún no existe fila en `profiles` (`403`), ejecuta autoprovisión idempotente con `POST /api/v1/me` (`Idempotency-Key` UUIDv4). Desde Perfil se puede elegir la zona horaria IANA para alta de nuevos hábitos.
+- **Hábitos personales:** lista (`GET /habits`) con filtros Activos / En pausa / Archivados, crea (`POST /habits`) y actualiza/pausa/archiva (`PATCH /habits/:id` con `If-Match` fuerte y vigencia futura `effectiveFrom`), mostrando además métricas confirmadas (`GET /habits/:id/metrics`).
+- **Avances diarios y progreso:** consulta historial reciente (`GET /habits/:id/check-ins`), permite registrar/corregir Hoy o días recientes elegibles (`POST /habits/:id/check-ins` con `expectedVersion` y motivo auditable), y muestra `GET /me/dashboard/trends` junto con `GET /me/dashboard/progress` en Progreso.
 
-Sin `API_BASE_URL` o al entrar por «Explorar demostración», el prototipo conserva el dashboard local de ejemplo; al compilar con `API_BASE_URL` configurado, la bienvenida prioriza el acceso con Keycloak y oculta el recorrido de demostración sin base de datos. Siguen pendientes cola offline, notificaciones, asistente IA conectado, proveedores sociales e iOS en macOS.
+Sin `API_BASE_URL` o al entrar por «Explorar demostración», el prototipo conserva el dashboard local de ejemplo; al compilar con `API_BASE_URL` configurado, la bienvenida prioriza el acceso con Keycloak y oculta el recorrido de demostración sin base de datos. Siguen pendientes cola offline, notificaciones, asistente IA conectado, Facebook/Apple ID e iOS en macOS.
 
 ## Acceso Keycloak · 23/11/2026
 
