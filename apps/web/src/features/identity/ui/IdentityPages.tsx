@@ -19,20 +19,18 @@ import {
   apiSubmitContactForm,
   apiVerifyRegistrationOtp,
   completeOidcCallback,
-  getMailpitUrl,
   hasPendingOidcHandshake,
-  startOidcFlow,
 } from "@/shared/api/client";
 import ritual from "../../../../../../docs/GUI/assets/ritual-cotidiano.png";
 
 const states: Record<string, [string, string]> = {
   pendiente: [
     "Preparando tu sesión",
-    "Verificando el estado con el proveedor de identidad OIDC.",
+    "Verificando el estado de tu cuenta personal.",
   ],
   "sin-sesion": [
     "Accede a tu espacio",
-    "Inicia sesión con tu cuenta o con Google para sincronizar tu espacio.",
+    "Inicia sesión con tu cuenta o con Google para sincronizar tus hábitos.",
   ],
   vencida: [
     "Tu sesión terminó",
@@ -73,7 +71,7 @@ export function WelcomePage() {
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactSubject, setContactSubject] = useState(
-    "Evaluación de Proyecto Integrador · Quantify Core V2.0",
+    "Comentarios sobre Quantify",
   );
   const [contactMessage, setContactMessage] = useState("");
   const [contactStatus, setContactStatus] = useState<string | null>(null);
@@ -100,7 +98,7 @@ export function WelcomePage() {
       setContactStatus(
         err instanceof Error
           ? err.message
-          : "Mensaje registrado localmente con éxito.",
+          : "Tu mensaje fue recibido correctamente.",
       );
     } finally {
       setSendingContact(false);
@@ -127,12 +125,12 @@ export function WelcomePage() {
 
       <div className="welcome-card">
         <div>
-          <span className="pill light">QUANTIFY CORE V2.0 · PLATAFORMA OFICIAL</span>
+          <span className="pill light">QUANTIFY · HÁBITOS, RACHAS Y LOGROS</span>
           <h1>Cada avance cuenta.</h1>
           <p>
-            El núcleo inteligente para registrar, cuantificar y mejorar hábitos
-            humanos con evidencia verificable, base de datos híbrida
-            (PostgreSQL + MongoDB) e Inteligencia Artificial Google Gemini.
+            Construye rutinas que permanecen. Registra tus hábitos en segundos,
+            visualiza tus gráficas semanales y mensuales, adjunta evidencia de
+            tus logros y desbloquea 36 medallas de constancia.
           </p>
           <div className="form-actions" style={{ marginTop: "1rem" }}>
             <Link className="button white" to="/auth">
@@ -147,44 +145,44 @@ export function WelcomePage() {
         </div>
         <img
           src={ritual}
-          alt="Experiencia visual de Quantify Core V2.0"
+          alt="Experiencia visual de Quantify"
         />
       </div>
 
-      <section className="stats-grid" aria-label="Indicadores de arquitectura">
+      <section className="stats-grid" aria-label="Pilares de Quantify">
         <div className="stat card">
           <span className="symbol blue">
             <Icon name="habitos" />
           </span>
           <div>
-            <p>Persistencia Híbrida</p>
+            <p>Registro Rápido</p>
             <strong>
-              PostgreSQL + MongoDB
-              <small>Transacciones ACID + Auditoría Documental</small>
+              Avances en 1 clic
+              <small>Suma progreso o completa tu meta diaria al instante</small>
             </strong>
           </div>
         </div>
         <div className="stat card">
           <span className="symbol emerald">
-            <Icon name="sugerencias" />
+            <Icon name="analisis" />
           </span>
           <div>
-            <p>Motor de IA Integrado</p>
+            <p>Gráficas Interactivas</p>
             <strong>
-              Google Gemini 2.0
-              <small>Recomendación de hábitos y prevención de desgaste</small>
+              Semanal, Mensual y por Hábito
+              <small>Anillos de progreso, mapa de calor y tendencias</small>
             </strong>
           </div>
         </div>
         <div className="stat card">
           <span className="symbol amber">
-            <Icon name="privacidad" />
+            <Icon name="confirmado" />
           </span>
           <div>
-            <p>Seguridad Institucional</p>
+            <p>Gamificación Real</p>
             <strong>
-              Keycloak OIDC + OTP
-              <small>Google OAuth 2.0, RS256 y Nodemailer</small>
+              36 Logros Funcionales
+              <small>Sube de nivel y gana medallas por tu disciplina</small>
             </strong>
           </div>
         </div>
@@ -192,34 +190,34 @@ export function WelcomePage() {
 
       <div className="two-columns">
         <section className="card">
-          <span className="eyebrow">¿QUÉ ES QUANTIFY CORE V2.0?</span>
+          <span className="eyebrow">¿POR QUÉ QUANTIFY?</span>
           <h2>Más allá de un contador de rachas</h2>
           <p>
-            Las aplicaciones tradicionales dependen solo de registros manuales
-            aislados. Quantify Core V2.0 integra tres pilares de ingeniería:
+            Diseñado para acompañarte todos los días con claridad, motivación
+            visual y reglas justas para tu ritmo de vida:
           </p>
           <div className="stack">
             <div>
-              <h3>1. Trazabilidad y Evidencia Fotográfica</h3>
+              <h3>1. Registro rápido o con evidencia fotográfica</h3>
               <p className="caption">
-                Cada check-in aplica claves de idempotencia UUID, control de
-                concurrencia por versión, sello de tiempo UTC/IANA, fotografías
-                de evidencia y huella de auditoría SHA-256.
+                Completa tus hábitos en un solo toque desde tu panel diario o
+                agrega notas de reflexión, nivel de energía y fotografías de tu
+                progreso.
               </p>
             </div>
             <div>
-              <h3>2. Inteligencia Artificial en Toda la Experiencia</h3>
+              <h3>2. Sistema de 36 logros y niveles de experiencia</h3>
               <p className="caption">
-                Nuestro motor conectado con Google Gemini analiza tu carga
-                acumulada, diseña metas óptimas al crear un hábito y te ofrece
-                un coach conversacional en tiempo real.
+                Desde tu primer hábito hasta rachas de 21 días, hidratación,
+                lectura, enfoque y semanas perfectas: cada paso desbloquea
+                medallas de Bronce, Plata, Oro y Diamante.
               </p>
             </div>
             <div>
-              <h3>3. Reglas de Negocio Versionadas</h3>
+              <h3>3. Historial que respeta tu evolución</h3>
               <p className="caption">
-                Cambiar la meta, pausar o archivar un hábito crea una nueva
-                revisión histórica sin alterar los días cerrados anteriores.
+                Ajustar tu meta diaria o pausar un hábito para descansar
+                conserva intactos todos tus días cumplidos anteriores.
               </p>
             </div>
           </div>
@@ -228,23 +226,23 @@ export function WelcomePage() {
         <section className="card">
           <div className="section-heading">
             <div>
-              <span className="eyebrow">ANALÍTICA PREVENTIVA</span>
-              <h2>Gráficas y métricas en tiempo real</h2>
-              <p>Visualización reactiva de cumplimiento, rachas y energía.</p>
+              <span className="eyebrow">VISUALIZACIÓN CLARA</span>
+              <h2>Gráficas semanales, mensuales y por hábito</h2>
+              <p>Observa cómo evoluciona cada área de tu rutina.</p>
             </div>
             <Icon name="analisis" />
           </div>
-          <Chart values={[75, 90, 80, 100, 85, 95, 90]} />
+          <Chart values={[75, 90, 80, 100, 85, 95, 92]} />
           <p className="caption" style={{ marginTop: "0.75rem" }}>
-            Cálculo de oportunidades elegibles por zona horaria IANA, detección
-            de riesgo de desgaste y exportación portátil en JSON.
+            Cada hábito cuenta con sus propias gráficas de barras, curva de
+            tendencia, anillo de cumplimiento y mapa de constancia de 28 días.
           </p>
           <div className="form-actions">
             <Link className="button primary" to="/auth">
               Comenzar ahora con mi cuenta
             </Link>
-            <Link className="button secondary" to="/analisis">
-              Ver panel de gráficas
+            <Link className="button secondary" to="/logros">
+              Explorar los 36 logros
             </Link>
           </div>
         </section>
@@ -252,16 +250,16 @@ export function WelcomePage() {
 
       <section className="card">
         <span className="eyebrow">UNIVERSIDAD TECNOLÓGICA DE XICOTEPEC DE JUÁREZ · 10.º A</span>
-        <h2>Equipo de Ingeniería · Quantify Core</h2>
+        <h2>Equipo Creador · Quantify</h2>
         <p>
           Ingeniería en Desarrollo y Gestión de Software · Proyecto Integrador.
         </p>
         <div className="landing-grid">
           {[
             ["Ángel de Jesús Baños Telles", "Líder de Proyecto & Arquitectura"],
-            ["Al Farias Leyva", "Desarrollador Frontend & UI/UX"],
-            ["Francisco García García", "Desarrollador Backend & Reglas de Dominio"],
-            ["Jesús Alejandro Artiaga Morales", "Administrador de Base de Datos Híbrida"],
+            ["Al Farias Leyva", "Experiencia de Usuario & Frontend"],
+            ["Francisco García García", "Reglas de Negocio & Backend"],
+            ["Jesús Alejandro Artiaga Morales", "Persistencia de Datos & Sincronización"],
           ].map(([member, role]) => (
             <div className="quiet-card" key={member}>
               <span className="symbol blue">
@@ -279,11 +277,11 @@ export function WelcomePage() {
       <section className="card form-card" id="contacto">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">CONTÁCTANOS · SOPORTE Y EVALUACIÓN</span>
-            <h2>Ponte en contacto con el equipo</h2>
+            <span className="eyebrow">CONTÁCTANOS</span>
+            <h2>Envíanos tus comentarios</h2>
             <p>
-              Envíanos tus comentarios o dudas. Recibirás una confirmación
-              inmediata por correo electrónico mediante Nodemailer.
+              ¿Tienes alguna duda o sugerencia sobre Quantify? Escríbenos y
+              recibirás confirmación directa en tu correo electrónico.
             </p>
           </div>
           <Icon name="recordatorio" />
@@ -296,7 +294,7 @@ export function WelcomePage() {
                 id="contact-name"
                 value={contactName}
                 onChange={(e) => setContactName(e.target.value)}
-                placeholder="Ej. Evaluador / Profesor"
+                placeholder="Ej. Sofía Ramírez"
                 required
               />
             </div>
@@ -307,7 +305,7 @@ export function WelcomePage() {
                 type="email"
                 value={contactEmail}
                 onChange={(e) => setContactEmail(e.target.value)}
-                placeholder="correo@utxj.edu.mx"
+                placeholder="sofia.ramirez@correo.com"
                 required
               />
             </div>
@@ -324,7 +322,7 @@ export function WelcomePage() {
             rows={3}
             value={contactMessage}
             onChange={(e) => setContactMessage(e.target.value)}
-            placeholder="Escribe tu mensaje o retroalimentación para el equipo de Quantify Core..."
+            placeholder="Cuéntanos cómo te ha ayudado Quantify o qué te gustaría ver..."
             required
           />
           {contactStatus && (
@@ -339,17 +337,9 @@ export function WelcomePage() {
               disabled={sendingContact}
             >
               {sendingContact
-                ? "Enviando con Nodemailer..."
+                ? "Enviando mensaje..."
                 : "Enviar mensaje de contacto"}
             </button>
-            <a
-              className="button secondary"
-              href={getMailpitUrl()}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Ver bandeja de correos (Nodemailer) ↗
-            </a>
           </div>
         </form>
       </section>
@@ -361,24 +351,19 @@ type AuthViewMode = "login" | "register" | "verify-otp" | "forgot" | "reset";
 
 const GOOGLE_PRESET_ACCOUNTS = [
   {
-    name: "Jesus Artiaga",
-    email: "jesusartiaga.chucho@gmail.com",
-    role: "Administrador de BD · Quantify Core",
+    name: "Sofía Ramírez",
+    email: "sofia.ramirez@gmail.com",
+    role: "Cuenta personal",
   },
   {
-    name: "Ángel de Jesús Baños Telles",
-    email: "angel.banos.quantify@gmail.com",
-    role: "Líder de Proyecto · Quantify Core",
+    name: "Carlos Mendoza",
+    email: "carlos.mendoza@gmail.com",
+    role: "Cuenta personal",
   },
   {
-    name: "Al Farias Leyva",
-    email: "al.farias.quantify@gmail.com",
-    role: "Frontend Developer · Quantify Core",
-  },
-  {
-    name: "Francisco García",
-    email: "francisco.garcia.quantify@gmail.com",
-    role: "Backend Developer · Quantify Core",
+    name: "Valeria Torres",
+    email: "valeria.torres@gmail.com",
+    role: "Cuenta académica",
   },
 ];
 
@@ -394,7 +379,6 @@ export function AuthPage() {
   const [confirmSecretInput, setConfirmSecretInput] = useState("");
   const [timeZone, setTimeZone] = useState("America/Mexico_City");
   const [otpCode, setOtpCode] = useState("");
-  const [devCodeHint, setDevCodeHint] = useState<string | null>(null);
   const [showSecret, setShowSecret] = useState(false);
 
   const [customGoogleMode, setCustomGoogleMode] = useState(false);
@@ -404,12 +388,23 @@ export function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [statusMsg, setStatusMsg] = useState<string | null>(null);
-  const [googleClientId, setGoogleClientId] = useState(
+  const [googleClientId] = useState(
     () =>
       (import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined)?.trim() ||
       localStorage.getItem("qc_google_client_id") ||
-      "",
+      "407760133660-prkbri2o3pg25s9vr6r1uhld0v1600vv.apps.googleusercontent.com",
   );
+
+  useEffect(() => {
+    if (!document.getElementById("google-gsi-client-script")) {
+      const script = document.createElement("script");
+      script.id = "google-gsi-client-script";
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+  }, []);
 
   useEffect(() => {
     if (window.location.hash.includes("access_token=")) {
@@ -439,7 +434,7 @@ export function AuthPage() {
             setErrorMsg(
               err instanceof Error
                 ? err.message
-                : "No se pudo validar el token de Google.",
+                : "No se pudo validar tu cuenta de Google.",
             ),
           )
           .finally(() => setLoading(false));
@@ -466,7 +461,7 @@ export function AuthPage() {
           setErrorMsg(
             err instanceof Error
               ? err.message
-              : "No se pudo completar el login con Google.",
+              : "No se pudo completar el inicio de sesión con Google.",
           ),
         )
         .finally(() => setLoading(false));
@@ -530,7 +525,6 @@ export function AuthPage() {
         timeZone,
       });
       setStatusMsg(res.message);
-      setDevCodeHint(res.devCodeHint || null);
       setOtpCode("");
       setView("verify-otp");
     } catch (err) {
@@ -559,8 +553,12 @@ export function AuthPage() {
       });
       await syncWithBackend(session);
       navigate("/hoy");
-    } catch {
-      setErrorMsg("El código de 6 dígitos es incorrecto o ha expirado.");
+    } catch (err) {
+      setErrorMsg(
+        err instanceof Error
+          ? err.message
+          : "El código de 6 dígitos es incorrecto o ha expirado.",
+      );
     } finally {
       setLoading(false);
     }
@@ -577,7 +575,6 @@ export function AuthPage() {
     try {
       const res = await apiRequestPasswordResetOtp({ email: email.trim() });
       setStatusMsg(res.message);
-      setDevCodeHint(res.devCodeHint || null);
       setOtpCode("");
       setSecretInput("");
       setConfirmSecretInput("");
@@ -612,7 +609,6 @@ export function AuthPage() {
         newPassword: secretInput,
       });
       setStatusMsg(res.message);
-      setDevCodeHint(null);
       setView("login");
     } catch {
       setErrorMsg("Código de recuperación inválido o vencido.");
@@ -624,6 +620,59 @@ export function AuthPage() {
   function handleOpenGoogleChooser() {
     setErrorMsg(null);
     const activeClientId = googleClientId.trim();
+    const gsi = (
+      window as unknown as {
+        google?: {
+          accounts?: {
+            oauth2?: {
+              initTokenClient: (cfg: {
+                client_id: string;
+                scope: string;
+                callback: (resp: {
+                  access_token?: string;
+                  error?: string;
+                }) => void;
+              }) => {
+                requestAccessToken: (opts?: { prompt?: string }) => void;
+              };
+            };
+          };
+        };
+      }
+    ).google;
+
+    if (activeClientId && gsi?.accounts?.oauth2) {
+      localStorage.setItem("qc_google_client_id", activeClientId);
+      const tokenClient = gsi.accounts.oauth2.initTokenClient({
+        client_id: activeClientId,
+        scope: "openid email profile",
+        callback: (resp) => {
+          if (resp.error || !resp.access_token) {
+            setErrorMsg("Inicio de sesión con Google cancelado.");
+            return;
+          }
+          setLoading(true);
+          apiLoginWithGoogle({
+            email: "usuario@gmail.com",
+            fullName: "Usuario Google",
+            googleAccessToken: resp.access_token,
+          })
+            .then(({ session }) => syncWithBackend(session))
+            .then(() => navigate("/hoy"))
+            .catch((err) =>
+              setErrorMsg(
+                err instanceof Error
+                  ? err.message
+                  : "No se pudo autenticar con Google.",
+              ),
+            )
+            .finally(() => setLoading(false));
+        },
+      });
+      tokenClient.requestAccessToken({ prompt: "select_account" });
+      return;
+    }
+
     if (activeClientId) {
       localStorage.setItem("qc_google_client_id", activeClientId);
       const redirectUri = `${window.location.origin}/auth`;
@@ -632,10 +681,9 @@ export function AuthPage() {
         new URLSearchParams({
           client_id: activeClientId,
           redirect_uri: redirectUri,
-          response_type: "token id_token",
+          response_type: "token",
           scope: "openid email profile",
           prompt: "select_account",
-          nonce: crypto.randomUUID(),
         }).toString();
       window.open(
         oauthUrl,
@@ -678,9 +726,7 @@ export function AuthPage() {
       <section className="card">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">
-              QUANTIFY CORE V2.0 · SEGURIDAD OIDC + NODEMAILER
-            </p>
+            <p className="eyebrow">QUANTIFY · CUENTA PERSONAL</p>
             <h1>Accede a tu espacio</h1>
           </div>
           <Link className="text-link" to="/">
@@ -691,8 +737,7 @@ export function AuthPage() {
         {state.session && (
           <div className="form-note" role="status">
             <strong>Sesión activa:</strong> {state.session.displayName} (
-            {state.session.email}) · Proveedor:{" "}
-            {state.session.provider.toUpperCase()}
+            {state.session.email})
             <div className="form-actions" style={{ marginTop: "0.5rem" }}>
               <Link className="button primary" to="/hoy">
                 Ir a mi panel principal
@@ -765,29 +810,9 @@ export function AuthPage() {
         {statusMsg && (
           <div className="form-note" role="status">
             <p>{statusMsg}</p>
-            {devCodeHint && (
-              <p className="caption" style={{ marginTop: "0.35rem" }}>
-                Código enviado por Nodemailer:{" "}
-                <strong style={{ letterSpacing: "2px" }}>{devCodeHint}</strong>{" "}
-                ·{" "}
-                <button
-                  type="button"
-                  className="text-link"
-                  onClick={() => setOtpCode(devCodeHint)}
-                >
-                  Pegar código automáticamente
-                </button>{" "}
-                ·{" "}
-                <a
-                  className="text-link"
-                  href={getMailpitUrl()}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Abrir correo en Mailpit ↗
-                </a>
-              </p>
-            )}
+            <p className="caption" style={{ marginTop: "0.35rem" }}>
+              Revisa la bandeja de entrada de <strong>{email}</strong>.
+            </p>
           </div>
         )}
 
@@ -799,7 +824,7 @@ export function AuthPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu.correo@gmail.com"
+              placeholder="sofia.ramirez@correo.com"
               required
             />
             <div className="row-between">
@@ -844,15 +869,7 @@ export function AuthPage() {
                 className="button primary"
                 disabled={loading}
               >
-                {loading ? "Autenticando..." : "Entrar a mi cuenta"}
-              </button>
-              <button
-                type="button"
-                className="button secondary"
-                disabled={loading}
-                onClick={() => void startOidcFlow("login")}
-              >
-                Iniciar sesión con Keycloak
+                {loading ? "Iniciando sesión..." : "Entrar a mi cuenta"}
               </button>
             </div>
           </form>
@@ -869,7 +886,7 @@ export function AuthPage() {
               id="auth-reg-name"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              placeholder="Ej. Jesús Alejandro Artiaga Morales"
+              placeholder="Ej. Sofía Ramírez"
               required
             />
             <label htmlFor="auth-reg-email">Correo electrónico</label>
@@ -878,7 +895,7 @@ export function AuthPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="jesusartiaga.chucho@gmail.com"
+              placeholder="sofia.ramirez@correo.com"
               required
             />
             <div className="form-grid">
@@ -925,8 +942,8 @@ export function AuthPage() {
               <option value="UTC">UTC</option>
             </select>
             <p className="caption">
-              Al continuar te enviaremos un código de verificación de 6 dígitos
-              a tu correo mediante Nodemailer.
+              Te enviaremos un código de verificación de 6 dígitos a tu correo
+              electrónico para activar tu cuenta.
             </p>
             <div className="form-actions">
               <button
@@ -935,7 +952,7 @@ export function AuthPage() {
                 disabled={loading}
               >
                 {loading
-                  ? "Enviando código con Nodemailer..."
+                  ? "Enviando código a tu correo..."
                   : "Enviar código de verificación"}
               </button>
               <button
@@ -957,8 +974,8 @@ export function AuthPage() {
           >
             <h2>Verifica tu correo electrónico</h2>
             <p>
-              Ingresa el código de seguridad de 6 dígitos que enviamos con{" "}
-              <strong>Nodemailer</strong> a <strong>{email}</strong>.
+              Ingresa el código de seguridad de 6 dígitos que enviamos a{" "}
+              <strong>{email}</strong>.
             </p>
             <label htmlFor="auth-otp-input">
               Código de verificación (6 dígitos)
@@ -986,17 +1003,9 @@ export function AuthPage() {
                 disabled={loading}
               >
                 {loading
-                  ? "Verificando y creando perfil..."
+                  ? "Verificando y creando cuenta..."
                   : "Verificar código y entrar"}
               </button>
-              <a
-                className="button secondary"
-                href={getMailpitUrl()}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Abrir bandeja de correo ↗
-              </a>
               <button
                 type="button"
                 className="text-link"
@@ -1013,8 +1022,7 @@ export function AuthPage() {
             <h2>Recuperar contraseña</h2>
             <p>
               Ingresa tu correo electrónico y te enviaremos un código de
-              seguridad de 6 dígitos mediante <strong>Nodemailer</strong> para
-              restablecer tu contraseña.
+              seguridad de 6 dígitos para restablecer tu contraseña.
             </p>
             <label htmlFor="auth-forgot-email">Correo de tu cuenta</label>
             <input
@@ -1022,7 +1030,7 @@ export function AuthPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu.correo@gmail.com"
+              placeholder="sofia.ramirez@correo.com"
               required
             />
             <div className="form-actions">
@@ -1106,18 +1114,8 @@ export function AuthPage() {
                 className="button primary"
                 disabled={loading}
               >
-                {loading
-                  ? "Actualizando en Keycloak..."
-                  : "Actualizar contraseña"}
+                {loading ? "Actualizando contraseña..." : "Actualizar contraseña"}
               </button>
-              <a
-                className="button secondary"
-                href={getMailpitUrl()}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Ver correo en Mailpit ↗
-              </a>
             </div>
           </form>
         )}
@@ -1133,14 +1131,6 @@ export function AuthPage() {
           <Link className="button secondary" to="/hoy">
             Explorar demostración
           </Link>
-          <a
-            className="text-link"
-            href={getMailpitUrl()}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Bandeja Nodemailer (localhost:8025) ↗
-          </a>
         </div>
       </section>
 
@@ -1161,7 +1151,7 @@ export function AuthPage() {
             Selecciona una cuenta
           </h2>
           <p style={{ margin: "0 0 18px", color: "#9aa0a6", fontSize: "0.95rem" }}>
-            Ir a <strong style={{ color: "#8ab4f8" }}>Quantify Core V2.0</strong>
+            Para continuar en <strong style={{ color: "#8ab4f8" }}>Quantify</strong>
           </p>
 
           {!customGoogleMode ? (
@@ -1216,11 +1206,11 @@ export function AuthPage() {
               }}
             >
               <label style={{ color: "#e8eaed", marginBottom: "8px" }}>
-                Nombre de tu cuenta de Google
+                Nombre completo
                 <input
                   value={customGoogleName}
                   onChange={(e) => setCustomGoogleName(e.target.value)}
-                  placeholder="Ej. Jesus Artiaga"
+                  placeholder="Ej. Sofía Ramírez"
                   style={{
                     width: "100%",
                     padding: "10px",
@@ -1239,7 +1229,7 @@ export function AuthPage() {
                   type="email"
                   value={customGoogleEmail}
                   onChange={(e) => setCustomGoogleEmail(e.target.value)}
-                  placeholder="tucorreo@gmail.com"
+                  placeholder="sofia.ramirez@gmail.com"
                   style={{
                     width: "100%",
                     padding: "10px",
@@ -1267,48 +1257,6 @@ export function AuthPage() {
             </form>
           )}
 
-          <p
-            style={{
-              marginTop: "18px",
-              fontSize: "0.78rem",
-              color: "#9aa0a6",
-              lineHeight: 1.5,
-            }}
-          >
-            Antes de usar esta aplicación, Google y Keycloak verifican los
-            permisos OIDC de Quantify Core V2.0.
-          </p>
-          <details style={{ marginTop: "10px", fontSize: "0.78rem", color: "#9aa0a6" }}>
-            <summary style={{ cursor: "pointer", color: "#8ab4f8" }}>
-              Conectar Google Cloud OAuth Client ID real (accounts.google.com)
-            </summary>
-            <div style={{ marginTop: "8px" }}>
-              <input
-                value={googleClientId}
-                onChange={(e) => setGoogleClientId(e.target.value)}
-                placeholder="1234567890-abc.apps.googleusercontent.com"
-                style={{
-                  width: "100%",
-                  padding: "8px",
-                  borderRadius: "6px",
-                  border: "1px solid #5f6368",
-                  background: "#303134",
-                  color: "#fff",
-                  marginBottom: "6px",
-                }}
-              />
-              <button
-                type="button"
-                className="button primary"
-                onClick={() => {
-                  googleDialogRef.current?.close();
-                  handleOpenGoogleChooser();
-                }}
-              >
-                Guardar Client ID y abrir popup real de Google
-              </button>
-            </div>
-          </details>
           <div style={{ textAlign: "right", marginTop: "12px" }}>
             <button
               type="button"
@@ -1362,7 +1310,7 @@ export function SessionPage({ callback = false }: { callback?: boolean }) {
           setCallbackError(
             err instanceof Error
               ? err.message
-              : "No se pudo completar el inicio de sesión OIDC.",
+              : "No se pudo completar el inicio de sesión.",
           );
         }
       }
@@ -1376,7 +1324,7 @@ export function SessionPage({ callback = false }: { callback?: boolean }) {
     ? callbackStatus === "exchanging"
       ? [
           "Conectando tu sesión",
-          "Canjeando código OIDC con PKCE y sincronizando tus hábitos desde PostgreSQL...",
+          "Sincronizando tu perfil y tus hábitos...",
         ]
       : callbackError
         ? ["No pudimos completar el acceso", callbackError]
@@ -1397,8 +1345,8 @@ export function SessionPage({ callback = false }: { callback?: boolean }) {
       >
         <p className="eyebrow">
           {callbackStatus === "exchanging"
-            ? "AUTENTICANDO · KEYCLOAK OIDC"
-            : "ESTADO DE INTERFAZ · SIN SESIÓN REAL"}
+            ? "CONECTANDO TU CUENTA"
+            : "ESTADO DE SESIÓN"}
         </p>
         <h1>{title}</h1>
         <p
