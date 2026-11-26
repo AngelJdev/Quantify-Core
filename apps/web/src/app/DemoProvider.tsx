@@ -446,8 +446,13 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     try {
       const [apiProfile, initialHabits, extProfile, evidenceList] =
         await Promise.all([
-          apiGetProfile(),
-          apiListHabits(),
+          apiGetProfile().catch(() => ({
+            id: session.subject,
+            timeZone: "America/Mexico_City",
+            roles: session.roles,
+            status: "active" as const,
+          })),
+          apiListHabits().catch(() => []),
           apiGetExtendedProfile().catch(
             (): Record<string, unknown> => ({}),
           ),
@@ -528,57 +533,62 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         evidenceByHabitDate.set(`${ev.habitId}:${ev.businessDate}`, ev);
       }
 
-      const demoHabits: DemoHabit[] = await Promise.all(
-        apiHabits.map(async (resource, idx) => {
-          const today = getBusinessDateInZone(resource.timeZone);
-          const from30 = addDaysToBusinessDate(today, -29);
-          const from7 = addDaysToBusinessDate(today, -6);
-          let habitCheckIns: Awaited<ReturnType<typeof apiListCheckIns>> = [];
-          try {
-            const [ciList, m] = await Promise.all([
-              apiListCheckIns(resource.id, from30, today),
-              apiGetHabitMetrics(resource.id, from7, today),
-            ]);
-            habitCheckIns = ciList;
-            metricsByHabit[resource.id] = m;
-          } catch {
-            // keep empty if no window data
-          }
-          for (const ci of habitCheckIns) {
-            const ev = evidenceByHabitDate.get(
-              `${resource.id}:${ci.businessDate}`,
-            );
-            entries.push({
-              habitId: resource.id,
-              name: resource.name,
-              value: ci.value,
-              unit: resource.unit,
-              date: ci.businessDate,
-              version: ci.version,
-              progressStatus: ci.progressStatus,
-              note: ev?.note,
-              mood: ev?.mood,
-              energyLevel: ev?.energyLevel,
-              imageDataUrl: ev?.imageDataUrl,
-            });
-          }
-          const todayCheckIn = habitCheckIns.find(
-            (c) => c.businessDate === today,
-          );
-          const latestCheckIn = habitCheckIns.at(-1);
-          const meta = uiMeta[resource.id];
-          return {
-            resource,
-            detail: meta?.detail || "Por la mañana",
-            intention:
-              meta?.intention ||
-              "Sostener constancia diaria con equilibrio y evidencia.",
-            color: meta?.color || COLORS[idx % COLORS.length],
-            icon: meta?.icon || inferHabitIcon(resource.unit, resource.name),
-            value: todayCheckIn?.value ?? latestCheckIn?.value ?? 0,
-          };
-        }),
-      );
+      const demoHabits: DemoHabit[] =
+        apiHabits.length > 0
+          ? await Promise.all(
+              apiHabits.map(async (resource, idx) => {
+                const today = getBusinessDateInZone(resource.timeZone);
+                const from30 = addDaysToBusinessDate(today, -29);
+                const from7 = addDaysToBusinessDate(today, -6);
+                let habitCheckIns: Awaited<ReturnType<typeof apiListCheckIns>> =
+                  [];
+                try {
+                  const [ciList, m] = await Promise.all([
+                    apiListCheckIns(resource.id, from30, today),
+                    apiGetHabitMetrics(resource.id, from7, today),
+                  ]);
+                  habitCheckIns = ciList;
+                  metricsByHabit[resource.id] = m;
+                } catch {
+                  // keep empty if no window data
+                }
+                for (const ci of habitCheckIns) {
+                  const ev = evidenceByHabitDate.get(
+                    `${resource.id}:${ci.businessDate}`,
+                  );
+                  entries.push({
+                    habitId: resource.id,
+                    name: resource.name,
+                    value: ci.value,
+                    unit: resource.unit,
+                    date: ci.businessDate,
+                    version: ci.version,
+                    progressStatus: ci.progressStatus,
+                    note: ev?.note,
+                    mood: ev?.mood,
+                    energyLevel: ev?.energyLevel,
+                    imageDataUrl: ev?.imageDataUrl,
+                  });
+                }
+                const todayCheckIn = habitCheckIns.find(
+                  (c) => c.businessDate === today,
+                );
+                const latestCheckIn = habitCheckIns.at(-1);
+                const meta = uiMeta[resource.id];
+                return {
+                  resource,
+                  detail: meta?.detail || "Por la mañana",
+                  intention:
+                    meta?.intention ||
+                    "Sostener constancia diaria con equilibrio y evidencia.",
+                  color: meta?.color || COLORS[idx % COLORS.length],
+                  icon:
+                    meta?.icon || inferHabitIcon(resource.unit, resource.name),
+                  value: todayCheckIn?.value ?? latestCheckIn?.value ?? 0,
+                };
+              }),
+            )
+          : structuredClone(fixtureHabits).map((h) => ({ ...h, value: 0 }));
 
       entries.sort((a, b) => b.date.localeCompare(a.date));
 
@@ -658,72 +668,87 @@ export function DemoProvider({ children }: { children: ReactNode }) {
 
       if (!existing) {
         const today = getBusinessDateInZone(normalizedDraft.dto.timeZone);
-        const created = await apiCreateHabit({
-          name: normalizedDraft.dto.name,
-          targetValue: normalizedDraft.dto.targetValue,
-          unit: normalizedDraft.dto.unit,
-          timeZone: normalizedDraft.dto.timeZone,
-          schedule: {
-            weekdays: normalizedDraft.dto.schedule.weekdays,
-            effectiveFrom: today,
-          },
-        });
-        writeUiMeta(created.id, {
-          detail: normalizedDraft.detail,
-          intention: normalizedDraft.intention,
-          color: normalizedDraft.color,
-          icon: normalizedDraft.icon,
-        });
-        dispatch({
-          type: "upsert-server-habit",
-          habit: {
-            resource: created,
-            detail: normalizedDraft.detail,
-            intention: normalizedDraft.intention,
-            color: normalizedDraft.color,
-            icon: normalizedDraft.icon,
-            value: 0,
-          },
-        });
-        return created.id;
-      } else {
-        const nextEffective = nextValidRevisionDate(
-          existing.resource.schedule.effectiveFrom,
-          existing.resource.timeZone,
-          normalizedDraft.dto.timeZone,
-        );
-        const updated = await apiPatchHabit(
-          existing.resource.id,
-          existing.resource.version,
-          {
+        try {
+          const created = await apiCreateHabit({
             name: normalizedDraft.dto.name,
             targetValue: normalizedDraft.dto.targetValue,
             unit: normalizedDraft.dto.unit,
             timeZone: normalizedDraft.dto.timeZone,
             schedule: {
               weekdays: normalizedDraft.dto.schedule.weekdays,
-              effectiveFrom: nextEffective,
+              effectiveFrom: today,
             },
-          },
-        );
-        writeUiMeta(updated.id, {
-          detail: normalizedDraft.detail,
-          intention: normalizedDraft.intention,
-          color: normalizedDraft.color,
-          icon: normalizedDraft.icon,
-        });
-        dispatch({
-          type: "upsert-server-habit",
-          habit: {
-            resource: updated,
+          });
+          writeUiMeta(created.id, {
             detail: normalizedDraft.detail,
             intention: normalizedDraft.intention,
             color: normalizedDraft.color,
             icon: normalizedDraft.icon,
-            value: existing.value,
-          },
-        });
-        return updated.id;
+          });
+          dispatch({
+            type: "upsert-server-habit",
+            habit: {
+              resource: created,
+              detail: normalizedDraft.detail,
+              intention: normalizedDraft.intention,
+              color: normalizedDraft.color,
+              icon: normalizedDraft.icon,
+              value: 0,
+            },
+          });
+          return created.id;
+        } catch {
+          const localId = crypto.randomUUID();
+          dispatch({ type: "save", id: localId, draft: normalizedDraft });
+          return localId;
+        }
+      } else {
+        try {
+          const nextEffective = nextValidRevisionDate(
+            existing.resource.schedule.effectiveFrom,
+            existing.resource.timeZone,
+            normalizedDraft.dto.timeZone,
+          );
+          const updated = await apiPatchHabit(
+            existing.resource.id,
+            existing.resource.version,
+            {
+              name: normalizedDraft.dto.name,
+              targetValue: normalizedDraft.dto.targetValue,
+              unit: normalizedDraft.dto.unit,
+              timeZone: normalizedDraft.dto.timeZone,
+              schedule: {
+                weekdays: normalizedDraft.dto.schedule.weekdays,
+                effectiveFrom: nextEffective,
+              },
+            },
+          );
+          writeUiMeta(updated.id, {
+            detail: normalizedDraft.detail,
+            intention: normalizedDraft.intention,
+            color: normalizedDraft.color,
+            icon: normalizedDraft.icon,
+          });
+          dispatch({
+            type: "upsert-server-habit",
+            habit: {
+              resource: updated,
+              detail: normalizedDraft.detail,
+              intention: normalizedDraft.intention,
+              color: normalizedDraft.color,
+              icon: normalizedDraft.icon,
+              value: existing.value,
+            },
+          });
+          return updated.id;
+        } catch {
+          dispatch({
+            type: "save",
+            id: existing.resource.id,
+            draft: normalizedDraft,
+          });
+          return existing.resource.id;
+        }
       }
     },
     [state.session, state.habits],
@@ -735,29 +760,33 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         dispatch({ type: "status", id: habit.id, status: nextStatus });
         return;
       }
-      const nextEffective = nextValidRevisionDate(
-        habit.schedule.effectiveFrom,
-        habit.timeZone,
-      );
-      const updated = await apiPatchHabit(habit.id, habit.version, {
-        status: nextStatus,
-        schedule: {
-          weekdays: habit.schedule.weekdays,
-          effectiveFrom: nextEffective,
-        },
-      });
-      const existing = state.habits.find((h) => h.resource.id === habit.id);
-      dispatch({
-        type: "upsert-server-habit",
-        habit: {
-          resource: updated,
-          detail: existing?.detail ?? habit.detail,
-          intention: existing?.intention ?? habit.intention,
-          color: existing?.color ?? habit.color,
-          icon: existing?.icon ?? habit.icon,
-          value: existing?.value ?? habit.value,
-        },
-      });
+      try {
+        const nextEffective = nextValidRevisionDate(
+          habit.schedule.effectiveFrom,
+          habit.timeZone,
+        );
+        const updated = await apiPatchHabit(habit.id, habit.version, {
+          status: nextStatus,
+          schedule: {
+            weekdays: habit.schedule.weekdays,
+            effectiveFrom: nextEffective,
+          },
+        });
+        const existing = state.habits.find((h) => h.resource.id === habit.id);
+        dispatch({
+          type: "upsert-server-habit",
+          habit: {
+            resource: updated,
+            detail: existing?.detail ?? habit.detail,
+            intention: existing?.intention ?? habit.intention,
+            color: existing?.color ?? habit.color,
+            icon: existing?.icon ?? habit.icon,
+            value: existing?.value ?? habit.value,
+          },
+        });
+      } catch {
+        dispatch({ type: "status", id: habit.id, status: nextStatus });
+      }
     },
     [state.session, state.habits],
   );
@@ -828,20 +857,33 @@ export function DemoProvider({ children }: { children: ReactNode }) {
           ? new Date().toISOString()
           : `${targetDate}T12:00:00Z`;
 
-      const recorded = await apiRecordCheckIn(habit.id, {
-        clientEventId: crypto.randomUUID(),
-        businessDate: targetDate,
-        occurredAt,
-        timeZone: habit.timeZone,
-        value,
-        expectedVersion,
-        ...(expectedVersion > 0
-          ? {
-              correctionReason:
-                correctionReason?.trim() || "Actualización de avance diario",
-            }
-          : {}),
-      });
+      let recordedValue = value;
+      let recordedDate = targetDate;
+      let recordedVersion = expectedVersion + 1;
+      let recordedStatus: "zero" | "partial" | "completed" | undefined;
+
+      try {
+        const recorded = await apiRecordCheckIn(habit.id, {
+          clientEventId: crypto.randomUUID(),
+          businessDate: targetDate,
+          occurredAt,
+          timeZone: habit.timeZone,
+          value,
+          expectedVersion,
+          ...(expectedVersion > 0
+            ? {
+                correctionReason:
+                  correctionReason?.trim() || "Actualización de avance diario",
+              }
+            : {}),
+        });
+        recordedValue = recorded.value;
+        recordedDate = recorded.businessDate;
+        recordedVersion = recorded.version;
+        recordedStatus = recorded.progressStatus;
+      } catch {
+        // Fallback to local state when PostgreSQL is offline
+      }
 
       if (
         extraEvidence?.note ||
@@ -852,8 +894,8 @@ export function DemoProvider({ children }: { children: ReactNode }) {
           const savedEv = await apiSaveEvidence({
             habitId: habit.id,
             habitName: habit.name,
-            businessDate: recorded.businessDate,
-            value: recorded.value,
+            businessDate: recordedDate,
+            value: recordedValue,
             unit: habit.unit,
             note: extraEvidence.note || "",
             mood: extraEvidence.mood || "enfocado",
@@ -869,10 +911,10 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       dispatch({
         type: "progress",
         id: habit.id,
-        value: recorded.value,
-        date: recorded.businessDate,
-        version: recorded.version,
-        progressStatus: recorded.progressStatus,
+        value: recordedValue,
+        date: recordedDate,
+        version: recordedVersion,
+        progressStatus: recordedStatus,
         note: extraEvidence?.note,
         mood: extraEvidence?.mood,
         energyLevel: extraEvidence?.energyLevel,
