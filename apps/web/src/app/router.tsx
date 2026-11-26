@@ -15,6 +15,7 @@ import { AnalyticsPage } from "@/features/analytics/ui/AnalyticsPage";
 import { SuggestionsPage } from "@/features/suggestions/ui/SuggestionsPage";
 import { NoticesPage } from "@/features/notices/ui/NoticesPage";
 import { ProfilePage } from "@/features/profile/ui/ProfilePage";
+import { AchievementsPage } from "@/features/achievements/ui/AchievementsPage";
 import { StatePanel } from "@/shared/ui/StatePanel";
 function RouteError() {
   return (
@@ -57,6 +58,7 @@ export const routes = [
       { path: "/check-ins/:habitId?", element: <CheckInPage /> },
       { path: "/historial", element: <HistoryPage /> },
       { path: "/analisis", element: <AnalyticsPage /> },
+      { path: "/logros", element: <AchievementsPage /> },
       { path: "/sugerencias", element: <SuggestionsPage /> },
       { path: "/avisos", element: <NoticesPage /> },
       { path: "/ajustes", element: <ProfilePage /> },
