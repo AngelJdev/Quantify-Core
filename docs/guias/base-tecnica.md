@@ -2,6 +2,8 @@
 
 **Rama de entrega:** `feature/QUANCORE-43-base-tecnica`. **Fecha de validación:** 16/11/2026. Núcleo NestJS y base React reunidos, con API contenerizada y monitoreo local. Publicación/revisión se siguen mediante PR y Jira. No equivale a un prototipo completo ni a despliegue público.
 
+**Avance local del 17/11/2026, aún sin integrar:** `feature/prototipo-pwa` añade [consulta React de perfil/hábitos con Keycloak](../../apps/web/docs/integracion-lectura.md) y [PWA de instalación/shell estático](../../apps/web/docs/pwa-referencia.md). El recorrido es de solo lectura; su prueba de navegador intercepta OIDC/API. La validación del cliente con cuentas y servicios reales sigue pendiente. El resto de esta guía conserva el corte y la evidencia del 16/11; no implica que escrituras, sesión Flutter u offline personal estén implementados.
+
 ## Qué recibe el equipo
 
 | Componente | Disponible | Trabajo siguiente |
@@ -50,6 +52,16 @@ El harness crea dos cuentas IdP sintéticas y sus perfiles; conserva historial S
 
 ## Ejecutar API y web
 
+**Todo el entorno base en Docker:** seguir el [README principal](../../README.md#instalación-y-ejecución), que incluye inicialización sin Node en el host, migraciones, API, frontend compilado/PWA, perfiles y capturas. Con Node disponible, `node scripts/dev-base.mjs docker-migrate` ejecuta las migraciones en Docker y `node scripts/dev-base.mjs docker-up` inicia/reconstruye PostgreSQL, Keycloak, API y web estática. Preparar las migraciones antes del primer `docker-up`; ese comando no las ejecuta automáticamente.
+
+La web también puede ejecutarse en Docker, conservando `http://localhost:5173` y actualización al guardar:
+
+```powershell
+node scripts/dev-base.mjs web-docker
+```
+
+Este comando construye/inicia solo el frontend y puede acompañar a la API del host o al perfil `app`/monitoreo ya activo. No ejecutar a la vez `web` del host en el mismo puerto. No requiere instalar dependencias web en Windows para servir la demo. `web-stop` detiene solo ese contenedor; `stop` incluye el frontend y conserva datos. [Configuración, dependencias y límites](../../apps/web/README.md#desarrollo-con-docker).
+
 En terminales separadas:
 
 ```powershell
@@ -90,7 +102,7 @@ No es auto-registro de negocio. Perfil inexistente/suspendido devuelve 403; un t
 - Listar check-ins y consultar métricas requiere `from`/`to`; no suponer una ventana implícita. Días abiertos y cambios de meta/zona conservan las reglas históricas del servidor. Archivar preserva datos.
 - Tratar 401 como sesión/token inválido, 403 como perfil no habilitado y 404 como inexistente/no propio. Ser admin no abre datos personales ajenos. Errores se normalizan desde `application/problem+json`.
 - En emulador o teléfono `localhost` no es la PC. El entorno actual es para navegador/API del host; **no sustituir issuer por `10.0.2.2` solo en el cliente**. La fase móvil necesita una URL HTTPS alcanzable por dispositivo e IdP/API con el mismo issuer, retorno registrado y configuración por ambiente. No exponer estas bases a la LAN para eludir esa revisión.
-- PWA/offline permanecen desactivados hasta definir aislamiento por cuenta, cache privada, cola, actualización y cierre. No guardar tokens ni respuestas OIDC en service worker o almacenamiento general.
+- En el corte del 16/11, PWA estaba desactivada. El avance enlazado del 17/11 habilita únicamente instalación y shell estático con actualización confirmada. Cache privada, cola, escrituras offline y sincronización requieren política aprobada; no guardar tokens ni respuestas OIDC en SW o almacenamiento general.
 
 ## Qué desbloquea en Jira
 

@@ -16,7 +16,8 @@ import {
   getCurrentWeekBusinessDates,
 } from "@/features/analytics/ui/AnalyticsPage";
 import { evaluateAllAchievements } from "@/features/achievements/data/achievements";
-import ritual from "../../../../../../docs/GUI/assets/ritual-cotidiano.png";
+import type { IconName } from "@/shared/ui/Icon";
+import { WeekStrip } from "@/shared/ui/Prototype";
 
 export function DashboardPage() {
   const { habits: all, state, recordHabitProgress } = useDemo();
@@ -92,190 +93,192 @@ export function DashboardPage() {
     };
   }, [hasLiveActivity, habits, state.entries, referenceDate]);
 
+  const pending = habits.filter((h) => h.value < h.target).length;
+  const metrics: [string, string | number, string, IconName][] = [
+    [
+      "Hábitos activos",
+      habits.length,
+      state.session ? "En tu cuenta" : "En esta demostración",
+      "habitos",
+    ],
+    ["Cumplimiento", summary.completionRate + " %", summary.period, "analisis"],
+    [
+      "Tiempo para ti",
+      summary.timeMinutes + " min",
+      "Avance del periodo",
+      "calendario",
+    ],
+    ["Por completar", pending, "Hábitos activos", "recordatorio"],
+  ];
   return (
-    <>
-      <section className="welcome-card">
-        <div>
-          <span className="pill light">
-            <Icon name="hoy" /> TU DÍA EMPIEZA CONTIGO
-          </span>
-          <h2>
-            Hola, {state.profile.displayName.split("·")[0].trim()}.<br />
-            Hoy también es un buen comienzo.
-          </h2>
-          <p>
-            {state.profile.bio ||
-              "No necesitas hacerlo todo de golpe. Da el siguiente paso y registra tus avances con un clic."}
-          </p>
-          <div className="form-actions">
-            <Link to="/habitos" className="button white">
-              Ver mi rutina <span>↗</span>
-            </Link>
-            <Link to="/logros" className="button primary">
-              Mis logros ({achievementsSummary.unlockedCount}/
-              {achievementsSummary.totalCount})
-            </Link>
-          </div>
-        </div>
-        <img
-          src={ritual}
-          alt="Un momento de calma para acompañar tu rutina cotidiana"
-        />
+    <div className="dashboard-islands">
+      <nav className="dashboard-tabs" aria-label="Vistas de tu rutina">
+        <Link className="selected" to="/hoy" aria-current="page">
+          Resumen
+        </Link>
+        <Link to="/analisis">Periodo</Link>
+        <Link to="/historial">Actividad</Link>
+        <span>
+          {referenceDate}
+          {!state.session && " · Fecha de ejemplo"}
+        </span>
+      </nav>
+      <section
+        className="dashboard-kpis"
+        aria-label={
+          state.session ? "Resumen de tu progreso" : "Resumen de ejemplo"
+        }
+      >
+        {metrics.map(([label, value, note, icon]) => (
+          <article className="island-card dashboard-kpi" key={label}>
+            <div className="row-between">
+              <p>{label}</p>
+              <Icon name={icon} />
+            </div>
+            <strong>{value}</strong>
+            <small>{note}</small>
+          </article>
+        ))}
       </section>
-
-      <section className="stats-grid" aria-label="Resumen de rendimiento">
-        <div className="stat card">
-          <span className="symbol blue">
-            <Icon name="habitos" />
-          </span>
-          <div>
-            <p>Hábitos activos</p>
-            <strong>
-              {habits.length}
-              <small>rutinas en seguimiento</small>
-            </strong>
-          </div>
-        </div>
-        <div className="stat card">
-          <span className="symbol emerald">
-            <Icon name="confirmado" />
-          </span>
-          <div>
-            <p>Progreso de hoy</p>
-            <strong>
-              {summary.completionRate}%
-              <small>
-                {summary.completed} de {summary.eligible} metas cumplidas
-              </small>
-            </strong>
-          </div>
-        </div>
-        <div className="stat card">
-          <span className="symbol amber">
-            <Icon name="calendario" />
-          </span>
-          <div>
-            <p>Nivel y logros</p>
-            <strong>
-              Nivel {achievementsSummary.level}
-              <small>
-                {achievementsSummary.unlockedCount} medallas ·{" "}
-                {achievementsSummary.totalPoints} XP
-              </small>
-            </strong>
-          </div>
-        </div>
-      </section>
-
-      <div className="two-columns">
-        <section className="card">
+      <div className="dashboard-main">
+        <section className="island-card routine-panel">
           <div className="section-heading">
             <div>
-              <h2>Registro rápido de hoy</h2>
-              <p>Suma avance en un clic o abre las gráficas de cada hábito.</p>
+              <p className="eyebrow">CADA HÁBITO CUENTA</p>
+              <h2>Tus hábitos de hoy</h2>
             </div>
             <Link className="text-link" to="/habitos">
-              Ver todos →
+              Ver todos ↗
             </Link>
           </div>
-          {habits.length ? (
-            <div className="habit-list">
-              {habits.map((h) => {
-                const step =
-                  h.target >= 1000
-                    ? 1000
-                    : h.target >= 20
-                      ? 5
-                      : h.target >= 5
-                        ? 1
-                        : 1;
-                const isDone = h.target > 0 && h.value >= h.target;
-                return (
-                  <div key={h.id} className="qc-habit-card-wrapper">
-                    <HabitRow habit={h} />
-                    <div className="qc-quick-actions">
-                      <button
-                        type="button"
-                        className="button secondary qc-quick-btn"
-                        onClick={() =>
-                          void recordHabitProgress(
-                            h,
-                            Math.min(h.target * 2, h.value + step),
-                          )
-                        }
-                      >
-                        +{step} {h.unit}
-                      </button>
-                      {!isDone && (
+          <div className="habit-list">
+            {habits.length ? (
+              <>
+                {habits.map((h) => {
+                  const step =
+                    h.target >= 1000
+                      ? 1000
+                      : h.target >= 20
+                        ? 5
+                        : h.target >= 5
+                          ? 1
+                          : 1;
+                  const isDone = h.target > 0 && h.value >= h.target;
+                  return (
+                    <div key={h.id} className="qc-habit-card-wrapper">
+                      <HabitRow habit={h} />
+                      <div className="qc-quick-actions">
                         <button
                           type="button"
-                          className="button primary qc-quick-btn"
-                          onClick={() => void recordHabitProgress(h, h.target)}
+                          className="button secondary qc-quick-btn"
+                          onClick={() =>
+                            void recordHabitProgress(
+                              h,
+                              Math.min(h.target * 2, h.value + step),
+                            )
+                          }
                         >
-                          ✓ Completar hoy
+                          +{step} {h.unit}
                         </button>
-                      )}
-                      <Link
-                        className="button secondary qc-quick-btn"
-                        to={`/check-ins/${h.id}`}
-                      >
-                        Evidencia
-                      </Link>
-                      <Link className="text-link" to={`/detalle/${h.id}`}>
-                        Gráficas →
-                      </Link>
+                        {!isDone && (
+                          <button
+                            type="button"
+                            className="button primary qc-quick-btn"
+                            onClick={() =>
+                              void recordHabitProgress(h, h.target)
+                            }
+                          >
+                            ✓ Completar hoy
+                          </button>
+                        )}
+                        <Link
+                          className="button secondary qc-quick-btn"
+                          to={`/check-ins/${h.id}`}
+                        >
+                          Evidencia
+                        </Link>
+                        <Link className="text-link" to={`/detalle/${h.id}`}>
+                          Gráficas →
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="empty">
-              <h3>Aún no tienes hábitos activos</h3>
-              <p>Crea tu primer hábito o explora nuestras sugerencias.</p>
-              <Link className="button primary" to="/nuevo">
-                Crear hábito
-              </Link>
-            </div>
-          )}
-        </section>
-
-        <div className="stack">
-          <section className="card">
-            <div className="section-heading">
-              <div>
-                <h2>Una mirada a tu semana</h2>
-                <p>{summary.period}</p>
+                  );
+                })}
+              </>
+            ) : (
+              <div className="dashboard-empty">
+                <Icon name="habitos" />
+                <h3>Tu rutina tiene espacio para algo nuevo</h3>
+                <p>No hay hábitos activos en esta visita.</p>
               </div>
-              <Icon name="analisis" />
-            </div>
-            <Chart
-              values={summary.series}
-              dates={summary.dates}
-              todayIndex={summary.todayIndex}
-            />
-            <Link className="text-link" to="/analisis">
-              Ver gráficas semanales y mensuales →
-            </Link>
-          </section>
-          <section className="quiet-card">
-            <Icon name="confirmado" />
-            <div>
-              <h3>
-                {achievementsSummary.unlockedCount} de{" "}
-                {achievementsSummary.totalCount} logros desbloqueados
-              </h3>
-              <p>
-                Rango actual: <strong>{achievementsSummary.levelTitle}</strong>.
-                Sigue registrando tus hábitos para subir de nivel.
-              </p>
-              <Link to="/logros" className="text-link">
-                Ver medallas y progreso →
-              </Link>
-            </div>
-          </section>
-        </div>
+            )}
+          </div>
+          <Link className="button primary full" to="/nuevo">
+            <Icon name="crear" />
+            Crear hábito
+          </Link>
+          <small className="routine-date">
+            {state.session ? "Agenda personal" : "Agenda ilustrativa"} ·{" "}
+            {referenceDate} · {state.profile.timeZone}
+          </small>
+        </section>
+        <aside className="island-card rhythm-panel">
+          <p className="eyebrow">SIN PRISA, CON INTENCIÓN</p>
+          <h2>A tu ritmo.</h2>
+          <p>Un paso pequeño también suma. No necesitas hacerlo todo hoy.</p>
+          <div className="rhythm-week">
+            <span>Una semana, paso a paso</span>
+            {hasLiveActivity ? (
+              <Chart
+                values={summary.series}
+                dates={summary.dates}
+                todayIndex={summary.todayIndex}
+              />
+            ) : (
+              <WeekStrip />
+            )}
+            <small>
+              {hasLiveActivity
+                ? summary.period
+                : "Ejemplo visual · cinco días completos"}
+            </small>
+          </div>
+          <div className="privacy-note">
+            <Icon name="privacidad" />
+            <p>Tú decides qué compartir.</p>
+          </div>
+          <Link className="text-link" to="/logros">
+            Nivel {achievementsSummary.level} ·{" "}
+            {achievementsSummary.unlockedCount} logros
+          </Link>
+          <Link className="button secondary full" to="/ajustes">
+            Revisar preferencias
+          </Link>
+        </aside>
       </div>
-    </>
+      <section className="dashboard-bottom" aria-label="Continúa en tu espacio">
+        <Link className="island-card dashboard-feature" to="/historial">
+          <Icon name="historial" />
+          <h2>Cada avance tiene historia</h2>
+          <p>Vuelve a tus registros y mira el camino que has recorrido.</p>
+          <span>Ver historial ↗</span>
+        </Link>
+        <Link className="island-card dashboard-feature" to="/avisos">
+          <Icon name="recordatorio" />
+          <h2>Tu próximo momento</h2>
+          <p>Revisa los avisos de ejemplo y dale espacio a tu rutina.</p>
+          <span>Revisar avisos ↗</span>
+        </Link>
+        <Link
+          className="island-card dashboard-feature"
+          to="/ajustes?seccion=Privacidad"
+        >
+          <Icon name="privacidad" />
+          <h2>Tu espacio, tus decisiones</h2>
+          <p>Conoce las preferencias y el alcance de esta demostración.</p>
+          <span>Revisar privacidad ↗</span>
+        </Link>
+      </section>
+    </div>
   );
 }

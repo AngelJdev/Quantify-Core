@@ -1,0 +1,15 @@
+{
+  "verifiedAt": "2026-11-20T19:10:24.587Z",
+  "viewport": "390x844",
+  "runtime": "Flutter Web release in Chrome",
+  "screens": [
+    "welcome",
+    "today-light",
+    "progress",
+    "appearance",
+    "today-dark"
+  ],
+  "scriptErrors": 0,
+  "privateApiRequests": 0,
+  "limits": "No Android device attached; screenshots do not establish native frame times or battery consumption."
+}

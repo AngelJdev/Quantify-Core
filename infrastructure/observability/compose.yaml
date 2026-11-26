@@ -1,5 +1,8 @@
 name: quantify-core-dev
 services:
+  api:
+    environment:
+      LOKI_PUSH_URL: http://loki:3100/loki/api/v1/push
   alertmanager:
     image: prom/alertmanager:v0.35.0
     command: [--config.file=/etc/alertmanager/alertmanager.yaml, --storage.path=/alertmanager]

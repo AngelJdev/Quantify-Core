@@ -1,0 +1,7 @@
+<resources>
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+        <item name="android:windowSplashScreenBackground">@color/quantify_launch_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/quantify_splash_system</item>
+    </style>
+</resources>

@@ -224,7 +224,7 @@ test("errores, navegación móvil y teclado", async ({ page }) => {
   await page.goto("/auth");
   await expect(page.locator("input[type=password]")).toHaveCount(0);
   await expect(
-    page.getByRole("button", { name: "Iniciar sesión con Keycloak" }),
+    page.getByRole("button", { name: "Entrar a mi cuenta" }),
   ).toBeEnabled();
   await page.goto("/sesion/vencida");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(

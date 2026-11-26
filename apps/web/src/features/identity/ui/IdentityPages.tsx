@@ -1,3 +1,21 @@
+const steps: [IconName, string, string][] = [
+  [
+    "habitos",
+    "Empieza con algo tuyo",
+    "Leer, caminar o hacer una pausa. Elige lo que tiene sentido para ti.",
+  ],
+  [
+    "recordatorio",
+    "Encuentra tu momento",
+    "Dale un lugar en tu día. Un recordatorio puede ayudarte.",
+  ],
+  [
+    "analisis",
+    "Reconoce tu avance",
+    "Mira tu constancia en perspectiva. Cada registro cuenta una parte.",
+  ],
+];
+
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
   Link,
@@ -5,11 +23,9 @@ import {
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { Brand } from "@/shared/ui/Brand";
-import { Icon } from "@/shared/ui/Icon";
-import { useTheme } from "@/app/ThemeProvider";
+import { Icon, type IconName } from "@/shared/ui/Icon";
 import { useDemo } from "@/app/DemoProvider";
-import { Chart } from "@/features/analytics/ui/Chart";
+import { PublicShell } from "@/shared/ui/Prototype";
 import {
   apiConfirmPasswordReset,
   apiLoginWithCredentials,
@@ -21,7 +37,6 @@ import {
   completeOidcCallback,
   hasPendingOidcHandshake,
 } from "@/shared/api/client";
-import ritual from "../../../../../../docs/GUI/assets/ritual-cotidiano.png";
 
 const states: Record<string, [string, string]> = {
   pendiente: [
@@ -65,9 +80,9 @@ function GoogleLogoSvg() {
   );
 }
 
-export function WelcomePage() {
-  const { dark, setDark } = useTheme();
-  const { state } = useDemo();
+export { WelcomePage } from "./WelcomePage";
+
+export function ContactSection() {
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactSubject, setContactSubject] = useState(
@@ -106,244 +121,75 @@ export function WelcomePage() {
   }
 
   return (
-    <main className="welcome-page" style={{ maxWidth: "1040px" }}>
-      <header className="section-heading">
-        <Brand dark={dark} />
-        <div className="form-actions" style={{ alignItems: "center" }}>
-          <Link className="button secondary" to="/auth">
-            {state.session ? "Mi cuenta" : "Iniciar sesión"}
-          </Link>
+    <section className="card form-card" id="contacto">
+      <div className="section-heading">
+        <div>
+          <span className="eyebrow">CONTÁCTANOS</span>
+          <h2>Envíanos tus comentarios</h2>
+          <p>
+            ¿Tienes alguna duda o sugerencia sobre Quantify? Escríbenos y
+            recibirás confirmación directa en tu correo electrónico.
+          </p>
+        </div>
+        <Icon name="recordatorio" />
+      </div>
+      <form onSubmit={handleContactSubmit} noValidate>
+        <div className="form-grid">
+          <div>
+            <label htmlFor="contact-name">Tu nombre</label>
+            <input
+              id="contact-name"
+              value={contactName}
+              onChange={(e) => setContactName(e.target.value)}
+              placeholder="Ej. Sofía Ramírez"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="contact-email">Correo electrónico</label>
+            <input
+              id="contact-email"
+              type="email"
+              value={contactEmail}
+              onChange={(e) => setContactEmail(e.target.value)}
+              placeholder="sofia.ramirez@correo.com"
+              required
+            />
+          </div>
+        </div>
+        <label htmlFor="contact-subject">Asunto</label>
+        <input
+          id="contact-subject"
+          value={contactSubject}
+          onChange={(e) => setContactSubject(e.target.value)}
+        />
+        <label htmlFor="contact-message">Mensaje</label>
+        <textarea
+          id="contact-message"
+          rows={3}
+          value={contactMessage}
+          onChange={(e) => setContactMessage(e.target.value)}
+          placeholder="Cuéntanos cómo te ha ayudado Quantify o qué te gustaría ver..."
+          required
+        />
+        {contactStatus && (
+          <p className="form-note" role="status">
+            {contactStatus}
+          </p>
+        )}
+        <div className="form-actions">
           <button
-            className="icon-button"
-            aria-label={`Cambiar a tema ${dark ? "claro" : "oscuro"}`}
-            onClick={() => setDark(!dark)}
+            type="submit"
+            className="button primary"
+            disabled={sendingContact}
           >
-            {dark ? "☀" : "☾"}
+            {sendingContact
+              ? "Enviando mensaje..."
+              : "Enviar mensaje de contacto"}
           </button>
         </div>
-      </header>
-
-      <div className="welcome-card">
-        <div>
-          <span className="pill light">QUANTIFY · HÁBITOS, RACHAS Y LOGROS</span>
-          <h1>Cada avance cuenta.</h1>
-          <p>
-            Construye rutinas que permanecen. Registra tus hábitos en segundos,
-            visualiza tus gráficas semanales y mensuales, adjunta evidencia de
-            tus logros y desbloquea 36 medallas de constancia.
-          </p>
-          <div className="form-actions" style={{ marginTop: "1rem" }}>
-            <Link className="button white" to="/auth">
-              {state.session
-                ? `Continuar como ${state.profile.displayName}`
-                : "Accede a tu espacio"}
-            </Link>
-            <Link className="button primary" to="/hoy">
-              Explorar demostración
-            </Link>
-          </div>
-        </div>
-        <img
-          src={ritual}
-          alt="Experiencia visual de Quantify"
-        />
-      </div>
-
-      <section className="stats-grid" aria-label="Pilares de Quantify">
-        <div className="stat card">
-          <span className="symbol blue">
-            <Icon name="habitos" />
-          </span>
-          <div>
-            <p>Registro Rápido</p>
-            <strong>
-              Avances en 1 clic
-              <small>Suma progreso o completa tu meta diaria al instante</small>
-            </strong>
-          </div>
-        </div>
-        <div className="stat card">
-          <span className="symbol emerald">
-            <Icon name="analisis" />
-          </span>
-          <div>
-            <p>Gráficas Interactivas</p>
-            <strong>
-              Semanal, Mensual y por Hábito
-              <small>Anillos de progreso, mapa de calor y tendencias</small>
-            </strong>
-          </div>
-        </div>
-        <div className="stat card">
-          <span className="symbol amber">
-            <Icon name="confirmado" />
-          </span>
-          <div>
-            <p>Gamificación Real</p>
-            <strong>
-              36 Logros Funcionales
-              <small>Sube de nivel y gana medallas por tu disciplina</small>
-            </strong>
-          </div>
-        </div>
-      </section>
-
-      <div className="two-columns">
-        <section className="card">
-          <span className="eyebrow">¿POR QUÉ QUANTIFY?</span>
-          <h2>Más allá de un contador de rachas</h2>
-          <p>
-            Diseñado para acompañarte todos los días con claridad, motivación
-            visual y reglas justas para tu ritmo de vida:
-          </p>
-          <div className="stack">
-            <div>
-              <h3>1. Registro rápido o con evidencia fotográfica</h3>
-              <p className="caption">
-                Completa tus hábitos en un solo toque desde tu panel diario o
-                agrega notas de reflexión, nivel de energía y fotografías de tu
-                progreso.
-              </p>
-            </div>
-            <div>
-              <h3>2. Sistema de 36 logros y niveles de experiencia</h3>
-              <p className="caption">
-                Desde tu primer hábito hasta rachas de 21 días, hidratación,
-                lectura, enfoque y semanas perfectas: cada paso desbloquea
-                medallas de Bronce, Plata, Oro y Diamante.
-              </p>
-            </div>
-            <div>
-              <h3>3. Historial que respeta tu evolución</h3>
-              <p className="caption">
-                Ajustar tu meta diaria o pausar un hábito para descansar
-                conserva intactos todos tus días cumplidos anteriores.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="card">
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">VISUALIZACIÓN CLARA</span>
-              <h2>Gráficas semanales, mensuales y por hábito</h2>
-              <p>Observa cómo evoluciona cada área de tu rutina.</p>
-            </div>
-            <Icon name="analisis" />
-          </div>
-          <Chart values={[75, 90, 80, 100, 85, 95, 92]} />
-          <p className="caption" style={{ marginTop: "0.75rem" }}>
-            Cada hábito cuenta con sus propias gráficas de barras, curva de
-            tendencia, anillo de cumplimiento y mapa de constancia de 28 días.
-          </p>
-          <div className="form-actions">
-            <Link className="button primary" to="/auth">
-              Comenzar ahora con mi cuenta
-            </Link>
-            <Link className="button secondary" to="/logros">
-              Explorar los 36 logros
-            </Link>
-          </div>
-        </section>
-      </div>
-
-      <section className="card">
-        <span className="eyebrow">UNIVERSIDAD TECNOLÓGICA DE XICOTEPEC DE JUÁREZ · 10.º A</span>
-        <h2>Equipo Creador · Quantify</h2>
-        <p>
-          Ingeniería en Desarrollo y Gestión de Software · Proyecto Integrador.
-        </p>
-        <div className="landing-grid">
-          {[
-            ["Ángel de Jesús Baños Telles", "Líder de Proyecto & Arquitectura"],
-            ["Al Farias Leyva", "Experiencia de Usuario & Frontend"],
-            ["Francisco García García", "Reglas de Negocio & Backend"],
-            ["Jesús Alejandro Artiaga Morales", "Persistencia de Datos & Sincronización"],
-          ].map(([member, role]) => (
-            <div className="quiet-card" key={member}>
-              <span className="symbol blue">
-                <Icon name="confirmado" />
-              </span>
-              <div>
-                <h3>{member}</h3>
-                <p className="caption">{role}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="card form-card" id="contacto">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">CONTÁCTANOS</span>
-            <h2>Envíanos tus comentarios</h2>
-            <p>
-              ¿Tienes alguna duda o sugerencia sobre Quantify? Escríbenos y
-              recibirás confirmación directa en tu correo electrónico.
-            </p>
-          </div>
-          <Icon name="recordatorio" />
-        </div>
-        <form onSubmit={handleContactSubmit} noValidate>
-          <div className="form-grid">
-            <div>
-              <label htmlFor="contact-name">Tu nombre</label>
-              <input
-                id="contact-name"
-                value={contactName}
-                onChange={(e) => setContactName(e.target.value)}
-                placeholder="Ej. Sofía Ramírez"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="contact-email">Correo electrónico</label>
-              <input
-                id="contact-email"
-                type="email"
-                value={contactEmail}
-                onChange={(e) => setContactEmail(e.target.value)}
-                placeholder="sofia.ramirez@correo.com"
-                required
-              />
-            </div>
-          </div>
-          <label htmlFor="contact-subject">Asunto</label>
-          <input
-            id="contact-subject"
-            value={contactSubject}
-            onChange={(e) => setContactSubject(e.target.value)}
-          />
-          <label htmlFor="contact-message">Mensaje</label>
-          <textarea
-            id="contact-message"
-            rows={3}
-            value={contactMessage}
-            onChange={(e) => setContactMessage(e.target.value)}
-            placeholder="Cuéntanos cómo te ha ayudado Quantify o qué te gustaría ver..."
-            required
-          />
-          {contactStatus && (
-            <p className="form-note" role="status">
-              {contactStatus}
-            </p>
-          )}
-          <div className="form-actions">
-            <button
-              type="submit"
-              className="button primary"
-              disabled={sendingContact}
-            >
-              {sendingContact
-                ? "Enviando mensaje..."
-                : "Enviar mensaje de contacto"}
-            </button>
-          </div>
-        </form>
-      </section>
-    </main>
+      </form>
+    </section>
   );
 }
 
@@ -367,12 +213,20 @@ const GOOGLE_PRESET_ACCOUNTS = [
   },
 ];
 
-export function AuthPage() {
+export function AuthPage({
+  register = false,
+  recovery = false,
+}: {
+  register?: boolean;
+  recovery?: boolean;
+}) {
   const { state, syncWithBackend, endSession } = useDemo();
   const navigate = useNavigate();
   const googleDialogRef = useRef<HTMLDialogElement>(null);
 
-  const [view, setView] = useState<AuthViewMode>("login");
+  const [view, setView] = useState<AuthViewMode>(
+    recovery ? "forgot" : register ? "register" : "login",
+  );
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [secretInput, setSecretInput] = useState("");
@@ -444,8 +298,7 @@ export function AuthPage() {
     function onPopupMessage(event: MessageEvent) {
       if (event.origin !== window.location.origin) return;
       const data = event.data as
-        | { type?: string; accessToken?: string; idToken?: string }
-        | undefined;
+        { type?: string; accessToken?: string; idToken?: string } | undefined;
       if (data?.type !== "QC_GOOGLE_OAUTH_TOKEN") return;
       googleDialogRef.current?.close();
       setLoading(true);
@@ -1114,7 +967,9 @@ export function AuthPage() {
                 className="button primary"
                 disabled={loading}
               >
-                {loading ? "Actualizando contraseña..." : "Actualizar contraseña"}
+                {loading
+                  ? "Actualizando contraseña..."
+                  : "Actualizar contraseña"}
               </button>
             </div>
           </form>
@@ -1150,8 +1005,15 @@ export function AuthPage() {
           >
             Selecciona una cuenta
           </h2>
-          <p style={{ margin: "0 0 18px", color: "#9aa0a6", fontSize: "0.95rem" }}>
-            Para continuar en <strong style={{ color: "#8ab4f8" }}>Quantify</strong>
+          <p
+            style={{
+              margin: "0 0 18px",
+              color: "#9aa0a6",
+              fontSize: "0.95rem",
+            }}
+          >
+            Para continuar en{" "}
+            <strong style={{ color: "#8ab4f8" }}>Quantify</strong>
           </p>
 
           {!customGoogleMode ? (
@@ -1199,8 +1061,7 @@ export function AuthPage() {
                 if (!customGoogleEmail.trim()) return;
                 void handleSelectGoogleAccount({
                   name:
-                    customGoogleName.trim() ||
-                    customGoogleEmail.split("@")[0],
+                    customGoogleName.trim() || customGoogleEmail.split("@")[0],
                   email: customGoogleEmail.trim(),
                 });
               }}
@@ -1322,10 +1183,7 @@ export function SessionPage({ callback = false }: { callback?: boolean }) {
 
   const [title, description] = callback
     ? callbackStatus === "exchanging"
-      ? [
-          "Conectando tu sesión",
-          "Sincronizando tu perfil y tus hábitos...",
-        ]
+      ? ["Conectando tu sesión", "Sincronizando tu perfil y tus hábitos..."]
       : callbackError
         ? ["No pudimos completar el acceso", callbackError]
         : [
@@ -1369,4 +1227,57 @@ export function SessionPage({ callback = false }: { callback?: boolean }) {
       </section>
     </main>
   );
+}
+
+export function AboutPage({ team = false }: { team?: boolean }) {
+  return (
+    <PublicShell title={team ? "El proyecto" : "Conoce Quantify"}>
+      <section className="about-intro">
+        <p className="eyebrow">
+          {team
+            ? "DE UNA IDEA A UN ESPACIO COTIDIANO"
+            : "HÁBITOS CON INTENCIÓN"}
+        </p>
+        <h1 tabIndex={-1}>
+          {team
+            ? "Estamos construyendo Quantify."
+            : "Una rutina que se sienta tuya."}
+        </h1>
+        <p>
+          {team
+            ? "Quantify Core es un proyecto académico en desarrollo. Esta entrega presenta el diseño de la experiencia web y PWA."
+            : "Elige algo que te importe, dale un momento en tu semana y mira tus avances con perspectiva."}
+        </p>
+        <Link className="button primary" to={team ? "/conoce" : "/registro"}>
+          {team ? "Conocer la experiencia" : "Empezar mi recorrido"}
+        </Link>
+      </section>
+      <div className="step-grid">
+        {steps.map(([icon, title, copy]) => (
+          <article className="island-card step-card" key={title}>
+            <Icon name={icon} />
+            <h2>{title}</h2>
+            <p>{copy}</p>
+          </article>
+        ))}
+      </div>
+      <section className="about-bottom island-card">
+        <div>
+          <Icon name="privacidad" />
+          <h2>Tu ritmo. Tus decisiones.</h2>
+          <p>
+            Una vista previa con datos de ejemplo. El acceso a cuentas, la
+            sincronización y las recomendaciones conectadas se incorporarán en
+            otra etapa.
+          </p>
+        </div>
+        <Link className="button secondary" to="/hoy">
+          Ver dashboard de ejemplo
+        </Link>
+      </section>
+    </PublicShell>
+  );
+}
+export function RecoveryPage() {
+  return <AuthPage recovery />;
 }

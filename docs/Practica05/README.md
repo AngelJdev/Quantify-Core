@@ -1,8 +1,26 @@
 # Practica 05 - Diagrama de Roles de Usuario y Funcionalidades Principales
 
+## Diagrama interactivo revisado · 18/11/2026
+
+El [mapa de roles y responsabilidades](./diagrama-roles-quantify.html) distingue **dos roles humanos** (usuario final y administración) y **una capa de servicios internos**. Usa Inter local, los tokens canónicos y el marco de navegación y tema compartido del portal. Las tarjetas se reorganizan en una columna en pantallas pequeñas; la matriz conserva desplazamiento horizontal propio.
+
+Cada nodo abre una ficha con responsabilidades, límites de acceso, datos tratados, controles y estados esperados, un caso de uso secuencial y fuentes canónicas. Las fichas permiten cambiar de ámbito, cerrar con Escape y regresar el foco al nodo de origen. Las cinco funcionalidades y doce acciones de la matriz distinguen responsabilidades previstas de capacidades implementadas.
+
+Se conservan y mejoran los recursos animados del diagrama original: flujos bidireccionales con trazos en movimiento, pulsos desfasados, entradas progresivas, brillo que sigue al puntero, respuesta al foco y transiciones de apertura, cierre y cambio de ficha. Pasar por un nodo resalta sus conexiones y su columna de responsabilidades sin atenuar los demás. La barra superior indica el progreso de lectura. Los flujos son ilustrativos, no telemetría en vivo. **Pausar animaciones** detiene flujos, pulsos y fondo; `prefers-reduced-motion` ofrece la vista estática. Los flujos y pulsos se pausan también cuando el mapa queda fuera de pantalla o la pestaña está oculta.
+
+La revisión aplica el [alcance del asistente conversacional](../datos-ia/asistente-conversacional.md): borradores revisables y confirmación explícita, con implementación y contrato pendientes. Retira del mapa las afirmaciones de diagnóstico, clustering, proveedor concreto, suscripciones y disponibilidad ficticia. Wear OS permanece por fases. Administración no obtiene acceso general a hábitos, biometría ni conversaciones privadas.
+
+Fuentes: [actores y permisos](../requerimientos/README.md), [reglas](../requerimientos/reglas-negocio.md), [arquitectura](../arquitectura/README.md), [contratos](../../packages/contracts/README.md) y [tokens](../../packages/design-tokens/README.md). Esta revisión modifica documentación interactiva; no implementa servicios de producto ni cambia sus contratos.
+
+Código: [HTML](./diagrama-roles-quantify.html), [estilos](../../assets/portal/roles.css) e [interacciones](../../assets/portal/roles.js). Con el servidor estático del repositorio en `http://127.0.0.1:8773/`, ejecutar `node tools/portal/tests/roles.mjs` desde la raíz para verificar nodos, teclado, foco, cambio de ficha, temas, matriz, adaptación, modo embebido y accesibilidad automatizada. El comando guarda capturas locales en `tools/portal/.artifacts/roles/`.
+
+## Antecedente de la entrega académica
+
+Las imágenes y el texto que siguen documentan la entrega original. Sus tres “roles”, siluetas, tecnologías, umbrales y tabla histórica no describen el mapa interactivo revisado ni sustituyen las fuentes canónicas anteriores.
+
 [![Infografía de roles y funcionalidades de Quantify Core](./diagrama-roles-infografia.png)](https://angeljesus13.github.io/Quantify-Core/docs/Practica05/diagrama-roles-quantify.html)
 
-*Vista previa de la Práctica 05. Haz clic en la imagen para abrir el diagrama interactivo en GitHub Pages. [Abrir infografía en alta resolución](./diagrama-roles-infografia.png).*
+*Infografía histórica de la Práctica 05; no es una captura del mapa revisado. [Abrir infografía en alta resolución](./diagrama-roles-infografia.png).*
 
 > **Contexto:** esta práctica conserva decisiones y ejemplos de su entrega académica. Para implementar V2.0, consultar [requisitos](../requerimientos/README.md), [arquitectura](../arquitectura/README.md), [contratos](../../packages/contracts/README.md) y [diseño](../diseno/README.md). Librerías, umbrales y colores de esta práctica no quedan aprobados para el producto por aparecer aquí.
 
@@ -20,7 +38,7 @@ El diagrama interactivo de roles de usuario y las funcionalidades principales se
 - **Portal del proyecto:** [https://angeljesus13.github.io/Quantify-Core/](https://angeljesus13.github.io/Quantify-Core/)
 - **Archivo fuente local:** [diagrama-roles-quantify.html](./diagrama-roles-quantify.html)
 
-> **Publicación verificada:** GitHub Pages sirve este repositorio desde la raíz de `main`, por lo que la URL del diagrama incluye `/docs/Practica05/`. Si cambia la fuente de publicación, revisar el enlace directo y los recursos del HTML antes de actualizar esta guía.
+> **Publicación:** consultar la [guía del portal](../portal/README.md) para la fuente y el procedimiento de publicación vigentes. Modificar el archivo local no actualiza por sí solo GitHub Pages.
 
 ---
 

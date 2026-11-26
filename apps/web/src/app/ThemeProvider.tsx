@@ -5,6 +5,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { VisualPreferencesProvider } from "./appearance/VisualPreferences";
 const ThemeContext = createContext<{
   dark: boolean;
   setDark: (dark: boolean) => void;
@@ -18,7 +19,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [dark]);
   return (
     <ThemeContext.Provider value={{ dark, setDark }}>
-      {children}
+      <VisualPreferencesProvider>{children}</VisualPreferencesProvider>
     </ThemeContext.Provider>
   );
 }

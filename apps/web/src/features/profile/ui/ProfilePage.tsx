@@ -3,8 +3,10 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useDemo, type ProfileState } from "@/app/DemoProvider";
 import { useTheme } from "@/app/ThemeProvider";
 import { Icon } from "@/shared/ui/Icon";
+import { AppearanceControls } from "@/app/appearance/AppearanceControls";
 import { resizeImageToDataUrl } from "@/shared/api/client";
 import { evaluateAllAchievements } from "@/features/achievements/data/achievements";
+
 
 export function ProfilePage() {
   const { state, habits, dispatch, updateProfilePreferences, endSession } =
@@ -315,12 +317,13 @@ export function ProfilePage() {
         </div>
       )}
       {tab === "Apariencia" && (
-        <section className="card form-card">
+        <section className="card form-card appearance-settings">
           <h2>Personalización visual avanzada</h2>
           <p>
             Ajusta el tema, color de acento, densidad de tarjetas y escala
             tipográfica.
           </p>
+
           <div className="theme-options">
             {[false, true].map((d) => (
               <button
@@ -340,6 +343,7 @@ export function ProfilePage() {
               </button>
             ))}
           </div>
+          <AppearanceControls />
 
           <div className="form-grid" style={{ marginTop: "1.25rem" }}>
             <div>
@@ -396,6 +400,7 @@ export function ProfilePage() {
             <option value="normal">Normal (100%)</option>
             <option value="large">Amplia / Lectura accesible (108%)</option>
           </select>
+
         </section>
       )}
       {tab === "Privacidad" && (

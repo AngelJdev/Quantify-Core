@@ -31,10 +31,20 @@ try {
     ];
     files.forEach((f, i) => writeFileSync(resolve(root, f), contents[i], { flag: 'wx', mode: 0o600 }));
     console.log('Private configuration created; values omitted. Writes are disabled by default.');
-  } else if (['up', 'stop', 'status', 'config'].includes(command)) {
+  } else if (['up', 'stop', 'status', 'config', 'web-docker', 'web-stop', 'web-static', 'docker-up', 'docker-migrate'].includes(command)) {
     localEnv(files[0]);
-    const args = { up: ['up', '-d'], stop: ['stop'], status: ['ps'], config: ['config', '--quiet'] }[command];
-    run('docker', ['compose', '--env-file', resolve(root, files[0]), '-f', resolve(root, 'infrastructure/docker/compose.yaml'), ...args]);
+    const compose = ['compose', '--env-file', resolve(root, files[0]), '-f', resolve(root, 'infrastructure/docker/compose.yaml')];
+    if (['web-docker', 'web-static', 'docker-up'].includes(command)) {
+      run('docker', [...compose, '--profile', 'web', '--profile', 'web-static', 'stop', command === 'web-docker' ? 'web-static' : 'web']);
+    }
+    const args = { up: ['up', '-d'], stop: ['--profile', 'web', '--profile', 'web-static', '--profile', 'app', 'stop'], status: ['ps'],
+      config: ['--profile', 'web', '--profile', 'web-static', '--profile', 'app', '--profile', 'tools', 'config', '--quiet'],
+      'web-docker': ['--profile', 'web', 'up', '-d', '--build', 'web'],
+      'web-static': ['--profile', 'web-static', 'up', '-d', '--build', 'web-static'],
+      'docker-up': ['--profile', 'web-static', '--profile', 'app', 'up', '-d', '--build', 'postgres', 'keycloak', 'api', 'web-static'],
+      'docker-migrate': ['--profile', 'tools', 'run', '--rm', '--build', 'migrate'],
+      'web-stop': ['--profile', 'web', '--profile', 'web-static', 'stop', 'web', 'web-static'] }[command];
+    run('docker', [...compose, ...args]);
   } else if (command === 'migrate') {
     localEnv(files[2]);
     const url = new URL(process.env.DATABASE_URL);
@@ -56,7 +66,7 @@ try {
   } else if (command === 'web') {
     run(process.execPath, ['node_modules/vite/bin/vite.js', '--host', 'localhost', '--port', '5173', '--strictPort'], resolve(root, 'apps/web'));
   } else {
-    throw new Error('Usage: node scripts/dev-base.mjs init|config|up|migrate|api|web|status|stop');
+    throw new Error('Usage: node scripts/dev-base.mjs init|config|up|migrate|api|web|web-docker|web-static|web-stop|docker-up|docker-migrate|status|stop');
   }
 } catch (error) {
   // Do not print nested driver errors, DSNs or command environment.

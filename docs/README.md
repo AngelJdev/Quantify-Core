@@ -4,7 +4,7 @@
 
 **Explorar en el sitio:** [Centro del proyecto](../index.html) · [Workflow conectado a GitHub](../index.html#workflow) · [Biblioteca con buscador](../index.html#biblioteca) · [EDT interactiva](../index.html#edt) · [Flujo de hábitos](../index.html#flujo) · [Diseño y prototipos](../index.html#diseno). La lectura conserva sus fuentes en este índice; [mantenimiento del portal](portal/README.md).
 
-**Empezar el prototipo:** [base técnica para el equipo](guias/base-tecnica.md), con API NestJS, contratos, Keycloak y monitoreo local verificados. [Estado de tareas y bloqueos](gestion/estado-base-tecnica.md); integración mediante PR y aceptación del equipo según su registro efectivo.
+**Levantar el proyecto en local:** [guía completa de instalación](Installation/README.md), con requisitos, Docker, datos/identidad, Node, Flutter y extensiones opcionales. La [base técnica para el equipo](guias/base-tecnica.md) conserva los cortes de validación de API NestJS, contratos, Keycloak y monitoreo. [Estado de tareas y bloqueos](gestion/estado-base-tecnica.md); integración y aceptación según su registro efectivo.
 
 Mapa de referencia para que el equipo y sus agentes implementen el mismo producto con contratos, reglas y diseño coherentes. Empezar por [incorporación](guias/incorporacion.md), [contribución](../CONTRIBUTING.md) y el README del componente que se modificará.
 
@@ -90,7 +90,7 @@ Falta aprobar alcance institucional, RACI, estimación de recursos y cierre; res
 | [BRs](BRs/README.md) | Reglas de negocio y enlace a su definición `RN-P`. |
 | [FRs](FRs/README.md) | Requisitos funcionales `RF-01` a `RF-10`. |
 | [GUI](GUI/README.md) | Pantallas, estados, prototipo y diseño del producto. |
-| [Installation](Installation/README.md) | Preparación comprobable y requisitos de instalación futura. |
+| [Installation](Installation/README.md) | Guía de arranque local, requisitos por tecnología, persistencia, diagnóstico y ayuda para agentes. |
 | [Manual](Manual/README.md) | Guía técnica para diseñar, programar y entregar cambios. |
 | [NFRs](NFRs/README.md) | Requisitos no funcionales `RNF-01` a `RNF-15`. |
 | [UHs](UHs/README.md) | Historias de usuario y [primer recorrido](UHs/primer-flujo.md). |
