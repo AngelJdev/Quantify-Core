@@ -104,7 +104,7 @@ services:
       POSTGRES_USER: quantify_owner
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run node scripts/dev-base.mjs init}
     ports:
-      - "127.0.0.1:55432:5432"
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-55432}:5432"
     volumes:
       - postgres-data:/var/lib/postgresql
     healthcheck:
