@@ -32,20 +32,20 @@ export function NoticesPage() {
         ? `¡${completedCount} hábito(s) completados hoy!`
         : "Tu rutina está lista",
       completedCount > 0
-        ? "Tu constancia suma. Revisa tus gráficas actualizadas en Análisis."
+        ? "Tu constancia suma. Revisa tus gráficas y logros actualizados."
         : "Consulta los hábitos que tienes programados y elige por dónde empezar.",
       "Hoy, 08:00",
-      completedCount > 0 ? "analisis" : "habitos",
+      completedCount > 0 ? "logros" : "habitos",
     ],
     [
       "notice-3",
       "informacion",
       state.session
-        ? `Sesión OIDC conectada (${state.session.email})`
+        ? `Cuenta sincronizada (${state.session.email})`
         : "Bienvenido a tu espacio",
       state.session
-        ? "Tus hábitos y avances se sincronizan automáticamente con PostgreSQL."
-        : "Explora tus preferencias y dale tu propio ritmo a Quantify Core.",
+        ? "Tus hábitos, logros y avances se encuentran respaldados en tu perfil."
+        : "Explora tus preferencias y dale tu propio ritmo a Quantify.",
       "Ayer",
       "ajustes",
     ],

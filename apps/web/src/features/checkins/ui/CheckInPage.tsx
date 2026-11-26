@@ -106,9 +106,7 @@ function CheckInForm({
       });
       setError("");
       setMessage(
-        state.session
-          ? `Avance de ${amount} ${habit.unit} guardado en PostgreSQL y evidencia sincronizada en MongoDB (${businessDate}).`
-          : `Avance de ${amount} ${habit.unit} y evidencia registrados correctamente para ${businessDate}.`,
+        `Avance de ${amount} ${habit.unit} registrado correctamente para ${businessDate}.`,
       );
     } catch (err) {
       setMessage("");
@@ -148,12 +146,12 @@ function CheckInForm({
       )}
       <h2>{habit.name}</h2>
       <p>
-        Fecha de negocio: {businessDate} · Zona del hábito: {habit.timeZone} ·
-        Meta: {habit.target} {habit.unit}
+        Fecha: {businessDate} · Zona horaria: {habit.timeZone} · Meta diaria:{" "}
+        {habit.target} {habit.unit}
       </p>
       <p className="caption">
-        Declara el total acumulado. Un nuevo valor reemplaza el total de esta
-        fecha de forma idempotente; no se duplica.
+        Declara tu total acumulado de hoy. Un nuevo valor actualiza el total de
+        esta fecha sin duplicar registros.
       </p>
       <label htmlFor="progress-value">Valor acumulado ({habit.unit})</label>
       <input
@@ -220,7 +218,7 @@ function CheckInForm({
       </div>
 
       <label htmlFor="checkin-note">
-        Nota de contexto o reflexión <small>Opcional · MongoDB</small>
+        Nota de contexto o reflexión <small>Opcional</small>
       </label>
       <textarea
         id="checkin-note"
@@ -231,7 +229,7 @@ function CheckInForm({
       />
 
       <label htmlFor="checkin-photo">
-        Subir imagen de evidencia <small>Opcional · Guardado en BD Híbrida</small>
+        Subir imagen de evidencia <small>Opcional · Galería de progreso</small>
       </label>
       <input
         id="checkin-photo"
@@ -261,7 +259,7 @@ function CheckInForm({
       {state.session && existingEntry && (
         <div>
           <label htmlFor="correction-reason">
-            Motivo de corrección (registro versión #{existingEntry.version})
+            Motivo de actualización (revisión #{existingEntry.version})
           </label>
           <input
             id="correction-reason"
@@ -272,8 +270,8 @@ function CheckInForm({
         </div>
       )}
       <p id="progress-help" className="caption">
-        Precisión soportada hasta tres decimales. Los cambios quedan auditados
-        en PostgreSQL y MongoDB.
+        Precisión soportada hasta tres decimales. Agregar notas o fotografías
+        también suma para tus logros de Evidencia y Reflexión.
       </p>
       {error && (
         <p id="progress-error" role="alert" className="field-error">
