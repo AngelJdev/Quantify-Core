@@ -54,6 +54,11 @@
   padding: 0;
   margin: 0;
 }
+@media (max-width: 480px) {
+  .island-app .island-demo-label {
+    display: none;
+  }
+}
 /* Editorial surfaces: the same identity, with a deliberate visual hierarchy. */
 .prototype-public .island-header,
 .island-app .island-header {

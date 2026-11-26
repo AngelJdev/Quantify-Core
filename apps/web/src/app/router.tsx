@@ -1,4 +1,10 @@
-import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
+import { hasPendingOidcHandshake } from "@/shared/api/client";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Link,
+  useSearchParams,
+} from "react-router-dom";
 import { useState } from "react";
 import { MainLayout } from "./layout/MainLayout";
 import {
@@ -20,6 +26,8 @@ import { NoticesPage } from "@/features/notices/ui/NoticesPage";
 import { ProfilePage } from "@/features/profile/ui/ProfilePage";
 import { ConnectedHabitsPage } from "@/features/habits/ui/ConnectedHabitsPage";
 import { InstallPage } from "./pwa/InstallPage";
+import { AchievementsPage } from "@/features/achievements/ui/AchievementsPage";
+
 import { StatePanel } from "@/shared/ui/StatePanel";
 function RouteError() {
   return (
@@ -37,20 +45,51 @@ function RouteError() {
     </main>
   );
 }
+function IdentityCallback() {
+  const [params] = useSearchParams();
+  const [workspaceHandshake] = useState(() =>
+    hasPendingOidcHandshake(params.get("state")),
+  );
+  return workspaceHandshake ? (
+    <SessionPage callback />
+  ) : (
+    <ConnectedHabitsPage />
+  );
+}
 export const routes = [
   { path: "/", element: <WelcomePage />, errorElement: <RouteError /> },
   { path: "/instalar", element: <InstallPage />, errorElement: <RouteError /> },
   { path: "/auth", element: <AuthPage />, errorElement: <RouteError /> },
   { path: "/login", element: <AuthPage />, errorElement: <RouteError /> },
-  { path: "/registro", element: <AuthPage register />, errorElement: <RouteError /> },
-  { path: "/register", element: <AuthPage register />, errorElement: <RouteError /> },
-  { path: "/recuperar", element: <RecoveryPage />, errorElement: <RouteError /> },
+  {
+    path: "/registro",
+    element: <AuthPage register />,
+    errorElement: <RouteError />,
+  },
+  {
+    path: "/register",
+    element: <AuthPage register />,
+    errorElement: <RouteError />,
+  },
+  {
+    path: "/recuperar",
+    element: <RecoveryPage />,
+    errorElement: <RouteError />,
+  },
   { path: "/conoce", element: <AboutPage />, errorElement: <RouteError /> },
-  { path: "/equipo", element: <AboutPage team />, errorElement: <RouteError /> },
-  { path: "/conexion", element: <ConnectedHabitsPage />, errorElement: <RouteError /> },
+  {
+    path: "/equipo",
+    element: <AboutPage team />,
+    errorElement: <RouteError />,
+  },
+  {
+    path: "/conexion",
+    element: <ConnectedHabitsPage />,
+    errorElement: <RouteError />,
+  },
   {
     path: "/auth/callback",
-    element: <ConnectedHabitsPage />,
+    element: <IdentityCallback />,
     errorElement: <RouteError />,
   },
   {
@@ -71,6 +110,7 @@ export const routes = [
       { path: "/check-ins/:habitId?", element: <CheckInPage /> },
       { path: "/historial", element: <HistoryPage /> },
       { path: "/analisis", element: <AnalyticsPage /> },
+      { path: "/logros", element: <AchievementsPage /> },
       { path: "/sugerencias", element: <SuggestionsPage /> },
       { path: "/avisos", element: <NoticesPage /> },
       { path: "/ajustes", element: <ProfilePage /> },

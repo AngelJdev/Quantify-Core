@@ -6,7 +6,7 @@ La revisión móvil del 23/11/2026 centraliza en `mobile-effects.json` v4 las op
 
 ## Tokens materializados para los prototipos
 
-La extensión [experience.css](experience.css) del 20/11/2026 centraliza curvas, tiempos y material óptico opcional para la PWA. Todos sus colores derivan de los roles de `themes.css`; no cambia el catálogo de identidad. [Preferencias, accesibilidad y alcance](../../docs/diseno/materiales-movimiento.md).
+La extensión [experience.css](experience.css) centraliza curvas, tiempos y material óptico opcional para la PWA. Todos sus colores derivan de los roles de `themes.css`; no cambia el catálogo de identidad. La revisión visual del 26/11/2026 añade los ritmos decorativos `--qc-motion-orbit` (32 s) y `--qc-motion-float` (7 s), usados solo en la bienvenida y desactivados con movimiento reducido. [Preferencias, accesibilidad y alcance](../../docs/diseno/materiales-movimiento.md).
 
 La extensión [mobile-effects.json](mobile-effects.json) centraliza límites de cristal, radios y tiempos del prototipo Flutter V2. [Generación de Dart/Inter y alcance móvil](../../apps/mobile/docs/prototipo-v2-2026-11-20.md). No redefine la paleta ni convierte los fixtures en configuración de producto.
 

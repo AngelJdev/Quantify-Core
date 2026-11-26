@@ -2,9 +2,11 @@
 
 **Apariencia y movimiento · 20/11/2026:** el botón **Apariencia** de la cabecera y **Perfil → Apariencia** permiten activar Liquid Glass, ajustar su intensidad y reducir movimiento. El material predeterminado es sólido. Solo estas preferencias visuales se guardan localmente; los fixtures siguen en memoria. La reducción de movimiento/transparencia del sistema tiene prioridad. [Entrega, revisión y capturas](docs/apariencia-2026-11-20.md) · [Reglas visuales](../../docs/diseno/materiales-movimiento.md).
 
-**Fase actual · 18/11/2026: frontend según el prototipo en islas.** Bienvenida, login, registro, recuperación, información pública y dashboard siguen la [base visual vigente](../../docs/GUI/BASE-IMPLEMENTACION.md), la composición de entrada y la navegación de cuatro destinos. Cabecera independiente, rail de 208/72 px y píldora móvil flotante. Los formularios de acceso son maquetas desactivadas: no reciben credenciales ni crean sesiones. Backend y funcionalidad de negocio se retoman después; se conserva la integración local anterior.
+**Fase actual · 18/11/2026: frontend según el prototipo en islas.** Bienvenida, login, registro, recuperación, información pública y dashboard siguen la [base visual vigente](../../docs/GUI/BASE-IMPLEMENTACION.md), la composición de entrada y la navegación de cuatro destinos. Cabecera independiente, rail de 208/72 px y píldora móvil flotante. La integración del 26/11 conserva la composición en islas y conecta los formularios de acceso, hábitos, avances, historial, logros y perfil incorporados en `develop`. La demostración sigue disponible por separado.
 
 **Revisión visual:** http://localhost:5173/ para edición o http://localhost:4173/ para el build instalable. [Entrega de islas: rutas, archivos y comprobaciones](docs/frontend-islas-2026-11-18.md).
+
+**Revisión de diseño PWA · 26/11/2026:** `src/app/presentation.css` establece una jerarquía más marcada en las pantallas públicas e internas: bienvenida editorial de dos columnas en escritorio, cabeceras internas como paneles destacados y adaptación apilada en móvil. El halo del indicador principal queda detrás del contenido para no ocultar texto. No cambia navegación, datos ni operaciones. Conserva Inter local, roles de `packages/design-tokens/themes.css` e iconos vectoriales de `src/shared/ui/Icon.tsx`; no añade fuentes, librerías, iconos ni colores de identidad. Las animaciones ambientales usan las preferencias existentes y movimiento reducido las desactiva.
 
 La bienvenida incorpora una [evolución visual inspirada en V1](../../docs/diseno/bienvenida-web.md): fondo con luz suave, vista de rutina en capas, indicadores ilustrativos y tres islas con contenido visual propio. Conserva la distribución acordada, los tokens V2 y el alcance de demostración.
 
@@ -14,9 +16,12 @@ Para revisar la PWA instalable sin depender de API o Keycloak, desde `apps/web`:
 
 **Integración local (17/11/2026):** [primer recorrido conectado](docs/integracion-lectura.md): Keycloak → perfil propio → hábitos paginados en `/conexion`, solo lectura y separado de las pantallas de demo. La topología del prototipo es SPA pública Code+PKCE según [ADR-0007](../../docs/arquitectura/adr/0007-base-tecnica-prototipo.md). No hay sesión Flutter ni despliegue público.
 
-**Estado: base React con demo explícita y una consulta autenticada local.** La demo conserva sus fixtures durante la visita y los restablece al recargar; no se usa para ocultar fallos de la API. La consulta no escribe ni calcula métricas oficiales. PWA se limita a [instalación y shell estático offline](docs/pwa-referencia.md); las consultas personales requieren red.
+**Estado: base React con demo explícita y una consulta autenticada local.** La demo conserva sus fixtures durante la visita y los restablece al recargar; no se usa para ocultar fallos de la API. La ruta `/conexion` conserva la consulta de solo lectura; las pantallas de la sesión de trabajo incorporan las operaciones de `develop`. PWA se limita a [instalación y shell estático offline](docs/pwa-referencia.md); las consultas personales requieren red.
 
 [Validación del 17/11: archivos cambiados, comandos, resultados y pendientes](docs/validacion-integracion-2026-11-17.md).
+
+**Estado: aplicación React ejecutable, modular y conectada con Keycloak OIDC (`Code + PKCE S256`) y la API NestJS (`/api/v1`), manteniendo también el modo demostración con fixtures explícitos.** Al iniciar sesión con Keycloak, los hábitos, avances, historial, métricas y perfil se sincronizan con PostgreSQL. La PWA ofrece instalación y shell estático offline; identidad y datos personales requieren red.
+
 
 ## Ejecutar y verificar
 
@@ -37,7 +42,7 @@ Compose proporciona exclusivamente las cuatro variables públicas de API/Keycloa
 node scripts/dev-base.mjs web-stop
 ```
 
-Esta modalidad ejecuta Vite de desarrollo. Para revisar el frontend compilado/PWA en Docker, ejecutar desde la raíz `node scripts/dev-base.mjs web-static`: detiene la alternativa de desarrollo y sirve el build con Nginx en el mismo puerto 5173. `web-docker` permite volver a Vite; `web-stop` detiene ambas alternativas. El build estático no monta fuentes y debe reconstruirse después de cambios. Las variables públicas OIDC/API se fijan con argumentos de build de `web.Dockerfile`; no se leen secretos ni `.env.local`. No habilita escrituras ni sincronización offline. [Arranque completo, instalación, acceso real y capturas](../../README.md#instalación-y-ejecución).
+Esta modalidad ejecuta Vite de desarrollo. Para revisar el frontend compilado/PWA en Docker, ejecutar desde la raíz `node scripts/dev-base.mjs web-static`: detiene la alternativa de desarrollo y sirve el build con Nginx en el mismo puerto 5173. `web-docker` permite volver a Vite; `web-stop` detiene ambas alternativas. El build estático no monta fuentes y debe reconstruirse después de cambios. Las variables públicas OIDC/API se fijan con argumentos de build de `web.Dockerfile`; no se leen secretos ni `.env.local`. Las operaciones conectadas requieren API; no habilita sincronización offline. [Arranque completo, instalación, acceso real y capturas](../../README.md#instalación-y-ejecución).
 
 Node.js 24.x (validado con 24.14.1) y npm 11.x (validado con 11.11.0). Desde `apps/web`:
 
@@ -98,9 +103,9 @@ El contexto de demostración en `app/DemoProvider.tsx` centraliza hábitos, avan
 | `/analisis` | Semana/Mes y tabla accesible de valores ilustrativos |
 | `/sugerencias`, `/avisos` | Vacío explicado y avisos de ejemplo marcables como leídos |
 | `/ajustes` | Perfil, apariencia, privacidad y vacío de dispositivos |
-| `/login`, `/auth` | Login editorial de referencia, con campos desactivados y acceso separado al dashboard de ejemplo |
-| `/registro`, `/register` | Maqueta de registro; no crea cuentas ni recoge contraseñas |
-| `/recuperar` | Maqueta de recuperación; no envía correos |
+| `/login`, `/auth` | Acceso funcional y entrada separada a la demostraci?n |
+| `/registro`, `/register` | Registro con verificación |
+| `/recuperar` | Recuperación de cuenta |
 | `/conoce`, `/equipo` | Información pública sin navegación de sesión |
 | `/dashboard` | Alias de `/hoy`, con cuatro indicadores y paneles en islas |
 | `/conexion` | Sesión Keycloak, perfil propio, hábitos paginados y estados reales de carga/vacío/error |

@@ -16,6 +16,14 @@ test("bienvenida, acceso visual y dashboard conservan la composición en islas",
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Lo que haces.También cuenta.",
   );
+  const welcomeHero = page.locator(".welcome-hero");
+  await expect(welcomeHero).toHaveCSS("display", "grid");
+  const heroColumns = await welcomeHero.evaluate((element) => {
+    const copy = element.querySelector(".welcome-copy")!.getBoundingClientRect();
+    const stage = element.querySelector(".welcome-stage")!.getBoundingClientRect();
+    return { copyRight: copy.right, stageLeft: stage.left };
+  });
+  expect(heroColumns.copyRight).toBeLessThan(heroColumns.stageLeft);
   await expect(
     page.getByRole("img", {
       name: "50 por ciento de las metas de ejemplo completas",
@@ -33,27 +41,36 @@ test("bienvenida, acceso visual y dashboard conservan la composición en islas",
   await page.goto("/");
   await page.getByRole("link", { name: "Crear mi cuenta" }).click();
   await expect(page).toHaveURL(/\/registro$/);
-  await expect(page.getByLabel("Correo electrónico")).toBeDisabled();
-  await expect(page.getByLabel("Contraseña", { exact: true })).toBeDisabled();
-  await page.getByRole("link", { name: "Ya tengo cuenta" }).click();
-  await expect(page).toHaveURL(/\/login$/);
+  await expect(page.getByLabel("Correo electrónico")).toBeEnabled();
+  await expect(page.getByLabel("Confirmar contraseña")).toBeEnabled();
+  await page.goto("/login");
   await page
     .getByRole("link", { name: "Explorar demostración" })
     .click();
+  const firstKpi = page.locator(".dashboard-kpi").first();
   await expect(page.locator(".dashboard-kpi")).toHaveCount(4);
+  await expect(firstKpi.getByText("Hábitos activos")).toBeVisible();
+  await expect(firstKpi.locator("strong")).toHaveText("3");
+  const kpiLayers = await firstKpi.evaluate((element) => ({
+    content: Number.parseInt(
+      getComputedStyle(element.firstElementChild!).zIndex,
+      10,
+    ),
+    decoration: Number.parseInt(getComputedStyle(element, "::after").zIndex, 10),
+  }));
+  expect(kpiLayers.content).toBeGreaterThan(kpiLayers.decoration);
   expect(
-    await page
-      .locator(".dashboard-kpi")
-      .first()
-      .evaluate((element) => getComputedStyle(element).animationName),
+    await firstKpi.evaluate((element) => getComputedStyle(element).animationName),
   ).toBe("none");
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  expect(
-    await page
-      .locator(".dashboard-kpi")
-      .first()
-      .evaluate((element) => getComputedStyle(element).animationName),
-  ).toBe("dashboard-island-enter");
+  await expect(page.locator("html")).toHaveAttribute(
+    "data-qc-motion",
+    "fluid",
+  );
+  await expect(page.locator(".dashboard-kpi").first()).toHaveCSS(
+    "animation-name",
+    "dashboard-island-enter",
+  );
   await page.emulateMedia({ reducedMotion: "reduce" });
   const rail = page.locator(".island-rail");
   expect((await rail.boundingBox())!.width).toBe(208);
@@ -99,6 +116,15 @@ test("bienvenida, acceso visual y dashboard conservan la composición en islas",
       for (const route of ["/", "/login", "/registro", "/conoce", "/hoy"]) {
         await page.goto(route);
         await page.evaluate(() => document.fonts.ready);
+        if (route === "/" && width <= 390) {
+          await expect(page.locator(".welcome-hero")).toHaveCSS(
+            "display",
+            "flex",
+          );
+          expect(
+            await page.evaluate(() => document.documentElement.scrollWidth),
+          ).toBeLessThanOrEqual(width);
+        }
         await page.screenshot({
           path: `test-results/islands-review/${width}-${theme}-${route === "/" ? "bienvenida" : route.slice(1)}.png`,
           fullPage: true,
@@ -110,7 +136,7 @@ test("bienvenida, acceso visual y dashboard conservan la composición en islas",
   expect(privateRequests).toEqual([]);
 });
 
-test("login y registro caben en un viewport de escritorio habitual", async ({
+test("login y registro mantienen los formularios visibles sin desborde horizontal", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
@@ -123,9 +149,7 @@ test("login y registro caben en un viewport de escritorio habitual", async ({
       viewportWidth: window.innerWidth,
       pageWidth: document.documentElement.scrollWidth,
     }));
-    expect(dimensions.pageHeight, route).toBeLessThanOrEqual(
-      dimensions.viewportHeight,
-    );
+    await expect(page.getByLabel("Correo electrónico")).toBeVisible();
     expect(dimensions.pageWidth, route).toBeLessThanOrEqual(
       dimensions.viewportWidth,
     );

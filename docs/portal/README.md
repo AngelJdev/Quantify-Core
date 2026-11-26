@@ -1,5 +1,11 @@
 # Centro del proyecto
 
+## Mapa de roles · 18/11/2026
+
+El [diagrama de Práctica 05](../Practica05/diagrama-roles-quantify.html) comparte tokens, Inter local, navegación y tema del portal. Presenta dos roles humanos y una capa de servicios mediante tarjetas adaptables, fichas detalladas accesibles, cinco recorridos y una matriz de doce acciones. Las fichas explican permisos, restricciones, datos, controles, ejemplos y estado de implementación. El contenido se alinea con el asistente conversacional pendiente y con los límites de privacidad administrativos. Las imágenes originales permanecen como antecedentes.
+
+Los archivos `assets/portal/roles.css` y `roles.js` solo afectan este documento; `site.css` y `site.js` siguen siendo la autoridad del marco compartido. Comprobar con `node tools/portal/tests/roles.mjs` y el servidor local de este módulo. [Alcance y fuentes](../Practica05/README.md).
+
 ## Gantt de Jira dentro de Workflow
 
 El botón **Gantt de Jira** de [Workflow](../../workflow.html#workflow?vista=gantt) abre el cronograma en la misma página; **Recorrido técnico** vuelve a la animación. Incluye búsqueda, filtros por estado, responsable y épica, escala diaria/semanal y detalle de fechas y dependencias. La selección de esta vista se conserva al recargar.
@@ -46,6 +52,16 @@ La [galería de bocetos](../GUI/practica-07.html) usa un visor ajustado a la alt
 El [original de Archify](../practica-07/archify/navegacion-original.html) conserva su contenido y su hash; se abre dentro de una página con la identidad compartida. Las páginas de redirección y la comprobación visual histórica de Canvas no son nuevas superficies de navegación. Los dibujos y los lienzos de la guía conservan sus colores internos de referencia.
 
 ## Evidencia de GitHub
+
+### Workflow interactivo · 18/11/2026
+
+El recorrido técnico ahora deriva el foco de cada paso: atenúa la decoración de los carriles inactivos sin reducir el contraste del texto ni bloquear controles, resalta la capa que procesa la operación y conecta las flechas SVG con esa capa. Preparar progreso y permanecer offline no dibuja tráfico hacia la API. El paso 08 activa API/datos y Web, muestra `GET /me/dashboard/progress` y explica la propuesta de revalidación React al enfocar la ventana o recuperar conexión. Invalidar la caché de un cliente no notifica a otro dispositivo; no se simula un canal push existente.
+
+El inspector incluye un desplegable HTTP/JSON con ejemplos sintéticos del contrato, base `/api/v1`, fechas de negocio y versiones. En escritorio el relato y el código tienen desplazamiento propio para conservar el diagrama completo; el código admite foco y desplazamiento por teclado. Los cuatro resultados distinguen creación (`201`), operación idéntica con otra clave y el mismo `clientEventId` (`200`), reintento con la misma clave y contenido (`200 OK - Replay`, etiqueta explicativa) y versión obsoleta (`409 VERSION_CONFLICT`). Los duplicados terminan en deduplicación sin otra escritura del check-in; sí pueden leer recibos SQL y asociar claves a recibos. Antes de entregar un replay se verifican sesión y propiedad. El conflicto conserva el estado y el paso 07 muestra una consulta de resincronización; una nueva intención con la revisión actual requiere resolución explícita.
+
+El interruptor de red de Flutter permite registrar un comando en una outbox **simulada en memoria**, conservando ID, clave, contenido, fecha y revisión. Repetir el registro offline conserva la misma entrada. Recuperar red inicia automáticamente el envío y solo una respuesta confirmada la marca `synced`; un conflicto permanece identificado. Reiniciar o recargar elimina la entrada ilustrativa; la URL conserva únicamente paso, origen, escenario y estado de red. No equivale a almacenamiento durable en Flutter. Al integrar el producto faltan la persistencia por cuenta, protección al cerrar sesión, retención y política de reintentos; la revalidación React descrita tampoco se instala en la aplicación desde este diagrama.
+
+Validación: `node tools/portal/tests/workflow-motion.mjs`, con el servidor de la raíz en el puerto 8765. Además de las comprobaciones de movimiento y layout existentes, contrasta capas y carriles por paso, destino de flechas, igualdad del JSON confirmado en ambos replays, claves diferenciadas, conflicto/resincronización, lectura Web, cola sin red, conservación del comando al reconectar y ausencia de llamadas a la API de negocio. Los archivos que se integran siguen siendo `assets/portal/workflow.js` y `workflow.css`, cargados por `workflow.html`; no hay nuevas dependencias. El constructor excluye `test-results` y `playwright-report` del índice de documentación para Pages; la prueba también comprueba esa exclusión en el catálogo generado.
 
 El workflow ajusta el diagrama completo al alto disponible en escritorio desde 1366 × 768 px: móvil, PWA, API/datos, ocho pasos y detalle permanecen en una sola vista. En pantallas pequeñas se mantiene la distribución vertical. «Registrar progreso» en cualquiera de los dos clientes inicia la simulación desde identidad, recorre los ocho pasos y se detiene en el dashboard. No arranca automáticamente ni repite operaciones en bucle. Se puede pausar, continuar, reiniciar o seleccionar un paso; con movimiento reducido se conservan los cambios de estado sin paquetes animados.
 

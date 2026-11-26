@@ -10,7 +10,11 @@ El corte inicial del 23/11 conservaba los tokens solo en memoria. A partir del 2
 
 ## Continuación por el equipo
 
-La entrega queda en `feature/prototipo-flutter-backend`, sin fusionar. Keycloak ya permite registro/login y acceso al dashboard de ejemplo en Android local. `AccessPreview` en `lib/prototype/pages.dart` incluye Google, Facebook y Apple ID como botones deshabilitados bajo «Próximamente»; no hay proveedores sociales configurados. El siguiente responsable podrá completar su federación mediante Keycloak, conservando el flujo OIDC de la app, y validar cuentas, callbacks y logout. Las credenciales de los proveedores deben configurarse fuera del repositorio. REST, HTTPS público, iOS y continuidad de sesión conservan los pendientes descritos abajo.
+La integración del 26/11/2026 incorpora la rama `feature/prototipo-flutter-backend` al trabajo compartido. Con `API_BASE_URL` configurado, la app usa REST para perfil, hábitos, avances y métricas; sin él conserva la demostración. Google se delega a Keycloak y requiere configurar el proveedor fuera de Git. Facebook y Apple siguen pendientes, igual que HTTPS público e iOS en macOS.
+
+## Antecedente del 23/11/2026 (histórico)
+
+Las descripciones de tokens solo en memoria y dashboard sin API de este apartado corresponden al corte inicial; quedan sustituidas por la actualización del 25/11 y la conexión REST descritas arriba.
 
 23/11/2026 · RF-01 · `lib/main_prototype.dart` · [ADR-0009](../../../docs/arquitectura/adr/0009-sesion-movil-prototipo.md).
 

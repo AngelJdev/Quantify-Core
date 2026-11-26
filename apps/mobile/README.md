@@ -15,7 +15,7 @@ Sin `API_BASE_URL` o al entrar por «Explorar demostración», el prototipo cons
 
 ## Acceso Keycloak · 23/11/2026
 
-La pantalla distingue **Continuar con Keycloak** (funcional) y botones de **Google, Facebook y Apple ID** deshabilitados con el estado «Próximamente». Estos tres proveedores son solo diseño; su federación e integración quedan pendientes.
+La pantalla ofrece **Continuar con Keycloak** y **Continuar con Google** mediante el proveedor federado de Keycloak cuando esté configurado. Facebook y Apple ID permanecen deshabilitados con el estado «Próximamente».
 
 `lib/main_prototype.dart` incorpora login y registro en navegador del sistema con `flutter_appauth` 13.0.0, retorno al dashboard de ejemplo y cierre desde Perfil. Tokens en memoria; vencimiento exige volver a entrar. Android mínimo 24. [Configuración USB/HTTPS, pruebas y límites](docs/sesion-keycloak.md) · [ADR-0009](../../docs/arquitectura/adr/0009-sesion-movil-prototipo.md). Esta actualización sustituye las menciones posteriores a sesión pendiente para la entrada del prototipo; `lib/main.dart`, REST y métricas de negocio conservan su alcance independiente sin conexión. iOS requiere validación en macOS.
 
@@ -126,7 +126,7 @@ Es una estructura prevista, no un inventario de implementación. Evitar capas va
 
 1. Fijar versión de Flutter/Dart y registrar la matriz Android/iOS y las herramientas nativas necesarias. Compilar iOS requiere el entorno de Apple correspondiente.
 2. Crear el proyecto en una entrega específica con identificadores de aplicación por ambiente; no reutilizar credenciales de producción para demostraciones.
-3. Definir un ejemplo de configuración pública: `API_BASE_URL` con `/api/v1`, `OIDC_ISSUER`, `OIDC_CLIENT_ID` y `OIDC_REDIRECT_URI`. Estos nombres son propuesta, aún no tienen lector implementado.
+3. Definir un ejemplo de configuración pública: `API_BASE_URL` con `/api/v1`, `OIDC_ISSUER`, `OIDC_CLIENT_ID` y `OIDC_REDIRECT_URI`. `API_BASE_URL` y `OIDC_ISSUER` ya tienen lector en el prototipo conectado; verificar las constantes de identidad del cliente para el resto.
 4. Registrar retorno OIDC, enlaces de aplicación y orígenes permitidos por plataforma. Los valores empaquetados en una app, incluso mediante `--dart-define`, no son secretos.
 5. Los comandos ejecutables del prototipo están al inicio. `flutter analyze` y `flutter test` cubren las bases locales existentes; flavors, pruebas integradas de servicios y publicación móvil siguen pendientes.
 
@@ -134,7 +134,7 @@ Es una estructura prevista, no un inventario de implementación. Evitar capas va
 
 Usar Keycloak / OIDC Authorization Code con PKCE S256 y navegador del sistema mediante una integración nativa mantenida, con validación de `state`, `nonce` y retorno. No crear formularios que envíen contraseñas a una API propia ni embeber secretos de cliente.
 
-Elegir almacenamiento seguro vinculado a las capacidades del sistema para material de sesión que necesite persistir; documentar exclusión de backups cuando corresponda, borrado al salir y comportamiento en dispositivos compartidos. El plugin concreto queda pendiente. No guardar tokens junto con los comandos offline en una base de datos de propósito general.
+Elegir almacenamiento seguro vinculado a las capacidades del sistema para material de sesión que necesite persistir; documentar exclusión de backups cuando corresponda, borrado al salir y comportamiento en dispositivos compartidos. El prototipo conectado usa `flutter_secure_storage`, según ADR-0010; su validación nativa por plataforma sigue siendo necesaria. No guardar tokens junto con los comandos offline en una base de datos de propósito general.
 
 Solicitar permisos en contexto, explicar la finalidad y permitir continuar con captura manual si se rechazan. Separar permiso de notificaciones, permisos del sistema para señales y consentimiento de tratamiento: ninguno sustituye a los otros. No registrar tokens ni datos biométricos en logs de dispositivo o reporte de errores.
 

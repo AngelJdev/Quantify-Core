@@ -109,12 +109,17 @@ const steps = [
 ];
 const scenarios = {
   normal: {
-    name: "Operación nueva",
+    name: "Una confirmación",
     outcome: "Una confirmación",
     text: "Una operación nueva y válida se confirma una sola vez.",
   },
+  identical: {
+    name: "Operación idéntica",
+    outcome: "Evento ya confirmado",
+    text: "Otra clave de solicitud con el mismo clientEventId y contenido recupera el resultado previo; no crea otro check-in.",
+  },
   replay: {
-    name: "Reintento idéntico",
+    name: "Reintento idempotente",
     outcome: "Sin doble conteo",
     text: "El mismo identificador y contenido recuperan el resultado original.",
   },
@@ -124,12 +129,47 @@ const scenarios = {
     text: "La revisión cambió: no sobrescribir; consultar y resolver el estado confirmado.",
   },
 };
+// Fixtures de documentación; no se envían a la API ni se guardan en el cliente.
+const eventId = "925ed4ea-6e06-493c-a3c1-26052d0f61b5";
+const habitId = "b7a92689-b9e1-4c01-897a-7c19307193cd";
+const checkInId = "8c6ea7cf-08cd-41b3-a4d5-77b293ca2971";
+const originalKey = "bfa30981-46ef-44d6-8865-7fcfc8feb709";
+const secondKey = "43286aba-fdda-4bb6-9676-a7fba9ca19cb";
+const checkInPath = `/habits/${habitId}/check-ins`;
+const dashboardPath = "/me/dashboard/progress?from=2026-11-01&to=2026-11-18";
+function commandFor(scenario) {
+  return {
+    clientEventId: eventId,
+    businessDate: "2026-11-18",
+    occurredAt: "2026-11-18T16:00:00.000Z",
+    timeZone: "America/Mexico_City",
+    value: 1.5,
+    expectedVersion: scenario === "conflict" ? 1 : 0,
+    ...(scenario === "conflict"
+      ? { correctionReason: "Corregir valor del día" }
+      : {}),
+  };
+}
+function confirmedCheckIn() {
+  const { expectedVersion, ...command } = commandFor("normal");
+  return {
+    id: checkInId,
+    habitId,
+    ...command,
+    recordedAt: "2026-11-18T16:00:01.000Z",
+    version: 1,
+    progressStatus: "partial",
+  };
+}
 export function serviceWorkflow(main, params) {
   let index = Math.max(0, Math.min(7, Number(params.get("paso")) || 0));
   let client = params.get("cliente") === "pwa" ? "pwa" : "mobile";
   let scenario = scenarios[params.get("escenario")]
     ? params.get("escenario")
     : "normal";
+  let offline = params.get("red") === "offline";
+  let outbox = null;
+  let exchangeOpen = false;
   const motion = matchMedia("(prefers-reduced-motion: reduce)");
   let playing = false,
     completed = false,
@@ -150,6 +190,26 @@ export function serviceWorkflow(main, params) {
     canvas = host.querySelector(".wf-canvas"),
     svg = host.querySelector("svg");
   const q = (selector) => host.querySelector(selector);
+  q(".wf-mobile .wf-status-dot").remove();
+  q(".wf-mobile .wf-system-header").insertAdjacentHTML(
+    "beforeend",
+    `<button type="button" class="wf-network" id="wf-network" role="switch" aria-checked="true" aria-label="Conexión móvil simulada"><span aria-hidden="true">●</span><span id="wf-network-label"></span><span aria-hidden="true">⇄</span></button>`,
+  );
+  q(".wf-mobile-state").insertAdjacentHTML(
+    "beforebegin",
+    `<div class="wf-outbox" role="status" aria-live="polite"><strong id="wf-outbox-state"></strong><code id="wf-outbox-id"></code></div>`,
+  );
+  ["identity", "business", "persistence"].forEach((layer, i) => {
+    host.querySelectorAll(".wf-api-node")[i].dataset.wfLayer = layer;
+  });
+  q(".wf-sync-note").id = "wf-refresh-note";
+  q(".wf-step-controls").insertAdjacentHTML(
+    "beforebegin",
+    `<details class="wf-exchange"><summary id="wf-http-status">Intercambio HTTP / JSON</summary><div class="wf-exchange-body"><small>Ejemplo sintético · base /api/v1</small><pre tabindex="0" role="region" aria-label="Solicitud y respuesta de ejemplo"><code id="wf-http-code"></code></pre></div></details>`,
+  );
+  q(".wf-exchange").addEventListener("toggle", () => {
+    exchangeOpen = q(".wf-exchange").open;
+  });
   const gantt = document.createElement("section");
   gantt.className = "gantt-panel";
   gantt.hidden = true;
@@ -206,13 +266,143 @@ export function serviceWorkflow(main, params) {
       q(".wf-github summary").focus();
     }
   });
+  function choreography() {
+    const held = offline && client === "mobile";
+    const duplicate = scenario === "replay" || scenario === "identical";
+    const blocked =
+      index >= 4 && index <= 5 && (duplicate || scenario === "conflict");
+    const layer =
+      held || index === 2
+        ? null
+        : blocked || (duplicate && index === 6)
+          ? "business"
+          : [
+              "identity",
+              "persistence",
+              null,
+              "identity",
+              "business",
+              "persistence",
+              "business",
+              "persistence",
+            ][index];
+    // En conflicto, el paso 07 consulta el estado antes de permitir una resolución.
+    const currentLayer =
+      !held && scenario === "conflict" && index === 6 ? "persistence" : layer;
+    const systems =
+      held || index === 2
+        ? [client]
+        : index === 7
+          ? ["pwa", "api"]
+          : index === 4 || index === 5
+            ? ["api"]
+            : [client, "api"];
+    return {
+      layer: currentLayer,
+      systems,
+      blocked,
+      duplicate,
+      write: !held && index === 5 && scenario === "normal",
+    };
+  }
+  function exchange() {
+    const json = (body) => JSON.stringify(body, null, 2);
+    const command =
+      outbox && client === "mobile" ? outbox.command : commandFor(scenario);
+    const request = `POST /api/v1${checkInPath}\nIdempotency-Key: ${scenario === "identical" ? secondKey : originalKey}\nContent-Type: application/json\n\n${json(command)}`;
+    const reply = (status, body, type = "application/json") =>
+      `HTTP/1.1 ${status}\nContent-Type: ${type}\n\n${json(body)}`;
+    if (offline && client === "mobile")
+      return {
+        status: "Sin red · sin petición HTTP",
+        code: `OUTBOX LOCAL · ${outbox ? "pending" : "vacía"}\n${outbox ? json(outbox.command) : "Registra progreso para encolar un comando."}`,
+      };
+    if (index === 0)
+      return {
+        status: "OIDC · Authorization Code + PKCE S256",
+        code: "Keycloak → código de autorización\nCliente → canje con code_verifier\nValidar state, nonce y sesión\nAPI → validar JWT y propietario",
+      };
+    if (index === 1)
+      return {
+        status: "200 OK · rutina propia",
+        code: "GET /api/v1/habits\n\nHTTP/1.1 200 OK\nConsulta autorizada de hábitos propios.",
+      };
+    if (index === 2)
+      return { status: "Comando preparado · sin envío", code: json(command) };
+    if (index < 5)
+      return { status: "Petición · pendiente de resolución", code: request };
+    if (index === 7) {
+      const empty = {
+        opportunities: 0,
+        recorded: 0,
+        completed: 0,
+        partial: 0,
+        explicitZero: 0,
+        missing: 0,
+        completionRate: null,
+        coverageRate: null,
+        noDataReason: "NO_ELIGIBLE_OPPORTUNITIES",
+      };
+      return {
+        status: "200 OK · dashboard revalidado",
+        code: `GET /api/v1${dashboardPath}\n\n${reply("200 OK", {
+          window: {
+            from: "2026-11-01",
+            to: "2026-11-18",
+            habitId: null,
+            ruleVersion: "dashboard-opportunities-1.0.0",
+            calculatedAt: "2026-11-18T16:00:02.000Z",
+            timeBasis: "habit-business-date",
+            timeZones: ["America/Mexico_City"],
+            source: "postgresql-check-ins",
+          },
+          closed: empty,
+          open: {
+            ...empty,
+            opportunities: 1,
+            recorded: 1,
+            partial: 1,
+            coverageRate: 100,
+            completionRate: 0,
+            noDataReason: null,
+          },
+          futureOpportunities: 0,
+        })}`,
+      };
+    }
+    if (scenario === "conflict") {
+      const conflict = reply(
+        "409 Conflict",
+        {
+          type: "about:blank",
+          title: "Conflict",
+          status: 409,
+          code: "VERSION_CONFLICT",
+          requestId: secondKey,
+        },
+        "application/problem+json",
+      );
+      return {
+        status:
+          index === 6
+            ? "409 → GET · resincronizar"
+            : "409 Conflict · sin sobrescritura",
+        code: `${request}\n\n${conflict}${index === 6 ? `\n\nGET /api/v1${checkInPath}?from=2026-11-18&to=2026-11-18\n\n${reply("200 OK", { items: [{ ...confirmedCheckIn(), clientEventId: secondKey, value: 2, version: 2 }], nextCursor: null })}\n\nResolución explícita antes de un nuevo comando con expectedVersion: 2.\nNo reintentar automáticamente la intención obsoleta.` : ""}`,
+      };
+    }
+    const duplicate = scenario === "identical" || scenario === "replay";
+    return {
+      status: duplicate ? "200 OK - Replay" : "201 Created · confirmado",
+      code: `${request}\n\n${reply(duplicate ? "200 OK" : "201 Created", confirmedCheckIn())}${duplicate ? "\n\nReplay: mismo resultado persistido; sin nueva escritura de check-in.\nLa etiqueta Replay es explicativa, no una cabecera HTTP." : ""}`,
+    };
+  }
   function draw() {
     if (disposed) return;
     const bounds = canvas.getBoundingClientRect(),
       width = bounds.width,
       height = bounds.height;
-    const box = (id) => {
-      const b = q('[data-wf-system="' + id + '"]').getBoundingClientRect();
+    const box = (selector) => {
+      const b = q(selector).getBoundingClientRect();
       return {
         left: b.left - bounds.left,
         right: b.right - bounds.left,
@@ -222,42 +412,97 @@ export function serviceWorkflow(main, params) {
         cx: b.left - bounds.left + b.width / 2,
       };
     };
-    const mobile = box("mobile"),
-      pwa = box("pwa"),
-      api = box("api");
+    const mobile = box(".wf-mobile"),
+      pwa = box(".wf-pwa"),
+      api = box(".wf-api");
+    const flow = choreography();
+    if (!flow.layer) {
+      svg.innerHTML = "";
+      return;
+    }
+    const target = box(`[data-wf-layer="${flow.layer}"]`);
     const vertical = pwa.top >= mobile.bottom;
     function route(source, returning) {
       if (vertical) {
         const x = width - (returning ? 5 : 15);
-        return `M ${source.cx} ${source.bottom} C ${source.cx} ${source.bottom + 18} ${x} ${source.bottom + 18} ${x} ${source.bottom + 32} L ${x} ${api.top - 20} Q ${x} ${api.top - 8} ${api.cx} ${api.top - 8} L ${api.cx} ${api.top}`;
+        return `M ${source.right} ${source.cy} L ${x} ${source.cy} L ${x} ${target.cy} L ${target.right} ${target.cy}`;
       }
       if (source === pwa) {
-        const y = pwa.cy + (returning ? 26 : 0);
-        return `M ${source.right} ${y} C ${source.right + 22} ${y} ${api.left - 22} ${y} ${api.left} ${y}`;
+        const offset = returning ? 5 : -5;
+        return `M ${source.right} ${source.cy + offset} C ${source.right + 12} ${source.cy + offset} ${api.left - 12} ${target.cy + offset} ${target.left} ${target.cy + offset}`;
       }
       const y =
         Math.max(mobile.bottom, pwa.bottom, api.bottom) + (returning ? 40 : 23);
-      return `M ${mobile.cx} ${mobile.bottom} L ${mobile.cx} ${y - 12} Q ${mobile.cx} ${y} ${mobile.cx + 12} ${y} L ${api.cx - 12} ${y} Q ${api.cx} ${y} ${api.cx} ${y - 12} L ${api.cx} ${api.bottom}`;
+      const x = api.left - (returning ? 5 : 13);
+      return `M ${mobile.cx} ${mobile.bottom} L ${mobile.cx} ${y - 12} Q ${mobile.cx} ${y} ${mobile.cx + 12} ${y} L ${x - 8} ${y} Q ${x} ${y} ${x} ${y - 8} L ${x} ${target.cy} L ${target.left} ${target.cy}`;
     }
-    const source = client === "mobile" ? mobile : pwa;
+    const source = index === 7 || client === "pwa" ? pwa : mobile;
     const request = route(source, false),
       response = route(source, true);
     svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-    const color =
-      scenario === "conflict" && index >= 5
-        ? "var(--qc-amber)"
-        : "var(--qc-emerald)";
-    svg.innerHTML = `<defs><marker id="wf-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="var(--qc-skyLaser)"/></marker></defs><path class="wf-wire wf-wire-halo" d="${request}"/><path id="wf-outbound" class="wf-wire wf-wire-request" d="${request}" marker-end="url(#wf-arrow)"/><path id="wf-inbound" class="wf-wire wf-wire-response" d="${response}" style="stroke:${color}"/>${!motion.matches ? `<circle class="wf-packet" r="4" fill="var(--qc-skyLaser)"><animateMotion dur="${2.4 / speed}s" repeatCount="indefinite"><mpath href="#wf-outbound"/></animateMotion></circle><circle class="wf-packet" r="3.5" fill="${color}"><animateMotion dur="${2.8 / speed}s" keyPoints="1;0" keyTimes="0;1" calcMode="linear" repeatCount="indefinite"><mpath href="#wf-inbound"/></animateMotion></circle>` : ""}`;
+    const warning = scenario === "conflict" && index >= 4 && index < 7;
+    const color = warning ? "var(--qc-amber)" : "var(--qc-emerald)";
+    const requestColor = warning ? color : "var(--qc-skyLaser)";
+    svg.innerHTML = `<defs><marker id="wf-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="${requestColor}"/></marker><marker id="wf-return-arrow" markerWidth="8" markerHeight="8" refX="0" refY="3" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6" fill="${color}"/></marker></defs><path class="wf-wire wf-wire-halo" d="${request}"/><path id="wf-outbound" class="wf-wire wf-wire-request" data-target-layer="${flow.layer}" d="${request}" style="stroke:${requestColor}" marker-end="url(#wf-arrow)"/><path id="wf-inbound" class="wf-wire wf-wire-response" d="${response}" style="stroke:${color}" marker-start="url(#wf-return-arrow)"/>${!motion.matches ? `<circle class="wf-packet" r="4" fill="${requestColor}"><animateMotion dur="${2.4 / speed}s" repeatCount="indefinite"><mpath href="#wf-outbound"/></animateMotion></circle><circle class="wf-packet" r="3.5" fill="${color}"><animateMotion dur="${2.8 / speed}s" keyPoints="1;0" keyTimes="0;1" calcMode="linear" repeatCount="indefinite"><mpath href="#wf-inbound"/></animateMotion></circle>` : ""}`;
+    svg.setCurrentTime(0.01);
     if (!playing || motion.matches) svg.pauseAnimations();
     else svg.unpauseAnimations();
   }
   function render() {
+    if (offline && client === "mobile") index = Math.min(index, 2);
     const step = steps[index],
       outcome = scenarios[scenario];
+    const flow = choreography();
+    if (outbox?.status === "sending" && client === "mobile" && index >= 6)
+      outbox.status = scenario === "conflict" ? "conflict" : "synced";
     host.dataset.client = client;
     host.dataset.scenario = scenario;
     host.dataset.playing = String(playing);
     host.dataset.step = String(index);
+    host.dataset.network = offline ? "offline" : "online";
+    host.dataset.flow = flow.blocked
+      ? "blocked"
+      : flow.write
+        ? "write"
+        : "read";
+    host.dataset.outbox = outbox?.status || "empty";
+    for (const system of host.querySelectorAll("[data-wf-system]")) {
+      const active = flow.systems.includes(system.dataset.wfSystem);
+      system.classList.toggle("is-active", active);
+      system.classList.toggle("is-dimmed", !active);
+    }
+    for (const node of host.querySelectorAll("[data-wf-layer]")) {
+      node.classList.toggle(
+        "is-processing",
+        node.dataset.wfLayer === flow.layer,
+      );
+      node.classList.toggle(
+        "is-skipped",
+        flow.blocked && node.dataset.wfLayer === "persistence",
+      );
+    }
+    host.querySelectorAll(".wf-stack-link").forEach((link, i) => {
+      link.classList.toggle(
+        "is-processing",
+        i === 0 ? flow.layer === "business" : flow.layer === "persistence",
+      );
+      link.classList.toggle("is-skipped", i === 1 && flow.blocked);
+      link.textContent =
+        i === 1 && flow.blocked ? "⊘ Sin nueva escritura" : "↓";
+    });
+    q("#wf-network").setAttribute("aria-checked", String(!offline));
+    q("#wf-network-label").textContent = offline ? "Sin conexión" : "En línea";
+    q("#wf-outbox-state").textContent = !outbox
+      ? "Outbox local · 0 pendientes"
+      : {
+          pending: "Outbox · 1 pending (provisional)",
+          sending: "Outbox · enviando 1 comando",
+          synced: "Outbox · 0 pendientes · synced",
+          conflict: "Outbox · conflict · resolver",
+        }[outbox.status];
+    q("#wf-outbox-id").textContent = outbox
+      ? `clientEventId: ${outbox.command.clientEventId}`
+      : "Conserva ID + contenido al reintentar";
     host.dataset.runState = playing
       ? "running"
       : completed
@@ -270,7 +515,7 @@ export function serviceWorkflow(main, params) {
       `PASO ${String(index + 1).padStart(2, "0")} / 08`;
     q("#wf-play").textContent = playing
       ? "Pausar flujo"
-      : completed
+      : completed || index === 7
         ? "Repetir flujo"
         : index === 0
           ? "Ejecutar flujo"
@@ -281,39 +526,119 @@ export function serviceWorkflow(main, params) {
       button.setAttribute("aria-pressed", String(n === index));
       button.classList.toggle("wf-completed", n < index);
     }
-    for (const button of host.querySelectorAll("[data-wf-client]"))
+    for (const button of host.querySelectorAll("[data-wf-client]")) {
       button.setAttribute(
         "aria-pressed",
         String(button.dataset.wfClient === client),
       );
-    for (const button of host.querySelectorAll("[data-wf-scenario]"))
+      button.disabled = outbox?.status === "sending";
+    }
+    for (const button of host.querySelectorAll("[data-wf-run]"))
+      button.disabled = outbox?.status === "sending";
+    for (const button of host.querySelectorAll("[data-wf-scenario]")) {
       button.setAttribute(
         "aria-pressed",
         String(button.dataset.wfScenario === scenario),
       );
+      button.disabled =
+        outbox?.status === "pending" || outbox?.status === "sending";
+    }
     q('[data-wf-status="mobile"]').textContent =
       client === "mobile" ? step.client : "Disponible en móvil";
     q('[data-wf-status="pwa"]').textContent =
       client === "pwa" ? step.client : "Disponible en PWA";
     q('[data-wf-status="api"]').textContent = step.api;
     q('[data-wf-status="data"]').textContent = step.data;
-    if (index >= 5 && scenario === "conflict") {
+    if (index >= 4 && index <= 6 && scenario === "conflict") {
       q('[data-wf-status="' + client + '"]').textContent = "Resolver conflicto";
       q('[data-wf-status="api"]').textContent = "Devolver conflicto";
       q('[data-wf-status="data"]').textContent = "Sin mutación parcial";
-    } else if (index >= 5 && scenario === "replay") {
+      if (index === 6) {
+        q('[data-wf-status="' + client + '"]').textContent =
+          "Estado actual v2 · resolver";
+        q('[data-wf-status="api"]').textContent = "GET · resincronizar";
+      }
+    } else if (index >= 4 && index <= 6 && flow.duplicate) {
       q('[data-wf-status="api"]').textContent = "Recuperar resultado original";
-      q('[data-wf-status="data"]').textContent = "Sin doble conteo";
+      q('[data-wf-status="data"]').textContent =
+        "Sin doble conteo · 0 escrituras";
     }
+    if (offline && client === "mobile") {
+      q('[data-wf-status="mobile"]').textContent = outbox
+        ? "Pendiente local · sin confirmar"
+        : "Sin red · registra un ejemplo";
+      q('[data-wf-status="api"]').textContent = "Sin petición";
+      q('[data-wf-status="data"]').textContent = "Sin escritura";
+    }
+    if (index === 7)
+      q('[data-wf-status="pwa"]').textContent =
+        scenario === "conflict"
+          ? "Estado confirmado · conflicto pendiente"
+          : client === "mobile"
+            ? "Progreso móvil leído en web"
+            : "Progreso confirmado leído en web";
+    if (index === 7 && client === "mobile")
+      q('[data-wf-status="mobile"]').textContent =
+        scenario === "conflict"
+          ? "Conflicto pendiente de resolución"
+          : "Check-in confirmado en API";
+    q("#wf-refresh-note").textContent =
+      index === 7
+        ? "React · revalidar al enfocar ventana"
+        : "Misma cuenta. Mismo contrato.";
     q("#wf-response-state").textContent =
       index >= 5 ? outcome.outcome : "Operación propia";
     q("#wf-request").textContent = step.request;
+    if (flow.blocked)
+      q("#wf-request").textContent =
+        scenario === "conflict"
+          ? "409 Conflict · expectedVersion 1 ≠ version 2 · 0 escrituras"
+          : "200 OK - Replay · deduplicación · 0 escrituras de check-in";
+    if (index === 6 && scenario === "conflict")
+      q("#wf-request").textContent =
+        "GET /habits/{habitId}/check-ins · leer version 2 → resolver → nuevo comando";
+    if (offline && client === "mobile")
+      q("#wf-request").textContent =
+        "Outbox local → pending → recuperar red → enviar el mismo clientEventId";
     q("#wf-request-kind").textContent =
-      client === "mobile" ? "MÓVIL ↔ SERVICIOS" : "PWA ↔ SERVICIOS";
+      index === 7
+        ? "WEB ← API / SQL"
+        : client === "mobile"
+          ? "MÓVIL ↔ SERVICIOS"
+          : "PWA ↔ SERVICIOS";
     q("#wf-step-detail").innerHTML =
       `<span class="eyebrow">${String(index + 1).padStart(2, "0")} / ${escape(step.title)}</span><h2>${step.label}</h2><p>${step.description}</p><h3>Regla de la operación</h3><p>${step.rule}</p><div class="wf-outcome"><span class="tag ${scenario === "conflict" ? "pending" : "good"}">${escape(outcome.outcome)}</span><p>${outcome.text}</p></div><a href="index.html#documento?src=${encodeURIComponent(step.source)}">Consultar contrato y reglas →</a>`;
+    if (offline && client === "mobile") {
+      q("#wf-step-detail h2").textContent = "Guardar antes de sincronizar";
+      q("#wf-step-detail > p").textContent =
+        "Flutter conserva el comando en una outbox local por cuenta. Al recuperar red y validar sesión, envía el mismo ID, clave y contenido. Aquí la cola vive solo en memoria como simulación.";
+      q(".wf-outcome p").textContent =
+        "Una respuesta perdida puede provocar otro envío. La deduplicación del servidor evita confirmar dos veces el mismo check-in.";
+    } else if (index >= 4 && index <= 6 && flow.duplicate) {
+      q("#wf-step-detail h2").textContent = "Detener en deduplicación";
+      q("#wf-step-detail > p").textContent =
+        "Tras validar sesión y propiedad, la API encuentra el recibo por clave o clientEventId y compara su contenido. Devuelve el JSON confirmado sin otra mutación del hábito ni del progreso.";
+      q("#wf-step-detail > p:nth-of-type(2)").textContent =
+        "La lectura del recibo puede acceder a SQL; 0 escrituras se refiere al check-in. Otro contenido con la misma clave o evento causa 409.";
+    } else if (index === 6 && scenario === "conflict") {
+      q("#wf-step-detail h2").textContent = "Resincronizar antes de resolver";
+      q("#wf-step-detail > p").textContent =
+        "El POST recibió 409: esperaba v1, el servidor conserva v2. El cliente consulta el check-in actual y presenta las diferencias. Una resolución explícita crea un nuevo comando con expectedVersion 2.";
+    } else if (index === 7) {
+      q("#wf-step-detail > p").textContent =
+        "Web lee de la misma API el progreso confirmado. Propuesta React: revalidar al enfocar la ventana o recuperar conexión; una mutación en esta pestaña invalida su caché. Invalidar la caché móvil no notifica a otra pestaña.";
+      if (scenario === "conflict")
+        q(".wf-outcome p").textContent =
+          "Dashboard muestra el estado del servidor. El comando en conflicto permanece pendiente de resolución; no se presenta como aceptado.";
+    }
+    const http = exchange();
+    q("#wf-step-detail").scrollTop = 0;
+    q("#wf-http-status").textContent = http.status;
+    q("#wf-http-code").textContent = http.code;
+    q(".wf-exchange").open = exchangeOpen;
     q("#wf-previous").disabled = index === 0;
-    q("#wf-next").disabled = index === 7;
+    q("#wf-next").disabled =
+      index === 7 || (offline && client === "mobile" && index === 2);
     history.replaceState(
       null,
       "",
@@ -322,6 +647,7 @@ export function serviceWorkflow(main, params) {
           paso: index,
           cliente: client,
           escenario: scenario,
+          red: offline ? "offline" : "online",
         }),
     );
     draw();
@@ -352,6 +678,16 @@ export function serviceWorkflow(main, params) {
   }
   function run(source) {
     client = source;
+    if (source === "mobile" && offline) {
+      outbox ||= {
+        command: Object.freeze(commandFor(scenario)),
+        status: "pending",
+      };
+      outbox.status = "pending";
+      select(2);
+      return;
+    }
+    if (source === "mobile") outbox = null;
     index = 0;
     completed = false;
     playing = true;
@@ -361,6 +697,10 @@ export function serviceWorkflow(main, params) {
   for (const button of host.querySelectorAll("[data-wf-run]"))
     button.onclick = () => run(button.dataset.wfRun);
   q("#wf-play").onclick = () => {
+    if (offline && client === "mobile") {
+      run(client);
+      return;
+    }
     if (completed || index === 7) {
       run(client);
       return;
@@ -369,7 +709,25 @@ export function serviceWorkflow(main, params) {
     render();
     schedule();
   };
-  q("#wf-reset").onclick = () => select(0);
+  q("#wf-reset").onclick = () => {
+    outbox = null;
+    select(0);
+  };
+  q("#wf-network").onclick = () => {
+    offline = !offline;
+    if (offline && client === "mobile") {
+      if (outbox?.status === "sending") outbox.status = "pending";
+      select(Math.min(index, 2));
+    } else if (!offline && outbox?.status === "pending") {
+      client = "mobile";
+      index = 3;
+      outbox.status = "sending";
+      playing = true;
+      completed = false;
+      render();
+      schedule();
+    } else render();
+  };
   q("#wf-previous").onclick = () => select(index - 1);
   q("#wf-next").onclick = () => select(index + 1);
   q("#wf-speed").onchange = (event) => {
@@ -395,6 +753,7 @@ export function serviceWorkflow(main, params) {
   for (const button of host.querySelectorAll("[data-wf-scenario]"))
     button.onclick = () => {
       scenario = button.dataset.wfScenario;
+      outbox = null;
       select(5);
     };
   const resize = new ResizeObserver(draw);

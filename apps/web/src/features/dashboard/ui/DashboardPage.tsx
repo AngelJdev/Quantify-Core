@@ -1,51 +1,114 @@
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useDemo } from "@/app/DemoProvider";
-import { Icon, type IconName } from "@/shared/ui/Icon";
-import { clampProgress, type HabitView } from "@/features/habits/data/model";
-import { fixtureMetrics, FIXTURE_DATE } from "@/shared/fixtures/demo";
+import { Icon } from "@/shared/ui/Icon";
+import { HabitRow } from "@/features/habits/ui/HabitRow";
+import { Chart } from "@/features/analytics/ui/Chart";
+import {
+  FIXTURE_DATE,
+  fixtureMetrics,
+  weeklyValues,
+} from "@/shared/fixtures/demo";
+import { clampProgress, weekdayLabels } from "@/features/habits/data/model";
+import { getBusinessDateInZone } from "@/shared/api/client";
+import {
+  computeDailySeriesForDates,
+  getCurrentWeekBusinessDates,
+} from "@/features/analytics/ui/AnalyticsPage";
+import { evaluateAllAchievements } from "@/features/achievements/data/achievements";
+import type { IconName } from "@/shared/ui/Icon";
 import { WeekStrip } from "@/shared/ui/Prototype";
-function DashboardHabit({ habit }: { habit: HabitView }) {
-  const complete = habit.value >= habit.target;
-  return (
-    <Link className="dashboard-habit" to={`/detalle/${habit.id}`}>
-      <span className={`symbol ${habit.color}`}>
-        <Icon name={habit.icon} />
-      </span>
-      <div>
-        <h3>{habit.name}</h3>
-        <p>
-          {habit.value.toLocaleString("es-MX")} /{" "}
-          {habit.target.toLocaleString("es-MX")} {habit.unit}
-        </p>
-      </div>
-      <span className={`dashboard-progress ${complete ? "complete" : ""}`}>
-        {complete
-          ? "Completo"
-          : `${clampProgress(habit.value, habit.target)} %`}
-      </span>
-      <span aria-hidden="true">›</span>
-    </Link>
-  );
-}
+
 export function DashboardPage() {
-  const { habits: all } = useDemo(),
-    habits = all.filter((h) => h.status === "active");
+  const { habits: all, state, recordHabitProgress } = useDemo();
+  const habits = all.filter((h) => h.status === "active");
+
+  const hasLiveActivity = Boolean(state.session) || state.entries.length > 0;
+  const referenceDate = state.session
+    ? getBusinessDateInZone(state.profile.timeZone || "America/Mexico_City")
+    : state.entries.at(-1)?.date || FIXTURE_DATE;
+
+  const achievementsSummary = useMemo(
+    () => evaluateAllAchievements(state, all),
+    [state, all],
+  );
+
+  const summary = useMemo(() => {
+    const { dates, todayIndex } = getCurrentWeekBusinessDates(referenceDate);
+
+    if (!hasLiveActivity) {
+      return {
+        completionRate: fixtureMetrics.completionRate,
+        completed: fixtureMetrics.completed,
+        eligible: fixtureMetrics.eligible,
+        timeMinutes: fixtureMetrics.timeMinutes,
+        period: fixtureMetrics.period,
+        series: weeklyValues,
+        dates,
+        todayIndex,
+      };
+    }
+
+    const { series } = computeDailySeriesForDates(dates, habits, state.entries);
+    const todayDate = dates[todayIndex];
+
+    const completed = habits.filter((h) => {
+      const entry = state.entries.find(
+        (e) => e.habitId === h.id && e.date === todayDate,
+      );
+      return h.target > 0 && (entry?.value ?? 0) >= h.target;
+    }).length;
+
+    const avgPct = habits.length
+      ? Math.round(
+          (habits.reduce((acc, h) => {
+            const entry = state.entries.find(
+              (e) => e.habitId === h.id && e.date === todayDate,
+            );
+            return acc + clampProgress(entry?.value ?? 0, h.target);
+          }, 0) /
+            habits.length) *
+            10,
+        ) / 10
+      : 0;
+
+    const timeMinutes = habits
+      .filter((h) => h.unit === "min" || h.unit === "minutos")
+      .reduce((acc, h) => {
+        const entry = state.entries.find(
+          (e) => e.habitId === h.id && e.date === todayDate,
+        );
+        return acc + (entry?.value ?? 0);
+      }, 0);
+
+    return {
+      completionRate: avgPct,
+      completed,
+      eligible: habits.length,
+      timeMinutes,
+      period: `Hoy ${weekdayLabels[todayIndex]} (${todayDate})`,
+      series,
+      dates,
+      todayIndex,
+    };
+  }, [hasLiveActivity, habits, state.entries, referenceDate]);
+
   const pending = habits.filter((h) => h.value < h.target).length;
   const metrics: [string, string | number, string, IconName][] = [
-    ["Hábitos activos", habits.length, "En esta vista previa", "habitos"],
     [
-      "Cumplimiento semanal",
-      fixtureMetrics.completionRate + " %",
-      "Periodo cerrado · ejemplo",
-      "analisis",
+      "Hábitos activos",
+      habits.length,
+      state.session ? "En tu cuenta" : "En esta demostración",
+      "habitos",
     ],
+    ["Cumplimiento", summary.completionRate + " %", summary.period, "analisis"],
     [
       "Tiempo para ti",
-      fixtureMetrics.timeMinutes + " min",
-      "Agenda de ejemplo",
+      summary.timeMinutes + " min",
+      "Avance del periodo",
       "calendario",
     ],
-    ["Por completar", pending, "Día abierto · ejemplo", "recordatorio"],
+    ["Por completar", pending, "Hábitos activos", "recordatorio"],
   ];
   return (
     <div className="dashboard-islands">
@@ -55,9 +118,17 @@ export function DashboardPage() {
         </Link>
         <Link to="/analisis">Periodo</Link>
         <Link to="/historial">Actividad</Link>
-        <span>5 nov 2026 · Fecha de ejemplo</span>
+        <span>
+          {referenceDate}
+          {!state.session && " · Fecha de ejemplo"}
+        </span>
       </nav>
-      <section className="dashboard-kpis" aria-label="Resumen de ejemplo">
+      <section
+        className="dashboard-kpis"
+        aria-label={
+          state.session ? "Resumen de tu progreso" : "Resumen de ejemplo"
+        }
+      >
         {metrics.map(([label, value, note, icon]) => (
           <article className="island-card dashboard-kpi" key={label}>
             <div className="row-between">
@@ -82,7 +153,58 @@ export function DashboardPage() {
           </div>
           <div className="habit-list">
             {habits.length ? (
-              habits.map((h) => <DashboardHabit key={h.id} habit={h} />)
+              <>
+                {habits.map((h) => {
+                  const step =
+                    h.target >= 1000
+                      ? 1000
+                      : h.target >= 20
+                        ? 5
+                        : h.target >= 5
+                          ? 1
+                          : 1;
+                  const isDone = h.target > 0 && h.value >= h.target;
+                  return (
+                    <div key={h.id} className="qc-habit-card-wrapper">
+                      <HabitRow habit={h} />
+                      <div className="qc-quick-actions">
+                        <button
+                          type="button"
+                          className="button secondary qc-quick-btn"
+                          onClick={() =>
+                            void recordHabitProgress(
+                              h,
+                              Math.min(h.target * 2, h.value + step),
+                            )
+                          }
+                        >
+                          +{step} {h.unit}
+                        </button>
+                        {!isDone && (
+                          <button
+                            type="button"
+                            className="button primary qc-quick-btn"
+                            onClick={() =>
+                              void recordHabitProgress(h, h.target)
+                            }
+                          >
+                            ✓ Completar hoy
+                          </button>
+                        )}
+                        <Link
+                          className="button secondary qc-quick-btn"
+                          to={`/check-ins/${h.id}`}
+                        >
+                          Evidencia
+                        </Link>
+                        <Link className="text-link" to={`/detalle/${h.id}`}>
+                          Gráficas →
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })}
+              </>
             ) : (
               <div className="dashboard-empty">
                 <Icon name="habitos" />
@@ -96,7 +218,8 @@ export function DashboardPage() {
             Crear hábito
           </Link>
           <small className="routine-date">
-            Agenda ilustrativa · {FIXTURE_DATE} · America/Mexico_City
+            {state.session ? "Agenda personal" : "Agenda ilustrativa"} ·{" "}
+            {referenceDate} · {state.profile.timeZone}
           </small>
         </section>
         <aside className="island-card rhythm-panel">
@@ -105,13 +228,29 @@ export function DashboardPage() {
           <p>Un paso pequeño también suma. No necesitas hacerlo todo hoy.</p>
           <div className="rhythm-week">
             <span>Una semana, paso a paso</span>
-            <WeekStrip />
-            <small>Ejemplo visual · cinco días completos</small>
+            {hasLiveActivity ? (
+              <Chart
+                values={summary.series}
+                dates={summary.dates}
+                todayIndex={summary.todayIndex}
+              />
+            ) : (
+              <WeekStrip />
+            )}
+            <small>
+              {hasLiveActivity
+                ? summary.period
+                : "Ejemplo visual · cinco días completos"}
+            </small>
           </div>
           <div className="privacy-note">
             <Icon name="privacidad" />
             <p>Tú decides qué compartir.</p>
           </div>
+          <Link className="text-link" to="/logros">
+            Nivel {achievementsSummary.level} ·{" "}
+            {achievementsSummary.unlockedCount} logros
+          </Link>
           <Link className="button secondary full" to="/ajustes">
             Revisar preferencias
           </Link>

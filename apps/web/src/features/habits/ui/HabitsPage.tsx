@@ -4,15 +4,25 @@ import { useDemo } from "@/app/DemoProvider";
 import { Icon } from "@/shared/ui/Icon";
 import { HabitRow } from "./HabitRow";
 import type { HabitView } from "../data/model";
+
 export function HabitsPage() {
-  const { habits } = useDemo(),
+  const { habits, recordHabitProgress } = useDemo(),
     [search, setSearch] = useState(""),
-    [status, setStatus] = useState<HabitView["status"]>("active");
+    [status, setStatus] = useState<HabitView["status"]>("active"),
+    [quickToast, setQuickToast] = useState<string | null>(null);
+
   const shown = habits.filter(
     (h) =>
       h.status === status &&
       h.name.toLocaleLowerCase("es").includes(search.toLocaleLowerCase("es")),
   );
+
+  async function handleQuickAdd(h: HabitView, targetVal: number) {
+    await recordHabitProgress(h, targetVal);
+    setQuickToast(`${h.name}: ${targetVal} / ${h.target} ${h.unit}`);
+    setTimeout(() => setQuickToast(null), 2200);
+  }
+
   return (
     <section className="card">
       <div className="toolbar">
@@ -26,6 +36,7 @@ export function HabitsPage() {
           ).map(([s, label]) => (
             <button
               key={s}
+              type="button"
               className={status === s ? "selected" : ""}
               aria-pressed={status === s}
               onClick={() => setStatus(s)}
@@ -44,11 +55,50 @@ export function HabitsPage() {
           />
         </label>
       </div>
+
+      {quickToast && (
+        <p className="form-note" role="status">
+          ✓ Avance rápido guardado: <strong>{quickToast}</strong>
+        </p>
+      )}
+
       {shown.length ? (
         <div className="habit-catalog">
-          {shown.map((h) => (
-            <HabitRow key={h.id} habit={h} />
-          ))}
+          {shown.map((h) => {
+            const step =
+              h.target >= 1000 ? 1000 : h.target >= 20 ? 5 : 1;
+            return (
+              <div key={h.id} className="qc-habit-card-wrapper">
+                <HabitRow habit={h} />
+                {h.status === "active" && (
+                  <div className="qc-quick-actions">
+                    <button
+                      type="button"
+                      className="button secondary"
+                      onClick={() =>
+                        void handleQuickAdd(h, h.value + step)
+                      }
+                    >
+                      +{step} {h.unit}
+                    </button>
+                    <button
+                      type="button"
+                      className="button secondary"
+                      onClick={() => void handleQuickAdd(h, h.target)}
+                    >
+                      {h.value >= h.target ? "✓ Completado" : "✓ Completar hoy"}
+                    </button>
+                    <Link
+                      className="text-link"
+                      to={`/detalle/${h.id}`}
+                    >
+                      Ver gráficas →
+                    </Link>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div className="empty">
@@ -57,8 +107,9 @@ export function HabitsPage() {
               ? "No encontramos ese hábito"
               : "Todavía no hay hábitos en este estado"}
           </h2>
-          <p>Revisa el filtro o crea un hábito de ejemplo.</p>
+          <p>Revisa el filtro o crea un nuevo hábito para tu rutina.</p>
           <button
+            type="button"
             className="button secondary"
             onClick={() => {
               setSearch("");

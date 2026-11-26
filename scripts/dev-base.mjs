@@ -33,7 +33,7 @@ try {
     const common = 'KEYCLOAK_ISSUER=http://localhost:8180/realms/quantify\nKEYCLOAK_AUDIENCE=quantify-api\n';
     const contents = [
       `POSTGRES_PASSWORD=${owner}\nCORE_RUNTIME_PASSWORD=${runtime}\nKC_BOOTSTRAP_ADMIN_USERNAME=quantify-bootstrap\nKC_BOOTSTRAP_ADMIN_PASSWORD=${admin}\n`,
-      `DATABASE_URL=postgresql://quantify_api:${runtime}@127.0.0.1:55432/quantify_core_dev\n${common}HOST=127.0.0.1\nPORT=3000\nCORS_ALLOWED_ORIGINS=http://localhost:5173\nCORE_REVIEW_WRITES_ENABLED=0\n`,
+      `DATABASE_URL=postgresql://quantify_api:${runtime}@127.0.0.1:55432/quantify_core_dev\n${common}HOST=127.0.0.1\nPORT=3000\nCORS_ALLOWED_ORIGINS=http://localhost:5173\nCORE_REVIEW_WRITES_ENABLED=1\nCORE_AUTO_PROVISION_PROFILES=1\n`,
       `DATABASE_URL=postgresql://quantify_owner:${owner}@127.0.0.1:55432/quantify_core_dev\nCORE_RUNTIME_PASSWORD=${runtime}\n`,
       'VITE_API_BASE_URL=http://localhost:3000/api/v1\nVITE_API_HEALTH_PATH=health/ready\n',
     ];

@@ -2,7 +2,9 @@
 
 ## Arranque completo y frontend compilado · 20/11/2026
 
-La guía canónica está en el [README principal](../../README.md#instalación-y-ejecución): contiene comandos PowerShell de Docker puro desde la configuración inicial hasta el apagado, cuenta/perfil de prueba y capturas verificadas. No requiere Node/npm en Windows para ejecutar los servicios.
+La [guía de instalación local](../../docs/Installation/README.md) contiene los comandos canónicos de PowerShell con Docker desde la configuración inicial hasta el apagado, cuenta/perfil de prueba y capturas verificadas. No requiere Node/npm en Windows para ejecutar los servicios.
+
+La sección [Base de datos y persistencia local](../../docs/Installation/README.md#base-de-datos-y-persistencia-local) explica las tablas existentes, migraciones, roles SQL y comandos de inspección. PostgreSQL guarda el negocio en `quantify-core-dev_postgres-data`; Keycloak conserva su base de desarrollo separada en `quantify-core-dev_keycloak-data`. El esquema conceptual completo sigue incluyendo entidades futuras.
 
 | Perfil | Servicio | Uso |
 |---|---|---|
@@ -22,7 +24,7 @@ node scripts/dev-base.mjs docker-up
 node scripts/dev-base.mjs status
 ```
 
-Preparar primero la configuración y PostgreSQL/Keycloak según el README principal. `docker-up` no aplica migraciones automáticamente. `web-static` inicia solo el frontend compilado; `web-docker` cambia a desarrollo; `web-stop` detiene ambas alternativas. `stop` incluye ahora los perfiles web y API y conserva volúmenes; el monitoreo se administra según su runbook.
+Preparar primero la configuración y PostgreSQL/Keycloak según la guía de instalación local. `docker-up` no aplica migraciones automáticamente. `web-static` inicia solo el frontend compilado; `web-docker` cambia a desarrollo; `web-stop` detiene ambas alternativas. `stop` incluye ahora los perfiles web y API y conserva volúmenes; el monitoreo se administra según su runbook.
 
 Ver [evidencia y límites](../../docs/evidencias/docker-2026-11-20/README.md): imagen estática y API saludables, migraciones repetidas sin cambios, aprovisionamiento idempotente, PWA admitida por Chrome, shell offline y sesión real React/Keycloak/API con 200/403 y logout. HTTP local y `start-dev` siguen siendo de laboratorio; dominio, HTTPS, despliegue público, capacidad y recuperación productiva requieren trabajo del destino.
 
@@ -76,7 +78,7 @@ El código fuente, las migraciones y los datos sintéticos pertenecen al compone
 | Red y acceso | Puertos libres, acceso a registros de imágenes y reglas de conexión entre host y contenedores. |
 | Datos | Migraciones disponibles, datos sintéticos, credenciales locales y volúmenes que se deben conservar. |
 
-Las versiones y los recursos mínimos están pendientes de prueba; no se deben sustituir por valores supuestos.
+Las versiones usadas en el laboratorio están registradas en la [guía base](../../docs/guias/base-tecnica.md#preparación-desde-la-raíz). Los recursos mínimos y la compatibilidad con otros sistemas operativos siguen pendientes de medición; no se deben sustituir por valores supuestos.
 
 ## Artefactos previstos
 
@@ -100,7 +102,7 @@ La configuración debe distinguir valores públicos de secretos y valores de com
 
 ## Red, salud y persistencia
 
-- Mantener una tabla por servicio con puerto interno, puerto del host si se publica, protocolo, consumidores y motivo de exposición. Los puertos concretos están pendientes.
+- Mantener una tabla por servicio con puerto interno, puerto del host si se publica, protocolo, consumidores y motivo de exposición. En el Compose base actual: web `5173 → 8080` (estática) o `5173 → 5173` (Vite), API `3000 → 3000`, Keycloak `8180 → 8080` y PostgreSQL `55432 → 5432`, todos publicados en `127.0.0.1`.
 - Publicar en la máquina local únicamente lo necesario; las dependencias internas se comunican por la red del entorno. Las publicaciones locales de desarrollo se limitarán a la interfaz de loopback salvo una necesidad documentada.
 - Distinguir las direcciones que usan los contenedores de las que usan el navegador o el host. En OIDC, comprobar también el emisor y las URL de retorno; no asumir que un nombre interno del contenedor será accesible desde el navegador.
 - Documentar cuándo un proceso está vivo y cuándo está listo para atender solicitudes. El orden de arranque no garantiza que una dependencia esté disponible; los servicios necesitan una comprobación de disponibilidad y reintentos limitados.
@@ -117,7 +119,7 @@ La configuración debe distinguir valores públicos de secretos y valores de com
 6. Consultar logs, detener los servicios y volver a iniciarlos conservando los datos esperados.
 7. Explicar cómo recuperar un entorno dañado y, por separado, cómo reiniciar sus datos.
 
-Los comandos locales ejecutables están en el README principal. Este procedimiento enumera además criterios para futuros destinos.
+Los comandos ejecutables están en la guía de instalación local. Este procedimiento enumera además criterios para futuros destinos.
 
 ## Criterios de entrega
 
@@ -127,4 +129,4 @@ Los comandos locales ejecutables están en el README principal. Este procedimien
 - Las variables de ejemplo cubren las requeridas, no existen secretos en los archivos o imágenes y los puertos publicados coinciden con el inventario.
 - Las instrucciones distinguen operaciones que conservan datos de operaciones que los borran y registran los sistemas operativos realmente probados.
 
-Quedan pendientes las versiones, los puertos, el consumo mínimo de recursos, el inventario inicial de servicios y sus responsables. La configuración de publicación se coordinará con [deployment](../deployment/README.md) y las señales técnicas con [observability](../observability/README.md).
+El Compose base fija versiones, puertos y servicios locales. Quedan pendientes el consumo mínimo de recursos, responsables operativos y validación de respaldo/restauración y del destino productivo. La configuración de publicación se coordinará con [deployment](../deployment/README.md) y las señales técnicas con [observability](../observability/README.md).
