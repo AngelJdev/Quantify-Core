@@ -195,9 +195,16 @@ async function walk(folder) {
     const source = path.posix.join(folder, entry.name);
     if (
       entry.isDirectory() &&
-      !["node_modules", ".git", ".build", "build", "dist", "private"].includes(
-        entry.name,
-      )
+      ![
+        "node_modules",
+        ".git",
+        ".build",
+        "build",
+        "dist",
+        "private",
+        "test-results",
+        "playwright-report",
+      ].includes(entry.name)
     )
       await walk(source);
     else if (
