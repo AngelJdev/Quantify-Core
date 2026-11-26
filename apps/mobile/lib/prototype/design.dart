@@ -362,10 +362,22 @@ class SectionTitle extends StatelessWidget {
 class DemoNote extends StatelessWidget {
   const DemoNote({super.key});
   @override
-  Widget build(BuildContext context) => Text(
-    'Vista previa · Datos de ejemplo, solo durante esta visita.',
-    style: TextStyle(fontSize: 11, color: context.color('muted'), height: 1.5),
-  );
+  Widget build(BuildContext context) {
+    final model = PrototypeScope.maybeOf(context);
+    final String text;
+    if (model != null && model.isConnected) {
+      text = 'Conectado a Quantify API · Datos sincronizados con PostgreSQL.';
+    } else if (model != null && model.apiConfigured) {
+      text =
+          'Conectado a Quantify API · Inicia sesión con Keycloak para usar PostgreSQL.';
+    } else {
+      text = 'Vista previa · Datos de ejemplo, solo durante esta visita.';
+    }
+    return Text(
+      text,
+      style: TextStyle(fontSize: 11, color: context.color('muted'), height: 1.5),
+    );
+  }
 }
 
 class DetailPage extends StatelessWidget {
@@ -430,6 +442,10 @@ void showPrototypePage(BuildContext context, Widget page) {
   );
 }
 
-String amount(double value) => value == value.roundToDouble()
-    ? value.toInt().toString()
-    : value.toStringAsFixed(1);
+String amount(double value) {
+  if (value == value.roundToDouble()) return value.toInt().toString();
+  return value
+      .toStringAsFixed(3)
+      .replaceFirst(RegExp(r'0+$'), '')
+      .replaceFirst(RegExp(r'\.$'), '');
+}

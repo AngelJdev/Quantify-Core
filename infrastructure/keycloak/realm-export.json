@@ -755,6 +755,7 @@
       "frontchannelLogout": true,
       "protocol": "openid-connect",
       "attributes": {
+        "post.logout.redirect.uris": "com.quantify.app:/oauth2redirect",
         "logout.confirmation.enabled": "false",
         "realm_client": "false",
         "oidc.ciba.grant.enabled": "false",

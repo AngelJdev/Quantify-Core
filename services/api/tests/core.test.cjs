@@ -90,6 +90,20 @@ test('core HTTP writes and reads real PostgreSQL with durable history',async t=>
     for(const bad of [await token('a',{},'wrong'),await token('a',{},'quantify-api','-1s'),await token('a',{typ:'ID'}),await token('a',{},'quantify-api','5m','https://wrong.test')])
       assert.equal((await request('/me',{auth:`Bearer ${bad}`})).status,401);
     assert.equal((await request('/me',{auth:`Bearer ${await token('unprovisioned')}`})).status,403);
+    const freshToken=await token('fresh-mobile-user');
+    assert.equal((await request('/me',{method:'POST',auth:`Bearer ${freshToken}`,body:{timeZone:'Invalid/Zone'},key:randomUUID()})).status,422);
+    assert.equal((await request('/me',{method:'POST',auth:`Bearer ${freshToken}`,body:{timeZone:'America/Mexico_City'}})).status,400);
+    const provisionKey=randomUUID();
+    const provisioned=await request('/me',{method:'POST',auth:`Bearer ${freshToken}`,body:{timeZone:'America/Mexico_City'},key:provisionKey,schema:'Profile'});
+    assert.equal(provisioned.status,201);assert.equal(provisioned.body.timeZone,'America/Mexico_City');assert.equal(provisioned.body.status,'active');
+    const replayProvision=await request('/me',{method:'POST',auth:`Bearer ${freshToken}`,body:{timeZone:'America/Mexico_City'},key:provisionKey,schema:'Profile'});
+    assert.equal(replayProvision.status,201);assert.deepEqual(replayProvision.body,provisioned.body);
+    assert.equal((await request('/me',{method:'POST',auth:`Bearer ${freshToken}`,body:{timeZone:'UTC'},key:provisionKey})).status,409);
+    const existingProvision=await request('/me',{method:'POST',auth:`Bearer ${freshToken}`,body:{timeZone:'America/Mexico_City'},key:randomUUID(),schema:'Profile'});
+    assert.equal(existingProvision.status,200);assert.equal(existingProvision.body.id,provisioned.body.id);
+    assert.equal((await request('/me',{auth:`Bearer ${freshToken}`,schema:'Profile'})).status,200);
+    await pool.query("UPDATE profiles SET status='suspended' WHERE id=$1",[provisioned.body.id]);
+    assert.equal((await request('/me',{method:'POST',auth:`Bearer ${freshToken}`,body:{timeZone:'America/Mexico_City'},key:randomUUID()})).status,403);
     const profile=await request('/me',{schema:'Profile'});assert.equal(profile.body.id,owners[0]);
     assert.deepEqual((await request('/me',{actor:1,schema:'Profile'})).body.roles,['admin']);
   });

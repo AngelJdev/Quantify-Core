@@ -39,7 +39,7 @@ node --env-file=.env.local build/src/main.js
 | `CORS_ALLOWED_ORIGINS` | Orígenes exactos separados por coma; ejemplo `http://localhost:5173`. Sin comodines ni credenciales CORS. |
 | `CORE_REVIEW_WRITES_ENABLED` | `0` por defecto. `1` activa explícitamente las escrituras de revisión con datos de prueba; no equivale a aprobar D-03/04/09 para datos personales reales. |
 
-Keycloak conserva cuentas y contraseñas. Para relacionar un subject **ya existente** con un perfil de negocio, configurar privadamente `PROFILE_SUBJECT` y `PROFILE_TIME_ZONE` y ejecutar `node --env-file=.env.local db/provision-profile.cjs` después del build y migraciones. Este comando no crea cuentas IdP, no modifica un perfil existente ni reactiva suspendidos. No hay endpoint de registro de usuarios ni contraseña en la API.
+Keycloak conserva cuentas y contraseñas. Para relacionar un subject **ya existente** con un perfil de negocio desde consola, configurar privadamente `PROFILE_SUBJECT` y `PROFILE_TIME_ZONE` y ejecutar `node --env-file=.env.local db/provision-profile.cjs` después del build y migraciones. Con `CORE_REVIEW_WRITES_ENABLED=1`, los clientes autenticados también pueden aprovisionar su perfil propio en primer acceso mediante `POST /api/v1/me` (`Idempotency-Key` + `{ timeZone }`). Ninguna de las dos vías crea cuentas IdP, modifica un perfil activo existente ni reactiva perfiles suspendidos. No hay endpoint de registro de usuarios ni contraseña en la API.
 
 ## Funcionalidades y rutas implementadas
 
@@ -48,6 +48,7 @@ Keycloak conserva cuentas y contraseñas. Para relacionar un subject **ya existe
 | `GET /health/live` | Proceso disponible, sin consultar dependencias. Público, respuesta mínima `status: ok`. |
 | `GET /health/ready` | PostgreSQL, migraciones y puertos de lectura disponibles; 503 si faltan o durante cierre. MongoDB, Redis, FastAPI e IdP no se sondean aquí. |
 | `GET /me` | Perfil propio activo y roles reconocidos del access token. |
+| `POST /me` | Autoprovisión idempotente del perfil propio en primer acceso con JWT válido (`201` creado, `200` activo existente o replay, `403` si está suspendido). |
 | `GET /habits`, `GET /habits/:id` | Listado paginado por UUID, filtro de estado, detalle y ETag fuerte. |
 | `POST /habits`, `PATCH /habits/:id` | Escrituras transaccionales con `Idempotency-Key`; PATCH exige `If-Match` fuerte. |
 | `POST /habits/:id/check-ins` | Valor absoluto, dedupe durable por clave y `clientEventId`; creación 201, corrección/replay 200. |

@@ -13,7 +13,7 @@ while (!existsSync(resolve(directory,'packages/contracts/openapi.json'))) {
 }
 const schemas = JSON.parse(readFileSync(resolve(directory,'packages/contracts/openapi.json'),'utf8')).components.schemas;
 const defs = JSON.parse(JSON.stringify(schemas).replaceAll('#/components/schemas/','#/$defs/'));
-const validators = Object.fromEntries(['HabitCreate','HabitPatch','CheckInCommand'].map(name =>
+const validators = Object.fromEntries(['ProfileProvision','HabitCreate','HabitPatch','CheckInCommand'].map(name =>
   [name,ajv.compile({ $defs: defs, $ref: '#/$defs/'+name })]));
 export function body(name: keyof typeof validators, value: unknown): Record<string, any> {
   if (!validators[name](value)) throw new ApiError(400,'INVALID_JSON_OR_PARAMETER');
