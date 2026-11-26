@@ -15,6 +15,7 @@ import {
   computeDailySeriesForDates,
   getCurrentWeekBusinessDates,
 } from "@/features/analytics/ui/AnalyticsPage";
+import { evaluateAllAchievements } from "@/features/achievements/data/achievements";
 import ritual from "../../../../../../docs/GUI/assets/ritual-cotidiano.png";
 
 export function DashboardPage() {
@@ -25,6 +26,11 @@ export function DashboardPage() {
   const referenceDate = state.session
     ? getBusinessDateInZone(state.profile.timeZone || "America/Mexico_City")
     : state.entries.at(-1)?.date || FIXTURE_DATE;
+
+  const achievementsSummary = useMemo(
+    () => evaluateAllAchievements(state, all),
+    [state, all],
+  );
 
   const summary = useMemo(() => {
     const { dates, todayIndex } = getCurrentWeekBusinessDates(referenceDate);
@@ -86,18 +92,6 @@ export function DashboardPage() {
     };
   }, [hasLiveActivity, habits, state.entries, referenceDate]);
 
-  const aiInsightText = useMemo(() => {
-    if (!habits.length) {
-      return "Aún no tienes hábitos activos. Usa el generador con IA en Sugerencias para diseñar una rutina balanceada.";
-    }
-    const pending = habits.filter((h) => h.value < h.target);
-    if (pending.length === 0) {
-      return `¡Excelente jornada! Has completado el 100% de tus ${habits.length} hábitos activos de hoy. Tu riesgo de desgaste es bajo y tu ritmo es óptimo.`;
-    }
-    const nextHabit = pending[0];
-    return `Quantify AI detecta un cumplimiento de hoy del ${summary.completionRate}% y riesgo de desgaste bajo. Tu siguiente micro-paso recomendado es avanzar en "${nextHabit.name}" (meta: ${nextHabit.target} ${nextHabit.unit}).`;
-  }, [habits, summary.completionRate]);
-
   return (
     <>
       <section className="welcome-card">
@@ -111,14 +105,15 @@ export function DashboardPage() {
           </h2>
           <p>
             {state.profile.bio ||
-              "No necesitas hacerlo todo. Solo dar el siguiente paso con constancia y evidencia."}
+              "No necesitas hacerlo todo de golpe. Da el siguiente paso y registra tus avances con un clic."}
           </p>
           <div className="form-actions">
             <Link to="/habitos" className="button white">
               Ver mi rutina <span>↗</span>
             </Link>
-            <Link to="/sugerencias" className="button primary">
-              Asistente IA Gemini ✨
+            <Link to="/logros" className="button primary">
+              Mis logros ({achievementsSummary.unlockedCount}/
+              {achievementsSummary.totalCount})
             </Link>
           </div>
         </div>
@@ -137,7 +132,7 @@ export function DashboardPage() {
             <p>Hábitos activos</p>
             <strong>
               {habits.length}
-              <small>rutinas que suman</small>
+              <small>rutinas en seguimiento</small>
             </strong>
           </div>
         </div>
@@ -150,7 +145,7 @@ export function DashboardPage() {
             <strong>
               {summary.completionRate}%
               <small>
-                {summary.completed} de {summary.eligible} oportunidades
+                {summary.completed} de {summary.eligible} metas cumplidas
               </small>
             </strong>
           </div>
@@ -160,11 +155,12 @@ export function DashboardPage() {
             <Icon name="calendario" />
           </span>
           <div>
-            <p>Tiempo enfocado hoy</p>
+            <p>Nivel y logros</p>
             <strong>
-              {summary.timeMinutes} <em>min</em>
+              Nivel {achievementsSummary.level}
               <small>
-                {state.session ? "confirmados en BD" : "acumulados hoy"}
+                {achievementsSummary.unlockedCount} medallas ·{" "}
+                {achievementsSummary.totalPoints} XP
               </small>
             </strong>
           </div>
@@ -175,8 +171,8 @@ export function DashboardPage() {
         <section className="card">
           <div className="section-heading">
             <div>
-              <h2>Tu agenda de hoy</h2>
-              <p>Haz clic en un hábito o registra un avance rápido.</p>
+              <h2>Registro rápido de hoy</h2>
+              <p>Suma avance en un clic o abre las gráficas de cada hábito.</p>
             </div>
             <Link className="text-link" to="/habitos">
               Ver todos →
@@ -184,43 +180,59 @@ export function DashboardPage() {
           </div>
           {habits.length ? (
             <div className="habit-list">
-              {habits.map((h) => (
-                <div key={h.id} style={{ marginBottom: "0.75rem" }}>
-                  <HabitRow habit={h} />
-                  <div
-                    className="form-actions"
-                    style={{ marginTop: "0.35rem", justifyContent: "flex-end" }}
-                  >
-                    <button
-                      type="button"
-                      className="button secondary"
-                      onClick={() =>
-                        void recordHabitProgress(
-                          h,
-                          Math.min(
-                            h.target,
-                            h.value +
-                              (h.target >= 1000 ? 1000 : h.target >= 10 ? 5 : 1),
-                          ),
-                        )
-                      }
-                    >
-                      + Avance rápido
-                    </button>
-                    <Link
-                      className="button secondary"
-                      to={`/check-ins/${h.id}`}
-                    >
-                      Check-in con evidencia
-                    </Link>
+              {habits.map((h) => {
+                const step =
+                  h.target >= 1000
+                    ? 1000
+                    : h.target >= 20
+                      ? 5
+                      : h.target >= 5
+                        ? 1
+                        : 1;
+                const isDone = h.target > 0 && h.value >= h.target;
+                return (
+                  <div key={h.id} className="qc-habit-card-wrapper">
+                    <HabitRow habit={h} />
+                    <div className="qc-quick-actions">
+                      <button
+                        type="button"
+                        className="button secondary qc-quick-btn"
+                        onClick={() =>
+                          void recordHabitProgress(
+                            h,
+                            Math.min(h.target * 2, h.value + step),
+                          )
+                        }
+                      >
+                        +{step} {h.unit}
+                      </button>
+                      {!isDone && (
+                        <button
+                          type="button"
+                          className="button primary qc-quick-btn"
+                          onClick={() => void recordHabitProgress(h, h.target)}
+                        >
+                          ✓ Completar hoy
+                        </button>
+                      )}
+                      <Link
+                        className="button secondary qc-quick-btn"
+                        to={`/check-ins/${h.id}`}
+                      >
+                        Evidencia
+                      </Link>
+                      <Link className="text-link" to={`/detalle/${h.id}`}>
+                        Gráficas →
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div className="empty">
               <h3>Aún no tienes hábitos activos</h3>
-              <p>Crea tu primer hábito o pide a la IA una rutina recomendada.</p>
+              <p>Crea tu primer hábito o explora nuestras sugerencias.</p>
               <Link className="button primary" to="/nuevo">
                 Crear hábito
               </Link>
@@ -229,22 +241,6 @@ export function DashboardPage() {
         </section>
 
         <div className="stack">
-          <section className="card">
-            <div className="section-heading">
-              <div>
-                <span className="ai-badge">✨ QUANTIFY AI · DIAGNÓSTICO</span>
-                <h2>Recomendación inteligente del día</h2>
-              </div>
-              <Icon name="sugerencias" />
-            </div>
-            <p>{aiInsightText}</p>
-            <div className="form-actions">
-              <Link to="/sugerencias" className="button primary">
-                Abrir Coach IA y Recomendaciones
-              </Link>
-            </div>
-          </section>
-
           <section className="card">
             <div className="section-heading">
               <div>
@@ -259,8 +255,24 @@ export function DashboardPage() {
               todayIndex={summary.todayIndex}
             />
             <Link className="text-link" to="/analisis">
-              Explorar gráficas animadas →
+              Ver gráficas semanales y mensuales →
             </Link>
+          </section>
+          <section className="quiet-card">
+            <Icon name="confirmado" />
+            <div>
+              <h3>
+                {achievementsSummary.unlockedCount} de{" "}
+                {achievementsSummary.totalCount} logros desbloqueados
+              </h3>
+              <p>
+                Rango actual: <strong>{achievementsSummary.levelTitle}</strong>.
+                Sigue registrando tus hábitos para subir de nivel.
+              </p>
+              <Link to="/logros" className="text-link">
+                Ver medallas y progreso →
+              </Link>
+            </div>
           </section>
         </div>
       </div>

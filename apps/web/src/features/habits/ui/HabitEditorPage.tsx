@@ -3,13 +3,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDemo } from "@/app/DemoProvider";
 import { FIXTURE_DATE } from "@/shared/fixtures/demo";
 import { StatePanel } from "@/shared/ui/StatePanel";
+import { Icon } from "@/shared/ui/Icon";
 import {
   validateDraft,
   weekdayLabels,
   type HabitDraft,
   type HabitView,
 } from "../data/model";
-import { apiRunGeminiAi, getBusinessDateInZone } from "@/shared/api/client";
+import { getBusinessDateInZone } from "@/shared/api/client";
 
 export function HabitEditorPage() {
   const { habitId } = useParams(),
@@ -89,100 +90,9 @@ function Editor({
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
-  const [aiLoading, setAiLoading] = useState(false);
-  const [aiRationale, setAiRationale] = useState<string | null>(null);
   const summary = useRef<HTMLDivElement>(null);
   const update = (dto: Partial<HabitDraft["dto"]>) =>
     setDraft((current) => ({ ...current, dto: { ...current.dto, ...dto } }));
-
-  async function handleAiOptimize() {
-    const rawName = draft.dto.name.trim() || "Lectura y concentración";
-    setAiLoading(true);
-    setAiRationale(null);
-    try {
-      if (state.session) {
-        const res = (await apiRunGeminiAi({
-          mode: "optimize-habit",
-          habitName: rawName,
-          geminiApiKey: state.profile.geminiApiKey,
-        })) as {
-          provider: string;
-          suggestion: {
-            targetValue: number;
-            unit: string;
-            weekdays: number[];
-            detail: string;
-            intention: string;
-            rationale: string;
-          };
-        };
-        const s = res.suggestion;
-        setDraft((prev) => ({
-          ...prev,
-          dto: {
-            ...prev.dto,
-            name: prev.dto.name.trim() || rawName,
-            targetValue: s.targetValue,
-            unit: s.unit,
-            schedule: { ...prev.dto.schedule, weekdays: s.weekdays },
-          },
-          detail: s.detail,
-          intention: s.intention,
-        }));
-        setAiRationale(`${res.provider}: ${s.rationale}`);
-        return;
-      }
-    } catch {
-      // fallback to local AI optimization
-    } finally {
-      setAiLoading(false);
-    }
-
-    const lower = rawName.toLocaleLowerCase("es");
-    const opt =
-      lower.includes("agua") || lower.includes("hidrat")
-        ? {
-            targetValue: 8,
-            unit: "vasos",
-            weekdays: [1, 2, 3, 4, 5, 6, 7],
-            detail: "Por la mañana",
-            intention: "Mantener hidratación constante para mejorar mi enfoque.",
-            rationale:
-              "Quantify AI recomienda 8 vasos diarios distribuidos desde la mañana para sostener la energía cognitiva.",
-          }
-        : lower.includes("caminar") || lower.includes("paso")
-          ? {
-              targetValue: 6000,
-              unit: "pasos",
-              weekdays: [1, 2, 3, 4, 5, 6],
-              detail: "Por la mañana",
-              intention: "Activar mi cuerpo y despejar la mente antes de estudiar.",
-              rationale:
-                "Quantify AI sugiere 6,000 pasos con 1 día de recuperación para evitar fatiga física.",
-            }
-          : {
-              targetValue: 25,
-              unit: "min",
-              weekdays: [1, 2, 3, 4, 5],
-              detail: "Por la tarde",
-              intention: `Avanzar de forma enfocada en "${rawName}" sin distracciones.`,
-              rationale:
-                "Quantify AI configuró un bloque Pomodoro de 25 min entre semana para maximizar constancia sin desgaste.",
-            };
-    setDraft((prev) => ({
-      ...prev,
-      dto: {
-        ...prev.dto,
-        name: prev.dto.name.trim() || rawName,
-        targetValue: opt.targetValue,
-        unit: opt.unit,
-        schedule: { ...prev.dto.schedule, weekdays: opt.weekdays },
-      },
-      detail: opt.detail,
-      intention: opt.intention,
-    }));
-    setAiRationale(opt.rationale);
-  }
 
   function submit(e: FormEvent) {
     e.preventDefault();
@@ -207,22 +117,8 @@ function Editor({
                 : "Programación conservada durante esta visita."}
             </p>
           </div>
-          <button
-            type="button"
-            className="button secondary"
-            disabled={aiLoading}
-            onClick={() => void handleAiOptimize()}
-          >
-            {aiLoading ? "Optimizando con IA..." : "✨ Optimizar meta con IA"}
-          </button>
+          <Icon name={draft.icon} />
         </div>
-
-        {aiRationale && (
-          <div className="form-note" role="status">
-            <strong>Recomendación de Quantify AI:</strong> {aiRationale}
-          </div>
-        )}
-
         {(Object.keys(errors).length > 0 || externalError) && (
           <div
             className="form-note error"
@@ -404,7 +300,7 @@ function Editor({
         </div>
         <p className="caption">
           {state.session
-            ? "Se guardará de forma permanente en PostgreSQL y registrará auditoría en MongoDB."
+            ? "Se guardará de forma permanente en tu cuenta."
             : "Confirmación lista para guardar en tu rutina."}
         </p>
         <div className="form-actions">
