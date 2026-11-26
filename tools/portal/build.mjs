@@ -38,7 +38,45 @@ async function writeGenerated(file, text) {
     stale.push(path.relative(root, file));
 }
 const md = new MarkdownIt({ html: true, linkify: false });
-await writeGenerated(path.join(out, 'edt-data.json'), JSON.stringify(await buildEdtData(), null, 2) + '\n');
+const fichaFile = path.join(root, "docs/practica-07/fichas.html");
+const fichaShell = await fs.readFile(fichaFile, "utf8");
+const fichaMarkdown = (
+  await fs.readFile(path.join(root, "docs/practica-07/fichas.md"), "utf8")
+)
+  .replaceAll("(README.md)", "(revision.html)")
+  .replaceAll("../requerimientos/catalogo.md", "lecturas/requisitos.html")
+  .replaceAll("../UHs/README.md", "lecturas/historias.html")
+  .replaceAll("referencia-tecnica.md", "referencia.html");
+await writeGenerated(
+  fichaFile,
+  fichaShell.replace(
+    /<main class="reading">[\s\S]*?<\/main>/,
+    '<main class="reading">' + md.render(fichaMarkdown) + "</main>",
+  ),
+);
+await writeGenerated(
+  path.join(out, "edt-data.json"),
+  JSON.stringify(await buildEdtData(), null, 2) + "\n",
+);
+const ganttSnapshot = JSON.parse(
+  await fs.readFile(
+    new URL("data/jira-gantt-snapshot.json", import.meta.url),
+    "utf8",
+  ),
+);
+if (
+  !ganttSnapshot.complete ||
+  new Set(ganttSnapshot.issues.map((i) => i.key)).size !==
+    ganttSnapshot.issues.length
+)
+  throw new Error("Completar el corte Jira del Gantt.");
+for (const issue of ganttSnapshot.issues)
+  if (issue.start && issue.due && issue.start > issue.due)
+    throw new Error("Intervalo Jira inválido: " + issue.key);
+await writeGenerated(
+  path.join(out, "gantt-data.json"),
+  JSON.stringify(ganttSnapshot, null, 2) + "\n",
+);
 const tokens = JSON.parse(
   await fs.readFile(
     path.join(root, "packages/design-tokens/preview.json"),
@@ -157,9 +195,16 @@ async function walk(folder) {
     const source = path.posix.join(folder, entry.name);
     if (
       entry.isDirectory() &&
-      !["node_modules", ".git", ".build", "build", "dist", "private"].includes(
-        entry.name,
-      )
+      ![
+        "node_modules",
+        ".git",
+        ".build",
+        "build",
+        "dist",
+        "private",
+        "test-results",
+        "playwright-report",
+      ].includes(entry.name)
     )
       await walk(source);
     else if (

@@ -4,6 +4,8 @@
 
 ## Flujo visual de identidad
 
+La [navegación académica vigente](../GUI/NAVEGACION.md) mantiene cuatro destinos por rol. Usuario: Hoy, Progreso, IA hábitos y Perfil. Administración: Panel, Catálogo, Control IA y Gestión; esta última reúne cuentas, auditoría y configuración. IA hábitos permite crear un hábito desde una propuesta personal, personalizarlo en U07 y confirmarlo; Control IA supervisa la operación administrativa. Los catálogos separan las 22 vistas de usuario de las 11 administrativas. Las vistas hijas conservan activa su sección. Acceso y recuperación no muestran navegación de sesión. Esta organización visual no concede permisos de negocio.
+
 Las vistas U02/U03/U04/U05/U15 están en la [matriz de autenticación complementaria](../GUI/prototipos/movil/autenticacion/README.md); el OTP de seis dígitos es propuesta y requiere una extensión de Keycloak, no prueba de correo operativo.
 
 ## Mapa del usuario
@@ -85,6 +87,8 @@ Este flujo aplica **solo cuando el soporte offline esté implementado y aprobado
 Mostrar por separado el avance local pendiente y la racha confirmada. No permitir que el reloj del cliente determine unilateralmente periodos válidos ni alterar la fecha de negocio al sincronizar días después. Si se pierde la sesión, pausar la cola; si cambia la cuenta, aislarla y resolver su eliminación conforme a la política de cierre.
 
 ## Recomendaciones y consentimiento
+
+El [alcance conversacional vigente](../datos-ia/asistente-conversacional.md) permite escribir una solicitud sencilla y aclarar meta, unidad o frecuencia antes de preparar un borrador. La ayuda general no requiere historial biométrico ni los siete días de la demo. La [composición de U11](../GUI/BASE-IMPLEMENTACION.md) representa esos pasos y ofrece creación manual si el asistente falla. Enviar el mensaje no guarda el hábito; el cliente espera el resultado real mediante el contrato que se formalice.
 
 1. Consultar elegibilidad y recomendaciones disponibles; la UI no ejecuta inferencias ni inventa una recomendación mientras espera.
 2. Si no hay consentimiento, presentar su finalidad y opción voluntaria; si faltan datos, explicar esa situación sin una cifra inventada.

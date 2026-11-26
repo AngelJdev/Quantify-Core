@@ -1,8 +1,18 @@
 # Tokens de diseño
 
+La revisión móvil del 23/11/2026 centraliza en `mobile-effects.json` v4 las opacidades clara/oscura, reflejos, intensidad del fondo y duración de entrada. `apps/mobile/tool/generate_prototype_assets.py` genera el adaptador Dart, la fuente y los recursos de icono/splash Android desde la paleta y el símbolo canónicos; `--check` comprueba su correspondencia. Estos efectos son del prototipo Flutter y mantienen alto contraste sólido y movimiento reducido.
+
 **Estado: contrato visual documental con JSON y adaptador CSS; todavía no hay paquete distribuido a clientes.** La identidad del [README principal](../../README.md) es la referencia de color para Quantify Core V2.0. Este documento propone nombres semánticos y registra decisiones necesarias antes de distribuir valores a React o Flutter.
 
 ## Tokens materializados para los prototipos
+
+La extensión [experience.css](experience.css) centraliza curvas, tiempos y material óptico opcional para la PWA. Todos sus colores derivan de los roles de `themes.css`; no cambia el catálogo de identidad. La revisión visual del 26/11/2026 añade los ritmos decorativos `--qc-motion-orbit` (32 s) y `--qc-motion-float` (7 s), usados solo en la bienvenida y desactivados con movimiento reducido. [Preferencias, accesibilidad y alcance](../../docs/diseno/materiales-movimiento.md).
+
+La extensión [mobile-effects.json](mobile-effects.json) centraliza límites de cristal, radios y tiempos del prototipo Flutter V2. [Generación de Dart/Inter y alcance móvil](../../apps/mobile/docs/prototipo-v2-2026-11-20.md). No redefine la paleta ni convierte los fixtures en configuración de producto.
+
+La revisión **0.4.2 del 17/11/2026** añade `prototypeIslands.support` para columnas y paneles de contexto, y `prototypeEntry.typography.access` para el login editorial (Inter 700, 25/32 móvil y 28/36 PWA). La [revisión general de pantallas](../../docs/GUI/COMPOSICION-GENERAL.md) registra medidas, imagen reutilizada y comprobaciones. Se conservan los colores y ocho estilos base.
+
+La revisión **0.4.1 del 17/11/2026** añade `prototypeEntry` para las composiciones académicas de bienvenida y carga: titulares de bienvenida de 34/43 px en móvil y 52/64 en PWA; carga de 32/40 y 42/54, todos Inter 700. Centraliza también órbita de 3000 ms y pulso de 2400 ms; ambas animaciones se desactivan con movimiento reducido. Es una extensión de presentación de estas dos vistas, sin cambiar los ocho estilos base ni la paleta. [Composición, procedencia y alcance](../../docs/GUI/ENTRADA.md).
 
 [preview.json](preview.json) conserva la paleta y define **Inter** como familia de la entrega GUI. Los roles claros/oscuros y la geometría alimentan las [fuentes de láminas](../../docs/GUI/fuente/generar.py), exportadas como PNG con el mismo archivo WOFF2 local. Instrucciones y especificación completa en el [README de GUI](../../docs/GUI/README.md).
 

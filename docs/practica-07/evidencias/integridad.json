@@ -8,8 +8,8 @@
     "movil": "390x844 + cotas exteriores",
     "pwa": "1280x900 + cotas exteriores"
   },
-  "transitions": 131,
-  "localDocumentsChecked": 12,
+  "transitions": 132,
+  "localDocumentsChecked": 13,
   "missingLocalLinks": [],
   "scope": "Integridad local; no valida esquema Archify ni publicación remota."
 }

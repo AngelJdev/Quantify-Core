@@ -1,8 +1,18 @@
 # Wireframes y sketches · Revisión de islas
 
+**Base vigente para implementar:** [revisión final web/móvil](BASE-IMPLEMENTACION.md). Incluye conversación en U11 e información pública U20/U21 sin navegación de sesión.
+
+**Navegación corregida:** [cuatro destinos estables por rol](NAVEGACION.md), con Gestión administrativa como acceso a cuentas, auditoría y configuración. La píldora y el lateral mantienen orden y sección activa en las tres fidelidades; los destinos son interactivos en el recorrido vigente.
+
+**Revisión general del 17/11/2026:** [distribución y contenido útil](COMPOSICION-GENERAL.md). Los formularios PWA, el login y la posición de los paneles se actualizan en las tres fidelidades. Las medidas históricas de tarjetas de verificación y formularios que siguen se conservan como antecedentes; la geometría vigente está en `islas-medidas.json`.
+
+**Composición de entrada del 17/11/2026:** [U01, U17 y siete vistas breves](ENTRADA.md) comparten las nuevas secciones y coordenadas con mockups. El isotipo aparece una vez por pantalla; Splash U16 conserva su composición.
+
+**Corrección del 17/11/2026:** cabecera, bienvenida y Splash reutilizan el isotipo de Figma en monocromático, en las mismas posiciones de mockup. El [prototipo navegacional](../practica-07/index.html) usa los mismos SVG del catálogo. [Registro de correspondencia](REVISION-PROTOTIPOS.md).
+
 Revisión documental solicitada el 16/11/2026. [Revisar wireframes](practica-07.html?fidelity=wireframe#U06) · [Revisar sketches](practica-07.html?fidelity=sketch#U06) · [Galería](index.html?fidelity=wireframe#prototipos).
 
-Las 33 pantallas del inventario de Práctica 07 tienen ahora un sketch y un wireframe por formato: **132 SVG base**, más **40 variantes de navegación PWA compacta**, todos con cotas exteriores. Las variantes son estados de las mismas veinte pantallas PWA con navegación; no aumentan el inventario de pantallas. Comparten estructura, orden, referencias a requisitos, roles y conexiones. Son láminas estáticas de revisión; no autentican, guardan hábitos ni ejecutan servicios. Splash conserva únicamente el logo y las pantallas de acceso no muestran navegación de sesión.
+Las 33 pantallas del inventario de Práctica 07 tienen un sketch y un wireframe por formato: **132 SVG base**, más **36 variantes de navegación PWA compacta**, todos con cotas exteriores. Las variantes son estados de las mismas dieciocho pantallas PWA con navegación; no aumentan el inventario de pantallas. Comparten estructura, orden, referencias a requisitos, roles y conexiones. Son láminas estáticas de revisión; no autentican, guardan hábitos ni ejecutan servicios. Splash conserva únicamente el logo; las pantallas de acceso e información pública no muestran navegación de sesión. Las cifras de validación del 16/11 que siguen se conservan como antecedentes.
 
 | Geometría de revisión | Medida en px de diseño |
 |---|---|
@@ -14,7 +24,7 @@ Las 33 pantallas del inventario de Práctica 07 tienen ahora un sketch y un wire
 | Cabecera como isla | 342 × 64 en móvil; 1232 × 64 en PWA |
 | Navegación móvil en píldora | x 24, y 748; 342 × 72; radio 36 |
 | Separación inferior de la píldora | 24; reservar además el área segura al implementar |
-| Destinos de navegación | 4 de usuario; 6 administrativos; altura táctil 48 |
+| Destinos de navegación | 4 por rol; ancho móvil 79,5 y altura táctil 48 |
 | Navegación PWA como isla lateral | x 24, y 112; 208 × 764 |
 | Navegación PWA compacta | x 24, y 112; 72 × 764 |
 | Indicadores del dashboard | 4 tarjetas; alto 104; separación 16; ancho 238 expandido / 272 compacto |
@@ -31,7 +41,7 @@ Móvil presenta una columna. PWA organiza Inicio, Progreso y Panel administrativ
 Se revisaron los dos MP4 locales facilitados el 16/11/2026: `videoFrontendidea.mp4` (13,19 s) y `WhatsApp Video 2026-11-16 at 12.29.06 PM.mp4` (12,31 s). Sus secuencias muestran una tarjeta de verificación con estados y dashboards con barra lateral flotante, indicadores, panel contextual y cambios de sección. Los archivos se retiraron del repositorio después de revisarlos y sus nombres quedaron excluidos en `.gitignore`; no son recursos ni dependencias del sitio. Los fotogramas de revisión permanecen fuera del repositorio.
 
 - **Dashboard:** jerarquía y redistribución al compactar el rail. U06 conserva hábitos propios, U10 muestra el periodo personal y A02 solo operación administrativa. Las tarjetas usan marcadores sin datos conectados; la referencia médica/comercial de los videos no define métricas de Quantify.
-- **Navegación:** isla lateral con control de contraer y estado activo; el formato móvil mantiene la píldora inferior. El visor permite comparar ambos estados PWA, sin simular enlaces dentro de los SVG.
+- **Navegación:** isla lateral con control de contraer y estado activo; el formato móvil mantiene la píldora inferior. El visor permite comparar ambos estados PWA. El recorrido vigente superpone destinos interactivos sobre las coordenadas de las mismas láminas; los SVG descargados son estáticos.
 - **Código:** U05, U19 y A11 concentran instrucciones, posiciones del código, acción, reenvío, cancelación y error en una isla. La secuencia de referencia es entrada → comprobando → confirmación. Las seis posiciones son una referencia del prototipo académico existente; no fijan el protocolo ni la longitud del código del producto. Keycloak/OIDC conserva la autoridad sobre la sesión; una animación no confirma autenticación.
 - **Movimiento propuesto:** transición breve al redistribuir el contenido y feedback de verificación basado en resultado real. Duración inicial de revisión: 180 ms; con movimiento reducido, cambio directo de estado. Las láminas actuales son estáticas y no implementan estas animaciones.
 

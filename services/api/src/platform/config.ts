@@ -23,6 +23,7 @@ export function configuration(env = process.env): CoreConfig {
     if (url.origin !== value || !['http:', 'https:'].includes(url.protocol)) throw new Error('Invalid CORS origin');
   }
   if (env.CORE_REVIEW_WRITES_ENABLED && !['0','1'].includes(env.CORE_REVIEW_WRITES_ENABLED)) throw new Error('Invalid write flag');
+  if (env.CORE_AUTO_PROVISION_PROFILES && !['0','1'].includes(env.CORE_AUTO_PROVISION_PROFILES)) throw new Error('Invalid auto-provision flag');
   let jwksUrl: string | undefined;
   if (env.KEYCLOAK_JWKS_URL) {
     const jwks = new URL(env.KEYCLOAK_JWKS_URL);
@@ -46,5 +47,6 @@ export function configuration(env = process.env): CoreConfig {
   }
   return { databaseUrl: env.DATABASE_URL, issuer: env.KEYCLOAK_ISSUER, audience: env.KEYCLOAK_AUDIENCE,
     port, host: env.HOST ?? '127.0.0.1', corsOrigins, dashboardEnabled: true,
-    writesEnabled: env.CORE_REVIEW_WRITES_ENABLED === '1', jwksUrl, observability };
+    writesEnabled: env.CORE_REVIEW_WRITES_ENABLED === '1',
+    autoProvisionProfiles: env.CORE_AUTO_PROVISION_PROFILES === '1', jwksUrl, observability };
 }

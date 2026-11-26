@@ -1,5 +1,7 @@
 # Móvil · Mockups con islas
 
+**Revisión del 17/11/2026:** [isotipo de Figma y correspondencia entre las tres fidelidades y el recorrido navegacional](../../../REVISION-PROTOTIPOS.md).
+
 **Catálogo vigente: 33 pantallas, en claro y oscuro.** Misma geometría que los wireframes, con Inter, Q, iconos y paleta existentes.
 
 [Revisar en el visor](../../../practica-07.html?fidelity=mockup) · [Especificación y medidas](../../../MOCKUPS.md) · [Galería](../../../index.html?fidelity=mockup#prototipos).
@@ -23,7 +25,7 @@ Viewport 390 × 844 px; las láminas incluyen cotas exteriores. Los temas son va
 | U08 · Detalle del hábito | <a href="islas/light/U08.svg"><img src="islas/light/U08.svg" alt="Mockup claro U08" width="160"></a> | <a href="islas/dark/U08.svg"><img src="islas/dark/U08.svg" alt="Mockup oscuro U08" width="160"></a> |
 | U09 · Recordatorio | <a href="islas/light/U09.svg"><img src="islas/light/U09.svg" alt="Mockup claro U09" width="160"></a> | <a href="islas/dark/U09.svg"><img src="islas/dark/U09.svg" alt="Mockup oscuro U09" width="160"></a> |
 | U10 · Análisis y rachas | <a href="islas/light/U10.svg"><img src="islas/light/U10.svg" alt="Mockup claro U10" width="160"></a> | <a href="islas/dark/U10.svg"><img src="islas/dark/U10.svg" alt="Mockup oscuro U10" width="160"></a> |
-| U11 · IA Coach | <a href="islas/light/U11.svg"><img src="islas/light/U11.svg" alt="Mockup claro U11" width="160"></a> | <a href="islas/dark/U11.svg"><img src="islas/dark/U11.svg" alt="Mockup oscuro U11" width="160"></a> |
+| U11 · IA para crear hábitos | <a href="islas/light/U11.svg"><img src="islas/light/U11.svg" alt="Mockup claro U11" width="160"></a> | <a href="islas/dark/U11.svg"><img src="islas/dark/U11.svg" alt="Mockup oscuro U11" width="160"></a> |
 | U14 · Centro de avisos | <a href="islas/light/U14.svg"><img src="islas/light/U14.svg" alt="Mockup claro U14" width="160"></a> | <a href="islas/dark/U14.svg"><img src="islas/dark/U14.svg" alt="Mockup oscuro U14" width="160"></a> |
 | U12 · Perfil y ajustes | <a href="islas/light/U12.svg"><img src="islas/light/U12.svg" alt="Mockup claro U12" width="160"></a> | <a href="islas/dark/U12.svg"><img src="islas/dark/U12.svg" alt="Mockup oscuro U12" width="160"></a> |
 | U13 · Archivar hábito | <a href="islas/light/U13.svg"><img src="islas/light/U13.svg" alt="Mockup claro U13" width="160"></a> | <a href="islas/dark/U13.svg"><img src="islas/dark/U13.svg" alt="Mockup oscuro U13" width="160"></a> |
@@ -36,7 +38,7 @@ Viewport 390 × 844 px; las láminas incluyen cotas exteriores. Los temas son va
 | A04 · Editar plantilla | <a href="islas/light/A04.svg"><img src="islas/light/A04.svg" alt="Mockup claro A04" width="160"></a> | <a href="islas/dark/A04.svg"><img src="islas/dark/A04.svg" alt="Mockup oscuro A04" width="160"></a> |
 | A05 · Supervisión de IA | <a href="islas/light/A05.svg"><img src="islas/light/A05.svg" alt="Mockup claro A05" width="160"></a> | <a href="islas/dark/A05.svg"><img src="islas/dark/A05.svg" alt="Mockup oscuro A05" width="160"></a> |
 | A06 · Auditoría | <a href="islas/light/A06.svg"><img src="islas/light/A06.svg" alt="Mockup claro A06" width="160"></a> | <a href="islas/dark/A06.svg"><img src="islas/dark/A06.svg" alt="Mockup oscuro A06" width="160"></a> |
-| A07 · Control de accesos | <a href="islas/light/A07.svg"><img src="islas/light/A07.svg" alt="Mockup claro A07" width="160"></a> | <a href="islas/dark/A07.svg"><img src="islas/dark/A07.svg" alt="Mockup oscuro A07" width="160"></a> |
+| A07 · Gestión administrativa | <a href="islas/light/A07.svg"><img src="islas/light/A07.svg" alt="Mockup claro A07" width="160"></a> | <a href="islas/dark/A07.svg"><img src="islas/dark/A07.svg" alt="Mockup oscuro A07" width="160"></a> |
 | A08 · Configuración global | <a href="islas/light/A08.svg"><img src="islas/light/A08.svg" alt="Mockup claro A08" width="160"></a> | <a href="islas/dark/A08.svg"><img src="islas/dark/A08.svg" alt="Mockup oscuro A08" width="160"></a> |
 | A09 · Confirmar cambio de acceso | <a href="islas/light/A09.svg"><img src="islas/light/A09.svg" alt="Mockup claro A09" width="160"></a> | <a href="islas/dark/A09.svg"><img src="islas/dark/A09.svg" alt="Mockup oscuro A09" width="160"></a> |
 | A10 · Lock Account · Administrador | <a href="islas/light/A10.svg"><img src="islas/light/A10.svg" alt="Mockup claro A10" width="160"></a> | <a href="islas/dark/A10.svg"><img src="islas/dark/A10.svg" alt="Mockup oscuro A10" width="160"></a> |

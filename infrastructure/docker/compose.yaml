@@ -1,5 +1,72 @@
 name: quantify-core-dev
 services:
+  web-static:
+    profiles: [web-static]
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/web.Dockerfile
+    ports:
+      - "127.0.0.1:5173:8080"
+    healthcheck:
+      test: [CMD, wget, -q, --spider, http://127.0.0.1:8080/]
+      interval: 5s
+      timeout: 4s
+      retries: 12
+  migrate:
+    profiles: [tools]
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/api.Dockerfile
+      target: migration
+    environment:
+      DATABASE_URL: postgresql://quantify_owner:${POSTGRES_PASSWORD:?Run init}@postgres:5432/quantify_core_dev
+      CORE_RUNTIME_PASSWORD: ${CORE_RUNTIME_PASSWORD:?Run init}
+    depends_on:
+      postgres:
+        condition: service_healthy
+  profile:
+    profiles: [tools]
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/api.Dockerfile
+      target: migration
+    command: [node, db/provision-profile.cjs]
+    environment:
+      DATABASE_URL: postgresql://quantify_api:${CORE_RUNTIME_PASSWORD:?Run init}@postgres:5432/quantify_core_dev
+      KEYCLOAK_ISSUER: http://localhost:8180/realms/quantify
+      KEYCLOAK_AUDIENCE: quantify-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+  web:
+    profiles: [web]
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/web.dev.Dockerfile
+    environment:
+      VITE_API_BASE_URL: http://localhost:3000/api/v1
+      VITE_API_HEALTH_PATH: health/ready
+      VITE_OIDC_ISSUER: http://localhost:8180/realms/quantify
+      VITE_OIDC_CLIENT_ID: quantify-web
+      QC_DOCKER_POLLING: "1"
+    ports:
+      - "127.0.0.1:5173:5173"
+    volumes:
+      - ../../apps/web/src:/app/apps/web/src:ro
+      - ../../apps/web/public:/app/apps/web/public:ro
+      - ../../apps/web/index.html:/app/apps/web/index.html:ro
+      - ../../apps/web/vite.config.ts:/app/apps/web/vite.config.ts:ro
+      - ../../apps/web/tsconfig.json:/app/apps/web/tsconfig.json:ro
+      - ../../packages/contracts:/app/packages/contracts:ro
+      - ../../packages/design-tokens:/app/packages/design-tokens:ro
+      - ../../docs/GUI/assets:/app/docs/GUI/assets:ro
+      - ../../docs/GUI/identidad/guia/modelo.json:/app/docs/GUI/identidad/guia/modelo.json:ro
+      - ../../assets/images:/app/assets/images:ro
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:5173/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 4s
+      retries: 12
   api:
     profiles: [app]
     build:
@@ -19,7 +86,7 @@ services:
       CORE_REVIEW_WRITES_ENABLED: ${CORE_REVIEW_WRITES_ENABLED:-0}
       OBSERVABILITY_ENABLED: "1"
       METRICS_HOST: 0.0.0.0
-      LOKI_PUSH_URL: http://loki:3100/loki/api/v1/push
+      LOKI_PUSH_URL: ""
     ports:
       - "127.0.0.1:3000:3000"
     depends_on:
@@ -57,6 +124,18 @@ services:
     volumes:
       - keycloak-data:/opt/keycloak/data
       - ../keycloak/realm-export.json:/opt/keycloak/data/import/quantify-realm.json:ro
+  mailpit:
+    image: axllent/mailpit:v1.22.3
+    ports:
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:8025:8025"
+  mongodb:
+    image: mongo:8.2.6
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongodb-data:/data/db
 volumes:
   postgres-data:
   keycloak-data:
+  mongodb-data:

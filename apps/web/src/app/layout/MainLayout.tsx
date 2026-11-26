@@ -1,76 +1,108 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import { Brand } from "@/shared/ui/Brand";
+import { useDemo } from "@/app/DemoProvider";
+import { evaluateAllAchievements } from "@/features/achievements/data/achievements";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Icon, type IconName } from "@/shared/ui/Icon";
-import { useTheme } from "../ThemeProvider";
-import { useDemo } from "../DemoProvider";
+import { Wordmark, ThemeButton, islandStyle } from "@/shared/ui/Prototype";
+import { AppearanceButton } from "@/app/appearance/AppearanceControls";
+import {
+  useSurfaceMotion,
+  useFluidNavigation,
+} from "@/app/appearance/useSurfaceMotion";
 const navigation: [string, string, IconName][] = [
   ["hoy", "Hoy", "hoy"],
+  ["analisis", "Progreso", "analisis"],
+  ["sugerencias", "IA hábitos", "sugerencias"],
+  ["ajustes", "Perfil", "perfil"],
+];
+const shortcuts: [string, string, IconName][] = [
   ["habitos", "Mis hábitos", "habitos"],
-  ["analisis", "Análisis", "analisis"],
+  ["logros", "Logros", "confirmado"],
   ["historial", "Historial", "historial"],
-  ["sugerencias", "Sugerencias", "sugerencias"],
   ["avisos", "Avisos", "recordatorio"],
-  ["ajustes", "Ajustes", "ajustes"],
 ];
 const titles: Record<string, [string, string]> = {
   hoy: [
     "Tu rutina, a tu ritmo",
-    "Cada pequeño paso cuenta. Haz espacio para lo que te hace bien.",
+    "Registra tus hábitos con un clic, observa tu progreso y desbloquea nuevos logros.",
   ],
   habitos: [
     "Hábitos con intención",
-    "Organiza tus rutinas y encuentra un ritmo que puedas sostener.",
+    "Organiza tus rutinas diarias, registra avances rápidos y consulta sus gráficas.",
   ],
   nuevo: [
     "Diseña tu próximo hábito",
-    "Una intención clara es un buen punto de partida.",
+    "Define tu meta diaria, frecuencia y recordatorio para construir constancia.",
   ],
   detalle: [
     "Un paso más cerca",
-    "El progreso también está en volver a intentarlo.",
+    "Gráficas individuales, registro rápido, evidencias y evolución de tu hábito.",
   ],
   editar: [
     "Dale un nuevo ritmo",
-    "Conserva los días y la intención de tu hábito.",
+    "Actualiza tu meta o programación conservando todo tu historial anterior.",
   ],
   "check-ins": [
     "Cada avance cuenta",
-    "Valor acumulado absoluto · edición temporal de fixtures.",
+    "Registra tu progreso diario con notas de reflexión y evidencia fotográfica.",
   ],
   analisis: [
     "Observa tu constancia",
-    "Una mirada a tus avances, más allá de una racha.",
+    "Gráficas semanales, mensuales, mapa de calor y desglose por hábito.",
+  ],
+  logros: [
+    "Tus logros y medallas",
+    "Desbloquea 36 logros funcionales al mantener tu constancia y cumplir tus metas.",
   ],
   historial: [
     "Cada avance tiene historia",
-    "Registros de esta demostración, sin persistencia.",
+    "Línea de tiempo de registros confirmados y galería de evidencias fotográficas.",
   ],
   sugerencias: [
     "Ideas con contexto",
-    "Las sugerencias necesitan datos y consentimiento reales.",
+    "Explora rutinas recomendadas para fortalecer tu energía, enfoque y bienestar.",
   ],
   avisos: [
     "Todo en su momento",
-    "Tus recordatorios y novedades, reunidos en un solo lugar.",
+    "Recordatorios de rutina, logros recientes y notificaciones de tu cuenta.",
   ],
   ajustes: [
     "Tu espacio, tus decisiones",
-    "Perfil y preferencias de demostración.",
+    "Personaliza tu perfil, fotografía, apariencia visual, privacidad y dispositivos.",
   ],
 };
+
 export function MainLayout() {
+  const navigate = useNavigate();
+  const { state, habits, endSession } = useDemo();
+  const achievementsSummary = useMemo(
+    () => evaluateAllAchievements(state, habits),
+    [state, habits],
+  );
+  async function handleLogoutClick() {
+    await endSession();
+    navigate("/auth", { replace: true });
+  }
   const { pathname } = useLocation(),
     page = pathname.split("/")[1];
-  const [title, description] = titles[page] || [
+  const [title, description] = titles[page === "dashboard" ? "hoy" : page] || [
     "Esta página no está aquí",
     "El enlace no corresponde a una vista disponible.",
   ];
-  const { dark, setDark } = useTheme(),
-    { state } = useDemo();
+  const section = ["analisis", "historial", "logros"].includes(page)
+    ? "analisis"
+    : page === "sugerencias"
+      ? "sugerencias"
+      : ["ajustes", "avisos"].includes(page)
+        ? "ajustes"
+        : "hoy";
   const heading = useRef<HTMLHeadingElement>(null),
     menu = useRef<HTMLDialogElement>(null);
-  const [online, setOnline] = useState(navigator.onLine);
+  const [compact, setCompact] = useState(false),
+    [online, setOnline] = useState(navigator.onLine);
+  const surfaceRoot = useRef<HTMLDivElement>(null);
+  useSurfaceMotion(surfaceRoot, pathname);
+  useFluidNavigation(surfaceRoot, pathname, compact);
   useEffect(() => {
     const change = () => setOnline(navigator.onLine);
     window.addEventListener("online", change);
@@ -81,22 +113,44 @@ export function MainLayout() {
     };
   }, []);
   useEffect(() => {
-    document.title = `${title} · Quantify Core`;
+    document.title = title + " · Quantify Core";
     heading.current?.focus();
     menu.current?.close();
     window.scrollTo(0, 0);
   }, [pathname, title]);
-  function navigationLinks() {
+  function primaryLinks() {
     return navigation.map(([path, label, icon]) => (
-      <NavLink to={`/${path}`} key={path} onClick={() => menu.current?.close()}>
+      <Link
+        to={"/" + path}
+        key={path}
+        aria-current={section === path ? "page" : undefined}
+        title={label}
+        onClick={() => menu.current?.close()}
+      >
         <Icon name={icon} />
-        <span>{label}</span>
-        {path === "avisos" && !state.read && <b className="nav-count">2</b>}
-      </NavLink>
+        <span className="rail-label">{label}</span>
+      </Link>
+    ));
+  }
+  function shortcutLinks() {
+    return shortcuts.map(([path, label, icon]) => (
+      <Link
+        to={"/" + path}
+        key={path}
+        title={label}
+        onClick={() => menu.current?.close()}
+      >
+        <Icon name={icon} />
+        <span className="rail-label">{label}</span>
+      </Link>
     ));
   }
   return (
-    <div className="app-shell">
+    <div
+      ref={surfaceRoot}
+      className={"island-app " + (compact ? "rail-compact" : "")}
+      style={islandStyle}
+    >
       <a
         href="#content"
         className="skip-link"
@@ -107,33 +161,136 @@ export function MainLayout() {
       >
         Saltar al contenido
       </a>
-      <aside
-        className="sidebar desktop-sidebar"
-        aria-label="Navegación de escritorio"
-      >
-        <Link className="brand-link" to="/hoy">
-          <Brand dark={dark} />
+      <header className="island-header app-header">
+        <Link
+          to="/hoy"
+          className="personal-mark"
+          aria-label="Tu espacio personal"
+        >
+          <Wordmark personal />
         </Link>
-        <div className="workspace-label">
-          MI ESPACIO <span>DEMO</span>
-        </div>
-        <nav aria-label="Navegación principal">{navigationLinks()}</nav>
-        <div className="sidebar-bottom">
-          <div className="local-label">
-            <span />
-            Fixtures temporales
-          </div>
-          <p>
-            Pequeños hábitos.
-            <br />
-            Un cambio que permanece.
-          </p>
-          <Brand dark={dark} enterprise />
-          <Link className="text-link" to="/auth">
-            Identidad y acceso
+        <div className="top-actions">
+          <span className="island-demo-label">
+            {state.session ? "TU ESPACIO" : "DEMOSTRACIÓN"}
+          </span>
+          <span className="connection">
+            <i className={online ? "" : "offline"} />
+            {online ? "En línea" : "Sin conexión"}
+          </span>
+          <ThemeButton />
+          <AppearanceButton />
+          <Link className="icon-button" to="/avisos" aria-label="Ver avisos">
+            <Icon name="recordatorio" />
           </Link>
+          <Link
+            className="island-profile"
+            to="/ajustes"
+            aria-label={state.session ? "Mi perfil" : "Perfil de ejemplo"}
+          >
+            <Icon name="perfil" />
+          </Link>
+          <button
+            className="icon-button mobile-menu-trigger"
+            onClick={() => menu.current?.showModal()}
+            aria-label="Abrir menú"
+            aria-haspopup="dialog"
+          >
+            <Icon name="menu" />
+          </button>
         </div>
-      </aside>
+      </header>
+      <div className="island-body">
+        <aside className="island-rail" aria-label="Navegación de escritorio">
+          <button
+            className="rail-toggle"
+            aria-label={compact ? "Expandir navegación" : "Contraer navegación"}
+            aria-expanded={!compact}
+            aria-controls="primary-navigation"
+            onClick={() => setCompact(!compact)}
+          >
+            <Icon name="menu" />
+            <span className="rail-label">Contraer</span>
+          </button>
+          <nav id="primary-navigation" aria-label="Navegación principal">
+            {primaryLinks()}
+          </nav>
+          <div className="rail-shortcuts">
+            <p className="rail-label">EN TU ESPACIO</p>
+            <nav aria-label="Accesos rápidos">{shortcutLinks()}</nav>
+          </div>
+          <div className="rail-privacy">
+            <Icon name="privacidad" />
+            <div className="rail-label">
+              <strong>Tu espacio</strong>
+              <p>
+                {state.session
+                  ? state.profile.displayName
+                  : "Datos de ejemplo durante esta visita."}
+              </p>
+              <Link to="/instalar">Instalar app ↗</Link>
+              <Link to="/logros">
+                Nivel {achievementsSummary.level} ·{" "}
+                {achievementsSummary.unlockedCount} logros
+              </Link>
+            </div>
+          </div>
+          {state.session ? (
+            <button
+              className="sidebar-logout-btn"
+              onClick={() => void handleLogoutClick()}
+            >
+              <Icon name="cancelar" />
+              <span className="rail-label">Cerrar sesión</span>
+            </button>
+          ) : (
+            <Link className="sidebar-login-btn" to="/auth">
+              Iniciar sesión / Registro
+            </Link>
+          )}
+        </aside>
+        <main id="content" className="island-content">
+          <div className="page-heading">
+            <div>
+              <div className="eyebrow">
+                {page === "hoy" || page === "dashboard"
+                  ? "UN MOMENTO PARA TI"
+                  : "QUANTIFY CORE · TU ESPACIO"}
+              </div>
+              <h1 ref={heading} tabIndex={-1}>
+                {title}
+              </h1>
+              <p>{description}</p>
+            </div>
+            {["hoy", "habitos", "dashboard"].includes(page) && (
+              <Link className="button primary" to="/nuevo">
+                <Icon name="crear" />
+                Crear hábito
+              </Link>
+            )}
+          </div>
+          <div className="preview-caption">
+            <Icon name="informacion" />
+            {state.session
+              ? `Conectado como ${state.profile.displayName}. Tus datos se sincronizan con la API.`
+              : "Demostración · Fixtures en memoria. Inicia sesión para guardar tus hábitos."}
+            {state.syncError && <span role="alert">{state.syncError}</span>}
+          </div>
+          {!online && (
+            <p className="form-note" role="status">
+              Sin conexión. Puedes consultar lo cargado; los cambios requieren
+              red.
+            </p>
+          )}
+          <div className="island-scene" key={pathname}>
+            <Outlet />
+          </div>
+          <footer className="page-footer">
+            <span>Quantify Core · A tu ritmo.</span>
+            <Link to="/ajustes?seccion=Privacidad">Tu privacidad</Link>
+            <Link to="/">Volver a bienvenida</Link>
+          </footer>
+        </main>
+      </div>
       <dialog
         ref={menu}
         className="navigation-dialog"
@@ -149,100 +306,25 @@ export function MainLayout() {
             <Icon name="cancelar" />
           </button>
         </div>
-        <Brand dark={dark} />
-        <nav aria-label="Menú móvil">{navigationLinks()}</nav>
-        <Link
-          className="button secondary"
-          to="/auth"
-          onClick={() => menu.current?.close()}
-        >
-          Identidad y acceso
-        </Link>
-      </dialog>
-      <div className="workspace">
-        <header className="topbar">
-          <button
-            className="icon-button menu-button"
-            onClick={() => menu.current?.showModal()}
-            aria-label="Abrir menú"
-            aria-haspopup="dialog"
-          >
-            <Icon name="menu" />
-          </button>
-          <div className="breadcrumb">
-            Mi espacio <span>/</span>{" "}
-            <strong>
-              {navigation.find((n) => n[0] === page)?.[1] || "Hábitos"}
-            </strong>
-          </div>
-          <div className="top-actions">
-            <span className="connection">
-              <i className={online ? "" : "offline"} />
-              {online ? "En línea" : "Sin conexión"}
-            </span>
+        <nav aria-label="Menú móvil">
+          {primaryLinks()}
+          {shortcutLinks()}
+          <Link to="/instalar">Instalar app</Link>
+          {state.session ? (
             <button
-              className="icon-button"
-              onClick={() => setDark(!dark)}
-              aria-label={`Cambiar a tema ${dark ? "claro" : "oscuro"}`}
+              className="sidebar-logout-btn"
+              onClick={() => void handleLogoutClick()}
             >
-              <Icon name="descanso" />
+              Cerrar sesión
             </button>
-            <Link className="icon-button" to="/avisos" aria-label="Ver avisos">
-              <Icon name="recordatorio" />
-            </Link>
-            <Link className="profile-link" to="/ajustes">
-              <span className="avatar">A</span>
-              <span>
-                Alex<small>Perfil de ejemplo</small>
-              </span>
-            </Link>
-          </div>
-        </header>
-        <main id="content">
-          <div className="page-heading">
-            <div>
-              <div className="eyebrow">QUANTIFY CORE · TU ESPACIO PERSONAL</div>
-              <h1 ref={heading} tabIndex={-1}>
-                {title}
-              </h1>
-              <p>{description}</p>
-            </div>
-            {["hoy", "habitos"].includes(page) && (
-              <Link className="button primary" to="/nuevo">
-                <Icon name="crear" />
-                Crear hábito
-              </Link>
-            )}
-          </div>
-          <div className="preview-caption">
-            <Icon name="informacion" />
-            Demostración · Fixtures en memoria. Sin autenticación, persistencia
-            ni métricas reales.
-          </div>
-          {!online && (
-            <p className="form-note" role="status">
-              Sin conexión. Puedes explorar los fixtures ya cargados; no se
-              guardan ni sincronizan datos.
-            </p>
+          ) : (
+            <Link to="/login">Iniciar sesión</Link>
           )}
-          <Outlet />
-          <footer className="page-footer">
-            <span>Quantify Core · A tu ritmo.</span>
-            <Link to="/ajustes?seccion=Privacidad">Tu privacidad</Link>
-          </footer>
-        </main>
-      </div>
-      <nav className="mobile-nav" aria-label="Navegación móvil">
-        {navigation
-          .filter((n) =>
-            ["hoy", "habitos", "analisis", "avisos", "ajustes"].includes(n[0]),
-          )
-          .map(([path, label, icon]) => (
-            <NavLink key={path} to={`/${path}`}>
-              <Icon name={icon} />
-              <span>{label === "Mis hábitos" ? "Hábitos" : label}</span>
-            </NavLink>
-          ))}
+          <Link to="/">Bienvenida</Link>
+        </nav>
+      </dialog>
+      <nav className="island-mobile-nav" aria-label="Navegación móvil">
+        {primaryLinks()}
       </nav>
     </div>
   );

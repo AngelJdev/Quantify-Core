@@ -34,7 +34,7 @@ try {
   }
   assert.equal(sheets.length, 132);
   const allSheets = [...sheets, ...navigationVariants];
-  assert.equal(navigationVariants.length, 40);
+  assert.equal(navigationVariants.length, 36);
   for (const s of allSheets) {
     const match = allSheets.find(
       (x) =>
@@ -123,7 +123,7 @@ try {
         (s.fidelity === "sketch" && s.id === "U06")) &&
       ["U06", "U03", "U05", "A02", "U10"].includes(s.id)
     )
-      await page.locator("svg").screenshot({
+      await page.locator("svg").first().screenshot({
         path: new URL(
           `${s.fidelity === "sketch" ? "sketch-" : ""}${s.id}-${s.format}${s.navigationState === "compact" ? "-compact" : ""}.png`,
           out,
@@ -131,10 +131,10 @@ try {
       });
   }
   checks.push(
-    "132 láminas base y 40 variantes: límites, texto, cotas, objetivos y geometría compartida",
+    "132 láminas base y 36 variantes: límites, texto, cotas, objetivos y geometría compartida",
   );
   await page.goto(base + "docs/practica-07/galeria.html#U06");
-  await page.waitForURL("**/docs/GUI/practica-07.html?fidelity=sketch#U06");
+  await page.waitForURL(url => url.pathname.endsWith('/docs/GUI/practica-07.html') && url.searchParams.get('fidelity') === 'sketch' && url.hash === '#U06');
   assert.equal(await page.locator("#fidelity-filter").inputValue(), "sketch");
   assert.match(
     await page.locator("#catalog .card:not([hidden]) img").getAttribute("src"),
@@ -187,7 +187,7 @@ try {
       })),
       [],
     );
-    await page.selectOption("#role-filter", "all");
+    await page.selectOption("#role-filter", "usuario");
     await page.selectOption("#screen-picker", "U06");
     await image.evaluate((e) => e.decode());
     await page.screenshot({
@@ -204,7 +204,7 @@ try {
   await page.goto(base + "docs/GUI/index.html?fidelity=wireframe#prototipos");
   await page.waitForFunction(
     () =>
-      document.querySelectorAll("#prototype-grid .image-card").length === 33,
+      document.querySelectorAll("#prototype-grid .image-card").length === 22,
   );
   await page.selectOption("#format", "desktop");
   assert.match(
@@ -216,7 +216,10 @@ try {
   await page.keyboard.press("Escape");
   await page.locator("[data-fidelity=mockup]").click();
   await page.selectOption("#format", "mobile");
-  assert.equal(await page.locator("#prototype-grid .image-card").count(), 33);
+  assert.equal(await page.locator("#prototype-grid .image-card").count(), 22);
+  await page.selectOption('#prototype-role', 'admin');
+  assert.equal(await page.locator('#prototype-grid .image-card').count(), 11);
+  assert.ok((await page.locator('#prototype-grid img').evaluateAll(items=>items.map(item=>item.src))).every(src=>/\/A\d\d\.svg$/.test(src)));
   await page
     .locator("#prototype-grid img")
     .first()
@@ -226,7 +229,7 @@ try {
     /390 × 844/,
   );
   checks.push(
-    "Galería: 33 wireframes y mockups, PWA, lightbox y dimensiones",
+    "Galería: 22 vistas de usuario y 11 administrativas separadas, PWA, lightbox y dimensiones",
   );
   assert.deepEqual(errors, []);
   await fs.writeFile(

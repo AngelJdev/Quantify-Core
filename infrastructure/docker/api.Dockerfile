@@ -8,6 +8,11 @@ COPY services/api/telemetry/src ./telemetry/src
 COPY packages/contracts /app/packages/contracts
 RUN npm run build && npm prune --omit=dev --no-audit --no-fund
 
+FROM build AS migration
+COPY --chown=node:node services/api/db ./db
+USER node
+CMD ["node", "db/docker-migrate.cjs"]
+
 FROM node:24.14.1-bookworm-slim
 ARG APP_REVISION=unversioned
 LABEL org.opencontainers.image.revision=$APP_REVISION

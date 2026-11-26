@@ -1,5 +1,17 @@
 # Quantify Core · GUI
 
+**Base para web y móvil:** [fuentes vigentes, estados, correcciones y límites de implementación](BASE-IMPLEMENTACION.md). Inventario de 33 pantallas, 336 láminas y 132 condiciones; U11 conversacional y U20/U21 públicas sin navegación de sesión. Las cifras de revisiones anteriores son antecedentes.
+
+**Vistas separadas e IA personal:** [usuario: hábitos y asistente de IA](practica-07.html?fidelity=mockup&role=usuario#U11) · [administración: operación y supervisión](practica-07.html?fidelity=mockup&role=admin#A02). El asistente personal permite crear un hábito desde una propuesta; Control IA es una herramienta administrativa distinta. [Regla y recorrido](NAVEGACION.md).
+
+**Corrección de navegación:** [cuatro destinos por rol y acceso a todos los módulos](NAVEGACION.md). Gestión reúne cuentas, auditoría y configuración; las pestañas se pueden recorrer directamente sobre las láminas del prototipo navegacional.
+
+**Revisión general:** [distribución y contenido útil en las 33 pantallas](COMPOSICION-GENERAL.md). Login con imagen editorial, columnas PWA y paneles específicos para cada tarea; mismos cambios en las tres fidelidades y el recorrido.
+
+**Rediseño de entrada:** [bienvenida PWA/móvil, carga por etapas y vistas breves](ENTRADA.md), con una sola marca por pantalla y las nuevas composiciones compartidas por las tres fidelidades.
+
+**Revisión del 17/11/2026:** [identidad y correspondencia](REVISION-PROTOTIPOS.md). El [recorrido navegacional vigente](../practica-07/index.html) reutiliza las mismas láminas de las tres fidelidades. La [simulación funcional anterior](../practica-07/demo.html) se conserva como antecedente; su composición no define el prototipo final.
+
 Documentación del sistema de diseño, guía de estilos visuales y prototipos de interfaz de usuario de **Quantify Core**. Este módulo centraliza las especificaciones visuales, los componentes de interfaz, las variables de diseño y los prototipos interactivos del producto.
 
 **Para revisar ahora:** [33 mockups con islas e identidad](practica-07.html?fidelity=mockup), en claro y oscuro para móvil y PWA, alineados con los [wireframes](practica-07.html?fidelity=wireframe) y [sketches](practica-07.html?fidelity=sketch). [Especificación de mockups](MOCKUPS.md) · [Medidas compartidas](ISLAS.md). Práctica 07 apunta a los mismos sketches. Esta revisión web no está sincronizada con los frames anteriores de Figma.
@@ -104,7 +116,7 @@ El archivo oficial ya contiene navegación entre pantallas: no es necesario crea
 
 Abrir [wireframes](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3?node-id=5-1363), [mockups claros](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3?node-id=5-2436) o [mockups oscuros](https://www.figma.com/design/L6ePtwcmyBeiC2xI1iDGM3?node-id=5-3531), seleccionar el flujo correspondiente y usar Present. Verifiqué acceso al archivo y resolución de destinos con el conector; no ejecuté el reproductor Present ni certifico permisos de publicación pública.
 
-Son recorridos visuales con datos de referencia: no realizan login OIDC, persistencia ni ingesta real. Las seis vistas adicionales de autenticación tienen sus SVG y galería en Git, pero esta revisión no encontró frames de esas vistas entre las 80 pantallas originales de las tres páginas inspeccionadas. No se afirma que estén incorporadas al prototipo Figma. La [Práctica 07](../practica-07/README.md) conserva su prototipo HTML independiente.
+Son recorridos visuales con datos de referencia: no realizan login OIDC, persistencia ni ingesta real. Las seis vistas adicionales de autenticación tienen sus SVG y galería en Git, pero esta revisión no encontró frames de esas vistas entre las 80 pantallas originales de las tres páginas inspeccionadas. No se afirma que estén incorporadas al prototipo Figma. La [Práctica 07](../practica-07/README.md) ofrece el recorrido HTML vigente con las láminas del catálogo; Figma conserva su inventario anterior pendiente de sincronización.
 
 ## Organización de directorios
 

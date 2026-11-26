@@ -15,7 +15,7 @@ flowchart LR
     U08["U08 · Detalle del hábito"]
     U09["U09 · Recordatorio"]
     U10["U10 · Análisis y rachas"]
-    U11["U11 · IA Coach"]
+    U11["U11 · IA para crear hábitos"]
     U14["U14 · Centro de avisos"]
     U12["U12 · Perfil y ajustes"]
     U13["U13 · Archivar hábito"]
@@ -30,7 +30,7 @@ flowchart LR
     A04["A04 · Editar plantilla"]
     A05["A05 · Supervisión de IA"]
     A06["A06 · Auditoría"]
-    A07["A07 · Control de accesos"]
+    A07["A07 · Gestión administrativa"]
     A08["A08 · Configuración global"]
     A09["A09 · Confirmar cambio de acceso"]
     A10["A10 · Lock Account · Administrador"]
@@ -71,7 +71,7 @@ flowchart LR
   U06 -. "Completar o deshacer" .-> U06
   U06 -- "Ver avisos" --> U14
   U06 -- "Análisis" --> U10
-  U06 -- "IA Coach" --> U11
+  U06 -- "IA hábitos" --> U11
   U06 -- "Ajustes" --> U12
   U07 -- "Guardar válido" --> U08
   U07 -. "Datos inválidos" .-> U07
@@ -88,14 +88,15 @@ flowchart LR
   U10 -. "Cambiar periodo" .-> U10
   U10 -- "Ver hábito" --> U08
   U10 -- "Hoy" --> U06
-  U10 -- "IA Coach" --> U11
+  U10 -- "IA hábitos" --> U11
   U10 -- "Ajustes" --> U12
-  U11 -- "Personalizar sugerencia" --> U07
-  U11 -. "Descartar por 21 días" .-> U11
+  U11 -- "Crear hábito con IA · personalizar propuesta" --> U07
+  U11 -. "IA hábitos" .-> U11
   U11 -- "Cambiar consentimiento" --> U12
   U11 -- "Hoy" --> U06
   U11 -- "Análisis" --> U10
   U11 -- "Ajustes" --> U12
+  U11 -- "Crear hábito manualmente" --> U07
   U14 -- "Abrir hábito asociado" --> U08
   U14 -. "Marcar como leído" .-> U14
   U14 -- "Preferencias" --> U12
@@ -105,7 +106,7 @@ flowchart LR
   U12 -- "Cerrar sesión" --> U02
   U12 -- "Hoy" --> U06
   U12 -- "Análisis" --> U10
-  U12 -- "IA Coach" --> U11
+  U12 -- "IA hábitos" --> U11
   U12 -- "Acerca del software" --> U20
   U12 -- "Intentar módulo administrativo" --> U22
   U13 -- "Confirmar archivo" --> U06
@@ -114,28 +115,28 @@ flowchart LR
   U22 -- "Cerrar sesión" --> U02
   U20 -- "Conocer al equipo" --> U21
   U20 -- "Volver a bienvenida" --> U01
-  U20 -- "Volver a ajustes" --> U12
+  U20 -- "Volver a Perfil · sesión vigente" --> U12
   U21 -- "Volver al software" --> U20
   U21 -- "Volver a bienvenida" --> U01
   A01 -- "Credenciales demo válidas" --> A02
   A01 -. "Acceso denegado" .-> A01
   A01 -- "Tercer intento fallido o acceso bloqueado" --> A10
   A02 -- "Ver catálogo" --> A03
-  A02 -- "Supervisar IA" --> A05
+  A02 -- "Supervisión de IA" --> A05
   A02 -- "Auditoría" --> A06
   A02 -- "Cuentas" --> A07
   A02 -- "Configuración" --> A08
   A03 -- "Crear o editar plantilla" --> A04
   A03 -. "Confirmar pausa o reactivación" .-> A03
   A03 -- "Resumen" --> A02
-  A03 -- "IA" --> A05
+  A03 -- "Supervisión de IA" --> A05
   A03 -- "Auditoría" --> A06
   A03 -- "Cuentas" --> A07
   A03 -- "Configuración" --> A08
   A04 -- "Guardar o cancelar" --> A03
   A04 -. "Corregir datos" .-> A04
-  A04 -- "Abrir IA" --> A05
-  A05 -. "Confirmar pausa o reactivación" .-> A05
+  A04 -- "Supervisión de IA" --> A05
+  A05 -. "Supervisión de IA" .-> A05
   A05 -- "Resumen" --> A02
   A05 -- "Catálogo" --> A03
   A05 -- "Ver auditoría" --> A06
@@ -144,19 +145,19 @@ flowchart LR
   A06 -. "Filtrar eventos" .-> A06
   A06 -- "Resumen" --> A02
   A06 -- "Catálogo" --> A03
-  A06 -- "IA" --> A05
+  A06 -- "Supervisión de IA" --> A05
   A06 -- "Cuentas" --> A07
   A06 -- "Configuración" --> A08
   A07 -- "Cambiar estado de cuenta" --> A09
   A07 -- "Resumen" --> A02
   A07 -- "Catálogo" --> A03
-  A07 -- "IA" --> A05
+  A07 -- "Supervisión de IA" --> A05
   A07 -- "Auditoría" --> A06
   A07 -- "Configuración" --> A08
   A08 -. "Validar y guardar" .-> A08
   A08 -- "Resumen" --> A02
   A08 -- "Catálogo" --> A03
-  A08 -- "IA" --> A05
+  A08 -- "Supervisión de IA" --> A05
   A08 -- "Auditoría" --> A06
   A08 -- "Cuentas" --> A07
   A08 -- "Cerrar sesión" --> A01

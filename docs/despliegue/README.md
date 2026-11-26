@@ -18,6 +18,7 @@ flowchart LR
 |---|---|
 | Preparar ambiente y publicar una versión | [Procedimiento de publicación](publicacion.md). |
 | Diagnosticar, revertir y restaurar | [Incidentes y recuperación](recuperacion.md). |
+| Levantar la demo local para el concurso en Windows | [Guía paso a paso](guia-demo-concurso-2026-11-26.md) y [PDF](guia-demo-concurso-2026-11-26.pdf); laboratorio local, no despliegue productivo. |
 | Preparar dependencias de desarrollo | [Docker](../../infrastructure/docker/README.md). |
 | Consultar señales y alertas | [Observabilidad](../../infrastructure/observability/README.md). |
 | Preparar la copia local y saber qué falta instalar | [Installation](../Installation/README.md). |

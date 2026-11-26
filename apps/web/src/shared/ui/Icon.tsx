@@ -1,5 +1,6 @@
 // Trazos canónicos de docs/GUI/fuente/generar.py y guia_estilos.py.
 const paths = {
+  perfil: "M20 21v-2a8 8 0 0 0-16 0v2 M16 6a4 4 0 1 0-8 0 4 4 0 1 0 8 0",
   hoy: "M3 10L12 3l9 7v11h-6v-7H9v7H3Z",
   habitos: "M5 4h14v17H5Z M9 2h6v4H9Z M8 11l2 2 5-5 M8 17h8",
   analisis: "M4 20V10 M10 20V4 M16 20v-8 M22 20H2",

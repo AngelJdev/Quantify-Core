@@ -2,10 +2,12 @@
 (async () => {
   const sketches=Object.values(window.QC.screens).flat().map(s=>({id:s.id,number:s.reviewOrder,title:s.title,rf:s.requirements.join(', '),intent:s.description,note:s.elements,assets:{'sketch:none':`prototipos/movil/sketches/islas/${s.id}.svg`}}));
   const grid=document.getElementById('prototype-grid'),format=document.getElementById('format');
+  const roleFilter=document.getElementById('prototype-role');
+  roleFilter.value=new URLSearchParams(location.search).get('role')==='admin'?'admin':'usuario';
   const dialog=document.getElementById('viewer'),full=document.getElementById('full-image');
   const requestedFidelity=new URLSearchParams(location.search).get('fidelity');
   let fidelity=['sketch','wireframe','mockup'].includes(requestedFidelity)?requestedFidelity:'sketch',theme=new URLSearchParams(location.search).get('theme')==='dark'?'dark':'light',activeCards=[],current=0,opener;
-  const notes={sketch:'33 sketches por formato · Islas, márgenes de 24 px y cotas exteriores; móvil 390 × 844 px, PWA 1280 × 900 px provisional. Práctica 07 utiliza este mismo conjunto a lápiz.',wireframe:'33 wireframes por formato · Misma geometría y recorrido que los sketches; navegación móvil flotante en píldora. Grises e Inter; PWA provisional con referencias de video revisadas.',mockup:'33 pantallas por formato en claro y oscuro. Islas, medidas, Inter, Q e iconos de la identidad definida. Datos ilustrativos; SVG estáticos, sin servicios conectados.'};
+  const notes={sketch:'Sketches con islas, márgenes de 24 px y cotas exteriores; móvil 390 × 844 px, PWA 1280 × 900 px provisional. Práctica 07 utiliza este mismo conjunto a lápiz.',wireframe:'Misma geometría y recorrido que los sketches; navegación móvil flotante en píldora. Grises e Inter; PWA provisional con referencias de video revisadas.',mockup:'Mockups en claro y oscuro. Islas, medidas, Inter, Q e iconos de la identidad definida. Datos ilustrativos; SVG estáticos, sin servicios conectados.'};
   function showImage(index){
     current=(index+activeCards.length)%activeCards.length;
     const card=activeCards[current];full.src=card.dataset.image;full.alt=card.dataset.title;
@@ -27,11 +29,11 @@
     grid.replaceChildren();
     document.querySelectorAll('[data-fidelity]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.fidelity===fidelity)));
     const desktop=format.value==='desktop';grid.classList.toggle('desktop',desktop);
-    document.getElementById('fidelity-note').textContent=notes[fidelity];
+    document.getElementById('fidelity-note').textContent=`${roleFilter.value==='admin'?'Administración · 11 pantallas':'Usuario · 22 pantallas'}. ${notes[fidelity]}`;
     document.querySelectorAll('[data-theme]').forEach(b=>{b.disabled=fidelity!=='mockup';b.setAttribute('aria-pressed',String(b.dataset.theme===theme));});
     document.querySelector('[aria-label="Tema"]').hidden=fidelity!=='mockup';
     format.disabled=false;
-    const visible=sketches;
+    const visible=sketches.filter(s=>s.id.startsWith(roleFilter.value==='admin'?'A':'U'));
     for(const s of visible){
       const folder={sketch:'sketches',wireframe:'wireframes',mockup:'mockups'}[fidelity];
       const file=`prototipos/${desktop?'pwa':'movil'}/${folder}/islas/${fidelity==='mockup'?theme+'/':''}${s.id}.svg`;
@@ -47,6 +49,7 @@
   document.querySelectorAll('[data-fidelity]').forEach(b=>b.addEventListener('click',()=>{fidelity=b.dataset.fidelity;document.querySelectorAll('[data-fidelity]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render();}));
   document.querySelectorAll('[data-theme]').forEach(b=>b.addEventListener('click',()=>{theme=b.dataset.theme;document.querySelectorAll('[data-theme]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render();}));
   format.addEventListener('change',render);
+  roleFilter.addEventListener('change',()=>{const url=new URL(location);url.searchParams.set('role',roleFilter.value);history.replaceState(null,'',url);render();});
   document.getElementById('previous').addEventListener('click',()=>showImage(current-1));document.getElementById('next').addEventListener('click',()=>showImage(current+1));
   document.getElementById('zoom').addEventListener('click',e=>{const on=full.classList.toggle('zoomed');e.currentTarget.setAttribute('aria-pressed',String(on));e.currentTarget.textContent=on?'Ajustar':'Ampliar';});
   document.getElementById('close').addEventListener('click',()=>dialog.close());

@@ -18,7 +18,9 @@
 </p>
 
 > [!IMPORTANT]
-> Este documento define la visión y la arquitectura **propuesta** para Quantify Core V2.0. No implica que todos los módulos descritos estén implementados. Las capacidades disponibles deberán identificarse en cada entrega y validarse contra el código, las pruebas y la documentación técnica.
+> Este documento reúne la visión de Quantify Core V2.0 y la guía del entorno local disponible. PostgreSQL, Keycloak, la API NestJS y la web pueden ejecutarse con Docker; las secciones de arquitectura y alcance también incluyen capacidades **propuestas**. Su presencia aquí no implica que estén implementadas.
+
+**Para empezar a desarrollar:** sigue la [guía de instalación local](docs/Installation/README.md). Si necesitas entender dónde quedan los registros, consulta [Base de datos y persistencia local](#base-de-datos-y-persistencia-local). El arranque base usa Docker; no requiere instalar Node/npm ni PostgreSQL en tu equipo.
 
 ## Sitio del proyecto
 
@@ -35,27 +37,6 @@ El **[Centro del proyecto](https://angeljdev.github.io/Quantify-Core/)** reúne 
 - [Manual móvil integral](docs/manual%20de%20instalacion/MANUAL_MOVIL_INTEGRAL.pdf)
 - [Práctica 05 — Diagrama Interactivo de Roles de Usuario](https://angeljdev.github.io/Quantify-Core/docs/Practica05/diagrama-roles-quantify.html)
 - [Examen de arquitectura — Plano interactivo](https://angeljdev.github.io/Quantify-Core/docs/examen/index.html)
-- [Práctica 07 — Revisar sketches con medidas](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html)
-- [Práctica 08 — Wireframes del Proyecto Integrador](docs/GUI/prototipos/movil/wireframes/README.md)
-- [Práctica 09 — Avance de Mockups](https://angeljdev.github.io/Quantify-Core/#practica-09)
-
-## Práctica 07
-
-**[Revisar sketches uno por uno](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html?fidelity=sketch):** Splash primero y solo logo; 33 vistas con cotas exteriores, móvil 390 × 844 px y PWA 1280 × 900 px. La [revisión de islas](docs/GUI/ISLAS.md) incorpora 33 wireframes correspondientes por formato y utiliza ese mismo conjunto para Práctica 07. PWA provisional con referencias de video revisadas; mockups alineados en claro y oscuro.
-
-La [carpeta de Práctica 07](docs/practica-07/) reúne la guía de los quince puntos, 33 fichas, galería, prototipo, explorador de navegación y evidencias. Su README enlaza las fuentes de requisitos e historias y los bocetos originales en GUI. [Abrir el explorador](docs/practica-07/navegacion.html).
-
-## Práctica 08
-
-**Diagrama de Visualización de Wireframes del Proyecto Integrador.** La [revisión de wireframes](docs/GUI/prototipos/movil/wireframes/README.md) incluye 33 vistas por formato, islas, navegación móvil en píldora y medidas. También pueden consultarse en la [galería visual del sitio](https://angeljdev.github.io/Quantify-Core/docs/GUI/index.html?fidelity=wireframe#prototipos), con **Wireframe** seleccionado automáticamente. El catálogo anterior se conserva.
-
-**Estado:** material visual disponible; el diagrama específico de Práctica 08 está pendiente de integrar. La publicación de los wireframes no acredita por sí sola la entrega completa de la práctica.
-
-## Práctica 09
-
-**Mockups con identidad e islas.** El [visor del sitio](https://angeljdev.github.io/Quantify-Core/docs/GUI/practica-07.html?fidelity=mockup) reúne las 33 pantallas para móvil y PWA, en claro y oscuro. Conservan geometría y cotas del wireframe, navegación móvil en píldora y barra lateral expandida/compacta. Usan la paleta, Inter, la Q y los iconos definidos. [Especificación y alcance](docs/GUI/MOCKUPS.md) · [Catálogo móvil](docs/GUI/prototipos/movil/mockups/README.md).
-
-**Estado:** avance visual, no entrega terminada. Login y Register incluyen Google, Facebook y Apple solo como opciones de prototipo. El [flujo de autenticación](docs/GUI/prototipos/movil/autenticacion/README.md) distingue el diseño de la conexión real con Keycloak y proveedores sociales.
 
 ## Documentación para desarrollar
 
@@ -81,9 +62,6 @@ Los diagramas y secciones desplegables de los README ayudan a recorrer estas gu�
 
 ## Contenido
 
-- [Práctica 07](docs/practica-07/)
-- [Práctica 08](#práctica-08)
-- [Práctica 09](#práctica-09)
 - [Documentación para desarrollar](#documentación-para-desarrollar)
 - [Descripción](#descripción)
 - [Planteamiento del problema](#planteamiento-del-problema)
@@ -99,6 +77,7 @@ Los diagramas y secciones desplegables de los README ayudan a recorrer estas gu�
 - [Diagrama de Gantt en Jira](#diagrama-de-gantt-en-jira)
 - [Estructura propuesta del proyecto](#estructura-propuesta-del-proyecto)
 - [Instalación y ejecución](#instalación-y-ejecución)
+- [Base de datos y persistencia local](#base-de-datos-y-persistencia-local)
 - [Documentación y prácticas académicas](#documentación-y-prácticas-académicas)
 - [Diagrama de roles y funcionalidades](#diagrama-de-roles-y-funcionalidades)
 - [Identidad visual](#identidad-visual)
@@ -464,21 +443,17 @@ Esta estructura es una guía. No debe crearse de manera artificial hasta que cad
 
 ## Instalación y ejecución
 
-> [!WARNING]
-> **Pendiente.** El material disponible no define todavía repositorios de código, versiones de runtime, variables de entorno, migraciones ni comandos verificables. Para evitar instrucciones ficticias, la guía de instalación se publicará cuando exista un entorno base reproducible.
+La **[guía completa para levantar el proyecto en local](docs/Installation/README.md)** es el punto de entrada para compañeros y agentes. Incluye requisitos/versiones, clonación, configuración privada, Docker, migraciones, cuenta Keycloak, salud, desarrollo con Node, Flutter, monitoreo opcional, diagnóstico y apagado.
 
-La futura guía deberá incluir, como mínimo:
+Para web/API necesitas **Git, Docker Desktop con contenedores Linux/Compose y un navegador**. PostgreSQL, Keycloak, Node, NestJS y React/Vite se ejecutan dentro de las imágenes. Flutter requiere su SDK y herramientas de plataforma. La guía distingue las tecnologías opcionales y las que siguen pendientes, como FastAPI, Redis y Wear OS.
 
-1. prerrequisitos y versiones soportadas;
-2. plantilla de variables de entorno sin secretos;
-3. levantamiento de dependencias con Docker Compose;
-4. migraciones y datos de prueba;
-5. ejecución de web, móvil, API, worker y analítica;
-6. pruebas, formato y análisis estático;
-7. cuentas o realms de desarrollo de Keycloak;
-8. solución de problemas y procedimiento de limpieza seguro.
+### Desarrollo, PWA y acceso real
 
-No deben agregarse credenciales, datos biométricos reales ni archivos `.env` al repositorio.
+Consulta [cuenta y perfil de prueba, PWA y modalidades web](docs/Installation/README.md#desarrollo-pwa-y-acceso-real). La bienvenida utiliza datos ilustrativos; `/conexion` permite lecturas con sesión real. La conexión móvil de producto sigue fuera de este arranque.
+
+## Base de datos y persistencia local
+
+El negocio usa PostgreSQL con dos migraciones y volúmenes Docker persistentes; Keycloak guarda la identidad por separado. La guía explica [dónde están los datos, cómo consultar tablas/migraciones y qué conserva los volúmenes](docs/Installation/README.md#base-de-datos-y-persistencia-local), además de los pendientes de respaldo y producción.
 
 ## Documentación y prácticas académicas
 
