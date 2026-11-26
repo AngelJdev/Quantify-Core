@@ -16,12 +16,17 @@ Requiere Docker Desktop, configuración privada local existente y teléfono auto
 
 ```powershell
 node scripts/dev-base.mjs up
+node scripts/dev-base.mjs docker-migrate
+node scripts/dev-base.mjs docker-up
 node scripts/configure-mobile-identity.mjs --apply-local
 # Usar adb del SDK si no está en PATH; añadir -s ID si hay varios dispositivos.
 adb reverse tcp:8180 tcp:8180
+adb reverse tcp:3000 tcp:3000
 cd apps/mobile
-flutter run -d ID_DEL_DISPOSITIVO --target lib/main_prototype.dart --dart-define=OIDC_ISSUER=http://localhost:8180/realms/quantify --dart-define=OIDC_USB_DEBUG=true
+flutter run -d ID_DEL_DISPOSITIVO --target lib/main_prototype.dart --dart-define=OIDC_ISSUER=http://localhost:8180/realms/quantify --dart-define=API_BASE_URL=http://localhost:3000/api/v1 --dart-define=OIDC_USB_DEBUG=true
 ```
+
+Si se omite `API_BASE_URL`, la sesión Keycloak abre el dashboard ilustrativo sin llamadas REST. Con `API_BASE_URL`, las escrituras (`POST /me`, `POST/PATCH /habits`, `POST /habits/:id/check-ins`) requieren `CORE_REVIEW_WRITES_ENABLED=1` en el entorno privado de la API.
 
 El script modifica exclusivamente el realm local de 8180: habilita autorregistro y añade el retorno exacto de logout móvil, preservando otros atributos. No crea usuarios, no modifica contraseñas ni reimporta realms existentes. El export lleva esos ajustes para instalaciones nuevas. Registro se habilita en todo el realm; no concede rol administrador ni crea perfiles SQL. Correo verificado y recuperación siguen pendientes de SMTP/política; no se habilitan en este cambio.
 

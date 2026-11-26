@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'design.dart';
+import 'state.dart';
 
 void showAppearance(BuildContext context) {
   showModalBottomSheet<void>(
@@ -125,7 +126,9 @@ class _AppearanceSheetState extends State<AppearanceSheet> {
           ),
           const SizedBox(height: 18),
           Text(
-            'Preferencias solo durante esta sesión de demostración. El contraste alto del dispositivo mantiene superficies sólidas.',
+            (PrototypeScope.maybeOf(context)?.isConnectedOrConfigured ?? false)
+                ? 'Preferencias visuales locales para esta sesión. El contraste alto del dispositivo mantiene superficies sólidas.'
+                : 'Preferencias solo durante esta sesión de demostración. El contraste alto del dispositivo mantiene superficies sólidas.',
             style: TextStyle(
               fontSize: 12,
               height: 1.6,

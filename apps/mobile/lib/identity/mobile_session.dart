@@ -56,6 +56,21 @@ class MobileSession extends ChangeNotifier with WidgetsBindingObserver {
   bool _disposed = false;
   String? message;
   bool get authenticated => _tokens != null;
+  String? currentAccessToken() {
+    if (!authenticated) return null;
+    final expires = _tokens!.accessTokenExpirationDateTime;
+    if (expires == null || !expires.isAfter(DateTime.now())) {
+      _expire();
+      return null;
+    }
+    return _tokens!.accessToken;
+  }
+
+  void handleUnauthorized() {
+    if (_disposed || !authenticated) return;
+    _expire();
+  }
+
   bool get supported =>
       !kIsWeb &&
       (defaultTargetPlatform == TargetPlatform.android ||

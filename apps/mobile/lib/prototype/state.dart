@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../api/mobile_api.dart';
 import 'generated_tokens.dart';
 
 @immutable
@@ -41,13 +42,17 @@ class PrototypeHabit {
     this.paused = false,
     this.archived = false,
     this.days = const [1, 2, 3, 4, 5],
+    this.timeZone = 'America/Mexico_City',
+    this.effectiveFrom = '2026-11-20',
+    this.version = 1,
   });
-  final String id, name, unit;
+  final String id, name, unit, timeZone, effectiveFrom;
   final double target, value;
   final IconData icon;
   final bool paused, archived;
   final List<int> days;
-  double get progress => (value / target).clamp(0, 1);
+  final int version;
+  double get progress => target <= 0 ? 0 : (value / target).clamp(0, 1);
   PrototypeHabit copyWith({
     String? name,
     double? target,
@@ -56,6 +61,9 @@ class PrototypeHabit {
     bool? paused,
     bool? archived,
     List<int>? days,
+    String? timeZone,
+    String? effectiveFrom,
+    int? version,
   }) => PrototypeHabit(
     id: id,
     name: name ?? this.name,
@@ -66,6 +74,9 @@ class PrototypeHabit {
     paused: paused ?? this.paused,
     archived: archived ?? this.archived,
     days: days ?? this.days,
+    timeZone: timeZone ?? this.timeZone,
+    effectiveFrom: effectiveFrom ?? this.effectiveFrom,
+    version: version ?? this.version,
   );
 }
 
@@ -76,47 +87,366 @@ class PrototypeEntry {
     required this.name,
     required this.value,
     required this.unit,
+    this.date = '2026-11-20',
   });
-  final String habitId, name, unit;
+  final String habitId, name, unit, date;
   final double value;
-  String get date => '2026-11-20';
 }
 
-// Presentation fixtures only. No REST DTOs, session or server idempotency claims.
+IconData _iconForHabit(String name, String unit) {
+  final lower = '${name.toLowerCase()} ${unit.toLowerCase()}';
+  if (lower.contains('agua') || lower.contains('vaso') || lower.contains('ml')) {
+    return Icons.water_drop_outlined;
+  }
+  if (lower.contains('camin') || lower.contains('corr') || lower.contains('paso')) {
+    return Icons.directions_walk_rounded;
+  }
+  if (lower.contains('lect') || lower.contains('leer') || lower.contains('pág')) {
+    return Icons.menu_book_rounded;
+  }
+  return Icons.checklist_rounded;
+}
+
 class PrototypeModel extends ChangeNotifier {
-  final _habits = <PrototypeHabit>[
-    const PrototypeHabit(
-      id: 'reading',
-      name: 'Lectura',
-      target: 20,
-      unit: 'min',
-      value: 20,
-      icon: Icons.menu_book_rounded,
-    ),
-    const PrototypeHabit(
-      id: 'walking',
-      name: 'Caminar',
-      target: 20,
-      unit: 'min',
-      value: 12,
-      icon: Icons.directions_walk_rounded,
-    ),
-    const PrototypeHabit(
-      id: 'water',
-      name: 'Tomar agua',
-      target: 8,
-      unit: 'vasos',
-      value: 5,
-      icon: Icons.water_drop_outlined,
-    ),
-  ];
+  PrototypeModel({this.apiConfigured = false})
+    : _api = null,
+      _clock = null,
+      _habits = <PrototypeHabit>[
+        const PrototypeHabit(
+          id: 'reading',
+          name: 'Lectura',
+          target: 20,
+          unit: 'min',
+          value: 20,
+          icon: Icons.menu_book_rounded,
+        ),
+        const PrototypeHabit(
+          id: 'walking',
+          name: 'Caminar',
+          target: 20,
+          unit: 'min',
+          value: 12,
+          icon: Icons.directions_walk_rounded,
+        ),
+        const PrototypeHabit(
+          id: 'water',
+          name: 'Tomar agua',
+          target: 8,
+          unit: 'vasos',
+          value: 5,
+          icon: Icons.water_drop_outlined,
+        ),
+      ];
+
+  PrototypeModel.connected({
+    required this._api,
+    this._clock,
+  }) : apiConfigured = true,
+       _habits = <PrototypeHabit>[];
+
+  final bool apiConfigured;
+  final MobileApiClient? _api;
+  final DateTime Function()? _clock;
+  final List<PrototypeHabit> _habits;
   final _entries = <String, PrototypeEntry>{};
+  final _connectedEntries = <PrototypeEntry>[];
+  final _apiHabits = <String, ApiHabit>{};
+  final _todayCheckIns = <String, ApiCheckIn>{};
   int _sequence = 0;
+  bool _disposed = false;
+
+  bool loading = false;
+  bool saving = false;
+  String? errorMessage;
+  ApiProfile? profile;
+  List<ApiTrendPoint> weeklyTrends = const [];
+  List<ApiTrendPoint> monthlyTrends = const [];
+
+  bool get isConnected => _api != null;
+  bool get isConnectedOrConfigured => isConnected || apiConfigured;
+  String get activeTimeZone => profile?.timeZone ?? 'America/Mexico_City';
+  DateTime get _now => (_clock ?? DateTime.now)();
+  String get todayBusinessDate => businessDateForZone(_now, activeTimeZone);
+
   List<PrototypeHabit> get habits => List.unmodifiable(_habits);
-  List<PrototypeEntry> get entries =>
-      List.unmodifiable(_entries.values.toList().reversed);
+  List<PrototypeEntry> get entries => isConnected
+      ? List.unmodifiable(_connectedEntries)
+      : List.unmodifiable(_entries.values.toList().reversed);
+
   PrototypeHabit habit(String id) =>
       _habits.firstWhere((habit) => habit.id == id);
+
+  PrototypeHabit? habitOrNull(String id) {
+    for (final item in _habits) {
+      if (item.id == id) return item;
+    }
+    return null;
+  }
+
+  void _safeNotify() {
+    if (!_disposed) notifyListeners();
+  }
+
+  Future<void> refresh() async {
+    final api = _api;
+    if (api == null || loading) return;
+    loading = true;
+    errorMessage = null;
+    _safeNotify();
+    try {
+      ApiProfile resolvedProfile;
+      try {
+        resolvedProfile = await api.getProfile();
+      } on MobileApiException catch (error) {
+        if (error.status == 403) {
+          resolvedProfile = await api.provisionProfile(
+            timeZone: 'America/Mexico_City',
+          );
+        } else {
+          rethrow;
+        }
+      }
+      if (_disposed) return;
+      profile = resolvedProfile;
+
+      final remoteHabits = await api.listAllHabits();
+      if (_disposed) return;
+
+      final now = _now;
+      final checkInLists = await Future.wait(
+        remoteHabits.map((h) {
+          final hToday = businessDateForZone(now, h.timeZone);
+          final hFrom = addBusinessDays(hToday, -29);
+          return api.listCheckIns(habitId: h.id, from: hFrom, to: hToday);
+        }),
+      );
+      if (_disposed) return;
+
+      _habits.clear();
+      _apiHabits.clear();
+      _todayCheckIns.clear();
+      final collectedEntries = <({String recordedAt, PrototypeEntry entry})>[];
+
+      for (var i = 0; i < remoteHabits.length; i++) {
+        final h = remoteHabits[i];
+        final list = checkInLists[i];
+        _apiHabits[h.id] = h;
+        final hToday = businessDateForZone(now, h.timeZone);
+        ApiCheckIn? todayRecord;
+        for (final checkIn in list) {
+          if (checkIn.businessDate == hToday) {
+            todayRecord = checkIn;
+          }
+          collectedEntries.add((
+            recordedAt: checkIn.recordedAt,
+            entry: PrototypeEntry(
+              habitId: h.id,
+              name: h.name,
+              value: checkIn.value,
+              unit: h.unit,
+              date: checkIn.businessDate,
+            ),
+          ));
+        }
+        if (todayRecord != null) {
+          _todayCheckIns[h.id] = todayRecord;
+        }
+        _habits.add(
+          PrototypeHabit(
+            id: h.id,
+            name: h.name,
+            target: h.targetValue,
+            unit: h.unit,
+            value: todayRecord?.value ?? 0,
+            icon: _iconForHabit(h.name, h.unit),
+            paused: h.status == 'paused',
+            archived: h.status == 'archived',
+            days: h.weekdays,
+            timeZone: h.timeZone,
+            effectiveFrom: h.effectiveFrom,
+            version: h.version,
+          ),
+        );
+      }
+
+      collectedEntries.sort((a, b) => b.recordedAt.compareTo(a.recordedAt));
+      _connectedEntries
+        ..clear()
+        ..addAll(collectedEntries.map((item) => item.entry));
+
+      final pToday = businessDateForZone(now, resolvedProfile.timeZone);
+      final trends = await Future.wait([
+        api.getTrends(
+          from: addBusinessDays(pToday, -6),
+          to: pToday,
+          bucket: 'day',
+        ),
+        api.getTrends(
+          from: addBusinessDays(pToday, -27),
+          to: pToday,
+          bucket: 'week',
+        ),
+      ]);
+      if (_disposed) return;
+      weeklyTrends = trends[0];
+      monthlyTrends = trends[1];
+    } on MobileApiException catch (error) {
+      if (!_disposed) errorMessage = error.userMessage;
+    } on Exception {
+      if (!_disposed) {
+        errorMessage = 'No se pudo sincronizar con la API. Inténtalo de nuevo.';
+      }
+    } finally {
+      if (!_disposed) {
+        loading = false;
+        _safeNotify();
+      }
+    }
+  }
+
+  Future<bool> submitHabit({
+    String? id,
+    required String name,
+    required double target,
+    required String unit,
+    required List<int> days,
+  }) async {
+    final api = _api;
+    if (api == null) {
+      save(id: id, name: name, target: target, unit: unit, days: days);
+      return true;
+    }
+    if (saving) return false;
+    saving = true;
+    errorMessage = null;
+    _safeNotify();
+    try {
+      if (id == null) {
+        await api.createHabit(
+          name: name,
+          targetValue: target,
+          unit: unit,
+          weekdays: days,
+          timeZone: activeTimeZone,
+          effectiveFrom: todayBusinessDate,
+        );
+      } else {
+        final current = _apiHabits[id];
+        if (current == null) {
+          throw const MobileApiException(kind: 'http', status: 404);
+        }
+        await api.patchHabit(
+          current: current,
+          todayBusinessDate: businessDateForZone(_now, current.timeZone),
+          name: name,
+          targetValue: target,
+          unit: unit,
+          weekdays: days,
+        );
+      }
+      saving = false;
+      await refresh();
+      return errorMessage == null;
+    } on MobileApiException catch (error) {
+      errorMessage = error.userMessage;
+      return false;
+    } finally {
+      saving = false;
+      _safeNotify();
+    }
+  }
+
+  Future<bool> submitCheckIn(String id, double value) async {
+    final api = _api;
+    if (api == null) {
+      setValue(id, value);
+      return true;
+    }
+    if (saving) return false;
+    final current = _apiHabits[id];
+    if (current == null) return false;
+    saving = true;
+    errorMessage = null;
+    _safeNotify();
+    try {
+      await api.recordCheckIn(
+        habit: current,
+        value: value,
+        existingToday: _todayCheckIns[id],
+        nowUtc: _now,
+      );
+      saving = false;
+      await refresh();
+      return errorMessage == null;
+    } on MobileApiException catch (error) {
+      errorMessage = error.userMessage;
+      return false;
+    } finally {
+      saving = false;
+      _safeNotify();
+    }
+  }
+
+  Future<bool> submitPauseToggle(String id) async {
+    final api = _api;
+    if (api == null) {
+      pause(id);
+      return true;
+    }
+    if (saving) return false;
+    final current = _apiHabits[id];
+    if (current == null || current.status == 'archived') return false;
+    saving = true;
+    errorMessage = null;
+    _safeNotify();
+    try {
+      await api.patchHabit(
+        current: current,
+        todayBusinessDate: businessDateForZone(_now, current.timeZone),
+        status: current.status == 'paused' ? 'active' : 'paused',
+      );
+      saving = false;
+      await refresh();
+      return errorMessage == null;
+    } on MobileApiException catch (error) {
+      errorMessage = error.userMessage;
+      return false;
+    } finally {
+      saving = false;
+      _safeNotify();
+    }
+  }
+
+  Future<bool> submitArchive(String id) async {
+    final api = _api;
+    if (api == null) {
+      archive(id);
+      return true;
+    }
+    if (saving) return false;
+    final current = _apiHabits[id];
+    if (current == null) return false;
+    saving = true;
+    errorMessage = null;
+    _safeNotify();
+    try {
+      await api.patchHabit(
+        current: current,
+        todayBusinessDate: businessDateForZone(_now, current.timeZone),
+        status: 'archived',
+      );
+      saving = false;
+      await refresh();
+      return errorMessage == null;
+    } on MobileApiException catch (error) {
+      errorMessage = error.userMessage;
+      return false;
+    } finally {
+      saving = false;
+      _safeNotify();
+    }
+  }
+
   void save({
     String? id,
     required String name,
@@ -154,7 +484,7 @@ class PrototypeModel extends ChangeNotifier {
         days: List.unmodifiable(days),
       );
     }
-    notifyListeners();
+    _safeNotify();
   }
 
   void setValue(String id, double value) {
@@ -174,21 +504,27 @@ class PrototypeModel extends ChangeNotifier {
       value: value,
       unit: habit.unit,
     );
-    notifyListeners();
+    _safeNotify();
   }
 
   void pause(String id) {
     final index = _habits.indexWhere((habit) => habit.id == id);
     if (index < 0 || _habits[index].archived) return;
     _habits[index] = _habits[index].copyWith(paused: !_habits[index].paused);
-    notifyListeners();
+    _safeNotify();
   }
 
   void archive(String id) {
     final index = _habits.indexWhere((habit) => habit.id == id);
     if (index < 0) return;
     _habits[index] = _habits[index].copyWith(archived: true);
-    notifyListeners();
+    _safeNotify();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
   }
 }
 
@@ -198,6 +534,10 @@ class PrototypeScope extends InheritedNotifier<PrototypeModel> {
     required PrototypeModel model,
     required super.child,
   }) : super(notifier: model);
+
   static PrototypeModel of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<PrototypeScope>()!.notifier!;
+
+  static PrototypeModel? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<PrototypeScope>()?.notifier;
 }

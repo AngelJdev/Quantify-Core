@@ -1,5 +1,16 @@
 # Aplicación móvil
 
+## Conexión REST del prototipo · 24/11/2026
+
+Al compilar `lib/main_prototype.dart` con `API_BASE_URL` válido (HTTPS o `http://localhost:3000/api/v1` en debug con `OIDC_USB_DEBUG=true`) e iniciar sesión con Keycloak, la app opera en modo conectado (`lib/api/mobile_api.dart`) contra `services/api` sin mezclar fixtures de demostración:
+
+- **Perfil propio:** consulta `GET /api/v1/me` y, si aún no existe fila en `profiles` (`403`), ejecuta autoprovisión idempotente con `POST /api/v1/me` (`Idempotency-Key` UUIDv4).
+- **Hábitos personales:** lista (`GET /habits`), crea (`POST /habits`) y actualiza/pausa/archiva (`PATCH /habits/:id` con `If-Match` fuerte y vigencia futura `effectiveFrom`).
+- **Avances diarios:** consulta historial reciente (`GET /habits/:id/check-ins`) y envía valores absolutos (`POST /habits/:id/check-ins`, `expectedVersion: 0` en primer registro del día y motivo auditable al corregir el mismo día).
+- **Tendencias y sesión:** muestra series confirmadas (`GET /me/dashboard/trends`) en Progreso y limpia la sesión en memoria ante `401`.
+
+Sin `API_BASE_URL` o al entrar por «Explorar demostración», el prototipo conserva el dashboard local de ejemplo; al compilar con `API_BASE_URL` configurado, la bienvenida prioriza el acceso con Keycloak y oculta el recorrido de demostración sin base de datos. Siguen pendientes cola offline, notificaciones, asistente IA conectado, proveedores sociales e iOS en macOS.
+
 ## Acceso Keycloak · 23/11/2026
 
 La pantalla distingue **Continuar con Keycloak** (funcional) y botones de **Google, Facebook y Apple ID** deshabilitados con el estado «Próximamente». Estos tres proveedores son solo diseño; su federación e integración quedan pendientes.
