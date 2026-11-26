@@ -7,15 +7,15 @@
   --qc-motion-orbit: 32s;
   --qc-motion-float: 7s;
   --qc-glass-strength: 0.6;
-  --qc-glass-fill: color-mix(in srgb, var(--qc-surface) calc(96% - var(--qc-glass-strength) * 20%), transparent);
-  --qc-glass-edge: color-mix(in srgb, var(--qc-on-action) 64%, var(--qc-line));
-  --qc-glass-blur: calc(10px + var(--qc-glass-strength) * 20px);
-  --qc-glass-light: color-mix(in srgb, var(--qc-on-action) 64%, transparent);
-  --qc-surface-shadow: 0 18px 56px color-mix(in srgb, var(--qc-focus) 9%, transparent), 0 3px 9px color-mix(in srgb, var(--qc-text) 3%, transparent);
+  --qc-glass-fill: color-mix(in srgb, var(--qc-surface) calc(68% - var(--qc-glass-strength) * 24%), transparent);
+  --qc-glass-edge: color-mix(in srgb, #ffffff 78%, var(--qc-line));
+  --qc-glass-blur: calc(14px + var(--qc-glass-strength) * 22px);
+  --qc-glass-light: color-mix(in srgb, #ffffff 88%, transparent);
+  --qc-surface-shadow: 0 18px 48px color-mix(in srgb, var(--qc-focus) 11%, transparent), 0 2px 10px color-mix(in srgb, var(--qc-text) 4%, transparent);
 }
 [data-qc-theme="dark"] {
-  --qc-glass-fill: color-mix(in srgb, var(--qc-surface) calc(98% - var(--qc-glass-strength) * 12%), transparent);
-  --qc-glass-edge: color-mix(in srgb, var(--qc-line) 32%, transparent);
-  --qc-glass-light: color-mix(in srgb, var(--qc-on-action) 14%, transparent);
-  --qc-surface-shadow: 0 24px 64px color-mix(in srgb, var(--qc-canvas) 55%, transparent), 0 2px 10px color-mix(in srgb, var(--qc-text) 2%, transparent);
+  --qc-glass-fill: color-mix(in srgb, var(--qc-surface) calc(64% - var(--qc-glass-strength) * 22%), transparent);
+  --qc-glass-edge: color-mix(in srgb, #ffffff 18%, var(--qc-line) 28%);
+  --qc-glass-light: color-mix(in srgb, #ffffff 22%, transparent);
+  --qc-surface-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 2px 12px rgba(0, 0, 0, 0.28);
 }

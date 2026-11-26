@@ -122,9 +122,6 @@ export function WelcomePage() {
               Iniciar sesión
             </Link>
           </div>
-          <Link className="welcome-explore" to="/hoy">
-            <span aria-hidden="true">↗</span> Explorar dashboard de ejemplo
-          </Link>
           <div className="welcome-principles">
             <span>
               <Icon name="privacidad" /> Tu espacio
@@ -247,10 +244,6 @@ export function WelcomePage() {
         <span className="welcome-closing-orbit" aria-hidden="true" />
       </section>
       <ContactSection />
-      <p className="welcome-disclosure">
-        <Icon name="informacion" /> La demostración usa datos de ejemplo.
-        Inicia sesión para acceder a tus hábitos guardados.
-      </p>
     </PublicShell>
   );
 }

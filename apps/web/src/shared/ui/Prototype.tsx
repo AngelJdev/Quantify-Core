@@ -92,7 +92,7 @@ export function PublicShell({
         <nav aria-label="Información del proyecto">
           <Link to="/equipo">El proyecto</Link>
           <Link to="/instalar">Instalar Quantify</Link>
-          <Link to="/hoy">Explorar demostración</Link>
+          <Link to="/login">Iniciar sesión</Link>
         </nav>
       </footer>
     </div>

@@ -81,7 +81,7 @@ export function MainLayout() {
   );
   async function handleLogoutClick() {
     await endSession();
-    navigate("/auth", { replace: true });
+    navigate("/login", { replace: true });
   }
   const { pathname } = useLocation(),
     page = pathname.split("/")[1];
@@ -189,6 +189,17 @@ export function MainLayout() {
           >
             <Icon name="perfil" />
           </Link>
+          {state.session && (
+            <button
+              type="button"
+              className="header-logout-btn"
+              onClick={() => void handleLogoutClick()}
+              aria-label="Cerrar sesión"
+            >
+              <Icon name="cancelar" />
+              <span>Cerrar sesión</span>
+            </button>
+          )}
           <button
             className="icon-button mobile-menu-trigger"
             onClick={() => menu.current?.showModal()}

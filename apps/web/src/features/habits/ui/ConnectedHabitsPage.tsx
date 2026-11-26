@@ -99,7 +99,6 @@ export function ConnectedHabitsPage() {
           <OwnHabits api={api} />
         </>}
         <Link className="text-link" to="/">Volver al inicio</Link>
-        <Link className="text-link" to="/hoy">Explorar demostración con fixtures</Link>
       </section>
     </main>
   );

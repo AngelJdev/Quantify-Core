@@ -418,6 +418,15 @@ export async function logoutOidcSession(): Promise<void> {
   const refresh = activeTokens?.refreshToken;
   activeTokens = null;
   sessionStorage.removeItem(HANDSHAKE_STORAGE_KEY);
+  try {
+    (
+      window as {
+        google?: { accounts?: { id?: { disableAutoSelect?: () => void } } };
+      }
+    ).google?.accounts?.id?.disableAutoSelect?.();
+  } catch {
+    // Ignore if Google Identity Services script is not loaded
+  }
   if (!refresh) return;
   try {
     const issuer = getOidcIssuer();

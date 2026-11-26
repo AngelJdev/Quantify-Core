@@ -7,9 +7,9 @@ import { ThemeProvider } from "@/app/ThemeProvider";
 import { PwaProvider } from "@/app/pwa/PwaProvider";
 vi.mock("virtual:pwa-register/react", () => ({
   useRegisterSW: () => ({
-    offlineReady: [false, () => {}],
-    needRefresh: [false, () => {}],
-    updateServiceWorker: async () => {},
+    offlineReady: [false, () => { }],
+    needRefresh: [false, () => { }],
+    updateServiceWorker: async () => { },
   }),
 }));
 beforeAll(() => {
@@ -46,18 +46,17 @@ describe("Recorridos frontend desconectados", () => {
       screen.getByRole("link", { name: "Explorar pantallas de ejemplo" }),
     ).toHaveAttribute("href", "/hoy");
   });
-  it("comunica el alcance de la demostración desde bienvenida", async () => {
+  it("navega desde bienvenida hacia la vista de acceso", async () => {
     open("/");
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Lo que haces.También cuenta.",
     );
     fireEvent.click(
-      screen.getByRole("link", { name: "Explorar demostración" }),
+      screen.getAllByRole("link", { name: /^Iniciar sesión$/ })[0],
     );
     expect(await screen.findByRole("heading", { level: 1 })).toHaveTextContent(
-      "Tu rutina, a tu ritmo",
+      "Accede a tu espacio",
     );
-    expect(screen.getByText(/Fixtures en memoria/)).toBeInTheDocument();
   });
   it("conecta las rutas públicas con registro, login y recuperación", async () => {
     const view = open("/");

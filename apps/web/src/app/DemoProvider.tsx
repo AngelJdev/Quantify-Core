@@ -949,6 +949,11 @@ export function DemoProvider({ children }: { children: ReactNode }) {
 
   const endSession = useCallback(async () => {
     await logoutOidcSession();
+    try {
+      localStorage.removeItem(HABIT_UI_STORAGE_KEY);
+    } catch {
+      // ignore storage errors
+    }
     dispatch({ type: "logout" });
   }, []);
 

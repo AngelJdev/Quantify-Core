@@ -574,31 +574,44 @@ export function AuthPage({
     }
   }
 
+  const pageTitle =
+    view === "register" || view === "verify-otp"
+      ? "Crear cuenta"
+      : view === "forgot" || view === "reset"
+        ? "Recuperar contraseña"
+        : "Iniciar sesión";
+
   return (
-    <main className="welcome-page">
-      <section className="card">
-        <div className="section-heading">
+    <PublicShell title={pageTitle} className="auth-shell">
+      <section className="card auth-card">
+        <div className="auth-header">
           <div>
             <p className="eyebrow">QUANTIFY · CUENTA PERSONAL</p>
-            <h1>Accede a tu espacio</h1>
+            <h1 tabIndex={-1}>Accede a tu espacio</h1>
           </div>
-          <Link className="text-link" to="/">
+          <Link className="auth-back-link" to="/">
             ← Inicio
           </Link>
         </div>
 
         {state.session && (
-          <div className="form-note" role="status">
-            <strong>Sesión activa:</strong> {state.session.displayName} (
-            {state.session.email})
-            <div className="form-actions" style={{ marginTop: "0.5rem" }}>
+          <div className="form-note auth-session-banner" role="status">
+            <div>
+              <strong>Sesión activa:</strong> {state.session.displayName} (
+              {state.session.email})
+            </div>
+            <div className="auth-session-actions">
               <Link className="button primary" to="/hoy">
                 Ir a mi panel principal
               </Link>
               <button
                 type="button"
                 className="button secondary"
-                onClick={() => void endSession()}
+                onClick={async () => {
+                  await endSession();
+                  setErrorMsg(null);
+                  setStatusMsg("Sesión cerrada correctamente.");
+                }}
               >
                 Cerrar sesión
               </button>
@@ -606,7 +619,7 @@ export function AuthPage({
           </div>
         )}
 
-        <div className="tabs" role="group" aria-label="Modo de acceso">
+        <div className="tabs auth-tabs" role="group" aria-label="Modo de acceso">
           <button
             type="button"
             className={view === "login" ? "selected" : ""}
@@ -642,7 +655,7 @@ export function AuthPage({
           </button>
         </div>
 
-        <div style={{ margin: "1.25rem 0" }}>
+        <div className="auth-google-wrap">
           <button
             type="button"
             className="google-btn"
@@ -654,6 +667,10 @@ export function AuthPage({
           </button>
         </div>
 
+        <div className="auth-divider" aria-hidden="true">
+          <span>o con tu correo</span>
+        </div>
+
         {errorMsg && (
           <div className="form-note error" role="alert">
             {errorMsg}
@@ -663,44 +680,50 @@ export function AuthPage({
         {statusMsg && (
           <div className="form-note" role="status">
             <p>{statusMsg}</p>
-            <p className="caption" style={{ marginTop: "0.35rem" }}>
-              Revisa la bandeja de entrada de <strong>{email}</strong>.
-            </p>
+            {email.trim() && (
+              <p className="caption" style={{ marginTop: "0.35rem" }}>
+                Revisa la bandeja de entrada de <strong>{email}</strong>.
+              </p>
+            )}
           </div>
         )}
 
         {view === "login" && (
-          <form className="form-card" onSubmit={handleLoginSubmit} noValidate>
-            <label htmlFor="auth-login-email">Correo electrónico</label>
-            <input
-              id="auth-login-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="sofia.ramirez@correo.com"
-              required
-            />
-            <div className="row-between">
-              <label htmlFor="auth-login-secret">Contraseña</label>
-              <button
-                type="button"
-                className="text-link"
-                onClick={() => setShowSecret(!showSecret)}
-              >
-                {showSecret ? "Ocultar" : "Mostrar"}
-              </button>
+          <form className="auth-form" onSubmit={handleLoginSubmit} noValidate>
+            <div className="auth-field">
+              <label htmlFor="auth-login-email">Correo electrónico</label>
+              <input
+                id="auth-login-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="sofia.ramirez@correo.com"
+                required
+              />
             </div>
-            <input
-              id="auth-login-secret"
-              type="text"
-              className={showSecret ? "" : "masked-secret"}
-              autoComplete="off"
-              value={secretInput}
-              onChange={(e) => setSecretInput(e.target.value)}
-              placeholder="Ingresa tu contraseña"
-              required
-            />
-            <div className="row-between" style={{ marginBottom: "1rem" }}>
+            <div className="auth-field">
+              <div className="auth-password-head">
+                <label htmlFor="auth-login-secret">Contraseña</label>
+                <button
+                  type="button"
+                  className="auth-toggle-secret"
+                  onClick={() => setShowSecret(!showSecret)}
+                >
+                  {showSecret ? "Ocultar" : "Mostrar"}
+                </button>
+              </div>
+              <input
+                id="auth-login-secret"
+                type="text"
+                className={showSecret ? "" : "masked-secret"}
+                autoComplete="off"
+                value={secretInput}
+                onChange={(e) => setSecretInput(e.target.value)}
+                placeholder="Ingresa tu contraseña"
+                required
+              />
+            </div>
+            <div className="auth-links-row">
               <button
                 type="button"
                 className="text-link"
@@ -716,10 +739,10 @@ export function AuthPage({
                 Crear cuenta nueva →
               </button>
             </div>
-            <div className="form-actions">
+            <div className="auth-actions">
               <button
                 type="submit"
-                className="button primary"
+                className="button primary auth-submit-btn"
                 disabled={loading}
               >
                 {loading ? "Iniciando sesión..." : "Entrar a mi cuenta"}
@@ -730,32 +753,45 @@ export function AuthPage({
 
         {view === "register" && (
           <form
-            className="form-card"
+            className="auth-form"
             onSubmit={handleRegisterSubmit}
             noValidate
           >
-            <label htmlFor="auth-reg-name">Nombre completo</label>
-            <input
-              id="auth-reg-name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Ej. Sofía Ramírez"
-              required
-            />
-            <label htmlFor="auth-reg-email">Correo electrónico</label>
-            <input
-              id="auth-reg-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="sofia.ramirez@correo.com"
-              required
-            />
-            <div className="form-grid">
-              <div>
-                <label htmlFor="auth-reg-secret">
-                  Contraseña (mín. 8 caracteres)
-                </label>
+            <div className="auth-field">
+              <label htmlFor="auth-reg-name">Nombre completo</label>
+              <input
+                id="auth-reg-name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Ej. Sofía Ramírez"
+                required
+              />
+            </div>
+            <div className="auth-field">
+              <label htmlFor="auth-reg-email">Correo electrónico</label>
+              <input
+                id="auth-reg-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="sofia.ramirez@correo.com"
+                required
+              />
+            </div>
+            <div className="auth-grid-2">
+              <div className="auth-field">
+                <div className="auth-password-head">
+                  <label htmlFor="auth-reg-secret">
+                    Contraseña (mín. 8)
+                  </label>
+                  <button
+                    type="button"
+                    className="auth-toggle-secret"
+                    onClick={() => setShowSecret(!showSecret)}
+                  >
+                    {showSecret ? "Ocultar" : "Mostrar"}
+                  </button>
+                </div>
                 <input
                   id="auth-reg-secret"
                   type="text"
@@ -767,7 +803,7 @@ export function AuthPage({
                   required
                 />
               </div>
-              <div>
+              <div className="auth-field">
                 <label htmlFor="auth-reg-confirm">Confirmar contraseña</label>
                 <input
                   id="auth-reg-confirm"
@@ -781,27 +817,29 @@ export function AuthPage({
                 />
               </div>
             </div>
-            <label htmlFor="auth-reg-tz">Zona horaria</label>
-            <select
-              id="auth-reg-tz"
-              value={timeZone}
-              onChange={(e) => setTimeZone(e.target.value)}
-            >
-              <option value="America/Mexico_City">
-                America/Mexico_City (Ciudad de México)
-              </option>
-              <option value="America/Bogota">America/Bogota</option>
-              <option value="Europe/Madrid">Europe/Madrid</option>
-              <option value="UTC">UTC</option>
-            </select>
-            <p className="caption">
+            <div className="auth-field">
+              <label htmlFor="auth-reg-tz">Zona horaria</label>
+              <select
+                id="auth-reg-tz"
+                value={timeZone}
+                onChange={(e) => setTimeZone(e.target.value)}
+              >
+                <option value="America/Mexico_City">
+                  America/Mexico_City (Ciudad de México)
+                </option>
+                <option value="America/Bogota">America/Bogota</option>
+                <option value="Europe/Madrid">Europe/Madrid</option>
+                <option value="UTC">UTC</option>
+              </select>
+            </div>
+            <p className="caption auth-helper-copy">
               Te enviaremos un código de verificación de 6 dígitos a tu correo
               electrónico para activar tu cuenta.
             </p>
-            <div className="form-actions">
+            <div className="auth-actions">
               <button
                 type="submit"
-                className="button primary"
+                className="button primary auth-submit-btn"
                 disabled={loading}
               >
                 {loading
@@ -810,7 +848,7 @@ export function AuthPage({
               </button>
               <button
                 type="button"
-                className="button secondary"
+                className="button secondary auth-submit-btn"
                 onClick={() => setView("login")}
               >
                 Ya tengo cuenta
@@ -821,38 +859,37 @@ export function AuthPage({
 
         {view === "verify-otp" && (
           <form
-            className="form-card"
+            className="auth-form"
             onSubmit={handleVerifyOtpSubmit}
             noValidate
           >
-            <h2>Verifica tu correo electrónico</h2>
-            <p>
-              Ingresa el código de seguridad de 6 dígitos que enviamos a{" "}
-              <strong>{email}</strong>.
-            </p>
-            <label htmlFor="auth-otp-input">
-              Código de verificación (6 dígitos)
-            </label>
-            <input
-              id="auth-otp-input"
-              value={otpCode}
-              maxLength={6}
-              onChange={(e) =>
-                setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
-              }
-              placeholder="000000"
-              style={{
-                fontSize: "1.6rem",
-                fontWeight: 800,
-                letterSpacing: "10px",
-                textAlign: "center",
-              }}
-              required
-            />
-            <div className="form-actions">
+            <div className="auth-subhead">
+              <h2>Verifica tu correo electrónico</h2>
+              <p>
+                Ingresa el código de seguridad de 6 dígitos que enviamos a{" "}
+                <strong>{email}</strong>.
+              </p>
+            </div>
+            <div className="auth-field">
+              <label htmlFor="auth-otp-input">
+                Código de verificación (6 dígitos)
+              </label>
+              <input
+                id="auth-otp-input"
+                value={otpCode}
+                maxLength={6}
+                onChange={(e) =>
+                  setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+                }
+                placeholder="000000"
+                className="auth-otp-input"
+                required
+              />
+            </div>
+            <div className="auth-actions">
               <button
                 type="submit"
-                className="button primary"
+                className="button primary auth-submit-btn"
                 disabled={loading}
               >
                 {loading
@@ -861,7 +898,7 @@ export function AuthPage({
               </button>
               <button
                 type="button"
-                className="text-link"
+                className="text-link auth-center-link"
                 onClick={() => setView("register")}
               >
                 Cambiar correo
@@ -871,25 +908,29 @@ export function AuthPage({
         )}
 
         {view === "forgot" && (
-          <form className="form-card" onSubmit={handleForgotSubmit} noValidate>
-            <h2>Recuperar contraseña</h2>
-            <p>
-              Ingresa tu correo electrónico y te enviaremos un código de
-              seguridad de 6 dígitos para restablecer tu contraseña.
-            </p>
-            <label htmlFor="auth-forgot-email">Correo de tu cuenta</label>
-            <input
-              id="auth-forgot-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="sofia.ramirez@correo.com"
-              required
-            />
-            <div className="form-actions">
+          <form className="auth-form" onSubmit={handleForgotSubmit} noValidate>
+            <div className="auth-subhead">
+              <h2>Recuperar contraseña</h2>
+              <p>
+                Ingresa tu correo electrónico y te enviaremos un código de
+                seguridad de 6 dígitos para restablecer tu contraseña.
+              </p>
+            </div>
+            <div className="auth-field">
+              <label htmlFor="auth-forgot-email">Correo de tu cuenta</label>
+              <input
+                id="auth-forgot-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="sofia.ramirez@correo.com"
+                required
+              />
+            </div>
+            <div className="auth-actions">
               <button
                 type="submit"
-                className="button primary"
+                className="button primary auth-submit-btn"
                 disabled={loading}
               >
                 {loading
@@ -898,7 +939,7 @@ export function AuthPage({
               </button>
               <button
                 type="button"
-                className="button secondary"
+                className="button secondary auth-submit-btn"
                 onClick={() => setView("login")}
               >
                 Volver a iniciar sesión
@@ -908,31 +949,30 @@ export function AuthPage({
         )}
 
         {view === "reset" && (
-          <form className="form-card" onSubmit={handleResetSubmit} noValidate>
-            <h2>Definir nueva contraseña</h2>
-            <p>
-              Ingresa el código de 6 dígitos enviado a <strong>{email}</strong>{" "}
-              y tu nueva contraseña.
-            </p>
-            <label htmlFor="auth-reset-otp">Código de 6 dígitos</label>
-            <input
-              id="auth-reset-otp"
-              value={otpCode}
-              maxLength={6}
-              onChange={(e) =>
-                setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
-              }
-              placeholder="000000"
-              style={{
-                fontSize: "1.4rem",
-                fontWeight: 800,
-                letterSpacing: "8px",
-                textAlign: "center",
-              }}
-              required
-            />
-            <div className="form-grid">
-              <div>
+          <form className="auth-form" onSubmit={handleResetSubmit} noValidate>
+            <div className="auth-subhead">
+              <h2>Definir nueva contraseña</h2>
+              <p>
+                Ingresa el código de 6 dígitos enviado a <strong>{email}</strong>{" "}
+                y tu nueva contraseña.
+              </p>
+            </div>
+            <div className="auth-field">
+              <label htmlFor="auth-reset-otp">Código de 6 dígitos</label>
+              <input
+                id="auth-reset-otp"
+                value={otpCode}
+                maxLength={6}
+                onChange={(e) =>
+                  setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+                }
+                placeholder="000000"
+                className="auth-otp-input"
+                required
+              />
+            </div>
+            <div className="auth-grid-2">
+              <div className="auth-field">
                 <label htmlFor="auth-reset-new">Nueva contraseña</label>
                 <input
                   id="auth-reset-new"
@@ -945,7 +985,7 @@ export function AuthPage({
                   required
                 />
               </div>
-              <div>
+              <div className="auth-field">
                 <label htmlFor="auth-reset-confirm">
                   Confirmar nueva contraseña
                 </label>
@@ -961,10 +1001,10 @@ export function AuthPage({
                 />
               </div>
             </div>
-            <div className="form-actions">
+            <div className="auth-actions">
               <button
                 type="submit"
-                className="button primary"
+                className="button primary auth-submit-btn"
                 disabled={loading}
               >
                 {loading
@@ -974,19 +1014,6 @@ export function AuthPage({
             </div>
           </form>
         )}
-
-        <div
-          className="form-actions"
-          style={{
-            marginTop: "1.5rem",
-            paddingTop: "1rem",
-            borderTop: "1px solid var(--qc-line)",
-          }}
-        >
-          <Link className="button secondary" to="/hoy">
-            Explorar demostración
-          </Link>
-        </div>
       </section>
 
       <dialog
@@ -999,21 +1026,11 @@ export function AuthPage({
           <span>Iniciar sesión con Google</span>
         </div>
         <div className="google-chooser-body">
-          <h2
-            id="google-chooser-title"
-            style={{ margin: "0 0 6px", fontSize: "1.45rem", color: "#fff" }}
-          >
+          <h2 id="google-chooser-title" className="google-chooser-title">
             Selecciona una cuenta
           </h2>
-          <p
-            style={{
-              margin: "0 0 18px",
-              color: "#9aa0a6",
-              fontSize: "0.95rem",
-            }}
-          >
-            Para continuar en{" "}
-            <strong style={{ color: "#8ab4f8" }}>Quantify</strong>
+          <p className="google-chooser-subtitle">
+            Para continuar en <strong>Quantify</strong>
           </p>
 
           {!customGoogleMode ? (
@@ -1029,12 +1046,8 @@ export function AuthPage({
                     {acc.name.charAt(0).toUpperCase()}
                   </span>
                   <div>
-                    <div style={{ fontWeight: 600, color: "#e8eaed" }}>
-                      {acc.name}
-                    </div>
-                    <div style={{ fontSize: "0.85rem", color: "#9aa0a6" }}>
-                      {acc.email}
-                    </div>
+                    <div className="google-account-name">{acc.name}</div>
+                    <div className="google-account-email">{acc.email}</div>
                   </div>
                 </button>
               ))}
@@ -1043,19 +1056,13 @@ export function AuthPage({
                 className="google-account-item"
                 onClick={() => setCustomGoogleMode(true)}
               >
-                <span
-                  className="google-account-avatar"
-                  style={{ background: "#3c4043" }}
-                >
-                  +
-                </span>
-                <div style={{ fontWeight: 600, color: "#e8eaed" }}>
-                  Usar otra cuenta
-                </div>
+                <span className="google-account-avatar alt">+</span>
+                <div className="google-account-name">Usar otra cuenta</div>
               </button>
             </div>
           ) : (
             <form
+              className="auth-form"
               onSubmit={(e) => {
                 e.preventDefault();
                 if (!customGoogleEmail.trim()) return;
@@ -1066,63 +1073,48 @@ export function AuthPage({
                 });
               }}
             >
-              <label style={{ color: "#e8eaed", marginBottom: "8px" }}>
-                Nombre completo
+              <div className="auth-field">
+                <label htmlFor="google-custom-name">Nombre completo</label>
                 <input
+                  id="google-custom-name"
                   value={customGoogleName}
                   onChange={(e) => setCustomGoogleName(e.target.value)}
                   placeholder="Ej. Sofía Ramírez"
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    marginTop: "4px",
-                    borderRadius: "6px",
-                    border: "1px solid #5f6368",
-                    background: "#303134",
-                    color: "#fff",
-                  }}
                   required
                 />
-              </label>
-              <label style={{ color: "#e8eaed", marginBottom: "14px" }}>
-                Correo de Google (@gmail.com)
+              </div>
+              <div className="auth-field">
+                <label htmlFor="google-custom-email">
+                  Correo de Google (@gmail.com)
+                </label>
                 <input
+                  id="google-custom-email"
                   type="email"
                   value={customGoogleEmail}
                   onChange={(e) => setCustomGoogleEmail(e.target.value)}
                   placeholder="sofia.ramirez@gmail.com"
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    marginTop: "4px",
-                    borderRadius: "6px",
-                    border: "1px solid #5f6368",
-                    background: "#303134",
-                    color: "#fff",
-                  }}
                   required
                 />
-              </label>
-              <div className="form-actions">
+              </div>
+              <div className="auth-actions">
                 <button
                   type="button"
-                  className="button secondary"
+                  className="button secondary auth-submit-btn"
                   onClick={() => setCustomGoogleMode(false)}
                 >
                   Atrás
                 </button>
-                <button type="submit" className="button primary">
+                <button type="submit" className="button primary auth-submit-btn">
                   Continuar con esta cuenta
                 </button>
               </div>
             </form>
           )}
 
-          <div style={{ textAlign: "right", marginTop: "12px" }}>
+          <div className="google-chooser-footer">
             <button
               type="button"
               className="text-link"
-              style={{ color: "#8ab4f8" }}
               onClick={() => googleDialogRef.current?.close()}
             >
               Cancelar
@@ -1130,7 +1122,7 @@ export function AuthPage({
           </div>
         </div>
       </dialog>
-    </main>
+    </PublicShell>
   );
 }
 
