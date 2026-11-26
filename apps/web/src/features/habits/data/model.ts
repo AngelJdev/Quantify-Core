@@ -62,7 +62,10 @@ export const clampProgress = (value: number, target: number) =>
     : 0;
 export function validateDraft(draft: HabitDraft): Record<string, string> {
   const errors: Record<string, string> = {};
-  if (!draft.dto.name.trim()) errors.name = "Escribe un nombre para el hábito.";
+  const trimmedName = draft.dto.name.trim();
+  if (!trimmedName) errors.name = "Escribe un nombre para el hábito.";
+  else if (trimmedName.length < 3)
+    errors.name = "El nombre debe tener al menos 3 caracteres.";
   if (!Number.isFinite(draft.dto.targetValue) || draft.dto.targetValue <= 0)
     errors.target = "La meta debe ser un número positivo.";
   if (!draft.dto.unit.trim()) errors.unit = "Selecciona una unidad.";

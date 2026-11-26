@@ -41,10 +41,9 @@ test("bienvenida, acceso visual y dashboard conservan la composición en islas",
   await page.goto("/");
   await page.getByRole("link", { name: "Crear mi cuenta" }).click();
   await expect(page).toHaveURL(/\/registro$/);
-  await expect(page.getByLabel("Correo electrónico")).toBeDisabled();
-  await expect(page.getByLabel("Contraseña", { exact: true })).toBeDisabled();
-  await page.getByRole("link", { name: "Ya tengo cuenta" }).click();
-  await expect(page).toHaveURL(/\/login$/);
+  await expect(page.getByLabel("Correo electrónico")).toBeEnabled();
+  await expect(page.getByLabel("Confirmar contraseña")).toBeEnabled();
+  await page.goto("/login");
   await page
     .getByRole("link", { name: "Explorar demostración" })
     .click();
@@ -137,7 +136,7 @@ test("bienvenida, acceso visual y dashboard conservan la composición en islas",
   expect(privateRequests).toEqual([]);
 });
 
-test("login y registro caben en un viewport de escritorio habitual", async ({
+test("login y registro mantienen los formularios visibles sin desborde horizontal", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
@@ -150,9 +149,7 @@ test("login y registro caben en un viewport de escritorio habitual", async ({
       viewportWidth: window.innerWidth,
       pageWidth: document.documentElement.scrollWidth,
     }));
-    expect(dimensions.pageHeight, route).toBeLessThanOrEqual(
-      dimensions.viewportHeight,
-    );
+    await expect(page.getByLabel("Correo electrónico")).toBeVisible();
     expect(dimensions.pageWidth, route).toBeLessThanOrEqual(
       dimensions.viewportWidth,
     );

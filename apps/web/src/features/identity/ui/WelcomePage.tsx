@@ -1,3 +1,4 @@
+import { ContactSection } from "./IdentityPages";
 import { Link } from "react-router-dom";
 import { PublicShell, WeekStrip } from "@/shared/ui/Prototype";
 import { Icon } from "@/shared/ui/Icon";
@@ -245,10 +246,10 @@ export function WelcomePage() {
         </div>
         <span className="welcome-closing-orbit" aria-hidden="true" />
       </section>
+      <ContactSection />
       <p className="welcome-disclosure">
-        <Icon name="informacion" /> Vista previa de interfaz · Los datos son de
-        ejemplo y los cambios son temporales. El acceso se conectará más
-        adelante.
+        <Icon name="informacion" /> La demostración usa datos de ejemplo.
+        Inicia sesión para acceder a tus hábitos guardados.
       </p>
     </PublicShell>
   );

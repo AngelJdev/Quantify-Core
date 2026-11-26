@@ -1,9 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { useDemo } from "@/app/DemoProvider";
+import { evaluateAllAchievements } from "@/features/achievements/data/achievements";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Icon, type IconName } from "@/shared/ui/Icon";
 import { Wordmark, ThemeButton, islandStyle } from "@/shared/ui/Prototype";
 import { AppearanceButton } from "@/app/appearance/AppearanceControls";
-import { useSurfaceMotion, useFluidNavigation } from "@/app/appearance/useSurfaceMotion";
+import {
+  useSurfaceMotion,
+  useFluidNavigation,
+} from "@/app/appearance/useSurfaceMotion";
 const navigation: [string, string, IconName][] = [
   ["hoy", "Hoy", "hoy"],
   ["analisis", "Progreso", "analisis"],
@@ -12,63 +17,79 @@ const navigation: [string, string, IconName][] = [
 ];
 const shortcuts: [string, string, IconName][] = [
   ["habitos", "Mis hábitos", "habitos"],
+  ["logros", "Logros", "confirmado"],
   ["historial", "Historial", "historial"],
   ["avisos", "Avisos", "recordatorio"],
 ];
 const titles: Record<string, [string, string]> = {
   hoy: [
     "Tu rutina, a tu ritmo",
-    "Cada pequeño paso cuenta. Haz espacio para lo que te hace bien.",
+    "Registra tus hábitos con un clic, observa tu progreso y desbloquea nuevos logros.",
   ],
   habitos: [
     "Hábitos con intención",
-    "Organiza tus rutinas y encuentra un ritmo que puedas sostener.",
+    "Organiza tus rutinas diarias, registra avances rápidos y consulta sus gráficas.",
   ],
   nuevo: [
     "Diseña tu próximo hábito",
-    "Una intención clara es un buen punto de partida.",
+    "Define tu meta diaria, frecuencia y recordatorio para construir constancia.",
   ],
   detalle: [
     "Un paso más cerca",
-    "El progreso también está en volver a intentarlo.",
+    "Gráficas individuales, registro rápido, evidencias y evolución de tu hábito.",
   ],
   editar: [
     "Dale un nuevo ritmo",
-    "Conserva los días y la intención de tu hábito.",
+    "Actualiza tu meta o programación conservando todo tu historial anterior.",
   ],
   "check-ins": [
     "Cada avance cuenta",
-    "Valor acumulado absoluto · edición temporal de fixtures.",
+    "Registra tu progreso diario con notas de reflexión y evidencia fotográfica.",
   ],
   analisis: [
     "Observa tu constancia",
-    "Una mirada a tus avances, más allá de una racha.",
+    "Gráficas semanales, mensuales, mapa de calor y desglose por hábito.",
+  ],
+  logros: [
+    "Tus logros y medallas",
+    "Desbloquea 36 logros funcionales al mantener tu constancia y cumplir tus metas.",
   ],
   historial: [
     "Cada avance tiene historia",
-    "Registros de esta demostración, sin persistencia.",
+    "Línea de tiempo de registros confirmados y galería de evidencias fotográficas.",
   ],
   sugerencias: [
     "Ideas con contexto",
-    "Las sugerencias necesitan datos y consentimiento reales.",
+    "Explora rutinas recomendadas para fortalecer tu energía, enfoque y bienestar.",
   ],
   avisos: [
     "Todo en su momento",
-    "Tus recordatorios y novedades, reunidos en un solo lugar.",
+    "Recordatorios de rutina, logros recientes y notificaciones de tu cuenta.",
   ],
   ajustes: [
     "Tu espacio, tus decisiones",
-    "Perfil y preferencias de demostración.",
+    "Personaliza tu perfil, fotografía, apariencia visual, privacidad y dispositivos.",
   ],
 };
+
 export function MainLayout() {
+  const navigate = useNavigate();
+  const { state, habits, endSession } = useDemo();
+  const achievementsSummary = useMemo(
+    () => evaluateAllAchievements(state, habits),
+    [state, habits],
+  );
+  async function handleLogoutClick() {
+    await endSession();
+    navigate("/auth", { replace: true });
+  }
   const { pathname } = useLocation(),
     page = pathname.split("/")[1];
   const [title, description] = titles[page === "dashboard" ? "hoy" : page] || [
     "Esta página no está aquí",
     "El enlace no corresponde a una vista disponible.",
   ];
-  const section = ["analisis", "historial"].includes(page)
+  const section = ["analisis", "historial", "logros"].includes(page)
     ? "analisis"
     : page === "sugerencias"
       ? "sugerencias"
@@ -149,7 +170,9 @@ export function MainLayout() {
           <Wordmark personal />
         </Link>
         <div className="top-actions">
-          <span className="island-demo-label">VISTA PREVIA</span>
+          <span className="island-demo-label">
+            {state.session ? "TU ESPACIO" : "DEMOSTRACIÓN"}
+          </span>
           <span className="connection">
             <i className={online ? "" : "offline"} />
             {online ? "En línea" : "Sin conexión"}
@@ -162,7 +185,7 @@ export function MainLayout() {
           <Link
             className="island-profile"
             to="/ajustes"
-            aria-label="Perfil de ejemplo"
+            aria-label={state.session ? "Mi perfil" : "Perfil de ejemplo"}
           >
             <Icon name="perfil" />
           </Link>
@@ -200,13 +223,30 @@ export function MainLayout() {
             <div className="rail-label">
               <strong>Tu espacio</strong>
               <p>
-                Datos de ejemplo.
-                <br />
-                Solo durante esta visita.
+                {state.session
+                  ? state.profile.displayName
+                  : "Datos de ejemplo durante esta visita."}
               </p>
               <Link to="/instalar">Instalar app ↗</Link>
+              <Link to="/logros">
+                Nivel {achievementsSummary.level} ·{" "}
+                {achievementsSummary.unlockedCount} logros
+              </Link>
             </div>
           </div>
+          {state.session ? (
+            <button
+              className="sidebar-logout-btn"
+              onClick={() => void handleLogoutClick()}
+            >
+              <Icon name="cancelar" />
+              <span className="rail-label">Cerrar sesión</span>
+            </button>
+          ) : (
+            <Link className="sidebar-login-btn" to="/auth">
+              Iniciar sesión / Registro
+            </Link>
+          )}
         </aside>
         <main id="content" className="island-content">
           <div className="page-heading">
@@ -230,16 +270,20 @@ export function MainLayout() {
           </div>
           <div className="preview-caption">
             <Icon name="informacion" />
-            Demostración · Fixtures en memoria. Sin autenticación, persistencia
-            ni métricas reales.
+            {state.session
+              ? `Conectado como ${state.profile.displayName}. Tus datos se sincronizan con la API.`
+              : "Demostración · Fixtures en memoria. Inicia sesión para guardar tus hábitos."}
+            {state.syncError && <span role="alert">{state.syncError}</span>}
           </div>
           {!online && (
             <p className="form-note" role="status">
-              Sin conexión. Puedes explorar los fixtures ya cargados; no se
-              guardan ni sincronizan datos.
+              Sin conexión. Puedes consultar lo cargado; los cambios requieren
+              red.
             </p>
           )}
-          <div className="island-scene" key={pathname}><Outlet /></div>
+          <div className="island-scene" key={pathname}>
+            <Outlet />
+          </div>
           <footer className="page-footer">
             <span>Quantify Core · A tu ritmo.</span>
             <Link to="/ajustes?seccion=Privacidad">Tu privacidad</Link>
@@ -266,7 +310,16 @@ export function MainLayout() {
           {primaryLinks()}
           {shortcutLinks()}
           <Link to="/instalar">Instalar app</Link>
-          <Link to="/login">Ver inicio de sesión</Link>
+          {state.session ? (
+            <button
+              className="sidebar-logout-btn"
+              onClick={() => void handleLogoutClick()}
+            >
+              Cerrar sesión
+            </button>
+          ) : (
+            <Link to="/login">Iniciar sesión</Link>
+          )}
           <Link to="/">Bienvenida</Link>
         </nav>
       </dialog>
