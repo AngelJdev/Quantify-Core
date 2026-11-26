@@ -1,7 +1,7 @@
 import { randomBytes } from 'node:crypto';
-import { existsSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 
@@ -10,10 +10,18 @@ const command = process.argv[2];
 const files = ['infrastructure/docker/.env.local', 'services/api/.env.local',
   'services/api/.env.migrate.local', 'apps/web/.env.local'];
 const secret = () => randomBytes(32).toString('hex');
-function run(program, args, cwd = root, env = process.env) {
+function run(program, args, cwd = root, env = process.env, options = {}) {
   // shell:false; never interpolate credentials or output environment values.
-  const result = spawnSync(program, args, { cwd, env, stdio: 'inherit', shell: false });
+  const result = spawnSync(program, args, {
+    cwd,
+    env,
+    stdio: options.stdio ?? 'inherit',
+    input: options.input,
+    encoding: options.encoding,
+    shell: false,
+  });
   if (result.error || result.status !== 0) throw new Error('Command failed; check prerequisites');
+  return result;
 }
 function localEnv(relative) {
   return process.loadEnvFile(resolve(root, relative));
@@ -65,8 +73,62 @@ try {
     run(process.execPath, ['build/src/main.js'], resolve(root, 'services/api'));
   } else if (command === 'web') {
     run(process.execPath, ['node_modules/vite/bin/vite.js', '--host', 'localhost', '--port', '5173', '--strictPort'], resolve(root, 'apps/web'));
+  } else if (command === 'db-export') {
+    localEnv(files[0]);
+    const compose = ['compose', '--env-file', resolve(root, files[0]), '-f', resolve(root, 'infrastructure/docker/compose.yaml')];
+    const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const targetPath = resolve(root, process.argv[3] ?? `infrastructure/docker/backups/quantify-db-${stamp}.sql`);
+    mkdirSync(dirname(targetPath), { recursive: true });
+    const dump = run(
+      'docker',
+      [
+        ...compose, 'exec', '-T', 'postgres',
+        'pg_dump', '-U', 'quantify_owner', '-d', 'quantify_core_dev',
+        '--data-only', '--disable-triggers', '--exclude-table=schema_migrations',
+      ],
+      root,
+      process.env,
+      { stdio: ['ignore', 'pipe', 'inherit'], encoding: 'utf8' },
+    );
+    writeFileSync(targetPath, dump.stdout, { encoding: 'utf8' });
+    console.log(`Database data exported to: ${targetPath}`);
+  } else if (command === 'db-import') {
+    const inputArg = process.argv[3];
+    if (!inputArg) throw new Error('Usage: node scripts/dev-base.mjs db-import <backup-file.sql>');
+    const sourcePath = resolve(root, inputArg);
+    if (!existsSync(sourcePath)) throw new Error(`Backup file not found: ${sourcePath}`);
+    const sqlData = readFileSync(sourcePath, 'utf8');
+    if (!sqlData.trim()) throw new Error('Backup file is empty');
+    localEnv(files[0]);
+    const compose = ['compose', '--env-file', resolve(root, files[0]), '-f', resolve(root, 'infrastructure/docker/compose.yaml')];
+    const resetSql = [
+      'DO $$',
+      'DECLARE tbls text;',
+      'BEGIN',
+      "  SELECT string_agg(format('%I.%I', schemaname, tablename), ', ')",
+      '  INTO tbls',
+      '  FROM pg_tables',
+      "  WHERE schemaname = 'public' AND tablename <> 'schema_migrations';",
+      '  IF tbls IS NOT NULL THEN',
+      "    EXECUTE 'TRUNCATE TABLE ' || tbls || ' RESTART IDENTITY CASCADE';",
+      '  END IF;',
+      'END $$;',
+      '',
+    ].join('\n');
+    run(
+      'docker',
+      [
+        ...compose, 'exec', '-T', 'postgres',
+        'psql', '-U', 'quantify_owner', '-d', 'quantify_core_dev',
+        '-v', 'ON_ERROR_STOP=1', '--single-transaction',
+      ],
+      root,
+      process.env,
+      { stdio: ['pipe', 'inherit', 'inherit'], input: `${resetSql}${sqlData}`, encoding: 'utf8' },
+    );
+    console.log(`Database data imported from: ${sourcePath}`);
   } else {
-    throw new Error('Usage: node scripts/dev-base.mjs init|config|up|migrate|api|web|web-docker|web-static|web-stop|docker-up|docker-migrate|status|stop');
+    throw new Error('Usage: node scripts/dev-base.mjs init|config|up|migrate|api|web|web-docker|web-static|web-stop|docker-up|docker-migrate|db-export|db-import|status|stop');
   }
 } catch (error) {
   // Do not print nested driver errors, DSNs or command environment.

@@ -2,6 +2,8 @@
 
 # Keycloak para QUANTIFY CORE
 
+**Sesión móvil · 23/11/2026:** el export habilita autorregistro del realm y retorno exacto de logout `com.quantify.app:/oauth2redirect`. Para actualizar el laboratorio existente sin reimportar ni borrar cuentas: `node scripts/configure-mobile-identity.mjs --apply-local`. [Flujo Flutter, USB y límites](../../apps/mobile/docs/sesion-keycloak.md) · [ADR-0009](../../docs/arquitectura/adr/0009-sesion-movil-prototipo.md). Verificación de correo/SMTP y recuperación siguen pendientes; esta configuración no acredita identidad verificada ni despliegue público.
+
 **Actualización (16/11/2026):** el export restringe callback web a `http://localhost:5173/auth/callback`, logout a `http://localhost:5173/` y añade audiencia `quantify-api` en access tokens web/móvil. El [laboratorio nuevo](../../docs/guias/base-tecnica.md) usa 8180, separado del histórico 8080, y verifica protocolo real con Chrome/API/SQL. Sesión React/Flutter pendiente. Importar al iniciar omite realms existentes: no actualiza instalaciones previas automáticamente. Los apartados y capturas originales conservan su contexto histórico; para parámetros actuales prevalecen export, validador y ADR-0007.
 
 Guía única de configuración y evidencia del laboratorio **QUANCORE-17**, relacionado con [RF-01](../../docs/requerimientos/catalogo.md) y las [reglas de seguridad](../../docs/seguridad/README.md). Revisión original: 25 de octubre de 2026.

@@ -1,5 +1,24 @@
 # Aplicación móvil
 
+## Conexión REST, sesión persistente y Google · 25/11/2026
+
+Al compilar `lib/main_prototype.dart` con `API_BASE_URL` válido (HTTPS o `http://localhost:3000/api/v1` en debug con `OIDC_USB_DEBUG=true`) e iniciar sesión con Keycloak o Google, la app opera en modo conectado (`lib/api/mobile_api.dart`) contra `services/api` sin mezclar fixtures de demostración:
+
+- **Sesión persistente y Google IdP:** `MobileSession` persiste tokens de forma cifrada mediante `flutter_secure_storage` (Keystore en Android con `allowBackup="false"` en `AndroidManifest.xml`), renueva automáticamente el `accessToken` con `refreshToken` antes de vencer o ante un primer `401`, y soporta **Continuar con Google** mediante `kc_idp_hint=google` en Custom Tab (`ADR-0010`). Facebook y Apple ID permanecen deshabilitados bajo «Próximamente».
+- **Configuración de Google en Keycloak local:** definir `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` en `infrastructure/docker/.env.local` (ignorado por Git) y ejecutar `node scripts/configure-mobile-identity.mjs --apply-local`. El script además garantiza el rol por defecto `user` en el realm `quantify`.
+- **Migración entre PCs sin PostgreSQL local:** Docker levanta `postgres:18.6` automáticamente; usa `node scripts/dev-base.mjs db-export` para generar un respaldo SQL de datos en `infrastructure/docker/backups/` (ignorado por Git) y `node scripts/dev-base.mjs db-import <archivo.sql>` en la máquina destino después de `up` + `docker-migrate`.
+- **Perfil propio:** consulta `GET /api/v1/me` y, si aún no existe fila en `profiles` (`403`), ejecuta autoprovisión idempotente con `POST /api/v1/me` (`Idempotency-Key` UUIDv4). Desde Perfil se puede elegir la zona horaria IANA para alta de nuevos hábitos.
+- **Hábitos personales:** lista (`GET /habits`) con filtros Activos / En pausa / Archivados, crea (`POST /habits`) y actualiza/pausa/archiva (`PATCH /habits/:id` con `If-Match` fuerte y vigencia futura `effectiveFrom`), mostrando además métricas confirmadas (`GET /habits/:id/metrics`).
+- **Avances diarios y progreso:** consulta historial reciente (`GET /habits/:id/check-ins`), permite registrar/corregir Hoy o días recientes elegibles (`POST /habits/:id/check-ins` con `expectedVersion` y motivo auditable), y muestra `GET /me/dashboard/trends` junto con `GET /me/dashboard/progress` en Progreso.
+
+Sin `API_BASE_URL` o al entrar por «Explorar demostración», el prototipo conserva el dashboard local de ejemplo; al compilar con `API_BASE_URL` configurado, la bienvenida prioriza el acceso con Keycloak y oculta el recorrido de demostración sin base de datos. Siguen pendientes cola offline, notificaciones, asistente IA conectado, Facebook/Apple ID e iOS en macOS.
+
+## Acceso Keycloak · 23/11/2026
+
+La pantalla ofrece **Continuar con Keycloak** y **Continuar con Google** mediante el proveedor federado de Keycloak cuando esté configurado. Facebook y Apple ID permanecen deshabilitados con el estado «Próximamente».
+
+`lib/main_prototype.dart` incorpora login y registro en navegador del sistema con `flutter_appauth` 13.0.0, retorno al dashboard de ejemplo y cierre desde Perfil. Tokens en memoria; vencimiento exige volver a entrar. Android mínimo 24. [Configuración USB/HTTPS, pruebas y límites](docs/sesion-keycloak.md) · [ADR-0009](../../docs/arquitectura/adr/0009-sesion-movil-prototipo.md). Esta actualización sustituye las menciones posteriores a sesión pendiente para la entrada del prototipo; `lib/main.dart`, REST y métricas de negocio conservan su alcance independiente sin conexión. iOS requiere validación en macOS.
+
 ## Prototipo visual V2 · Liquid Glass · 20/11/2026
 
 **Prueba en teléfono · 23/11/2026:** APK debug del prototipo instalado y abierto mediante USB en OPPO CPH2239, Android 11 (API 30). Se corrigió el paquete de `MainActivity` a `com.quantify.app` para coincidir con el namespace y la actividad declarada en Android; antes la app se cerraba con `ClassNotFoundException`. ADB confirmó la actividad en primer plano y el proceso activo. Revisión visual por el responsable en curso; este arranque no valida todos los recorridos ni el rendimiento. Las limitaciones de dispositivo indicadas más abajo corresponden al corte del 20/11.
@@ -107,7 +126,7 @@ Es una estructura prevista, no un inventario de implementación. Evitar capas va
 
 1. Fijar versión de Flutter/Dart y registrar la matriz Android/iOS y las herramientas nativas necesarias. Compilar iOS requiere el entorno de Apple correspondiente.
 2. Crear el proyecto en una entrega específica con identificadores de aplicación por ambiente; no reutilizar credenciales de producción para demostraciones.
-3. Definir un ejemplo de configuración pública: `API_BASE_URL` con `/api/v1`, `OIDC_ISSUER`, `OIDC_CLIENT_ID` y `OIDC_REDIRECT_URI`. Estos nombres son propuesta, aún no tienen lector implementado.
+3. Definir un ejemplo de configuración pública: `API_BASE_URL` con `/api/v1`, `OIDC_ISSUER`, `OIDC_CLIENT_ID` y `OIDC_REDIRECT_URI`. `API_BASE_URL` y `OIDC_ISSUER` ya tienen lector en el prototipo conectado; verificar las constantes de identidad del cliente para el resto.
 4. Registrar retorno OIDC, enlaces de aplicación y orígenes permitidos por plataforma. Los valores empaquetados en una app, incluso mediante `--dart-define`, no son secretos.
 5. Los comandos ejecutables del prototipo están al inicio. `flutter analyze` y `flutter test` cubren las bases locales existentes; flavors, pruebas integradas de servicios y publicación móvil siguen pendientes.
 
@@ -115,7 +134,7 @@ Es una estructura prevista, no un inventario de implementación. Evitar capas va
 
 Usar Keycloak / OIDC Authorization Code con PKCE S256 y navegador del sistema mediante una integración nativa mantenida, con validación de `state`, `nonce` y retorno. No crear formularios que envíen contraseñas a una API propia ni embeber secretos de cliente.
 
-Elegir almacenamiento seguro vinculado a las capacidades del sistema para material de sesión que necesite persistir; documentar exclusión de backups cuando corresponda, borrado al salir y comportamiento en dispositivos compartidos. El plugin concreto queda pendiente. No guardar tokens junto con los comandos offline en una base de datos de propósito general.
+Elegir almacenamiento seguro vinculado a las capacidades del sistema para material de sesión que necesite persistir; documentar exclusión de backups cuando corresponda, borrado al salir y comportamiento en dispositivos compartidos. El prototipo conectado usa `flutter_secure_storage`, según ADR-0010; su validación nativa por plataforma sigue siendo necesaria. No guardar tokens junto con los comandos offline en una base de datos de propósito general.
 
 Solicitar permisos en contexto, explicar la finalidad y permitir continuar con captura manual si se rechazan. Separar permiso de notificaciones, permisos del sistema para señales y consentimiento de tratamiento: ninguno sustituye a los otros. No registrar tokens ni datos biométricos en logs de dispositivo o reporte de errores.
 

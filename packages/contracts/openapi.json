@@ -55,7 +55,7 @@
         ],
         "operationId": "getOwnProfile",
         "summary": "Leer perfil propio",
-        "description": "No crea perfil de forma implícita; provisión de primer acceso pendiente.",
+        "description": "No crea perfil de forma implícita; provisión explícita mediante POST /me.",
         "responses": {
           "200": {
             "description": "Perfil propio",
@@ -78,6 +78,91 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Profile"
+        ],
+        "operationId": "provisionOwnProfile",
+        "summary": "Aprovisionar perfil propio en primer acceso",
+        "description": "Vincula el subject OIDC autenticado con un perfil activo inicial de forma idempotente; nunca reactiva cuentas suspendidas.",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID estable para una intención; repetir el mismo cuerpo"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Zona horaria inicial del perfil propio",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileProvision"
+              },
+              "examples": {
+                "synthetic": {
+                  "summary": "Ejemplo sintético",
+                  "value": {
+                    "timeZone": "America/Mexico_City"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Perfil activo ya existente o repetición confirmada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Perfil propio creado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/Unprocessable"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests"
@@ -872,6 +957,20 @@
           }
         },
         "additionalProperties": false
+      },
+      "ProfileProvision": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "timeZone": {
+            "type": "string",
+            "description": "Identificador de zona IANA; validar contra base IANA"
+          }
+        },
+        "required": [
+          "timeZone"
+        ],
+        "description": "Alta inicial e idempotente del perfil propio autenticado"
       },
       "Profile": {
         "type": "object",

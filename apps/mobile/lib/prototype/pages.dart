@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../api/mobile_api.dart';
+import '../identity/mobile_session.dart';
+
 import 'appearance_sheet.dart';
 import 'design.dart';
 import 'generated_tokens.dart';
@@ -20,6 +23,52 @@ class PageContent extends StatelessWidget {
   );
 }
 
+class _SyncStatusBanner extends StatelessWidget {
+  const _SyncStatusBanner();
+  @override
+  Widget build(BuildContext context) {
+    final model = PrototypeScope.of(context);
+    if (!model.isConnected) return const SizedBox.shrink();
+    if (model.loading) {
+      return const Padding(
+        padding: EdgeInsets.only(bottom: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            LinearProgressIndicator(),
+            SizedBox(height: 8),
+            Text('Sincronizando con Quantify API…', style: TextStyle(fontSize: 12)),
+          ],
+        ),
+      );
+    }
+    if (model.errorMessage == null) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: LiquidSurface(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Semantics(
+              liveRegion: true,
+              child: Text(
+                model.errorMessage!,
+                style: const TextStyle(fontWeight: FontWeight.w600, height: 1.5),
+              ),
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: model.refresh,
+              icon: const Icon(Icons.refresh_rounded),
+              label: const Text('Reintentar conexión'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class TodayPage extends StatelessWidget {
   const TodayPage({super.key});
   @override
@@ -29,15 +78,24 @@ class TodayPage extends StatelessWidget {
         .where((habit) => !habit.archived && !habit.paused)
         .toList();
     final completed = active.where((habit) => habit.progress == 1).length;
+    final pending = active.where((habit) => habit.progress < 1).toList();
     return PageContent(
       children: [
         const Eyebrow('Un momento para ti'),
         const SizedBox(height: 12),
-        const SectionTitle(
+        SectionTitle(
           'Tu rutina de hoy',
           subtitle: 'Haz espacio para lo que te hace bien.',
+          trailing: model.isConnected
+              ? IconButton(
+                  onPressed: model.loading ? null : model.refresh,
+                  tooltip: 'Actualizar datos',
+                  icon: const Icon(Icons.refresh_rounded),
+                )
+              : null,
         ),
         const SizedBox(height: 20),
+        const _SyncStatusBanner(),
         Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -57,9 +115,11 @@ class TodayPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'Avanza a tu ritmo.',
-                style: TextStyle(color: MobileTokens.white),
+              Text(
+                model.isConnected
+                    ? 'Fecha de negocio: ${model.todayBusinessDate}'
+                    : 'Avanza a tu ritmo.',
+                style: const TextStyle(color: MobileTokens.white),
               ),
               const SizedBox(height: 20),
               ClipRRect(
@@ -89,9 +149,12 @@ class TodayPage extends StatelessWidget {
             ),
           ],
         ),
-        if (active.isEmpty)
-          const LiquidSurface(
-            child: Text('Tu rutina tiene espacio para una nueva intención.'),
+        if (active.isEmpty && !model.loading)
+          const Padding(
+            padding: EdgeInsets.only(bottom: 12),
+            child: LiquidSurface(
+              child: Text('Tu rutina tiene espacio para una nueva intención.'),
+            ),
           ),
         for (final habit in active)
           Padding(
@@ -104,20 +167,26 @@ class TodayPage extends StatelessWidget {
           label: const Text('Crear hábito'),
         ),
         const SizedBox(height: 22),
-        const LiquidSurface(
+        LiquidSurface(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Eyebrow('Sin prisa, con intención'),
-              SizedBox(height: 12),
-              Text(
+              const Eyebrow('Sin prisa, con intención'),
+              const SizedBox(height: 12),
+              const Text(
                 'Lo que sigue hoy',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               ),
-              SizedBox(height: 14),
+              const SizedBox(height: 14),
               Text(
-                '18:00 · Tu momento de lectura\nPuedes retomar Caminar más tarde.',
-                style: TextStyle(height: 1.8),
+                model.isConnected
+                    ? (pending.isEmpty
+                          ? (active.isEmpty
+                                ? 'Crea tu primer hábito para registrar avances confirmados en PostgreSQL.'
+                                : 'Completaste todas tus metas activas de hoy.')
+                          : 'Pendiente hoy: ${pending.map((h) => h.name).join(', ')}.')
+                    : '18:00 · Tu momento de lectura\nPuedes retomar Caminar más tarde.',
+                style: const TextStyle(height: 1.8),
               ),
             ],
           ),
@@ -192,6 +261,8 @@ class HabitTile extends StatelessWidget {
   );
 }
 
+enum _HabitFilter { active, paused, archived }
+
 class HabitsPage extends StatefulWidget {
   const HabitsPage({super.key});
   @override
@@ -200,13 +271,17 @@ class HabitsPage extends StatefulWidget {
 
 class _HabitsPageState extends State<HabitsPage> {
   String _query = '';
-  bool _archived = false;
+  _HabitFilter _filter = _HabitFilter.active;
   @override
   Widget build(BuildContext context) {
     final habits = PrototypeScope.of(context).habits
         .where(
           (habit) =>
-              habit.archived == _archived &&
+              switch (_filter) {
+                _HabitFilter.active => !habit.archived && !habit.paused,
+                _HabitFilter.paused => !habit.archived && habit.paused,
+                _HabitFilter.archived => habit.archived,
+              } &&
               habit.name.toLowerCase().contains(_query.toLowerCase()),
         )
         .toList();
@@ -259,13 +334,21 @@ class _HabitsPageState extends State<HabitsPage> {
                   children: [
                     ChoiceChip(
                       label: const Text('En tu rutina'),
-                      selected: !_archived,
-                      onSelected: (_) => setState(() => _archived = false),
+                      selected: _filter == _HabitFilter.active,
+                      onSelected: (_) =>
+                          setState(() => _filter = _HabitFilter.active),
+                    ),
+                    ChoiceChip(
+                      label: const Text('En pausa'),
+                      selected: _filter == _HabitFilter.paused,
+                      onSelected: (_) =>
+                          setState(() => _filter = _HabitFilter.paused),
                     ),
                     ChoiceChip(
                       label: const Text('Archivados'),
-                      selected: _archived,
-                      onSelected: (_) => setState(() => _archived = true),
+                      selected: _filter == _HabitFilter.archived,
+                      onSelected: (_) =>
+                          setState(() => _filter = _HabitFilter.archived),
                     ),
                   ],
                 ),
@@ -297,10 +380,20 @@ class HabitDetail extends StatelessWidget {
   final String id;
   @override
   Widget build(BuildContext context) {
-    final model = PrototypeScope.of(context), habit = model.habit(id);
+    final model = PrototypeScope.of(context);
+    final habit = model.habitOrNull(id);
+    if (habit == null) {
+      return const DetailPage(
+        title: 'Un paso más cerca',
+        children: [
+          LiquidSurface(child: Text('Este hábito ya no está disponible.')),
+        ],
+      );
+    }
     return DetailPage(
       title: 'Un paso más cerca',
       children: [
+        const _SyncStatusBanner(),
         LiquidSurface(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -324,19 +417,60 @@ class HabitDetail extends StatelessWidget {
                     ? 'Archivado · Historial conservado'
                     : habit.paused
                     ? 'En pausa'
-                    : 'Activo · America/Mexico_City',
+                    : 'Activo · ${habit.timeZone}',
               ),
               const SizedBox(height: 8),
               Text(
                 'Días: ${habit.days.map((day) => ['L', 'M', 'X', 'J', 'V', 'S', 'D'][day - 1]).join(' · ')}',
               ),
+              if (model.isConnected) ...[
+                const SizedBox(height: 6),
+                Builder(
+                  builder: (_) {
+                    final todayForHabit = businessDateForZone(
+                      DateTime.now(),
+                      habit.timeZone,
+                    );
+                    final isFuture =
+                        habit.effectiveFrom.compareTo(todayForHabit) > 0;
+                    return Text(
+                      isFuture
+                          ? 'Versión ${habit.version} · Cambio programado desde ${habit.effectiveFrom}'
+                          : 'Versión ${habit.version} · Vigente desde ${habit.effectiveFrom}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.color('muted'),
+                      ),
+                    );
+                  },
+                ),
+                if (model.metricsForHabit(id) case final metrics?) ...[
+                  const SizedBox(height: 12),
+                  const Divider(),
+                  const SizedBox(height: 10),
+                  Text(
+                    metrics.completionRate != null
+                        ? 'Cumplimiento 30 días: ${metrics.completionRate!.round()}% (${metrics.completedPeriods}/${metrics.eligiblePeriods} periodos)'
+                        : 'Cumplimiento 30 días: sin periodos cerrados aún',
+                    style: const TextStyle(fontSize: 13),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Racha actual: ${metrics.currentStreak} · Mejor racha: ${metrics.longestStreak}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.color('muted'),
+                    ),
+                  ),
+                ],
+              ],
             ],
           ),
         ),
         const SizedBox(height: 24),
         if (!habit.archived) ...[
           FilledButton.icon(
-            onPressed: habit.paused
+            onPressed: habit.paused || model.saving
                 ? null
                 : () => showPrototypePage(context, CheckInEditor(id: id)),
             icon: const Icon(Icons.check_rounded),
@@ -344,38 +478,62 @@ class HabitDetail extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           OutlinedButton(
-            onPressed: () => showPrototypePage(context, HabitEditor(id: id)),
+            onPressed: model.saving
+                ? null
+                : () => showPrototypePage(context, HabitEditor(id: id)),
             child: const Text('Editar hábito'),
           ),
           const SizedBox(height: 10),
           OutlinedButton(
-            onPressed: () => model.pause(id),
+            onPressed: model.saving
+                ? null
+                : () async {
+                    final ok = await model.submitPauseToggle(id);
+                    if (!ok && context.mounted && model.errorMessage != null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(model.errorMessage!)),
+                      );
+                    }
+                  },
             child: Text(habit.paused ? 'Reanudar hábito' : 'Pausar hábito'),
           ),
           const SizedBox(height: 10),
           TextButton(
-            onPressed: () async {
-              final confirmed = await showDialog<bool>(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('¿Archivar este hábito?'),
-                  content: const Text(
-                    'Sale de tu rutina activa. El historial de esta visita se conserva.',
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: const Text('Conservar'),
-                    ),
-                    FilledButton(
-                      onPressed: () => Navigator.pop(context, true),
-                      child: const Text('Archivar'),
-                    ),
-                  ],
-                ),
-              );
-              if (confirmed == true) model.archive(id);
-            },
+            onPressed: model.saving
+                ? null
+                : () async {
+                    final confirmed = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('¿Archivar este hábito?'),
+                        content: Text(
+                          model.isConnected
+                              ? 'Sale de tu rutina activa. El historial en PostgreSQL se conserva.'
+                              : 'Sale de tu rutina activa. El historial de esta visita se conserva.',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, false),
+                            child: const Text('Conservar'),
+                          ),
+                          FilledButton(
+                            onPressed: () => Navigator.pop(context, true),
+                            child: const Text('Archivar'),
+                          ),
+                        ],
+                      ),
+                    );
+                    if (confirmed == true && context.mounted) {
+                      final ok = await model.submitArchive(id);
+                      if (!ok &&
+                          context.mounted &&
+                          model.errorMessage != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(model.errorMessage!)),
+                        );
+                      }
+                    }
+                  },
             child: const Text('Archivar hábito'),
           ),
         ],
@@ -405,15 +563,21 @@ class _HabitEditorState extends State<HabitEditor> {
     super.didChangeDependencies();
     if (_initialized) return;
     _initialized = true;
-    final habit = widget.id == null
-        ? null
-        : PrototypeScope.of(context).habit(widget.id!);
+    final model = PrototypeScope.of(context);
+    final habit = widget.id == null ? null : model.habitOrNull(widget.id!);
     _name.text = habit?.name ?? '';
     _target.text = habit == null ? '20' : amount(habit.target);
     _unit.text = habit?.unit ?? 'min';
     _days = {
       ...?habit?.days,
-      if (habit == null) ...[1, 2, 3, 4, 5],
+      if (habit == null) ...[
+        1,
+        2,
+        3,
+        4,
+        5,
+        if (model.isConnected) DateTime.parse(model.todayBusinessDate).weekday,
+      ],
     };
   }
 
@@ -426,106 +590,136 @@ class _HabitEditorState extends State<HabitEditor> {
   }
 
   @override
-  Widget build(BuildContext context) => DetailPage(
-    title: widget.id == null
-        ? 'Diseña tu próximo hábito'
-        : 'Dale un nuevo ritmo',
-    children: [
-      Form(
-        key: _form,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Eyebrow('Una intención clara'),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: _name,
-              decoration: const InputDecoration(labelText: 'Nombre del hábito'),
-              maxLength: 60,
-              validator: (value) => (value?.trim().length ?? 0) < 3
-                  ? 'Escribe al menos 3 caracteres.'
-                  : null,
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _target,
-              decoration: const InputDecoration(labelText: 'Meta'),
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
+  Widget build(BuildContext context) {
+    final model = PrototypeScope.of(context);
+    return DetailPage(
+      title: widget.id == null
+          ? 'Diseña tu próximo hábito'
+          : 'Dale un nuevo ritmo',
+      children: [
+        Form(
+          key: _form,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Eyebrow('Una intención clara'),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _name,
+                decoration: const InputDecoration(
+                  labelText: 'Nombre del hábito',
+                ),
+                maxLength: 60,
+                validator: (value) => (value?.trim().length ?? 0) < 3
+                    ? 'Escribe al menos 3 caracteres.'
+                    : null,
               ),
-              validator: (value) {
-                final number = double.tryParse(
-                  (value ?? '').replaceAll(',', '.'),
-                );
-                return number == null || !number.isFinite || number <= 0
-                    ? 'La meta debe ser mayor que cero.'
-                    : null;
-              },
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _unit,
-              decoration: const InputDecoration(labelText: 'Unidad'),
-              validator: (value) =>
-                  (value?.trim().isEmpty ?? true) ? 'Indica una unidad.' : null,
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Días de tu rutina',
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 6,
-              runSpacing: 8,
-              children: List.generate(
-                7,
-                (index) => FilterChip(
-                  label: Text(['L', 'M', 'X', 'J', 'V', 'S', 'D'][index]),
-                  selected: _days.contains(index + 1),
-                  onSelected: (selected) => setState(
-                    () => selected
-                        ? _days.add(index + 1)
-                        : _days.remove(index + 1),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _target,
+                decoration: const InputDecoration(labelText: 'Meta'),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                validator: (value) {
+                  final number = double.tryParse(
+                    (value ?? '').replaceAll(',', '.'),
+                  );
+                  return number == null || !number.isFinite || number <= 0
+                      ? 'La meta debe ser mayor que cero.'
+                      : null;
+                },
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _unit,
+                decoration: const InputDecoration(labelText: 'Unidad'),
+                validator: (value) => (value?.trim().isEmpty ?? true)
+                    ? 'Indica una unidad.'
+                    : null,
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Días de tu rutina',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 6,
+                runSpacing: 8,
+                children: List.generate(
+                  7,
+                  (index) => FilterChip(
+                    label: Text(['L', 'M', 'X', 'J', 'V', 'S', 'D'][index]),
+                    selected: _days.contains(index + 1),
+                    onSelected: (selected) => setState(
+                      () => selected
+                          ? _days.add(index + 1)
+                          : _days.remove(index + 1),
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Zona de ejemplo: America/Mexico_City',
-              style: TextStyle(fontSize: 12),
-            ),
-            const SizedBox(height: 24),
-            FilledButton(
-              onPressed: () {
-                if (!_form.currentState!.validate()) return;
-                if (_days.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Selecciona al menos un día.'),
-                    ),
-                  );
-                  return;
-                }
-                PrototypeScope.of(context).save(
-                  id: widget.id,
-                  name: _name.text,
-                  target: double.parse(_target.text.replaceAll(',', '.')),
-                  unit: _unit.text,
-                  days: _days.toList()..sort(),
-                );
-                Navigator.pop(context);
-              },
-              child: const Text('Guardar en la demostración'),
-            ),
-            const SizedBox(height: 16),
-            const DemoNote(),
-          ],
+              const SizedBox(height: 20),
+              Text(
+                model.isConnected
+                    ? (widget.id == null
+                          ? 'Zona para el hábito: ${model.newHabitTimeZone}'
+                          : 'Zona del hábito: ${model.habitOrNull(widget.id!)?.timeZone ?? model.activeTimeZone}\nLos cambios aplican desde la próxima fecha elegible sin alterar el historial previo.')
+                    : 'Zona de ejemplo: America/Mexico_City',
+                style: const TextStyle(fontSize: 12, height: 1.5),
+              ),
+              const SizedBox(height: 24),
+              if (model.saving)
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 12),
+                  child: LinearProgressIndicator(),
+                ),
+              FilledButton(
+                onPressed: model.saving
+                    ? null
+                    : () async {
+                        if (!_form.currentState!.validate()) return;
+                        if (_days.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Selecciona al menos un día.'),
+                            ),
+                          );
+                          return;
+                        }
+                        final ok = await model.submitHabit(
+                          id: widget.id,
+                          name: _name.text,
+                          target: double.parse(
+                            _target.text.replaceAll(',', '.'),
+                          ),
+                          unit: _unit.text,
+                          days: _days.toList()..sort(),
+                        );
+                        if (!context.mounted) return;
+                        if (ok) {
+                          Navigator.pop(context);
+                        } else if (model.errorMessage != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(model.errorMessage!)),
+                          );
+                        }
+                      },
+                child: Text(
+                  model.isConnected
+                      ? 'Guardar hábito'
+                      : 'Guardar en la demostración',
+                ),
+              ),
+              const SizedBox(height: 16),
+              const DemoNote(),
+            ],
+          ),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }
 
 class CheckInEditor extends StatefulWidget {
@@ -539,12 +733,23 @@ class _CheckInEditorState extends State<CheckInEditor> {
   final _form = GlobalKey<FormState>();
   final _value = TextEditingController();
   bool _initialized = false;
+  String? _selectedDate;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_initialized) {
       _initialized = true;
-      _value.text = amount(PrototypeScope.of(context).habit(widget.id).value);
+      final model = PrototypeScope.of(context);
+      final habit = model.habitOrNull(widget.id);
+      if (model.isConnected) {
+        final dates = model.eligibleDatesForHabit(widget.id);
+        _selectedDate = dates.isNotEmpty ? dates.first : model.todayBusinessDate;
+        _value.text = amount(
+          model.valueForHabitOnDate(widget.id, _selectedDate!),
+        );
+      } else {
+        _value.text = habit == null ? '0' : amount(habit.value);
+      }
     }
   }
 
@@ -556,15 +761,54 @@ class _CheckInEditorState extends State<CheckInEditor> {
 
   @override
   Widget build(BuildContext context) {
-    final habit = PrototypeScope.of(context).habit(widget.id);
+    final model = PrototypeScope.of(context);
+    final habit = model.habitOrNull(widget.id);
+    if (habit == null) {
+      return const DetailPage(
+        title: 'Cada avance cuenta',
+        children: [LiquidSurface(child: Text('Hábito no disponible.'))],
+      );
+    }
+    final eligibleDates = model.isConnected
+        ? model.eligibleDatesForHabit(widget.id)
+        : const <String>[];
+    final todayForHabit = model.isConnected
+        ? businessDateForZone(DateTime.now(), habit.timeZone)
+        : '2026-11-20';
+    final selectedDate = _selectedDate ?? todayForHabit;
     return DetailPage(
       title: 'Cada avance cuenta',
       children: [
         SectionTitle(
           habit.name,
-          subtitle: 'Valor acumulado del día. Corregirlo reemplaza el valor anterior.',
+          subtitle:
+              'Valor acumulado del día. Corregirlo reemplaza el valor anterior.',
         ),
         const SizedBox(height: 24),
+        if (model.isConnected && eligibleDates.length > 1) ...[
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final date in eligibleDates)
+                ChoiceChip(
+                  label: Text(date == todayForHabit ? 'Hoy ($date)' : date),
+                  selected: selectedDate == date,
+                  onSelected: model.saving
+                      ? null
+                      : (_) {
+                          setState(() {
+                            _selectedDate = date;
+                            _value.text = amount(
+                              model.valueForHabitOnDate(habit.id, date),
+                            );
+                          });
+                        },
+                ),
+            ],
+          ),
+          const SizedBox(height: 18),
+        ],
         Form(
           key: _form,
           child: TextFormField(
@@ -582,23 +826,40 @@ class _CheckInEditorState extends State<CheckInEditor> {
           ),
         ),
         const SizedBox(height: 20),
-        const Text(
-          '20 nov 2026 · Fecha de ejemplo\nAmerica/Mexico_City',
-          style: TextStyle(height: 1.7),
+        Text(
+          model.isConnected
+              ? '$selectedDate · Fecha de negocio\n${habit.timeZone}'
+              : '20 nov 2026 · Fecha de ejemplo\nAmerica/Mexico_City',
+          style: const TextStyle(height: 1.7),
         ),
         const SizedBox(height: 24),
+        if (model.saving)
+          const Padding(
+            padding: EdgeInsets.only(bottom: 12),
+            child: LinearProgressIndicator(),
+          ),
         FilledButton(
-          onPressed: habit.paused || habit.archived
+          onPressed: habit.paused || habit.archived || model.saving
               ? null
-              : () {
+              : () async {
                   if (!_form.currentState!.validate()) return;
-                  PrototypeScope.of(context).setValue(
+                  final ok = await model.submitCheckIn(
                     habit.id,
                     double.parse(_value.text.replaceAll(',', '.')),
+                    businessDate: model.isConnected ? selectedDate : null,
                   );
-                  Navigator.pop(context);
+                  if (!context.mounted) return;
+                  if (ok) {
+                    Navigator.pop(context);
+                  } else if (model.errorMessage != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(model.errorMessage!)),
+                    );
+                  }
                 },
-          child: const Text('Previsualizar avance'),
+          child: Text(
+            model.isConnected ? 'Guardar avance' : 'Previsualizar avance',
+          ),
         ),
         const SizedBox(height: 18),
         const DemoNote(),
@@ -615,121 +876,189 @@ class ProgressPage extends StatefulWidget {
 
 class _ProgressPageState extends State<ProgressPage> {
   bool _month = false;
-  List<double> get _values =>
+  List<double> _demoValues() =>
       _month ? const [45, 65, 75, 85] : const [30, 55, 40, 80, 65, 90, 70];
-  List<String> get _labels => _month
+  List<String> _demoLabels() => _month
       ? const ['S1', 'S2', 'S3', 'S4']
       : const ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+
+  String _weekdayShort(String ymd) {
+    final parts = ymd.split('-').map(int.parse).toList(growable: false);
+    final weekday = DateTime.utc(parts[0], parts[1], parts[2]).weekday;
+    return const ['L', 'M', 'X', 'J', 'V', 'S', 'D'][weekday - 1];
+  }
+
   @override
-  Widget build(BuildContext context) => PageContent(
-    children: [
-      const Eyebrow('Cada avance tiene historia'),
-      const SizedBox(height: 12),
-      const SectionTitle(
-        'Observa tu constancia',
-        subtitle: 'Una mirada a tus avances, más allá de una racha.',
-      ),
-      const SizedBox(height: 20),
-      Wrap(
-        spacing: 8,
-        children: [
-          ChoiceChip(
-            label: const Text('Semana'),
-            selected: !_month,
-            onSelected: (_) => setState(() => _month = false),
-          ),
-          ChoiceChip(
-            label: const Text('Mes'),
-            selected: _month,
-            onSelected: (_) => setState(() => _month = true),
-          ),
-        ],
-      ),
-      const SizedBox(height: 20),
-      LiquidSurface(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  Widget build(BuildContext context) {
+    final model = PrototypeScope.of(context);
+    final connected = model.isConnected;
+    final trendPoints = _month ? model.monthlyTrends : model.weeklyTrends;
+    final hasClosedOpportunities =
+        connected && trendPoints.any((p) => p.opportunities > 0);
+    final List<double> barHeights;
+    final List<String> barLabels;
+    if (connected && trendPoints.isNotEmpty) {
+      barHeights = trendPoints
+          .map((p) => ((p.completionRate ?? 0) * 0.82 + 8).clamp(8.0, 90.0))
+          .toList(growable: false);
+      barLabels = List.generate(
+        trendPoints.length,
+        (i) => _month ? 'S${i + 1}' : _weekdayShort(trendPoints[i].from),
+      );
+    } else {
+      barHeights = _demoValues();
+      barLabels = _demoLabels();
+    }
+
+    return PageContent(
+      children: [
+        const Eyebrow('Cada avance tiene historia'),
+        const SizedBox(height: 12),
+        const SectionTitle(
+          'Observa tu constancia',
+          subtitle: 'Una mirada a tus avances, más allá de una racha.',
+        ),
+        const SizedBox(height: 20),
+        const _SyncStatusBanner(),
+        Wrap(
+          spacing: 8,
           children: [
-            const Eyebrow('Tendencia ilustrativa'),
-            const SizedBox(height: 14),
-            Text(
-              _month ? 'Un mes, muchos pasos.' : 'Tu semana, paso a paso.',
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+            ChoiceChip(
+              label: const Text('Semana'),
+              selected: !_month,
+              onSelected: (_) => setState(() => _month = false),
             ),
-            const SizedBox(height: 24),
-            Semantics(
-              label: _month
-                  ? 'Gráfico mensual de ejemplo: semana 1, 45; semana 2, 65; semana 3, 75; semana 4, 85 por ciento.'
-                  : 'Gráfico semanal de ejemplo: lunes 30, martes 55, miércoles 40, jueves 80, viernes 65, sábado 90 y domingo 70 por ciento.',
-              child: ExcludeSemantics(
-                child: SizedBox(
-                  height: 130,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: List.generate(
-                      _values.length,
-                      (index) => Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                height: _values[index],
-                                decoration: BoxDecoration(
-                                  color: index == _values.length - 1
-                                      ? MobileTokens.laserBlue
-                                      : context
-                                            .color('icon')
-                                            .withValues(alpha: .25),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
+            ChoiceChip(
+              label: const Text('Mes'),
+              selected: _month,
+              onSelected: (_) => setState(() => _month = true),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        LiquidSurface(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Eyebrow(
+                connected ? 'Cumplimiento confirmado' : 'Tendencia ilustrativa',
+              ),
+              const SizedBox(height: 14),
+              Text(
+                _month ? 'Un mes, muchos pasos.' : 'Tu semana, paso a paso.',
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 24),
+              if (connected && !hasClosedOpportunities)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Text(
+                    'Sin oportunidades cerradas aún en este periodo. El día abierto de hoy se evalúa al cerrar la fecha.',
+                    style: TextStyle(height: 1.6),
+                  ),
+                )
+              else
+                Semantics(
+                  label: connected
+                      ? 'Gráfico de cumplimiento confirmado por la API.'
+                      : (_month
+                            ? 'Gráfico mensual de ejemplo: semana 1, 45; semana 2, 65; semana 3, 75; semana 4, 85 por ciento.'
+                            : 'Gráfico semanal de ejemplo: lunes 30, martes 55, miércoles 40, jueves 80, viernes 65, sábado 90 y domingo 70 por ciento.'),
+                  child: ExcludeSemantics(
+                    child: SizedBox(
+                      height: 130,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: List.generate(
+                          barHeights.length,
+                          (index) => Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 5,
                               ),
-                              const SizedBox(height: 10),
-                              Text(
-                                _labels[index],
-                                style: const TextStyle(fontSize: 11),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    height: barHeights[index],
+                                    decoration: BoxDecoration(
+                                      color: index == barHeights.length - 1
+                                          ? MobileTokens.laserBlue
+                                          : context
+                                                .color('icon')
+                                                .withValues(alpha: .25),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    barLabels[index],
+                                    style: const TextStyle(fontSize: 11),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
+              const SizedBox(height: 16),
+              if (connected && model.dashboardProgress != null) ...[
+                Text(
+                  'Resumen 30 días: ${model.dashboardProgress!.closed.completed}/${model.dashboardProgress!.closed.opportunities} cerradas · ${model.dashboardProgress!.open.completed}/${model.dashboardProgress!.open.opportunities} hoy · ${model.dashboardProgress!.futureOpportunities} próximas',
+                  style: const TextStyle(fontSize: 13),
+                ),
+                const SizedBox(height: 8),
+              ],
+              Text(
+                connected
+                    ? 'Calculado desde PostgreSQL · Zona ${model.activeTimeZone}.'
+                    : 'Valores de muestra. No son métricas oficiales.',
+                style: const TextStyle(fontSize: 12),
               ),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Valores de muestra. No son métricas oficiales.',
-              style: TextStyle(fontSize: 12),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-      const SizedBox(height: 18),
-      OutlinedButton.icon(
-        onPressed: () => showPrototypePage(context, const HistoryPage()),
-        icon: const Icon(Icons.history_rounded),
-        label: const Text('Ver historial de esta visita'),
-      ),
-      const SizedBox(height: 18),
-      const DemoNote(),
-    ],
-  );
+        const SizedBox(height: 18),
+        OutlinedButton.icon(
+          onPressed: () => showPrototypePage(context, const HistoryPage()),
+          icon: const Icon(Icons.history_rounded),
+          label: Text(
+            connected
+                ? 'Ver historial confirmado'
+                : 'Ver historial de esta visita',
+          ),
+        ),
+        const SizedBox(height: 18),
+        const DemoNote(),
+      ],
+    );
+  }
 }
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
   @override
   Widget build(BuildContext context) {
-    final entries = PrototypeScope.of(context).entries;
+    final model = PrototypeScope.of(context);
+    final entries = model.entries;
     return DetailPage(
-      title: 'Tu historial de ejemplo',
+      title: model.isConnected
+          ? 'Tu historial confirmado'
+          : 'Tu historial de ejemplo',
       children: [
         if (entries.isEmpty)
-          const LiquidSurface(
-            child: Text('Aún no registras avances durante esta visita.'),
+          LiquidSurface(
+            child: Text(
+              model.isConnected
+                  ? 'Aún no tienes check-ins confirmados en los últimos 30 días.'
+                  : 'Aún no registras avances durante esta visita.',
+            ),
           ),
         for (final entry in entries)
           Padding(
@@ -800,72 +1129,129 @@ class AssistantPage extends StatelessWidget {
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
   @override
-  Widget build(BuildContext context) => PageContent(
-    children: [
-      const Eyebrow('Tu espacio, tus decisiones'),
-      const SizedBox(height: 12),
-      const SectionTitle(
-        'Hazlo tuyo.',
-        subtitle: 'Una textura y un ritmo que van contigo.',
-      ),
-      const SizedBox(height: 24),
-      LiquidSurface(
-        child: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: context.color('icon').withValues(alpha: .1),
-              child: Icon(
-                Icons.person_outline_rounded,
-                color: context.color('icon'),
-              ),
-            ),
-            const SizedBox(width: 14),
-            const Expanded(
-              child: Text(
-                'Perfil de ejemplo\nSin cuenta conectada',
-                style: TextStyle(height: 1.6),
-              ),
-            ),
-          ],
+  Widget build(BuildContext context) {
+    final session = MobileSessionScope.of(context);
+    final model = PrototypeScope.of(context);
+    final String statusText;
+    if (session.authenticated && model.isConnected) {
+      statusText = model.profile != null
+          ? 'Sesión Keycloak activa\nAPI conectada · ${model.profile!.timeZone}'
+          : 'Sesión Keycloak activa\nSincronizando perfil con API…';
+    } else if (session.authenticated) {
+      statusText = 'Sesión Keycloak activa\nDashboard de ejemplo';
+    } else {
+      statusText = 'Perfil de ejemplo\nSin cuenta conectada';
+    }
+    return PageContent(
+      children: [
+        const Eyebrow('Tu espacio, tus decisiones'),
+        const SizedBox(height: 12),
+        const SectionTitle(
+          'Hazlo tuyo.',
+          subtitle: 'Una textura y un ritmo que van contigo.',
         ),
-      ),
-      const SizedBox(height: 16),
-      _ProfileAction(
-        icon: Icons.tune_rounded,
-        title: 'Apariencia y Liquid Glass',
-        onTap: () => showAppearance(context),
-      ),
-      _ProfileAction(
-        icon: Icons.checklist_rounded,
-        title: 'Mis hábitos',
-        onTap: () => showPrototypePage(context, const HabitsPage()),
-      ),
-      _ProfileAction(
-        icon: Icons.history_rounded,
-        title: 'Historial',
-        onTap: () => showPrototypePage(context, const HistoryPage()),
-      ),
-      _ProfileAction(
-        icon: Icons.shield_outlined,
-        title: 'Privacidad y alcance',
-        onTap: () => showPrototypePage(
-          context,
-          const DetailPage(
-            title: 'Tu información, tus decisiones',
+        const SizedBox(height: 24),
+        const _SyncStatusBanner(),
+        LiquidSurface(
+          child: Row(
             children: [
-              LiquidSurface(
-                child: Text(
-                  'Solo datos sintéticos en memoria. No se recogen credenciales, biometría ni conversaciones.\n\nConsentimiento, dispositivos y sesión real siguen pendientes de integración.',
-                  style: TextStyle(height: 1.8),
+              CircleAvatar(
+                backgroundColor: context.color('icon').withValues(alpha: .1),
+                child: Icon(
+                  Icons.person_outline_rounded,
+                  color: context.color('icon'),
                 ),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Text(statusText, style: const TextStyle(height: 1.6)),
               ),
             ],
           ),
         ),
+        const SizedBox(height: 16),
+        if (session.authenticated)
+          _ProfileAction(
+            icon: Icons.logout_rounded,
+            title: 'Cerrar sesión',
+            onTap: session.signOut,
+          ),
+        _ProfileAction(
+          icon: Icons.public_rounded,
+          title: 'Zona horaria (${model.newHabitTimeZone})',
+          onTap: () => _showTimeZoneSheet(context, model),
+        ),
+        _ProfileAction(
+          icon: Icons.tune_rounded,
+          title: 'Apariencia y Liquid Glass',
+          onTap: () => showAppearance(context),
+        ),
+        _ProfileAction(
+          icon: Icons.checklist_rounded,
+          title: 'Mis hábitos',
+          onTap: () => showPrototypePage(context, const HabitsPage()),
+        ),
+        _ProfileAction(
+          icon: Icons.history_rounded,
+          title: 'Historial',
+          onTap: () => showPrototypePage(context, const HistoryPage()),
+        ),
+        _ProfileAction(
+          icon: Icons.shield_outlined,
+          title: 'Privacidad y alcance',
+          onTap: () => showPrototypePage(
+            context,
+            DetailPage(
+              title: 'Tu información, tus decisiones',
+              children: [
+                LiquidSurface(
+                  child: Text(
+                    model.isConnected
+                        ? 'Keycloak gestiona las credenciales y el acceso con Google mediante Authorization Code + PKCE. La sesión se guarda cifrada en el almacén seguro del dispositivo sin respaldo en la nube; tus hábitos y check-ins se almacenan en PostgreSQL vía Quantify API.\n\nConsentimiento biométrico y dispositivos siguen pendientes.'
+                        : 'Los hábitos y métricas son datos sintéticos en memoria. Cuando conectes la app con Keycloak, la sesión se guardará de forma segura en el dispositivo.\n\nConsentimiento, dispositivos y datos de negocio conectados siguen pendientes.',
+                    style: const TextStyle(height: 1.8),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        const DemoNote(),
+      ],
+    );
+  }
+}
+
+void _showTimeZoneSheet(BuildContext context, PrototypeModel model) {
+  showModalBottomSheet<void>(
+    context: context,
+    showDragHandle: true,
+    builder: (sheetContext) => SafeArea(
+      child: ListView(
+        shrinkWrap: true,
+        padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+        children: [
+          const Text(
+            'Zona horaria para nuevos hábitos',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 8),
+          for (final tz in supportedTimeZones)
+            ListTile(
+              title: Text(tz.label),
+              subtitle: Text(tz.id),
+              trailing: model.newHabitTimeZone == tz.id
+                  ? const Icon(Icons.check_rounded)
+                  : null,
+              onTap: () {
+                model.setPreferredTimeZone(tz.id);
+                Navigator.pop(sheetContext);
+              },
+            ),
+        ],
       ),
-      const SizedBox(height: 20),
-      const DemoNote(),
-    ],
+    ),
   );
 }
 
@@ -898,60 +1284,137 @@ class _ProfileAction extends StatelessWidget {
 class NoticesPage extends StatelessWidget {
   const NoticesPage({super.key});
   @override
-  Widget build(BuildContext context) => const DetailPage(
-    title: 'Todo en su momento',
-    children: [
-      LiquidSurface(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Eyebrow('Aviso de ejemplo'),
-            SizedBox(height: 12),
-            Text(
-              'Tu momento de lectura · 18:00',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-            ),
-            SizedBox(height: 12),
-            Text(
-              'Vista ilustrativa. No se han programado notificaciones en el dispositivo.',
-              style: TextStyle(height: 1.7),
-            ),
-          ],
+  Widget build(BuildContext context) {
+    final connected = PrototypeScope.maybeOf(context)?.isConnected ?? false;
+    return DetailPage(
+      title: 'Todo en su momento',
+      children: [
+        LiquidSurface(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Eyebrow(connected ? 'Estado del servicio' : 'Aviso de ejemplo'),
+              const SizedBox(height: 12),
+              Text(
+                connected
+                    ? 'Recordatorios locales pendientes'
+                    : 'Tu momento de lectura · 18:00',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                connected
+                    ? 'Tu cuenta ya guarda hábitos y check-ins reales en PostgreSQL. Las notificaciones en segundo plano aún no están habilitadas.'
+                    : 'Vista ilustrativa. No se han programado notificaciones en el dispositivo.',
+                style: const TextStyle(height: 1.7),
+              ),
+            ],
+          ),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }
 
 class AccessPreview extends StatelessWidget {
   const AccessPreview({super.key});
   @override
-  Widget build(BuildContext context) => const DetailPage(
-    title: 'Un espacio seguro para ti',
-    children: [
-      LiquidSurface(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(Icons.shield_outlined, size: 36),
-            SizedBox(height: 20),
-            Text(
-              'Tu identidad, con Keycloak.',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-            ),
-            SizedBox(height: 18),
-            Text(
-              'El acceso OIDC del cliente móvil está pendiente. Esta vista no recibe contraseñas ni crea una sesión.',
-              style: TextStyle(height: 1.8),
-            ),
-            SizedBox(height: 24),
-            FilledButton(
-              onPressed: null,
-              child: Text('Acceso institucional pendiente'),
-            ),
-          ],
+  Widget build(BuildContext context) {
+    final session = MobileSessionScope.of(context);
+    Future<void> access(bool register, {String? idpHint}) async {
+      await session.signIn(register: register, idpHint: idpHint);
+      if (context.mounted && session.authenticated) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
+    }
+
+    return DetailPage(
+      title: 'Un espacio seguro para ti',
+      children: [
+        LiquidSurface(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.shield_outlined, size: 36),
+              const SizedBox(height: 20),
+              const Text(
+                'Tu identidad, con Keycloak.',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 18),
+              const Text(
+                'Inicia sesión o crea tu cuenta en Keycloak. Al terminar volverás a Quantify con tu sesión activa.',
+                style: TextStyle(height: 1.8),
+              ),
+              const SizedBox(height: 24),
+              if (!session.available)
+                Text(
+                  session.supported
+                      ? 'Falta configurar Keycloak para este dispositivo.'
+                      : 'Abre la app Android o iOS para iniciar sesión.',
+                ),
+              if (session.busy) const LinearProgressIndicator(),
+              if (session.message != null)
+                Semantics(liveRegion: true, child: Text(session.message!)),
+              FilledButton(
+                onPressed: session.available && !session.busy
+                    ? () => access(false)
+                    : null,
+                child: const Text('Continuar con Keycloak'),
+              ),
+              const SizedBox(height: 10),
+              OutlinedButton(
+                onPressed: session.available && !session.busy
+                    ? () => access(true)
+                    : null,
+                child: const Text('Crear cuenta'),
+              ),
+              const SizedBox(height: 24),
+              const Divider(),
+              const SizedBox(height: 16),
+              const Text(
+                'Otras formas de entrar',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: session.available && !session.busy
+                      ? () => access(false, idpHint: 'google')
+                      : null,
+                  icon: const Icon(Icons.g_mobiledata_rounded, size: 24),
+                  label: const Text('Continuar con Google'),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Próximamente',
+                style: TextStyle(color: context.color('muted')),
+              ),
+              const SizedBox(height: 12),
+              for (final provider in const [
+                (label: 'Facebook', icon: Icons.facebook_rounded),
+                (label: 'Apple ID', icon: Icons.apple_rounded),
+              ])
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: null,
+                      icon: Icon(provider.icon, size: 24),
+                      label: Text('Continuar con ${provider.label}'),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }

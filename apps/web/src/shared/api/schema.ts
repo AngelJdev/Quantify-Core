@@ -1,5 +1,6 @@
 // Generated from packages/contracts/openapi.json. Do not edit.
 export type Problem = { "type": string; "title": string; "status": number; "detail"?: string; "code": string; "requestId": string; "errors"?: Array<{ "field": string; "code": string }> }
+export type ProfileProvision = { "timeZone": string }
 export type Profile = { "id": string; "timeZone": string; "roles": Array<"user" | "admin">; "status": "active" | "suspended" }
 export type Schedule = { "weekdays": Array<number>; "effectiveFrom": string }
 export type HabitCreate = { "name": string; "targetValue": number; "unit": string; "schedule": Schedule; "timeZone": string }
