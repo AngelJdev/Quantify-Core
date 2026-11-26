@@ -1,12 +1,14 @@
-import { useState, type ChangeEvent } from "react";
+import { useMemo, useState, type ChangeEvent } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useDemo, type ProfileState } from "@/app/DemoProvider";
 import { useTheme } from "@/app/ThemeProvider";
 import { Icon } from "@/shared/ui/Icon";
-import { getMailpitUrl, resizeImageToDataUrl } from "@/shared/api/client";
+import { resizeImageToDataUrl } from "@/shared/api/client";
+import { evaluateAllAchievements } from "@/features/achievements/data/achievements";
 
 export function ProfilePage() {
-  const { state, dispatch, updateProfilePreferences, endSession } = useDemo(),
+  const { state, habits, dispatch, updateProfilePreferences, endSession } =
+      useDemo(),
     { dark, setDark } = useTheme(),
     navigate = useNavigate(),
     [params, setParams] = useSearchParams();
@@ -17,11 +19,17 @@ export function ProfilePage() {
     : "Perfil";
   const [message, setMessage] = useState("");
   const [reminders, setReminders] = useState(true),
-    [summary, setSummary] = useState(true);
+    [summary, setSummary] = useState(true),
+    [achievementsAlerts, setAchievementsAlerts] = useState(true);
   const [deviceName, setDeviceName] = useState("Galaxy Watch 6 · Wear OS");
   const [pairingCode, setPairingCode] = useState("QC-2026");
   const [avatarPreview, setAvatarPreview] = useState<string | undefined>(
     state.profile.avatarDataUrl,
+  );
+
+  const achievementsSummary = useMemo(
+    () => evaluateAllAchievements(state, habits),
+    [state, habits],
   );
 
   async function handleAvatarUpload(e: ChangeEvent<HTMLInputElement>) {
@@ -31,9 +39,7 @@ export function ProfilePage() {
       const dataUrl = await resizeImageToDataUrl(file, 260, 0.8);
       setAvatarPreview(dataUrl);
       await updateProfilePreferences({ avatarDataUrl: dataUrl });
-      setMessage(
-        "Fotografía de perfil actualizada y sincronizada en la base de datos híbrida.",
-      );
+      setMessage("Fotografía de perfil actualizada correctamente.");
     } catch (err) {
       setMessage(
         err instanceof Error
@@ -46,7 +52,7 @@ export function ProfilePage() {
   function handleExportData() {
     const payload = {
       exportedAt: new Date().toISOString(),
-      platform: "Quantify Core V2.0",
+      platform: "Quantify V2.0",
       profile: state.profile,
       consent: state.consent,
       habits: state.habits.map((h) => h.resource),
@@ -59,11 +65,11 @@ export function ProfilePage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `quantify-core-datos-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `quantify-datos-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
     setMessage(
-      "Archivo JSON exportado con tu perfil, hábitos, evidencias e historial.",
+      "Archivo JSON descargado con tu perfil, hábitos, evidencias e historial.",
     );
   }
 
@@ -109,14 +115,17 @@ export function ProfilePage() {
                 phone: String(data.get("phone") || "").trim(),
                 avatarDataUrl: avatarPreview,
               });
-              setMessage(
-                state.session
-                  ? "Perfil guardado en PostgreSQL y MongoDB con registro de auditoría."
-                  : "Perfil actualizado correctamente.",
-              );
+              setMessage("Tus datos de perfil se han guardado correctamente.");
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+                marginBottom: "1rem",
+              }}
+            >
               {avatarPreview ? (
                 <img
                   src={avatarPreview}
@@ -132,8 +141,8 @@ export function ProfilePage() {
                 <h2>Tu perfil personal</h2>
                 <p className="caption">
                   {state.session
-                    ? `${state.session.email} · Rol: ${state.session.roles.join(", ")}`
-                    : "Personaliza tu identidad, fotografía y datos académicos."}
+                    ? `${state.session.email} · Nivel ${achievementsSummary.level} (${achievementsSummary.levelTitle})`
+                    : "Personaliza tu nombre, fotografía y zona horaria."}
                 </p>
               </div>
             </div>
@@ -164,14 +173,14 @@ export function ProfilePage() {
                 rows={2}
                 defaultValue={
                   state.profile.bio ||
-                  "Construyendo hábitos sostenibles con evidencia e IA."
+                  "Construyendo hábitos sostenibles un día a la vez."
                 }
                 maxLength={200}
               />
             </label>
             <div className="form-grid">
               <label>
-                Carrera / Ocupación
+                Ocupación / Área
                 <input
                   name="occupation"
                   defaultValue={
@@ -222,56 +231,95 @@ export function ProfilePage() {
             <button className="button primary">Previsualizar cambios</button>
           </form>
 
-          <section className="card">
-            <h2>Notificaciones y seguridad de cuenta</h2>
-            <Switch
-              title="Recordatorios de hábitos"
-              value={reminders}
-              onChange={setReminders}
-            />
-            <Switch
-              title="Resumen semanal con IA"
-              value={summary}
-              onChange={setSummary}
-            />
-            <p className="caption">
-              Preferencias sincronizadas con tu espacio personal y bandeja
-              Nodemailer.
-            </p>
-            <div className="form-actions">
-              <Link className="button secondary" to="/auth">
-                Identidad, Google y Contraseña
-              </Link>
-              <a
-                className="button secondary"
-                href={getMailpitUrl()}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Bandeja de correo (Nodemailer) ↗
-              </a>
-              {state.session && (
-                <button
-                  type="button"
-                  className="button secondary"
-                  onClick={async () => {
-                    await endSession();
-                    navigate("/auth", { replace: true });
-                  }}
-                >
-                  Cerrar sesión
-                </button>
-              )}
-            </div>
-          </section>
+          <div className="stack">
+            <section className="card">
+              <div className="section-heading">
+                <div>
+                  <span className="eyebrow">PROGRESO DE CUENTA</span>
+                  <h2>Nivel {achievementsSummary.level} · {achievementsSummary.levelTitle}</h2>
+                </div>
+                <span className="symbol emerald">
+                  <Icon name="confirmado" />
+                </span>
+              </div>
+              <p className="caption">
+                Has desbloqueado{" "}
+                <strong>{achievementsSummary.unlockedCount}</strong> de{" "}
+                <strong>{achievementsSummary.totalCount}</strong> logros y
+                acumulado <strong>{achievementsSummary.totalPoints} XP</strong>.
+              </p>
+              <div className="progress-track" style={{ margin: "0.75rem 0" }}>
+                <span
+                  className="qc-animated-progress-bar"
+                  style={{ width: `${achievementsSummary.nextLevelPct}%` }}
+                />
+              </div>
+              <div className="form-actions">
+                <Link className="button secondary" to="/logros">
+                  Ver mis 36 medallas →
+                </Link>
+              </div>
+            </section>
+
+            <section className="card">
+              <h2>Notificaciones y sesión</h2>
+              <Switch
+                title="Recordatorios diarios de hábitos"
+                value={reminders}
+                onChange={setReminders}
+              />
+              <Switch
+                title="Avisos al desbloquear nuevos logros"
+                value={achievementsAlerts}
+                onChange={setAchievementsAlerts}
+              />
+              <Switch
+                title="Resumen semanal de constancia"
+                value={summary}
+                onChange={setSummary}
+              />
+              <div className="account-status-box">
+                <div>
+                  <strong>
+                    {state.session
+                      ? `Cuenta verificada (${state.session.email})`
+                      : "Modo de exploración activo"}
+                  </strong>
+                  <p className="caption" style={{ margin: "0.2rem 0 0" }}>
+                    {state.session
+                      ? "Tus hábitos, evidencias y medallas están protegidos en tu cuenta."
+                      : "Inicia sesión cuando quieras para guardar tu progreso en tu cuenta."}
+                  </p>
+                </div>
+                {state.session ? (
+                  <button
+                    type="button"
+                    className="sidebar-logout-btn"
+                    style={{ width: "auto", padding: "0.55rem 1.1rem" }}
+                    onClick={async () => {
+                      await endSession();
+                      navigate("/auth", { replace: true });
+                    }}
+                  >
+                    <Icon name="cancelar" />
+                    <span>Cerrar sesión</span>
+                  </button>
+                ) : (
+                  <Link className="button primary" to="/auth">
+                    Iniciar sesión
+                  </Link>
+                )}
+              </div>
+            </section>
+          </div>
         </div>
       )}
       {tab === "Apariencia" && (
         <section className="card form-card">
           <h2>Personalización visual avanzada</h2>
           <p>
-            Ajusta el tema, color de acento institucional, densidad de tarjetas
-            y escala tipográfica.
+            Ajusta el tema, color de acento, densidad de tarjetas y escala
+            tipográfica.
           </p>
           <div className="theme-options">
             {[false, true].map((d) => (
@@ -309,7 +357,7 @@ export function ProfilePage() {
               >
                 <option value="blue">Laser Blue (#275BC0 · Oficial)</option>
                 <option value="emerald">Emerald (#10B981 · Rachas)</option>
-                <option value="cyan">Electric Cyan (#0EA5E9 · IA)</option>
+                <option value="cyan">Electric Cyan (#0EA5E9)</option>
                 <option value="violet">Royal Violet (#7C3AED)</option>
                 <option value="amber">Sunset Amber (#D97706)</option>
               </select>
@@ -382,9 +430,7 @@ export function ProfilePage() {
               type="button"
               className="button primary"
               onClick={() =>
-                setMessage(
-                  "Preferencias de privacidad actualizadas y auditadas.",
-                )
+                setMessage("Preferencias de privacidad actualizadas.")
               }
             >
               Previsualizar preferencias
