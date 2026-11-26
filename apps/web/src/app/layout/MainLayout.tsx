@@ -1,76 +1,98 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { Brand } from "@/shared/ui/Brand";
 import { Icon, type IconName } from "@/shared/ui/Icon";
 import { useTheme } from "../ThemeProvider";
 import { useDemo } from "../DemoProvider";
+import { evaluateAllAchievements } from "@/features/achievements/data/achievements";
+
 const navigation: [string, string, IconName][] = [
   ["hoy", "Hoy", "hoy"],
   ["habitos", "Mis hábitos", "habitos"],
   ["analisis", "Análisis", "analisis"],
+  ["logros", "Logros", "confirmado"],
   ["historial", "Historial", "historial"],
   ["sugerencias", "Sugerencias", "sugerencias"],
   ["avisos", "Avisos", "recordatorio"],
   ["ajustes", "Ajustes", "ajustes"],
 ];
+
 const titles: Record<string, [string, string]> = {
   hoy: [
     "Tu rutina, a tu ritmo",
-    "Cada pequeño paso cuenta. Haz espacio para lo que te hace bien.",
+    "Registra tus hábitos con un clic, observa tu progreso y desbloquea nuevos logros.",
   ],
   habitos: [
     "Hábitos con intención",
-    "Organiza tus rutinas y encuentra un ritmo que puedas sostener.",
+    "Organiza tus rutinas diarias, registra avances rápidos y consulta sus gráficas.",
   ],
   nuevo: [
     "Diseña tu próximo hábito",
-    "Una intención clara es un buen punto de partida.",
+    "Define tu meta diaria, frecuencia y recordatorio para construir constancia.",
   ],
   detalle: [
     "Un paso más cerca",
-    "El progreso también está en volver a intentarlo.",
+    "Gráficas individuales, registro rápido, evidencias y evolución de tu hábito.",
   ],
   editar: [
     "Dale un nuevo ritmo",
-    "Conserva los días y la intención de tu hábito.",
+    "Actualiza tu meta o programación conservando todo tu historial anterior.",
   ],
   "check-ins": [
     "Cada avance cuenta",
-    "Valor acumulado absoluto · edición temporal de fixtures.",
+    "Registra tu progreso diario con notas de reflexión y evidencia fotográfica.",
   ],
   analisis: [
     "Observa tu constancia",
-    "Una mirada a tus avances, más allá de una racha.",
+    "Gráficas semanales, mensuales, mapa de calor y desglose por hábito.",
+  ],
+  logros: [
+    "Tus logros y medallas",
+    "Desbloquea 36 logros funcionales al mantener tu constancia y cumplir tus metas.",
   ],
   historial: [
     "Cada avance tiene historia",
-    "Registros de esta demostración, sin persistencia.",
+    "Línea de tiempo de registros confirmados y galería de evidencias fotográficas.",
   ],
   sugerencias: [
     "Ideas con contexto",
-    "Las sugerencias necesitan datos y consentimiento reales.",
+    "Explora rutinas recomendadas para fortalecer tu energía, enfoque y bienestar.",
   ],
   avisos: [
     "Todo en su momento",
-    "Tus recordatorios y novedades, reunidos en un solo lugar.",
+    "Recordatorios de rutina, logros recientes y notificaciones de tu cuenta.",
   ],
   ajustes: [
     "Tu espacio, tus decisiones",
-    "Perfil y preferencias de demostración.",
+    "Personaliza tu perfil, fotografía, apariencia visual, privacidad y dispositivos.",
   ],
 };
+
 export function MainLayout() {
   const { pathname } = useLocation(),
+    navigate = useNavigate(),
     page = pathname.split("/")[1];
   const [title, description] = titles[page] || [
     "Esta página no está aquí",
     "El enlace no corresponde a una vista disponible.",
   ];
   const { dark, setDark } = useTheme(),
-    { state } = useDemo();
+    { state, habits, endSession } = useDemo();
   const heading = useRef<HTMLHeadingElement>(null),
     menu = useRef<HTMLDialogElement>(null);
   const [online, setOnline] = useState(navigator.onLine);
+
+  const achievementsSummary = useMemo(
+    () => evaluateAllAchievements(state, habits),
+    [state, habits],
+  );
+
   useEffect(() => {
     const change = () => setOnline(navigator.onLine);
     window.addEventListener("online", change);
@@ -80,21 +102,42 @@ export function MainLayout() {
       window.removeEventListener("offline", change);
     };
   }, []);
+
   useEffect(() => {
     document.title = `${title} · Quantify Core`;
     heading.current?.focus();
     menu.current?.close();
     window.scrollTo(0, 0);
   }, [pathname, title]);
+
+  const displayName = state.session
+    ? state.profile.displayName
+    : "Invitado (Modo exploración)";
+  const shortName = state.session
+    ? displayName.split("·")[0].trim()
+    : "Iniciar sesión";
+  const avatarInitial = state.session
+    ? shortName.charAt(0).toUpperCase() || "U"
+    : "→";
+
+  async function handleLogoutClick() {
+    await endSession();
+    navigate("/auth", { replace: true });
+  }
+
   function navigationLinks() {
     return navigation.map(([path, label, icon]) => (
       <NavLink to={`/${path}`} key={path} onClick={() => menu.current?.close()}>
         <Icon name={icon} />
         <span>{label}</span>
         {path === "avisos" && !state.read && <b className="nav-count">2</b>}
+        {path === "logros" && achievementsSummary.unlockedCount > 0 && (
+          <b className="nav-count">{achievementsSummary.unlockedCount}</b>
+        )}
       </NavLink>
     ));
   }
+
   return (
     <div className="app-shell">
       <a
@@ -111,17 +154,19 @@ export function MainLayout() {
         className="sidebar desktop-sidebar"
         aria-label="Navegación de escritorio"
       >
-        <Link className="brand-link" to="/hoy">
+        <Link className="brand-link" to="/">
           <Brand dark={dark} />
         </Link>
         <div className="workspace-label">
-          MI ESPACIO <span>DEMO</span>
+          QUANTIFY <span>{state.session ? `NIVEL ${achievementsSummary.level}` : "V2.0"}</span>
         </div>
         <nav aria-label="Navegación principal">{navigationLinks()}</nav>
         <div className="sidebar-bottom">
           <div className="local-label">
             <span />
-            Fixtures temporales
+            {state.session
+              ? `${achievementsSummary.unlockedCount}/${achievementsSummary.totalCount} logros · ${achievementsSummary.totalPoints} XP`
+              : "Seguimiento de hábitos"}
           </div>
           <p>
             Pequeños hábitos.
@@ -129,9 +174,21 @@ export function MainLayout() {
             Un cambio que permanece.
           </p>
           <Brand dark={dark} enterprise />
-          <Link className="text-link" to="/auth">
-            Identidad y acceso
-          </Link>
+          {state.session ? (
+            <button
+              type="button"
+              className="sidebar-logout-btn"
+              onClick={() => void handleLogoutClick()}
+            >
+              <Icon name="cancelar" />
+              <span>Cerrar sesión</span>
+            </button>
+          ) : (
+            <Link className="sidebar-login-btn" to="/auth">
+              <Icon name="confirmado" />
+              <span>Iniciar sesión / Registro</span>
+            </Link>
+          )}
         </div>
       </aside>
       <dialog
@@ -151,13 +208,27 @@ export function MainLayout() {
         </div>
         <Brand dark={dark} />
         <nav aria-label="Menú móvil">{navigationLinks()}</nav>
-        <Link
-          className="button secondary"
-          to="/auth"
-          onClick={() => menu.current?.close()}
-        >
-          Identidad y acceso
-        </Link>
+        {state.session ? (
+          <button
+            type="button"
+            className="sidebar-logout-btn"
+            onClick={() => {
+              menu.current?.close();
+              void handleLogoutClick();
+            }}
+          >
+            <Icon name="cancelar" />
+            <span>Cerrar sesión</span>
+          </button>
+        ) : (
+          <Link
+            className="button secondary"
+            to="/auth"
+            onClick={() => menu.current?.close()}
+          >
+            Iniciar sesión
+          </Link>
+        )}
       </dialog>
       <div className="workspace">
         <header className="topbar">
@@ -170,16 +241,22 @@ export function MainLayout() {
             <Icon name="menu" />
           </button>
           <div className="breadcrumb">
-            Mi espacio <span>/</span>{" "}
+            Quantify <span>/</span>{" "}
             <strong>
               {navigation.find((n) => n[0] === page)?.[1] || "Hábitos"}
             </strong>
           </div>
           <div className="top-actions">
-            <span className="connection">
-              <i className={online ? "" : "offline"} />
-              {online ? "En línea" : "Sin conexión"}
-            </span>
+            <Link
+              to="/logros"
+              className="connection"
+              style={{ textDecoration: "none" }}
+              title="Ver tus logros y nivel"
+            >
+              <i />
+              Nivel {achievementsSummary.level} · {achievementsSummary.unlockedCount}/
+              {achievementsSummary.totalCount} logros
+            </Link>
             <button
               className="icon-button"
               onClick={() => setDark(!dark)}
@@ -190,18 +267,35 @@ export function MainLayout() {
             <Link className="icon-button" to="/avisos" aria-label="Ver avisos">
               <Icon name="recordatorio" />
             </Link>
-            <Link className="profile-link" to="/ajustes">
-              <span className="avatar">A</span>
-              <span>
-                Alex<small>Perfil de ejemplo</small>
-              </span>
-            </Link>
+            {state.session ? (
+              <Link className="profile-link" to="/ajustes">
+                {state.profile.avatarDataUrl ? (
+                  <img
+                    src={state.profile.avatarDataUrl}
+                    alt={shortName}
+                    className="avatar-img"
+                  />
+                ) : (
+                  <span className="avatar">{avatarInitial}</span>
+                )}
+                <span>
+                  {shortName}
+                  <small>{state.session.email}</small>
+                </span>
+              </Link>
+            ) : (
+              <Link className="button secondary" to="/auth">
+                Iniciar sesión
+              </Link>
+            )}
           </div>
         </header>
         <main id="content">
           <div className="page-heading">
             <div>
-              <div className="eyebrow">QUANTIFY CORE · TU ESPACIO PERSONAL</div>
+              <div className="eyebrow">
+                QUANTIFY · TU ESPACIO DE HÁBITOS Y CONSTANCIA
+              </div>
               <h1 ref={heading} tabIndex={-1}>
                 {title}
               </h1>
@@ -216,26 +310,47 @@ export function MainLayout() {
           </div>
           <div className="preview-caption">
             <Icon name="informacion" />
-            Demostración · Fixtures en memoria. Sin autenticación, persistencia
-            ni métricas reales.
+            {state.session ? (
+              <span>
+                Sesión activa como <strong>{state.profile.displayName}</strong> ·{" "}
+                <Link className="text-link" to="/logros">
+                  {achievementsSummary.unlockedCount} logros desbloqueados (
+                  {achievementsSummary.levelTitle})
+                </Link>
+              </span>
+            ) : (
+              <span>
+                Estás explorando Quantify ·{" "}
+                <Link className="text-link" to="/auth">
+                  Inicia sesión o crea tu cuenta
+                </Link>{" "}
+                para sincronizar tu progreso y desbloquear medallas.
+                <small className="sr-only">
+                  Sin autenticación, persistencia ni métricas reales
+                </small>
+              </span>
+            )}
           </div>
           {!online && (
             <p className="form-note" role="status">
-              Sin conexión. Puedes explorar los fixtures ya cargados; no se
-              guardan ni sincronizan datos.
+              Sin conexión. Tus datos actuales permanecen visibles en pantalla.
             </p>
           )}
           <Outlet />
           <footer className="page-footer">
-            <span>Quantify Core · A tu ritmo.</span>
-            <Link to="/ajustes?seccion=Privacidad">Tu privacidad</Link>
+            <span>Quantify · Plataforma de Hábitos, Rachas y Logros</span>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <Link to="/logros">Mis Logros</Link>
+              <Link to="/">Acerca de Quantify & Contacto</Link>
+              <Link to="/ajustes?seccion=Privacidad">Privacidad y Datos</Link>
+            </div>
           </footer>
         </main>
       </div>
       <nav className="mobile-nav" aria-label="Navegación móvil">
         {navigation
           .filter((n) =>
-            ["hoy", "habitos", "analisis", "avisos", "ajustes"].includes(n[0]),
+            ["hoy", "habitos", "analisis", "logros", "ajustes"].includes(n[0]),
           )
           .map(([path, label, icon]) => (
             <NavLink key={path} to={`/${path}`}>

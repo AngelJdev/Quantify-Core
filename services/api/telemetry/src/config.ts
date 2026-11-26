@@ -6,6 +6,7 @@ export interface TelemetryConfig {
   jwksUrl?: string;
   mongo?: {url:string;database:string};
   dashboardEnabled?: boolean;
+  autoProvisionProfiles?: boolean;
 }
 export function configuration(env = process.env): TelemetryConfig {
   if (env.TELEMETRY_SIMULATION_ENABLED !== '1') throw new Error('Simulación deshabilitada. Requiere TELEMETRY_SIMULATION_ENABLED=1.');

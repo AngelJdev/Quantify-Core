@@ -57,6 +57,18 @@ services:
     volumes:
       - keycloak-data:/opt/keycloak/data
       - ../keycloak/realm-export.json:/opt/keycloak/data/import/quantify-realm.json:ro
+  mailpit:
+    image: axllent/mailpit:v1.22.3
+    ports:
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:8025:8025"
+  mongodb:
+    image: mongo:8.2.6
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongodb-data:/data/db
 volumes:
   postgres-data:
   keycloak-data:
+  mongodb-data:
