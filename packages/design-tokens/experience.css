@@ -4,6 +4,8 @@
   --qc-ease-settle: cubic-bezier(0.22, 1.08, 0.36, 1);
   --qc-motion-enter: 760ms;
   --qc-motion-response: 420ms;
+  --qc-motion-orbit: 32s;
+  --qc-motion-float: 7s;
   --qc-glass-strength: 0.6;
   --qc-glass-fill: color-mix(in srgb, var(--qc-surface) calc(96% - var(--qc-glass-strength) * 20%), transparent);
   --qc-glass-edge: color-mix(in srgb, var(--qc-on-action) 64%, var(--qc-line));

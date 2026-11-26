@@ -2,6 +2,8 @@
 
 Revisión del 20/11/2026, prototipo React. Se mantiene la identidad de `themes.css`, Inter, la estructura de islas y las dimensiones canónicas. Los tokens de material y movimiento están en [experience.css](../../packages/design-tokens/experience.css); no se crea una paleta alternativa.
 
+**Revisión visual · 26/11/2026:** la capa `apps/web/src/app/presentation.css` reordena la bienvenida como una composición editorial de dos columnas en escritorio y una columna en móvil, y destaca las cabeceras internas como paneles con profundidad y acentos ambientales. El halo del indicador principal se reduce y queda tras el contenido para conservar la legibilidad. Se aplican estas superficies a las vistas públicas, acceso, instalación y aplicación. Mantiene los colores semánticos existentes, Inter local y la iconografía vectorial del cliente; no incorpora activos ni dependencias. Las animaciones ambientales de bienvenida usan los tiempos centralizados `--qc-motion-orbit` (32 s) y `--qc-motion-float` (7 s). Movimiento reducido las desactiva.
+
 ## Preferencias de presentación
 
 El control **Apariencia** de las cabeceras públicas y de la aplicación abre un diálogo nativo. Los mismos controles están en **Perfil → Apariencia**:
@@ -22,8 +24,8 @@ El diálogo conserva cierre con Escape, foco confinado y devolución del foco al
 
 ## Movimiento y coste
 
-Las entradas escalonan las islas; las secciones inferiores aparecen al entrar en el viewport mediante `IntersectionObserver`. La navegación mide el destino activo y desplaza una única píldora, tanto en el rail como en el dock móvil. Las rutas interiores tienen una entrada breve, y botones y tarjetas responden a hover y presión con curvas de desaceleración suaves.
+Las entradas escalonan las islas y paneles por ruta; las secciones inferiores de bienvenida aparecen al entrar en el viewport mediante `IntersectionObserver`. La navegación mide el destino activo y desplaza una única píldora, tanto en el rail como en el dock móvil. Las rutas interiores tienen una entrada breve, las gráficas crecen desde su base y botones y tarjetas responden a hover y presión con curvas de desaceleración suaves. La bienvenida suma una órbita lenta y una flotación de baja amplitud en su tarjeta ilustrativa; son decorativas, no transmiten estados ni datos.
 
-La escena de bienvenida se inclina hasta aproximadamente 1.5 grados por eje con el puntero de un ratón. No se activa en táctil ni con movimiento reducido. La luz de superficies de cristal sigue el puntero con actualizaciones limitadas por `requestAnimationFrame`, sin actualizar el estado React por cada evento ni usar un bucle permanente. Observadores y listeners se retiran al abandonar la vista. No hay animaciones decorativas infinitas nuevas ni librerías de movimiento añadidas.
+La escena de bienvenida se inclina hasta aproximadamente 1.5 grados por eje con el puntero de un ratón. No se activa en táctil ni con movimiento reducido. La luz de superficies de cristal sigue el puntero con actualizaciones limitadas por `requestAnimationFrame`, sin actualizar el estado React por cada evento ni usar un bucle permanente. Observadores y listeners se retiran al abandonar la vista. Las animaciones ambientales son limitadas a dos superficies de bienvenida; movimiento reducido del sistema o la preferencia manual las elimina junto con las entradas y transiciones. No se añadió una librería de movimiento.
 
 Las capturas y comprobaciones del cambio se documentan en la [entrega de apariencia](../../apps/web/docs/apariencia-2026-11-20.md). Una captura estática no demuestra el movimiento ni acredita accesibilidad global.

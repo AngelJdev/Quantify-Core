@@ -6,6 +6,8 @@
 
 **Revisión visual:** http://localhost:5173/ para edición o http://localhost:4173/ para el build instalable. [Entrega de islas: rutas, archivos y comprobaciones](docs/frontend-islas-2026-11-18.md).
 
+**Revisión de diseño PWA · 26/11/2026:** `src/app/presentation.css` establece una jerarquía más marcada en las pantallas públicas e internas: bienvenida editorial de dos columnas en escritorio, cabeceras internas como paneles destacados y adaptación apilada en móvil. El halo del indicador principal queda detrás del contenido para no ocultar texto. No cambia navegación, datos ni operaciones. Conserva Inter local, roles de `packages/design-tokens/themes.css` e iconos vectoriales de `src/shared/ui/Icon.tsx`; no añade fuentes, librerías, iconos ni colores de identidad. Las animaciones ambientales usan las preferencias existentes y movimiento reducido las desactiva.
+
 La bienvenida incorpora una [evolución visual inspirada en V1](../../docs/diseno/bienvenida-web.md): fondo con luz suave, vista de rutina en capas, indicadores ilustrativos y tres islas con contenido visual propio. Conserva la distribución acordada, los tokens V2 y el alcance de demostración.
 
 Para revisar la PWA instalable sin depender de API o Keycloak, desde `apps/web`: **`npm.cmd run pwa:preview`** y abrir **http://localhost:4173/instalar**. Compila y sirve el frontend localmente; no publica nada. `npm.cmd run dev` sigue en 5173 para edición y conserva el SW desactivado/retirada de versiones antiguas.
