@@ -305,7 +305,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(session.authenticated, isTrue);
     expect(auth.request!.additionalParameters, {'kc_idp_hint': 'google'});
-    expect(auth.request!.promptValues, isNull);
+    expect(auth.request!.promptValues, const ['login']);
     await tester.pumpWidget(const SizedBox.shrink());
     session.dispose();
   });

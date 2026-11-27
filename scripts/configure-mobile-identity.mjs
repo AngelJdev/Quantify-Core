@@ -95,6 +95,7 @@ try {
         clientId: googleClientId,
         clientSecret: googleClientSecret,
         defaultScope: 'openid profile email',
+        prompt: 'select_account',
         syncMode: 'FORCE',
       },
     };
@@ -126,7 +127,8 @@ try {
     const verifiedIdp = await (await admin('/identity-provider/instances/google')).json();
     assert.equal(verifiedIdp.enabled, true);
     assert.equal(verifiedIdp.providerId, 'google');
-    console.log('Local quantify realm: Google Identity Provider + picture mapper configured and enabled.');
+    assert.equal(verifiedIdp.config?.prompt, 'select_account');
+    console.log('Local quantify realm: Google Identity Provider (select_account + picture mapper) configured and enabled.');
   } else {
     console.log('Google Identity Provider skipped: set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in infrastructure/docker/.env.local to enable Google login.');
   }

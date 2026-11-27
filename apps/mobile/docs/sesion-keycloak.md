@@ -6,7 +6,7 @@ El corte inicial del 23/11 conservaba los tokens solo en memoria. A partir del 2
 
 - Los tokens (`accessToken`, `refreshToken`, `idToken` y expiración) se persisten localmente con `flutter_secure_storage` (Keystore en Android, con `android:allowBackup="false"` y `android:fullBackupContent="false"`), y se limpian al cerrar sesión o revocarse el `refreshToken`.
 - `MobileSession` renueva el `accessToken` automáticamente mediante `TokenRequest` antes de vencer, al reanudar la app y ante un primer `401`.
-- **Continuar con Google** queda habilitado enviando `kc_idp_hint=google` a Keycloak. Para activarlo localmente, completa `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` en `infrastructure/docker/.env.local` (ignorado por Git) y ejecuta `node scripts/configure-mobile-identity.mjs --apply-local`. Nunca colocar secretos en `realm-export.json`.
+- **Continuar con Google** queda habilitado enviando `kc_idp_hint=google` y `prompt=login` a Keycloak, con `prompt=select_account` configurado en el proveedor Google para solicitar siempre la selección de cuenta. Para activarlo localmente, completa `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` en `infrastructure/docker/.env.local` (ignorado por Git) y ejecuta `node scripts/configure-mobile-identity.mjs --apply-local`. Nunca colocar secretos en `realm-export.json`.
 
 ## Continuación por el equipo
 

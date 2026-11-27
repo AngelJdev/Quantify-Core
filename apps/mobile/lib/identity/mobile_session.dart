@@ -461,7 +461,7 @@ class MobileSession extends ChangeNotifier with WidgetsBindingObserver {
           MobileIdentityConfig.redirect,
           serviceConfiguration: config.endpoints(register: register),
           scopes: const ['openid', 'profile', 'email'],
-          promptValues: idpHint == null ? const ['login'] : null,
+          promptValues: const ['login'],
           additionalParameters: idpHint == null
               ? null
               : <String, String>{'kc_idp_hint': idpHint},
