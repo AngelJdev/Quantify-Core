@@ -24,7 +24,7 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
-  testWidgets('Q revela el nombre antes de abrir bienvenida y no se repite', (
+  testWidgets('Q revela QUANTIFY y V2.0 debajo antes de abrir bienvenida y no se repite', (
     tester,
   ) async {
     final firstFrame = Completer<void>();
@@ -34,32 +34,41 @@ void main() {
     // A slow engine must not use up the wordmark animation behind Android's splash.
     await tester.pump(const Duration(seconds: 3));
     expect(find.text('UANTIFY'), findsNothing);
+    expect(find.text('V2.0'), findsNothing);
     expect(find.byType(PrototypeWelcome), findsNothing);
     firstFrame.complete();
     await tester.pump();
     await tester.pump();
     expect(find.byType(QMark), findsOneWidget);
     expect(find.text('UANTIFY'), findsNothing);
+    expect(find.text('V2.0'), findsNothing);
     final initialCenter = tester.getCenter(find.byType(QMark));
     expect(find.byType(PrototypeWelcome), findsNothing);
     await tester.pump(const Duration(milliseconds: 1200));
     expect(find.text('UANTIFY'), findsOneWidget);
+    expect(find.text('V2.0'), findsNothing);
     final partialWidth = tester
         .getSize(find.byKey(const ValueKey('splash-name-reveal')))
         .width;
     expect(tester.getCenter(find.byType(QMark)).dx, lessThan(initialCenter.dx));
     expect(find.byType(PrototypeWelcome), findsNothing);
-    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pump(const Duration(milliseconds: 600));
     expect(
       tester.getSize(find.byKey(const ValueKey('splash-name-reveal'))).width,
       greaterThan(partialWidth),
     );
+    expect(find.text('V2.0'), findsOneWidget);
+    expect(
+      tester.getCenter(find.text('V2.0')).dy,
+      greaterThan(tester.getCenter(find.text('UANTIFY')).dy),
+    );
     expect(find.byType(PrototypeWelcome), findsNothing);
-    await tester.pump(const Duration(milliseconds: 350));
+    await tester.pump(const Duration(milliseconds: 850));
     await tester.pump();
-    // The completed wordmark stays on screen while welcome fades in.
+    // The completed wordmark + V2.0 stay on screen while welcome fades in.
     expect(find.byType(PrototypeWelcome), findsOneWidget);
     expect(find.byType(PrototypeLaunch), findsOneWidget);
+    expect(find.text('V2.0'), findsOneWidget);
     await tester.pump(const Duration(milliseconds: 250));
     final exit = tester.widget<FadeTransition>(
       find
@@ -82,19 +91,46 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('movimiento reducido muestra splash estático breve sin animar desplazamiento', (tester) async {
-    tester.platformDispatcher.accessibilityFeaturesTestValue =
-        const FakeAccessibilityFeatures(disableAnimations: true);
-    addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
+  testWidgets(
+    'escala de animación del sistema en 0 conserva animación fluida Q -> QUANTIFY -> V2.0',
+    (tester) async {
+      tester.platformDispatcher.accessibilityFeaturesTestValue =
+          const FakeAccessibilityFeatures(disableAnimations: true);
+      addTearDown(
+        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+      );
+      await tester.pumpWidget(
+        MobilePrototypeApp(showSplash: true, firstFrameReady: Future.value()),
+      );
+      await tester.pump();
+      await tester.pump();
+      expect(find.byType(PrototypeLaunch), findsOneWidget);
+      expect(find.text('UANTIFY'), findsNothing);
+      await tester.pump(const Duration(milliseconds: 1200));
+      expect(find.text('UANTIFY'), findsOneWidget);
+      expect(find.text('V2.0'), findsNothing);
+      await tester.pump(const Duration(milliseconds: 700));
+      expect(find.text('V2.0'), findsOneWidget);
+      await tester.pump(const Duration(milliseconds: 1400));
+      await tester.pumpAndSettle();
+      expect(find.byType(PrototypeLaunch), findsNothing);
+      expect(find.byType(PrototypeWelcome), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets('ajuste interno de movimiento reducido muestra QUANTIFY V2.0 estático breve', (tester) async {
     await tester.pumpWidget(
       MobilePrototypeApp(
         showSplash: true,
+        initialSettings: const VisualSettings(reducedMotion: true),
         firstFrameReady: Future.value(),
       ),
     );
     await tester.pump();
     expect(find.byType(PrototypeLaunch), findsOneWidget);
     expect(find.text('UANTIFY'), findsOneWidget);
+    expect(find.text('V2.0'), findsOneWidget);
     expect(find.byType(PrototypeWelcome), findsNothing);
     await tester.pump(const Duration(milliseconds: 950));
     await tester.pump();

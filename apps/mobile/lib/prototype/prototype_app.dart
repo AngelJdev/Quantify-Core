@@ -38,7 +38,8 @@ class MobilePrototypeApp extends StatefulWidget {
   State<MobilePrototypeApp> createState() => _MobilePrototypeAppState();
 }
 
-class _MobilePrototypeAppState extends State<MobilePrototypeApp> {
+class _MobilePrototypeAppState extends State<MobilePrototypeApp>
+    with SingleTickerProviderStateMixin {
   late PrototypeModel _model;
   final _navigator = GlobalKey<NavigatorState>();
   late final _session = widget.session ?? MobileSession();
@@ -50,6 +51,30 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp> {
   bool _wasAuthenticated = false;
   late final _appearance = ValueNotifier(widget.initialSettings);
   late bool _launching = widget.showSplash;
+  bool _exitingLaunch = false;
+  late final _launchExitController =
+      AnimationController(
+        vsync: this,
+        duration: MobileTokens.launchExitMs,
+        animationBehavior: AnimationBehavior.preserve,
+      )..addStatusListener((status) {
+        if (status == AnimationStatus.completed && mounted) {
+          setState(() {
+            _launching = false;
+            _exitingLaunch = false;
+          });
+        }
+      });
+
+  void _finishLaunch() {
+    if (!mounted || !_launching || _exitingLaunch) return;
+    if (_appearance.value.reducedMotion) {
+      setState(() => _launching = false);
+      return;
+    }
+    setState(() => _exitingLaunch = true);
+    _launchExitController.forward(from: 0);
+  }
 
   PrototypeModel _createModel() {
     if (_session.authenticated && _api.available) {
@@ -86,6 +111,7 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp> {
   @override
   void dispose() {
     _session.removeListener(_sessionChanged);
+    _launchExitController.dispose();
     if (widget.session == null) _session.dispose();
     if (widget.httpTransport == null) _api.close();
     _model.dispose();
@@ -121,29 +147,40 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp> {
                 ? Duration.zero
                 : MobileTokens.responseMs,
             home: Builder(
-              builder: (context) => AnimatedSwitcher(
-                duration: context.motion(MobileTokens.launchExitMs),
-                switchInCurve: Curves.easeOutCubic,
-                switchOutCurve: Curves.easeInCubic,
-                layoutBuilder: (current, previous) => ColoredBox(
+              builder: (context) {
+                final destination = widget.showWelcome && !_session.authenticated
+                    ? const PrototypeWelcome(key: ValueKey('welcome'))
+                    : const PrototypeShell(key: ValueKey('shell'));
+                if (!_launching) return destination;
+                return ColoredBox(
                   color: context.color('canvas'),
                   child: Stack(
                     fit: StackFit.expand,
-                    children: [...previous, ?current],
+                    children: [
+                      if (_exitingLaunch)
+                        FadeTransition(
+                          opacity: _launchExitController.drive(
+                            CurveTween(curve: Curves.easeOutCubic),
+                          ),
+                          child: destination,
+                        ),
+                      IgnorePointer(
+                        ignoring: _exitingLaunch,
+                        child: FadeTransition(
+                          opacity: _launchExitController
+                              .drive(CurveTween(curve: Curves.easeInCubic))
+                              .drive(Tween<double>(begin: 1, end: 0)),
+                          child: PrototypeLaunch(
+                            key: const ValueKey('launch'),
+                            firstFrameReady: widget.firstFrameReady,
+                            onComplete: _finishLaunch,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                child: _launching
-                    ? PrototypeLaunch(
-                        key: const ValueKey('launch'),
-                        firstFrameReady: widget.firstFrameReady,
-                        onComplete: () {
-                          if (mounted) setState(() => _launching = false);
-                        },
-                      )
-                    : widget.showWelcome && !_session.authenticated
-                    ? const PrototypeWelcome(key: ValueKey('welcome'))
-                    : const PrototypeShell(key: ValueKey('shell')),
-              ),
+                );
+              },
             ),
           ),
         ),
@@ -167,11 +204,15 @@ class PrototypeLaunch extends StatefulWidget {
 
 class _PrototypeLaunchState extends State<PrototypeLaunch>
     with SingleTickerProviderStateMixin {
+  static const _launchDuration = Duration(milliseconds: 2600);
   late final _controller =
-      AnimationController(vsync: this, duration: MobileTokens.launchMs)
-        ..addStatusListener((status) {
-          if (status == AnimationStatus.completed) widget.onComplete();
-        });
+      AnimationController(
+        vsync: this,
+        duration: _launchDuration,
+        animationBehavior: AnimationBehavior.preserve,
+      )..addStatusListener((status) {
+        if (status == AnimationStatus.completed) widget.onComplete();
+      });
   bool _started = false;
   bool _staticWordmark = false;
   Timer? _reducedMotionTimer;
@@ -180,8 +221,10 @@ class _PrototypeLaunchState extends State<PrototypeLaunch>
     super.didChangeDependencies();
     if (_started) return;
     _started = true;
-    if (context.reducedMotion) {
-      // Keep the completed brand mark visible briefly without motion instead of skipping the splash.
+    // Only skip the brand reveal when the user explicitly enabled in-app reduced motion;
+    // AnimationBehavior.preserve keeps the Q -> QUANTIFY -> V2.0 reveal smooth even if
+    // Android developer animation scales are 0x.
+    if (PrototypeAppearance.of(context).settings.reducedMotion) {
       _staticWordmark = true;
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await (widget.firstFrameReady ??
@@ -216,10 +259,12 @@ class _PrototypeLaunchState extends State<PrototypeLaunch>
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(32),
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, _) => _LaunchWordmark(
-                progress: _staticWordmark ? 1.0 : _controller.value,
+            child: RepaintBoundary(
+              child: AnimatedBuilder(
+                animation: _controller,
+                builder: (context, _) => _LaunchWordmark(
+                  progress: _staticWordmark ? 1.0 : _controller.value,
+                ),
               ),
             ),
           ),
@@ -236,14 +281,47 @@ class _LaunchWordmark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final move = const Interval(
-      .15,
-      .45,
+      .12,
+      .38,
       curve: Curves.easeInOutCubic,
     ).transform(progress);
     final reveal = const Interval(
-      .45,
-      .85,
+      .36,
+      .66,
       curve: Curves.easeOutCubic,
+    ).transform(progress);
+    final revealAlpha = const Interval(
+      .36,
+      .46,
+      curve: Curves.easeOut,
+    ).transform(progress);
+    final versionOpacity = const Interval(
+      .56,
+      .74,
+      curve: Curves.easeOutCubic,
+    ).transform(progress);
+    final versionSlide = const Interval(
+      .56,
+      .80,
+      curve: Curves.easeOutCubic,
+    ).transform(progress);
+    final versionScale =
+        0.86 +
+        0.14 *
+            const Interval(
+              .56,
+              .82,
+              curve: Curves.easeOutBack,
+            ).transform(progress);
+    final versionLines = const Interval(
+      .62,
+      .88,
+      curve: Curves.easeOutQuart,
+    ).transform(progress);
+    final versionSheen = const Interval(
+      .68,
+      .95,
+      curve: Curves.easeInOutCubic,
     ).transform(progress);
     final style = TextStyle(
       fontFamily: 'Inter',
@@ -263,51 +341,225 @@ class _LaunchWordmark extends StatelessWidget {
     measure.dispose();
     const startSize = MobileTokens.launchSymbolSize;
     const endSize = MobileTokens.launchWordmarkSymbolSize;
+    const verticalPad = 32.0;
+    const boxHeight = startSize + verticalPad * 2;
     final width = endSize + textWidth;
     final size = startSize + (endSize - startSize) * move;
     final left = ((width - startSize) / 2) * (1 - move);
     return Semantics(
-      label: 'Quantify',
+      label: 'Quantify V2.0',
       image: true,
       child: ExcludeSemantics(
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: SizedBox(
             width: width,
-            height: startSize,
+            height: boxHeight,
             child: Stack(
               clipBehavior: Clip.none,
               children: [
                 Positioned(
                   left: left,
-                  top: (startSize - size) / 2,
+                  top: verticalPad + (startSize - size) / 2,
                   child: QMark(size: size),
                 ),
                 if (reveal > 0)
                   Positioned(
                     left: endSize,
-                    top: (startSize - textHeight) / 2,
-                    child: ClipRect(
-                      key: const ValueKey('splash-name-reveal'),
-                      child: SizedBox(
-                        width: textWidth * reveal,
-                        height: textHeight,
-                        child: OverflowBox(
-                          alignment: Alignment.centerLeft,
-                          minWidth: textWidth,
-                          maxWidth: textWidth,
-                          child: Text(
-                            'UANTIFY',
-                            style: style,
-                            textScaler: TextScaler.noScaling,
-                            textDirection: TextDirection.ltr,
+                    top: verticalPad + (startSize - textHeight) / 2,
+                    child: Opacity(
+                      opacity: revealAlpha.clamp(0.0, 1.0),
+                      child: ClipRect(
+                        key: const ValueKey('splash-name-reveal'),
+                        child: SizedBox(
+                          width: textWidth * reveal,
+                          height: textHeight,
+                          child: OverflowBox(
+                            alignment: Alignment.centerLeft,
+                            minWidth: textWidth,
+                            maxWidth: textWidth,
+                            child: Text(
+                              'UANTIFY',
+                              style: style,
+                              textScaler: TextScaler.noScaling,
+                              textDirection: TextDirection.ltr,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
+                if (versionOpacity > 0)
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: verticalPad + (startSize + endSize) / 2 + 14,
+                    child: Center(
+                      child: _LaunchVersionBadge(
+                        key: const ValueKey('splash-version-badge'),
+                        opacity: versionOpacity,
+                        slide: versionSlide,
+                        scale: versionScale,
+                        lineProgress: versionLines,
+                        sheenProgress: versionSheen,
+                      ),
+                    ),
+                  ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LaunchVersionBadge extends StatelessWidget {
+  const _LaunchVersionBadge({
+    super.key,
+    required this.opacity,
+    required this.slide,
+    required this.scale,
+    required this.lineProgress,
+    required this.sheenProgress,
+  });
+
+  final double opacity;
+  final double slide;
+  final double scale;
+  final double lineProgress;
+  final double sheenProgress;
+
+  @override
+  Widget build(BuildContext context) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
+    final accent = context.color('icon');
+    final sheenCenter = -0.6 + 2.2 * sheenProgress;
+    final highlightColor = dark ? MobileTokens.white : MobileTokens.skyLaser;
+    final lineWidth = 34.0 * lineProgress.clamp(0.0, 1.0);
+    final dotAlpha = lineProgress.clamp(0.0, 1.0);
+
+    return Opacity(
+      opacity: opacity.clamp(0.0, 1.0),
+      child: Transform.translate(
+        offset: Offset(0, 12 * (1 - slide)),
+        child: Transform.scale(
+          scale: scale,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: lineWidth,
+                height: 1.5,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2),
+                    gradient: LinearGradient(
+                      colors: [
+                        accent.withValues(alpha: 0),
+                        accent.withValues(alpha: dark ? .55 : .45),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Opacity(
+                opacity: dotAlpha,
+                child: Container(
+                  width: 4,
+                  height: 4,
+                  margin: const EdgeInsets.only(left: 4, right: 8),
+                  decoration: BoxDecoration(
+                    color: accent,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(999),
+                  border: Border.all(
+                    color: accent.withValues(alpha: dark ? .46 : .32),
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      (dark ? MobileTokens.midnight : MobileTokens.white)
+                          .withValues(alpha: dark ? .88 : .86),
+                      Color.alphaBlend(
+                        accent.withValues(alpha: dark ? .18 : .10),
+                        dark ? MobileTokens.midnight : MobileTokens.mist,
+                      ),
+                    ],
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: MobileTokens.laserBlue.withValues(
+                        alpha: dark ? .30 : .14,
+                      ),
+                      blurRadius: 14,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 5,
+                  ),
+                  child: ShaderMask(
+                    blendMode: BlendMode.srcATop,
+                    shaderCallback: (bounds) => LinearGradient(
+                      begin: Alignment(sheenCenter - .35, -.3),
+                      end: Alignment(sheenCenter + .35, .3),
+                      colors: [accent, highlightColor, accent],
+                      stops: const [0.0, 0.5, 1.0],
+                    ).createShader(bounds),
+                    child: Text(
+                      'V2.0',
+                      textScaler: TextScaler.noScaling,
+                      textDirection: TextDirection.ltr,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 2.6,
+                        height: 1.1,
+                        color: accent,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Opacity(
+                opacity: dotAlpha,
+                child: Container(
+                  width: 4,
+                  height: 4,
+                  margin: const EdgeInsets.only(left: 8, right: 4),
+                  decoration: BoxDecoration(
+                    color: accent,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: lineWidth,
+                height: 1.5,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2),
+                    gradient: LinearGradient(
+                      colors: [
+                        accent.withValues(alpha: dark ? .55 : .45),
+                        accent.withValues(alpha: 0),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
