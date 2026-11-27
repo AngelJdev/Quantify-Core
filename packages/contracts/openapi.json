@@ -38,6 +38,10 @@
       "description": "QUANCORE-25 — estadísticas agregadas propias RF-05"
     },
     {
+      "name": "Assistant",
+      "description": "RF-07 — asistente conversacional y borradores de hábitos"
+    },
+    {
       "name": "Health",
       "description": "Operational core health; no credentials or dependency details"
     }
@@ -817,6 +821,189 @@
     "/me/dashboard/trends": {
       "$ref": "./dashboard/v1/openapi.json#/paths/~1me~1dashboard~1trends"
     },
+    "/me/assistant-consent": {
+      "get": {
+        "tags": [
+          "Assistant"
+        ],
+        "operationId": "getOwnAssistantConsent",
+        "summary": "Consultar consentimiento del asistente conversacional",
+        "description": "Devuelve el estado vigente de consentimiento del perfil propio para enviar contexto al asistente conversacional.",
+        "responses": {
+          "200": {
+            "description": "Estado de consentimiento del asistente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssistantConsent"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Assistant"
+        ],
+        "operationId": "setOwnAssistantConsent",
+        "summary": "Otorgar o revocar consentimiento del asistente conversacional",
+        "description": "Registra de forma transaccional e idempotente el consentimiento explícito o su revocación para usar el asistente.",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID estable para una intención; repetir el mismo cuerpo"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Decisión explícita de consentimiento del titular",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssistantConsentUpdate"
+              },
+              "examples": {
+                "synthetic": {
+                  "summary": "Ejemplo sintético",
+                  "value": {
+                    "granted": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Consentimiento actualizado o repetición confirmada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssistantConsent"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/Unprocessable"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        }
+      }
+    },
+    "/assistant/messages": {
+      "post": {
+        "tags": [
+          "Assistant"
+        ],
+        "operationId": "createAssistantReply",
+        "summary": "Enviar solicitud al asistente conversacional de hábitos",
+        "description": "Genera una orientación o borrador revisable de hábito sin persistir cambios maestros ni retener el historial de conversación en el servidor.",
+        "requestBody": {
+          "required": true,
+          "description": "Turnos recientes en memoria y preferencia de contexto autorizado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssistantMessageRequest"
+              },
+              "examples": {
+                "synthetic": {
+                  "summary": "Ejemplo sintético",
+                  "value": {
+                    "messages": [
+                      {
+                        "role": "user",
+                        "text": "Ayúdame a crear un hábito de lectura de 20 minutos entre semana"
+                      }
+                    ],
+                    "includeHabitContext": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Respuesta conversacional con borrador opcional sin guardar",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssistantReply"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/Unprocessable"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/Unavailable"
+          }
+        }
+      }
+    },
     "/health/live": {
       "get": {
         "tags": [
@@ -1412,6 +1599,201 @@
           "longestStreak",
           "noDataReason"
         ]
+      },
+      "AssistantConsentUpdate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "granted": {
+            "type": "boolean",
+            "description": "Autorización explícita para procesar solicitudes en el asistente"
+          }
+        },
+        "required": [
+          "granted"
+        ],
+        "description": "Actualización explícita y revocable de consentimiento para RF-07"
+      },
+      "AssistantConsent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "granted": {
+            "type": "boolean"
+          },
+          "policyVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "updatedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "description": "Instante UTC RFC 3339 con Z"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "granted",
+          "policyVersion",
+          "updatedAt"
+        ],
+        "description": "Estado de consentimiento del asistente conversacional para el perfil propio"
+      },
+      "AssistantTurn": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "assistant"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "role",
+          "text"
+        ],
+        "description": "Turno efímero enviado por el cliente durante la sesión activa"
+      },
+      "AssistantMessageRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "messages": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
+            "items": {
+              "$ref": "#/components/schemas/AssistantTurn"
+            }
+          },
+          "includeHabitContext": {
+            "type": "boolean",
+            "description": "Si es true, incluye resumen mínimo de hábitos propios activos o pausados"
+          }
+        },
+        "required": [
+          "messages",
+          "includeHabitContext"
+        ],
+        "description": "Solicitud conversacional autenticada; el servidor no retiene los mensajes"
+      },
+      "HabitDraft": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 60
+          },
+          "targetValue": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30
+          },
+          "weekdays": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 7
+            },
+            "minItems": 1,
+            "maxItems": 7,
+            "uniqueItems": true
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 400
+          }
+        },
+        "required": [
+          "name",
+          "targetValue",
+          "unit",
+          "weekdays",
+          "rationale"
+        ],
+        "description": "Borrador revisable alineado a HabitCreate; no tiene id ni persiste hasta confirmar en POST /habits"
+      },
+      "AssistantReply": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reply": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "draft": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HabitDraft"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "missingFields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "name",
+                "targetValue",
+                "unit",
+                "weekdays"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "outOfScope": {
+            "type": "boolean"
+          },
+          "model": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contextUsed": {
+            "type": "boolean",
+            "description": "Indica si se incluyó el resumen de hábitos propios en la consulta"
+          },
+          "generatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Instante UTC RFC 3339 con Z"
+          }
+        },
+        "required": [
+          "reply",
+          "draft",
+          "missingFields",
+          "outOfScope",
+          "model",
+          "contextUsed",
+          "generatedAt"
+        ],
+        "description": "Respuesta del asistente conversacional con evidencia de modelo y borrador opcional"
       }
     },
     "responses": {

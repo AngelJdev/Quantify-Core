@@ -1,6 +1,6 @@
 # Asistente conversacional de Quantify
 
-**Alcance aclarado por el responsable del proyecto el 16/11/2026. Estado: definición funcional; asistente pendiente de implementar.** Esta definición prevalece sobre las propuestas anteriores de IA predictiva en la visión y los materiales académicos.
+**Alcance aclarado por el responsable del proyecto el 16/11/2026. Estado: definición funcional vigente; integración móvil implementada para revisión en [ADR-0011](../arquitectura/adr/0011-asistente-conversacional-gemini-movil.md).** Esta definición prevalece sobre las propuestas anteriores de IA predictiva en la visión y los materiales académicos.
 
 La IA vive dentro de Quantify como asistente conversacional. Atiende solicitudes sencillas sobre hábitos y uso de la aplicación: «Ayúdame a crear un hábito nuevo», «Recomiéndame una rutina de lectura» o «Ayúdame a ajustar esta meta». Puede pedir información faltante, proponer opciones y ayudar a preparar un hábito. Las recomendaciones pueden partir de la solicitud del usuario; no necesitan un historial biométrico ni una población de entrenamiento.
 

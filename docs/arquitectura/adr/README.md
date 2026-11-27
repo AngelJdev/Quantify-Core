@@ -14,6 +14,7 @@ Un ADR conserva el motivo de una decisión que afecta arquitectura, datos, segur
 | [0008](0008-observabilidad-local.md) | API contenerizada, señales operativas y observabilidad local | Implementado; ensayo aislado, sin SLA ni operación pública |
 | [0009](0009-sesion-movil-prototipo.md) | Sesión móvil Keycloak y prueba Android por USB | Verificado en Android local; revisión del equipo pendiente |
 | [0010](0010-persistencia-renovacion-google-movil.md) | Persistencia cifrada de sesión, renovación OIDC y acceso con Google en móvil | Propuesto; verificación automática local pendiente |
+| [0011](0011-asistente-conversacional-gemini-movil.md) | Integración del asistente conversacional Gemini para móvil mediante API NestJS | Propuesto; implementado en rama móvil con pruebas locales |
 
 Copiar la [plantilla](plantilla.md), usar el siguiente número libre y abrir PR hacia `develop` desde la rama correspondiente al cambio. Una propuesta puramente documental usa `docs/<tema>`; una decisión incluida en una funcionalidad puede acompañar su rama y PR.
 
