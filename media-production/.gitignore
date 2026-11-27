@@ -1,0 +1,25 @@
+# Dependencias y entornos locales
+node_modules/
+.venv/
+.cache/
+__pycache__/
+
+# Renders intermedios y previsualizaciones (se regeneran)
+previews/
+raw/
+**/renders/
+qa/frames/
+
+# Videos y audio finales: se distribuyen por GitHub Release, no por git
+output/*.mp4
+output/*.mov
+output/*.wav
+
+# Música de terceros: su licencia no permite redistribuir el archivo suelto
+audio/music/
+
+# Sistema
+.DS_Store
+
+# Capturas regenerables con scripts/capture.mjs (pesan decenas de MB)
+assets/screenshots/
