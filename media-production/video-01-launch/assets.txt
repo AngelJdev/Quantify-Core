@@ -1,0 +1,13 @@
+assets/flows/hoy-1.png
+assets/flows/hoy-2.png
+assets/flows/hoy-3.png
+assets/flows/checkin-1.png
+assets/flows/checkin-2.png
+assets/flows/analisis-semana-full.png
+assets/flows/analisis-curva-full.png
+assets/flows/analisis-mes-full.png
+assets/flows/light-hoy-1.png
+assets/flows/panel-apariencia.png
+assets/oppo/hoy-dark.png
+assets/oppo/hoy-light.png
+assets/oppo/progreso.png

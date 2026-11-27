@@ -46,3 +46,19 @@ html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--
 .phone .island { position: absolute; top: 12px; left: 50%; width: 86px; height: 24px; margin-left: -43px; border-radius: 14px; background: #04070c; z-index: 3; }
 .chip { font-family: var(--font-ui); font-weight: 700; font-size: 40px; letter-spacing: -.01em; padding: 16px 34px; border-radius: 999px; background: rgba(22,31,46,.62); border: 1.5px solid rgba(160,190,255,.28); backdrop-filter: blur(14px); box-shadow: 0 10px 40px -10px rgba(39,91,192,.6); }
 .footnote { font-family: var(--font-ui); font-weight: 400; font-size: 30px; color: rgba(210,225,255,.72); letter-spacing: .01em; }
+
+/* ===== Kit de escenas ===== */
+.plate { position: absolute; overflow: hidden; background: #05080e; box-shadow: 0 0 0 2px rgba(160,190,255,.18), 0 50px 110px -30px rgba(0,0,0,.85), 0 0 120px -30px rgba(74,125,232,.5); }
+.plate .pin { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.plate img { display: block; }
+.cam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+.cursor { position: absolute; width: 74px; height: 74px; z-index: 6; filter: drop-shadow(0 6px 14px rgba(0,0,0,.6)); }
+.ripple { position: absolute; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%; border: 5px solid rgba(160,200,255,.95); opacity: 0; z-index: 5; }
+.banner { position: absolute; left: 0; right: 0; display: flex; justify-content: center; z-index: 8; }
+.banner .b-in { font-family: var(--font-brand); font-weight: 700; font-size: 64px; letter-spacing: -.01em; padding: 22px 54px; border-radius: 30px; background: rgba(11,15,23,.72); border: 2px solid rgba(160,190,255,.3); backdrop-filter: blur(18px); box-shadow: 0 20px 60px -10px rgba(0,0,0,.7); text-align: center; }
+.banner .b-in .accent { color: #8db2ff; }
+.tag { font-family: var(--font-ui); font-weight: 700; font-size: 32px; letter-spacing: .06em; text-transform: uppercase; padding: 10px 26px; border-radius: 999px; border: 2px solid rgba(255,191,71,.75); color: #ffd27a; background: rgba(60,40,5,.45); }
+.sub { position: absolute; left: 0; right: 0; bottom: 64px; display: flex; justify-content: center; z-index: 20; }
+.sub span { font-family: var(--font-ui); font-weight: 700; font-size: 46px; line-height: 1.25; color: #fff; text-align: center; padding: 10px 30px; border-radius: 16px; background: rgba(5,8,14,.66); max-width: 1500px; }
+.lbl { font-family: var(--font-ui); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 34px; color: #9fbcff; }
+.big { font-family: var(--font-brand); font-weight: 700; letter-spacing: -.03em; line-height: 1; }
