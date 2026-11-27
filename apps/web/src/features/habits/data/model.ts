@@ -43,6 +43,27 @@ export function toHabitView(h: DemoHabit): HabitView {
     value: h.value,
   };
 }
+export function getHabitSlug(h: Pick<HabitView, "id" | "name">): string {
+  const base = h.name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return base || h.id.slice(0, 8);
+}
+export function findHabitByParam(
+  habits: HabitView[],
+  param?: string,
+): HabitView | undefined {
+  if (!param) return undefined;
+  const decoded = decodeURIComponent(param).toLowerCase();
+  return (
+    habits.find((h) => h.id === param) ||
+    habits.find((h) => getHabitSlug(h) === decoded) ||
+    habits.find((h) => h.id.toLowerCase().startsWith(decoded))
+  );
+}
 export const weekdayLabels = [
   "Lunes",
   "Martes",

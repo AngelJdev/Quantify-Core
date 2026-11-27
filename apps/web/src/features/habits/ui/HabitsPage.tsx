@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDemo } from "@/app/DemoProvider";
 import { Icon } from "@/shared/ui/Icon";
 import { HabitRow } from "./HabitRow";
-import type { HabitView } from "../data/model";
+import { getHabitSlug, type HabitView } from "../data/model";
 
 export function HabitsPage() {
   const { habits, recordHabitProgress } = useDemo(),
@@ -67,6 +67,7 @@ export function HabitsPage() {
           {shown.map((h) => {
             const step =
               h.target >= 1000 ? 1000 : h.target >= 20 ? 5 : 1;
+            const slug = getHabitSlug(h);
             return (
               <div key={h.id} className="qc-habit-card-wrapper">
                 <HabitRow habit={h} />
@@ -74,24 +75,19 @@ export function HabitsPage() {
                   <div className="qc-quick-actions">
                     <button
                       type="button"
-                      className="button secondary"
-                      onClick={() =>
-                        void handleQuickAdd(h, h.value + step)
-                      }
+                      className="button secondary qc-quick-btn"
+                      onClick={() => void handleQuickAdd(h, h.value + step)}
                     >
                       +{step} {h.unit}
                     </button>
                     <button
                       type="button"
-                      className="button secondary"
+                      className="button primary qc-quick-btn"
                       onClick={() => void handleQuickAdd(h, h.target)}
                     >
                       {h.value >= h.target ? "✓ Completado" : "✓ Completar hoy"}
                     </button>
-                    <Link
-                      className="text-link"
-                      to={`/detalle/${h.id}`}
-                    >
+                    <Link className="text-link" to={`/detalle/${slug}`}>
                       Ver gráficas →
                     </Link>
                   </div>

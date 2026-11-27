@@ -12,7 +12,12 @@ import {
 } from "@/features/analytics/ui/AnalyticsPage";
 import { FIXTURE_DATE } from "@/shared/fixtures/demo";
 import { getBusinessDateInZone } from "@/shared/api/client";
-import { clampProgress, scheduleLabel } from "../data/model";
+import {
+  clampProgress,
+  findHabitByParam,
+  getHabitSlug,
+  scheduleLabel,
+} from "../data/model";
 
 export function HabitDetailPage() {
   const { habitId } = useParams(),
@@ -21,7 +26,7 @@ export function HabitDetailPage() {
   const [statusError, setStatusError] = useState<string | null>(null);
   const [chartPeriod, setChartPeriod] = useState<"Semana" | "Mes">("Semana");
   const [quickToast, setQuickToast] = useState<string | null>(null);
-  const habit = habits.find((h) => h.id === habitId);
+  const habit = findHabitByParam(habits, habitId);
 
   const referenceDate = state.session
     ? getBusinessDateInZone(
@@ -56,7 +61,7 @@ export function HabitDetailPage() {
     return (
       <StatePanel
         title="Este hábito no está disponible"
-        description="No existe en los fixtures de esta visita."
+        description="No encontramos este hábito en tu cuenta."
         to="/habitos"
         action="Mis hábitos"
       />
@@ -64,6 +69,7 @@ export function HabitDetailPage() {
 
   const serverMetric = state.metricsByHabit?.[habit.id];
   const progressPct = clampProgress(habit.value, habit.target);
+  const slug = getHabitSlug(habit);
 
   async function handleStatusChange(
     nextStatus: "active" | "paused" | "archived",
@@ -109,7 +115,10 @@ export function HabitDetailPage() {
           </div>
           <h2>{habit.name}</h2>
           <p>
-            {habit.detail} · {scheduleLabel(habit)}
+            {habit.detail === "Rutina de ejemplo"
+              ? "Durante el día"
+              : habit.detail}{" "}
+            · {scheduleLabel(habit)}
           </p>
 
           <DonutRing
@@ -154,7 +163,7 @@ export function HabitDetailPage() {
               </div>
               <Link
                 className="button primary full"
-                to={`/check-ins/${habit.id}`}
+                to={`/check-ins/${slug}`}
               >
                 Registrar avance
               </Link>
@@ -170,7 +179,7 @@ export function HabitDetailPage() {
             <>
               <Link
                 className="button secondary full"
-                to={`/editar/${habit.id}`}
+                to={`/editar/${slug}`}
               >
                 Editar hábito
               </Link>
@@ -282,7 +291,10 @@ export function HabitDetailPage() {
             <h2>Tu programación e intención</h2>
             <p>
               <strong>Días:</strong> {scheduleLabel(habit)} ·{" "}
-              <strong>Horario:</strong> {habit.detail}
+              <strong>Horario:</strong>{" "}
+              {habit.detail === "Rutina de ejemplo"
+                ? "Durante el día"
+                : habit.detail}
             </p>
             <p className="caption">Activo desde {habit.schedule.effectiveFrom}</p>
             <h3>Intención personal</h3>
