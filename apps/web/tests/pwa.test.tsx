@@ -27,11 +27,12 @@ import { PwaControls } from "@/app/pwa/PwaControls";
 import { PwaProvider } from "@/app/pwa/PwaProvider";
 import { InstallPage } from "@/app/pwa/InstallPage";
 import { ThemeProvider } from "@/app/ThemeProvider";
+import { DemoProvider } from "@/app/DemoProvider";
 
 function openInstallPage() {
-  return render(<MemoryRouter><ThemeProvider><PwaProvider reloadPage={sw.reload}>
+  return render(<MemoryRouter><ThemeProvider><DemoProvider><PwaProvider reloadPage={sw.reload}>
     <PwaControls /><InstallPage />
-  </PwaProvider></ThemeProvider></MemoryRouter>);
+  </PwaProvider></DemoProvider></ThemeProvider></MemoryRouter>);
 }
 function openNotice() {
   return render(<PwaProvider reloadPage={sw.reload}><PwaControls /></PwaProvider>);
