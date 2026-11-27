@@ -1,7 +1,11 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDemo } from "@/app/DemoProvider";
-import type { HabitView } from "@/features/habits/data/model";
+import {
+  findHabitByParam,
+  getHabitSlug,
+  type HabitView,
+} from "@/features/habits/data/model";
 import { FIXTURE_DATE } from "@/shared/fixtures/demo";
 import { StatePanel } from "@/shared/ui/StatePanel";
 import {
@@ -15,7 +19,7 @@ export function CheckInPage() {
     navigate = useNavigate();
   const activeHabits = habits.filter((h) => h.status === "active");
   const habit = habitId
-    ? habits.find((h) => h.id === habitId)
+    ? findHabitByParam(habits, habitId)
     : activeHabits[0];
   if (!habit)
     return (
@@ -31,7 +35,7 @@ export function CheckInPage() {
       <StatePanel
         title="Registro no disponible"
         description="Un hábito pausado o archivado no admite nuevos avances."
-        to={`/detalle/${habit.id}`}
+        to={`/detalle/${getHabitSlug(habit)}`}
         action="Ver hábito"
       />
     );
@@ -40,7 +44,7 @@ export function CheckInPage() {
       key={habit.id}
       habit={habit}
       activeHabits={activeHabits}
-      onSelectHabit={(id) => navigate(`/check-ins/${id}`)}
+      onSelectHabit={(slug) => navigate(`/check-ins/${slug}`)}
     />
   );
 }
@@ -52,7 +56,7 @@ function CheckInForm({
 }: {
   habit: HabitView;
   activeHabits: HabitView[];
-  onSelectHabit: (id: string) => void;
+  onSelectHabit: (slug: string) => void;
 }) {
   const { state, recordHabitProgress } = useDemo();
   const businessDate = state.session
@@ -126,149 +130,160 @@ function CheckInForm({
     setValue(String(base + delta));
   }
 
+  const slug = getHabitSlug(habit);
+
   return (
-    <form className="card form-card" noValidate onSubmit={submit}>
-      {activeHabits.length > 1 && (
+    <form className="card qc-habit-editor-form" noValidate onSubmit={submit}>
+      <div className="qc-editor-fields">
+        {activeHabits.length > 1 && (
+          <div className="qc-field-group">
+            <label htmlFor="checkin-habit-select">Seleccionar hábito activo</label>
+            <select
+              id="checkin-habit-select"
+              value={slug}
+              onChange={(e) => onSelectHabit(e.target.value)}
+            >
+              {activeHabits.map((h) => (
+                <option key={h.id} value={getHabitSlug(h)}>
+                  {h.name} (Meta: {h.target} {h.unit})
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <div>
-          <label htmlFor="checkin-habit-select">Seleccionar hábito activo</label>
-          <select
-            id="checkin-habit-select"
-            value={habit.id}
-            onChange={(e) => onSelectHabit(e.target.value)}
-          >
-            {activeHabits.map((h) => (
-              <option key={h.id} value={h.id}>
-                {h.name} (Meta: {h.target} {h.unit})
-              </option>
-            ))}
-          </select>
+          <span className="eyebrow">REGISTRO DIARIO CON EVIDENCIA</span>
+          <h2>{habit.name}</h2>
+          <p className="caption">
+            Fecha: {businessDate} · Zona horaria: {habit.timeZone} · Meta
+            diaria: {habit.target} {habit.unit}
+          </p>
         </div>
-      )}
-      <h2>{habit.name}</h2>
-      <p>
-        Fecha: {businessDate} · Zona horaria: {habit.timeZone} · Meta diaria:{" "}
-        {habit.target} {habit.unit}
-      </p>
-      <p className="caption">
-        Declara tu total acumulado de hoy. Un nuevo valor actualiza el total de
-        esta fecha sin duplicar registros.
-      </p>
-      <label htmlFor="progress-value">Valor acumulado ({habit.unit})</label>
-      <input
-        id="progress-value"
-        type="number"
-        min="0"
-        step="any"
-        value={value}
-        aria-invalid={!!error}
-        aria-describedby={error ? "progress-error" : "progress-help"}
-        onChange={(e) => setValue(e.target.value)}
-      />
-      <div className="form-actions" style={{ marginTop: "0.5rem" }}>
-        <button
-          type="button"
-          className="button secondary"
-          onClick={() => addDelta(1)}
-        >
-          +1 {habit.unit}
-        </button>
-        <button
-          type="button"
-          className="button secondary"
-          onClick={() => addDelta(5)}
-        >
-          +5 {habit.unit}
-        </button>
-        <button
-          type="button"
-          className="button secondary"
-          onClick={() => setValue(String(habit.target))}
-        >
-          Completar meta ({habit.target})
-        </button>
-      </div>
 
-      <div className="form-grid" style={{ marginTop: "1rem" }}>
-        <div>
-          <label htmlFor="checkin-mood">Estado de ánimo / enfoque</label>
-          <select
-            id="checkin-mood"
-            value={mood}
-            onChange={(e) => setMood(e.target.value)}
-          >
-            <option value="excelente">Excelente · Alta energía</option>
-            <option value="enfocado">Enfocado · Ritmo constante</option>
-            <option value="estable">Estable · Cumplimiento tranquilo</option>
-            <option value="cansado">Cansado · Esfuerzo moderado</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="checkin-energy">
-            Nivel de energía percibida ({energyLevel}/10)
-          </label>
+        <div className="qc-field-group">
+          <label htmlFor="progress-value">Valor acumulado ({habit.unit})</label>
           <input
-            id="checkin-energy"
-            type="range"
-            min="1"
-            max="10"
-            value={energyLevel}
-            onChange={(e) => setEnergyLevel(Number(e.target.value))}
+            id="progress-value"
+            type="number"
+            min="0"
+            step="any"
+            value={value}
+            aria-invalid={!!error}
+            aria-describedby={error ? "progress-error" : "progress-help"}
+            onChange={(e) => setValue(e.target.value)}
           />
-        </div>
-      </div>
-
-      <label htmlFor="checkin-note">
-        Nota de contexto o reflexión <small>Opcional</small>
-      </label>
-      <textarea
-        id="checkin-note"
-        rows={2}
-        value={note}
-        onChange={(e) => setNote(e.target.value)}
-        placeholder="Ej. Completé la sesión sin interrupciones..."
-      />
-
-      <label htmlFor="checkin-photo">
-        Subir imagen de evidencia <small>Opcional · Galería de progreso</small>
-      </label>
-      <input
-        id="checkin-photo"
-        type="file"
-        accept="image/*"
-        onChange={(e) => void handleImageUpload(e)}
-      />
-      {imageDataUrl && (
-        <div>
-          <img
-            src={imageDataUrl}
-            alt="Evidencia adjunta del hábito"
-            className="evidence-thumb"
-          />
-          <div>
+          <div className="form-actions" style={{ marginTop: "6px" }}>
             <button
               type="button"
-              className="text-link"
-              onClick={() => setImageDataUrl(undefined)}
+              className="button secondary qc-quick-btn"
+              onClick={() => addDelta(1)}
             >
-              Quitar imagen
+              +1 {habit.unit}
+            </button>
+            <button
+              type="button"
+              className="button secondary qc-quick-btn"
+              onClick={() => addDelta(5)}
+            >
+              +5 {habit.unit}
+            </button>
+            <button
+              type="button"
+              className="button primary qc-quick-btn"
+              onClick={() => setValue(String(habit.target))}
+            >
+              ✓ Completar meta ({habit.target})
             </button>
           </div>
         </div>
-      )}
 
-      {state.session && existingEntry && (
-        <div>
-          <label htmlFor="correction-reason">
-            Motivo de actualización (revisión #{existingEntry.version})
+        <div className="qc-form-row-2">
+          <div className="qc-field-group">
+            <label htmlFor="checkin-mood">Estado de ánimo / enfoque</label>
+            <select
+              id="checkin-mood"
+              value={mood}
+              onChange={(e) => setMood(e.target.value)}
+            >
+              <option value="excelente">Excelente · Alta energía</option>
+              <option value="enfocado">Enfocado · Ritmo constante</option>
+              <option value="estable">Estable · Cumplimiento tranquilo</option>
+              <option value="cansado">Cansado · Esfuerzo moderado</option>
+            </select>
+          </div>
+          <div className="qc-field-group">
+            <label htmlFor="checkin-energy">
+              Nivel de energía percibida ({energyLevel}/10)
+            </label>
+            <input
+              id="checkin-energy"
+              type="range"
+              min="1"
+              max="10"
+              value={energyLevel}
+              onChange={(e) => setEnergyLevel(Number(e.target.value))}
+            />
+          </div>
+        </div>
+
+        <div className="qc-field-group">
+          <label htmlFor="checkin-note">
+            Nota de contexto o reflexión <small>Opcional</small>
           </label>
-          <input
-            id="correction-reason"
-            value={reason}
-            maxLength={120}
-            onChange={(e) => setReason(e.target.value)}
+          <textarea
+            id="checkin-note"
+            rows={2}
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="Ej. Completé la sesión sin interrupciones..."
           />
         </div>
-      )}
+
+        <div className="qc-field-group">
+          <label htmlFor="checkin-photo">
+            Subir imagen de evidencia <small>Opcional · Galería de progreso</small>
+          </label>
+          <input
+            id="checkin-photo"
+            type="file"
+            accept="image/*"
+            onChange={(e) => void handleImageUpload(e)}
+          />
+          {imageDataUrl && (
+            <div>
+              <img
+                src={imageDataUrl}
+                alt="Evidencia adjunta del hábito"
+                className="evidence-thumb"
+              />
+              <div>
+                <button
+                  type="button"
+                  className="text-link"
+                  onClick={() => setImageDataUrl(undefined)}
+                >
+                  Quitar imagen
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {state.session && existingEntry && (
+          <div className="qc-field-group">
+            <label htmlFor="correction-reason">
+              Motivo de actualización (revisión #{existingEntry.version})
+            </label>
+            <input
+              id="correction-reason"
+              value={reason}
+              maxLength={120}
+              onChange={(e) => setReason(e.target.value)}
+            />
+          </div>
+        )}
+      </div>
+
       <p id="progress-help" className="caption">
         Precisión soportada hasta tres decimales. Agregar notas o fotografías
         también suma para tus logros de Evidencia y Reflexión.
@@ -284,7 +299,7 @@ function CheckInForm({
         </p>
       )}
       <div className="form-actions">
-        <Link className="button secondary" to={`/detalle/${habit.id}`}>
+        <Link className="button secondary" to={`/detalle/${slug}`}>
           Volver al hábito
         </Link>
         <button className="button primary" disabled={submitting}>
@@ -292,7 +307,7 @@ function CheckInForm({
         </button>
       </div>
       <Link className="text-link" to="/historial">
-        Ver historial de esta visita
+        Ver historial de avances →
       </Link>
     </form>
   );

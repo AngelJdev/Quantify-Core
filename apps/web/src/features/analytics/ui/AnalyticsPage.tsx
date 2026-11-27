@@ -10,6 +10,7 @@ import {
 } from "@/shared/fixtures/demo";
 import {
   clampProgress,
+  getHabitSlug,
   weekdayLabels,
   type HabitView,
 } from "@/features/habits/data/model";
@@ -543,7 +544,7 @@ export function AnalyticsPage() {
                 return (
                   <Link
                     key={h.id}
-                    to={`/detalle/${h.id}`}
+                    to={`/detalle/${getHabitSlug(h)}`}
                     className="qc-habit-breakdown-row"
                     style={{ textDecoration: "none", color: "inherit", display: "block" }}
                   >

@@ -1,6 +1,7 @@
 import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/app/ThemeProvider";
+import { useDemo } from "@/app/DemoProvider";
 import { Icon } from "./Icon";
 import { AppearanceButton } from "@/app/appearance/AppearanceControls";
 import { useSurfaceMotion } from "@/app/appearance/useSurfaceMotion";
@@ -9,6 +10,7 @@ import {
   prototypeEntry,
 } from "../../../../../packages/design-tokens/preview.json";
 import { symbol } from "../../../../../docs/GUI/identidad/guia/modelo.json";
+
 // Adapt the existing prototype geometry; the canonical palette stays in themes.css.
 export const islandStyle = {
   "--island-margin": `${geometry.margin}px`,
@@ -20,6 +22,7 @@ export const islandStyle = {
   "--entry-title": `${prototypeEntry.typography.welcome.pwa.size}px`,
   "--entry-mobile-title": `${prototypeEntry.typography.welcome.movil.size}px`,
 } as CSSProperties;
+
 export function Wordmark({ personal = false }: { personal?: boolean }) {
   return (
     <span className="island-wordmark">
@@ -36,6 +39,7 @@ export function Wordmark({ personal = false }: { personal?: boolean }) {
     </span>
   );
 }
+
 export function ThemeButton() {
   const { dark, setDark } = useTheme();
   return (
@@ -48,6 +52,7 @@ export function ThemeButton() {
     </button>
   );
 }
+
 export function PublicShell({
   children,
   title,
@@ -58,6 +63,7 @@ export function PublicShell({
   className?: string;
 }) {
   const heading = useRef<HTMLElement>(null);
+  const { state } = useDemo();
   useSurfaceMotion(heading, title);
   useEffect(() => {
     document.title = `${title} · Quantify Core`;
@@ -81,7 +87,16 @@ export function PublicShell({
             Instalar app
           </Link>
           <ThemeButton />
-          <AppearanceButton />
+          {state.session && <AppearanceButton />}
+          {state.session ? (
+            <Link className="button primary public-nav-cta" to="/hoy">
+              Mi espacio →
+            </Link>
+          ) : (
+            <Link className="button primary public-nav-cta" to="/login">
+              Iniciar sesión
+            </Link>
+          )}
         </nav>
       </header>
       <main id="public-content" className="public-content" ref={heading}>
@@ -98,6 +113,7 @@ export function PublicShell({
     </div>
   );
 }
+
 export function WeekStrip({ schedule = false }: { schedule?: boolean }) {
   const complete = schedule ? [1, 1, 1, 1, 1, 0, 0] : [1, 1, 0, 1, 1, 1, 0];
   return (

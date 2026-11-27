@@ -2,7 +2,7 @@ import type { DemoHabit } from "@/features/habits/data/model";
 
 export const FIXTURE_DATE = "2026-11-05";
 export const fixtureProfile = {
-  displayName: "Alex · Demostración",
+  displayName: "Sofía Ramírez",
   timeZone: "America/Mexico_City",
 };
 export const weeklyValues = [60, 80, 40, 100, 80, 60, 80];
@@ -28,6 +28,7 @@ export const fixtureHabits: DemoHabit[] = [
     value: 5,
     color: "blue",
     icon: "habitos",
+    detail: "Durante el día",
   },
   {
     name: "Leer",
@@ -37,6 +38,7 @@ export const fixtureHabits: DemoHabit[] = [
     value: 20,
     color: "cyan",
     icon: "lectura",
+    detail: "Por la noche",
   },
   {
     name: "Caminar",
@@ -46,8 +48,9 @@ export const fixtureHabits: DemoHabit[] = [
     value: 4200,
     color: "emerald",
     icon: "movimiento",
+    detail: "Por la mañana",
   },
-].map(({ name, targetValue, unit, id, value, color, icon }) => ({
+].map(({ name, targetValue, unit, id, value, color, icon, detail }) => ({
   resource: {
     id,
     name,
@@ -60,8 +63,8 @@ export const fixtureHabits: DemoHabit[] = [
     createdAt: "2026-11-05T12:00:00Z",
     updatedAt: "2026-11-05T12:00:00Z",
   },
-  detail: "Rutina de ejemplo",
-  intention: "",
+  detail,
+  intention: "Mantener constancia diaria a mi propio ritmo.",
   value,
   color: color as DemoHabit["color"],
   icon: icon as DemoHabit["icon"],

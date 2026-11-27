@@ -9,7 +9,7 @@
 .appearance-trigger { flex-shrink: 0; }
 .island-header .appearance-trigger { width: auto; min-width: 44px; display: inline-flex; gap: 8px; padding-inline: 12px; border-radius: 24px; }
 .appearance-trigger-label { font-size: 12px; font-weight: 600; color: var(--qc-text); }
-[data-qc-material="glass"] .appearance-trigger { background: color-mix(in srgb, var(--qc-action) 10%, var(--qc-surface)); color: var(--qc-icon-active); }
+[data-qc-material="glass"] .appearance-trigger { background: color-mix(in srgb, var(--qc-action) 14%, var(--qc-surface)); color: var(--qc-icon-active); }
 .appearance-dialog {
   width: min(540px, calc(100% - 28px));
   max-height: min(88dvh, 860px);
@@ -96,68 +96,70 @@
 .island-app [data-fluid-nav="ready"] a[aria-current="page"] { background: transparent; }
 .island-app .island-mobile-nav[data-fluid-nav="ready"]::before { box-shadow: none; }
 
-/* Optical depth: real translucent Liquid Glass in both light and dark modes. */
+/* HorizonX Spatial Liquid Glass — Real multi-layer refractive translucency */
 [data-qc-material="glass"] body {
-  background-color: var(--qc-canvas);
+  background-color: var(--qc-canvas) !important;
   background-image:
-    radial-gradient(ellipse 68% 55% at 14% 12%, color-mix(in srgb, var(--qc-action) 20%, transparent), transparent 64%),
-    radial-gradient(ellipse 56% 50% at 86% 20%, color-mix(in srgb, var(--qc-icon-active) 16%, transparent), transparent 60%),
-    radial-gradient(ellipse 62% 52% at 52% 88%, color-mix(in srgb, var(--qc-focus) 14%, transparent), transparent 66%);
-  background-attachment: fixed;
+    radial-gradient(circle at 15% 15%, color-mix(in srgb, var(--qc-action) 34%, transparent) 0%, transparent 48%),
+    radial-gradient(circle at 85% 22%, rgba(14, 165, 233, 0.28) 0%, transparent 45%),
+    radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.22) 0%, transparent 52%),
+    radial-gradient(circle at 75% 70%, rgba(124, 58, 237, 0.2) 0%, transparent 45%) !important;
+  background-attachment: fixed !important;
 }
 [data-qc-theme="dark"][data-qc-material="glass"] body {
   background-image:
-    radial-gradient(ellipse 64% 52% at 16% 14%, color-mix(in srgb, var(--qc-action) 26%, transparent), transparent 62%),
-    radial-gradient(ellipse 54% 48% at 84% 22%, color-mix(in srgb, var(--qc-icon-active) 18%, transparent), transparent 58%),
-    radial-gradient(ellipse 60% 50% at 48% 86%, color-mix(in srgb, var(--qc-focus) 20%, transparent), transparent 64%);
+    radial-gradient(circle at 14% 16%, color-mix(in srgb, var(--qc-action) 42%, transparent) 0%, transparent 48%),
+    radial-gradient(circle at 86% 20%, rgba(14, 165, 233, 0.32) 0%, transparent 46%),
+    radial-gradient(circle at 48% 84%, rgba(16, 185, 129, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 78% 72%, rgba(124, 58, 237, 0.26) 0%, transparent 46%) !important;
 }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   [data-qc-material="glass"] :is(.island-header, .island-rail, .island-mobile-nav, .appearance-dialog, .material-sample,
-    .island-content .card, .island-card, .auth-card, .welcome-page .card, .qc-habit-card-wrapper,
-    .dashboard-kpi:not(:first-child), .dashboard-feature, .welcome-feature, .welcome-close, .welcome-reminder, .google-chooser-dialog) {
+    .island-content .card, .card, .island-card, .auth-card, .welcome-page .card, .qc-habit-card-wrapper,
+    .dashboard-kpi:not(:first-child), .dashboard-feature, .welcome-feature, .welcome-closing, .welcome-reminder, .google-chooser-dialog,
+    .qc-achievement-card, .qc-suggestion-card) {
     background:
       linear-gradient(135deg,
-        rgba(255, 255, 255, 0.58) 0%,
-        rgba(255, 255, 255, 0.16) 44%,
-        color-mix(in srgb, var(--qc-action) 8%, transparent) 100%),
-      var(--qc-glass-fill);
-    -webkit-backdrop-filter: blur(var(--qc-glass-blur)) saturate(1.8) contrast(1.03);
-    backdrop-filter: blur(var(--qc-glass-blur)) saturate(1.8) contrast(1.03);
-    border: 1px solid var(--qc-glass-edge);
+        rgba(255, 255, 255, 0.62) 0%,
+        rgba(255, 255, 255, 0.22) 48%,
+        color-mix(in srgb, var(--qc-action) 12%, rgba(255, 255, 255, 0.14)) 100%) !important;
+    -webkit-backdrop-filter: blur(var(--qc-glass-blur)) saturate(1.9) contrast(1.04) !important;
+    backdrop-filter: blur(var(--qc-glass-blur)) saturate(1.9) contrast(1.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.65) !important;
     box-shadow:
-      inset 0 1px 1px var(--qc-glass-light),
-      inset 0 -1px 0 color-mix(in srgb, var(--qc-action) 14%, transparent),
-      var(--qc-surface-shadow);
+      inset 0 1px 1px rgba(255, 255, 255, 0.85),
+      inset 0 -1px 1px color-mix(in srgb, var(--qc-action) 18%, transparent),
+      0 20px 50px -10px color-mix(in srgb, var(--qc-action) 18%, transparent) !important;
   }
   [data-qc-theme="dark"][data-qc-material="glass"] :is(.island-header, .island-rail, .island-mobile-nav, .appearance-dialog, .material-sample,
-    .island-content .card, .island-card, .auth-card, .welcome-page .card, .qc-habit-card-wrapper,
-    .dashboard-kpi:not(:first-child), .dashboard-feature, .welcome-feature, .welcome-close, .welcome-reminder, .google-chooser-dialog) {
+    .island-content .card, .card, .island-card, .auth-card, .welcome-page .card, .qc-habit-card-wrapper,
+    .dashboard-kpi:not(:first-child), .dashboard-feature, .welcome-feature, .welcome-closing, .welcome-reminder, .google-chooser-dialog,
+    .qc-achievement-card, .qc-suggestion-card) {
     background:
       linear-gradient(135deg,
-        rgba(255, 255, 255, 0.11) 0%,
-        rgba(255, 255, 255, 0.02) 46%,
-        color-mix(in srgb, var(--qc-action) 10%, transparent) 100%),
-      var(--qc-glass-fill);
-    -webkit-backdrop-filter: blur(var(--qc-glass-blur)) saturate(1.75) brightness(1.06);
-    backdrop-filter: blur(var(--qc-glass-blur)) saturate(1.75) brightness(1.06);
-    border: 1px solid var(--qc-glass-edge);
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(255, 255, 255, 0.04) 50%,
+        color-mix(in srgb, var(--qc-action) 16%, rgba(15, 23, 42, 0.32)) 100%) !important;
+    -webkit-backdrop-filter: blur(var(--qc-glass-blur)) saturate(1.85) brightness(1.08) !important;
+    backdrop-filter: blur(var(--qc-glass-blur)) saturate(1.85) brightness(1.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
     box-shadow:
-      inset 0 1px 0 var(--qc-glass-light),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.06),
-      inset 0 0 24px rgba(255, 255, 255, 0.03),
-      var(--qc-surface-shadow);
+      inset 0 1px 1px rgba(255, 255, 255, 0.28),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.08),
+      inset 0 0 28px rgba(14, 165, 233, 0.06),
+      0 24px 60px -12px rgba(0, 0, 0, 0.65) !important;
   }
   [data-qc-material="glass"] :is(.welcome-stage, .appearance-preview) {
     background:
-      linear-gradient(145deg, var(--qc-glass-fill), color-mix(in srgb, var(--qc-action) 18%, transparent)),
-      radial-gradient(ellipse at 18% 82%, color-mix(in srgb, var(--qc-icon-active) 24%, transparent), transparent 68%);
-    -webkit-backdrop-filter: blur(var(--qc-glass-blur)) saturate(1.65);
-    backdrop-filter: blur(var(--qc-glass-blur)) saturate(1.65);
-    border-color: var(--qc-glass-edge);
-    box-shadow: inset 0 1px 1px var(--qc-glass-light), var(--qc-surface-shadow);
+      linear-gradient(145deg, var(--qc-glass-fill), color-mix(in srgb, var(--qc-action) 22%, transparent)),
+      radial-gradient(ellipse at 18% 82%, color-mix(in srgb, var(--qc-icon-active) 28%, transparent), transparent 68%) !important;
+    -webkit-backdrop-filter: blur(var(--qc-glass-blur)) saturate(1.75) !important;
+    backdrop-filter: blur(var(--qc-glass-blur)) saturate(1.75) !important;
+    border-color: var(--qc-glass-edge) !important;
+    box-shadow: inset 0 1px 1px var(--qc-glass-light), var(--qc-surface-shadow) !important;
   }
   [data-qc-material="glass"] .island-app {
-    background: transparent;
+    background: transparent !important;
   }
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {

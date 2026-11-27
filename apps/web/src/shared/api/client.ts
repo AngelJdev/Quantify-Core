@@ -107,8 +107,41 @@ type PendingHandshake = {
 };
 
 const HANDSHAKE_STORAGE_KEY = "qc_oidc_pkce_handshake";
+const SESSION_META_STORAGE_KEY = "qc_active_user_session_v1";
 
 let activeTokens: TokenMemory | null = null;
+
+export function saveSession(session: OidcUserSession): void {
+  activeTokens = {
+    accessToken: activeTokens?.accessToken || "session-active",
+    refreshToken: activeTokens?.refreshToken,
+    idToken: activeTokens?.idToken,
+    session,
+  };
+  try {
+    localStorage.setItem(SESSION_META_STORAGE_KEY, JSON.stringify(session));
+  } catch {
+    // ignore storage errors
+  }
+}
+
+export function loadSession(): OidcUserSession | null {
+  if (activeTokens?.session) return activeTokens.session;
+  try {
+    const raw =
+      typeof localStorage !== "undefined"
+        ? localStorage.getItem(SESSION_META_STORAGE_KEY)
+        : null;
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as OidcUserSession;
+    if (parsed && parsed.email && parsed.expiresAt > Date.now()) {
+      return parsed;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
 
 export function getOidcIssuer(): string {
   const configured = (
@@ -199,6 +232,7 @@ export function setDirectTokensSession(
     idToken,
     session,
   };
+  saveSession(session);
   return session;
 }
 
@@ -418,6 +452,11 @@ export async function logoutOidcSession(): Promise<void> {
   const refresh = activeTokens?.refreshToken;
   activeTokens = null;
   sessionStorage.removeItem(HANDSHAKE_STORAGE_KEY);
+  try {
+    localStorage.removeItem(SESSION_META_STORAGE_KEY);
+  } catch {
+    // ignore storage errors
+  }
   try {
     (
       window as {

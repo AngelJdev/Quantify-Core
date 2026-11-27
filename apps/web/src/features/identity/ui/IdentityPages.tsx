@@ -1,22 +1,11 @@
-const steps: [IconName, string, string][] = [
-  [
-    "habitos",
-    "Empieza con algo tuyo",
-    "Leer, caminar o hacer una pausa. Elige lo que tiene sentido para ti.",
-  ],
-  [
-    "recordatorio",
-    "Encuentra tu momento",
-    "Dale un lugar en tu día. Un recordatorio puede ayudarte.",
-  ],
-  [
-    "analisis",
-    "Reconoce tu avance",
-    "Mira tu constancia en perspectiva. Cada registro cuenta una parte.",
-  ],
-];
-
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ClipboardEvent,
+  type FormEvent,
+  type KeyboardEvent,
+} from "react";
 import {
   Link,
   useNavigate,
@@ -25,7 +14,7 @@ import {
 } from "react-router-dom";
 import { Icon, type IconName } from "@/shared/ui/Icon";
 import { useDemo } from "@/app/DemoProvider";
-import { PublicShell } from "@/shared/ui/Prototype";
+import { PublicShell, WeekStrip } from "@/shared/ui/Prototype";
 import {
   apiConfirmPasswordReset,
   apiLoginWithCredentials,
@@ -37,6 +26,24 @@ import {
   completeOidcCallback,
   hasPendingOidcHandshake,
 } from "@/shared/api/client";
+
+const steps: [IconName, string, string][] = [
+  [
+    "habitos",
+    "1. Define hábitos a tu medida",
+    "Configura tu meta diaria, unidad, horario y días de la semana con selectores interactivos y control de versiones.",
+  ],
+  [
+    "analisis",
+    "2. Visualiza gráficas en tiempo real",
+    "Analiza tu evolución con gráficas semanales, mensuales, curvas SVG, anillos de cumplimiento y mapa de calor de 28 días.",
+  ],
+  [
+    "confirmado",
+    "3. Desbloquea 36 logros y sube de nivel",
+    "Cada check-in y evidencia fotográfica evalúa 36 medallas en rangos Bronce, Plata, Oro y Diamante.",
+  ],
+];
 
 const states: Record<string, [string, string]> = {
   pendiente: [
@@ -121,21 +128,59 @@ export function ContactSection() {
   }
 
   return (
-    <section className="card form-card" id="contacto">
-      <div className="section-heading">
+    <section className="qc-contact-bento" id="contacto">
+      <div className="qc-contact-info card">
         <div>
-          <span className="eyebrow">CONTÁCTANOS</span>
-          <h2>Envíanos tus comentarios</h2>
+          <span className="eyebrow">CONTÁCTANOS · SOPORTE DIRECTO</span>
+          <h2>Estamos listos para escucharte</h2>
           <p>
-            ¿Tienes alguna duda o sugerencia sobre Quantify? Escríbenos y
-            recibirás confirmación directa en tu correo electrónico.
+            ¿Tienes alguna duda, comentario o sugerencia sobre Quantify?
+            Escríbenos y recibirás una confirmación automática en tu bandeja de
+            correo electrónico.
           </p>
         </div>
-        <Icon name="recordatorio" />
+        <div className="qc-contact-highlights">
+          <div className="qc-contact-pill-card">
+            <span className="symbol blue">
+              <Icon name="confirmado" />
+            </span>
+            <div>
+              <strong>Confirmación inmediata</strong>
+              <p className="caption">
+                Recibe acuse en tu correo electrónico real al enviar el
+                formulario.
+              </p>
+            </div>
+          </div>
+          <div className="qc-contact-pill-card">
+            <span className="symbol emerald">
+              <Icon name="privacidad" />
+            </span>
+            <div>
+              <strong>Atención del equipo Quantify</strong>
+              <p className="caption">
+                Universidad Tecnológica de Xicotepec de Juárez · Ingeniería en
+                Desarrollo y Gestión de Software.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-      <form onSubmit={handleContactSubmit} noValidate>
-        <div className="form-grid">
+
+      <form
+        className="card qc-contact-form"
+        onSubmit={handleContactSubmit}
+        noValidate
+      >
+        <div className="section-heading" style={{ marginBottom: "14px" }}>
           <div>
+            <span className="eyebrow">MENSAJE DIRECTO</span>
+            <h3>Envíanos tus comentarios</h3>
+          </div>
+          <Icon name="recordatorio" />
+        </div>
+        <div className="qc-form-row-2">
+          <div className="qc-field-group">
             <label htmlFor="contact-name">Tu nombre</label>
             <input
               id="contact-name"
@@ -145,7 +190,7 @@ export function ContactSection() {
               required
             />
           </div>
-          <div>
+          <div className="qc-field-group">
             <label htmlFor="contact-email">Correo electrónico</label>
             <input
               id="contact-email"
@@ -157,27 +202,31 @@ export function ContactSection() {
             />
           </div>
         </div>
-        <label htmlFor="contact-subject">Asunto</label>
-        <input
-          id="contact-subject"
-          value={contactSubject}
-          onChange={(e) => setContactSubject(e.target.value)}
-        />
-        <label htmlFor="contact-message">Mensaje</label>
-        <textarea
-          id="contact-message"
-          rows={3}
-          value={contactMessage}
-          onChange={(e) => setContactMessage(e.target.value)}
-          placeholder="Cuéntanos cómo te ha ayudado Quantify o qué te gustaría ver..."
-          required
-        />
+        <div className="qc-field-group">
+          <label htmlFor="contact-subject">Asunto</label>
+          <input
+            id="contact-subject"
+            value={contactSubject}
+            onChange={(e) => setContactSubject(e.target.value)}
+          />
+        </div>
+        <div className="qc-field-group">
+          <label htmlFor="contact-message">Mensaje</label>
+          <textarea
+            id="contact-message"
+            rows={4}
+            value={contactMessage}
+            onChange={(e) => setContactMessage(e.target.value)}
+            placeholder="Cuéntanos cómo te ha ayudado Quantify o qué te gustaría ver..."
+            required
+          />
+        </div>
         {contactStatus && (
           <p className="form-note" role="status">
             {contactStatus}
           </p>
         )}
-        <div className="form-actions">
+        <div className="form-actions" style={{ justifyContent: "flex-end" }}>
           <button
             type="submit"
             className="button primary"
@@ -190,6 +239,122 @@ export function ContactSection() {
         </div>
       </form>
     </section>
+  );
+}
+
+function OtpSixBoxes({
+  id,
+  value,
+  onChange,
+  status,
+}: {
+  id: string;
+  value: string;
+  onChange: (next: string) => void;
+  status: "idle" | "typing" | "verifying" | "valid" | "invalid";
+}) {
+  const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
+  const digits = Array.from({ length: 6 }, (_, i) => value[i] || "");
+
+  function handleDigitChange(index: number, raw: string) {
+    const clean = raw.replace(/\D/g, "");
+    if (!clean) {
+      const next = [...digits];
+      next[index] = "";
+      onChange(next.join(""));
+      return;
+    }
+    const next = [...digits];
+    for (let i = 0; i < clean.length && index + i < 6; i++) {
+      next[index + i] = clean[i];
+    }
+    const joined = next.join("").slice(0, 6);
+    onChange(joined);
+    const focusIdx = Math.min(5, index + clean.length);
+    inputsRef.current[focusIdx]?.focus();
+  }
+
+  function handleKeyDown(index: number, e: KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Backspace" && !digits[index] && index > 0) {
+      const next = [...digits];
+      next[index - 1] = "";
+      onChange(next.join(""));
+      inputsRef.current[index - 1]?.focus();
+    } else if (e.key === "ArrowLeft" && index > 0) {
+      inputsRef.current[index - 1]?.focus();
+    } else if (e.key === "ArrowRight" && index < 5) {
+      inputsRef.current[index + 1]?.focus();
+    }
+  }
+
+  function handlePaste(e: ClipboardEvent<HTMLInputElement>) {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
+    if (pasted) {
+      onChange(pasted);
+      inputsRef.current[Math.min(5, pasted.length - 1)]?.focus();
+    }
+  }
+
+  return (
+    <div className={`qc-otp-container status-${status}`}>
+      <input
+        id={id}
+        type="text"
+        value={value}
+        onChange={(e) =>
+          onChange(e.target.value.replace(/\D/g, "").slice(0, 6))
+        }
+        className="sr-only"
+        aria-label="Código de verificación (6 dígitos)"
+      />
+      <div className="qc-otp-boxes" role="group" aria-label="Dígitos del código">
+        {digits.map((digit, idx) => (
+          <div
+            key={idx}
+            className={`qc-otp-cell ${digit ? "is-filled" : ""} status-${status}`}
+            style={{ animationDelay: `${idx * 45}ms` }}
+          >
+            <input
+              ref={(el) => {
+                inputsRef.current[idx] = el;
+              }}
+              type="text"
+              inputMode="numeric"
+              maxLength={6}
+              value={digit}
+              placeholder="·"
+              aria-label={`Dígito ${idx + 1}`}
+              onChange={(e) => handleDigitChange(idx, e.target.value)}
+              onKeyDown={(e) => handleKeyDown(idx, e)}
+              onPaste={handlePaste}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="qc-otp-status-bar" aria-live="polite">
+        {status === "verifying" && (
+          <span className="qc-otp-pill verifying">
+            <i className="qc-spinner" /> Verificando código...
+          </span>
+        )}
+        {status === "typing" && value.length === 6 && (
+          <span className="qc-otp-pill ready">
+            ⚡ 6 dígitos listos para verificar
+          </span>
+        )}
+        {status === "valid" && (
+          <span className="qc-otp-pill valid">
+            ✓ Código verificado correctamente
+          </span>
+        )}
+        {status === "invalid" && (
+          <span className="qc-otp-pill invalid">
+            ✕ Código incorrecto o expirado
+          </span>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -233,6 +398,9 @@ export function AuthPage({
   const [confirmSecretInput, setConfirmSecretInput] = useState("");
   const [timeZone, setTimeZone] = useState("America/Mexico_City");
   const [otpCode, setOtpCode] = useState("");
+  const [otpVisualState, setOtpVisualState] = useState<
+    "idle" | "typing" | "verifying" | "valid" | "invalid"
+  >("idle");
   const [showSecret, setShowSecret] = useState(false);
 
   const [customGoogleMode, setCustomGoogleMode] = useState(false);
@@ -298,7 +466,8 @@ export function AuthPage({
     function onPopupMessage(event: MessageEvent) {
       if (event.origin !== window.location.origin) return;
       const data = event.data as
-        { type?: string; accessToken?: string; idToken?: string } | undefined;
+        | { type?: string; accessToken?: string; idToken?: string }
+        | undefined;
       if (data?.type !== "QC_GOOGLE_OAUTH_TOKEN") return;
       googleDialogRef.current?.close();
       setLoading(true);
@@ -323,6 +492,12 @@ export function AuthPage({
     window.addEventListener("message", onPopupMessage);
     return () => window.removeEventListener("message", onPopupMessage);
   }, [navigate, syncWithBackend]);
+
+  function handleOtpInput(next: string) {
+    setOtpCode(next);
+    setErrorMsg(null);
+    setOtpVisualState(next.length > 0 ? "typing" : "idle");
+  }
 
   async function handleLoginSubmit(e: FormEvent) {
     e.preventDefault();
@@ -379,6 +554,7 @@ export function AuthPage({
       });
       setStatusMsg(res.message);
       setOtpCode("");
+      setOtpVisualState("idle");
       setView("verify-otp");
     } catch (err) {
       setErrorMsg(
@@ -395,18 +571,22 @@ export function AuthPage({
     e.preventDefault();
     setErrorMsg(null);
     if (otpCode.trim().length !== 6) {
+      setOtpVisualState("invalid");
       setErrorMsg("Ingresa el código de 6 dígitos enviado a tu correo.");
       return;
     }
     setLoading(true);
+    setOtpVisualState("verifying");
     try {
       const { session } = await apiVerifyRegistrationOtp({
         email: email.trim(),
         code: otpCode.trim(),
       });
+      setOtpVisualState("valid");
       await syncWithBackend(session);
-      navigate("/hoy");
+      setTimeout(() => navigate("/hoy"), 450);
     } catch (err) {
+      setOtpVisualState("invalid");
       setErrorMsg(
         err instanceof Error
           ? err.message
@@ -429,6 +609,7 @@ export function AuthPage({
       const res = await apiRequestPasswordResetOtp({ email: email.trim() });
       setStatusMsg(res.message);
       setOtpCode("");
+      setOtpVisualState("idle");
       setSecretInput("");
       setConfirmSecretInput("");
       setView("reset");
@@ -443,6 +624,7 @@ export function AuthPage({
     e.preventDefault();
     setErrorMsg(null);
     if (otpCode.trim().length !== 6) {
+      setOtpVisualState("invalid");
       setErrorMsg("Ingresa el código de 6 dígitos recibido por correo.");
       return;
     }
@@ -455,15 +637,18 @@ export function AuthPage({
       return;
     }
     setLoading(true);
+    setOtpVisualState("verifying");
     try {
       const res = await apiConfirmPasswordReset({
         email: email.trim(),
         code: otpCode.trim(),
         newPassword: secretInput,
       });
+      setOtpVisualState("valid");
       setStatusMsg(res.message);
-      setView("login");
+      setTimeout(() => setView("login"), 500);
     } catch {
+      setOtpVisualState("invalid");
       setErrorMsg("Código de recuperación inválido o vencido.");
     } finally {
       setLoading(false);
@@ -633,8 +818,8 @@ export function AuthPage({
           </button>
           <button
             type="button"
-            className={view === "register" ? "selected" : ""}
-            aria-pressed={view === "register"}
+            className={view === "register" || view === "verify-otp" ? "selected" : ""}
+            aria-pressed={view === "register" || view === "verify-otp"}
             onClick={() => {
               setView("register");
               setErrorMsg(null);
@@ -688,102 +873,23 @@ export function AuthPage({
           </div>
         )}
 
-        {view === "login" && (
-          <form className="auth-form" onSubmit={handleLoginSubmit} noValidate>
-            <div className="auth-field">
-              <label htmlFor="auth-login-email">Correo electrónico</label>
-              <input
-                id="auth-login-email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="sofia.ramirez@correo.com"
-                required
-              />
-            </div>
-            <div className="auth-field">
-              <div className="auth-password-head">
-                <label htmlFor="auth-login-secret">Contraseña</label>
-                <button
-                  type="button"
-                  className="auth-toggle-secret"
-                  onClick={() => setShowSecret(!showSecret)}
-                >
-                  {showSecret ? "Ocultar" : "Mostrar"}
-                </button>
+        <div key={view} className="qc-auth-view-stage">
+          {view === "login" && (
+            <form className="auth-form" onSubmit={handleLoginSubmit} noValidate>
+              <div className="auth-field">
+                <label htmlFor="auth-login-email">Correo electrónico</label>
+                <input
+                  id="auth-login-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="sofia.ramirez@correo.com"
+                  required
+                />
               </div>
-              <input
-                id="auth-login-secret"
-                type="text"
-                className={showSecret ? "" : "masked-secret"}
-                autoComplete="off"
-                value={secretInput}
-                onChange={(e) => setSecretInput(e.target.value)}
-                placeholder="Ingresa tu contraseña"
-                required
-              />
-            </div>
-            <div className="auth-links-row">
-              <button
-                type="button"
-                className="text-link"
-                onClick={() => setView("forgot")}
-              >
-                ¿Olvidaste tu contraseña?
-              </button>
-              <button
-                type="button"
-                className="text-link"
-                onClick={() => setView("register")}
-              >
-                Crear cuenta nueva →
-              </button>
-            </div>
-            <div className="auth-actions">
-              <button
-                type="submit"
-                className="button primary auth-submit-btn"
-                disabled={loading}
-              >
-                {loading ? "Iniciando sesión..." : "Entrar a mi cuenta"}
-              </button>
-            </div>
-          </form>
-        )}
-
-        {view === "register" && (
-          <form
-            className="auth-form"
-            onSubmit={handleRegisterSubmit}
-            noValidate
-          >
-            <div className="auth-field">
-              <label htmlFor="auth-reg-name">Nombre completo</label>
-              <input
-                id="auth-reg-name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                placeholder="Ej. Sofía Ramírez"
-                required
-              />
-            </div>
-            <div className="auth-field">
-              <label htmlFor="auth-reg-email">Correo electrónico</label>
-              <input
-                id="auth-reg-email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="sofia.ramirez@correo.com"
-                required
-              />
-            </div>
-            <div className="auth-grid-2">
               <div className="auth-field">
                 <div className="auth-password-head">
-                  <label htmlFor="auth-reg-secret">
-                    Contraseña (mín. 8)
-                  </label>
+                  <label htmlFor="auth-login-secret">Contraseña</label>
                   <button
                     type="button"
                     className="auth-toggle-secret"
@@ -793,227 +899,298 @@ export function AuthPage({
                   </button>
                 </div>
                 <input
-                  id="auth-reg-secret"
+                  id="auth-login-secret"
                   type="text"
                   className={showSecret ? "" : "masked-secret"}
                   autoComplete="off"
                   value={secretInput}
                   onChange={(e) => setSecretInput(e.target.value)}
-                  placeholder="Mínimo 8 caracteres"
+                  placeholder="Ingresa tu contraseña"
                   required
                 />
               </div>
+              <div className="auth-links-row">
+                <button
+                  type="button"
+                  className="text-link"
+                  onClick={() => setView("forgot")}
+                >
+                  ¿Olvidaste tu contraseña?
+                </button>
+                <button
+                  type="button"
+                  className="text-link"
+                  onClick={() => setView("register")}
+                >
+                  Crear cuenta nueva →
+                </button>
+              </div>
+              <div className="auth-actions">
+                <button
+                  type="submit"
+                  className="button primary auth-submit-btn"
+                  disabled={loading}
+                >
+                  {loading ? "Iniciando sesión..." : "Entrar a mi cuenta"}
+                </button>
+              </div>
+            </form>
+          )}
+
+          {view === "register" && (
+            <form
+              className="auth-form"
+              onSubmit={handleRegisterSubmit}
+              noValidate
+            >
               <div className="auth-field">
-                <label htmlFor="auth-reg-confirm">Confirmar contraseña</label>
+                <label htmlFor="auth-reg-name">Nombre completo</label>
                 <input
-                  id="auth-reg-confirm"
-                  type="text"
-                  className={showSecret ? "" : "masked-secret"}
-                  autoComplete="off"
-                  value={confirmSecretInput}
-                  onChange={(e) => setConfirmSecretInput(e.target.value)}
-                  placeholder="Repite tu contraseña"
+                  id="auth-reg-name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Ej. Sofía Ramírez"
                   required
                 />
               </div>
-            </div>
-            <div className="auth-field">
-              <label htmlFor="auth-reg-tz">Zona horaria</label>
-              <select
-                id="auth-reg-tz"
-                value={timeZone}
-                onChange={(e) => setTimeZone(e.target.value)}
-              >
-                <option value="America/Mexico_City">
-                  America/Mexico_City (Ciudad de México)
-                </option>
-                <option value="America/Bogota">America/Bogota</option>
-                <option value="Europe/Madrid">Europe/Madrid</option>
-                <option value="UTC">UTC</option>
-              </select>
-            </div>
-            <p className="caption auth-helper-copy">
-              Te enviaremos un código de verificación de 6 dígitos a tu correo
-              electrónico para activar tu cuenta.
-            </p>
-            <div className="auth-actions">
-              <button
-                type="submit"
-                className="button primary auth-submit-btn"
-                disabled={loading}
-              >
-                {loading
-                  ? "Enviando código a tu correo..."
-                  : "Enviar código de verificación"}
-              </button>
-              <button
-                type="button"
-                className="button secondary auth-submit-btn"
-                onClick={() => setView("login")}
-              >
-                Ya tengo cuenta
-              </button>
-            </div>
-          </form>
-        )}
-
-        {view === "verify-otp" && (
-          <form
-            className="auth-form"
-            onSubmit={handleVerifyOtpSubmit}
-            noValidate
-          >
-            <div className="auth-subhead">
-              <h2>Verifica tu correo electrónico</h2>
-              <p>
-                Ingresa el código de seguridad de 6 dígitos que enviamos a{" "}
-                <strong>{email}</strong>.
-              </p>
-            </div>
-            <div className="auth-field">
-              <label htmlFor="auth-otp-input">
-                Código de verificación (6 dígitos)
-              </label>
-              <input
-                id="auth-otp-input"
-                value={otpCode}
-                maxLength={6}
-                onChange={(e) =>
-                  setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
-                }
-                placeholder="000000"
-                className="auth-otp-input"
-                required
-              />
-            </div>
-            <div className="auth-actions">
-              <button
-                type="submit"
-                className="button primary auth-submit-btn"
-                disabled={loading}
-              >
-                {loading
-                  ? "Verificando y creando cuenta..."
-                  : "Verificar código y entrar"}
-              </button>
-              <button
-                type="button"
-                className="text-link auth-center-link"
-                onClick={() => setView("register")}
-              >
-                Cambiar correo
-              </button>
-            </div>
-          </form>
-        )}
-
-        {view === "forgot" && (
-          <form className="auth-form" onSubmit={handleForgotSubmit} noValidate>
-            <div className="auth-subhead">
-              <h2>Recuperar contraseña</h2>
-              <p>
-                Ingresa tu correo electrónico y te enviaremos un código de
-                seguridad de 6 dígitos para restablecer tu contraseña.
-              </p>
-            </div>
-            <div className="auth-field">
-              <label htmlFor="auth-forgot-email">Correo de tu cuenta</label>
-              <input
-                id="auth-forgot-email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="sofia.ramirez@correo.com"
-                required
-              />
-            </div>
-            <div className="auth-actions">
-              <button
-                type="submit"
-                className="button primary auth-submit-btn"
-                disabled={loading}
-              >
-                {loading
-                  ? "Enviando código..."
-                  : "Enviar código de recuperación"}
-              </button>
-              <button
-                type="button"
-                className="button secondary auth-submit-btn"
-                onClick={() => setView("login")}
-              >
-                Volver a iniciar sesión
-              </button>
-            </div>
-          </form>
-        )}
-
-        {view === "reset" && (
-          <form className="auth-form" onSubmit={handleResetSubmit} noValidate>
-            <div className="auth-subhead">
-              <h2>Definir nueva contraseña</h2>
-              <p>
-                Ingresa el código de 6 dígitos enviado a <strong>{email}</strong>{" "}
-                y tu nueva contraseña.
-              </p>
-            </div>
-            <div className="auth-field">
-              <label htmlFor="auth-reset-otp">Código de 6 dígitos</label>
-              <input
-                id="auth-reset-otp"
-                value={otpCode}
-                maxLength={6}
-                onChange={(e) =>
-                  setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))
-                }
-                placeholder="000000"
-                className="auth-otp-input"
-                required
-              />
-            </div>
-            <div className="auth-grid-2">
               <div className="auth-field">
-                <label htmlFor="auth-reset-new">Nueva contraseña</label>
+                <label htmlFor="auth-reg-email">Correo electrónico</label>
                 <input
-                  id="auth-reset-new"
-                  type="text"
-                  className={showSecret ? "" : "masked-secret"}
-                  autoComplete="off"
-                  value={secretInput}
-                  onChange={(e) => setSecretInput(e.target.value)}
-                  placeholder="Mínimo 8 caracteres"
+                  id="auth-reg-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="sofia.ramirez@correo.com"
                   required
                 />
               </div>
+              <div className="auth-grid-2">
+                <div className="auth-field">
+                  <div className="auth-password-head">
+                    <label htmlFor="auth-reg-secret">
+                      Contraseña (mín. 8)
+                    </label>
+                    <button
+                      type="button"
+                      className="auth-toggle-secret"
+                      onClick={() => setShowSecret(!showSecret)}
+                    >
+                      {showSecret ? "Ocultar" : "Mostrar"}
+                    </button>
+                  </div>
+                  <input
+                    id="auth-reg-secret"
+                    type="text"
+                    className={showSecret ? "" : "masked-secret"}
+                    autoComplete="off"
+                    value={secretInput}
+                    onChange={(e) => setSecretInput(e.target.value)}
+                    placeholder="Mínimo 8 caracteres"
+                    required
+                  />
+                </div>
+                <div className="auth-field">
+                  <label htmlFor="auth-reg-confirm">Confirmar contraseña</label>
+                  <input
+                    id="auth-reg-confirm"
+                    type="text"
+                    className={showSecret ? "" : "masked-secret"}
+                    autoComplete="off"
+                    value={confirmSecretInput}
+                    onChange={(e) => setConfirmSecretInput(e.target.value)}
+                    placeholder="Repite tu contraseña"
+                    required
+                  />
+                </div>
+              </div>
               <div className="auth-field">
-                <label htmlFor="auth-reset-confirm">
-                  Confirmar nueva contraseña
+                <label htmlFor="auth-reg-tz">Zona horaria</label>
+                <select
+                  id="auth-reg-tz"
+                  value={timeZone}
+                  onChange={(e) => setTimeZone(e.target.value)}
+                >
+                  <option value="America/Mexico_City">
+                    America/Mexico_City (Ciudad de México)
+                  </option>
+                  <option value="America/Bogota">America/Bogota</option>
+                  <option value="Europe/Madrid">Europe/Madrid</option>
+                  <option value="UTC">UTC</option>
+                </select>
+              </div>
+              <p className="caption auth-helper-copy">
+                Te enviaremos un código de verificación de 6 dígitos a tu correo
+                electrónico para activar tu cuenta.
+              </p>
+              <div className="auth-actions">
+                <button
+                  type="submit"
+                  className="button primary auth-submit-btn"
+                  disabled={loading}
+                >
+                  {loading
+                    ? "Enviando código a tu correo..."
+                    : "Enviar código de verificación"}
+                </button>
+                <button
+                  type="button"
+                  className="button secondary auth-submit-btn"
+                  onClick={() => setView("login")}
+                >
+                  Ya tengo cuenta
+                </button>
+              </div>
+            </form>
+          )}
+
+          {view === "verify-otp" && (
+            <form
+              className="auth-form"
+              onSubmit={handleVerifyOtpSubmit}
+              noValidate
+            >
+              <div className="auth-subhead">
+                <h2>Verifica tu correo electrónico</h2>
+                <p>
+                  Ingresa los 6 dígitos que enviamos a{" "}
+                  <strong>{email}</strong>.
+                </p>
+              </div>
+              <div className="auth-field">
+                <label htmlFor="auth-otp-input">
+                  Código de verificación (6 dígitos)
                 </label>
+                <OtpSixBoxes
+                  id="auth-otp-input"
+                  value={otpCode}
+                  onChange={handleOtpInput}
+                  status={loading ? "verifying" : otpVisualState}
+                />
+              </div>
+              <div className="auth-actions">
+                <button
+                  type="submit"
+                  className="button primary auth-submit-btn"
+                  disabled={loading}
+                >
+                  {loading
+                    ? "Verificando y creando cuenta..."
+                    : "Verificar código y entrar"}
+                </button>
+                <button
+                  type="button"
+                  className="text-link auth-center-link"
+                  onClick={() => setView("register")}
+                >
+                  Cambiar correo
+                </button>
+              </div>
+            </form>
+          )}
+
+          {view === "forgot" && (
+            <form className="auth-form" onSubmit={handleForgotSubmit} noValidate>
+              <div className="auth-subhead">
+                <h2>Recuperar contraseña</h2>
+                <p>
+                  Ingresa tu correo electrónico y te enviaremos un código de
+                  seguridad de 6 dígitos para restablecer tu contraseña.
+                </p>
+              </div>
+              <div className="auth-field">
+                <label htmlFor="auth-forgot-email">Correo de tu cuenta</label>
                 <input
-                  id="auth-reset-confirm"
-                  type="text"
-                  className={showSecret ? "" : "masked-secret"}
-                  autoComplete="off"
-                  value={confirmSecretInput}
-                  onChange={(e) => setConfirmSecretInput(e.target.value)}
-                  placeholder="Repite la contraseña"
+                  id="auth-forgot-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="sofia.ramirez@correo.com"
                   required
                 />
               </div>
-            </div>
-            <div className="auth-actions">
-              <button
-                type="submit"
-                className="button primary auth-submit-btn"
-                disabled={loading}
-              >
-                {loading
-                  ? "Actualizando contraseña..."
-                  : "Actualizar contraseña"}
-              </button>
-            </div>
-          </form>
-        )}
+              <div className="auth-actions">
+                <button
+                  type="submit"
+                  className="button primary auth-submit-btn"
+                  disabled={loading}
+                >
+                  {loading
+                    ? "Enviando código..."
+                    : "Enviar código de recuperación"}
+                </button>
+                <button
+                  type="button"
+                  className="button secondary auth-submit-btn"
+                  onClick={() => setView("login")}
+                >
+                  Volver a iniciar sesión
+                </button>
+              </div>
+            </form>
+          )}
+
+          {view === "reset" && (
+            <form className="auth-form" onSubmit={handleResetSubmit} noValidate>
+              <div className="auth-subhead">
+                <h2>Definir nueva contraseña</h2>
+                <p>
+                  Ingresa el código de 6 dígitos enviado a{" "}
+                  <strong>{email}</strong> y tu nueva contraseña.
+                </p>
+              </div>
+              <div className="auth-field">
+                <label htmlFor="auth-reset-otp">Código de 6 dígitos</label>
+                <OtpSixBoxes
+                  id="auth-reset-otp"
+                  value={otpCode}
+                  onChange={handleOtpInput}
+                  status={loading ? "verifying" : otpVisualState}
+                />
+              </div>
+              <div className="auth-grid-2">
+                <div className="auth-field">
+                  <label htmlFor="auth-reset-new">Nueva contraseña</label>
+                  <input
+                    id="auth-reset-new"
+                    type="text"
+                    className={showSecret ? "" : "masked-secret"}
+                    autoComplete="off"
+                    value={secretInput}
+                    onChange={(e) => setSecretInput(e.target.value)}
+                    placeholder="Mínimo 8 caracteres"
+                    required
+                  />
+                </div>
+                <div className="auth-field">
+                  <label htmlFor="auth-reset-confirm">
+                    Confirmar nueva contraseña
+                  </label>
+                  <input
+                    id="auth-reset-confirm"
+                    type="text"
+                    className={showSecret ? "" : "masked-secret"}
+                    autoComplete="off"
+                    value={confirmSecretInput}
+                    onChange={(e) => setConfirmSecretInput(e.target.value)}
+                    placeholder="Repite la contraseña"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="auth-actions">
+                <button
+                  type="submit"
+                  className="button primary auth-submit-btn"
+                  disabled={loading}
+                >
+                  {loading
+                    ? "Actualizando contraseña..."
+                    : "Actualizar contraseña"}
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
       </section>
 
       <dialog
@@ -1212,8 +1389,8 @@ export function SessionPage({ callback = false }: { callback?: boolean }) {
           <Link className="button primary" to="/auth">
             Revisar acceso
           </Link>
-          <Link className="text-link" to="/hoy">
-            Volver a la demostración
+          <Link className="text-link" to="/">
+            Volver al inicio
           </Link>
         </div>
       </section>
@@ -1224,52 +1401,171 @@ export function SessionPage({ callback = false }: { callback?: boolean }) {
 export function AboutPage({ team = false }: { team?: boolean }) {
   return (
     <PublicShell title={team ? "El proyecto" : "Conoce Quantify"}>
-      <section className="about-intro">
-        <p className="eyebrow">
-          {team
-            ? "DE UNA IDEA A UN ESPACIO COTIDIANO"
-            : "HÁBITOS CON INTENCIÓN"}
-        </p>
-        <h1 tabIndex={-1}>
-          {team
-            ? "Estamos construyendo Quantify."
-            : "Una rutina que se sienta tuya."}
-        </h1>
-        <p>
-          {team
-            ? "Quantify Core es un proyecto académico en desarrollo. Esta entrega presenta el diseño de la experiencia web y PWA."
-            : "Elige algo que te importe, dale un momento en tu semana y mira tus avances con perspectiva."}
-        </p>
-        <Link className="button primary" to={team ? "/conoce" : "/registro"}>
-          {team ? "Conocer la experiencia" : "Empezar mi recorrido"}
-        </Link>
-      </section>
-      <div className="step-grid">
-        {steps.map(([icon, title, copy]) => (
-          <article className="island-card step-card" key={title}>
-            <Icon name={icon} />
-            <h2>{title}</h2>
-            <p>{copy}</p>
+      <div className="qc-about-container">
+        <section className="qc-about-hero card">
+          <div>
+            <p className="eyebrow">
+              {team
+                ? "INGENIERÍA EN DESARROLLO Y GESTIÓN DE SOFTWARE · UTXJ"
+                : "PLATAFORMA DE HÁBITOS, ANALÍTICA Y LOGROS"}
+            </p>
+            <h1 tabIndex={-1}>
+              {team
+                ? "Estamos construyendo Quantify."
+                : "Una rutina que se sienta tuya."}
+            </h1>
+            <p className="qc-about-lead">
+              {team
+                ? "Quantify Core V2.0 une experiencia web reactiva, aplicación móvil multiplataforma y reglas de dominio precisas para acompañar tus hábitos diarios."
+                : "Registra tus hábitos con un clic, analiza tus gráficas semanales y mensuales, adjunta evidencia fotográfica y desbloquea 36 medallas reales de constancia."}
+            </p>
+            <div className="form-actions" style={{ marginTop: "20px" }}>
+              <Link className="button primary" to="/registro">
+                Crear mi cuenta gratis ↗
+              </Link>
+              <Link className="button secondary" to="/login">
+                Iniciar sesión
+              </Link>
+              <Link className="button secondary" to="/instalar">
+                Descargar App / APK
+              </Link>
+            </div>
+          </div>
+          <div className="qc-about-preview-window" aria-hidden="true">
+            <div className="welcome-window">
+              <i />
+              <i />
+              <i />
+              <span>VISTA DEL PANEL · QUANTIFY V2.0</span>
+            </div>
+            <div className="qc-about-preview-body">
+              <div className="row-between">
+                <div>
+                  <span className="eyebrow">RENDIMIENTO SEMANAL</span>
+                  <strong>92% de cumplimiento</strong>
+                </div>
+                <span className="qc-tier-badge tier-diamante">Nivel 6 · +1,450 XP</span>
+              </div>
+              <div className="qc-mini-bars">
+                {[65, 82, 78, 100, 90, 95, 100].map((v, i) => (
+                  <div key={i} className="qc-mini-bar-col">
+                    <span style={{ height: `${v}%` }} />
+                    <small>{["L", "M", "X", "J", "V", "S", "D"][i]}</small>
+                  </div>
+                ))}
+              </div>
+              <WeekStrip />
+            </div>
+          </div>
+        </section>
+
+        <section className="qc-about-pillars">
+          {steps.map(([icon, title, copy]) => (
+            <article className="card qc-about-pillar-card" key={title}>
+              <span className="symbol blue">
+                <Icon name={icon} />
+              </span>
+              <h2>{title}</h2>
+              <p>{copy}</p>
+            </article>
+          ))}
+        </section>
+
+        <section className="qc-about-showcase-grid">
+          <article className="card qc-showcase-card">
+            <span className="eyebrow">01 · PANEL DIARIO E ISLAS INTERACTIVAS</span>
+            <h3>Registro en un clic y evidencia fotográfica</h3>
+            <p>
+              Incrementa tu avance diario directamente desde la tarjeta de cada
+              hábito (`+1 vaso`, `+5 min`, `✓ Completar hoy`) o abre el registro
+              detallado para documentar tu nivel de energía, estado de ánimo y
+              fotografías de evidencia.
+            </p>
+            <div className="qc-showcase-mock">
+              <div className="qc-mock-row">
+                <span>💧 Hidratación diaria · 8 / 8 vasos</span>
+                <b className="qc-tier-badge tier-diamante">100%</b>
+              </div>
+              <div className="qc-mock-row">
+                <span>📖 Lectura enfocada · 30 / 30 min</span>
+                <b className="qc-tier-badge tier-oro">Racha 7d</b>
+              </div>
+            </div>
           </article>
-        ))}
-      </div>
-      <section className="about-bottom island-card">
-        <div>
-          <Icon name="privacidad" />
-          <h2>Tu ritmo. Tus decisiones.</h2>
+
+          <article className="card qc-showcase-card">
+            <span className="eyebrow">02 · ANALÍTICA SEMANAL, MENSUAL Y POR HÁBITO</span>
+            <h3>Gráficas exclusivas para cada hábito</h3>
+            <p>
+              Alterna entre barras animadas y curvas de tendencia SVG, explora
+              tu mapa de calor de constancia de 28 días y entra al detalle de
+              cualquier hábito para consultar su anillo de cumplimiento y sus
+              propias estadísticas históricas.
+            </p>
+            <div className="qc-showcase-mock">
+              <div className="qc-heatmap-grid" style={{ marginTop: 0 }}>
+                {[3, 2, 3, 3, 1, 3, 3, 2, 3, 3, 3, 2, 3, 3].map((lv, idx) => (
+                  <span key={idx} className={`qc-heatmap-cell lv-${lv}`} />
+                ))}
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section className="card">
+          <span className="eyebrow">
+            UNIVERSIDAD TECNOLÓGICA DE XICOTEPEC DE JUÁREZ · 10.º A
+          </span>
+          <h2>Equipo de Ingeniería · Quantify Core</h2>
           <p>
-            Una vista previa con datos de ejemplo. El acceso a cuentas, la
-            sincronización y las recomendaciones conectadas se incorporarán en
-            otra etapa.
+            Proyecto Integrador · Ingeniería en Desarrollo y Gestión de Software.
           </p>
-        </div>
-        <Link className="button secondary" to="/hoy">
-          Ver dashboard de ejemplo
-        </Link>
-      </section>
+          <div className="landing-grid" style={{ marginTop: "18px" }}>
+            {[
+              ["Ángel de Jesús Baños Telles", "Líder de Proyecto & Arquitectura"],
+              ["Al Farias Leyva", "Experiencia de Usuario & Frontend"],
+              ["Francisco García García", "Reglas de Dominio & Backend"],
+              [
+                "Jesús Alejandro Artiaga Morales",
+                "Persistencia de Datos & Sincronización",
+              ],
+            ].map(([member, role]) => (
+              <div className="quiet-card" key={member}>
+                <span className="symbol blue">
+                  <Icon name="confirmado" />
+                </span>
+                <div>
+                  <h3>{member}</h3>
+                  <p className="caption">{role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="card qc-about-cta">
+          <div>
+            <span className="eyebrow">ACCESO PRIVADO Y PERSONALIZADO</span>
+            <h2>Tu ritmo. Tus decisiones.</h2>
+            <p>
+              Crea tu cuenta gratuita o inicia sesión con Google para empezar a
+              construir tu rutina y desbloquear tus primeros logros hoy mismo.
+            </p>
+          </div>
+          <div className="form-actions">
+            <Link className="button primary" to="/registro">
+              Crear mi cuenta
+            </Link>
+            <Link className="button secondary" to="/login">
+              Iniciar sesión
+            </Link>
+          </div>
+        </section>
+      </div>
     </PublicShell>
   );
 }
+
 export function RecoveryPage() {
   return <AuthPage recovery />;
 }

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDemo } from "@/app/DemoProvider";
 import { Icon } from "@/shared/ui/Icon";
@@ -9,19 +9,24 @@ import {
   fixtureMetrics,
   weeklyValues,
 } from "@/shared/fixtures/demo";
-import { clampProgress, weekdayLabels } from "@/features/habits/data/model";
+import {
+  clampProgress,
+  getHabitSlug,
+  weekdayLabels,
+} from "@/features/habits/data/model";
 import { getBusinessDateInZone } from "@/shared/api/client";
 import {
   computeDailySeriesForDates,
+  DonutRing,
   getCurrentWeekBusinessDates,
 } from "@/features/analytics/ui/AnalyticsPage";
 import { evaluateAllAchievements } from "@/features/achievements/data/achievements";
 import type { IconName } from "@/shared/ui/Icon";
-import { WeekStrip } from "@/shared/ui/Prototype";
 
 export function DashboardPage() {
   const { habits: all, state, recordHabitProgress } = useDemo();
   const habits = all.filter((h) => h.status === "active");
+  const [quickBanner, setQuickBanner] = useState<string | null>(null);
 
   const hasLiveActivity = Boolean(state.session) || state.entries.length > 0;
   const referenceDate = state.session
@@ -98,36 +103,47 @@ export function DashboardPage() {
     [
       "Hábitos activos",
       habits.length,
-      state.session ? "En tu cuenta" : "En esta demostración",
+      "Rutinas en seguimiento",
       "habitos",
     ],
     ["Cumplimiento", summary.completionRate + " %", summary.period, "analisis"],
     [
-      "Tiempo para ti",
+      "Tiempo enfocado",
       summary.timeMinutes + " min",
-      "Avance del periodo",
+      "Acumulado de hoy",
       "calendario",
     ],
-    ["Por completar", pending, "Hábitos activos", "recordatorio"],
+    [
+      "Nivel actual",
+      `Nivel ${achievementsSummary.level}`,
+      `${achievementsSummary.totalPoints} XP acumulados`,
+      "confirmado",
+    ],
   ];
+
+  async function handleQuickProgress(h: (typeof habits)[number], val: number) {
+    await recordHabitProgress(h, val);
+    setQuickBanner(`✓ ${h.name}: ${val} / ${h.target} ${h.unit}`);
+    setTimeout(() => setQuickBanner(null), 2400);
+  }
+
   return (
     <div className="dashboard-islands">
       <nav className="dashboard-tabs" aria-label="Vistas de tu rutina">
         <Link className="selected" to="/hoy" aria-current="page">
           Resumen
         </Link>
-        <Link to="/analisis">Periodo</Link>
+        <Link to="/analisis">Gráficas</Link>
+        <Link to="/logros">Logros</Link>
         <Link to="/historial">Actividad</Link>
         <span>
-          {referenceDate}
-          {!state.session && " · Fecha de ejemplo"}
+          {referenceDate} ·{" "}
+          {pending === 0 ? "¡Todo cumplido hoy!" : `${pending} por completar`}
         </span>
       </nav>
       <section
         className="dashboard-kpis"
-        aria-label={
-          state.session ? "Resumen de tu progreso" : "Resumen de ejemplo"
-        }
+        aria-label="Resumen de tu progreso"
       >
         {metrics.map(([label, value, note, icon]) => (
           <article className="island-card dashboard-kpi" key={label}>
@@ -144,13 +160,20 @@ export function DashboardPage() {
         <section className="island-card routine-panel">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">CADA HÁBITO CUENTA</p>
+              <p className="eyebrow">REGISTRO RÁPIDO · UN CLIC</p>
               <h2>Tus hábitos de hoy</h2>
             </div>
             <Link className="text-link" to="/habitos">
               Ver todos ↗
             </Link>
           </div>
+
+          {quickBanner && (
+            <p className="form-note" role="status" style={{ marginBottom: "12px" }}>
+              <strong>{quickBanner}</strong>
+            </p>
+          )}
+
           <div className="habit-list">
             {habits.length ? (
               <>
@@ -164,6 +187,7 @@ export function DashboardPage() {
                           ? 1
                           : 1;
                   const isDone = h.target > 0 && h.value >= h.target;
+                  const slug = getHabitSlug(h);
                   return (
                     <div key={h.id} className="qc-habit-card-wrapper">
                       <HabitRow habit={h} />
@@ -172,7 +196,7 @@ export function DashboardPage() {
                           type="button"
                           className="button secondary qc-quick-btn"
                           onClick={() =>
-                            void recordHabitProgress(
+                            void handleQuickProgress(
                               h,
                               Math.min(h.target * 2, h.value + step),
                             )
@@ -185,7 +209,7 @@ export function DashboardPage() {
                             type="button"
                             className="button primary qc-quick-btn"
                             onClick={() =>
-                              void recordHabitProgress(h, h.target)
+                              void handleQuickProgress(h, h.target)
                             }
                           >
                             ✓ Completar hoy
@@ -193,11 +217,11 @@ export function DashboardPage() {
                         )}
                         <Link
                           className="button secondary qc-quick-btn"
-                          to={`/check-ins/${h.id}`}
+                          to={`/check-ins/${slug}`}
                         >
                           Evidencia
                         </Link>
-                        <Link className="text-link" to={`/detalle/${h.id}`}>
+                        <Link className="text-link" to={`/detalle/${slug}`}>
                           Gráficas →
                         </Link>
                       </div>
@@ -209,7 +233,7 @@ export function DashboardPage() {
               <div className="dashboard-empty">
                 <Icon name="habitos" />
                 <h3>Tu rutina tiene espacio para algo nuevo</h3>
-                <p>No hay hábitos activos en esta visita.</p>
+                <p>Crea tu primer hábito para comenzar a registrar avances.</p>
               </div>
             )}
           </div>
@@ -218,65 +242,82 @@ export function DashboardPage() {
             Crear hábito
           </Link>
           <small className="routine-date">
-            {state.session ? "Agenda personal" : "Agenda ilustrativa"} ·{" "}
-            {referenceDate} · {state.profile.timeZone}
+            Agenda personal · {referenceDate} · {state.profile.timeZone}
           </small>
         </section>
         <aside className="island-card rhythm-panel">
-          <p className="eyebrow">SIN PRISA, CON INTENCIÓN</p>
-          <h2>A tu ritmo.</h2>
-          <p>Un paso pequeño también suma. No necesitas hacerlo todo hoy.</p>
+          <div className="row-between">
+            <div>
+              <p className="eyebrow">PULSO EN TIEMPO REAL</p>
+              <h2>Tu ritmo hoy</h2>
+            </div>
+            <DonutRing
+              percentage={summary.completionRate}
+              label="HOY"
+              sublabel={`${summary.completed}/${summary.eligible} metas`}
+            />
+          </div>
           <div className="rhythm-week">
-            <span>Una semana, paso a paso</span>
-            {hasLiveActivity ? (
-              <Chart
-                values={summary.series}
-                dates={summary.dates}
-                todayIndex={summary.todayIndex}
+            <span>Evolución semanal</span>
+            <Chart
+              values={summary.series}
+              dates={summary.dates}
+              todayIndex={summary.todayIndex}
+            />
+            <small>{summary.period}</small>
+          </div>
+          <div
+            className="privacy-note"
+            style={{
+              flexDirection: "column",
+              alignItems: "stretch",
+              gap: "8px",
+            }}
+          >
+            <div className="row-between">
+              <strong style={{ fontSize: "0.84rem" }}>
+                Progreso hacia Nivel {achievementsSummary.level + 1}
+              </strong>
+              <span className="qc-xp-pill">
+                {achievementsSummary.totalPoints} XP
+              </span>
+            </div>
+            <div className="progress" style={{ margin: 0 }}>
+              <span
+                className="qc-animated-progress-bar"
+                style={{ width: `${achievementsSummary.nextLevelPct}%` }}
               />
-            ) : (
-              <WeekStrip />
-            )}
-            <small>
-              {hasLiveActivity
-                ? summary.period
-                : "Ejemplo visual · cinco días completos"}
-            </small>
+            </div>
           </div>
-          <div className="privacy-note">
-            <Icon name="privacidad" />
-            <p>Tú decides qué compartir.</p>
-          </div>
-          <Link className="text-link" to="/logros">
-            Nivel {achievementsSummary.level} ·{" "}
-            {achievementsSummary.unlockedCount} logros
-          </Link>
-          <Link className="button secondary full" to="/ajustes">
-            Revisar preferencias
+          <Link className="button secondary full" to="/analisis">
+            Abrir gráficas semanales y mensuales
           </Link>
         </aside>
       </div>
       <section className="dashboard-bottom" aria-label="Continúa en tu espacio">
+        <Link className="island-card dashboard-feature" to="/logros">
+          <Icon name="confirmado" />
+          <h2>Centro de logros y medallas</h2>
+          <p>
+            Consulta tus medallas desbloqueadas y las reglas de constancia de
+            cada categoría.
+          </p>
+          <span>Abrir sección de logros ↗</span>
+        </Link>
         <Link className="island-card dashboard-feature" to="/historial">
           <Icon name="historial" />
           <h2>Cada avance tiene historia</h2>
-          <p>Vuelve a tus registros y mira el camino que has recorrido.</p>
+          <p>
+            Consulta tu línea de tiempo de avances, notas de reflexión y
+            galería de evidencias.
+          </p>
           <span>Ver historial ↗</span>
         </Link>
         <Link className="island-card dashboard-feature" to="/avisos">
           <Icon name="recordatorio" />
           <h2>Tu próximo momento</h2>
-          <p>Revisa los avisos de ejemplo y dale espacio a tu rutina.</p>
+          <p>Revisa tus avisos de rutina y mantén el ritmo de tus hábitos.</p>
           <span>Revisar avisos ↗</span>
-        </Link>
-        <Link
-          className="island-card dashboard-feature"
-          to="/ajustes?seccion=Privacidad"
-        >
-          <Icon name="privacidad" />
-          <h2>Tu espacio, tus decisiones</h2>
-          <p>Conoce las preferencias y el alcance de esta demostración.</p>
-          <span>Revisar privacidad ↗</span>
         </Link>
       </section>
     </div>
