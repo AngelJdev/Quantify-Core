@@ -1,0 +1,123 @@
+1
+00:00:01,100 --> 00:00:04,221
+La mayoría de las apps de hábitos cuentan días.
+
+2
+00:00:04,241 --> 00:00:10,101
+Pero una racha puede reflejar lo que alguien declaró, no el esfuerzo que realmente hizo.
+
+3
+00:00:10,671 --> 00:00:13,994
+QUANTIFY 2.0 parte de tres principios:
+
+4
+00:00:14,014 --> 00:00:17,512
+trazabilidad, contexto y explicabilidad.
+
+5
+00:00:18,082 --> 00:00:18,991
+Trazabilidad:
+
+6
+00:00:19,011 --> 00:00:24,994
+cada registro tiene valor, fecha y revisión, y si se reintenta no se suma dos veces.
+
+7
+00:00:25,564 --> 00:00:26,176
+Contexto:
+
+8
+00:00:26,196 --> 00:00:31,093
+cualquier dato adicional requerirá el permiso explícito de la persona.
+
+9
+00:00:31,663 --> 00:00:32,750
+Explicabilidad:
+
+10
+00:00:32,770 --> 00:00:36,663
+las futuras recomendaciones deberán poder explicarse.
+
+11
+00:00:36,683 --> 00:00:40,502
+Hoy, la aplicación ya entrega métricas verificables.
+
+12
+00:00:41,072 --> 00:00:41,958
+Por dentro:
+
+13
+00:00:41,978 --> 00:00:47,970
+una web instalable en React, una app móvil en Flutter, una API en NestJS,
+
+14
+00:00:47,990 --> 00:00:53,323
+Keycloak para la identidad, PostgreSQL, Docker y monitoreo local.
+
+15
+00:00:53,893 --> 00:00:55,952
+Probamos lo que construimos:
+
+16
+00:00:55,972 --> 00:01:01,966
+ciento cincuenta y dos pruebas automatizadas entre la web, la API y la app móvil.
+
+17
+00:01:02,536 --> 00:01:04,140
+El modelo es freemium:
+
+18
+00:01:04,160 --> 00:01:10,490
+lo esencial gratis y una suscripción premium de referencia de noventa y nueve pesos al
+
+19
+00:01:10,510 --> 00:01:10,785
+mes.
+
+20
+00:01:10,805 --> 00:01:13,812
+Son hipótesis, no resultados comerciales.
+
+21
+00:01:14,382 --> 00:01:19,214
+En este escenario, el costo fijo ronda los siete mil dólares al mes,
+
+22
+00:01:19,234 --> 00:01:21,783
+sobre todo por el tiempo del equipo,
+
+23
+00:01:21,803 --> 00:01:26,135
+y el costo variable es de cuarenta y un centavos por usuario.
+
+24
+00:01:26,705 --> 00:01:32,213
+Con esos supuestos, el punto de equilibrio está cerca de mil setecientos suscriptores
+
+25
+00:01:32,233 --> 00:01:32,733
+premium.
+
+26
+00:01:33,303 --> 00:01:35,204
+Lo que sigue, en planeación:
+
+27
+00:01:35,224 --> 00:01:39,802
+recordatorios, un asistente de hábitos con inteligencia artificial,
+
+28
+00:01:39,822 --> 00:01:42,409
+Wear OS y sincronización sin conexión.
+
+29
+00:01:42,979 --> 00:01:48,462
+Un proyecto de cuatro integrantes de la Universidad Tecnológica de Xicotepec de Juárez.
+
+30
+00:01:49,032 --> 00:01:49,963
+QUANTIFY 2.0.
+
+31
+00:01:49,983 --> 00:01:54,573
+Tecnología con evidencia, para que lo que haces también cuente.

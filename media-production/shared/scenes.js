@@ -56,3 +56,19 @@ Object.assign(window.QX, {
     gsap.set("#sub-t", { opacity: 0 });
   },
 });
+
+Object.assign(window.QX, {
+  /** Anillo de resalte sobre una región (fracciones de la imagen) de una placa, dentro de la cámara. */
+  ring(cam, id, plateId, r, pan = 0, css = "") {
+    const a = QX.pt(plateId, r[0], r[1], pan), b = QX.pt(plateId, r[2], r[3], pan);
+    cam.insertAdjacentHTML("beforeend", `<div id="${id}" style="position:absolute;left:${a.x}px;top:${a.y}px;width:${b.x - a.x}px;height:${b.y - a.y}px;border-radius:18px;border:4px solid #8db2ff;box-shadow:0 0 50px rgba(100,150,255,.85);opacity:0;pointer-events:none;${css}"></div>`);
+    return id;
+  },
+  glow(tl, id, t0, t1) { tl.fromTo("#" + id, { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" }, t0).to("#" + id, { opacity: 0, duration: 0.3 }, t1); },
+  /** Rótulo superior (los subtítulos ocupan la parte baja). */
+  topBanner(tl, sc, id, html, t0, t1) {
+    sc.insertAdjacentHTML("beforeend", `<div class="banner" id="${id}" style="top:34px"><div class="b-in" style="font-size:54px;padding:16px 46px">${html}</div></div>`);
+    gsap.set("#" + id, { opacity: 0, y: -22, filter: "blur(10px)" });
+    tl.to("#" + id, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "power4.out" }, t0).to("#" + id, { opacity: 0, y: -10, filter: "blur(8px)", duration: 0.25, ease: "power3.in" }, t1);
+  },
+});
