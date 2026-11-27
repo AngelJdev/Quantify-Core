@@ -173,14 +173,23 @@ class _PrototypeLaunchState extends State<PrototypeLaunch>
           if (status == AnimationStatus.completed) widget.onComplete();
         });
   bool _started = false;
+  bool _staticWordmark = false;
+  Timer? _reducedMotionTimer;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_started) return;
     _started = true;
     if (context.reducedMotion) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) widget.onComplete();
+      // Keep the completed brand mark visible briefly without motion instead of skipping the splash.
+      _staticWordmark = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await (widget.firstFrameReady ??
+            WidgetsBinding.instance.waitUntilFirstFrameRasterized);
+        if (!mounted) return;
+        _reducedMotionTimer = Timer(const Duration(milliseconds: 900), () {
+          if (mounted) widget.onComplete();
+        });
       });
     } else {
       // Wait for rasterization, not just widget layout: engine startup must not
@@ -195,6 +204,7 @@ class _PrototypeLaunchState extends State<PrototypeLaunch>
 
   @override
   void dispose() {
+    _reducedMotionTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -208,8 +218,9 @@ class _PrototypeLaunchState extends State<PrototypeLaunch>
             padding: const EdgeInsets.all(32),
             child: AnimatedBuilder(
               animation: _controller,
-              builder: (context, _) =>
-                  _LaunchWordmark(progress: _controller.value),
+              builder: (context, _) => _LaunchWordmark(
+                progress: _staticWordmark ? 1.0 : _controller.value,
+              ),
             ),
           ),
         ),

@@ -82,15 +82,26 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('movimiento reducido omite la espera de entrada', (tester) async {
+  testWidgets('movimiento reducido muestra splash estático breve sin animar desplazamiento', (tester) async {
     tester.platformDispatcher.accessibilityFeaturesTestValue =
         const FakeAccessibilityFeatures(disableAnimations: true);
     addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
-    await tester.pumpWidget(const MobilePrototypeApp(showSplash: true));
+    await tester.pumpWidget(
+      MobilePrototypeApp(
+        showSplash: true,
+        firstFrameReady: Future.value(),
+      ),
+    );
+    await tester.pump();
+    expect(find.byType(PrototypeLaunch), findsOneWidget);
+    expect(find.text('UANTIFY'), findsOneWidget);
+    expect(find.byType(PrototypeWelcome), findsNothing);
+    await tester.pump(const Duration(milliseconds: 950));
     await tester.pump();
     expect(find.byType(PrototypeWelcome), findsOneWidget);
     expect(find.byType(PrototypeLaunch), findsNothing);
     expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
   });
 
   testWidgets('apariencia cambia el tema y desactiva el desenfoque en vivo', (
