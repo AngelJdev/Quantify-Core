@@ -4,6 +4,7 @@ import '../api/mobile_api.dart';
 import '../identity/mobile_session.dart';
 
 import 'appearance_sheet.dart';
+import 'auth_animations.dart';
 import 'design.dart';
 import 'generated_tokens.dart';
 import 'state.dart';
@@ -1197,11 +1198,13 @@ class _AssistantPageState extends State<AssistantPage> {
                   runSpacing: 10,
                   children: [
                     if (model.apiConfigured)
-                      OutlinedButton.icon(
-                        onPressed: () =>
-                            showPrototypePage(context, const AccessPreview()),
-                        icon: const Icon(Icons.login_rounded),
-                        label: const Text('Iniciar sesión'),
+                      AnimatedPressButton(
+                        child: OutlinedButton.icon(
+                          onPressed: () =>
+                              showLoginSlidePage(context, const AccessPreview()),
+                          icon: const Icon(Icons.login_rounded),
+                          label: const Text('Iniciar sesión'),
+                        ),
                       ),
                     FilledButton(
                       onPressed: () =>
@@ -1638,16 +1641,30 @@ class ProfilePage extends StatelessWidget {
         LiquidSurface(
           child: Row(
             children: [
-              CircleAvatar(
-                backgroundColor: context.color('icon').withValues(alpha: .1),
-                child: Icon(
-                  Icons.person_outline_rounded,
-                  color: context.color('icon'),
-                ),
+              UserAvatarMedallion(
+                identity: session.authenticated ? session.userIdentity : null,
+                size: 40,
+                showVerifiedBadge: session.authenticated,
               ),
               const SizedBox(width: 14),
               Expanded(
-                child: Text(statusText, style: const TextStyle(height: 1.6)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (session.authenticated &&
+                        session.userIdentity != null &&
+                        session.userIdentity!.displayName != 'Usuario Quantify')
+                      Text(
+                        session.userIdentity!.displayName,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15,
+                        ),
+                      ),
+                    Text(statusText, style: const TextStyle(height: 1.6)),
+                  ],
+                ),
               ),
             ],
           ),
@@ -1807,94 +1824,141 @@ class AccessPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final session = MobileSessionScope.of(context);
-    Future<void> access(bool register, {String? idpHint}) async {
-      await session.signIn(register: register, idpHint: idpHint);
-      if (context.mounted && session.authenticated) {
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      }
-    }
+    final canTrigger = session.available && !session.busy;
 
     return DetailPage(
       title: 'Un espacio seguro para ti',
       children: [
-        LiquidSurface(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Icon(Icons.shield_outlined, size: 36),
-              const SizedBox(height: 20),
-              const Text(
-                'Tu identidad, con Keycloak.',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(height: 18),
-              const Text(
-                'Inicia sesión o crea tu cuenta en Keycloak. Al terminar volverás a Quantify con tu sesión activa.',
-                style: TextStyle(height: 1.8),
-              ),
-              const SizedBox(height: 24),
-              if (!session.available)
-                Text(
-                  session.supported
-                      ? 'Falta configurar Keycloak para este dispositivo.'
-                      : 'Abre la app Android o iOS para iniciar sesión.',
+        StaggeredSlideFade(
+          index: 0,
+          offset: const Offset(24, 14),
+          child: LiquidSurface(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const KeycloakLogoMark(size: 38),
+                const SizedBox(height: 20),
+                const Text(
+                  'Tu identidad, con Keycloak.',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                 ),
-              if (session.busy) const LinearProgressIndicator(),
-              if (session.message != null)
-                Semantics(liveRegion: true, child: Text(session.message!)),
-              FilledButton(
-                onPressed: session.available && !session.busy
-                    ? () => access(false)
-                    : null,
-                child: const Text('Continuar con Keycloak'),
-              ),
-              const SizedBox(height: 10),
-              OutlinedButton(
-                onPressed: session.available && !session.busy
-                    ? () => access(true)
-                    : null,
-                child: const Text('Crear cuenta'),
-              ),
-              const SizedBox(height: 24),
-              const Divider(),
-              const SizedBox(height: 16),
-              const Text(
-                'Otras formas de entrar',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  onPressed: session.available && !session.busy
-                      ? () => access(false, idpHint: 'google')
-                      : null,
-                  icon: const Icon(Icons.g_mobiledata_rounded, size: 24),
-                  label: const Text('Continuar con Google'),
+                const SizedBox(height: 18),
+                const Text(
+                  'Inicia sesión o crea tu cuenta en Keycloak. Al terminar volverás a Quantify con tu sesión activa.',
+                  style: TextStyle(height: 1.8),
                 ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Próximamente',
-                style: TextStyle(color: context.color('muted')),
-              ),
-              const SizedBox(height: 12),
-              for (final provider in const [
-                (label: 'Facebook', icon: Icons.facebook_rounded),
-                (label: 'Apple ID', icon: Icons.apple_rounded),
-              ])
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
+                const SizedBox(height: 24),
+                if (!session.available)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 14),
+                    child: Text(
+                      session.supported
+                          ? 'Falta configurar Keycloak para este dispositivo.'
+                          : 'Abre la app Android o iOS para iniciar sesión.',
+                    ),
+                  ),
+                if (session.busy)
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 14),
+                    child: LinearProgressIndicator(),
+                  ),
+                if (session.message != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 14),
+                    child: Semantics(
+                      liveRegion: true,
+                      child: Text(session.message!),
+                    ),
+                  ),
+                StaggeredSlideFade(
+                  index: 1,
                   child: SizedBox(
                     width: double.infinity,
-                    child: OutlinedButton.icon(
-                      onPressed: null,
-                      icon: Icon(provider.icon, size: 24),
-                      label: Text('Continuar con ${provider.label}'),
+                    child: AnimatedPressButton(
+                      enabled: canTrigger,
+                      child: FilledButton.icon(
+                        onPressed: canTrigger
+                            ? () => openAuthConnectionSplash(
+                                context,
+                                kind: AuthProviderSplashKind.keycloak,
+                              )
+                            : null,
+                        icon: const Icon(Icons.shield_outlined, size: 20),
+                        label: const Text('Continuar con Keycloak'),
+                      ),
                     ),
                   ),
                 ),
-            ],
+                const SizedBox(height: 10),
+                StaggeredSlideFade(
+                  index: 2,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: AnimatedPressButton(
+                      enabled: canTrigger,
+                      child: OutlinedButton.icon(
+                        onPressed: canTrigger
+                            ? () => openAuthConnectionSplash(
+                                context,
+                                kind: AuthProviderSplashKind.register,
+                              )
+                            : null,
+                        icon: const QMark(size: 18),
+                        label: const Text('Crear cuenta'),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                const Divider(),
+                const SizedBox(height: 16),
+                const Text(
+                  'Otras formas de entrar',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 16),
+                StaggeredSlideFade(
+                  index: 3,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: AnimatedPressButton(
+                      enabled: canTrigger,
+                      child: OutlinedButton.icon(
+                        onPressed: canTrigger
+                            ? () => openAuthConnectionSplash(
+                                context,
+                                kind: AuthProviderSplashKind.google,
+                              )
+                            : null,
+                        icon: const GoogleLogoMark(size: 20),
+                        label: const Text('Continuar con Google'),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Próximamente',
+                  style: TextStyle(color: context.color('muted')),
+                ),
+                const SizedBox(height: 12),
+                for (final provider in const [
+                  (label: 'Facebook', icon: Icons.facebook_rounded),
+                  (label: 'Apple ID', icon: Icons.apple_rounded),
+                ])
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: null,
+                        icon: Icon(provider.icon, size: 24),
+                        label: Text('Continuar con ${provider.label}'),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ],

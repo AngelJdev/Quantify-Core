@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 import '../api/http_transport.dart';
 import '../api/mobile_api.dart';
+import '../identity/connectivity_probe.dart';
 import '../identity/mobile_session.dart';
 
+import 'auth_animations.dart';
 import 'design.dart';
 import 'generated_tokens.dart';
 import 'pages.dart';
@@ -22,6 +24,7 @@ class MobilePrototypeApp extends StatefulWidget {
     this.session,
     this.apiConfig,
     this.httpTransport,
+    this.connectivityCheck,
     this.clock,
   });
   final VisualSettings initialSettings;
@@ -30,6 +33,7 @@ class MobilePrototypeApp extends StatefulWidget {
   final MobileSession? session;
   final MobileApiConfig? apiConfig;
   final MobileHttpTransport? httpTransport;
+  final ConnectivityCheck? connectivityCheck;
   final DateTime Function()? clock;
 
   /// Optional raster readiness signal for hosts that render without an engine.
@@ -39,7 +43,7 @@ class MobilePrototypeApp extends StatefulWidget {
 }
 
 class _MobilePrototypeAppState extends State<MobilePrototypeApp>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late PrototypeModel _model;
   final _navigator = GlobalKey<NavigatorState>();
   late final _session = widget.session ?? MobileSession();
@@ -52,6 +56,8 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp>
   late final _appearance = ValueNotifier(widget.initialSettings);
   late bool _launching = widget.showSplash;
   bool _exitingLaunch = false;
+  MobileUserIdentity? _welcomeIdentity;
+  bool _exitingWelcome = false;
   late final _launchExitController =
       AnimationController(
         vsync: this,
@@ -65,6 +71,19 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp>
           });
         }
       });
+  late final _welcomeExitController =
+      AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 500),
+        animationBehavior: AnimationBehavior.preserve,
+      )..addStatusListener((status) {
+        if (status == AnimationStatus.completed && mounted) {
+          setState(() {
+            _welcomeIdentity = null;
+            _exitingWelcome = false;
+          });
+        }
+      });
 
   void _finishLaunch() {
     if (!mounted || !_launching || _exitingLaunch) return;
@@ -74,6 +93,28 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp>
     }
     setState(() => _exitingLaunch = true);
     _launchExitController.forward(from: 0);
+  }
+
+  void _triggerWelcomeSplash(MobileUserIdentity identity) {
+    if (!mounted) return;
+    _welcomeExitController.reset();
+    setState(() {
+      _welcomeIdentity = identity;
+      _exitingWelcome = false;
+    });
+  }
+
+  void _finishWelcomeSplash() {
+    if (!mounted || _welcomeIdentity == null || _exitingWelcome) return;
+    if (_appearance.value.reducedMotion) {
+      setState(() {
+        _welcomeIdentity = null;
+        _exitingWelcome = false;
+      });
+      return;
+    }
+    setState(() => _exitingWelcome = true);
+    _welcomeExitController.forward(from: 0);
   }
 
   PrototypeModel _createModel() {
@@ -99,6 +140,9 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp>
     _wasAuthenticated = _session.authenticated;
     if (started || ended) {
       if (ended) {
+        _welcomeExitController.reset();
+        _welcomeIdentity = null;
+        _exitingWelcome = false;
         _navigator.currentState?.popUntil((route) => route.isFirst);
       }
       final previous = _model;
@@ -112,6 +156,7 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp>
   void dispose() {
     _session.removeListener(_sessionChanged);
     _launchExitController.dispose();
+    _welcomeExitController.dispose();
     if (widget.session == null) _session.dispose();
     if (widget.httpTransport == null) _api.close();
     _model.dispose();
@@ -129,58 +174,101 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp>
         builder: (context, settings, child) => PrototypeAppearance(
           settings: settings,
           onChanged: (value) => _appearance.value = value,
-          child: MaterialApp(
-            navigatorKey: _navigator,
-            title: 'Quantify Core',
-            debugShowCheckedModeBanner: false,
-            theme: prototypeTheme(Brightness.light),
-            darkTheme: prototypeTheme(Brightness.dark),
-            themeMode: settings.theme,
-            themeAnimationDuration:
-                settings.reducedMotion ||
-                    settings.economy ||
-                    WidgetsBinding
-                        .instance
-                        .platformDispatcher
-                        .accessibilityFeatures
-                        .disableAnimations
-                ? Duration.zero
-                : MobileTokens.responseMs,
-            home: Builder(
-              builder: (context) {
-                final destination = widget.showWelcome && !_session.authenticated
-                    ? const PrototypeWelcome(key: ValueKey('welcome'))
-                    : const PrototypeShell(key: ValueKey('shell'));
-                if (!_launching) return destination;
-                return ColoredBox(
-                  color: context.color('canvas'),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      if (_exitingLaunch)
-                        FadeTransition(
-                          opacity: _launchExitController.drive(
-                            CurveTween(curve: Curves.easeOutCubic),
+          child: AuthFlowScope(
+            checkConnectivity:
+                widget.connectivityCheck ??
+                (MobileSession.isTestBinding
+                    ? () async => true
+                    : () => checkAuthConnectivity(
+                        issuer: _session.config.issuer,
+                      )),
+            triggerWelcomeSplash: _triggerWelcomeSplash,
+            child: MaterialApp(
+              navigatorKey: _navigator,
+              title: 'Quantify Core',
+              debugShowCheckedModeBanner: false,
+              theme: prototypeTheme(Brightness.light),
+              darkTheme: prototypeTheme(Brightness.dark),
+              themeMode: settings.theme,
+              themeAnimationDuration:
+                  settings.reducedMotion ||
+                      settings.economy ||
+                      WidgetsBinding
+                          .instance
+                          .platformDispatcher
+                          .accessibilityFeatures
+                          .disableAnimations
+                  ? Duration.zero
+                  : MobileTokens.responseMs,
+              home: Builder(
+                builder: (context) {
+                  final destination =
+                      widget.showWelcome && !_session.authenticated
+                      ? const PrototypeWelcome(key: ValueKey('welcome'))
+                      : const PrototypeShell(key: ValueKey('shell'));
+                  if (_launching) {
+                    return ColoredBox(
+                      color: context.color('canvas'),
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          if (_exitingLaunch)
+                            FadeTransition(
+                              opacity: _launchExitController.drive(
+                                CurveTween(curve: Curves.easeOutCubic),
+                              ),
+                              child: destination,
+                            ),
+                          IgnorePointer(
+                            ignoring: _exitingLaunch,
+                            child: FadeTransition(
+                              opacity: _launchExitController
+                                  .drive(CurveTween(curve: Curves.easeInCubic))
+                                  .drive(Tween<double>(begin: 1, end: 0)),
+                              child: PrototypeLaunch(
+                                key: const ValueKey('launch'),
+                                firstFrameReady: widget.firstFrameReady,
+                                onComplete: _finishLaunch,
+                              ),
+                            ),
                           ),
-                          child: destination,
-                        ),
-                      IgnorePointer(
-                        ignoring: _exitingLaunch,
-                        child: FadeTransition(
-                          opacity: _launchExitController
-                              .drive(CurveTween(curve: Curves.easeInCubic))
-                              .drive(Tween<double>(begin: 1, end: 0)),
-                          child: PrototypeLaunch(
-                            key: const ValueKey('launch'),
-                            firstFrameReady: widget.firstFrameReady,
-                            onComplete: _finishLaunch,
-                          ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              },
+                    );
+                  }
+                  if (_welcomeIdentity != null) {
+                    return ColoredBox(
+                      color: context.color('canvas'),
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          if (_exitingWelcome)
+                            FadeTransition(
+                              opacity: _welcomeExitController.drive(
+                                CurveTween(curve: Curves.easeOutCubic),
+                              ),
+                              child: destination,
+                            ),
+                          IgnorePointer(
+                            ignoring: _exitingWelcome,
+                            child: FadeTransition(
+                              opacity: _welcomeExitController
+                                  .drive(CurveTween(curve: Curves.easeInCubic))
+                                  .drive(Tween<double>(begin: 1, end: 0)),
+                              child: UserWelcomeSplash(
+                                key: const ValueKey('user-welcome-splash'),
+                                identity: _welcomeIdentity!,
+                                onComplete: _finishWelcomeSplash,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return destination;
+                },
+              ),
             ),
           ),
         ),
@@ -581,116 +669,157 @@ class PrototypeWelcome extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.all(24),
                 children: [
-                  Row(
-                    children: [
-                      const QMark(),
-                      const SizedBox(width: 12),
-                      const Expanded(
-                        child: Text(
-                          'Quantify Core',
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => showAppearance(context),
-                        tooltip: 'Apariencia',
-                        icon: const Icon(Icons.tune_rounded),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 42),
-                  const Eyebrow('Dale espacio a lo que importa'),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Pequeños hábitos.\nGrandes cambios.',
-                    style: TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -1.8,
-                      height: 1.15,
-                    ),
-                  ),
-                  const SizedBox(height: 18),
-                  Text(
-                    'Planea tu día, registra tus avances y encuentra tu propio ritmo.',
-                    style: TextStyle(
-                      fontSize: 16,
-                      height: 1.65,
-                      color: context.color('muted'),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  LiquidSurface(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  StaggeredSlideFade(
+                    index: 0,
+                    offset: const Offset(0, -14),
+                    child: Row(
                       children: [
-                        Eyebrow(
-                          connected
-                              ? 'CONEXIÓN REAL · POSTGRESQL'
-                              : 'TU DÍA, EN PERSPECTIVA',
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          connected
-                              ? 'Tus hábitos en base de datos'
-                              : 'Tu rutina de hoy',
-                          style: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: -.7,
+                        const QMark(),
+                        const SizedBox(width: 12),
+                        const Expanded(
+                          child: Text(
+                            'Quantify Core',
+                            style: TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        if (connected)
-                          const Text(
-                            'Inicia sesión o crea tu cuenta con Keycloak para sincronizar hábitos, check-ins y métricas directamente con Quantify API y PostgreSQL.',
-                            style: TextStyle(height: 1.6),
-                          )
-                        else
-                          const _WelcomeRoutine(),
+                        IconButton(
+                          onPressed: () => showAppearance(context),
+                          tooltip: 'Apariencia',
+                          icon: const Icon(Icons.tune_rounded),
+                        ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  const Row(
-                    children: [
-                      Icon(Icons.checklist_rounded),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'A tu ritmo, sin competir.\nUn hábito pequeño también cuenta.',
-                          style: TextStyle(height: 1.6),
+                  const SizedBox(height: 42),
+                  StaggeredSlideFade(
+                    index: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Eyebrow('Dale espacio a lo que importa'),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Pequeños hábitos.\nGrandes cambios.',
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -1.8,
+                            height: 1.15,
+                          ),
                         ),
+                        const SizedBox(height: 18),
+                        Text(
+                          'Planea tu día, registra tus avances y encuentra tu propio ritmo.',
+                          style: TextStyle(
+                            fontSize: 16,
+                            height: 1.65,
+                            color: context.color('muted'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  StaggeredSlideFade(
+                    index: 2,
+                    child: LiquidSurface(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Eyebrow(
+                            connected
+                                ? 'CONEXIÓN REAL · POSTGRESQL'
+                                : 'TU DÍA, EN PERSPECTIVA',
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            connected
+                                ? 'Tus hábitos en base de datos'
+                                : 'Tu rutina de hoy',
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: -.7,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          if (connected)
+                            const Text(
+                              'Inicia sesión o crea tu cuenta con Keycloak para sincronizar hábitos, check-ins y métricas directamente con Quantify API y PostgreSQL.',
+                              style: TextStyle(height: 1.6),
+                            )
+                          else
+                            const _WelcomeRoutine(),
+                        ],
                       ),
-                    ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  const StaggeredSlideFade(
+                    index: 3,
+                    child: Row(
+                      children: [
+                        Icon(Icons.checklist_rounded),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'A tu ritmo, sin competir.\nUn hábito pequeño también cuenta.',
+                            style: TextStyle(height: 1.6),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 28),
-                  if (connected)
-                    FilledButton.icon(
-                      onPressed: () =>
-                          showPrototypePage(context, const AccessPreview()),
-                      icon: const Icon(Icons.login_rounded),
-                      label: const Text('Iniciar sesión o crear cuenta'),
-                    )
-                  else ...[
-                    FilledButton.icon(
-                      onPressed: () => Navigator.of(context).pushReplacement(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const PrototypeShell(),
-                        ),
-                      ),
-                      icon: const Icon(Icons.arrow_forward_rounded),
-                      label: const Text('Explorar demostración'),
+                  StaggeredSlideFade(
+                    index: 4,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (connected)
+                          AnimatedPressButton(
+                            child: FilledButton.icon(
+                              onPressed: () => showLoginSlidePage(
+                                context,
+                                const AccessPreview(),
+                              ),
+                              icon: const Icon(Icons.login_rounded),
+                              label: const Text(
+                                'Iniciar sesión o crear cuenta',
+                              ),
+                            ),
+                          )
+                        else ...[
+                          AnimatedPressButton(
+                            child: FilledButton.icon(
+                              onPressed: () =>
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute<void>(
+                                      builder: (_) => const PrototypeShell(),
+                                    ),
+                                  ),
+                              icon: const Icon(Icons.arrow_forward_rounded),
+                              label: const Text('Explorar demostración'),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          AnimatedPressButton(
+                            child: OutlinedButton(
+                              onPressed: () => showLoginSlidePage(
+                                context,
+                                const AccessPreview(),
+                              ),
+                              child: const Text(
+                                'Iniciar sesión o crear cuenta',
+                              ),
+                            ),
+                          ),
+                        ],
+                        const SizedBox(height: 18),
+                        const DemoNote(),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    OutlinedButton(
-                      onPressed: () =>
-                          showPrototypePage(context, const AccessPreview()),
-                      child: const Text('Iniciar sesión o crear cuenta'),
-                    ),
-                  ],
-                  const SizedBox(height: 18),
-                  const DemoNote(),
+                  ),
                   const SizedBox(height: 24),
                 ],
               ),

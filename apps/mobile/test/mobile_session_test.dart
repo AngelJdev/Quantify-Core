@@ -1,11 +1,19 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:quantify_mobile/identity/mobile_session.dart';
+import 'package:quantify_mobile/prototype/auth_animations.dart';
 import 'package:quantify_mobile/prototype/prototype_app.dart';
+
+String _fakeJwt(Map<String, Object?> claims) {
+  String b64(Map<String, Object?> json) =>
+      base64Url.encode(utf8.encode(jsonEncode(json))).replaceAll('=', '');
+  return '${b64({'alg': 'none', 'typ': 'JWT'})}.${b64(claims)}.sig';
+}
 
 class FakeAppAuth extends FlutterAppAuth {
   AuthorizationTokenRequest? request;
@@ -17,6 +25,7 @@ class FakeAppAuth extends FlutterAppAuth {
   bool failLogout = false;
   int calls = 0;
   int tokenCalls = 0;
+  String idTokenValue = 'synthetic-id';
   Duration lifetime = const Duration(minutes: 5);
   @override
   Future<AuthorizationTokenResponse> authorizeAndExchangeCode(
@@ -31,7 +40,7 @@ class FakeAppAuth extends FlutterAppAuth {
             'synthetic-access',
             'synthetic-refresh',
             DateTime.now().add(lifetime),
-            'synthetic-id',
+            idTokenValue,
             'Bearer',
             ['openid'],
             null,
@@ -297,6 +306,198 @@ void main() {
     expect(session.authenticated, isTrue);
     expect(auth.request!.additionalParameters, {'kc_idp_hint': 'google'});
     expect(auth.request!.promptValues, isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+    session.dispose();
+  });
+
+  testWidgets(
+    'splashes de 3s giran 360° en Keycloak, Crear cuenta y Google, y muestran bienvenida con nombre y foto Google',
+    (tester) async {
+      final auth = FakeAppAuth()
+        ..idTokenValue = _fakeJwt({
+          'name': 'Francisco García',
+          'email': 'francisco@example.com',
+          'picture': 'https://lh3.googleusercontent.com/a/avatar-demo=s96-c',
+        });
+      final session = create(auth);
+      addTearDown(session.dispose);
+
+      await tester.pumpWidget(MobilePrototypeApp(session: session));
+      await tester.scrollUntilVisible(
+        find.text('Iniciar sesión o crear cuenta'),
+        250,
+      );
+      await tester.ensureVisible(find.text('Iniciar sesión o crear cuenta'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Iniciar sesión o crear cuenta'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 250));
+      // Slide transition is mid-flight before settling on AccessPreview.
+      expect(find.text('Un espacio seguro para ti'), findsOneWidget);
+      await tester.pumpAndSettle();
+
+      await tester.scrollUntilVisible(find.text('Continuar con Google'), 250);
+      await tester.ensureVisible(find.text('Continuar con Google'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Continuar con Google'));
+      await tester.pump();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.text('Conectando con el servicio'), findsOneWidget);
+      expect(find.byType(GoogleLogoMark), findsWidgets);
+
+      final spinBefore = tester
+          .widget<Transform>(
+            find.byKey(const ValueKey('auth-spinning-logo-google')),
+          )
+          .transform;
+      await tester.pump(const Duration(milliseconds: 400));
+      final spinAfter = tester
+          .widget<Transform>(
+            find.byKey(const ValueKey('auth-spinning-logo-google')),
+          )
+          .transform;
+      expect(spinAfter, isNot(equals(spinBefore)));
+      // Still inside 3-second pre-login splash, so signIn hasn't fired yet.
+      expect(auth.calls, 0);
+
+      // Advance past the 3-second connection splash into UserWelcomeSplash.
+      await tester.pump(const Duration(milliseconds: 2200));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(auth.calls, 1);
+      expect(session.userIdentity!.displayName, 'Francisco García');
+      expect(
+        session.userIdentity!.pictureUrl,
+        'https://lh3.googleusercontent.com/a/avatar-demo=s256-c',
+      );
+      expect(find.byType(UserWelcomeSplash), findsOneWidget);
+      expect(find.text('¡Bienvenido, Francisco García!'), findsOneWidget);
+
+      await tester.pumpAndSettle();
+      expect(find.byType(UserWelcomeSplash), findsNothing);
+      expect(find.byType(PrototypeShell), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      session.dispose();
+    },
+  );
+
+  testWidgets(
+    'sin internet en Keycloak y Google mantiene giro 360° con Esperando conexión a internet y botón Regresar',
+    (tester) async {
+      var online = false;
+      final auth = FakeAppAuth();
+      final session = create(auth);
+      addTearDown(session.dispose);
+
+      await tester.pumpWidget(
+        MobilePrototypeApp(
+          session: session,
+          connectivityCheck: () async => online,
+        ),
+      );
+      await tester.scrollUntilVisible(
+        find.text('Iniciar sesión o crear cuenta'),
+        250,
+      );
+      await tester.ensureVisible(find.text('Iniciar sesión o crear cuenta'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Iniciar sesión o crear cuenta'));
+      await tester.pumpAndSettle();
+
+      // Offline Keycloak check + Regresar button
+      await tester.ensureVisible(find.text('Continuar con Keycloak'));
+      await tester.tap(find.text('Continuar con Keycloak'));
+      await tester.pump();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.text('Esperando conexión a internet'), findsOneWidget);
+      expect(find.text('Regresar'), findsOneWidget);
+
+      final kcSpin1 = tester
+          .widget<Transform>(
+            find.byKey(const ValueKey('auth-spinning-logo-keycloak')),
+          )
+          .transform;
+      await tester.pump(const Duration(milliseconds: 350));
+      final kcSpin2 = tester
+          .widget<Transform>(
+            find.byKey(const ValueKey('auth-spinning-logo-keycloak')),
+          )
+          .transform;
+      expect(kcSpin2, isNot(equals(kcSpin1)));
+      // Even after 5 seconds offline, it keeps waiting without calling signIn.
+      await tester.pump(const Duration(seconds: 5));
+      expect(auth.calls, 0);
+      expect(find.text('Esperando conexión a internet'), findsOneWidget);
+
+      await tester.tap(find.byKey(const ValueKey('auth-offline-back-button')));
+      await tester.pumpAndSettle();
+      expect(find.text('Continuar con Keycloak'), findsOneWidget);
+      expect(auth.calls, 0);
+
+      // Offline Google check -> reconnects automatically when internet returns!
+      await tester.scrollUntilVisible(find.text('Continuar con Google'), 250);
+      await tester.ensureVisible(find.text('Continuar con Google'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Continuar con Google'));
+      await tester.pump();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.text('Esperando conexión a internet'), findsOneWidget);
+
+      online = true;
+      await tester.pump(const Duration(milliseconds: 1600));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(find.text('Conectando con el servicio'), findsOneWidget);
+      await tester.pumpAndSettle();
+      expect(session.authenticated, isTrue);
+      expect(find.byType(PrototypeShell), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      session.dispose();
+    },
+  );
+
+  testWidgets('Crear cuenta muestra splash Cargando de 3s con QMark girando', (
+    tester,
+  ) async {
+    final auth = FakeAppAuth()
+      ..idTokenValue = _fakeJwt({'preferred_username': 'andro_quantify'});
+    final session = create(auth);
+    addTearDown(session.dispose);
+
+    await tester.pumpWidget(MobilePrototypeApp(session: session));
+    await tester.scrollUntilVisible(
+      find.text('Iniciar sesión o crear cuenta'),
+      250,
+    );
+    await tester.ensureVisible(find.text('Iniciar sesión o crear cuenta'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Iniciar sesión o crear cuenta'));
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.text('Crear cuenta'));
+    await tester.tap(find.text('Crear cuenta'));
+    await tester.pump();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
+    expect(find.text('Cargando'), findsOneWidget);
+    expect(auth.calls, 0);
+
+    await tester.pump(const Duration(milliseconds: 2500));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(auth.calls, 1);
+    expect(find.text('¡Bienvenido, andro_quantify!'), findsOneWidget);
+
+    await tester.pumpAndSettle();
+    expect(find.byType(PrototypeShell), findsOneWidget);
+    expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink());
     session.dispose();
   });

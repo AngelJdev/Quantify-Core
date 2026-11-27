@@ -111,18 +111,126 @@ class InMemoryMobileTokenStore implements MobileTokenStore {
   }
 }
 
+@immutable
+class MobileUserIdentity {
+  const MobileUserIdentity({
+    required this.displayName,
+    this.email,
+    this.pictureUrl,
+    this.provider,
+    this.isNewRegistration = false,
+  });
+
+  final String displayName;
+  final String? email;
+  final String? pictureUrl;
+  final String? provider;
+  final bool isNewRegistration;
+}
+
+Map<String, dynamic>? _decodeJwtClaims(String? jwt) {
+  if (jwt == null || jwt.isEmpty) return null;
+  final parts = jwt.split('.');
+  if (parts.length != 3 || parts[1].isEmpty) return null;
+  try {
+    final normalized = base64Url.normalize(parts[1]);
+    final decoded = jsonDecode(utf8.decode(base64Url.decode(normalized)));
+    return decoded is Map<String, dynamic> ? decoded : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+String? _sanitizePictureUrl(Object? raw) {
+  if (raw is! String) return null;
+  final trimmed = raw.trim();
+  if (trimmed.isEmpty) return null;
+  final uri = Uri.tryParse(trimmed);
+  if (uri == null || uri.scheme != 'https' || uri.host.isEmpty) return null;
+  if (uri.host.endsWith('googleusercontent.com') && trimmed.contains('=s96-c')) {
+    return trimmed.replaceFirst('=s96-c', '=s256-c');
+  }
+  return trimmed;
+}
+
+MobileUserIdentity _extractUserIdentity({
+  String? idToken,
+  String? accessToken,
+  String? providerHint,
+  bool isNewRegistration = false,
+}) {
+  final idClaims = _decodeJwtClaims(idToken) ?? const <String, dynamic>{};
+  final accessClaims = _decodeJwtClaims(accessToken) ?? const <String, dynamic>{};
+
+  String? pickString(String key) {
+    final fromId = idClaims[key];
+    if (fromId is String && fromId.trim().isNotEmpty) return fromId.trim();
+    final fromAccess = accessClaims[key];
+    if (fromAccess is String && fromAccess.trim().isNotEmpty) {
+      return fromAccess.trim();
+    }
+    return null;
+  }
+
+  final fullName = pickString('name');
+  final given = pickString('given_name');
+  final family = pickString('family_name');
+  final joinedName = [given, family]
+      .whereType<String>()
+      .where((part) => part.isNotEmpty)
+      .join(' ')
+      .trim();
+  final email = pickString('email');
+  final preferred = pickString('preferred_username');
+
+  String resolveDisplayName() {
+    if (fullName != null && fullName.isNotEmpty) return fullName;
+    if (joinedName.isNotEmpty) return joinedName;
+    if (preferred != null && preferred.isNotEmpty) {
+      if (preferred.contains('@')) return preferred.split('@').first;
+      return preferred;
+    }
+    if (email != null && email.contains('@')) {
+      return email.split('@').first;
+    }
+    return 'Usuario Quantify';
+  }
+
+  final picture =
+      _sanitizePictureUrl(idClaims['picture']) ??
+      _sanitizePictureUrl(accessClaims['picture']);
+  final resolvedProvider =
+      providerHint ??
+      pickString('identity_provider') ??
+      (picture != null && picture.contains('googleusercontent.com')
+          ? 'google'
+          : 'keycloak');
+
+  return MobileUserIdentity(
+    displayName: resolveDisplayName(),
+    email: email,
+    pictureUrl: picture,
+    provider: resolvedProvider,
+    isNewRegistration: isNewRegistration,
+  );
+}
+
 class _SessionTokens {
   const _SessionTokens({
     required this.accessToken,
     required this.accessTokenExpirationDateTime,
     this.refreshToken,
     this.idToken,
+    this.provider,
+    this.isNewRegistration = false,
   });
 
   final String accessToken;
   final String? refreshToken;
   final String? idToken;
   final DateTime accessTokenExpirationDateTime;
+  final String? provider;
+  final bool isNewRegistration;
 
   String toJsonString(String issuer) => jsonEncode({
     'issuer': issuer,
@@ -130,6 +238,7 @@ class _SessionTokens {
     'refreshToken': refreshToken,
     'idToken': idToken,
     'expiresAt': accessTokenExpirationDateTime.toUtc().toIso8601String(),
+    if (provider != null) 'provider': provider,
   });
 
   static _SessionTokens? fromJsonString(String raw, String expectedIssuer) {
@@ -147,6 +256,7 @@ class _SessionTokens {
         refreshToken: decoded['refreshToken'] as String?,
         idToken: decoded['idToken'] as String?,
         accessTokenExpirationDateTime: expiresAt.toLocal(),
+        provider: decoded['provider'] as String?,
       );
     } on FormatException {
       return null;
@@ -170,8 +280,9 @@ class MobileSession extends ChangeNotifier with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     _restoreFuture = restoreSession();
   }
-  static bool get _isTestBinding =>
+  static bool get isTestBinding =>
       WidgetsBinding.instance.runtimeType.toString() != 'WidgetsFlutterBinding';
+  static bool get _isTestBinding => isTestBinding;
   static const _storageKey = 'quantify.mobile.session.v1';
   static const _refreshLead = Duration(seconds: 30);
 
@@ -188,6 +299,17 @@ class MobileSession extends ChangeNotifier with WidgetsBindingObserver {
   String? message;
   bool get authenticated => _tokens != null;
   bool get canRefresh => (_tokens?.refreshToken ?? '').isNotEmpty;
+
+  MobileUserIdentity? get userIdentity {
+    final current = _tokens;
+    if (current == null) return null;
+    return _extractUserIdentity(
+      idToken: current.idToken,
+      accessToken: current.accessToken,
+      providerHint: current.provider,
+      isNewRegistration: current.isNewRegistration,
+    );
+  }
 
   String? currentAccessToken() {
     if (!authenticated) return null;
@@ -298,6 +420,7 @@ class MobileSession extends ChangeNotifier with WidgetsBindingObserver {
             ? result.idToken
             : current?.idToken,
         accessTokenExpirationDateTime: expires,
+        provider: current?.provider,
       );
       await _persistTokens(updated);
       if (!_disposed) notifyListeners();
@@ -359,6 +482,8 @@ class MobileSession extends ChangeNotifier with WidgetsBindingObserver {
           refreshToken: result.refreshToken,
           idToken: result.idToken,
           accessTokenExpirationDateTime: expires,
+          provider: idpHint ?? 'keycloak',
+          isNewRegistration: register,
         ),
       );
     } on FlutterAppAuthUserCancelledException {

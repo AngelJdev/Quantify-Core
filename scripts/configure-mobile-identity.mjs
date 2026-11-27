@@ -53,6 +53,24 @@ try {
   const updatedComposites = await (await admin(`/roles/${encodeURIComponent(defaultRoleName)}/composites`)).json();
   assert.ok(updatedComposites.some((role) => role.name === 'user'));
 
+  const userProfile = await (await admin('/users/profile')).json();
+  const profileAttributes = Array.isArray(userProfile.attributes) ? userProfile.attributes : [];
+  if (!profileAttributes.some((attr) => attr.name === 'picture')) {
+    await admin('/users/profile', 'PUT', {
+      ...userProfile,
+      attributes: [
+        ...profileAttributes,
+        {
+          name: 'picture',
+          displayName: 'Picture URL',
+          validations: { uri: {} },
+          permissions: { view: ['admin', 'user'], edit: ['admin', 'user'] },
+          multivalued: false,
+        },
+      ],
+    });
+  }
+
   const googleClientId = (settings.GOOGLE_CLIENT_ID ?? '').trim();
   const googleClientSecret = (settings.GOOGLE_CLIENT_SECRET ?? '').trim();
   if (googleClientId && googleClientSecret) {
@@ -77,7 +95,7 @@ try {
         clientId: googleClientId,
         clientSecret: googleClientSecret,
         defaultScope: 'openid profile email',
-        syncMode: 'IMPORT',
+        syncMode: 'FORCE',
       },
     };
     if (existingIdp.status === 404) {
@@ -85,10 +103,30 @@ try {
     } else {
       await admin('/identity-provider/instances/google', 'PUT', idpPayload);
     }
+    const existingMappers = await (await admin('/identity-provider/instances/google/mappers')).json();
+    const pictureMapper = {
+      name: 'google-picture',
+      identityProviderAlias: 'google',
+      identityProviderMapper: 'google-user-attribute-mapper',
+      config: {
+        syncMode: 'FORCE',
+        jsonField: 'picture',
+        userAttribute: 'picture',
+      },
+    };
+    const foundMapper = existingMappers.find((m) => m.name === 'google-picture');
+    if (foundMapper) {
+      await admin(`/identity-provider/instances/google/mappers/${foundMapper.id}`, 'PUT', {
+        ...pictureMapper,
+        id: foundMapper.id,
+      });
+    } else {
+      await admin('/identity-provider/instances/google/mappers', 'POST', pictureMapper);
+    }
     const verifiedIdp = await (await admin('/identity-provider/instances/google')).json();
     assert.equal(verifiedIdp.enabled, true);
     assert.equal(verifiedIdp.providerId, 'google');
-    console.log('Local quantify realm: Google Identity Provider configured and enabled.');
+    console.log('Local quantify realm: Google Identity Provider + picture mapper configured and enabled.');
   } else {
     console.log('Google Identity Provider skipped: set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in infrastructure/docker/.env.local to enable Google login.');
   }
