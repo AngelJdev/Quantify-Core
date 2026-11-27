@@ -37,3 +37,9 @@ audio/narration/samples/
 **/.hyperframes/
 audio/mix/
 audio/sfx/*.wav
+
+# Narración generada (regenerable con scripts/build_narration.py)
+audio/narration/*.wav
+audio/narration/video-*/
+output/*.json
+output/.*.hf-transaction*/

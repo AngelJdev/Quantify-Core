@@ -2,21 +2,27 @@
 
 Plan aprobado: `~/.claude/plans/` (v2). Rama: `feature/quantify-media-production` (desde `develop` 1b1f915). `main` de referencia: d45ed9916d8a9ec52789a8625ca0cc67a7285d00.
 
-## Estado
-- [x] Auditoría Git/entorno; rama creada
-- [x] Instalado: ffmpeg 9.0.2, uv, hyperframes 0.9.102, gsap 3.15.1, playwright 1.65 + Chromium
-- [x] Verificación financiera (`docs/finanzas-verificacion.md`)
-- [x] Capturas reales con datos ficticios (`scripts/capture.mjs`, `assets/screenshots/`, regenerables)
-- [x] Música: 9 pistas Mixkit descargadas (`.cache/music`), analizadas con beats.py; piloto usa Minimal Techno 01 (id 162). Pixabay no se usó (sin descarga automatizable verificada)
-- [x] Componentes compartidos (`shared/`) y prueba de 14.96 s (1920×1080, 60 fps, H.264/AAC, −14.5 LUFS): `output/Quantify-00-Prueba-Direccion-Artistica.mp4` (local, no versionado)
-- [x] Muestras de voz (4): `audio/narration/samples/*_procesado.wav` (local)
-- [ ] **ALTO: esperando aprobación del piloto y elección de voz (usuario)**
-- [ ] V1, V2, V3, QA, PR
+## Estado (27/11/2026)
+- [x] Auditoría Git/entorno; rama `feature/quantify-media-production` desde `develop` (1b1f915); `main` intacta (d45ed99)
+- [x] Herramientas instaladas: ffmpeg, uv, hyperframes 0.9.102, gsap 3.15.1, playwright 1.65 + Chromium, piper-tts, kokoro-onnx (solo local)
+- [x] Verificación financiera (`docs/finanzas-verificacion.md`) y matriz de veracidad (`docs/veracidad.md`)
+- [x] Capturas reales con datos ficticios (`scripts/capture.mjs`, `capture_flows.mjs`; `assets/screenshots/`, regenerables)
+- [x] Teaser aprobado (prueba de 14.96 s)
+- [x] Video 1 · Lanzamiento (75 s, sin narración) — renderizado y verificado
+- [x] Video 2 · Experiencia (96.8 s, narrado) — renderizado y verificado
+- [x] Video 3 · Innovación e impacto (118 s, narrado) — renderizado y verificado
+- [x] Entregables: portadas, SRT, QUALITY-REPORT, COST-REPORT, storyboards
+- [ ] Push, borrador de Release, PR a `develop` (el líder integra); después: Release definitivo sobre el commit de merge y limpieza de rama
 
 ## Decisiones
 - HyperFrames sin su skill oficial instalada (envía beacon de uso); se usan sus referencias como guía local. Telemetría desactivada por variables de entorno.
 - PWA 390 px con desbordes: móvil = capturas OPPO/Flutter del repo.
 - Remotion descartado (licencia de pago para ≥4 personas).
+
+- Voz de narración: **provisional** `es_MX-claude-high` (la elección de voz del usuario aún no se recibió). Cambiarla implica regenerar narración, `fill_clips.py`, audio y renderizar V2/V3 (tiempos distintos).
+- Sugerencias de hábitos: no se muestran como IA (catálogo fijo); la IA aparece solo en V3 bajo «En planeación».
+- Logros/Nivel/XP: no se muestran en V2/V3; en V1 aparece «Nivel 22» solo de forma incidental en la pantalla Hoy con «Datos de demostración».
+- APK: no se muestra la página de instalación (el APK es un placeholder).
 
 ## Pendiente de datos: ver `docs/datos-pendientes.md`
 
