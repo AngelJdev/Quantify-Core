@@ -1,7 +1,13 @@
 import { useDemo } from "@/app/DemoProvider";
 import { evaluateAllAchievements } from "@/features/achievements/data/achievements";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { Icon, type IconName } from "@/shared/ui/Icon";
 import { Wordmark, ThemeButton, islandStyle } from "@/shared/ui/Prototype";
 import { AppearanceButton } from "@/app/appearance/AppearanceControls";
@@ -9,22 +15,25 @@ import {
   useSurfaceMotion,
   useFluidNavigation,
 } from "@/app/appearance/useSurfaceMotion";
+
 const navigation: [string, string, IconName][] = [
   ["hoy", "Hoy", "hoy"],
   ["analisis", "Progreso", "analisis"],
   ["sugerencias", "IA hábitos", "sugerencias"],
   ["ajustes", "Perfil", "perfil"],
 ];
+
 const shortcuts: [string, string, IconName][] = [
   ["habitos", "Mis hábitos", "habitos"],
   ["logros", "Logros", "confirmado"],
   ["historial", "Historial", "historial"],
   ["avisos", "Avisos", "recordatorio"],
 ];
+
 const titles: Record<string, [string, string]> = {
   hoy: [
     "Tu rutina, a tu ritmo",
-    "Registra tus hábitos con un clic, observa tu progreso y desbloquea nuevos logros.",
+    "Registra tus hábitos con un clic, observa tu progreso y mantén tu constancia.",
   ],
   habitos: [
     "Hábitos con intención",
@@ -64,7 +73,7 @@ const titles: Record<string, [string, string]> = {
   ],
   avisos: [
     "Todo en su momento",
-    "Recordatorios de rutina, logros recientes y notificaciones de tu cuenta.",
+    "Recordatorios de rutina, avances recientes y notificaciones de tu cuenta.",
   ],
   ajustes: [
     "Tu espacio, tus decisiones",
@@ -79,10 +88,12 @@ export function MainLayout() {
     () => evaluateAllAchievements(state, habits),
     [state, habits],
   );
+
   async function handleLogoutClick() {
     await endSession();
     navigate("/login", { replace: true });
   }
+
   const { pathname } = useLocation(),
     page = pathname.split("/")[1];
   const [title, description] = titles[page === "dashboard" ? "hoy" : page] || [
@@ -101,8 +112,10 @@ export function MainLayout() {
   const [compact, setCompact] = useState(false),
     [online, setOnline] = useState(navigator.onLine);
   const surfaceRoot = useRef<HTMLDivElement>(null);
+
   useSurfaceMotion(surfaceRoot, pathname);
   useFluidNavigation(surfaceRoot, pathname, compact);
+
   useEffect(() => {
     const change = () => setOnline(navigator.onLine);
     window.addEventListener("online", change);
@@ -112,12 +125,18 @@ export function MainLayout() {
       window.removeEventListener("offline", change);
     };
   }, []);
+
   useEffect(() => {
     document.title = title + " · Quantify Core";
     heading.current?.focus();
     menu.current?.close();
     window.scrollTo(0, 0);
   }, [pathname, title]);
+
+  if (!state.session) {
+    return <Navigate to="/login" replace />;
+  }
+
   function primaryLinks() {
     return navigation.map(([path, label, icon]) => (
       <Link
@@ -132,6 +151,7 @@ export function MainLayout() {
       </Link>
     ));
   }
+
   function shortcutLinks() {
     return shortcuts.map(([path, label, icon]) => (
       <Link
@@ -145,6 +165,7 @@ export function MainLayout() {
       </Link>
     ));
   }
+
   return (
     <div
       ref={surfaceRoot}
@@ -170,9 +191,14 @@ export function MainLayout() {
           <Wordmark personal />
         </Link>
         <div className="top-actions">
-          <span className="island-demo-label">
-            {state.session ? "TU ESPACIO" : "DEMOSTRACIÓN"}
-          </span>
+          <Link
+            to="/logros"
+            className="qc-level-badge-link"
+            title="Ver tus logros"
+          >
+            <span className="qc-level-dot" aria-hidden="true" />
+            <span>Nivel {achievementsSummary.level}</span>
+          </Link>
           <span className="connection">
             <i className={online ? "" : "offline"} />
             {online ? "En línea" : "Sin conexión"}
@@ -185,21 +211,19 @@ export function MainLayout() {
           <Link
             className="island-profile"
             to="/ajustes"
-            aria-label={state.session ? "Mi perfil" : "Perfil de ejemplo"}
+            aria-label="Mi perfil"
           >
             <Icon name="perfil" />
           </Link>
-          {state.session && (
-            <button
-              type="button"
-              className="header-logout-btn"
-              onClick={() => void handleLogoutClick()}
-              aria-label="Cerrar sesión"
-            >
-              <Icon name="cancelar" />
-              <span>Cerrar sesión</span>
-            </button>
-          )}
+          <button
+            type="button"
+            className="header-logout-btn"
+            onClick={() => void handleLogoutClick()}
+            aria-label="Cerrar sesión"
+          >
+            <Icon name="cancelar" />
+            <span>Cerrar sesión</span>
+          </button>
           <button
             className="icon-button mobile-menu-trigger"
             onClick={() => menu.current?.showModal()}
@@ -232,32 +256,18 @@ export function MainLayout() {
           <div className="rail-privacy">
             <Icon name="privacidad" />
             <div className="rail-label">
-              <strong>Tu espacio</strong>
-              <p>
-                {state.session
-                  ? state.profile.displayName
-                  : "Datos de ejemplo durante esta visita."}
-              </p>
-              <Link to="/instalar">Instalar app ↗</Link>
-              <Link to="/logros">
-                Nivel {achievementsSummary.level} ·{" "}
-                {achievementsSummary.unlockedCount} logros
-              </Link>
+              <strong>Cuenta verificada</strong>
+              <p>{state.profile.displayName}</p>
+              <Link to="/instalar">Descargar app ↗</Link>
             </div>
           </div>
-          {state.session ? (
-            <button
-              className="sidebar-logout-btn"
-              onClick={() => void handleLogoutClick()}
-            >
-              <Icon name="cancelar" />
-              <span className="rail-label">Cerrar sesión</span>
-            </button>
-          ) : (
-            <Link className="sidebar-login-btn" to="/auth">
-              Iniciar sesión / Registro
-            </Link>
-          )}
+          <button
+            className="sidebar-logout-btn"
+            onClick={() => void handleLogoutClick()}
+          >
+            <Icon name="cancelar" />
+            <span className="rail-label">Cerrar sesión</span>
+          </button>
         </aside>
         <main id="content" className="island-content">
           <div className="page-heading">
@@ -265,7 +275,7 @@ export function MainLayout() {
               <div className="eyebrow">
                 {page === "hoy" || page === "dashboard"
                   ? "UN MOMENTO PARA TI"
-                  : "QUANTIFY CORE · TU ESPACIO"}
+                  : "QUANTIFY · TU ESPACIO PERSONAL"}
               </div>
               <h1 ref={heading} tabIndex={-1}>
                 {title}
@@ -279,13 +289,6 @@ export function MainLayout() {
               </Link>
             )}
           </div>
-          <div className="preview-caption">
-            <Icon name="informacion" />
-            {state.session
-              ? `Conectado como ${state.profile.displayName}. Tus datos se sincronizan con la API.`
-              : "Demostración · Fixtures en memoria. Inicia sesión para guardar tus hábitos."}
-            {state.syncError && <span role="alert">{state.syncError}</span>}
-          </div>
           {!online && (
             <p className="form-note" role="status">
               Sin conexión. Puedes consultar lo cargado; los cambios requieren
@@ -296,9 +299,10 @@ export function MainLayout() {
             <Outlet />
           </div>
           <footer className="page-footer">
-            <span>Quantify Core · A tu ritmo.</span>
+            <span>Quantify · A tu ritmo.</span>
+            <Link to="/logros">Logros</Link>
             <Link to="/ajustes?seccion=Privacidad">Tu privacidad</Link>
-            <Link to="/">Volver a bienvenida</Link>
+            <Link to="/">Inicio</Link>
           </footer>
         </main>
       </div>
@@ -321,17 +325,13 @@ export function MainLayout() {
           {primaryLinks()}
           {shortcutLinks()}
           <Link to="/instalar">Instalar app</Link>
-          {state.session ? (
-            <button
-              className="sidebar-logout-btn"
-              onClick={() => void handleLogoutClick()}
-            >
-              Cerrar sesión
-            </button>
-          ) : (
-            <Link to="/login">Iniciar sesión</Link>
-          )}
-          <Link to="/">Bienvenida</Link>
+          <button
+            className="sidebar-logout-btn"
+            onClick={() => void handleLogoutClick()}
+          >
+            Cerrar sesión
+          </button>
+          <Link to="/">Inicio</Link>
         </nav>
       </dialog>
       <nav className="island-mobile-nav" aria-label="Navegación móvil">

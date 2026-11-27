@@ -11,7 +11,11 @@ import type {
   HabitDraft,
   HabitView,
 } from "@/features/habits/data/model";
-import { toHabitView, validateDraft } from "@/features/habits/data/model";
+import {
+  getHabitSlug,
+  toHabitView,
+  validateDraft,
+} from "@/features/habits/data/model";
 import {
   FIXTURE_DATE,
   fixtureHabits,
@@ -33,6 +37,7 @@ import {
   apiSaveEvidence,
   apiSaveExtendedProfile,
   getBusinessDateInZone,
+  loadSession,
   logoutOidcSession,
   nextValidRevisionDate,
   type EvidenceRecord,
@@ -198,16 +203,24 @@ function inferHabitIcon(unit: string, name: string): IconName {
 const COLORS: HabitView["color"][] = ["blue", "cyan", "emerald"];
 
 export function initialDemoState(): DemoState {
+  const persistedSession =
+    typeof window !== "undefined" ? loadSession() : null;
   return {
     habits: structuredClone(fixtureHabits),
     entries: [],
     evidenceList: [],
-    profile: { ...fixtureProfile },
+    profile: persistedSession
+      ? {
+          ...fixtureProfile,
+          displayName: persistedSession.displayName || fixtureProfile.displayName,
+          email: persistedSession.email,
+        }
+      : { ...fixtureProfile },
     read: false,
     readNoticeIds: [],
     consent: { suggestions: true, devices: false },
     devices: [],
-    session: null,
+    session: persistedSession,
     metricsByHabit: {},
     syncing: false,
     syncError: null,
@@ -647,6 +660,13 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  useEffect(() => {
+    const saved = loadSession();
+    if (saved) {
+      void syncWithBackend(saved).catch(() => {});
+    }
+  }, [syncWithBackend]);
+
   const saveHabit = useCallback(
     async (
       existingId: string | undefined,
@@ -659,7 +679,10 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       if (!state.session) {
         const localId = existingId ?? crypto.randomUUID();
         dispatch({ type: "save", id: localId, draft: normalizedDraft });
-        return localId;
+        return getHabitSlug({
+          id: localId,
+          name: normalizedDraft.dto.name,
+        });
       }
 
       const existing = existingId
@@ -696,11 +719,17 @@ export function DemoProvider({ children }: { children: ReactNode }) {
               value: 0,
             },
           });
-          return created.id;
+          return getHabitSlug({
+            id: created.id,
+            name: normalizedDraft.dto.name,
+          });
         } catch {
           const localId = crypto.randomUUID();
           dispatch({ type: "save", id: localId, draft: normalizedDraft });
-          return localId;
+          return getHabitSlug({
+            id: localId,
+            name: normalizedDraft.dto.name,
+          });
         }
       } else {
         try {
@@ -740,14 +769,20 @@ export function DemoProvider({ children }: { children: ReactNode }) {
               value: existing.value,
             },
           });
-          return updated.id;
+          return getHabitSlug({
+            id: updated.id,
+            name: normalizedDraft.dto.name,
+          });
         } catch {
           dispatch({
             type: "save",
             id: existing.resource.id,
             draft: normalizedDraft,
           });
-          return existing.resource.id;
+          return getHabitSlug({
+            id: existing.resource.id,
+            name: normalizedDraft.dto.name,
+          });
         }
       }
     },
