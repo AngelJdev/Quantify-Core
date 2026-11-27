@@ -185,7 +185,13 @@ export function Chart({
                 </g>
               );
             })}
-            {areaPath && <path d={areaPath} fill="url(#qcAreaGrad)" />}
+            {areaPath && (
+              <path
+                d={areaPath}
+                fill="url(#qcAreaGrad)"
+                className="qc-animated-area"
+              />
+            )}
             <polyline
               fill="none"
               stroke="url(#qcLineGrad)"
