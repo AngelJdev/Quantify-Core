@@ -24,7 +24,7 @@ TITLES = {"video-02-demo": "Video 2 · Descubre la experiencia", "video-03-impac
 FILES = {"video-02-demo": "video-02-experiencia", "video-03-impact": "video-03-innovacion-impacto"}
 for v in VIS:
     T = tl(v); L = T["lines"]; srcs = json.load(open(os.path.join(ROOT, "docs/guiones", {"video-02-demo": "v2", "video-03-impact": "v3"}[v] + ".json"), encoding="utf-8"))
-    o = [f"# {TITLES[v]} — guion narrado, storyboard y cronograma", "", f"Formato: 1920×1080, 60 fps · {T['total']:.1f} s · narración es_MX (Piper `es_MX-claude-high`, provisional) · subtítulos incrustados y SRT.", "", "| # | Inicio | Fin | Narración | Escena |", "|---|---|---|---|---|"]
+    o = [f"# {TITLES[v]} — guion narrado, storyboard y cronograma", "", f"Formato: 1920×1080, 60 fps · {T['total']:.1f} s · narración es_MX (Piper `es_MX-claude-high`, aprobada por el equipo el 27/11/2026) · subtítulos incrustados y SRT.", "", "| # | Inicio | Fin | Narración | Escena |", "|---|---|---|---|---|"]
     for i, l in enumerate(L): o.append(f"| {i+1} | {mmss(l['start'])} | {mmss(l['end'])} | {l['text']} | {VIS[v][i]} |")
     open(os.path.join(ROOT, "storyboards", FILES[v] + ".md"), "w", encoding="utf-8").write("\n".join(o) + "\n")
 print("docs generados")

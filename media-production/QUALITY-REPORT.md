@@ -30,9 +30,17 @@ Los 4 son horizontales 16:9, MP4 con `faststart`, sin dependencias de Internet. 
 - Datos y capturas: sesión y API ficticias; sin credenciales ni datos personales. El APK de la página «Instalar» es un placeholder y no se muestra.
 
 ## Limitaciones (lo que NO pude verificar)
-1. **Audición humana**: música, efectos y voz solo se midieron (sonoridad, picos, sincronía); no se escucharon.
+1. **Audición humana**: el agente solo midió música, efectos y voz (sonoridad, picos, sincronía); el equipo revisó y aprobó los tres videos el 27/11/2026.
 2. **Pronunciación de la voz**: se sustituyeron términos con ortografía fonética para el sintetizador (p. ej. «Quantify dos punto cero», «Líquid Glas», «Flúter», «Kíclok»); no se pudo comprobar el resultado a oído. Los subtítulos conservan la escritura original.
-3. **Voz provisional**: `es_MX-claude-high`; el usuario no ha elegido voz. Su licencia declarada es Apache-2.0, pero la procedencia de los datos de entrenamiento no es verificable (ver `LICENSES.md`); alternativa con licencia explícita: `es_MX-ald-medium` (Unlicense).
+3. **Voz aprobada con limitaciones**: el equipo aprobó `es_MX-claude-high` el 27/11/2026 tras revisar los videos; reconoce detalles menores de pronunciación y naturalidad, aceptables para la presentación. Su licencia declarada es Apache-2.0, pero la procedencia de los datos de entrenamiento no es verificable (ver `LICENSES.md`); alternativa con licencia explícita para futuras versiones: `es_MX-ald-medium` (Unlicense).
 4. **Licencia de Mixkit**: el texto completo carga dinámicamente y no se pudo leer automáticamente; revisar manualmente antes de publicar.
 5. No se probó la reproducción en proyector/TV ni en QuickTime/VLC; solo decodificación completa con FFmpeg (0 errores) y metadatos.
 6. La interfaz de la PWA a 390 px tiene desbordes; para móvil se usan capturas del prototipo Flutter del repositorio.
+
+## Aprobación (27/11/2026)
+El equipo revisó y aprobó los resultados audiovisuales de los tres videos y del teaser. No se harán nuevos renderizados antes de la entrega.
+
+## Verificaciones de licencia pendientes (no bloquean el PR; sí la publicación del Release)
+- [ ] Leer manualmente el texto completo de la «Mixkit Stock Music Free License» (https://mixkit.co/license/#musicFree) y confirmar exhibición pública y publicación en línea de los videos con «Sci-Fi Score», «Digital Clouds», «Better Times are Coming» y «Minimal Techno 01».
+- [ ] Confirmar la procedencia de los datos de la voz `es_MX-claude-high` (dataset HirCoir «Piper-TTS-Spanish», Apache-2.0 declarada).
+El PR #30 solo agrega código, documentación, portadas y subtítulos: no contiene música ni audio; los MP4 viven en el Release en borrador.

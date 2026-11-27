@@ -13,14 +13,16 @@ Plan aprobado: `~/.claude/plans/` (v2). Rama: `feature/quantify-media-production
 - [x] Video 3 · Innovación e impacto (118 s, narrado) — renderizado y verificado
 - [x] Entregables: portadas, SRT, QUALITY-REPORT, COST-REPORT, storyboards
 - [x] Push; Release en borrador `media-v1.0.0` (sin tag); PR #30 en borrador hacia `develop` (https://github.com/AngelJdev/Quantify-Core/pull/30)
-- [ ] **Esperando:** elección de voz → (si cambia) regenerar narración y re-renderizar V2/V3; revisión humana; el líder integra el PR. Después: publicar el Release sobre el commit de merge (`gh release edit media-v1.0.0 --draft=false --prerelease --target <SHA>`), borrar la rama local y remota, volver a `develop`.
+- [x] Videos y voz aprobados por el equipo (27/11/2026); documentación final completa.
+- [x] PR #30 marcado como listo para revisión hacia `develop`.
+- [ ] **Esperando:** merge del líder en `develop` (`--no-ff`) y verificaciones de licencia (ver `QUALITY-REPORT.md`). Después: publicar el Release sobre el commit de merge (`gh release edit media-v1.0.0 --draft=false --prerelease --target <SHA>`), verificar el tag, borrar la rama local y remota y volver a `develop`.
 
 ## Decisiones
 - HyperFrames sin su skill oficial instalada (envía beacon de uso); se usan sus referencias como guía local. Telemetría desactivada por variables de entorno.
 - PWA 390 px con desbordes: móvil = capturas OPPO/Flutter del repo.
 - Remotion descartado (licencia de pago para ≥4 personas).
 
-- Voz de narración: **provisional** `es_MX-claude-high` (la elección de voz del usuario aún no se recibió). Cambiarla implica regenerar narración, `fill_clips.py`, audio y renderizar V2/V3 (tiempos distintos).
+- Voz de narración: `es_MX-claude-high`, **aprobada por el equipo el 27/11/2026** (detalles menores de pronunciación aceptados). No se harán nuevos renderizados antes de la entrega (27/11/2026, 8:00).
 - Sugerencias de hábitos: no se muestran como IA (catálogo fijo); la IA aparece solo en V3 bajo «En planeación».
 - Logros/Nivel/XP: no se muestran en V2/V3; en V1 aparece «Nivel 22» solo de forma incidental en la pantalla Hoy con «Datos de demostración».
 - APK: no se muestra la página de instalación (el APK es un placeholder).

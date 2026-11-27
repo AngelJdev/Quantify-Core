@@ -1,6 +1,6 @@
 # Video 2 · Descubre la experiencia — guion narrado, storyboard y cronograma
 
-Formato: 1920×1080, 60 fps · 96.8 s · narración es_MX (Piper `es_MX-claude-high`, provisional) · subtítulos incrustados y SRT.
+Formato: 1920×1080, 60 fps · 96.8 s · narración es_MX (Piper `es_MX-claude-high`, aprobada por el equipo el 27/11/2026) · subtítulos incrustados y SRT.
 
 | # | Inicio | Fin | Narración | Escena |
 |---|---|---|---|---|
