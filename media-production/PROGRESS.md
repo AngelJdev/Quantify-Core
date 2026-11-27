@@ -14,8 +14,9 @@ Plan aprobado: `~/.claude/plans/` (v2). Rama: `feature/quantify-media-production
 - [x] Entregables: portadas, SRT, QUALITY-REPORT, COST-REPORT, storyboards
 - [x] Push; Release en borrador `media-v1.0.0` (sin tag); PR #30 en borrador hacia `develop` (https://github.com/AngelJdev/Quantify-Core/pull/30)
 - [x] Videos y voz aprobados por el equipo (27/11/2026); documentación final completa.
-- [x] PR #30 marcado como listo para revisión hacia `develop`.
-- [ ] **Esperando:** merge del líder en `develop` (`--no-ff`) y verificaciones de licencia (ver `QUALITY-REPORT.md`). Después: publicar el Release sobre el commit de merge (`gh release edit media-v1.0.0 --draft=false --prerelease --target <SHA>`), verificar el tag, borrar la rama local y remota y volver a `develop`.
+- [x] PR #30 integrado en `develop` el 27/11/2026 mediante merge commit (equivalente a `--no-ff`): **`0afe20bcf8b22af42e73f2e612dea66898daa6aa`** (padres `1b1f915` + `5335c44`, 12 commits).
+- [x] Rama `feature/quantify-media-production` eliminada local y remotamente tras verificar la integración.
+- [ ] **Pendiente:** verificaciones de licencia (ver `QUALITY-REPORT.md`). Al resolverlas: `gh release edit media-v1.0.0 --draft=false --prerelease --target 0afe20bcf8b22af42e73f2e612dea66898daa6aa` y verificar que el tag apunte a ese commit.
 
 ## Decisiones
 - HyperFrames sin su skill oficial instalada (envía beacon de uso); se usan sus referencias como guía local. Telemetría desactivada por variables de entorno.
@@ -44,5 +45,8 @@ Requiere `apps/web` en `npm run dev -- --host 127.0.0.1 --port 5173` solo para r
 ffprobe: h264 High, 1920×1080, 60 fps, yuv420p, SAR 1:1, AAC 48 kHz; 898 fotogramas; sin negros; un único pico de movimiento (golpe a 7.45 s, planeado); sin fotogramas congelados fuera de los holds de lectura. Audio −14.5 LUFS integrados, pico −2.4 dBFS. **No verificado:** audición humana de música, SFX y voces (solo medidos).
 Observaciones: la UI mostrada incluye «Nivel 22/XP» (interfaz sin integrar) y «IA hábitos» en el menú lateral (catálogo fijo); en el piloto solo aparecen de forma incidental y con la leyenda «Datos de demostración».
 
-## Estado de Git
-Rama `feature/quantify-media-production` (desde `develop` 1b1f915), 11 commits Conventional Commits; `origin/main` = d45ed99 (intacta, verificada tras `git fetch`). Solo cambios dentro de `media-production/`.
+## Estado de Git (final)
+- `develop` = `origin/develop` con el merge `0afe20b` del PR #30; la rama de producción ya no existe.
+- `origin/main` = `d45ed99` (intacta durante todo el trabajo).
+- Release `media-v1.0.0`: **borrador** (prerelease) con 9 archivos, apuntando a `0afe20b`; sin tag hasta su publicación.
+- Respaldo local de videos y recursos: `../quantify-media-respaldo-2026-11-27/` (fuera del repositorio, verificado por SHA-256).
