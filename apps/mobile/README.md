@@ -2,7 +2,7 @@
 
 ## Conexión REST, sesión persistente y Google · 25/11/2026
 
-Al compilar `lib/main_prototype.dart` con `API_BASE_URL` válido (HTTPS o `http://localhost:3000/api/v1` en debug con `OIDC_USB_DEBUG=true`) e iniciar sesión con Keycloak o Google, la app opera en modo conectado (`lib/api/mobile_api.dart`) contra `services/api` sin mezclar fixtures de demostración:
+Al ejecutar `lib/main.dart` (entrada principal por defecto; `lib/main_prototype.dart` se conserva como alias compatible) con `API_BASE_URL` válido (HTTPS o `http://localhost:3000/api/v1` en debug con `OIDC_USB_DEBUG=true`) e iniciar sesión con Keycloak o Google, la app muestra el splash animado de Quantify y opera en modo conectado (`lib/api/mobile_api.dart`) contra `services/api` sin mezclar fixtures de demostración:
 
 - **Sesión persistente y Google IdP:** `MobileSession` persiste tokens de forma cifrada mediante `flutter_secure_storage` (Keystore en Android con `allowBackup="false"` en `AndroidManifest.xml`), renueva automáticamente el `accessToken` con `refreshToken` antes de vencer o ante un primer `401`, y soporta **Continuar con Google** mediante `kc_idp_hint=google` en Custom Tab (`ADR-0010`). Facebook y Apple ID permanecen deshabilitados bajo «Próximamente».
 - **Configuración de Google en Keycloak local:** definir `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` en `infrastructure/docker/.env.local` (ignorado por Git) y ejecutar `node scripts/configure-mobile-identity.mjs --apply-local`. El script además garantiza el rol por defecto `user` en el realm `quantify`.
@@ -26,7 +26,7 @@ La pantalla ofrece **Continuar con Keycloak** y **Continuar con Google** mediant
 
 **Revisión visual · 23/11/2026:** cristal con mayor transparencia, reflejo superior, borde iluminado y fondo azul/cian más visible; intensidad inicial 75 %. Se mantienen los dos filtros de cabecera/dock, efectos ligeros y alto contraste sólido. El icono Android usa la Q canónica (PNG por densidad e icono adaptativo). El splash nativo claro/oscuro muestra esa misma Q antes del primer frame, y `main_prototype.dart` anima la Q centrada, la desplaza a la izquierda y revela UANTIFY hasta completar QUANTIFY en dos segundos; al finalizar abre la bienvenida; movimiento reducido omite esa espera. Android 12+ tiene recurso específico para el splash del sistema; su apariencia queda pendiente de probar en esa versión. Las pruebas locales suman 14 aprobadas, con análisis sin incidencias; incluye salida del splash, navegación y movimiento reducido. No se conectaron servicios.
 
-La nueva entrada **`lib/main_prototype.dart`** implementa la revisión de los mockups móviles: Bienvenida → Hoy / Progreso / IA hábitos / Perfil; hábitos, creación/edición, detalle, avance absoluto e historial local. La demo anterior del colaborador permanece en `lib/main.dart`, con sus fuentes y pruebas independientes. [Pantallas, capturas, optimizaciones y límites](docs/prototipo-v2-2026-11-20.md).
+La entrada principal **`lib/main.dart`** (y su alias `lib/main_prototype.dart`) inicia con el splash animado (`PrototypeLaunch`) y recorre Bienvenida → Hoy / Progreso / IA hábitos / Perfil; hábitos, creación/edición, detalle, avance absoluto, historial y asistente Gemini conectado. La demo histórica sin conexión de octubre se conservó aparte en `lib/main_demo.dart` con sus pruebas independientes. [Pantallas, capturas, optimizaciones y límites](docs/prototipo-v2-2026-11-20.md).
 
 Desde la raíz, entrar a `apps/mobile`. Entorno verificado: **Flutter 3.47.8 y Dart 3.13.7**; `pubspec.yaml` requiere Dart compatible con 3.13.3. No se añadieron paquetes de estado, efectos ni autenticación.
 
@@ -35,21 +35,21 @@ cd apps/mobile
 flutter pub get
 flutter devices
 # Con un teléfono/emulador Android ya conectado:
-flutter run -d ID_DEL_DISPOSITIVO --target lib/main_prototype.dart
+flutter run -d ID_DEL_DISPOSITIVO
 ```
 
 Para revisar la misma UI Flutter en Chrome sin dispositivo Android:
 
 ```powershell
-flutter run -d chrome --target lib/main_prototype.dart
+flutter run -d chrome
 ```
 
-Para generar el APK local de demostración y comprobar el proyecto:
+Para generar el APK local y comprobar el proyecto:
 
 ```powershell
 flutter analyze
 flutter test
-flutter build apk --debug --target lib/main_prototype.dart
+flutter build apk --debug
 ```
 
 El APK está en `build/app/outputs/flutter-apk/app-debug.apk`. El proyecto conserva su identificador Android y configuración de firma heredados; esto no constituye una aplicación publicada. No se comprobó instalación ni rendimiento en un teléfono físico. `flutter doctor` todavía señala herramientas Android de línea de comandos/licencias por revisar; pese a ello el SDK disponible permitió compilar el APK. No hay emulador configurado en esta máquina.

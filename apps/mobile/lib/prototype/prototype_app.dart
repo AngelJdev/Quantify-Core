@@ -105,7 +105,7 @@ class _MobilePrototypeAppState extends State<MobilePrototypeApp> {
           onChanged: (value) => _appearance.value = value,
           child: MaterialApp(
             navigatorKey: _navigator,
-            title: 'Quantify · Prototipo móvil',
+            title: 'Quantify Core',
             debugShowCheckedModeBanner: false,
             theme: prototypeTheme(Brightness.light),
             darkTheme: prototypeTheme(Brightness.dark),

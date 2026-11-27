@@ -35,7 +35,7 @@ node scripts/configure-mobile-identity.mjs --apply-local
 adb reverse tcp:8180 tcp:8180
 adb reverse tcp:3000 tcp:3000
 cd apps/mobile
-flutter run -d ID_DEL_DISPOSITIVO --target lib/main_prototype.dart --dart-define=OIDC_ISSUER=http://localhost:8180/realms/quantify --dart-define=API_BASE_URL=http://localhost:3000/api/v1 --dart-define=OIDC_USB_DEBUG=true
+flutter run -d ID_DEL_DISPOSITIVO --dart-define=OIDC_ISSUER=http://localhost:8180/realms/quantify --dart-define=API_BASE_URL=http://localhost:3000/api/v1 --dart-define=OIDC_USB_DEBUG=true
 ```
 
 Si se omite `API_BASE_URL`, la sesión Keycloak abre el dashboard ilustrativo sin llamadas REST. Con `API_BASE_URL`, las escrituras (`POST /me`, `POST/PATCH /habits`, `POST /habits/:id/check-ins`) requieren `CORE_REVIEW_WRITES_ENABLED=1` en el entorno privado de la API.
@@ -48,7 +48,7 @@ Navegador y app acceden a `localhost:8180` por USB a la PC, sin abrir puertos a 
 
 Para distribuir, proporcionar un Keycloak con HTTPS válido, hostname e issuer estables y alcanzables por teléfono/API. No basta reemplazar una IP en Flutter: los endpoints del IdP y el issuer verificado por API deben coincidir. Compilar con `--dart-define=OIDC_ISSUER=https://HOST/realms/quantify`, sin bandera USB, y registrar los callbacks exactos. Nunca incluir secreto de cliente. Android mínimo 24 (Android 7), requerido por AppAuth 13.
 
-iOS tiene esquema de retorno configurado; compilación y flujo nativo requieren macOS y quedan pendientes. Flutter Web explica que el acceso requiere app nativa y conserva la demo. La entrada heredada `lib/main.dart` no se conecta en este cambio.
+iOS tiene esquema de retorno configurado; compilación y flujo nativo requieren macOS y quedan pendientes. Flutter Web explica que el acceso requiere app nativa y conserva la demo. La demo histórica heredada se conservó aparte en `lib/main_demo.dart`.
 
 En Android se retira `android:taskAffinity=""` de `MainActivity`: AppAuth documenta que puede impedir el retorno aunque el intent filter sea correcto. El manifiesto fusionado registra `RedirectUriReceiverActivity` para `com.quantify.app`; Android resolvió ese callback al receptor del APK instalado. No registrar el mismo callback en otra app de prueba.
 

@@ -245,7 +245,7 @@ Detener con Ctrl+C. Los helpers cargan los archivos privados de cada módulo; no
 
 ## Aplicación móvil independiente
 
-El Compose base no compila ni instala Flutter. Sin `API_BASE_URL`, `main_prototype.dart` abre una demostración local sin base de datos; al compilar con `API_BASE_URL` y `OIDC_ISSUER` opera conectada a Keycloak, PostgreSQL y el asistente Gemini (`GEMINI_API_KEY` en `infrastructure/docker/.env.local`).
+El Compose base no compila ni instala Flutter. La entrada principal `lib/main.dart` (y su alias `lib/main_prototype.dart`) inicia con el splash animado de Quantify; sin `API_BASE_URL` abre una vista previa local sin base de datos y, al compilar con `API_BASE_URL` y `OIDC_ISSUER`, opera conectada a Keycloak/Google, PostgreSQL y el asistente Gemini (`GEMINI_API_KEY` en `infrastructure/docker/.env.local`).
 
 ```powershell
 cd apps/mobile
@@ -254,8 +254,8 @@ flutter doctor -v
 flutter pub get
 flutter devices
 # Elegir una opción: Chrome o Android con el ID de flutter devices.
-flutter run -d chrome --target lib/main_prototype.dart
-flutter run -d ID_DEL_DISPOSITIVO --target lib/main_prototype.dart
+flutter run -d chrome
+flutter run -d ID_DEL_DISPOSITIVO
 ```
 
 Sustituye el ID de ejemplo. Android exige dispositivo autorizado para depuración o emulador preparado, SDK/herramientas de compilación y licencias resueltas según `flutter doctor`. Desde `apps/mobile`, para comprobar y generar APK debug:
@@ -263,10 +263,10 @@ Sustituye el ID de ejemplo. Android exige dispositivo autorizado para depuració
 ```powershell
 flutter analyze
 flutter test
-flutter build apk --debug --target lib/main_prototype.dart
+flutter build apk --debug
 ```
 
-El APK queda en `apps/mobile/build/app/outputs/flutter-apk/app-debug.apk` respecto a la raíz. Consulta el [README móvil](../../apps/mobile/README.md) y la [demo anterior](../../apps/mobile/GUIA-DEMO.md) para elegir la entrada correcta. En un teléfono, `localhost` designa al teléfono: cambiar únicamente la URL de API o issuer no resuelve la identidad. La conexión móvil real necesita topología/configuración aprobadas y no forma parte de este arranque. Detén Flutter con `q` o Ctrl+C y vuelve a la raíz antes de continuar.
+El APK queda en `apps/mobile/build/app/outputs/flutter-apk/app-debug.apk` respecto a la raíz. Consulta el [README móvil](../../apps/mobile/README.md) y la [demo anterior](../../apps/mobile/GUIA-DEMO.md) (`--target lib/main_demo.dart`) si necesitas revisar la demo histórica. En un teléfono, `localhost` designa al teléfono: cambiar únicamente la URL de API o issuer no resuelve la identidad. La conexión móvil real necesita topología/configuración aprobadas y no forma parte de este arranque. Detén Flutter con `q` o Ctrl+C y vuelve a la raíz antes de continuar.
 
 ## Monitoreo opcional
 

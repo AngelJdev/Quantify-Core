@@ -2,11 +2,28 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:quantify_mobile/main.dart' as entry;
 import 'package:quantify_mobile/prototype/prototype_app.dart';
 import 'package:quantify_mobile/prototype/design.dart';
 import 'package:quantify_mobile/prototype/state.dart';
 
 void main() {
+  testWidgets('la entrada principal lib/main.dart arranca con splash screen animado', (
+    tester,
+  ) async {
+    entry.main();
+    await tester.pump();
+    final app = tester.widget<MobilePrototypeApp>(
+      find.byType(MobilePrototypeApp),
+    );
+    expect(app.showSplash, isTrue);
+    expect(find.byType(PrototypeLaunch), findsOneWidget);
+    expect(find.byType(QMark), findsOneWidget);
+    expect(find.text('DEMO LOCAL'), findsNothing);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
   testWidgets('Q revela el nombre antes de abrir bienvenida y no se repite', (
     tester,
   ) async {

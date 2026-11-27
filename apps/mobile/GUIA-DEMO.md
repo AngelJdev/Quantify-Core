@@ -90,10 +90,11 @@ Solo sigue estos 4 pasos sencillos en la ventana de comandos:
    flutter test
    ```
 
-4. **Ábrela en un teléfono Android o emulador encendido:**
+4. **Ábrela en un teléfono Android o emulador encendido (entrada de la demo histórica):**
    ```bash
-   flutter run
+   flutter run --target lib/main_demo.dart
    ```
+   *(Para ejecutar la aplicación principal con splash, acceso Google/Keycloak y asistente Gemini, usa simplemente `flutter run` sin `--target`.)*
 
 ---
 

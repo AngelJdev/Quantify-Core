@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
+import 'main.dart' as app;
 
-import 'prototype/prototype_app.dart';
-
-void main() => runApp(const MobilePrototypeApp(showSplash: true));
+/// Alias compatible con comandos que aún indiquen `--target lib/main_prototype.dart`.
+void main() => app.main();
