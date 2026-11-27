@@ -298,7 +298,7 @@ class AuthConnectionSplash extends StatefulWidget {
 
 class _AuthConnectionSplashState extends State<AuthConnectionSplash>
     with TickerProviderStateMixin {
-  static const _splashDuration = Duration(seconds: 3);
+  static const _splashDuration = Duration(seconds: 2);
   late final _onlineController = AnimationController(
     vsync: this,
     duration: _splashDuration,
@@ -481,7 +481,7 @@ class _AuthConnectionSplashState extends State<AuthConnectionSplash>
                       builder: (context, _) {
                         final turns = _waitingForInternet || _awaitingBrowser
                             ? _spinController.value
-                            : _onlineController.value * 3.0;
+                            : _onlineController.value * 2.0;
                         final progress = _waitingForInternet
                             ? null
                             : _onlineController.value;
@@ -990,7 +990,7 @@ class UserWelcomeSplash extends StatefulWidget {
 
 class _UserWelcomeSplashState extends State<UserWelcomeSplash>
     with SingleTickerProviderStateMixin {
-  static const _duration = Duration(milliseconds: 2500);
+  static const _duration = Duration(seconds: 2);
   late final _controller =
       AnimationController(
         vsync: this,

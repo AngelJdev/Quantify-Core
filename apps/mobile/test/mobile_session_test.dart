@@ -311,7 +311,7 @@ void main() {
   });
 
   testWidgets(
-    'splashes de 3s giran 360° en Keycloak, Crear cuenta y Google, y muestran bienvenida con nombre y foto Google',
+    'splashes de 2s giran 360° en Keycloak, Crear cuenta y Google, y muestran bienvenida con nombre y foto Google',
     (tester) async {
       final auth = FakeAppAuth()
         ..idTokenValue = _fakeJwt({
@@ -360,11 +360,11 @@ void main() {
           )
           .transform;
       expect(spinAfter, isNot(equals(spinBefore)));
-      // Still inside 3-second pre-login splash, so signIn hasn't fired yet.
+      // Still inside 2-second pre-login splash, so signIn hasn't fired yet.
       expect(auth.calls, 0);
 
-      // Advance past the 3-second connection splash into UserWelcomeSplash.
-      await tester.pump(const Duration(milliseconds: 2200));
+      // Advance past the 2-second connection splash into UserWelcomeSplash.
+      await tester.pump(const Duration(milliseconds: 1200));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 200));
       expect(auth.calls, 1);
@@ -463,7 +463,7 @@ void main() {
     },
   );
 
-  testWidgets('Crear cuenta muestra splash Cargando de 3s con QMark girando', (
+  testWidgets('Crear cuenta muestra splash Cargando de 2s con QMark girando', (
     tester,
   ) async {
     final auth = FakeAppAuth()
@@ -489,7 +489,7 @@ void main() {
     expect(find.text('Cargando'), findsOneWidget);
     expect(auth.calls, 0);
 
-    await tester.pump(const Duration(milliseconds: 2500));
+    await tester.pump(const Duration(milliseconds: 1500));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 200));
     expect(auth.calls, 1);
