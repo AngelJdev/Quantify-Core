@@ -40,8 +40,7 @@ const SUGGESTION_CATALOG: SuggestionTemplate[] = [
     intention: "Mantener energía y concentración a lo largo del día",
     color: "blue",
     icon: "habitos",
-    reason:
-      "Hábito base para anclar al inicio de tu rutina matutina.",
+    reason: "Hábito base para anclar al inicio de tu rutina matutina.",
   },
   {
     id: "sug-lectura-enfoque",
@@ -64,8 +63,7 @@ const SUGGESTION_CATALOG: SuggestionTemplate[] = [
     intention: "Activar el cuerpo antes de iniciar la jornada",
     color: "emerald",
     icon: "movimiento",
-    reason:
-      "Balancea tus bloques de estudio con movimiento sostenible.",
+    reason: "Balancea tus bloques de estudio con movimiento sostenible.",
   },
 ];
 
@@ -122,30 +120,36 @@ export function SuggestionsPage() {
 
   return (
     <div className="two-columns">
-      <section className="card empty suggestion-empty">
-        <span className="symbol large cyan">
-          <Icon name="sugerencias" />
-        </span>
-        <span className="eyebrow">IDEAS QUE RESPETAN TU RITMO</span>
-        <h2>Primero, conocerte mejor</h2>
-        <p>
-          Explora sugerencias de hábitos diseñadas para equilibrar tu constancia
-          y descanso, o intégralas a tu rutina con un clic.
-        </p>
+      <section className="card suggestion-empty">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">IDEAS QUE RESPETAN TU RITMO</span>
+            <h2>Rutinas listas para integrar</h2>
+            <p>
+              Explora hábitos diseñados para equilibrar tu energía, enfoque y
+              descanso, e intégralos a tu agenda con un clic.
+            </p>
+          </div>
+          <span className="symbol cyan">
+            <Icon name="sugerencias" />
+          </span>
+        </div>
 
         {!state.consent.suggestions && (
-          <button
-            type="button"
-            className="button secondary"
-            onClick={() =>
-              dispatch({
-                type: "consent",
-                consent: { ...state.consent, suggestions: true },
-              })
-            }
-          >
-            Activar sugerencias
-          </button>
+          <div style={{ marginBottom: "14px" }}>
+            <button
+              type="button"
+              className="button secondary"
+              onClick={() =>
+                dispatch({
+                  type: "consent",
+                  consent: { ...state.consent, suggestions: true },
+                })
+              }
+            >
+              Activar sugerencias personalizadas
+            </button>
+          </div>
         )}
 
         {feedback && (
@@ -154,41 +158,50 @@ export function SuggestionsPage() {
           </p>
         )}
 
-        <div className="stack" style={{ width: "100%", textAlign: "left" }}>
+        <div className="qc-suggestion-grid">
           {availableSuggestions.map((s) => (
-            <div
-              key={s.id}
-              style={{
-                borderTop: "1px solid var(--qc-line)",
-                paddingTop: "0.75rem",
-              }}
-            >
-              <h3>{s.name}</h3>
-              <p>
-                <strong>
-                  {s.targetValue} {s.unit}
-                </strong>{" "}
-                · {s.detail}
-              </p>
-              <p className="caption">{s.reason}</p>
+            <article key={s.id} className="qc-suggestion-card">
+              <div>
+                <div className="row-between" style={{ marginBottom: "10px" }}>
+                  <span className={`symbol ${s.color}`}>
+                    <Icon name={s.icon} />
+                  </span>
+                  <span className="pill">
+                    {s.targetValue.toLocaleString("es-MX")} {s.unit} · {s.detail}
+                  </span>
+                </div>
+                <h3>{s.name}</h3>
+                <p
+                  className="caption"
+                  style={{ marginTop: "6px", color: "var(--qc-muted)" }}
+                >
+                  {s.reason}
+                </p>
+              </div>
               <button
                 type="button"
-                className="button secondary"
+                className="button primary full"
+                style={{ marginTop: "8px" }}
                 disabled={addingId !== null}
                 onClick={() => void handleAddSuggestion(s)}
               >
-                {addingId === s.id ? "Agregando..." : "Agregar hábito"}
+                {addingId === s.id ? "Agregando..." : "+ Agregar a mi rutina"}
               </button>
-            </div>
+            </article>
           ))}
         </div>
 
-        <Link to="/habitos" className="button primary">
-          Explorar mis hábitos
-        </Link>
-        <Link to="/ajustes?seccion=Privacidad" className="text-link">
-          Revisar mis preferencias →
-        </Link>
+        <div
+          className="row-between"
+          style={{ marginTop: "18px", flexWrap: "wrap", gap: "12px" }}
+        >
+          <Link to="/habitos" className="button secondary">
+            Explorar mis hábitos
+          </Link>
+          <Link to="/ajustes?seccion=Privacidad" className="text-link">
+            Revisar mis preferencias →
+          </Link>
+        </div>
       </section>
 
       <div className="stack">
@@ -207,8 +220,8 @@ export function SuggestionsPage() {
           <div>
             <h3>Tú decides</h3>
             <p>
-              El análisis es voluntario. Puedes revisar cada finalidad en tus
-              ajustes.
+              Las recomendaciones respetan tu espacio. Puedes revisar cada
+              opción en tus ajustes de privacidad.
             </p>
             <Link to="/ajustes?seccion=Privacidad" className="text-link">
               Consultar privacidad →

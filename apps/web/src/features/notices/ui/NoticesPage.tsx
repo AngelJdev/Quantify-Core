@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useDemo } from "@/app/DemoProvider";
+import { getHabitSlug } from "@/features/habits/data/model";
 import { Icon, type IconName } from "@/shared/ui/Icon";
 
 export function NoticesPage() {
@@ -22,8 +23,8 @@ export function NoticesPage() {
         : "Tu espacio de lectura te espera. Retoma tu hábito cuando sea un buen momento.",
       "Hace 20 min",
       pendingHabit
-        ? `detalle/${pendingHabit.id}`
-        : "detalle/22222222-2222-4222-8222-222222222222",
+        ? `detalle/${getHabitSlug(pendingHabit)}`
+        : "detalle/leer",
     ],
     [
       "notice-2",
