@@ -1,0 +1,60 @@
+{
+ "video": "video-03-impact",
+ "lead": 1.1,
+ "tail": 3.4,
+ "gap": 0.55,
+ "lines": [
+  {
+   "id": "n1",
+   "text": "La mayoría de las apps de hábitos cuentan días. Pero una racha puede reflejar lo que alguien declaró, no el esfuerzo que realmente hizo."
+  },
+  {
+   "id": "n2",
+   "text": "QUANTIFY 2.0 parte de tres principios: trazabilidad, contexto y explicabilidad."
+  },
+  {
+   "id": "n3",
+   "text": "Trazabilidad: cada registro tiene valor, fecha y revisión, y si se reintenta no se suma dos veces."
+  },
+  {
+   "id": "n4",
+   "text": "Contexto: cualquier dato adicional requerirá el permiso explícito de la persona."
+  },
+  {
+   "id": "n5",
+   "text": "Explicabilidad: las futuras recomendaciones deberán poder explicarse. Hoy, la aplicación ya entrega métricas verificables."
+  },
+  {
+   "id": "n6",
+   "text": "Por dentro: una web instalable en React, una app móvil en Flutter, una API en NestJS, Keycloak para la identidad, PostgreSQL, Docker y monitoreo local."
+  },
+  {
+   "id": "n7",
+   "text": "Probamos lo que construimos: ciento cincuenta y dos pruebas automatizadas entre la web, la API y la app móvil."
+  },
+  {
+   "id": "n8",
+   "text": "El modelo es freemium: lo esencial gratis y una suscripción premium de referencia de noventa y nueve pesos al mes. Son hipótesis, no resultados comerciales."
+  },
+  {
+   "id": "n9",
+   "text": "En este escenario, el costo fijo ronda los siete mil dólares al mes, sobre todo por el tiempo del equipo, y el costo variable es de cuarenta y un centavos por usuario."
+  },
+  {
+   "id": "n10",
+   "text": "Con esos supuestos, el punto de equilibrio está cerca de mil setecientos suscriptores premium."
+  },
+  {
+   "id": "n11",
+   "text": "Lo que sigue, en planeación: recordatorios, un asistente de hábitos con inteligencia artificial, Wear OS y sincronización sin conexión."
+  },
+  {
+   "id": "n12",
+   "text": "Un proyecto de cuatro integrantes de la Universidad Tecnológica de Xicotepec de Juárez."
+  },
+  {
+   "id": "n13",
+   "text": "QUANTIFY 2.0. Tecnología con evidencia, para que lo que haces también cuente."
+  }
+ ]
+}

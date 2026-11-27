@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>QUANTIFY 2.0 — Innovación, propósito e impacto</title>
+    <link rel="stylesheet" href="shared/tokens.css" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="shared/components.js"></script>
+    <script src="shared/scenes.js"></script>
+    <script src="timeline.js"></script>
+    <style> .sc { position: absolute; inset: 0; } </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="v3" data-start="0" data-duration="117.99" data-width="1920" data-height="1080" data-fps="60">
+      <div id="bd" class="clip fill" data-start="0" data-duration="117.99" data-track-index="0" style="z-index:0"></div>
+      <div id="s1" data-scene="0" class="clip fill" data-start="0" data-duration="10.57" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s2" data-scene="1" class="clip fill" data-start="10.17" data-duration="7.81" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s3" data-scene="2" class="clip fill" data-start="17.58" data-duration="7.88" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s4" data-scene="3" class="clip fill" data-start="25.06" data-duration="6.5" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s5" data-scene="4" class="clip fill" data-start="31.16" data-duration="9.81" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s6" data-scene="5" class="clip fill" data-start="40.57" data-duration="13.22" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s7" data-scene="6" class="clip fill" data-start="53.39" data-duration="9.04" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s8" data-scene="7" class="clip fill" data-start="62.04" data-duration="12.25" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s9" data-scene="8" class="clip fill" data-start="73.88" data-duration="12.72" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s10" data-scene="9" class="clip fill" data-start="86.2" data-duration="7.0" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s11" data-scene="10" class="clip fill" data-start="92.8" data-duration="10.08" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s12" data-scene="11" class="clip fill" data-start="102.48" data-duration="6.45" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s13" data-scene="12" class="clip fill" data-start="108.53" data-duration="9.46" data-track-index="1" style="z-index:6"><div class="sc"></div></div>
+      <div id="fx" class="clip fill" data-start="0" data-duration="117.99" data-track-index="2" style="z-index:9"><div id="flash" class="fill" style="background:radial-gradient(circle at 50% 50%,rgba(200,220,255,.95) 0%,rgba(74,125,232,.55) 35%,transparent 70%);opacity:0"></div><div id="dip" class="fill" style="background:#000;opacity:0"></div></div>
+      <div id="subs-clip" class="clip fill" data-start="0" data-duration="117.99" data-track-index="2" style="z-index:20"></div>
+      <audio id="mix" src="assets/mix.wav" data-start="0" data-duration="117.99" data-track-index="3" data-volume="1"></audio>
+    </div>
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const L = TLN.lines, ls = (i, o = 0) => L[i].start + o, TOTAL = TLN.total;
+      const S = (n) => $("#s" + n + " .sc");
+      const E = { in: "expo.out", out: "power3.in", mv: "power2.inOut" };
+      $("#bd").innerHTML = QX.backdrop();
+      const tl = gsap.timeline({ paused: true });
+      tl.to("#bd-a", { x: 140, y: 70, duration: TOTAL, ease: "none" }, 0).to("#bd-b", { x: 180, y: -90, duration: TOTAL, ease: "none" }, 0).to("#bd-c", { x: -160, y: -50, duration: TOTAL, ease: "none" }, 0)
+        .fromTo("#bd-beam", { rotation: -12 }, { rotation: 14, duration: TOTAL, ease: "none" }, 0).fromTo("#bd", { opacity: 0.5 }, { opacity: 1, duration: 1, ease: "power2.out" }, 0);
+      QX.burnSubs(tl, $("#subs-clip"), TLN.subs);
+      const enter = (n, t, kind = "up") => tl.fromTo(S(n), kind === "whip" ? { opacity: 0, x: 280, filter: "blur(26px)" } : { opacity: 0, y: 80, scale: 0.97, filter: "blur(14px)" }, { opacity: 1, x: 0, y: 0, scale: 1, filter: "blur(0px)", duration: 0.8, ease: E.in }, t);
+      const exit = (n, t) => tl.to(S(n), { opacity: 0, scale: 1.04, filter: "blur(12px)", duration: 0.3, ease: E.out }, t);
+      const hit = (t, a = 0.9) => tl.fromTo("#flash", { opacity: 0 }, { opacity: a, duration: 0.07 }, t - 0.04).to("#flash", { opacity: 0, duration: 0.5 }, t + 0.03);
+      const appear = (sel, t, d = 0.7, from = { y: 50 }) => tl.fromTo(sel, { opacity: 0, filter: "blur(10px)", ...from }, { opacity: 1, x: 0, y: 0, scale: 1, filter: "blur(0px)", duration: d, ease: E.in }, t);
+      const hyp = (sc, id, t0, t1) => { sc.insertAdjacentHTML("beforeend", `<div class="hyp" id="${id}" style="position:absolute;left:0;right:0;margin:0 auto;width:fit-content;top:142px;opacity:0">Escenario hipotético · no son resultados comerciales</div>`); tl.to("#" + id, { opacity: 1, duration: 0.4 }, t0).to("#" + id, { opacity: 0, duration: 0.3 }, t1); };
+      const card = (sc, id, x, y, w, h, html, cls = "") => sc.insertAdjacentHTML("beforeend", `<div class="gcard ${cls}" id="${id}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;padding:42px">${html}</div>`);
+
+      /* S1 · Lo declarado vs lo realmente hecho */
+      { const sc = S(1);
+        sc.insertAdjacentHTML("beforeend", `<div class="lbl" id="l1a" style="position:absolute;left:180px;top:300px">Lo declarado · 12 días de racha</div><div class="lbl" id="l1b" style="position:absolute;left:180px;top:560px">Lo realmente hecho</div>`);
+        let h = ""; for (let i = 0; i < 12; i++) h += `<div class="d1a" style="position:absolute;left:${180 + i * 128}px;top:360px;width:96px;height:96px;border-radius:50%;background:#4a7de8;display:flex;align-items:center;justify-content:center"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="d1b" style="position:absolute;left:${180 + i * 128}px;top:620px;width:96px;height:96px;border-radius:50%;border:4px dashed rgba(160,190,255,.55);display:flex;align-items:center;justify-content:center;font-family:var(--font-brand);font-weight:700;font-size:56px;color:rgba(160,190,255,.7)">?</div>`;
+        sc.insertAdjacentHTML("beforeend", h); gsap.set("#l1b", { opacity: 0 }); gsap.set(".d1a", { opacity: 0, scale: 0 }); gsap.set(".d1a:first-of-type", { opacity: 1, scale: 1 }); gsap.set(".d1b", { opacity: 0, scale: 0.6 });
+        tl.to(".d1a", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)", stagger: 0.12 }, ls(0, 1.4))
+          .to("#l1b", { opacity: 1, duration: 0.5 }, ls(0, 5.6)).to(".d1b", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.6)", stagger: 0.07 }, ls(0, 5.9)).to(".d1a", { opacity: 0.35, duration: 0.6 }, ls(0, 5.6));
+        QX.topBanner(tl, sc, "b1", "Contar días <span class='accent'>no basta</span>", ls(0, 0.3), ls(0, 8.2)); exit(1, L[1].start - 0.45);
+      }
+      /* S2 · Tres principios */
+      { const sc = S(2); enter(2, ls(1, -0.4), "whip");
+        const names = [["01", "Trazabilidad"], ["02", "Contexto"], ["03", "Explicabilidad"]];
+        names.forEach((nm, i) => card(sc, "k2" + i, 150 + i * 560, 300, 520, 400, `<div class="lbl" style="font-size:42px">${nm[0]}</div><div class="h" style="font-size:62px;margin-top:40px">${nm[1]}</div>`));
+        gsap.set(".gcard", { opacity: 0 }); [2.7, 4.0, 5.1].forEach((o, i) => appear("#k2" + i, ls(1, o)));
+        QX.topBanner(tl, sc, "b2", "Tres <span class='accent'>principios</span>", ls(1, 0.3), ls(1, 6.4)); exit(2, L[2].start - 0.45);
+      }
+      /* S3 · Trazabilidad: registro y reintento */
+      { const sc = S(3); enter(3, ls(2, -0.4));
+        sc.insertAdjacentHTML("beforeend", `<div class="lbl" style="position:absolute;left:150px;top:340px;font-size:44px">01</div><div class="big" style="position:absolute;left:150px;top:410px;font-size:104px">Trazabilidad</div>`);
+        const rec = (id, x, y) => card(sc, id, x, y, 640, 430, `<div class="lbl" style="font-size:30px">Registro de avance</div><div class="h" style="font-size:78px;margin:26px 0 22px">8 vasos</div><div class="p" style="font-size:34px">Tomar agua · 2026-11-26</div><div class="p" style="font-size:34px;margin-top:10px">Revisión #1 · identificador único</div>`);
+        rec("rec1", 1050, 260); card(sc, "rec2", 1130, 560, 640, 220, `<div class="lbl" style="font-size:30px;color:#ffd27a">Reintento detectado</div><div class="h" style="font-size:58px;margin-top:14px">Se suma una sola vez</div>`);
+        gsap.set(["#rec1", "#rec2"], { opacity: 0 }); appear("#rec1", ls(2, 1.8)); appear("#rec2", ls(2, 4.4), 0.7, { x: 160 });
+        tl.to("#rec2", { borderColor: "rgba(16,185,129,.9)", duration: 0.4 }, ls(2, 5.2));
+        QX.topBanner(tl, sc, "b3", "Cada registro, <span class='accent'>verificable</span>", ls(2, 0.3), ls(2, 6.3)); exit(3, L[3].start - 0.45);
+      }
+      /* S4 · Contexto: solo con permiso */
+      { const sc = S(4); enter(4, ls(3, -0.4), "whip");
+        sc.insertAdjacentHTML("beforeend", `<div class="lbl" style="position:absolute;left:150px;top:340px;font-size:44px">02</div><div class="big" style="position:absolute;left:150px;top:410px;font-size:104px">Contexto</div>`);
+        card(sc, "perm", 1050, 330, 700, 330, `<div class="lbl" style="font-size:30px">Dato adicional</div><div class="h" style="font-size:54px;margin:22px 0 26px">Requiere tu permiso</div><div id="sw" style="width:170px;height:84px;border-radius:42px;background:#283548;border:3px solid rgba(160,190,255,.35);position:relative"><div id="knob" style="position:absolute;left:6px;top:6px;width:66px;height:66px;border-radius:50%;background:#fff"></div></div>`);
+        sc.insertAdjacentHTML("beforeend", `<div class="tag" id="pd" style="position:absolute;left:1050px;top:700px;font-size:28px;border-color:rgba(160,190,255,.6);color:#cfe0ff;background:rgba(11,15,23,.6)">Principio de diseño</div>`);
+        gsap.set(["#perm", "#pd"], { opacity: 0 }); appear("#perm", ls(3, 1.4)); tl.to("#pd", { opacity: 1, duration: 0.4 }, ls(3, 2.0)).to("#knob", { x: 84, duration: 0.35, ease: "power3.out" }, ls(3, 3.6)).to("#sw", { backgroundColor: "#275bc0", borderColor: "#8db2ff", duration: 0.35 }, ls(3, 3.6));
+        QX.topBanner(tl, sc, "b4", "Tus datos, <span class='accent'>tu decisión</span>", ls(3, 0.3), ls(3, 4.9)); exit(4, L[4].start - 0.45);
+      }
+      /* S5 · Explicabilidad: métricas reales de hoy, recomendaciones en planeación */
+      { const sc = S(5); enter(5, ls(4, -0.4));
+        sc.insertAdjacentHTML("beforeend", `<div class="lbl" style="position:absolute;left:110px;top:230px;font-size:44px">03</div><div class="big" style="position:absolute;left:110px;top:300px;font-size:72px;width:620px;line-height:1.05">Explicabilidad</div>
+          <div id="crop5" class="plate" style="left:790px;top:230px;width:1020px;height:620px;border-radius:26px"><div class="pin" style="transform:translate(-254px,-372px)"><img src="assets/flows/analisis-semana-full.png" style="width:1400px"></div></div>
+          <div class="tag" id="t5a" style="position:absolute;left:110px;top:560px;border-color:rgba(16,185,129,.8);color:#6ee7b7;background:rgba(5,40,28,.55);font-size:28px">Hoy · métricas verificables</div><div class="tag" id="t5b" style="position:absolute;left:110px;top:640px;font-size:28px">Recomendaciones · en planeación</div>`);
+        gsap.set(["#crop5", "#t5a", "#t5b"], { opacity: 0 }); appear("#crop5", ls(4, 3.4), 0.9, { x: 120 }); tl.to("#t5b", { opacity: 1, duration: 0.4 }, ls(4, 2.6)).to("#t5a", { opacity: 1, duration: 0.4 }, ls(4, 6.0));
+        QX.topBanner(tl, sc, "b5", "Resultados que se <span class='accent'>pueden explicar</span>", ls(4, 0.3), ls(4, 8.2)); exit(5, L[5].start - 0.45);
+      }
+      /* S6 · Arquitectura */
+      { const sc = S(6); enter(6, ls(5, -0.4), "whip");
+        const nodes = [["web", 90, 290, "Web instalable", "React · PWA", 1.8], ["mov", 90, 520, "App móvil", "Flutter", 3.9], ["api", 720, 405, "API", "NestJS", 6.0], ["kc", 1340, 270, "Identidad", "Keycloak", 7.7], ["pg", 1340, 520, "Datos", "PostgreSQL", 9.1], ["mon", 720, 680, "Monitoreo local", "Prometheus · Grafana", 11.0]];
+        sc.insertAdjacentHTML("beforeend", `<div class="dash" id="dock" style="position:absolute;left:660px;top:215px;width:1230px;height:610px;border-radius:40px;opacity:0"></div><div class="lbl" id="dockl" style="position:absolute;left:700px;top:232px;font-size:30px;opacity:0">Docker Compose</div><svg id="wires" width="1920" height="1080" style="position:absolute;left:0;top:0"></svg>`);
+        nodes.forEach(([id, x, y, a, b]) => card(sc, "n6" + id, x, y, 460, 130, `<div class="h" style="font-size:44px">${a}</div><div class="p" style="font-size:32px;margin-top:6px;color:#9fbcff">${b}</div>`));
+        gsap.set(".gcard", { opacity: 0 }); gsap.set(".gcard", { padding: 26 });
+        const W = (id, d, t) => { $("#wires").insertAdjacentHTML("beforeend", `<path id="${id}" d="${d}" pathLength="100" fill="none" stroke="#8db2ff" stroke-width="5" stroke-linecap="round" opacity="0.85"/>`); gsap.set("#" + id, { strokeDasharray: 100, strokeDashoffset: 100 }); tl.to("#" + id, { strokeDashoffset: 0, duration: 0.8, ease: "power2.out" }, t); };
+        nodes.forEach(([id, , , , , t]) => appear("#n6" + id, ls(5, t)));
+        W("w1", "M550 355 C640 355 640 470 720 470", ls(5, 6.0)); W("w2", "M550 585 C640 585 640 500 720 500", ls(5, 6.1)); W("w3", "M1180 450 C1260 450 1260 335 1340 335", ls(5, 7.9)); W("w4", "M1180 495 C1260 495 1260 585 1340 585", ls(5, 9.3)); W("w5", "M950 535 L950 680", ls(5, 11.2));
+        tl.to("#dock", { opacity: 1, duration: 0.6 }, ls(5, 10.1)).to("#dockl", { opacity: 1, duration: 0.6 }, ls(5, 10.1));
+        QX.topBanner(tl, sc, "b6", "Por dentro: <span class='accent'>arquitectura moderna</span>", ls(5, 0.3), ls(5, 11.9)); exit(6, L[6].start - 0.45);
+      }
+      /* S7 · 152 pruebas automatizadas */
+      { const sc = S(7); enter(7, ls(6, -0.4));
+        sc.insertAdjacentHTML("beforeend", `<div class="big" id="n152" style="position:absolute;left:0;right:0;top:230px;text-align:center;font-size:330px;color:#9ebcff">0</div><div class="lbl" style="position:absolute;left:0;right:0;top:600px;text-align:center;font-size:44px">pruebas automatizadas</div>`);
+        card(sc, "t7a", 330, 700, 360, 150, `<div class="big" style="font-size:64px">89</div><div class="p" style="font-size:32px">Web</div>`); card(sc, "t7b", 780, 700, 360, 150, `<div class="big" style="font-size:64px">37</div><div class="p" style="font-size:32px">API</div>`); card(sc, "t7c", 1230, 700, 360, 150, `<div class="big" style="font-size:64px">26</div><div class="p" style="font-size:32px">App móvil</div>`);
+        gsap.set(".gcard", { opacity: 0, padding: 24 }); gsap.set("#n152", { opacity: 0 }); tl.to("#n152", { opacity: 1, duration: 0.3 }, ls(6, 2.2)); QX.roll(tl, $("#n152"), ls(6, 2.3), 1.6, 0, 152);
+        [5.3, 6.1, 6.9].forEach((o, i) => appear("#t7" + "abc"[i], ls(6, o), 0.6, { y: 40 }));
+        QX.topBanner(tl, sc, "b7", "Probamos lo que <span class='accent'>construimos</span>", ls(6, 0.3), ls(6, 7.5)); exit(7, L[7].start - 0.45);
+      }
+      /* S8 · Modelo freemium (hipótesis) */
+      { const sc = S(8); enter(8, ls(7, -0.4), "whip"); hyp(sc, "h8", ls(7, 0.9), ls(7, 10.8));
+        card(sc, "g8", 190, 260, 700, 520, `<div class="lbl" style="font-size:34px;color:#6ee7b7">Gratis</div><div class="h" style="font-size:60px;margin:18px 0 26px">Lo esencial</div><div class="p" style="font-size:38px;line-height:1.55">Hábitos<br>Registros<br>Rachas<br>Métricas básicas</div>`);
+        card(sc, "p8", 1000, 260, 730, 520, `<div class="lbl" style="font-size:34px;color:#9fbcff">Premium · hipótesis</div><div class="big" id="pr8" style="font-size:140px;margin:18px 0 14px">MX$99</div><div class="p" style="font-size:38px">al mes · precio de referencia</div><div class="p" style="font-size:32px;margin-top:24px;color:#9fbcff">Analítica avanzada · multi-dispositivo · exportación</div>`);
+        gsap.set(["#g8", "#p8"], { opacity: 0 }); appear("#g8", ls(7, 3.4), 0.8, { x: -80 }); appear("#p8", ls(7, 6.0), 0.8, { x: 80 });
+        QX.topBanner(tl, sc, "b8", "Modelo <span class='accent'>freemium</span>", ls(7, 0.3), ls(7, 3.2)); exit(8, L[8].start - 0.45);
+      }
+      /* S9 · Costos */
+      { const sc = S(9); enter(9, ls(8, -0.4)); hyp(sc, "h9", ls(8, 0.7), ls(8, 11.2));
+        sc.insertAdjacentHTML("beforeend", `<div class="lbl" style="position:absolute;left:170px;top:250px">Costo fijo mensual</div><div class="big" id="fx9" style="position:absolute;left:170px;top:300px;font-size:150px;color:#9ebcff">US$0</div>
+          <div style="position:absolute;left:170px;top:520px;width:1580px;height:70px;border-radius:16px;background:rgba(40,53,72,.7);overflow:hidden"><div id="b9a" style="position:absolute;left:0;top:0;height:100%;width:1564px;background:linear-gradient(90deg,#275bc0,#4a7de8);transform-origin:0 50%"></div><div style="position:absolute;right:0;top:0;width:16px;height:100%;background:#10b981"></div></div>
+          <div class="p" id="e9a" style="position:absolute;left:170px;top:604px;font-family:var(--font-ui);font-size:34px;color:#cfe0ff">Equipo valorado a precio de mercado · US$6,998</div><div class="p" id="e9b" style="position:absolute;right:170px;top:604px;font-family:var(--font-ui);font-size:34px;color:#6ee7b7;text-align:right">Infraestructura<br>US$69</div>
+          <div class="lbl" id="vl9" style="position:absolute;left:170px;top:730px">Costo variable por usuario</div><div class="big" id="vv9" style="position:absolute;left:170px;top:772px;font-size:96px;color:#6ee7b7">US$0.41</div><div class="p" id="vs9" style="position:absolute;left:640px;top:810px;font-family:var(--font-ui);font-size:34px;color:#cfe0ff">IA US$0.34 + almacenamiento y salida US$0.07</div>
+          <div class="p" id="as9" style="position:absolute;left:170px;top:880px;font-family:var(--font-ui);font-size:28px;color:rgba(180,200,240,.8)">Supuestos: 4 personas × MX$388,000/año ÷ 12 · 1 USD = MX$18.48</div>`);
+        gsap.set(["#fx9", "#e9a", "#e9b", "#vl9", "#vv9", "#vs9", "#as9"], { opacity: 0 }); gsap.set("#b9a", { scaleX: 0 });
+        tl.to("#fx9", { opacity: 1, duration: 0.4 }, ls(8, 1.6)); QX.roll(tl, $("#fx9"), ls(8, 1.7), 1.8, 0, 7067, (v) => "US$" + Math.round(v).toLocaleString("es-MX"));
+        tl.to("#b9a", { scaleX: 1, duration: 1.6, ease: "power3.out" }, ls(8, 1.9)).to("#e9a", { opacity: 1, duration: 0.5 }, ls(8, 5.6)).to("#e9b", { opacity: 1, duration: 0.5 }, ls(8, 7.0)).to(["#vl9", "#vv9"], { opacity: 1, duration: 0.5 }, ls(8, 8.4)).to(["#vs9"], { opacity: 1, duration: 0.5 }, ls(8, 10.0)).to("#as9", { opacity: 1, duration: 0.5 }, ls(8, 4.2));
+        QX.topBanner(tl, sc, "b9", "Costos <span class='accent'>del escenario</span>", ls(8, 0.3), ls(8, 1.5)); exit(9, L[9].start - 0.45);
+      }
+      /* S10 · Punto de equilibrio */
+      { const sc = S(10); enter(10, ls(9, -0.4), "whip"); hyp(sc, "h10", ls(9, 0.7), ls(9, 5.5));
+        const X = (x) => 180 + (x / 3000) * 1000, Y = (y) => 790 - (y / 14000) * 520;
+        sc.insertAdjacentHTML("beforeend", `<svg id="ch" width="1920" height="1080" style="position:absolute;left:0;top:0"><g stroke="rgba(160,190,255,.25)" stroke-width="2">${[0, 7000, 14000].map((y) => `<line x1="180" x2="1180" y1="${Y(y)}" y2="${Y(y)}"/>`).join("")}</g><line x1="180" x2="180" y1="270" y2="790" stroke="rgba(160,190,255,.5)" stroke-width="3"/><g font-family="Inter" font-size="28" fill="rgba(200,215,245,.85)"><text x="140" y="${Y(0) + 8}" text-anchor="end">0</text><text x="140" y="${Y(7000) + 8}" text-anchor="end">7 mil</text><text x="140" y="${Y(14000) + 8}" text-anchor="end">14 mil</text><text x="180" y="838">0</text><text x="${X(1500)}" y="838" text-anchor="middle">1,500</text><text x="${X(3000)}" y="838" text-anchor="end">3,000 suscriptores</text></g>
+          <path id="lrev" d="M${X(0)} ${Y(0)} L${X(3000)} ${Y(4.553 * 3000)}" stroke="#34d399" stroke-width="7" fill="none" stroke-linecap="round" pathLength="100"/><path id="lcost" d="M${X(0)} ${Y(7067)} L${X(3000)} ${Y(7067 + 0.41 * 3000)}" stroke="#8db2ff" stroke-width="7" fill="none" stroke-linecap="round" pathLength="100"/>
+          <circle id="dot10" cx="${X(1706)}" cy="${Y(7766)}" r="18" fill="#fff" stroke="#275bc0" stroke-width="6"/><text id="tr" x="${X(3000)}" y="${Y(13659) - 18}" text-anchor="end" font-family="Inter" font-weight="700" font-size="30" fill="#34d399">Ingreso neto</text><text id="tc" x="${X(3000)}" y="${Y(8297) + 44}" text-anchor="end" font-family="Inter" font-weight="700" font-size="30" fill="#8db2ff">Costo total</text></svg>
+          <div class="lbl" id="y10" style="position:absolute;left:180px;top:222px;font-size:28px">US$ al mes</div>
+          <div class="big" id="be10" style="position:absolute;left:1280px;top:340px;font-size:150px;color:#fff">≈1,700</div><div class="p" id="bl10" style="position:absolute;left:1285px;top:520px;font-family:var(--font-ui);font-size:42px;color:#cfe0ff;line-height:1.25">suscriptores premium<br>para cubrir los costos</div><div class="p" id="bs10" style="position:absolute;left:1285px;top:690px;font-family:var(--font-ui);font-size:30px;color:rgba(180,200,240,.85);line-height:1.4">Ingreso neto: US$4.55 por usuario<br>Costo fijo: US$7,067 · variable: US$0.41</div>`);
+        gsap.set(["#lrev", "#lcost"], { strokeDasharray: 100, strokeDashoffset: 100 }); gsap.set(["#dot10", "#tr", "#tc", "#be10", "#bl10", "#bs10", "#y10"], { opacity: 0 });
+        tl.to("#y10", { opacity: 1, duration: 0.4 }, ls(9, 0.9)).to("#lcost", { strokeDashoffset: 0, duration: 1.2, ease: "power2.out" }, ls(9, 1.0)).to("#tc", { opacity: 1, duration: 0.4 }, ls(9, 2.0)).to("#lrev", { strokeDashoffset: 0, duration: 1.3, ease: "power2.out" }, ls(9, 1.6)).to("#tr", { opacity: 1, duration: 0.4 }, ls(9, 2.8))
+          .fromTo("#dot10", { opacity: 0, scale: 0.2, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, ls(9, 3.4)).to("#be10", { opacity: 1, duration: 0.5 }, ls(9, 3.6)).to("#bl10", { opacity: 1, duration: 0.5 }, ls(9, 3.8)).to("#bs10", { opacity: 1, duration: 0.5 }, ls(9, 3.95));
+        hit(ls(9, 3.4), 0.35); QX.topBanner(tl, sc, "b10", "Punto de <span class='accent'>equilibrio</span>", ls(9, 0.3), ls(9, 5.5)); exit(10, L[10].start - 0.45);
+      }
+      /* S11 · Lo que sigue (en planeación) */
+      { const sc = S(11); enter(11, ls(10, -0.4));
+        const items = [["Recordatorios", 2.3], ["Asistente de hábitos con IA", 3.6], ["Wear OS", 6.1], ["Sincronización sin conexión", 7.0]];
+        items.forEach(([t], i) => card(sc, "r11" + i, 150 + (i % 2) * 830, 250 + Math.floor(i / 2) * 300, 770, 260, `<div class="tag" style="display:inline-block;font-size:28px;margin-bottom:22px">En planeación</div><div class="h" style="font-size:48px;line-height:1.1">${t}</div>`, "dash"));
+        gsap.set(".gcard", { opacity: 0, padding: 36 }); items.forEach(([, t], i) => appear("#r11" + i, ls(10, t), 0.7, { y: 40 }));
+        QX.topBanner(tl, sc, "b11", "Lo que <span class='accent'>sigue</span>", ls(10, 0.3), ls(10, 8.4)); exit(11, L[11].start - 0.45);
+      }
+      /* S12 · Equipo */
+      { const sc = S(12); enter(12, ls(11, -0.4), "whip");
+        const team = [["Ángel de Jesús Baños Telles", "Líder de Proyecto"], ["Al Farias Leyva", "Desarrollador Frontend"], ["Francisco García García", "Desarrollador Backend"], ["Jesús Alejandro Artiaga Morales", "Administrador de BD"]];
+        team.forEach((m, i) => card(sc, "m12" + i, 120 + (i % 2) * 850, 250 + Math.floor(i / 2) * 230, 800, 190, `<div class="h" style="font-size:42px;line-height:1.1">${m[0]}</div><div class="p" style="font-size:34px;margin-top:12px;color:#9fbcff">${m[1]}</div>`));
+        sc.insertAdjacentHTML("beforeend", `<div class="lbl" id="u12" style="position:absolute;left:0;right:0;top:740px;text-align:center;font-size:30px;color:rgba(159,188,255,.85)">Universidad Tecnológica de Xicotepec de Juárez · Desarrollo y Gestión de Software</div>`);
+        gsap.set(".gcard", { opacity: 0, padding: 34 }); gsap.set("#u12", { opacity: 0 }); team.forEach((m, i) => appear("#m12" + i, ls(11, 0.8 + i * 0.45), 0.7, { y: 40 })); tl.to("#u12", { opacity: 1, duration: 0.5 }, ls(11, 2.6));
+        QX.topBanner(tl, sc, "b12", "El equipo <span class='accent'>QUANTIFY</span>", ls(11, 0.3), ls(11, 4.9)); exit(12, L[12].start - 0.45);
+      }
+      /* S13 · Cierre */
+      { const sc = S(13); hit(ls(12, 0.0));
+        const w1 = QX.say(sc, "t13a", "Tecnología con evidencia,", "left:0;right:0;top:270px;font-size:128px;"), w2 = QX.say(sc, "t13b", "para que lo que haces<br><span class='accent'>también cuente.</span>", "left:0;right:0;top:430px;font-size:128px;");
+        QX.sayIn(tl, w1, ls(12, 0.5), 0.12); QX.sayIn(tl, w2, ls(12, 2.0), 0.1);
+        sc.insertAdjacentHTML("beforeend", `<div id="end13" style="position:absolute;left:0;right:0;top:790px;display:flex;align-items:center;justify-content:center;gap:34px"><div id="qe13"></div><div class="wordmark" id="we13" style="font-size:88px">QUANTIFY 2.0</div></div>`);
+        $("#qe13").innerHTML = QX.qMark(100, "q13"); const LE = QX.letters($("#we13")); gsap.set(["#q13 .q-ring", "#q13 .q-tail"], { strokeDasharray: 100, strokeDashoffset: 100 }); gsap.set(LE, { opacity: 0, y: 16, filter: "blur(8px)" });
+        tl.fromTo("#q13 .q-ring", { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut" }, ls(12, 3.2)).fromTo("#q13 .q-tail", { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 0.25 }, ls(12, 3.7)).to(LE, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "power4.out", stagger: 0.04 }, ls(12, 3.5));
+        tl.to("#dip", { opacity: 1, duration: 0.5, ease: "power2.in" }, TOTAL - 0.5);
+      }
+      window.__timelines = window.__timelines || {}; window.__timelines["v3"] = tl;
+    </script>
+  </body>
+</html>

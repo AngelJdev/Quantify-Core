@@ -1,0 +1,22 @@
+<!doctype html><html lang="es-MX"><head><meta charset="utf-8"><title>Portadas QUANTIFY 2.0</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+ body{position:relative}
+ .col{position:absolute;left:110px;top:0;bottom:0;width:860px;display:flex;flex-direction:column;justify-content:center;gap:34px;z-index:5}
+ .brand{display:flex;align-items:center;gap:26px}.brand .wordmark{font-size:56px}
+ h1{font-family:var(--font-brand);font-weight:700;font-size:112px;line-height:1.02;letter-spacing:-.025em}
+ h1 .accent{color:#8db2ff}
+ .kick{font-family:var(--font-ui);font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:30px;color:#9fbcff}
+ .dur{font-family:var(--font-ui);font-size:32px;color:rgba(214,228,255,.8)}
+ .shot{position:absolute;right:-60px;top:130px;width:1100px;height:690px;z-index:4}
+</style></head><body><div class="fill" id="bd"></div>
+<div class="col"><div class="brand"><div id="q"></div><div class="wordmark">QUANTIFY 2.0</div></div><div class="kick" id="kick"></div><h1 id="t"></h1><div class="dur" id="d"></div></div>
+<div class="plate shot" id="shot" style="border-radius:28px"><div class="pin" id="pin"><img id="img"></div></div>
+<script src="../shared/components.js"></script><script>
+const V={1:{kick:"Video 1 · Lanzamiento",t:"Transforma<br><span class='accent'>tus hábitos</span>",d:"Lo que haces. También cuenta.",img:"../assets/screenshots/flows/hoy-1.png",w:1500,x:-150,y:-60},
+2:{kick:"Video 2 · Demostración",t:"Descubre<br><span class='accent'>la experiencia</span>",d:"Un día con QUANTIFY 2.0",img:"../assets/screenshots/flows/analisis-semana-full.png",w:1500,x:-150,y:-560},
+3:{kick:"Video 3 · Negocio e innovación",t:"Innovación,<br><span class='accent'>propósito e impacto</span>",d:"Tecnología con evidencia",img:"../assets/screenshots/flows/analisis-mes-full.png",w:1500,x:-150,y:-560}}[new URLSearchParams(location.search).get("v")];
+document.getElementById("bd").innerHTML=QX.backdrop();document.getElementById("q").innerHTML=QX.qMark(84);
+document.getElementById("kick").textContent=V.kick;document.getElementById("t").innerHTML=V.t;document.getElementById("d").textContent=V.d;
+const img=document.getElementById("img");img.src=V.img;img.style.width=V.w+"px";document.getElementById("pin").style.transform=`translate(${V.x}px,${V.y}px)`;
+</script></body></html>

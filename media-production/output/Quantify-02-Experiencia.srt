@@ -1,0 +1,95 @@
+1
+00:00:01,100 --> 00:00:03,612
+Son las nueve y media de la mañana.
+
+2
+00:00:03,632 --> 00:00:07,013
+Sofía quiere cuidar su rutina, sin complicarse.
+
+3
+00:00:07,783 --> 00:00:12,345
+Con QUANTIFY 2.0 organiza sus hábitos en un solo lugar:
+
+4
+00:00:12,365 --> 00:00:15,344
+tomar agua, leer, caminar y meditar.
+
+5
+00:00:16,114 --> 00:00:19,187
+Su pantalla de hoy resume lo importante:
+
+6
+00:00:19,207 --> 00:00:24,523
+cuántos hábitos tiene, cómo va su cumplimiento y lo que aún le falta.
+
+7
+00:00:25,293 --> 00:00:27,604
+Registrar un avance toma un clic.
+
+8
+00:00:27,624 --> 00:00:31,914
+Suma un vaso de agua, y su progreso se actualiza al instante.
+
+9
+00:00:32,684 --> 00:00:37,498
+Si quiere más detalle, anota el valor exacto, cómo se sintió,
+
+10
+00:00:37,518 --> 00:00:39,955
+su nivel de energía y una nota.
+
+11
+00:00:40,725 --> 00:00:42,949
+Cada hábito tiene su historia:
+
+12
+00:00:42,969 --> 00:00:47,961
+la racha actual, el total acumulado y su avance semana tras semana.
+
+13
+00:00:48,731 --> 00:00:52,476
+En Progreso ve su constancia por semana o por mes,
+
+14
+00:00:52,496 --> 00:00:56,316
+con gráficas y un mapa de calor de veintiocho días.
+
+15
+00:00:57,086 --> 00:01:01,011
+Cuando quiere un hábito nuevo, lo crea en segundos:
+
+16
+00:01:01,031 --> 00:01:03,254
+nombre, meta, días y horario.
+
+17
+00:01:04,024 --> 00:01:06,354
+Y cada quien lo ve a su manera:
+
+18
+00:01:06,374 --> 00:01:12,038
+modo claro u oscuro, material sólido o Liquid Glass, y movimiento reducido.
+
+19
+00:01:12,808 --> 00:01:17,958
+En el celular la acompaña la app móvil, conectada al mismo servicio.
+
+20
+00:01:17,978 --> 00:01:21,228
+Y la web se puede instalar como aplicación.
+
+21
+00:01:21,998 --> 00:01:26,203
+Cada registro queda como evidencia, no se duplica si se reintenta,
+
+22
+00:01:26,223 --> 00:01:28,956
+y los datos son solo de quien los registra.
+
+23
+00:01:29,726 --> 00:01:30,845
+QUANTIFY 2.0.
+
+24
+00:01:30,865 --> 00:01:33,386
+Lo que haces, también cuenta.

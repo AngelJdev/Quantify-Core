@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>QUANTIFY 2.0 — Prueba audiovisual</title>
+    <link rel="stylesheet" href="shared/tokens.css" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="shared/components.js"></script>
+    <style>
+      #lockup { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; display: flex; align-items: center; justify-content: center; gap: 56px; }
+      #lockup .wordmark { font-size: 190px; width: 1100px; }
+      #badge { position: absolute; left: 1570px; top: 392px; font-family: var(--font-brand); font-weight: 700; font-size: 60px; padding: 8px 26px; border-radius: 999px; border: 3px solid rgba(126,166,255,.7); color: #cfe0ff; background: rgba(39,91,192,.25); }
+      #cam { position: absolute; inset: 0; transform-origin: 1000px 480px; }
+      #laptop-wrap { position: absolute; left: 240px; top: 110px; }
+      #phone-wrap { position: absolute; left: 1460px; top: 290px; }
+      #chips { position: absolute; left: 0; right: 0; top: 950px; display: flex; justify-content: center; gap: 28px; }
+      #foot { position: absolute; right: 96px; top: 1004px; }
+      .hl { position: absolute; left: 451px; top: 292px; width: 226px; height: 103px; border-radius: 22px; border: 4px solid #7ea6ff; box-shadow: 0 0 60px rgba(74,125,232,.9), 0 0 0 9999px rgba(5,8,14,.0) inset; opacity: 0; }
+      #flash { background: radial-gradient(circle at 50% 50%, rgba(200,220,255,.95) 0%, rgba(74,125,232,.55) 35%, transparent 70%); opacity: 0; }
+      #title1 { position: absolute; left: 0; right: 0; top: 330px; font-size: 176px; }
+      #title2 { position: absolute; left: 0; right: 0; top: 540px; font-size: 176px; }
+      #endcol { position: absolute; left: 0; right: 0; top: 270px; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+      #endrow { display: flex; align-items: center; gap: 44px; }
+      #endword { font-size: 120px; }
+      #tag { font-family: var(--font-ui); font-size: 46px; font-weight: 400; letter-spacing: .02em; color: rgba(214,228,255,.85); }
+      #dip { background: #000; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="pilot" data-start="0" data-duration="14.96" data-width="1920" data-height="1080" data-fps="60">
+      <div id="bd" class="clip fill" data-start="0" data-duration="14.96" data-track-index="0" style="z-index:0"></div>
+
+      <div id="s-brand" class="clip fill" data-start="0" data-duration="3.9" data-track-index="1" style="z-index:5">
+        <div id="lockup"><div id="qbox"></div><div id="wm" class="wordmark">QUANTIFY</div></div>
+        <div id="badge">2.0</div>
+      </div>
+
+      <div id="s-dev" class="clip fill" data-start="3.7" data-duration="3.9" data-track-index="1" style="z-index:5">
+        <div id="cam">
+          <div id="laptop-wrap"></div>
+          <div id="phone-wrap"></div>
+        </div>
+        <div id="chips">
+          <div class="chip" id="c1">Hábitos</div><div class="chip" id="c2">Check-ins</div><div class="chip" id="c3">Rachas</div><div class="chip" id="c4">Análisis</div>
+        </div>
+        <div id="foot" class="footnote">Datos de demostración</div>
+      </div>
+
+      <div id="s-title" class="clip fill" data-start="7.35" data-duration="4.0" data-track-index="1" style="z-index:5">
+        <div id="title1" class="kinetic">Lo que haces.</div>
+        <div id="title2" class="kinetic">También <span class="accent">cuenta.</span></div>
+      </div>
+
+      <div id="s-end" class="clip fill" data-start="11.1" data-duration="3.86" data-track-index="1" style="z-index:5">
+        <div id="endcol">
+          <div id="endrow"><div id="endq"></div><div id="endword" class="wordmark">QUANTIFY 2.0</div></div>
+          <div id="tag">El núcleo de tu progreso diario</div>
+        </div>
+      </div>
+
+      <div id="fx" class="clip fill" data-start="0" data-duration="14.96" data-track-index="2" style="z-index:9"><div id="flash" class="fill"></div><div id="dip" class="fill"></div></div>
+
+      <audio id="mix" src="assets/pilot-mix.wav" data-start="0" data-duration="14.96" data-track-index="3" data-volume="1"></audio>
+    </div>
+
+    <script>
+      const TL = {"qDraw":0.35,"qHit":1.857,"devices":3.738,"chips":[3.972,4.206,4.44,4.674],"phone":4.206,"punch":5.596,"drop":7.476,"title1":7.55,"title2":8.6,"endcard":11.22};
+      const $ = (s) => document.querySelector(s);
+      $("#bd").innerHTML = QX.backdrop();
+      $("#qbox").innerHTML = QX.qMark(250, "qmain");
+      $("#endq").innerHTML = QX.qMark(150, "qend");
+      $("#laptop-wrap").innerHTML = QX.laptop("laptop", "assets/screens/dark-hoy.png", 1180);
+      $("#laptop .screen").insertAdjacentHTML("beforeend", '<div class="hl" id="hl"></div>');
+      $("#phone-wrap").innerHTML = QX.phone("phone", "assets/screens/oppo-hoy-dark.png", 300);
+      const letters = QX.letters($("#wm"));
+      const endLetters = QX.letters($("#endword"));
+      const t1 = QX.words($("#title1"));
+      const t2 = [...$("#title2").childNodes].length ? null : null;
+      // title2 conserva su <span class="accent">: se envuelve palabra por palabra a mano.
+      $("#title2").innerHTML = '<span class="w">También</span> <span class="w accent">cuenta.</span>';
+      const t2w = [...$("#title2").querySelectorAll(".w")];
+
+      const tl = gsap.timeline({ paused: true });
+      const E = { arrive: "expo.out", exit: "power3.in", move: "power2.inOut" };
+
+      // Fondo vivo (nada queda inmóvil)
+      tl.to("#bd-a", { x: 120, y: 60, duration: 14.96, ease: "none" }, 0)
+        .to("#bd-b", { x: 160, y: -80, duration: 14.96, ease: "none" }, 0)
+        .to("#bd-c", { x: -140, y: -40, duration: 14.96, ease: "none" }, 0)
+        .fromTo("#bd-beam", { rotation: -10 }, { rotation: 8, duration: 14.96, ease: "none" }, 0)
+        .fromTo("#bd", { opacity: 0.45 }, { opacity: 1, duration: 0.8, ease: "power2.out" }, 0);
+
+      // 1) El trazo de la Q
+      const ring = "#qmain .q-ring", tail = "#qmain .q-tail";
+      gsap.set([ring, tail], { strokeDasharray: 100, strokeDashoffset: 100 });
+      gsap.set(ring, { strokeDashoffset: 97 }); // primer fotograma con un punto de luz, no vacío
+      tl.fromTo(ring, { strokeDashoffset: 97 }, { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut" }, TL.qDraw)
+        .fromTo(tail, { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, TL.qHit - 0.45);
+      gsap.set("#qbox", { x: 578 });
+      gsap.set(letters, { opacity: 0, y: 26, filter: "blur(10px)" });
+      gsap.set("#badge", { opacity: 0, scale: 0.7 });
+      tl.fromTo("#qbox", { x: 578 }, { x: 0, duration: 1.0, ease: E.arrive }, TL.qHit)
+        .fromTo("#qbox", { filter: "drop-shadow(0 0 0px rgba(126,166,255,0))" }, { filter: "drop-shadow(0 0 38px rgba(126,166,255,.9))", duration: 0.25, ease: "power2.out" }, TL.qHit)
+        .to("#qbox", { filter: "drop-shadow(0 0 14px rgba(126,166,255,.35))", duration: 0.9, ease: "power2.out" }, TL.qHit + 0.25)
+        .to(letters, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power4.out", stagger: 0.067 }, TL.qHit + 0.05)
+        .to("#badge", { opacity: 1, scale: 1, duration: 0.55, ease: "back.out(1.6)" }, TL.qHit + 0.8)
+        // salida del lockup: causada por el laptop que entra
+        .to(["#lockup", "#badge"], { opacity: 0, scale: 1.06, filter: "blur(14px)", duration: 0.32, ease: E.exit }, TL.devices - 0.2);
+
+      // 2) Dispositivos con interfaz real
+      gsap.set("#cam", { scale: 1 });
+      tl.fromTo("#laptop", { opacity: 0, y: 90, scale: 0.94, filter: "blur(12px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 1.0, ease: E.arrive }, TL.devices)
+        .fromTo("#phone", { opacity: 0, x: 150, y: 20, filter: "blur(12px)" }, { opacity: 1, x: 0, y: 0, filter: "blur(0px)", duration: 1.0, ease: E.arrive }, TL.phone)
+        .fromTo("#laptop .sheen", { x: "-120%" }, { x: "120%", duration: 1.2, ease: "power2.inOut" }, 4.25)
+        .fromTo("#phone .sheen", { x: "-120%" }, { x: "120%", duration: 1.0, ease: "power2.inOut" }, 4.6)
+        .to("#cam", { scale: 1.035, duration: 1.8, ease: "power1.inOut" }, TL.devices)
+        .to("#laptop-wrap", { x: -14, duration: 1.8, ease: "power1.inOut" }, TL.devices)
+        .to("#phone-wrap", { x: -34, duration: 1.8, ease: "power1.inOut" }, TL.devices);
+      TL.chips.forEach((t, i) => tl.fromTo("#c" + (i + 1), { opacity: 0, y: 30, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power4.out" }, t));
+      tl.fromTo("#foot", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 4.0);
+      // Acercamiento a la tarjeta de cumplimiento
+      tl.to("#chips", { opacity: 0, y: 12, duration: 0.25, ease: E.exit }, TL.punch - 0.05)
+        .to("#phone", { opacity: 0, duration: 0.3, ease: "power2.in" }, TL.punch)
+        .to("#cam", { scale: 1.8, duration: 0.6, ease: E.move }, TL.punch)
+        .fromTo("#hl", { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, TL.punch + 0.55)
+        .to("#hl", { boxShadow: "0 0 90px rgba(126,166,255,1)", duration: 0.7, ease: "sine.inOut", yoyo: true, repeat: 1 }, TL.punch + 0.9);
+      // Salida acelerada hacia el golpe
+      tl.to("#cam", { scale: 2.6, opacity: 0, filter: "blur(22px)", duration: 0.28, ease: E.exit }, TL.drop - 0.28)
+        .to(["#foot", "#hl"], { opacity: 0, duration: 0.2 }, TL.drop - 0.3);
+
+      // 3) El golpe: inundación de color y titulares
+      tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.95, duration: 0.07, ease: "power2.out" }, TL.drop - 0.04)
+        .to("#flash", { opacity: 0, duration: 0.5, ease: "power2.out" }, TL.drop + 0.03)
+        .fromTo("#bd-a", { scale: 1 }, { scale: 1.4, duration: 0.25, ease: "power3.out" }, TL.drop)
+        .to("#bd-a", { scale: 1.05, duration: 1.4, ease: "power2.out" }, TL.drop + 0.25);
+      gsap.set([t1, t2w], { opacity: 0, filter: "blur(12px)" });
+      tl.to(t1, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out", stagger: 0.1 }, TL.title1)
+        .to(t2w, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out", stagger: 0.14 }, TL.title2)
+        .to([t1, t2w], { opacity: 0, filter: "blur(12px)", duration: 0.22, ease: E.exit, stagger: 0.04 }, 10.95);
+
+      // 4) Cierre de marca
+      gsap.set("#endq .q-ring, #endq .q-tail", { strokeDasharray: 100, strokeDashoffset: 100 });
+      gsap.set(endLetters, { opacity: 0, y: 20, filter: "blur(8px)" });
+      gsap.set("#tag", { opacity: 0, filter: "blur(6px)" });
+      tl.fromTo("#endq .q-ring", { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut" }, TL.endcard)
+        .fromTo("#endq .q-tail", { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 0.25, ease: "power2.out" }, TL.endcard + 0.5)
+        .to(endLetters, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "power4.out", stagger: 0.045 }, TL.endcard + 0.3)
+        .to("#tag", { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, TL.endcard + 0.95)
+        .to("#dip", { opacity: 1, duration: 0.3, ease: "power2.in" }, 14.66);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["pilot"] = tl;
+    </script>
+  </body>
+</html>

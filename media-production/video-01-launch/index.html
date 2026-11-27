@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>QUANTIFY 2.0 — Transforma tus hábitos</title>
+    <link rel="stylesheet" href="shared/tokens.css" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="shared/components.js"></script>
+    <script src="shared/scenes.js"></script>
+    <script src="beats.js"></script>
+    <style>
+      .sc { position: absolute; inset: 0; }
+      .cap { position: absolute; font-family: var(--font-ui); font-weight: 700; font-size: 34px; color: rgba(210,225,255,.75); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="v1" data-start="0" data-duration="75" data-width="1920" data-height="1080" data-fps="60">
+      <div id="bd" class="clip fill" data-start="0" data-duration="75" data-track-index="0" style="z-index:0"></div>
+      <div id="s1" class="clip fill" data-start="0" data-duration="8.7" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s2" class="clip fill" data-start="8.2" data-duration="9.0" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s3" class="clip fill" data-start="16.0" data-duration="5.0" data-track-index="1" style="z-index:6"><div class="sc"></div></div>
+      <div id="s4" class="clip fill" data-start="20.7" data-duration="8.6" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s5" class="clip fill" data-start="29.0" data-duration="8.5" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s6" class="clip fill" data-start="37.2" data-duration="8.7" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s7" class="clip fill" data-start="45.6" data-duration="10.7" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s8" class="clip fill" data-start="55.9" data-duration="10.7" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="s9" class="clip fill" data-start="66.3" data-duration="8.7" data-track-index="1" style="z-index:5"><div class="sc"></div></div>
+      <div id="fx" class="clip fill" data-start="0" data-duration="75" data-track-index="2" style="z-index:9"><div id="flash" class="fill" style="background:radial-gradient(circle at 50% 50%,rgba(200,220,255,.95) 0%,rgba(74,125,232,.55) 35%,transparent 70%);opacity:0"></div><div id="dip" class="fill" style="background:#000;opacity:0"></div></div>
+      <audio id="mix" src="assets/mix.wav" data-start="0" data-duration="75" data-track-index="3" data-volume="1"></audio>
+    </div>
+
+    <script>
+      const $ = (s) => document.querySelector(s);
+      const T = (n, o = 0) => D[n] + o;
+      const S = (n) => $("#s" + n + " .sc");
+      const E = { in: "expo.out", out: "power3.in", mv: "power2.inOut" };
+      $("#bd").innerHTML = QX.backdrop();
+      const tl = gsap.timeline({ paused: true });
+      const exit = (n, t, kind = "blur") => tl.to(S(n), kind === "whip" ? { x: -260, opacity: 0, filter: "blur(30px)", duration: 0.35, ease: E.out } : { opacity: 0, scale: 1.05, filter: "blur(14px)", duration: 0.3, ease: E.out }, t);
+      const banner = (sc, id, html, t0, t1, top = 905) => {
+        sc.insertAdjacentHTML("beforeend", `<div class="banner" id="${id}" style="top:${top}px"><div class="b-in">${html}</div></div>`);
+        gsap.set("#" + id, { opacity: 0, y: 24, filter: "blur(10px)" });
+        tl.to("#" + id, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "power4.out" }, t0).to("#" + id, { opacity: 0, y: -10, filter: "blur(8px)", duration: 0.25, ease: E.out }, t1);
+      };
+      // Fondo vivo: halos a la deriva; el golpe de T8 y T32 los enciende
+      tl.to("#bd-a", { x: 140, y: 70, duration: 75, ease: "none" }, 0).to("#bd-b", { x: 180, y: -90, duration: 75, ease: "none" }, 0).to("#bd-c", { x: -160, y: -50, duration: 75, ease: "none" }, 0)
+        .fromTo("#bd-beam", { rotation: -12 }, { rotation: 14, duration: 75, ease: "none" }, 0).fromTo("#bd", { opacity: 0.5 }, { opacity: 1, duration: 1, ease: "power2.out" }, 0)
+        .fromTo("#bd-a", { scale: 1 }, { scale: 1.35, duration: 0.25, ease: "power3.out" }, T(8)).to("#bd-a", { scale: 1.05, duration: 1.6, ease: "power2.out" }, T(8) + 0.25)
+        .fromTo("#bd-a", { scale: 1.05 }, { scale: 1.4, duration: 0.25, ease: "power3.out" }, T(32)).to("#bd-a", { scale: 1.05, duration: 1.6, ease: "power2.out" }, T(32) + 0.25);
+      const hit = (t) => tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.95, duration: 0.07, ease: "power2.out" }, t - 0.04).to("#flash", { opacity: 0, duration: 0.5, ease: "power2.out" }, t + 0.03);
+
+      /* ---------- S1: contar días ---------- */
+      { const sc = S(1);
+        const dots = QX.dots(sc, "d1", 7, 4, 74, 24, 1130, 380);
+        gsap.set(dots.slice(1), { opacity: 0, scale: 0 });
+        tl.to(dots.slice(1), { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)", stagger: 0.11 }, 0.7)
+          .to(dots, { backgroundColor: "#3a4658", duration: 0.8, stagger: 0.03 }, T(3, 0.1));
+        const w = QX.say(sc, "t1", "Contar días<br>no es entender<br>tu progreso.", "left:130px;top:325px;width:900px;text-align:left;font-size:124px;");
+        gsap.set(w.slice(0, 2), { opacity: 1, filter: "blur(0px)" }); QX.sayIn(tl, w.slice(2), 0.6, 0.2); gsap.set(w.slice(0, 2), { opacity: 1, filter: "blur(0px)" }); QX.sayOut(tl, w, T(4) - 0.4);
+        tl.to(dots, { opacity: 0.25, duration: 0.3 }, T(4) - 0.3);
+      }
+      /* ---------- S2: una racha puede decir lo que declaraste ---------- */
+      { const sc = S(2);
+        const bg = QX.dots(sc, "d2", 7, 4, 74, 24, 1130, 380);
+        gsap.set(bg, { opacity: 0.25, backgroundColor: "#3a4658" });
+        sc.insertAdjacentHTML("beforeend", `<div class="big" id="n12" style="position:absolute;left:130px;top:170px;font-size:430px;color:#9ebcff">0</div><div class="lbl" id="n12l" style="position:absolute;left:140px;top:640px">días de racha</div><div id="strike" style="position:absolute;left:110px;top:400px;width:560px;height:14px;border-radius:7px;background:#ff6b6b"></div>`);
+        gsap.set("#strike", { rotation: -12, scaleX: 0, transformOrigin: "0% 50%" }); gsap.set(["#n12", "#n12l"], { opacity: 0 });
+        tl.to(["#n12", "#n12l"], { opacity: 1, duration: 0.4 }, T(4, 0.3));
+        QX.roll(tl, $("#n12"), T(4, 0.4), 1.5, 0, 12);
+        const a = QX.say(sc, "t2a", "Una racha puede reflejar<br>lo que declaraste,", "left:1010px;top:230px;width:820px;text-align:left;font-size:80px;");
+        const b = QX.say(sc, "t2b", "no el esfuerzo<br><span class='accent'>real.</span>", "left:1010px;top:520px;width:820px;text-align:left;font-size:110px;");
+        QX.sayIn(tl, a, T(4, 0.9), 0.12); QX.sayIn(tl, b, T(6, 0.1), 0.14);
+        tl.to("#strike", { scaleX: 1, duration: 0.35, ease: "power3.out" }, T(6, 0.1)).to(["#n12", "#n12l"], { opacity: 0.3, duration: 0.4 }, T(6, 0.15));
+        QX.sayOut(tl, a, T(7, -0.2)); QX.sayOut(tl, b, T(7, -0.2)); tl.to(["#n12", "#n12l", "#strike"], { opacity: 0, duration: 0.3 }, T(7, -0.15));
+        // los puntos del calendario convergen al centro y se convierten en la Q
+        bg.forEach((d, i) => { const cx = 1130 + (i % 7) * 74, cy = 380 + Math.floor(i / 7) * 74; tl.to(d, { x: 960 - cx, y: 540 - cy, scale: 0.35, opacity: 1, backgroundColor: "#9ebcff", duration: 0.85, ease: "power3.in" }, T(7, -0.1) + i * 0.005); });
+        tl.to(bg, { opacity: 0, duration: 0.12 }, T(8) - 0.12);
+        exit(2, T(8) + 0.1);
+      }
+      /* ---------- S3: la Q, el nombre ---------- */
+      { const sc = S(3);
+        sc.insertAdjacentHTML("beforeend", `<div id="lock3" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:56px"><div id="qb3"></div><div class="wordmark" id="wm3" style="font-size:190px;width:1100px">QUANTIFY</div></div><div id="bdg3" style="position:absolute;left:1570px;top:392px;font-family:var(--font-brand);font-weight:700;font-size:60px;padding:8px 26px;border-radius:999px;border:3px solid rgba(126,166,255,.7);color:#cfe0ff;background:rgba(39,91,192,.25)">2.0</div><div id="tg3" style="position:absolute;left:0;right:0;top:700px;text-align:center;font-family:var(--font-brand);font-weight:700;font-size:54px;letter-spacing:.22em;text-transform:uppercase;color:#9fbcff">Transforma tus hábitos</div>`);
+        $("#qb3").innerHTML = QX.qMark(250, "q3"); const L = QX.letters($("#wm3"));
+        gsap.set(["#q3 .q-ring", "#q3 .q-tail"], { strokeDasharray: 100, strokeDashoffset: 100 }); gsap.set("#qb3", { x: 578 }); gsap.set(L, { opacity: 0, y: 26, filter: "blur(10px)" }); gsap.set(["#bdg3", "#tg3"], { opacity: 0 });
+        tl.fromTo("#q3 .q-ring", { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 0.55, ease: "power2.in" }, T(8) - 0.5).fromTo("#q3 .q-tail", { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 0.2, ease: "power2.out" }, T(8) - 0.12)
+          .fromTo("#qb3", { filter: "drop-shadow(0 0 0 rgba(126,166,255,0))" }, { filter: "drop-shadow(0 0 40px rgba(126,166,255,.95))", duration: 0.2 }, T(8)).to("#qb3", { filter: "drop-shadow(0 0 14px rgba(126,166,255,.35))", duration: 0.9 }, T(8) + 0.2)
+          .to("#qb3", { x: 0, duration: 0.95, ease: E.in }, T(8) + 0.35).to(L, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power4.out", stagger: 0.06 }, T(8) + 0.4)
+          .fromTo("#bdg3", { scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.55, ease: "back.out(1.6)" }, T(8) + 1.15).to("#tg3", { opacity: 1, duration: 0.6, ease: "power3.out" }, T(8) + 1.5)
+          .to(sc, { opacity: 0, scale: 1.06, filter: "blur(14px)", duration: 0.3, ease: E.out }, T(10) - 0.25);
+        hit(T(8));
+      }
+      /* ---------- S4: Hoy, plano general y acercamientos ---------- */
+      { const sc = S(4); sc.insertAdjacentHTML("beforeend", `<div class="cam" id="cam4"></div>`); const cam = $("#cam4");
+        QX.plate(cam, { id: "p4", src: "assets/flows/hoy-1.png", w: 1640, ratio: 0.625, x: 140, y: 28 });
+        const P = (fx, fy) => QX.pt("p4", fx, fy);
+        gsap.set("#p4", { opacity: 0 });
+        tl.fromTo("#p4", { opacity: 0, y: 130, scale: 0.93, filter: "blur(14px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 1.1, ease: E.in }, T(10));
+        QX.cam(tl, "cam4", T(10, 2.04), 0.7, P(0.58, 0.47), 1.45); QX.cam(tl, "cam4", T(10, 4.15), 0.7, P(0.45, 0.80), 1.6); QX.cam(tl, "cam4", T(10, 6.24), 0.8, P(0.86, 0.66), 2.0);
+        banner(sc, "b4a", "Tus hábitos, <span class='accent'>en un solo lugar</span>", T(10, 0.9), T(10, 2.5));
+        banner(sc, "b4b", "Tu cumplimiento, <span class='accent'>de un vistazo</span>", T(10, 2.7), T(10, 4.3));
+        banner(sc, "b4c", "Cada hábito, <span class='accent'>a tu ritmo</span>", T(10, 4.5), T(10, 6.1));
+        exit(4, T(14) - 0.3, "blur");
+      }
+      /* ---------- S5: un clic, un avance (UI real en tres estados) ---------- */
+      { const sc = S(5); sc.insertAdjacentHTML("beforeend", `<div class="cam" id="cam5"></div>`); const cam = $("#cam5");
+        ["hoy-1", "hoy-2", "hoy-3"].forEach((n, i) => QX.plate(cam, { id: "p5" + i, src: `assets/flows/${n}.png`, w: 1640, ratio: 0.625, x: 140, y: 28 }));
+        gsap.set(["#p51", "#p52"], { opacity: 0 });
+        const P = (id, fx, fy) => QX.pt(id, fx, fy);
+        QX.camSet("cam5", P("p50", 0.45, 0.8), 1.7);
+        tl.fromTo("#cam5", { opacity: 0, filter: "blur(16px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, T(14) - 0.05);
+        const c = QX.cursor(cam, "cur5");
+        const A = P("p50", 0.444, 0.845), Bb = P("p51", 0.528, 0.914);
+        gsap.set("#cur5", { x: P("p50", 0.78, 0.95).x, y: P("p50", 0.78, 0.95).y });
+        c.move(tl, T(14, 0.5), 1.0, A); c.click(tl, T(14, 1.7), A);
+        tl.to("#p51", { opacity: 1, duration: 0.18 }, T(14, 1.74)); QX.cam(tl, "cam5", T(14, 1.9), 0.6, P("p51", 0.47, 0.84), 1.55);
+        c.move(tl, T(14, 2.3), 1.0, Bb); c.click(tl, T(14, 3.5), Bb);
+        tl.to("#p52", { opacity: 1, duration: 0.18 }, T(14, 3.54)); QX.cam(tl, "cam5", T(14, 3.8), 0.9, P("p52", 0.74, 0.62), 1.7);
+        tl.to("#cur5", { opacity: 0, duration: 0.2 }, T(14, 3.9));
+        QX.cam(tl, "cam5", T(14, 6.6), 0.9, { x: 960, y: 540 }, 1.0);
+        banner(sc, "b5a", "Un clic. <span class='accent'>Un avance.</span>", T(14, 0.3), T(14, 2.2));
+        banner(sc, "b5b", "Tu progreso se actualiza <span class='accent'>al instante</span>", T(14, 4.2), T(14, 6.5));
+        exit(5, T(18) - 0.3, "whip");
+      }
+      /* ---------- S6: cada avance deja evidencia ---------- */
+      { const sc = S(6);
+        QX.plate(sc, { id: "p6a", src: "assets/flows/checkin-2.png", w: 1640, ratio: 3056 / 2880, h: 1025, x: 140, y: 28 });
+        QX.plate(sc, { id: "p6b", src: "assets/flows/checkin-1.png", w: 1640, ratio: 0.625, h: 1025, x: 140, y: 28 });
+        gsap.set("#p6a", { opacity: 0 });
+        tl.fromTo("#p6b", { opacity: 0, x: 320, filter: "blur(30px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.7, ease: E.in }, T(18, 0.05))
+          .to("#p6a", { opacity: 1, duration: 0.4 }, T(18, 2.2)).to("#p6b", { opacity: 0, duration: 0.01 }, T(18, 2.65));
+        QX.pan(tl, "p6a", T(18, 3.0), 3.6, 715);
+        banner(sc, "b6a", "Cada avance <span class='accent'>deja evidencia</span>", T(18, 0.7), T(18, 2.6));
+        sc.insertAdjacentHTML("beforeend", `<div id="chips6" style="position:absolute;left:0;right:0;top:925px;display:flex;justify-content:center;gap:24px;z-index:8">${["Valor", "Ánimo", "Energía", "Nota", "Foto"].map((t, i) => `<div class="chip" id="c6${i}">${t}</div>`).join("")}</div>`);
+        gsap.set("#chips6 .chip", { opacity: 0, y: 30, filter: "blur(8px)" });
+        tl.to("#chips6 .chip", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power4.out", stagger: 0.35 }, T(18, 3.9));
+        exit(6, T(22) - 0.3, "whip");
+      }
+      /* ---------- S7: observa tu constancia ---------- */
+      { const sc = S(7); sc.insertAdjacentHTML("beforeend", `<div class="cam" id="cam7"></div>`); const cam = $("#cam7");
+        ["analisis-semana-full", "analisis-curva-full", "analisis-mes-full"].forEach((n, i) => QX.plate(cam, { id: "p7" + i, src: `assets/flows/${n}.png`, w: 1640, ratio: 3114 / 2880, h: 1025, x: 140, y: 28 }));
+        gsap.set(["#p71", "#p72"], { opacity: 0 });
+        tl.fromTo("#cam7", { opacity: 0, y: 120, filter: "blur(14px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: E.in }, T(22) - 0.05);
+        ["p70", "p71", "p72"].forEach((id) => QX.pan(tl, id, T(22, 0.9), 1.5, 560));
+        const P = (fx, fy) => QX.pt("p70", fx, fy, -560);
+        QX.cam(tl, "cam7", T(22, 2.7), 0.8, P(0.40, 0.53), 1.45);
+        tl.to("#p71", { opacity: 1, duration: 0.3 }, T(22, 4.1));
+        QX.cam(tl, "cam7", T(22, 5.7), 0.9, P(0.83, 0.50), 1.65);
+        tl.to("#p72", { opacity: 1, duration: 0.3 }, T(22, 8.4)); QX.cam(tl, "cam7", T(22, 8.3), 0.9, { x: 960, y: 540 }, 1.0);
+        banner(sc, "b7a", "Observa <span class='accent'>tu constancia</span>", T(22, 0.5), T(22, 2.4));
+        banner(sc, "b7b", "Semana, mes y <span class='accent'>curva de tendencia</span>", T(22, 3.7), T(22, 6.0));
+        banner(sc, "b7c", "Mapa de calor de <span class='accent'>28 días</span>", T(22, 6.05), T(22, 8.3));
+        exit(7, T(27) - 0.3, "blur");
+      }
+      /* ---------- S8: computadora y celular, claro u oscuro, sólido o Liquid Glass ---------- */
+      { const sc = S(8);
+        sc.insertAdjacentHTML("beforeend", `<div id="lw8" style="position:absolute;left:110px;top:120px"></div><div id="pa8" style="position:absolute;left:1330px;top:240px"></div><div id="pb8" style="position:absolute;left:1600px;top:420px"></div>`);
+        $("#lw8").innerHTML = QX.laptop("lap8", "assets/flows/hoy-1.png", 1100);
+        $("#lap8 .screen").insertAdjacentHTML("beforeend", `<img id="lightlap" src="assets/flows/light-hoy-1.png" style="position:absolute;inset:0;clip-path:circle(0px at 66% 3%)">`);
+        $("#pa8").innerHTML = QX.phone("ph8a", "assets/oppo/hoy-dark.png", 270); $("#ph8a .screen").insertAdjacentHTML("beforeend", `<img id="lightph" src="assets/oppo/hoy-light.png" style="position:absolute;inset:0;opacity:0">`);
+        $("#pb8").innerHTML = QX.phone("ph8b", "assets/oppo/progreso.png", 270);
+        sc.insertAdjacentHTML("beforeend", `<div id="pnl8" class="plate" style="left:690px;top:150px;width:690px;height:790px;border-radius:30px;z-index:7"><div class="pin" style="transform:translate(-558px,-62px)"><img src="assets/flows/panel-apariencia.png" style="width:1800px"></div></div><div class="tag" id="tag8" style="position:absolute;left:96px;top:36px;font-size:28px">Datos de demostración · App móvil: prototipo Flutter</div>`);
+        gsap.set("#pnl8", { opacity: 0 }); gsap.set("#tag8", { opacity: 0 });
+        tl.fromTo("#lap8", { opacity: 0, y: 110, scale: 0.94, filter: "blur(14px)" }, { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 1.0, ease: E.in }, T(27) - 0.05)
+          .fromTo("#ph8a", { opacity: 0, x: 140, filter: "blur(12px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 1.0, ease: E.in }, T(27, 1.0))
+          .fromTo("#ph8b", { opacity: 0, x: 200, filter: "blur(12px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 1.0, ease: E.in }, T(27, 1.5))
+          .fromTo("#lap8 .sheen, #ph8a .sheen, #ph8b .sheen", { x: "-120%" }, { x: "120%", duration: 1.1, ease: "power2.inOut" }, T(27, 1.4)).to("#tag8", { opacity: 1, duration: 0.4 }, T(27, 1.4))
+          .to("#lightlap", { clipPath: "circle(160% at 66% 3%)", duration: 1.0, ease: "power2.inOut" }, T(27, 3.4)).to("#lightph", { opacity: 1, duration: 0.5 }, T(27, 3.6))
+          .fromTo("#pnl8", { opacity: 0, scale: 0.9, y: 40, filter: "blur(10px)" }, { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: E.in }, T(27, 5.8))
+          .to(["#lap8", "#ph8a", "#ph8b"], { opacity: 0.3, filter: "blur(6px)", duration: 0.5 }, T(27, 5.8));
+        banner(sc, "b8a", "En tu computadora <span class='accent'>y en tu celular</span>", T(27, 0.6), T(27, 3.0), 930);
+        banner(sc, "b8b", "Claro u oscuro, <span class='accent'>como prefieras</span>", T(27, 3.6), T(27, 5.6), 930);
+        banner(sc, "b8c", "Sólido o Liquid Glass. <span class='accent'>A tu manera.</span>", T(27, 6.1), T(27, 9.0), 960);
+        exit(8, T(32) - 0.3, "blur");
+      }
+      /* ---------- S9: cierre ---------- */
+      { const sc = S(9);
+        const w1 = QX.say(sc, "t9a", "Lo que haces.", "left:0;right:0;top:330px;font-size:176px;"); const w2 = QX.say(sc, "t9b", "También <span class='accent'>cuenta.</span>", "left:0;right:0;top:540px;font-size:176px;");
+        QX.sayIn(tl, w1, T(32, 0.12), 0.1); QX.sayIn(tl, w2, T(32, 1.1), 0.14);
+        QX.sayOut(tl, w1, T(34) - 0.3); QX.sayOut(tl, w2, T(34) - 0.3);
+        sc.insertAdjacentHTML("beforeend", `<div id="end9" style="position:absolute;left:0;right:0;top:260px;display:flex;flex-direction:column;align-items:center;gap:40px"><div style="display:flex;align-items:center;gap:44px"><div id="qe9"></div><div class="wordmark" id="we9" style="font-size:120px">QUANTIFY 2.0</div></div><div id="tg9" style="font-family:var(--font-ui);font-size:48px;color:rgba(214,228,255,.88);letter-spacing:.02em">El núcleo de tu progreso diario</div><div class="lbl" id="cr9" style="font-size:28px;margin-top:70px;color:rgba(159,188,255,.7)">UTXJ · Desarrollo y Gestión de Software</div></div>`);
+        $("#qe9").innerHTML = QX.qMark(150, "q9"); const LE = QX.letters($("#we9"));
+        gsap.set(["#q9 .q-ring", "#q9 .q-tail"], { strokeDasharray: 100, strokeDashoffset: 100 }); gsap.set(LE, { opacity: 0, y: 20, filter: "blur(8px)" }); gsap.set(["#tg9", "#cr9"], { opacity: 0, filter: "blur(6px)" });
+        tl.fromTo("#q9 .q-ring", { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut" }, T(34)).fromTo("#q9 .q-tail", { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 0.25 }, T(34, 0.5))
+          .to(LE, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "power4.out", stagger: 0.045 }, T(34, 0.3)).to("#tg9", { opacity: 1, filter: "blur(0px)", duration: 0.5 }, T(34, 1.0)).to("#cr9", { opacity: 1, filter: "blur(0px)", duration: 0.5 }, T(34, 1.7));
+        hit(T(32)); tl.to("#dip", { opacity: 1, duration: 0.35, ease: "power2.in" }, 74.65);
+      }
+      window.__timelines = window.__timelines || {}; window.__timelines["v1"] = tl;
+    </script>
+  </body>
+</html>

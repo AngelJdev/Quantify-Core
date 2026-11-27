@@ -1,0 +1,19 @@
+{
+  "name": "@quantify-core/media-production",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Producción audiovisual de QUANTIFY 2.0: composiciones HyperFrames, capturas, audio y control de calidad. Independiente del producto.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "capture": "node scripts/capture.mjs",
+    "finance": "python3 scripts/finance_check.py"
+  },
+  "dependencies": {
+    "gsap": "3.15.1",
+    "hyperframes": "0.9.102",
+    "playwright": "1.65.0"
+  }
+}
