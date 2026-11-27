@@ -1,22 +1,37 @@
+import { useState } from "react";
 import { ContactSection } from "./IdentityPages";
 import { Link } from "react-router-dom";
 import { PublicShell, WeekStrip } from "@/shared/ui/Prototype";
 import { Icon } from "@/shared/ui/Icon";
+import { useDemo } from "@/app/DemoProvider";
 import "./welcome.css";
 
 function RoutinePreview() {
+  const [readingDone, setReadingDone] = useState(true);
+  const [walkMinutes, setWalkMinutes] = useState(12);
+
+  const walkDone = walkMinutes >= 20;
+  const completedCount = (readingDone ? 1 : 0) + (walkDone ? 1 : 0);
+  const totalPct = Math.round(
+    ((readingDone ? 100 : 0) + Math.min(100, (walkMinutes / 20) * 100)) / 2,
+  );
+
+  function cycleWalk() {
+    setWalkMinutes((prev) => (prev >= 20 ? 8 : Math.min(20, prev + 4)));
+  }
+
   return (
     <div className="welcome-stage">
       <div className="welcome-orbit" aria-hidden="true" />
       <div className="welcome-stage-label">
-        <span /> TU DÍA, EN PERSPECTIVA <span>01 / 03</span>
+        <span /> TU DÍA, EN PERSPECTIVA · INTERACTIVO <span>01 / 03</span>
       </div>
       <section className="welcome-routine" aria-labelledby="routine-title">
         <div className="welcome-window" aria-hidden="true">
           <i />
           <i />
           <i />
-          <span>QUANTIFY / TU ESPACIO</span>
+          <span>QUANTIFY / VISTA INTERACTIVA</span>
         </div>
         <div className="welcome-routine-body">
           <div className="welcome-routine-heading">
@@ -24,54 +39,95 @@ function RoutinePreview() {
               <p className="eyebrow">UN MOMENTO PARA TI</p>
               <h2 id="routine-title">Tu rutina de hoy</h2>
             </div>
-            <span className="prototype-tag">Ejemplo</span>
+            <button
+              type="button"
+              className="welcome-interactive-pill"
+              onClick={() => {
+                setReadingDone(true);
+                setWalkMinutes(20);
+              }}
+              title="Haz clic para simular el día al 100%"
+            >
+              {totalPct === 100 ? "✓ Día completado" : "⚡ Simular 100%"}
+            </button>
           </div>
           <div className="welcome-completion">
             <div>
-              <strong>Un paso más cerca.</strong>
-              <p>1 de 2 metas completas</p>
+              <strong>
+                {totalPct === 100
+                  ? "¡Meta diaria alcanzada!"
+                  : "Un paso más cerca."}
+              </strong>
+              <p>{completedCount} de 2 metas completas (toca un hábito)</p>
             </div>
             <div
               className="welcome-ring"
+              style={{
+                background: `conic-gradient(var(--qc-action) ${totalPct}%, var(--qc-line) 0)`,
+              }}
               role="img"
-              aria-label="50 por ciento de las metas de ejemplo completas"
+              aria-label={`${totalPct} por ciento de las metas completas`}
             >
               <span>
-                50<small>%</small>
+                {totalPct}
+                <small>%</small>
               </span>
             </div>
           </div>
-          <div className="welcome-habit">
+          <div
+            className="welcome-habit welcome-habit-interactive"
+            onClick={() => setReadingDone((v) => !v)}
+            title="Haz clic para alternar estado"
+          >
             <span className="welcome-habit-icon">
               <Icon name="lectura" />
             </span>
             <div>
               <strong>Lectura</strong>
-              <small>20 / 20 min</small>
+              <small>{readingDone ? "20 / 20 min" : "0 / 20 min"}</small>
             </div>
-            <span className="welcome-done">
-              <Icon name="confirmado" />
-            </span>
+            {readingDone ? (
+              <span className="welcome-done">
+                <Icon name="confirmado" />
+              </span>
+            ) : (
+              <span className="welcome-interactive-pill">+20 min</span>
+            )}
           </div>
-          <div className="welcome-habit">
+          <div
+            className="welcome-habit welcome-habit-interactive"
+            onClick={cycleWalk}
+            title="Haz clic para sumar minutos"
+          >
             <span className="welcome-habit-icon">
               <Icon name="movimiento" />
             </span>
             <div>
               <strong>Caminar</strong>
-              <small>12 / 20 min</small>
+              <small>{walkMinutes} / 20 min</small>
             </div>
-            <span
-              className="welcome-habit-meter"
-              role="img"
-              aria-label="Caminar: 60 por ciento de la meta de ejemplo"
-            >
-              <i />
-            </span>
+            {walkDone ? (
+              <span className="welcome-done">
+                <Icon name="confirmado" />
+              </span>
+            ) : (
+              <span
+                className="welcome-habit-meter"
+                role="img"
+                aria-label={`Caminar: ${Math.round((walkMinutes / 20) * 100)} por ciento de la meta`}
+              >
+                <i
+                  style={{
+                    width: `${Math.min(100, Math.round((walkMinutes / 20) * 100))}%`,
+                    transition: "width 240ms cubic-bezier(0.23, 1, 0.32, 1)",
+                  }}
+                />
+              </span>
+            )}
           </div>
           <div className="welcome-week-heading">
             <span>Tu semana, paso a paso</span>
-            <span>5 de 7 días</span>
+            <span>{totalPct === 100 ? "6 de 7 días" : "5 de 7 días"}</span>
           </div>
           <WeekStrip />
         </div>
@@ -81,20 +137,21 @@ function RoutinePreview() {
           <Icon name="recordatorio" />
         </span>
         <div>
-          <small>UN ESPACIO EN TU DÍA</small>
-          <strong>Tu momento de lectura</strong>
+          <small>LOGROS Y CONSTANCIA</small>
+          <strong>36 medallas listas para desbloquear</strong>
         </div>
-        <span>18:00</span>
+        <span>+XP</span>
       </div>
       <p className="welcome-stage-caption">
         <span>DISEÑADO ALREDEDOR DE TI</span>
-        <span>Vista de ejemplo ↗</span>
+        <span>Interactúa con la tarjeta ↗</span>
       </p>
     </div>
   );
 }
 
 export function WelcomePage() {
+  const { state } = useDemo();
   return (
     <PublicShell title="Bienvenida" className="welcome-v2">
       <section className="welcome-hero">
@@ -111,26 +168,38 @@ export function WelcomePage() {
             Organiza tus hábitos y mira tus avances con perspectiva.
           </p>
           <p className="welcome-description">
-            Un espacio para construir una rutina que se sienta tuya y se adapte
-            a tu día.
+            Un espacio elegante e interactivo para registrar tu progreso en un
+            clic, visualizar gráficas en vivo y desbloquear 36 logros de
+            constancia en tu cuenta personal.
           </p>
           <div className="welcome-actions">
-            <Link className="button primary" to="/registro">
-              Crear mi cuenta <span aria-hidden="true">↗</span>
-            </Link>
-            <Link className="button secondary" to="/login">
-              Iniciar sesión
+            {state.session ? (
+              <Link className="button primary" to="/hoy">
+                Ir a mi espacio ({state.profile.displayName}) <span aria-hidden="true">↗</span>
+              </Link>
+            ) : (
+              <>
+                <Link className="button primary" to="/registro">
+                  Crear mi cuenta <span aria-hidden="true">↗</span>
+                </Link>
+                <Link className="button secondary" to="/login">
+                  Iniciar sesión
+                </Link>
+              </>
+            )}
+            <Link className="button secondary" to="/conoce">
+              Conocer plataforma
             </Link>
           </div>
           <div className="welcome-principles">
             <span>
-              <Icon name="privacidad" /> Tu espacio
+              <Icon name="privacidad" /> Acceso seguro
             </span>
             <span>
-              <Icon name="calendario" /> Tu ritmo
+              <Icon name="calendario" /> Gráficas en vivo
             </span>
             <span>
-              <Icon name="ajustes" /> Tus decisiones
+              <Icon name="confirmado" /> 36 logros funcionales
             </span>
           </div>
         </div>
@@ -159,44 +228,45 @@ export function WelcomePage() {
           <article className="welcome-feature welcome-feature-habit">
             <div className="welcome-feature-top">
               <Icon name="habitos" />
-              <span>01 / ELIGE</span>
+              <span>01 / REGISTRO RÁPIDO</span>
             </div>
             <h3>
               Algo pequeño.
               <br />
-              Algo tuyo.
+              En un solo toque.
             </h3>
             <p>
-              Leer, caminar o hacer una pausa. Tu rutina empieza con una
-              intención.
+              Suma avance rápido desde tu agenda diaria o adjunta notas de
+              reflexión y fotografías de evidencia.
             </p>
             <div className="welcome-choice" aria-hidden="true">
               <span>
-                <Icon name="lectura" /> Leer un poco <Icon name="confirmado" />
+                <Icon name="lectura" /> Leer 20 min <Icon name="confirmado" />
               </span>
               <span>
-                <Icon name="movimiento" /> Salir a caminar <span>+</span>
+                <Icon name="movimiento" /> Caminata activa <span>+5 min</span>
               </span>
             </div>
           </article>
           <article className="welcome-feature welcome-feature-time">
             <div className="welcome-feature-top">
-              <Icon name="calendario" />
-              <span>02 / DALE ESPACIO</span>
+              <Icon name="confirmado" />
+              <span>02 / 36 MEDALLAS Y XP</span>
             </div>
             <h3>
-              Un momento.
+              Cada avance
               <br />
-              No una obligación.
+              desbloquea logros.
             </h3>
             <p>
-              Encuentra un lugar en tu día. Ajusta el ritmo cuando lo necesites.
+              Sube de nivel con 36 medallas en Bronce, Plata, Oro y Diamante
+              conectadas con tus rachas reales.
             </p>
             <div className="welcome-time" aria-hidden="true">
               <span>
-                18<span>:</span>00
+                36<span>★</span>
               </span>
-              <small>TU MOMENTO DE LECTURA</small>
+              <small>LOGROS FUNCIONALES DE CONSTANCIA</small>
               <div>
                 <i />
                 <i />
@@ -209,19 +279,20 @@ export function WelcomePage() {
           <article className="welcome-feature welcome-feature-progress">
             <div className="welcome-feature-top">
               <Icon name="analisis" />
-              <span>03 / OBSERVA</span>
+              <span>03 / ANALÍTICA EN VIVO</span>
             </div>
             <h3>
-              Tu avance merece
+              Gráficas semanales,
               <br />
-              otra perspectiva.
+              mensuales y por hábito.
             </h3>
             <p>
-              Mira tu constancia con contexto. Cada registro cuenta una parte.
+              Anillos de progreso, curvas de tendencia SVG y mapa de calor de
+              28 días para cada hábito.
             </p>
             <div className="welcome-progress-art">
               <WeekStrip />
-              <span>Una semana ilustrativa · cinco días completos</span>
+              <span>Visualización reactiva · Semana y Mes</span>
             </div>
           </article>
         </div>
@@ -236,10 +307,15 @@ export function WelcomePage() {
           </h2>
         </div>
         <div>
-          <p>Conoce el espacio donde tu rutina toma forma.</p>
-          <Link className="button primary" to="/conoce">
-            Conoce Quantify <span aria-hidden="true">↗</span>
-          </Link>
+          <p>Inicia sesión o conoce a fondo cada módulo de Quantify.</p>
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            <Link className="button primary" to="/conoce">
+              Conoce Quantify <span aria-hidden="true">↗</span>
+            </Link>
+            <Link className="button secondary" to="/login">
+              Iniciar sesión
+            </Link>
+          </div>
         </div>
         <span className="welcome-closing-orbit" aria-hidden="true" />
       </section>
