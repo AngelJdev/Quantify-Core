@@ -175,8 +175,24 @@ class _FakeBackendTransport implements MobileHttpTransport {
       if ((headers['Idempotency-Key'] ?? '').isEmpty) {
         throw StateError('Missing Idempotency-Key on POST /check-ins');
       }
+      final occurredAt = DateTime.parse(decoded!['occurredAt'] as String);
+      final tz = decoded['timeZone'] as String;
+      final bDate = decoded['businessDate'] as String;
+      if (businessDateForZone(occurredAt, tz) != bDate) {
+        return _json(
+          422,
+          {
+            'type': 'about:blank',
+            'title': 'Unprocessable Content',
+            'status': 422,
+            'code': 'INCONSISTENT_OCCURRENCE',
+            'requestId': 'req-inconsistent',
+          },
+          type: 'application/problem+json',
+        );
+      }
       final list = checkInsByHabit.putIfAbsent(habitId, () => []);
-      final expectedVersion = decoded!['expectedVersion'] as int;
+      final expectedVersion = decoded['expectedVersion'] as int;
       if (expectedVersion > 0 &&
           (decoded['correctionReason'] as String? ?? '').isEmpty) {
         throw StateError('Missing correctionReason on check-in update');
@@ -718,6 +734,126 @@ void main() {
         findsOneWidget,
       );
       expect(find.text('Crear hábito manualmente'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      session.dispose();
+    },
+  );
+
+  testWidgets(
+    'check-in en día elegible anterior envía occurredAt consistente y bloquea fechas sin revisión vigente',
+    (tester) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final session = MobileSession(
+        config: const MobileIdentityConfig(
+          issuer: 'https://identity.example/realms/quantify',
+        ),
+        appAuth: _FakeAuth(),
+      );
+      addTearDown(session.dispose);
+      final transport = _FakeBackendTransport()
+        ..provisioned = true
+        ..habits.addAll([
+          {
+            'id': '55555555-5555-4555-8555-555555555555',
+            'name': 'Correr',
+            'targetValue': 5,
+            'unit': 'km',
+            'schedule': {
+              'weekdays': [1, 2, 3, 4, 6],
+              'effectiveFrom': '2026-11-26',
+            },
+            'timeZone': 'America/Mexico_City',
+            'status': 'active',
+            'version': 1,
+          },
+          {
+            'id': '66666666-6666-4666-8666-666666666666',
+            'name': 'Solo lunes',
+            'targetValue': 10,
+            'unit': 'min',
+            'schedule': {
+              'weekdays': [1],
+              'effectiveFrom': '2026-11-27',
+            },
+            'timeZone': 'America/Mexico_City',
+            'status': 'active',
+            'version': 1,
+          },
+        ]);
+
+      // Friday 2026-11-27 00:16 America/Mexico_City (06:16 UTC)
+      await tester.pumpWidget(
+        MobilePrototypeApp(
+          session: session,
+          apiConfig: const MobileApiConfig(
+            baseUrl: 'https://api.quantify.example/api/v1',
+          ),
+          httpTransport: transport,
+          clock: () => DateTime.utc(2026, 11, 27, 6, 16),
+        ),
+      );
+      await session.signIn();
+      await tester.pumpAndSettle();
+
+      // 1) Correr (effectiveFrom=2026-11-26, Mon-Thu+Sat) selects 2026-11-26 cleanly on Friday 2026-11-27.
+      await tester.tap(find.text('Correr'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Registrar avance'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('2026-11-26 · Fecha de negocio'), findsOneWidget);
+      await tester.enterText(find.byType(TextFormField), '4');
+      await tester.tap(find.text('Guardar avance'));
+      await tester.pumpAndSettle();
+
+      final post = transport.calls.lastWhere(
+        (c) => c.method == 'POST' && c.uri.path.endsWith('/check-ins'),
+      );
+      expect(post.body!['businessDate'], '2026-11-26');
+      expect(
+        businessDateForZone(
+          DateTime.parse(post.body!['occurredAt'] as String),
+          'America/Mexico_City',
+        ),
+        '2026-11-26',
+      );
+      expect(find.text('Cada avance cuenta'), findsNothing);
+
+      // Navigate back to Today tab.
+      await tester.tap(find.byTooltip('Volver'));
+      await tester.pumpAndSettle();
+
+      // 2) Solo lunes (created Friday 2026-11-27) warns clearly without invalid 422 call.
+      await tester.ensureVisible(find.text('Solo lunes'));
+      await tester.tap(find.text('Solo lunes'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Registrar avance'));
+      await tester.pumpAndSettle();
+      expect(find.text('FUERA DE AGENDA VIGENTE'), findsOneWidget);
+      final saveBtn = tester.widget<FilledButton>(
+        find.widgetWithText(FilledButton, 'Guardar avance'),
+      );
+      expect(saveBtn.onPressed, isNull);
+
+      expect(
+        const MobileApiException(
+          kind: 'http',
+          status: 422,
+          code: 'INCONSISTENT_OCCURRENCE',
+        ).userMessage,
+        contains('instante o zona horaria'),
+      );
+      expect(
+        const MobileApiException(
+          kind: 'http',
+          status: 422,
+          code: 'NO_EFFECTIVE_REVISION',
+        ).userMessage,
+        contains('anterior al inicio'),
+      );
       expect(tester.takeException(), isNull);
       await tester.pumpWidget(const SizedBox.shrink());
       session.dispose();

@@ -241,6 +241,11 @@ class PrototypeModel extends ChangeNotifier {
   double valueForHabitOnDate(String habitId, String businessDate) =>
       _checkInsByHabitAndDate[habitId]?[businessDate]?.value ?? 0;
 
+  String todayBusinessDateForHabit(String habitId) {
+    final zone = _apiHabits[habitId]?.timeZone ?? activeTimeZone;
+    return businessDateForZone(_now, zone);
+  }
+
   List<String> eligibleDatesForHabit(String id, {int maxDays = 7}) {
     final h = _apiHabits[id];
     if (h == null) return const [];
@@ -248,13 +253,17 @@ class PrototypeModel extends ChangeNotifier {
     final result = <String>[];
     for (var offset = 0; offset < maxDays; offset++) {
       final candidate = addBusinessDays(hToday, -offset);
+      // Version-1 habits have no revision before effectiveFrom (API returns 422 NO_EFFECTIVE_REVISION).
+      if (h.version == 1 && candidate.compareTo(h.effectiveFrom) < 0) {
+        continue;
+      }
       final parsed = DateTime.tryParse(candidate);
       if (parsed == null) continue;
       if (h.weekdays.contains(parsed.weekday)) {
         result.add(candidate);
       }
     }
-    return result.isEmpty ? <String>[hToday] : result;
+    return result;
   }
 
   List<PrototypeHabit> get habits => List.unmodifiable(_habits);

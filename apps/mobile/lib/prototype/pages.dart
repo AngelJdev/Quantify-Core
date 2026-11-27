@@ -764,7 +764,9 @@ class _CheckInEditorState extends State<CheckInEditor> {
       final habit = model.habitOrNull(widget.id);
       if (model.isConnected) {
         final dates = model.eligibleDatesForHabit(widget.id);
-        _selectedDate = dates.isNotEmpty ? dates.first : model.todayBusinessDate;
+        _selectedDate = dates.isNotEmpty
+            ? dates.first
+            : model.todayBusinessDateForHabit(widget.id);
         _value.text = amount(
           model.valueForHabitOnDate(widget.id, _selectedDate!),
         );
@@ -794,8 +796,9 @@ class _CheckInEditorState extends State<CheckInEditor> {
         ? model.eligibleDatesForHabit(widget.id)
         : const <String>[];
     final todayForHabit = model.isConnected
-        ? businessDateForZone(DateTime.now(), habit.timeZone)
+        ? model.todayBusinessDateForHabit(widget.id)
         : '2026-11-20';
+    final noEligibleDateToday = model.isConnected && eligibleDates.isEmpty;
     final selectedDate = _selectedDate ?? todayForHabit;
     return DetailPage(
       title: 'Cada avance cuenta',
@@ -806,7 +809,31 @@ class _CheckInEditorState extends State<CheckInEditor> {
               'Valor acumulado del día. Corregirlo reemplaza el valor anterior.',
         ),
         const SizedBox(height: 24),
-        if (model.isConnected && eligibleDates.length > 1) ...[
+        if (noEligibleDateToday) ...[
+          LiquidSurface(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Eyebrow('FUERA DE AGENDA VIGENTE'),
+                const SizedBox(height: 10),
+                Text(
+                  'Hoy ($todayForHabit) no está programado en la rutina de "${habit.name}" y no hay días elegibles previos desde ${habit.effectiveFrom}.',
+                  style: const TextStyle(height: 1.6),
+                ),
+                const SizedBox(height: 14),
+                OutlinedButton.icon(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    showPrototypePage(context, HabitEditor(id: habit.id));
+                  },
+                  icon: const Icon(Icons.edit_calendar_rounded),
+                  label: const Text('Editar días del hábito'),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+        ] else if (model.isConnected && eligibleDates.length > 1) ...[
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -834,6 +861,7 @@ class _CheckInEditorState extends State<CheckInEditor> {
           key: _form,
           child: TextFormField(
             controller: _value,
+            enabled: !noEligibleDateToday,
             decoration: InputDecoration(
               labelText: 'Valor acumulado (${habit.unit})',
             ),
@@ -860,7 +888,11 @@ class _CheckInEditorState extends State<CheckInEditor> {
             child: LinearProgressIndicator(),
           ),
         FilledButton(
-          onPressed: habit.paused || habit.archived || model.saving
+          onPressed:
+              habit.paused ||
+                  habit.archived ||
+                  model.saving ||
+                  noEligibleDateToday
               ? null
               : () async {
                   if (!_form.currentState!.validate()) return;

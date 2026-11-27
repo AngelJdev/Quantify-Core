@@ -87,6 +87,21 @@ class MobileApiException implements Exception {
       if (code == 'UNSCHEDULED_BUSINESS_DATE') {
         return 'Hoy no está programado en los días de este hábito.';
       }
+      if (code == 'INCONSISTENT_OCCURRENCE') {
+        return 'La fecha elegida no coincide con el instante o zona horaria del hábito.';
+      }
+      if (code == 'NO_EFFECTIVE_REVISION') {
+        return 'La fecha elegida es anterior al inicio o revisión vigente de este hábito.';
+      }
+      if (code == 'FUTURE_BUSINESS_DATE_NOT_ALLOWED') {
+        return 'No se permite registrar avances en una fecha futura.';
+      }
+      if (code == 'CORRECTION_REASON_REQUIRED') {
+        return 'Indica un motivo para corregir un registro existente.';
+      }
+      if (code == 'INVALID_PROGRESS_VALUE') {
+        return 'Escribe un avance válido, mayor o igual a cero.';
+      }
       if (code == 'FUTURE_REVISION_REQUIRED') {
         return 'Ya existe un cambio programado para la siguiente fecha. Refresca la rutina.';
       }
@@ -96,13 +111,24 @@ class MobileApiException implements Exception {
       if (code == 'INVALID_TIME_ZONE') {
         return 'La zona horaria configurada no es válida.';
       }
+      if (code == 'INVALID_NAME') {
+        return 'El nombre del hábito debe tener al menos 3 caracteres.';
+      }
+      if (code == 'INVALID_UNIT') {
+        return 'Indica una unidad válida (máximo 40 caracteres).';
+      }
+      if (code == 'INVALID_EFFECTIVE_DATE') {
+        return 'La fecha de inicio o vigencia del hábito no es válida.';
+      }
       if (code == 'ASSISTANT_RESPONSE_BLOCKED') {
         return 'El asistente no pudo procesar esa solicitud por políticas de seguridad. Reformúlala sobre tus hábitos.';
       }
       if (code == 'INVALID_CONVERSATION_TURN') {
         return 'Escribe un mensaje válido para continuar la conversación.';
       }
-      return 'La API rechazó los datos por una regla de negocio.';
+      return code != null
+          ? 'La API rechazó los datos por una regla de negocio ($code).'
+          : 'La API rechazó los datos por una regla de negocio.';
     }
     if (status == 429) {
       if (code == 'ASSISTANT_RATE_LIMITED') {
@@ -1016,10 +1042,14 @@ class MobileApiClient {
     String correctionReason = 'Actualización desde app móvil',
   }) async {
     final now = (nowUtc ?? DateTime.now()).toUtc();
-    final slightlyBefore = now.subtract(const Duration(milliseconds: 250));
     final today = businessDateForZone(now, habit.timeZone);
-    final candidateDate = businessDateForZone(slightlyBefore, habit.timeZone);
-    final safeInstant = candidateDate == today ? slightlyBefore : now;
+    final businessDate = targetBusinessDate ?? today;
+    final safeInstant = _occurredAtForBusinessDate(
+      nowUtc: now,
+      timeZone: habit.timeZone,
+      todayBusinessDate: today,
+      targetBusinessDate: businessDate,
+    );
     final expectedVersion = existingToday?.version ?? 0;
     final json = await _requestJson(
       'POST',
@@ -1027,7 +1057,7 @@ class MobileApiClient {
       idempotencyKey: idempotencyKey ?? generateUuidV4(),
       body: {
         'clientEventId': clientEventId ?? generateUuidV4(),
-        'businessDate': targetBusinessDate ?? today,
+        'businessDate': businessDate,
         'occurredAt': formatUtcTimestamp(safeInstant),
         'timeZone': habit.timeZone,
         'value': value,
@@ -1036,6 +1066,44 @@ class MobileApiClient {
       },
     );
     return ApiCheckIn.fromJson(json);
+  }
+
+  static DateTime _occurredAtForBusinessDate({
+    required DateTime nowUtc,
+    required String timeZone,
+    required String todayBusinessDate,
+    required String targetBusinessDate,
+  }) {
+    if (targetBusinessDate == todayBusinessDate) {
+      final minusTwoSeconds = nowUtc.subtract(const Duration(seconds: 2));
+      if (businessDateForZone(minusTwoSeconds, timeZone) == todayBusinessDate) {
+        return minusTwoSeconds;
+      }
+      final minus250Ms = nowUtc.subtract(const Duration(milliseconds: 250));
+      if (businessDateForZone(minus250Ms, timeZone) == todayBusinessDate) {
+        return minus250Ms;
+      }
+      return nowUtc;
+    }
+
+    if (targetBusinessDate.compareTo(todayBusinessDate) < 0) {
+      final parts = targetBusinessDate.split('-');
+      if (parts.length == 3) {
+        final y = int.tryParse(parts[0]);
+        final m = int.tryParse(parts[1]);
+        final d = int.tryParse(parts[2]);
+        if (y != null && m != null && d != null) {
+          for (final hour in const [18, 12, 6, 15, 9, 21, 3, 23, 1]) {
+            final candidate = DateTime.utc(y, m, d, hour);
+            if (!candidate.isAfter(nowUtc) &&
+                businessDateForZone(candidate, timeZone) == targetBusinessDate) {
+              return candidate;
+            }
+          }
+        }
+      }
+    }
+    return nowUtc;
   }
 
   Future<ApiHabitMetrics> getHabitMetrics({
