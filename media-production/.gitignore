@@ -23,3 +23,17 @@ audio/music/
 
 # Capturas regenerables con scripts/capture.mjs (pesan decenas de MB)
 assets/screenshots/
+
+# Carpetas de proyectos de video generadas por sync
+pilot/assets/
+pilot/shared/
+video-*/assets/
+video-*/shared/
+
+# Muestras de voz (regenerables con scripts/tts_samples.py)
+audio/narration/samples/
+
+# Artefactos locales de HyperFrames y audio generado
+**/.hyperframes/
+audio/mix/
+audio/sfx/*.wav
