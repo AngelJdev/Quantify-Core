@@ -35,6 +35,8 @@ class _FakeAuth extends FlutterAppAuth {
 class _FakeBackendTransport implements MobileHttpTransport {
   bool provisioned = false;
   bool forceUnauthorized = false;
+  bool assistantConsent = false;
+  bool failAssistantUnavailable = false;
   final List<({String method, Uri uri, Map<String, String> headers, Map<String, dynamic>? body})>
   calls = [];
 
@@ -287,6 +289,84 @@ class _FakeBackendTransport implements MobileHttpTransport {
       });
     }
 
+    if (method == 'GET' && path == '/api/v1/me/assistant-consent') {
+      return _json(200, {
+        'granted': assistantConsent,
+        'policyVersion': 'assistant-v1',
+        'updatedAt': assistantConsent ? '2026-11-24T18:10:00.000Z' : null,
+      });
+    }
+
+    if (method == 'POST' && path == '/api/v1/me/assistant-consent') {
+      if ((headers['Idempotency-Key'] ?? '').isEmpty) {
+        throw StateError('Missing Idempotency-Key on POST /me/assistant-consent');
+      }
+      assistantConsent = decoded!['granted'] as bool;
+      return _json(200, {
+        'granted': assistantConsent,
+        'policyVersion': 'assistant-v1',
+        'updatedAt': '2026-11-24T18:12:00.000Z',
+      });
+    }
+
+    if (method == 'POST' && path == '/api/v1/assistant/messages') {
+      if (!assistantConsent) {
+        return _json(
+          403,
+          {
+            'type': 'about:blank',
+            'title': 'Forbidden',
+            'status': 403,
+            'code': 'ASSISTANT_CONSENT_REQUIRED',
+            'requestId': 'req-consent',
+          },
+          type: 'application/problem+json',
+        );
+      }
+      if (failAssistantUnavailable) {
+        return _json(
+          503,
+          {
+            'type': 'about:blank',
+            'title': 'Service Unavailable',
+            'status': 503,
+            'code': 'ASSISTANT_UNAVAILABLE',
+            'requestId': 'req-unavail',
+          },
+          type: 'application/problem+json',
+        );
+      }
+      final turns = decoded!['messages'] as List<dynamic>;
+      final lastText = (turns.last as Map<String, dynamic>)['text'] as String;
+      final includeCtx = decoded['includeHabitContext'] as bool;
+      if (lastText.contains('falta meta')) {
+        return _json(200, {
+          'reply': '¿Cuántos minutos y qué días te gustaría practicarlo?',
+          'draft': null,
+          'missingFields': ['targetValue', 'weekdays'],
+          'outOfScope': false,
+          'model': 'gemini-3.5-flash',
+          'contextUsed': includeCtx,
+          'generatedAt': '2026-11-24T18:15:00.000Z',
+        });
+      }
+      return _json(200, {
+        'reply': 'Preparé un borrador de lectura. Confírmalo si deseas guardarlo.',
+        'draft': {
+          'name': 'Lectura enfocada',
+          'targetValue': 25,
+          'unit': 'min',
+          'weekdays': [1, 3, 5],
+          'rationale': 'Tres sesiones de 25 minutos entre semana cuidan tu energía.',
+        },
+        'missingFields': <String>[],
+        'outOfScope': false,
+        'model': 'gemini-3.5-flash',
+        'contextUsed': includeCtx,
+        'generatedAt': '2026-11-24T18:15:00.000Z',
+      });
+    }
+
     throw StateError('Unhandled route: $method $uri');
   }
 
@@ -501,4 +581,146 @@ void main() {
       '2026-07-02',
     );
   });
+
+  testWidgets(
+    'asistente Gemini pide consentimiento, descarta o confirma borrador sin duplicar y mantiene alternativa manual ante fallo',
+    (tester) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final session = MobileSession(
+        config: const MobileIdentityConfig(
+          issuer: 'https://identity.example/realms/quantify',
+        ),
+        appAuth: _FakeAuth(),
+      );
+      addTearDown(session.dispose);
+      final transport = _FakeBackendTransport();
+
+      await tester.pumpWidget(
+        MobilePrototypeApp(
+          session: session,
+          apiConfig: const MobileApiConfig(
+            baseUrl: 'https://api.quantify.example/api/v1',
+          ),
+          httpTransport: transport,
+          clock: () => DateTime.utc(2026, 11, 24, 18, 0),
+        ),
+      );
+      await session.signIn();
+      await tester.pumpAndSettle();
+
+      Future<void> scrollToCenter(Finder target) async {
+        await tester.scrollUntilVisible(
+          target,
+          120,
+          scrollable: find.byType(Scrollable).first,
+        );
+        final dy = tester.getCenter(target).dy;
+        // Keep targets clear of the floating bottom dock (y > 720 on 844px height).
+        if (dy > 700) {
+          await tester.drag(
+            find.byType(Scrollable).first,
+            Offset(0, 560 - dy),
+          );
+          await tester.pumpAndSettle();
+        }
+      }
+
+      await tester.tap(find.text('IA hábitos'));
+      await tester.pumpAndSettle();
+      expect(find.text('Consentimiento antes de empezar'), findsOneWidget);
+      expect(transport.habits, isEmpty);
+
+      // Grant consent and verify conversation opens.
+      await scrollToCenter(find.text('Activar asistente Gemini'));
+      await tester.tap(find.text('Activar asistente Gemini'));
+      await tester.pumpAndSettle();
+      expect(find.text('Diseña un hábito conversando.'), findsOneWidget);
+
+      // Ask a question with missing data -> clarifies without draft or habit write.
+      await scrollToCenter(find.byKey(const ValueKey('assistant-input')));
+      await tester.enterText(
+        find.byKey(const ValueKey('assistant-input')),
+        'Quiero meditar pero falta meta',
+      );
+      await scrollToCenter(find.byKey(const ValueKey('assistant-send')));
+      await tester.tap(find.byKey(const ValueKey('assistant-send')));
+      await tester.pumpAndSettle();
+      expect(
+        find.text('Datos por confirmar: meta, días.'),
+        findsOneWidget,
+      );
+      expect(transport.habits, isEmpty);
+
+      // Request concrete recommendation -> receives draft, discarding does NOT call POST /habits.
+      await scrollToCenter(find.byKey(const ValueKey('assistant-input')));
+      await tester.enterText(
+        find.byKey(const ValueKey('assistant-input')),
+        'Recomiéndame lectura',
+      );
+      await scrollToCenter(find.byKey(const ValueKey('assistant-send')));
+      await tester.tap(find.byKey(const ValueKey('assistant-send')));
+      await tester.pumpAndSettle();
+      expect(find.text('Lectura enfocada'), findsOneWidget);
+      expect(transport.habits, isEmpty);
+
+      await scrollToCenter(find.text('Descartar'));
+      await tester.tap(find.text('Descartar'));
+      await tester.pumpAndSettle();
+      expect(find.text('BORRADOR DESCARTADO'), findsOneWidget);
+      expect(transport.habits, isEmpty);
+
+      // Request another draft, open HabitEditor prefilled via Editar borrador, then go back and confirm.
+      await scrollToCenter(find.byKey(const ValueKey('assistant-input')));
+      await tester.enterText(
+        find.byKey(const ValueKey('assistant-input')),
+        'Otra propuesta de lectura',
+      );
+      await scrollToCenter(find.byKey(const ValueKey('assistant-send')));
+      await tester.tap(find.byKey(const ValueKey('assistant-send')));
+      await tester.pumpAndSettle();
+
+      await scrollToCenter(find.text('Editar borrador'));
+      await tester.tap(find.text('Editar borrador'));
+      await tester.pumpAndSettle();
+      expect(find.text('BORRADOR ASISTIDO · REVISABLE'), findsOneWidget);
+      await tester.tap(find.byTooltip('Volver'));
+      await tester.pumpAndSettle();
+
+      await scrollToCenter(find.text('Confirmar y guardar'));
+      await tester.tap(find.text('Confirmar y guardar'));
+      await tester.pumpAndSettle();
+      expect(transport.habits.length, 1);
+      expect(transport.habits.single['name'], 'Lectura enfocada');
+      expect(find.text('HÁBITO CONFIRMADO Y GUARDADO'), findsOneWidget);
+
+      // Provider outage (503) surfaces clear message, preserves typed text, and keeps manual button.
+      transport.failAssistantUnavailable = true;
+      await scrollToCenter(find.byKey(const ValueKey('assistant-input')));
+      await tester.enterText(
+        find.byKey(const ValueKey('assistant-input')),
+        'Hábito durante caída',
+      );
+      await scrollToCenter(find.byKey(const ValueKey('assistant-send')));
+      await tester.tap(find.byKey(const ValueKey('assistant-send')));
+      await tester.pumpAndSettle();
+      await scrollToCenter(
+        find.text(
+          'El asistente Gemini no está disponible en este momento. Puedes crear tu hábito manualmente.',
+        ),
+      );
+      expect(
+        find.text(
+          'El asistente Gemini no está disponible en este momento. Puedes crear tu hábito manualmente.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('Crear hábito manualmente'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+      session.dispose();
+    },
+  );
 }

@@ -189,7 +189,10 @@ void main() {
       expect(find.text('Observa tu constancia'), findsOneWidget);
       await tester.tap(find.text('IA hábitos'));
       await tester.pumpAndSettle();
-      expect(find.text('Aquí irá tu asistente.'), findsOneWidget);
+      expect(
+        find.text('Asistente disponible en modo conectado.'),
+        findsOneWidget,
+      );
       await tester.ensureVisible(find.text('Crear hábito manualmente'));
       await tester.tap(find.text('Crear hábito manualmente'));
       await tester.pumpAndSettle();

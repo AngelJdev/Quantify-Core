@@ -545,8 +545,15 @@ class HabitDetail extends StatelessWidget {
 }
 
 class HabitEditor extends StatefulWidget {
-  const HabitEditor({super.key, this.id});
+  const HabitEditor({
+    super.key,
+    this.id,
+    this.initialDraft,
+    this.onSaved,
+  });
   final String? id;
+  final ApiHabitDraft? initialDraft;
+  final VoidCallback? onSaved;
   @override
   State<HabitEditor> createState() => _HabitEditorState();
 }
@@ -565,6 +572,14 @@ class _HabitEditorState extends State<HabitEditor> {
     _initialized = true;
     final model = PrototypeScope.of(context);
     final habit = widget.id == null ? null : model.habitOrNull(widget.id!);
+    final draft = widget.id == null ? widget.initialDraft : null;
+    if (draft != null) {
+      _name.text = draft.name;
+      _target.text = amount(draft.targetValue);
+      _unit.text = draft.unit;
+      _days = {...draft.weekdays};
+      return;
+    }
     _name.text = habit?.name ?? '';
     _target.text = habit == null ? '20' : amount(habit.target);
     _unit.text = habit?.unit ?? 'min';
@@ -602,7 +617,11 @@ class _HabitEditorState extends State<HabitEditor> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Eyebrow('Una intención clara'),
+              Eyebrow(
+                widget.initialDraft != null
+                    ? 'Borrador asistido · Revisable'
+                    : 'Una intención clara',
+              ),
               const SizedBox(height: 20),
               TextFormField(
                 controller: _name,
@@ -699,6 +718,7 @@ class _HabitEditorState extends State<HabitEditor> {
                         );
                         if (!context.mounted) return;
                         if (ok) {
+                          widget.onSaved?.call();
                           Navigator.pop(context);
                         } else if (model.errorMessage != null) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -1084,46 +1104,509 @@ class HistoryPage extends StatelessWidget {
   }
 }
 
-class AssistantPage extends StatelessWidget {
+class AssistantPage extends StatefulWidget {
   const AssistantPage({super.key});
   @override
-  Widget build(BuildContext context) => PageContent(
-    children: [
-      const Eyebrow('Ideas con contexto'),
-      const SizedBox(height: 12),
-      const SectionTitle('Un hábito puede empezar con una idea.'),
-      const SizedBox(height: 24),
-      LiquidSurface(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(
-              Icons.auto_awesome_outlined,
-              color: context.color('icon'),
-              size: 36,
+  State<AssistantPage> createState() => _AssistantPageState();
+}
+
+class _AssistantPageState extends State<AssistantPage> {
+  final _prompt = TextEditingController();
+
+  static const _starterPrompts = [
+    'Recomiéndame un hábito de lectura',
+    'Quiero tomar más agua entre semana',
+    'Ayúdame a caminar por la mañana',
+  ];
+
+  @override
+  void dispose() {
+    _prompt.dispose();
+    super.dispose();
+  }
+
+  Future<void> _sendPrompt(PrototypeModel model, [String? preset]) async {
+    final text = (preset ?? _prompt.text).trim();
+    if (text.isEmpty || model.assistantSending) return;
+    if (preset != null) {
+      _prompt.text = preset;
+    }
+    final ok = await model.sendAssistantPrompt(text);
+    if (ok && mounted) {
+      _prompt.clear();
+    }
+  }
+
+  static String _weekdaySummary(List<int> days) {
+    const labels = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+    return days
+        .where((d) => d >= 1 && d <= 7)
+        .map((d) => labels[d - 1])
+        .join(', ');
+  }
+
+  static String _missingLabels(List<String> fields) {
+    const map = {
+      'name': 'nombre',
+      'targetValue': 'meta',
+      'unit': 'unidad',
+      'weekdays': 'días',
+    };
+    return fields.map((f) => map[f] ?? f).join(', ');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final model = PrototypeScope.of(context);
+    if (!model.isConnected) {
+      return PageContent(
+        children: [
+          const Eyebrow('Ideas con contexto'),
+          const SizedBox(height: 12),
+          const SectionTitle('Un hábito puede empezar con una idea.'),
+          const SizedBox(height: 24),
+          LiquidSurface(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.auto_awesome_outlined,
+                  color: context.color('icon'),
+                  size: 36,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  model.apiConfigured
+                      ? 'Inicia sesión para conversar con tu asistente.'
+                      : 'Asistente disponible en modo conectado.',
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  model.apiConfigured
+                      ? 'El asistente conversacional Gemini opera a través de Quantify API con tu cuenta de Keycloak, sin guardar el chat en el servidor. También puedes crear tu hábito manualmente.'
+                      : 'En esta vista de demostración no se simulan respuestas de IA. Conecta Quantify API para usar Gemini o diseña tu hábito manualmente.',
+                  style: const TextStyle(height: 1.7),
+                ),
+                const SizedBox(height: 24),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    if (model.apiConfigured)
+                      OutlinedButton.icon(
+                        onPressed: () =>
+                            showPrototypePage(context, const AccessPreview()),
+                        icon: const Icon(Icons.login_rounded),
+                        label: const Text('Iniciar sesión'),
+                      ),
+                    FilledButton(
+                      onPressed: () =>
+                          showPrototypePage(context, const HabitEditor()),
+                      child: const Text('Crear hábito manualmente'),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            const Text(
-              'Aquí irá tu asistente.',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 20),
+          const DemoNote(),
+        ],
+      );
+    }
+
+    final consentGranted = model.assistantConsent?.granted ?? false;
+    if (!consentGranted) {
+      return PageContent(
+        children: [
+          const Eyebrow('Asistente conversacional · RF-07'),
+          const SizedBox(height: 10),
+          const SectionTitle(
+            'Tu asistente de hábitos.',
+            subtitle: 'Borradores claros con Gemini. Nada se guarda sin confirmar.',
+          ),
+          const SizedBox(height: 16),
+          const _SyncStatusBanner(),
+          LiquidSurface(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Consentimiento antes de empezar',
+                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Tus mensajes se procesan con Google Gemini mediante Quantify API, sin claves en el teléfono ni historial guardado en el servidor. Es apoyo práctico, no consejo médico.',
+                  style: TextStyle(height: 1.55),
+                ),
+                const SizedBox(height: 8),
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Incluir resumen de mis hábitos actuales'),
+                  subtitle: const Text('Nombre, meta, unidad y días.'),
+                  value: model.includeHabitContext,
+                  onChanged: model.setIncludeHabitContext,
+                ),
+                if (model.assistantError != null) ...[
+                  const SizedBox(height: 8),
+                  Semantics(
+                    liveRegion: true,
+                    child: Text(
+                      model.assistantError!,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 14),
+                if (model.assistantConsentSaving)
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 12),
+                    child: LinearProgressIndicator(),
+                  ),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    FilledButton.icon(
+                      onPressed: model.assistantConsentSaving
+                          ? null
+                          : () => model.updateAssistantConsent(true),
+                      icon: const Icon(Icons.auto_awesome_outlined),
+                      label: const Text('Activar asistente Gemini'),
+                    ),
+                    OutlinedButton(
+                      onPressed: () =>
+                          showPrototypePage(context, const HabitEditor()),
+                      child: const Text('Crear hábito manualmente'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          const DemoNote(),
+        ],
+      );
+    }
+
+    return PageContent(
+      children: [
+        const Eyebrow('Ideas con contexto · Gemini'),
+        const SizedBox(height: 12),
+        const SectionTitle(
+          'Diseña un hábito conversando.',
+          subtitle:
+              'Revisa cada borrador con calma. Solo se guarda cuando tú lo confirmas.',
+        ),
+        const SizedBox(height: 20),
+        const _SyncStatusBanner(),
+        LiquidSurface(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SwitchListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('Usar contexto de mis hábitos'),
+                subtitle: Text(
+                  model.includeHabitContext
+                      ? 'Se comparte nombre, meta y días de tus hábitos propios.'
+                      : 'Solo se envía el texto de esta conversación.',
+                ),
+                value: model.includeHabitContext,
+                onChanged: model.assistantSending
+                    ? null
+                    : model.setIncludeHabitContext,
+              ),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  if (model.assistantMessages.isNotEmpty)
+                    OutlinedButton.icon(
+                      onPressed: model.assistantSending
+                          ? null
+                          : model.clearAssistantConversation,
+                      icon: const Icon(Icons.refresh_rounded, size: 18),
+                      label: const Text('Nueva conversación'),
+                    ),
+                  TextButton(
+                    onPressed: model.assistantConsentSaving || model.assistantSending
+                        ? null
+                        : () => model.updateAssistantConsent(false),
+                    child: const Text('Revocar consentimiento'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        if (model.assistantMessages.isEmpty) ...[
+          LiquidSurface(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Eyebrow('Sugerencias para empezar'),
+                const SizedBox(height: 12),
+                const Text(
+                  'Cuéntame qué hábito quieres construir o toca un ejemplo:',
+                  style: TextStyle(height: 1.5),
+                ),
+                const SizedBox(height: 14),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    for (final suggestion in _starterPrompts)
+                      ActionChip(
+                        label: Text(suggestion),
+                        onPressed: model.assistantSending
+                            ? null
+                            : () => _sendPrompt(model, suggestion),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+        for (final item in model.assistantMessages) ...[
+          LiquidSurface(
+            child: Semantics(
+              liveRegion: item.role == 'assistant',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Eyebrow(
+                    item.role == 'user'
+                        ? 'Tu solicitud'
+                        : 'Asistente Quantify · Gemini',
+                  ),
+                  const SizedBox(height: 10),
+                  Text(item.text, style: const TextStyle(height: 1.6)),
+                  if (item.role == 'assistant') ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      'Modelo: ${item.model ?? "Gemini"} · ${item.contextUsed ? "Con contexto de hábitos" : "Sin contexto de hábitos"}',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: context.color('muted'),
+                      ),
+                    ),
+                    if (item.outOfScope)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: Text(
+                          'Consulta fuera del alcance de hábitos personales.',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: context.color('muted'),
+                          ),
+                        ),
+                      ),
+                    if (item.missingFields.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: Text(
+                          'Datos por confirmar: ${_missingLabels(item.missingFields)}.',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          if (item.draft != null) ...[
+            _AssistantDraftCard(
+              item: item,
+              weekdayText: _weekdaySummary(item.draft!.weekdays),
             ),
             const SizedBox(height: 12),
-            const Text(
-              'El asistente conversacional aún no está conectado. Por ahora puedes diseñar un hábito manualmente, con calma y a tu medida.',
-              style: TextStyle(height: 1.7),
+          ],
+        ],
+        if (model.assistantSending)
+          const Padding(
+            padding: EdgeInsets.only(bottom: 14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                LinearProgressIndicator(),
+                SizedBox(height: 8),
+                Text(
+                  'Consultando a Gemini…',
+                  style: TextStyle(fontSize: 12),
+                ),
+              ],
             ),
-            const SizedBox(height: 24),
-            FilledButton(
-              onPressed: () => showPrototypePage(context, const HabitEditor()),
-              child: const Text('Crear hábito manualmente'),
+          ),
+        if (model.assistantError != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 14),
+            child: LiquidSurface(
+              child: Semantics(
+                liveRegion: true,
+                child: Text(
+                  model.assistantError!,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.error,
+                    fontWeight: FontWeight.w600,
+                    height: 1.5,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        LiquidSurface(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                key: const ValueKey('assistant-input'),
+                controller: _prompt,
+                minLines: 1,
+                maxLines: 4,
+                maxLength: 1000,
+                textInputAction: TextInputAction.send,
+                onSubmitted: (_) => _sendPrompt(model),
+                decoration: const InputDecoration(
+                  labelText: 'Escribe tu solicitud sobre hábitos',
+                ),
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  FilledButton.icon(
+                    key: const ValueKey('assistant-send'),
+                    onPressed: model.assistantSending
+                        ? null
+                        : () => _sendPrompt(model),
+                    icon: const Icon(Icons.send_rounded, size: 18),
+                    label: const Text('Enviar al asistente'),
+                  ),
+                  OutlinedButton(
+                    onPressed: () =>
+                        showPrototypePage(context, const HabitEditor()),
+                    child: const Text('Crear hábito manualmente'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        const DemoNote(),
+      ],
+    );
+  }
+}
+
+class _AssistantDraftCard extends StatelessWidget {
+  const _AssistantDraftCard({
+    required this.item,
+    required this.weekdayText,
+  });
+
+  final AssistantMessageItem item;
+  final String weekdayText;
+
+  @override
+  Widget build(BuildContext context) {
+    final model = PrototypeScope.of(context);
+    final draft = item.draft!;
+    final stateLabel = switch (item.draftState) {
+      AssistantDraftState.pending => 'BORRADOR REVISABLE · SIN GUARDAR',
+      AssistantDraftState.saved => 'HÁBITO CONFIRMADO Y GUARDADO',
+      AssistantDraftState.discarded => 'BORRADOR DESCARTADO',
+    };
+    return LiquidSurface(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Eyebrow(stateLabel),
+          const SizedBox(height: 10),
+          Text(
+            draft.name,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Meta: ${amount(draft.targetValue)} ${draft.unit} · Días: $weekdayText',
+            style: const TextStyle(fontWeight: FontWeight.w600, height: 1.5),
+          ),
+          Text(
+            'Zona para alta: ${model.newHabitTimeZone}',
+            style: TextStyle(fontSize: 12, color: context.color('muted')),
+          ),
+          const SizedBox(height: 10),
+          Text(draft.rationale, style: const TextStyle(height: 1.55)),
+          if (item.draftState == AssistantDraftState.pending) ...[
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                FilledButton.icon(
+                  onPressed: model.saving
+                      ? null
+                      : () async {
+                          final ok = await model.confirmAssistantDraft(item.id);
+                          if (!context.mounted) return;
+                          if (ok) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Hábito confirmado y guardado.'),
+                              ),
+                            );
+                          }
+                        },
+                  icon: const Icon(Icons.check_rounded),
+                  label: const Text('Confirmar y guardar'),
+                ),
+                OutlinedButton(
+                  onPressed: model.saving
+                      ? null
+                      : () => showPrototypePage(
+                            context,
+                            HabitEditor(
+                              initialDraft: draft,
+                              onSaved: () =>
+                                  model.markAssistantDraftSaved(item.id),
+                            ),
+                          ),
+                  child: const Text('Editar borrador'),
+                ),
+                TextButton(
+                  onPressed: model.saving
+                      ? null
+                      : () => model.discardAssistantDraft(item.id),
+                  child: const Text('Descartar'),
+                ),
+              ],
             ),
           ],
-        ),
+        ],
       ),
-      const SizedBox(height: 20),
-      const DemoNote(),
-    ],
-  );
+    );
+  }
 }
 
 class ProfilePage extends StatelessWidget {
@@ -1207,7 +1690,7 @@ class ProfilePage extends StatelessWidget {
                 LiquidSurface(
                   child: Text(
                     model.isConnected
-                        ? 'Keycloak gestiona las credenciales y el acceso con Google mediante Authorization Code + PKCE. La sesión se guarda cifrada en el almacén seguro del dispositivo sin respaldo en la nube; tus hábitos y check-ins se almacenan en PostgreSQL vía Quantify API.\n\nConsentimiento biométrico y dispositivos siguen pendientes.'
+                        ? 'Keycloak gestiona las credenciales y el acceso con Google mediante Authorization Code + PKCE. La sesión se guarda cifrada en el almacén seguro del dispositivo sin respaldo en la nube; tus hábitos y check-ins se almacenan en PostgreSQL vía Quantify API.\n\nEl asistente conversacional Gemini requiere consentimiento explícito revocable desde IA hábitos y no retiene el historial de mensajes en el servidor. Consentimiento biométrico y dispositivos siguen pendientes.'
                         : 'Los hábitos y métricas son datos sintéticos en memoria. Cuando conectes la app con Keycloak, la sesión se guardará de forma segura en el dispositivo.\n\nConsentimiento, dispositivos y datos de negocio conectados siguen pendientes.',
                     style: const TextStyle(height: 1.8),
                   ),

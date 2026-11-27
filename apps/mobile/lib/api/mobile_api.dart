@@ -62,6 +62,12 @@ class MobileApiException implements Exception {
     if (status == 503 && code == 'REVIEW_WRITES_DISABLED') {
       return 'Las escrituras están desactivadas en la API (CORE_REVIEW_WRITES_ENABLED=0).';
     }
+    if (status == 503 && code == 'ASSISTANT_UNAVAILABLE') {
+      return 'El asistente Gemini no está disponible en este momento. Puedes crear tu hábito manualmente.';
+    }
+    if (status == 403 && code == 'ASSISTANT_CONSENT_REQUIRED') {
+      return 'Activa primero tu consentimiento para usar el asistente de hábitos.';
+    }
     if (status == 403) {
       return 'Tu perfil no está activo en el servidor o fue suspendido.';
     }
@@ -90,9 +96,18 @@ class MobileApiException implements Exception {
       if (code == 'INVALID_TIME_ZONE') {
         return 'La zona horaria configurada no es válida.';
       }
+      if (code == 'ASSISTANT_RESPONSE_BLOCKED') {
+        return 'El asistente no pudo procesar esa solicitud por políticas de seguridad. Reformúlala sobre tus hábitos.';
+      }
+      if (code == 'INVALID_CONVERSATION_TURN') {
+        return 'Escribe un mensaje válido para continuar la conversación.';
+      }
       return 'La API rechazó los datos por una regla de negocio.';
     }
     if (status == 429) {
+      if (code == 'ASSISTANT_RATE_LIMITED') {
+        return 'Alcanzaste el límite temporal de mensajes del asistente. Espera unos segundos o crea el hábito manualmente.';
+      }
       return 'Demasiadas solicitudes seguidas. Espera unos segundos.';
     }
     if (kind == 'timeout') {
@@ -480,6 +495,153 @@ class ApiDashboardProgress {
   final int futureOpportunities;
 }
 
+@immutable
+class ApiAssistantConsent {
+  const ApiAssistantConsent({
+    required this.granted,
+    required this.policyVersion,
+    required this.updatedAt,
+  });
+
+  factory ApiAssistantConsent.fromJson(Map<String, dynamic> json) {
+    final granted = json['granted'];
+    final policyVersion = json['policyVersion'];
+    final updatedAt = json['updatedAt'];
+    if (granted is! bool ||
+        policyVersion is! String ||
+        policyVersion.isEmpty ||
+        (updatedAt != null && updatedAt is! String)) {
+      throw const MobileApiException(kind: 'response');
+    }
+    return ApiAssistantConsent(
+      granted: granted,
+      policyVersion: policyVersion,
+      updatedAt: updatedAt as String?,
+    );
+  }
+
+  final bool granted;
+  final String policyVersion;
+  final String? updatedAt;
+}
+
+@immutable
+class ApiHabitDraft {
+  const ApiHabitDraft({
+    required this.name,
+    required this.targetValue,
+    required this.unit,
+    required this.weekdays,
+    required this.rationale,
+  });
+
+  factory ApiHabitDraft.fromJson(Map<String, dynamic> json) {
+    final name = json['name'];
+    final targetValue = json['targetValue'];
+    final unit = json['unit'];
+    final weekdays = json['weekdays'];
+    final rationale = json['rationale'];
+    if (name is! String ||
+        name.trim().length < 3 ||
+        targetValue is! num ||
+        !targetValue.isFinite ||
+        targetValue <= 0 ||
+        unit is! String ||
+        unit.trim().isEmpty ||
+        weekdays is! List ||
+        rationale is! String ||
+        rationale.trim().isEmpty) {
+      throw const MobileApiException(kind: 'response');
+    }
+    final parsedDays = weekdays
+        .whereType<num>()
+        .map((d) => d.toInt())
+        .where((d) => d >= 1 && d <= 7)
+        .toSet()
+        .toList(growable: false)
+      ..sort();
+    if (parsedDays.isEmpty) {
+      throw const MobileApiException(kind: 'response');
+    }
+    return ApiHabitDraft(
+      name: name.trim(),
+      targetValue: targetValue.toDouble(),
+      unit: unit.trim(),
+      weekdays: List.unmodifiable(parsedDays),
+      rationale: rationale.trim(),
+    );
+  }
+
+  final String name;
+  final double targetValue;
+  final String unit;
+  final List<int> weekdays;
+  final String rationale;
+}
+
+@immutable
+class ApiAssistantTurn {
+  const ApiAssistantTurn({required this.role, required this.text});
+
+  final String role;
+  final String text;
+
+  Map<String, Object?> toJson() => {'role': role, 'text': text};
+}
+
+@immutable
+class ApiAssistantReply {
+  const ApiAssistantReply({
+    required this.reply,
+    required this.draft,
+    required this.missingFields,
+    required this.outOfScope,
+    required this.model,
+    required this.contextUsed,
+    required this.generatedAt,
+  });
+
+  factory ApiAssistantReply.fromJson(Map<String, dynamic> json) {
+    final reply = json['reply'];
+    final rawDraft = json['draft'];
+    final rawMissing = json['missingFields'];
+    final outOfScope = json['outOfScope'];
+    final model = json['model'];
+    final contextUsed = json['contextUsed'];
+    final generatedAt = json['generatedAt'];
+    if (reply is! String ||
+        reply.trim().isEmpty ||
+        (rawDraft != null && rawDraft is! Map<String, dynamic>) ||
+        rawMissing is! List ||
+        outOfScope is! bool ||
+        model is! String ||
+        model.isEmpty ||
+        contextUsed is! bool ||
+        generatedAt is! String) {
+      throw const MobileApiException(kind: 'response');
+    }
+    return ApiAssistantReply(
+      reply: reply,
+      draft: rawDraft == null
+          ? null
+          : ApiHabitDraft.fromJson(rawDraft as Map<String, dynamic>),
+      missingFields: rawMissing.whereType<String>().toList(growable: false),
+      outOfScope: outOfScope,
+      model: model,
+      contextUsed: contextUsed,
+      generatedAt: generatedAt,
+    );
+  }
+
+  final String reply;
+  final ApiHabitDraft? draft;
+  final List<String> missingFields;
+  final bool outOfScope;
+  final String model;
+  final bool contextUsed;
+  final String generatedAt;
+}
+
 const List<({String id, String label})> supportedTimeZones = [
   (id: 'America/Mexico_City', label: 'Ciudad de México (UTC-6)'),
   (id: 'America/Monterrey', label: 'Monterrey (UTC-6)'),
@@ -604,6 +766,7 @@ class MobileApiClient {
     Map<String, Object?>? body,
     String? idempotencyKey,
     String? ifMatch,
+    Duration timeout = const Duration(seconds: 8),
   }) async {
     final headers = <String, String>{
       'Accept': 'application/json',
@@ -618,6 +781,7 @@ class MobileApiClient {
         uri: uri,
         headers: headers,
         body: body == null ? null : jsonEncode(body),
+        timeout: timeout,
       );
     } on TimeoutException {
       throw const MobileApiException(kind: 'timeout');
@@ -633,6 +797,7 @@ class MobileApiClient {
     Map<String, Object?>? body,
     String? idempotencyKey,
     String? ifMatch,
+    Duration timeout = const Duration(seconds: 8),
   }) async {
     if (!config.valid) {
       throw const MobileApiException(kind: 'network');
@@ -649,6 +814,7 @@ class MobileApiClient {
       body: body,
       idempotencyKey: idempotencyKey,
       ifMatch: ifMatch,
+      timeout: timeout,
     );
 
     if (response.statusCode == 401) {
@@ -662,6 +828,7 @@ class MobileApiClient {
           body: body,
           idempotencyKey: idempotencyKey,
           ifMatch: ifMatch,
+          timeout: timeout,
         );
       }
       if (response.statusCode == 401) {
@@ -911,5 +1078,39 @@ class MobileApiClient {
           return ApiTrendPoint.fromJson(point);
         })
         .toList(growable: false);
+  }
+
+  Future<ApiAssistantConsent> getAssistantConsent() async {
+    final json = await _requestJson('GET', 'me/assistant-consent');
+    return ApiAssistantConsent.fromJson(json);
+  }
+
+  Future<ApiAssistantConsent> setAssistantConsent({
+    required bool granted,
+    String? idempotencyKey,
+  }) async {
+    final json = await _requestJson(
+      'POST',
+      'me/assistant-consent',
+      idempotencyKey: idempotencyKey ?? generateUuidV4(),
+      body: {'granted': granted},
+    );
+    return ApiAssistantConsent.fromJson(json);
+  }
+
+  Future<ApiAssistantReply> sendAssistantMessage({
+    required List<ApiAssistantTurn> messages,
+    bool includeHabitContext = true,
+  }) async {
+    final json = await _requestJson(
+      'POST',
+      'assistant/messages',
+      timeout: const Duration(seconds: 18),
+      body: {
+        'messages': messages.map((m) => m.toJson()).toList(growable: false),
+        'includeHabitContext': includeHabitContext,
+      },
+    );
+    return ApiAssistantReply.fromJson(json);
   }
 }

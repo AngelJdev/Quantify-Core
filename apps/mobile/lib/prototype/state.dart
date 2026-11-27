@@ -93,6 +93,49 @@ class PrototypeEntry {
   final double value;
 }
 
+enum AssistantDraftState { pending, saved, discarded }
+
+@immutable
+class AssistantMessageItem {
+  const AssistantMessageItem({
+    required this.id,
+    required this.role,
+    required this.text,
+    this.draft,
+    this.missingFields = const [],
+    this.outOfScope = false,
+    this.model,
+    this.contextUsed = false,
+    this.draftIdempotencyKey,
+    this.draftState = AssistantDraftState.pending,
+  });
+
+  final String id;
+  final String role;
+  final String text;
+  final ApiHabitDraft? draft;
+  final List<String> missingFields;
+  final bool outOfScope;
+  final String? model;
+  final bool contextUsed;
+  final String? draftIdempotencyKey;
+  final AssistantDraftState draftState;
+
+  AssistantMessageItem copyWith({AssistantDraftState? draftState}) =>
+      AssistantMessageItem(
+        id: id,
+        role: role,
+        text: text,
+        draft: draft,
+        missingFields: missingFields,
+        outOfScope: outOfScope,
+        model: model,
+        contextUsed: contextUsed,
+        draftIdempotencyKey: draftIdempotencyKey,
+        draftState: draftState ?? this.draftState,
+      );
+}
+
 IconData _iconForHabit(String name, String unit) {
   final lower = '${name.toLowerCase()} ${unit.toLowerCase()}';
   if (lower.contains('agua') || lower.contains('vaso') || lower.contains('ml')) {
@@ -166,6 +209,15 @@ class PrototypeModel extends ChangeNotifier {
   ApiDashboardProgress? dashboardProgress;
   List<ApiTrendPoint> weeklyTrends = const [];
   List<ApiTrendPoint> monthlyTrends = const [];
+  ApiAssistantConsent? assistantConsent;
+  bool assistantConsentSaving = false;
+  bool assistantSending = false;
+  String? assistantError;
+  bool includeHabitContext = true;
+  final _assistantMessages = <AssistantMessageItem>[];
+
+  List<AssistantMessageItem> get assistantMessages =>
+      List.unmodifiable(_assistantMessages);
 
   bool get isConnected => _api != null;
   bool get isConnectedOrConfigured => isConnected || apiConfigured;
@@ -343,6 +395,12 @@ class PrototypeModel extends ChangeNotifier {
         dashboardProgress = null;
       }
 
+      try {
+        assistantConsent = await api.getAssistantConsent();
+      } on MobileApiException catch (error) {
+        if (error.kind == 'session') rethrow;
+      }
+
       final metricsList = await Future.wait(
         remoteHabits.map((h) async {
           final hToday = businessDateForZone(now, h.timeZone);
@@ -386,6 +444,7 @@ class PrototypeModel extends ChangeNotifier {
     required double target,
     required String unit,
     required List<int> days,
+    String? idempotencyKey,
   }) async {
     final api = _api;
     if (api == null) {
@@ -405,6 +464,7 @@ class PrototypeModel extends ChangeNotifier {
           weekdays: days,
           timeZone: newHabitTimeZone,
           effectiveFrom: businessDateForZone(_now, newHabitTimeZone),
+          idempotencyKey: idempotencyKey,
         );
       } else {
         final current = _apiHabits[id];
@@ -605,6 +665,152 @@ class PrototypeModel extends ChangeNotifier {
     if (index < 0) return;
     _habits[index] = _habits[index].copyWith(archived: true);
     _safeNotify();
+  }
+
+  void setIncludeHabitContext(bool value) {
+    includeHabitContext = value;
+    _safeNotify();
+  }
+
+  void clearAssistantConversation() {
+    _assistantMessages.clear();
+    assistantError = null;
+    _safeNotify();
+  }
+
+  Future<bool> updateAssistantConsent(bool granted) async {
+    final api = _api;
+    if (api == null || assistantConsentSaving) return false;
+    assistantConsentSaving = true;
+    assistantError = null;
+    _safeNotify();
+    try {
+      assistantConsent = await api.setAssistantConsent(granted: granted);
+      if (!granted) {
+        _assistantMessages.clear();
+      }
+      return true;
+    } on MobileApiException catch (error) {
+      assistantError = error.userMessage;
+      return false;
+    } on Exception {
+      assistantError = 'No se pudo actualizar el consentimiento del asistente.';
+      return false;
+    } finally {
+      assistantConsentSaving = false;
+      _safeNotify();
+    }
+  }
+
+  Future<bool> sendAssistantPrompt(String rawText) async {
+    final api = _api;
+    final trimmed = rawText.trim();
+    if (api == null ||
+        assistantSending ||
+        trimmed.isEmpty ||
+        trimmed.length > 1000) {
+      return false;
+    }
+    final userItem = AssistantMessageItem(
+      id: 'msg-${++_sequence}',
+      role: 'user',
+      text: trimmed,
+    );
+    _assistantMessages.add(userItem);
+    assistantSending = true;
+    assistantError = null;
+    _safeNotify();
+
+    try {
+      final window = _assistantMessages.length > 10
+          ? _assistantMessages.sublist(_assistantMessages.length - 10)
+          : _assistantMessages;
+      final turns = window
+          .map((item) => ApiAssistantTurn(role: item.role, text: item.text))
+          .toList(growable: false);
+
+      final reply = await api.sendAssistantMessage(
+        messages: turns,
+        includeHabitContext: includeHabitContext,
+      );
+      if (_disposed) return false;
+      _assistantMessages.add(
+        AssistantMessageItem(
+          id: 'msg-${++_sequence}',
+          role: 'assistant',
+          text: reply.reply,
+          draft: reply.draft,
+          missingFields: reply.missingFields,
+          outOfScope: reply.outOfScope,
+          model: reply.model,
+          contextUsed: reply.contextUsed,
+          draftIdempotencyKey:
+              reply.draft == null ? null : generateUuidV4(),
+        ),
+      );
+      return true;
+    } on MobileApiException catch (error) {
+      _assistantMessages.remove(userItem);
+      if (error.status == 403 && error.code == 'ASSISTANT_CONSENT_REQUIRED') {
+        assistantConsent = const ApiAssistantConsent(
+          granted: false,
+          policyVersion: 'assistant-v1',
+          updatedAt: null,
+        );
+      }
+      assistantError = error.userMessage;
+      return false;
+    } on Exception {
+      _assistantMessages.remove(userItem);
+      assistantError =
+          'No se pudo consultar al asistente. Puedes crear el hábito manualmente.';
+      return false;
+    } finally {
+      assistantSending = false;
+      _safeNotify();
+    }
+  }
+
+  void discardAssistantDraft(String messageId) {
+    final index = _assistantMessages.indexWhere((item) => item.id == messageId);
+    if (index < 0 || _assistantMessages[index].draft == null) return;
+    _assistantMessages[index] = _assistantMessages[index].copyWith(
+      draftState: AssistantDraftState.discarded,
+    );
+    _safeNotify();
+  }
+
+  void markAssistantDraftSaved(String messageId) {
+    final index = _assistantMessages.indexWhere((item) => item.id == messageId);
+    if (index < 0 || _assistantMessages[index].draft == null) return;
+    _assistantMessages[index] = _assistantMessages[index].copyWith(
+      draftState: AssistantDraftState.saved,
+    );
+    _safeNotify();
+  }
+
+  Future<bool> confirmAssistantDraft(String messageId) async {
+    final index = _assistantMessages.indexWhere((item) => item.id == messageId);
+    if (index < 0) return false;
+    final item = _assistantMessages[index];
+    final draft = item.draft;
+    if (draft == null || item.draftState != AssistantDraftState.pending) {
+      return false;
+    }
+    final ok = await submitHabit(
+      name: draft.name,
+      target: draft.targetValue,
+      unit: draft.unit,
+      days: draft.weekdays,
+      idempotencyKey: item.draftIdempotencyKey,
+    );
+    if (ok) {
+      markAssistantDraftSaved(messageId);
+    } else if (errorMessage != null) {
+      assistantError = errorMessage;
+      _safeNotify();
+    }
+    return ok;
   }
 
   @override
