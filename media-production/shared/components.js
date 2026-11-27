@@ -10,13 +10,13 @@ window.QX = {
   laptop(id, src, w) {
     const h = Math.round(w * 0.625);
     return `<div class="laptop" id="${id}" style="width:${w + 28}px"><div class="lid"><div class="cam"></div>
-      <div class="screen" style="width:${w}px;height:${h}px"><img src="${src}" alt=""><div class="sheen"></div></div></div><div class="base"></div></div>`;
+      <div class="screen" style="width:${w}px;height:${h}px"><img src="${src}" alt=""><div class="mask-ia" style="position:absolute;left:2.2%;top:34.3%;width:13.5%;height:6%;border-radius:1.2%;backdrop-filter:blur(14px);background:rgba(11,15,23,.5);z-index:3"></div><div class="sheen"></div></div></div><div class="base"></div></div>`;
   },
   /** Teléfono con pantalla real. w: ancho de pantalla; ratio 390:844. */
   phone(id, src, w) {
     const h = Math.round(w * 844 / 390);
     return `<div class="phone" id="${id}" style="width:${w + 22}px"><div class="island"></div>
-      <div class="screen" style="width:${w}px;height:${h}px"><img src="${src}" alt=""><div class="sheen"></div></div></div>`;
+      <div class="screen" style="width:${w}px;height:${h}px"><img src="${src}" alt=""><div class="mask-ia" style="position:absolute;left:52%;top:92%;width:17.5%;height:5.8%;border-radius:12px;backdrop-filter:blur(10px);background:rgba(11,15,23,.55);z-index:3"></div><div class="sheen"></div></div></div>`;
   },
   /** Fondo en capas. */
   backdrop() {

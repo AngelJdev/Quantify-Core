@@ -6,7 +6,10 @@ Object.assign(window.QX, {
     const h = o.h ?? Math.round(o.w * o.ratio);
     const el = document.createElement("div"); el.className = "plate"; el.id = o.id;
     Object.assign(el.style, { left: o.x + "px", top: o.y + "px", width: o.w + "px", height: h + "px", borderRadius: (o.radius ?? 18) + "px" });
-    el.innerHTML = `<div class="pin" style="width:${o.w}px"><img src="${o.src}" style="width:${o.w}px"></div>`;
+    const hasNav = !o.nomask && /(hoy|habitos|checkin|analisis|detalle|nuevo|logros|ajustes|solido)/.test(o.src);
+    // Etiqueta «IA hábitos» del menú lateral: difuminada para no sugerir una IA implementada (hoy son sugerencias de catálogo fijo).
+    const mask = hasNav ? `<div class="mask-ia" style="position:absolute;left:${0.022 * o.w}px;top:${0.2145 * o.w}px;width:${0.135 * o.w}px;height:${0.0375 * o.w}px;border-radius:${0.012 * o.w}px;backdrop-filter:blur(16px);background:rgba(11,15,23,.5);z-index:3"></div>` : "";
+    el.innerHTML = `<div class="pin" style="width:${o.w}px"><img src="${o.src}" style="width:${o.w}px">${mask}</div>`;
     el._o = { ...o, h }; parent.appendChild(el); return el;
   },
   /** Punto (fx,fy en fracciones de la imagen) de una placa, en coordenadas de la cámara. */
