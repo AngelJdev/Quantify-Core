@@ -11,8 +11,8 @@ export class Health implements OnModuleDestroy {
     if (this.closing) throw new ApiError(503, 'NOT_READY');
     try {
       const result = await this.db.query(`SELECT count(*)::integer AS count FROM schema_migrations
-        WHERE filename IN ('001_core.sql','002_core_integration.sql')`);
-      if (result.rows[0]?.count !== 2) throw new Error('Schema not ready');
+        WHERE filename IN ('001_core.sql','002_core_integration.sql','003_assistant_consent.sql')`);
+      if (result.rows[0]?.count !== 3) throw new Error('Schema not ready');
       // Validate the actual read port as well as the migration ledger.
       await this.db.query('SELECT * FROM dashboard_read.v1_revisions LIMIT 0');
       await this.db.query('SELECT * FROM dashboard_read.v1_check_ins LIMIT 0');

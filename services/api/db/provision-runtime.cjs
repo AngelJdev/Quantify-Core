@@ -14,8 +14,8 @@ async function provisionRuntime(pool, password) {
     await client.query('GRANT CONNECT ON DATABASE quantify_core_dev TO quantify_api');
     await client.query('GRANT USAGE ON SCHEMA public,dashboard_read TO quantify_api');
     await client.query(`GRANT SELECT,INSERT ON profiles,habits,habit_revisions,
-      check_ins,check_in_revisions,api_receipts,audit_outbox TO quantify_api`);
-    await client.query('GRANT UPDATE ON habits,check_ins TO quantify_api');
+      check_ins,check_in_revisions,api_receipts,audit_outbox,assistant_consents TO quantify_api`);
+    await client.query('GRANT UPDATE ON habits,check_ins,assistant_consents TO quantify_api');
     // FOR UPDATE on the actor requires UPDATE privilege; no history is rewritten.
     await client.query('GRANT UPDATE(status) ON profiles TO quantify_api');
     await client.query('REVOKE UPDATE,DELETE ON habit_revisions,check_in_revisions,api_receipts,audit_outbox FROM quantify_api');

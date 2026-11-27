@@ -70,6 +70,7 @@ try {
     } finally { await pool.end(); }
   } else if (command === 'api') {
     localEnv(files[1]);
+    if (existsSync(resolve(root, files[0]))) localEnv(files[0]);
     run(process.execPath, ['build/src/main.js'], resolve(root, 'services/api'));
   } else if (command === 'web') {
     run(process.execPath, ['node_modules/vite/bin/vite.js', '--host', 'localhost', '--port', '5173', '--strictPort'], resolve(root, 'apps/web'));

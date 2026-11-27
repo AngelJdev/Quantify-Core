@@ -38,6 +38,7 @@ node --env-file=.env.local build/src/main.js
 | `HOST`, `PORT` | Por defecto `127.0.0.1:3000`. Prefijo único `/api/v1`. |
 | `CORS_ALLOWED_ORIGINS` | Orígenes exactos separados por coma; ejemplo `http://localhost:5173`. Sin comodines ni credenciales CORS. |
 | `CORE_REVIEW_WRITES_ENABLED` | `0` por defecto. `1` activa explícitamente las escrituras de revisión con datos de prueba; no equivale a aprobar D-03/04/09 para datos personales reales. |
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | Solo servidor (`ADR-0011`). Clave privada de Google AI Studio y modelo Flash estable (`gemini-3.5-flash-lite` por defecto) para `/assistant/messages`; nunca se expone a clientes ni bloquea `/health/ready` si está ausente. |
 
 Keycloak conserva cuentas y contraseñas. Para relacionar un subject **ya existente** con un perfil de negocio desde consola, configurar privadamente `PROFILE_SUBJECT` y `PROFILE_TIME_ZONE` y ejecutar `node --env-file=.env.local db/provision-profile.cjs` después del build y migraciones. Con `CORE_REVIEW_WRITES_ENABLED=1`, los clientes autenticados también pueden aprovisionar su perfil propio en primer acceso mediante `POST /api/v1/me` (`Idempotency-Key` + `{ timeZone }`). Ninguna de las dos vías crea cuentas IdP, modifica un perfil activo existente ni reactiva perfiles suspendidos. No hay endpoint de registro de usuarios ni contraseña en la API.
 
@@ -55,6 +56,8 @@ Keycloak conserva cuentas y contraseñas. Para relacionar un subject **ya existe
 | `GET /habits/:id/check-ins` | Consolidaciones confirmadas por fecha, paginadas y con su versión vigente. Revisiones previas se preservan en SQL, sin inventar otro endpoint. |
 | `GET /habits/:id/metrics` | Oportunidades cerradas y rachas en la ventana, usando metas, zonas y estados históricos. |
 | `GET /me/dashboard/progress`, `/calendar`, `/trends` | Lector QUANCORE-25 sobre las vistas normales del backend, sin telemetría ni resultados ficticios. |
+| `GET /me/assistant-consent`, `POST /me/assistant-consent` | Consulta y actualización transaccional/idempotente del consentimiento revocable para RF-07 (`003_assistant_consent.sql`). |
+| `POST /assistant/messages` | Asistente conversacional RF-07 con Google Gemini, contexto propio opcional autorizado, borradores revisables sin escritura implícita y límite de frecuencia por perfil. |
 
 No se añade alias `/health`, API de categorías ni DELETE sin contrato canónico. Todos los endpoints de negocio exigen JWT RS256 válido, issuer, audiencia, `sub/iat/exp`, tipo Bearer y perfil activo. Un administrador tampoco puede operar recursos ajenos: 404 en rutas personales; token inválido 401; perfil no habilitado/suspendido 403. No se implementa una segunda autenticación. SPA/BFF, renovación y revocación de sesión siguen sujetos a D-02; la validación de access tokens es una frontera común a ambas opciones.
 

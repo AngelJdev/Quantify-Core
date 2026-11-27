@@ -49,7 +49,7 @@ test('core HTTP writes and reads real PostgreSQL with durable history',async t=>
     await pool.query(`INSERT INTO profiles(id,oidc_issuer,oidc_subject) VALUES($1,$3,'a'),($2,$3,'b')`,[...owners,issuer]);
     const old=(await pool.query(`INSERT INTO habits(owner_id,name,target_value,unit,weekdays,effective_from,time_zone)
       VALUES($1,'Existing habit',10,'minutes',ARRAY[1,2,3,4,5,6,7]::smallint[],'2026-01-01','UTC') RETURNING id`,[owners[0]])).rows[0];
-    assert.deepEqual(await migrate(pool),['002_core_integration.sql']);
+    assert.deepEqual(await migrate(pool),['002_core_integration.sql','003_assistant_consent.sql']);
     assert.deepEqual(await migrate(pool),[]);
     assert.equal((await pool.query('SELECT count(*)::integer AS n FROM habit_revisions WHERE habit_id=$1',[old.id])).rows[0].n,1);
     assert.equal((await pool.query('SELECT time_zone FROM profiles WHERE id=$1',[owners[0]])).rows[0].time_zone,'UTC');

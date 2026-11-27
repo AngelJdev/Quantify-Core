@@ -187,6 +187,7 @@ MongoDB tiene una implementación opcional para la [simulación sintética de te
 |---|---|
 | [001_core.sql](../../services/api/db/migrations/001_core.sql) | `profiles`, `categories`, `habits`, `habit_revisions` y `audit_outbox`, con restricciones y auditoría. La tabla `categories` no implica que exista un endpoint de categorías. |
 | [002_core_integration.sql](../../services/api/db/migrations/002_core_integration.sql) | Zona del perfil, `check_ins`, `check_in_revisions`, `api_receipts` y vistas `dashboard_read.v1_*`. |
+| [003_assistant_consent.sql](../../services/api/db/migrations/003_assistant_consent.sql) | Tabla `assistant_consents` versionada para consentimiento explícito y revocable del asistente conversacional RF-07. |
 | [migrate.cjs](../../services/api/db/migrate.cjs) | Ledger `schema_migrations`, checksums y aplicación transaccional con bloqueo para evitar migraciones concurrentes. |
 | [provision-runtime.cjs](../../services/api/db/provision-runtime.cjs) | Rol `quantify_api` con permisos limitados; las migraciones usan `quantify_owner`. |
 
@@ -203,7 +204,7 @@ Desde la raíz, con `$qcCompose` definido como en el paso 1 y PostgreSQL iniciad
 docker compose @qcCompose exec postgres psql -U quantify_owner -d quantify_core_dev -c '\dt public.*'
 docker compose @qcCompose exec postgres psql -U quantify_owner -d quantify_core_dev -c '\dv dashboard_read.*'
 
-# Migraciones aplicadas: deben figurar 001_core.sql y 002_core_integration.sql.
+# Migraciones aplicadas: deben figurar 001_core.sql, 002_core_integration.sql y 003_assistant_consent.sql.
 docker compose @qcCompose exec postgres psql -U quantify_owner -d quantify_core_dev -c 'SELECT filename, applied_at FROM schema_migrations ORDER BY filename;'
 
 # Volúmenes del proyecto y ubicación administrada por Docker.
@@ -244,7 +245,7 @@ Detener con Ctrl+C. Los helpers cargan los archivos privados de cada módulo; no
 
 ## Aplicación móvil independiente
 
-El Compose base no compila ni instala Flutter. En esta base de `develop`, `main_prototype.dart` usa datos locales de sesión y no implementa OIDC/REST real. No requiere bases de datos para revisar la UI.
+El Compose base no compila ni instala Flutter. Sin `API_BASE_URL`, `main_prototype.dart` abre una demostración local sin base de datos; al compilar con `API_BASE_URL` y `OIDC_ISSUER` opera conectada a Keycloak, PostgreSQL y el asistente Gemini (`GEMINI_API_KEY` en `infrastructure/docker/.env.local`).
 
 ```powershell
 cd apps/mobile

@@ -87,6 +87,8 @@ services:
       OBSERVABILITY_ENABLED: "1"
       METRICS_HOST: 0.0.0.0
       LOKI_PUSH_URL: ""
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.5-flash-lite}
     ports:
       - "127.0.0.1:3000:3000"
     depends_on:

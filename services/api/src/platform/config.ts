@@ -1,10 +1,21 @@
 import type { TelemetryConfig } from '../../telemetry/src/config';
+import type { AssistantProvider } from '../modules/assistant/provider';
+export interface AssistantConfig {
+  apiKey?: string;
+  model: string;
+  baseUrl: string;
+  timeoutMs: number;
+  maxRequestsPerWindow: number;
+  rateWindowMs: number;
+}
 export interface CoreConfig extends TelemetryConfig {
   port: number;
   host: string;
   corsOrigins: string[];
   writesEnabled: boolean;
   observability?: { port: number; host: string; lokiUrl?: string };
+  assistant?: AssistantConfig;
+  assistantProvider?: AssistantProvider;
 }
 export function configuration(env = process.env): CoreConfig {
   if (!env.DATABASE_URL || !env.KEYCLOAK_ISSUER || !env.KEYCLOAK_AUDIENCE)
@@ -45,8 +56,30 @@ export function configuration(env = process.env): CoreConfig {
       throw new Error('Only the isolated local Loki sink is supported');
     observability = { port: metricsPort, host: env.METRICS_HOST ?? '127.0.0.1', lokiUrl: env.LOKI_PUSH_URL };
   }
+  const geminiApiKey = (env.GEMINI_API_KEY ?? '').trim() || undefined;
+  const geminiModel = (env.GEMINI_MODEL ?? 'gemini-3.5-flash-lite').trim();
+  if (!/^[a-z0-9][a-z0-9._-]{1,63}$/i.test(geminiModel))
+    throw new Error('Invalid Gemini model identifier');
+  const assistantTimeoutMs = Number(env.ASSISTANT_TIMEOUT_MS ?? '14000');
+  const assistantRateMax = Number(env.ASSISTANT_RATE_LIMIT_MAX ?? '20');
+  const assistantRateWindowMs = Number(env.ASSISTANT_RATE_LIMIT_WINDOW_MS ?? '60000');
+  if (
+    !Number.isInteger(assistantTimeoutMs) || assistantTimeoutMs < 1000 || assistantTimeoutMs > 60000 ||
+    !Number.isInteger(assistantRateMax) || assistantRateMax < 1 || assistantRateMax > 1000 ||
+    !Number.isInteger(assistantRateWindowMs) || assistantRateWindowMs < 1000 || assistantRateWindowMs > 86400000
+  ) {
+    throw new Error('Invalid assistant operational limits');
+  }
   return { databaseUrl: env.DATABASE_URL, issuer: env.KEYCLOAK_ISSUER, audience: env.KEYCLOAK_AUDIENCE,
     port, host: env.HOST ?? '127.0.0.1', corsOrigins, dashboardEnabled: true,
     writesEnabled: env.CORE_REVIEW_WRITES_ENABLED === '1',
-    autoProvisionProfiles: env.CORE_AUTO_PROVISION_PROFILES === '1', jwksUrl, observability };
+    autoProvisionProfiles: env.CORE_AUTO_PROVISION_PROFILES === '1', jwksUrl, observability,
+    assistant: {
+      apiKey: geminiApiKey,
+      model: geminiModel,
+      baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
+      timeoutMs: assistantTimeoutMs,
+      maxRequestsPerWindow: assistantRateMax,
+      rateWindowMs: assistantRateWindowMs,
+    } };
 }
