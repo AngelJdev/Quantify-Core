@@ -12,7 +12,8 @@ Plan aprobado: `~/.claude/plans/` (v2). Rama: `feature/quantify-media-production
 - [x] Video 2 · Experiencia (96.8 s, narrado) — renderizado y verificado
 - [x] Video 3 · Innovación e impacto (118 s, narrado) — renderizado y verificado
 - [x] Entregables: portadas, SRT, QUALITY-REPORT, COST-REPORT, storyboards
-- [ ] Push, borrador de Release, PR a `develop` (el líder integra); después: Release definitivo sobre el commit de merge y limpieza de rama
+- [x] Push; Release en borrador `media-v1.0.0` (sin tag); PR #30 en borrador hacia `develop` (https://github.com/AngelJdev/Quantify-Core/pull/30)
+- [ ] **Esperando:** elección de voz → (si cambia) regenerar narración y re-renderizar V2/V3; revisión humana; el líder integra el PR. Después: publicar el Release sobre el commit de merge (`gh release edit media-v1.0.0 --draft=false --prerelease --target <SHA>`), borrar la rama local y remota, volver a `develop`.
 
 ## Decisiones
 - HyperFrames sin su skill oficial instalada (envía beacon de uso); se usan sus referencias como guía local. Telemetría desactivada por variables de entorno.
@@ -40,3 +41,6 @@ Requiere `apps/web` en `npm run dev -- --host 127.0.0.1 --port 5173` solo para r
 ## QA del piloto
 ffprobe: h264 High, 1920×1080, 60 fps, yuv420p, SAR 1:1, AAC 48 kHz; 898 fotogramas; sin negros; un único pico de movimiento (golpe a 7.45 s, planeado); sin fotogramas congelados fuera de los holds de lectura. Audio −14.5 LUFS integrados, pico −2.4 dBFS. **No verificado:** audición humana de música, SFX y voces (solo medidos).
 Observaciones: la UI mostrada incluye «Nivel 22/XP» (interfaz sin integrar) y «IA hábitos» en el menú lateral (catálogo fijo); en el piloto solo aparecen de forma incidental y con la leyenda «Datos de demostración».
+
+## Estado de Git
+Rama `feature/quantify-media-production` (desde `develop` 1b1f915), 11 commits Conventional Commits; `origin/main` = d45ed99 (intacta, verificada tras `git fetch`). Solo cambios dentro de `media-production/`.
